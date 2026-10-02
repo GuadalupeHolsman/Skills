@@ -2,6 +2,7 @@
 <html><head><meta charset="utf-8">
 <title>BV Navigator AI — Pitch</title>
 <link rel="stylesheet" href="fonts/fonts.css">
+<script src="map.js"></script>
 <script src="gsap.min.js"></script>
 <style>
 :root{--o:#F2622E;--o2:#FF7A45;--od:#C9431C;--k:#0B0B0C;--p:#1C1C1E;--p2:#262628;--p3:#2E2E31;--line:rgba(255,255,255,.08);
@@ -193,16 +194,31 @@ body{font-family:Outfit,sans-serif;color:var(--txt);-webkit-font-smoothing:antia
 #nr{position:absolute;left:-10px;right:-10px;top:0;padding-left:10px;padding-right:10px;border-radius:10px;opacity:0}
 #nr .pill{right:10px}
 /* S10 */
-#dotgrid{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.2) 1.5px,transparent 1.6px);background-size:26px 26px;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 55%,#000 30%,transparent 80%)}
+#mapcam{position:absolute;left:0;top:0;width:1920px;height:1080px}
 .city{position:absolute;width:0;height:0}
-.city .d{position:absolute;left:-9px;top:-9px;width:18px;height:18px;border-radius:50%;background:var(--o);box-shadow:0 0 30px var(--o)}
-.city .pr{position:absolute;left:-9px;top:-9px;width:18px;height:18px;border-radius:50%;border:2px solid var(--o)}
-.city .lb{position:absolute;left:22px;top:-26px;white-space:nowrap;font:700 30px 'Barlow Condensed';letter-spacing:.12em}
-.city .lb i{display:block;font:400 15px Outfit;letter-spacing:.1em;color:var(--mut);font-style:normal}
-.uc{position:absolute;left:0;right:0;top:860px;text-align:center;font:600 54px Outfit;letter-spacing:-.01em}
+.city .d{position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:#FF8A5C;box-shadow:0 0 16px var(--o)}
+.city .pr{position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;border:1.5px solid var(--o)}
+.city .lb{position:absolute;left:14px;top:-12px;white-space:nowrap;font:600 19px 'Barlow Condensed';letter-spacing:.14em;color:#E8E3DD;text-shadow:0 2px 10px #000,0 0 4px #000}
+.city.r .lb{left:auto;right:14px;text-align:right}
+.city.big .d{left:-10px;top:-10px;width:20px;height:20px;background:var(--o);box-shadow:0 0 34px var(--o)}
+.city.big .pr{left:-10px;top:-10px;width:20px;height:20px;border-width:2px}
+.city.big .lb{font:700 32px 'Barlow Condensed';color:#fff;top:-22px;left:22px}
+.city.big.r .lb{left:auto;right:22px}
+.city .lb i{display:block;font:600 12px Outfit;letter-spacing:.16em;color:var(--o);font-style:normal;margin-top:2px}
+.uc{position:absolute;left:80px;bottom:72px;font:600 48px Outfit;letter-spacing:-.01em;text-shadow:0 4px 30px #000}
 .uc em{font-style:normal;color:var(--o)}
-#s10top{position:absolute;left:0;right:0;top:90px;text-align:center;font:300 34px Outfit;color:var(--cream)}
+#s10top{position:absolute;left:0;right:0;top:34px;text-align:center;font:300 30px Outfit;color:var(--cream);text-shadow:0 3px 20px #000,0 0 8px #000}
 #s10top b{font-weight:600;color:#fff}
+#legend{position:absolute;right:70px;bottom:84px;display:flex;flex-direction:column;gap:12px;font:500 17px Outfit;color:#ddd;padding:18px 22px;border-radius:14px;background:rgba(15,15,16,.75);border:1px solid var(--line)}
+#legend div{display:flex;align-items:center;gap:12px}
+#legend i{width:14px;height:14px;border-radius:50%;background:var(--o);box-shadow:0 0 12px var(--o)}
+#legend i.n{background:#8A3A1E;box-shadow:none;border:1.5px solid #E2683A}
+#mapfade{position:absolute;inset:0;background:radial-gradient(ellipse 75% 70% at 50% 50%,transparent 60%,rgba(11,11,12,.9) 100%);pointer-events:none}
+/* S4 fragments */
+#frags{position:absolute;inset:0;perspective:1600px}
+.frag{position:absolute;left:0;top:0}
+.frag img{display:block;border-radius:14px;box-shadow:0 40px 90px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.12)}
+.frag .fg{position:absolute;inset:-2px;border-radius:15px;border:2px solid var(--o);box-shadow:0 0 40px rgba(242,98,46,.6);opacity:0}
 /* S11 */
 #s11bg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 80% at 30% 85%,#F26A2E 0,#D2491D 30%,#7A2410 58%,#1A0806 85%,#070507 100%)}
 #ctaT{position:absolute;left:0;right:0;top:560px;text-align:center;font:800 132px/1 'Barlow Condensed';letter-spacing:.18em;padding-left:.18em}
@@ -251,6 +267,7 @@ body{font-family:Outfit,sans-serif;color:var(--txt);-webkit-font-smoothing:antia
     <img src="img/login.jpg"><img src="img/navigator.jpg"><img src="img/reports.jpg">
   </div></div>
   <div id="s4shade"></div>
+  <div id="frags"></div>
   <div class="cap" id="s4cap"><span class="l1">One platform.</span><br><em class="l2">Every jurisdiction.</em><small class="l3">From the first question to an executive-ready report.</small></div>
 </div>
 
@@ -297,16 +314,14 @@ body{font-family:Outfit,sans-serif;color:var(--txt);-webkit-font-smoothing:antia
 
 <!-- S10 MAP -->
 <div id="s10" class="scene">
-  <div id="dotgrid"></div>
+  <div id="mapcam"><svg id="mapsvg" class="abs" width="1920" height="1080" style="left:0;top:0"></svg><div id="cities"></div></div>
+  <div id="mapfade"></div>
   <div id="s10top">Built by <b>Black Vitriol</b> — strategic advisory since 2018</div>
-  <svg id="s10svg" class="abs" width="1920" height="1080" style="left:0;top:0"></svg>
-  <div class="city" id="cNY" style="left:560px;top:420px"><div class="pr"></div><div class="d"></div><div class="lb">UNITED STATES<i>Headquarters</i></div></div>
-  <div class="city" id="cBO" style="left:700px;top:700px"><div class="pr"></div><div class="d"></div><div class="lb">LATAM<i>Colombia &amp; beyond</i></div></div>
-  <div class="city" id="cDU" style="left:1400px;top:480px"><div class="pr"></div><div class="d"></div><div class="lb">UAE<i>Dubai · Abu Dhabi</i></div></div>
   <div class="uc" id="uc1">Market entry <em>strategy</em></div>
   <div class="uc" id="uc2">Regulatory <em>assessments</em></div>
   <div class="uc" id="uc3">Investor <em>due diligence</em></div>
   <div class="uc" id="uc4">Multi-country <em>expansion</em></div>
+  <div id="legend"><div><i></i>Active markets</div><div><i class="n"></i>Expansion network</div></div>
 </div>
 
 <!-- S11 CTA -->
@@ -521,12 +536,28 @@ $('#s6svg').innerHTML=svg6;$('#s6 .core').style.cssText=`position:absolute;left:
 NODES.forEach((n,i)=>{const d=document.createElement('div');d.className='node';d.id='nd'+i;d.style.left=NP[i][0]+'px';d.style.top=NP[i][1]+'px';
   d.innerHTML=`<div class="ic">${ICON.docO}</div><b>${n[0]}</b><i>${n[1]}</i><span class="vf">✓ VERIFIED</span>`;$('#s6nodes').appendChild(d)});
 
-// ================= S10 arcs =================
-$('#s10svg').innerHTML=`<path id="arc1" d="M560 420 Q 560 640 700 700" stroke="#F2622E" stroke-width="3" fill="none" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
-<path id="arc2" d="M560 420 Q 980 160 1400 480" stroke="#F2622E" stroke-width="3" fill="none" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
-<path id="arc3" d="M700 700 Q 1080 720 1400 480" stroke="#F2622E" stroke-opacity=".5" stroke-width="2" stroke-dasharray=".02 .02" fill="none" pathLength="1" stroke-dashoffset="1"/>
-<circle id="tr1" r="6" fill="#fff"/><circle id="tr2" r="6" fill="#fff"/>`;
-
+// ================= S10 world map =================
+const C10=window.CITY, DOTGREY='rgba(255,255,255,.27)';
+let ms=`<path id="land" d="${MAPD.land}" stroke="${DOTGREY}" stroke-width="4.4" stroke-linecap="round" fill="none"/>`;
+for(const k in MAPD)if(k!=='land')ms+=`<path class="cty" id="cty-${k}" d="${MAPD[k]}" stroke="${DOTGREY}" stroke-width="4.4" stroke-linecap="round" fill="none"/>`;
+// [cityKey, label, countryKey, active, labelSide(l/r), sub]
+const DEST=[['BO','COLOMBIA','CO',1,'r','ACTIVE'],['DU','UAE','AE',1,'r','ACTIVE'],
+ ['MX','MEXICO','MX',0,'l'],['PA','PANAMA','PA',0,'l'],['SD','DOMINICAN REP.','DO',0,'r'],['QU','ECUADOR','EC',0,'l'],['LI','PERU','PE',0,'l'],
+ ['SP','BRAZIL','BR',0,'r'],['SC','CHILE','CL',0,'l'],['BA','ARGENTINA','AR',0,'r'],['MA','SPAIN','ES',0,'l'],['LO','UNITED KINGDOM','GB',0,'r'],
+ ['CA','EGYPT','EG',0,'r'],['RI','SAUDI ARABIA','SA',0,'l'],['MU','INDIA','IN',0,'r']];
+const NY=C10.NY;const ARC=[];
+DEST.forEach((d,i)=>{const p=C10[d[0]],dx=p[0]-NY[0],dy=p[1]-NY[1],L=Math.hypot(dx,dy);let nx=-dy/L,ny=dx/L;if(ny>0||(Math.abs(ny)<.2&&nx>0)){nx=-nx;ny=-ny}
+  const k=d[3]?.22:.18,c=[(NY[0]+p[0])/2+nx*L*k,(NY[1]+p[1])/2+ny*L*k];ARC.push([NY,c,p]);
+  ms+=`<path id="arc${i}" d="M${NY[0]} ${NY[1]} Q${c[0].toFixed(1)} ${c[1].toFixed(1)} ${p[0]} ${p[1]}" stroke="#F2622E" stroke-opacity="${d[3]?1:.6}" stroke-width="${d[3]?3:1.6}" fill="none" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>`});
+DEST.forEach((d,i)=>{for(let k=0;k<(d[3]?2:1);k++)ms+=`<circle class="trc" data-i="${i}" data-k="${k}" r="${d[3]?5:3}" fill="#FFE2D3" opacity="0"/>`});
+$('#mapsvg').innerHTML=ms;
+const cityEl=(id,key,label,big,side,sub)=>{const p=C10[key];const e=document.createElement('div');e.className='city'+(big?' big':'')+(side==='l'?' r':'');e.id=id;e.style.left=p[0]+'px';e.style.top=p[1]+'px';
+  e.innerHTML=`<div class="pr"></div><div class="d"></div><div class="lb">${label}${sub?`<i>${sub}</i>`:''}</div>`;$('#cities').appendChild(e)};
+cityEl('cNY','NY','UNITED STATES',1,'r','HEADQUARTERS');
+DEST.forEach((d,i)=>cityEl('cd'+i,d[0],d[1],d[3],d[4],d[5]));
+// ================= S4 fragments =================
+const FR=[['fr_kpi',820,1230,215,-14],['fr_risk',680,880,455,10],['fr_chat',500,1500,560,-12],['fr_src',300,620,300,16],['fr_quick',210,1795,270,-18],['fr_rows',740,1140,815,8],['fr_step',720,1360,985,-6]];
+FR.forEach((f,i)=>{const d=document.createElement('div');d.className='frag';d.id='fg'+i;d.innerHTML=`<img src="img/${f[0]}.jpg" style="width:${f[1]}px"><div class="fg"></div>`;$('#frags').appendChild(d)});
 // ================= big logos =================
 const L1=makeSwirl($('#s1logo'),{R:190,n:34,sw:10,t0:.3,dur:1.5,stag:1.1,spin:5});
 const L3=makeSwirl($('#s3logo'),{R:170,n:34,sw:9.5,t0:15.5,dur:1.0,stag:.7,spin:7,rot0:-60});
@@ -598,6 +629,15 @@ sfx('whoosh',21.7);
 // ---------- S4 WALL 21.8–27.6
 show('#s4',21.8,27.7,.4,.5);
 tl.fromTo('#wall',{rotationX:34,rotationZ:-16,x:420,y:180,z:-500},{x:-260,y:-120,z:-100,duration:5.9,ease:'sine.inOut'},21.8);
+tl.fromTo('#wallwrap',{filter:'brightness(1) blur(0px)'},{filter:'brightness(.5) blur(3px)',duration:1.2},22.3);
+FR.forEach((f,i)=>{const t=22.25+i*.33,el='#fg'+i;
+  gsap.set(el,{xPercent:-50,yPercent:-50});
+  tl.fromTo(el,{x:f[2]+(f[2]-960)*.35,y:f[3]+(f[3]-540)*.35,z:-1400,rotationY:f[4]*3,rotationX:25,opacity:0},
+    {x:f[2],y:f[3],z:i%2?60:0,rotationY:f[4],rotationX:6,opacity:1,duration:1.3,ease:EX},t);
+  tl.fromTo(el+' .fg',{opacity:0},{opacity:1,duration:.2},t+.35).to(el+' .fg',{opacity:0,duration:.9},t+.6);
+  tl.to(el,{x:'+='+(f[2]>960?-40:40),rotationY:f[4]*.4,duration:4.2-i*.3,ease:'sine.inOut'},t+1.3);
+  tl.to(el,{z:900,opacity:0,duration:.55,ease:'power3.in'},26.75+i*.04);
+  sfx('pop',t+.3,.35)});
 const cl=['#s4cap .l1','#s4cap .l2','#s4cap .l3'];
 tl.fromTo(cl,{opacity:0,y:40},{opacity:1,y:0,duration:.8,stagger:.35,ease:E},22.6);
 tl.to('#s4cap',{opacity:0,y:-30,duration:.5},26.9);sfx('whoosh',27.2);
@@ -752,13 +792,23 @@ tl.to(['#h9','#w9'],{opacity:0,y:-80,duration:.6,ease:'power3.in'},T9+6.5);sfx('
 
 // ---------- S10 MAP 77.8–83.5
 const T10=78.0;show('#s10',T10,83.6,.4,.4);
-tl.fromTo('#dotgrid',{scale:1.15},{scale:1,duration:6,ease:'sine.out'},T10);
-tl.fromTo('#s10top',{opacity:0,y:20},{opacity:1,y:0,duration:.8,ease:E},T10+.3);
-tl.fromTo('#cNY',{scale:0},{scale:1,duration:.5,ease:'back.out(2)'},T10+.4);
-tl.to('#arc1',{strokeDashoffset:0,duration:.9,ease:EI},T10+.8);tl.to('#arc2',{strokeDashoffset:0,duration:1.1,ease:EI},T10+1.0);
-tl.fromTo('#cBO',{scale:0},{scale:1,duration:.5,ease:'back.out(2)'},T10+1.6);tl.fromTo('#cDU',{scale:0},{scale:1,duration:.5,ease:'back.out(2)'},T10+2.0);
-sfx('ding',T10+.4,.5);sfx('ding',T10+1.6,.5);sfx('ding',T10+2.0,.5);
-tl.fromTo('#arc3',{opacity:0},{opacity:1,duration:.6},T10+2.3);
+gsap.set('#mapcam',{transformOrigin:`${C10.NY[0]}px ${C10.NY[1]}px`});
+tl.fromTo('#mapcam',{scale:1.75,x:300,y:120},{scale:1.75,x:300,y:120,duration:.01},T10);
+tl.to('#mapcam',{scale:1,x:0,y:0,duration:2.0,ease:'power2.inOut'},T10+.9);
+tl.to('#mapcam',{scale:1.04,duration:2.6,ease:'none'},T10+2.9);
+tl.fromTo('#land',{opacity:0},{opacity:1,duration:.7},T10);
+tl.fromTo('.cty',{opacity:0},{opacity:1,duration:.7},T10);
+tl.fromTo('#s10top',{opacity:0,y:-20},{opacity:1,y:0,duration:.8,ease:E},T10+.3);
+const lit=(k,col,t)=>tl.to('#cty-'+k,{stroke:col,duration:.45},t);
+lit('US','#F2622E',T10+.2);tl.fromTo('#cNY',{scale:0},{scale:1,duration:.5,ease:'back.out(2)'},T10+.25);sfx('ding',T10+.3,.5);
+gsap.set('#cities .city:not(#cNY)',{scale:0});
+DEST.forEach((d,i)=>{const t=d[3]?(i===0?T10+.55:T10+1.25):T10+2.05+(i-2)*.11,dur=d[3]?(i===0?.6:.95):.55;
+  tl.to('#arc'+i,{strokeDashoffset:0,duration:dur,ease:'power2.inOut'},t);
+  lit(d[2],d[3]?'#F2622E':'#C2542C',t+dur-.1);
+  tl.to('#cd'+i,{scale:1,duration:.4,ease:'back.out(2.2)'},t+dur-.1);
+  if(d[3]||i%3==0)sfx(d[3]?'ding':'tick',t+dur-.1,d[3]?.6:.3)});
+['FR','DE','CR'].forEach((k,i)=>lit(k,'#C2542C',T10+3.6+i*.08));
+tl.fromTo('#legend',{opacity:0,y:20},{opacity:1,y:0,duration:.6,ease:E},T10+2.6);
 ['#uc1','#uc2','#uc3','#uc4'].forEach((u,i)=>{const t=T10+1.0+i*1.1;
   tl.fromTo(u,{opacity:0,y:40,filter:'blur(10px)'},{opacity:1,y:0,filter:'blur(0px)',duration:.4,ease:E},t);
   if(i<3)tl.to(u,{opacity:0,y:-40,filter:'blur(10px)',duration:.3,ease:'power2.in'},t+.8);sfx('tick',t,.5)});
@@ -804,9 +854,10 @@ function dyn(t){
     $$('#s6svg .pt').forEach(c=>{const i=+c.dataset.i,k=+c.dataset.k,st=T6+.8+i*.55+.45;if(t<st||t>T6+6.6){c.setAttribute('opacity',0);return}
       const p=((t-st)*.9+k*.5)%1;c.setAttribute('cx',CX+(NP[i][0]-CX)*p);c.setAttribute('cy',CY+(NP[i][1]-CY)*p);c.setAttribute('opacity',Math.sin(p*Math.PI))})}
   // S10 tracers & pings
-  if(t>T10-1&&t<T10+6){const tr=(id,path,off)=>{const P=$(path),L=P.getTotalLength();const p=((t*.45+off)%1);const q=P.getPointAtLength(L*p);const e=$(id);e.setAttribute('cx',q.x);e.setAttribute('cy',q.y);e.setAttribute('opacity',t>T10+1.4?Math.sin(p*Math.PI):0)};
-    tr('#tr1','#arc1',0);tr('#tr2','#arc2',.3);
-    $$('.city .pr').forEach((c,i)=>{const p=((t*.8+i*.33)%1);c.style.transform=`scale(${1+p*3.5})`;c.style.opacity=1-p})}
+  if(t>T10-1&&t<T10+6){$$('#mapsvg .trc').forEach(c=>{const i=+c.dataset.i,k=+c.dataset.k,d=DEST[i];const st=(d[3]?(i===0?T10+.55:T10+1.25):T10+2.05+(i-2)*.11)+(d[3]?1:.55);
+      if(t<st){c.setAttribute('opacity',0);return}const p=((t-st)*(d[3]?.55:.4)+k*.5+i*.13)%1,[a,b,e]=ARC[i],u=1-p;
+      c.setAttribute('cx',u*u*a[0]+2*u*p*b[0]+p*p*e[0]);c.setAttribute('cy',u*u*a[1]+2*u*p*b[1]+p*p*e[1]);c.setAttribute('opacity',Math.sin(p*Math.PI))});
+    $$('#cities .city .pr').forEach((c,i)=>{const p=((t*.7+i*.37)%1);c.style.transform=`scale(${1+p*3})`;c.style.opacity=(1-p)*.9})}
 }
 window.renderAt=t=>{tl.seek(t,false);dyn(t)};
 window.DURATION=DURATION;window.SFX=SFX;
