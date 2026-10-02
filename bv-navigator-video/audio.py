@@ -84,60 +84,89 @@ def stab(ms, dur=.7, g=1.0):
     n = int(dur * SR); s = sum(additive(mf(m), dur, nh=14, roll=.9, detune=(-12, 12)) for m in ms)
     return np.tanh(s * 1.2) * np.exp(-tt(n) * 3) * env(n, .005, .2) * g / len(ms)
 
-# ---------------- MUSIC ----------------
-B = .5  # beat (120bpm)
-PROG = [(45, [57, 60, 64]), (41, [53, 57, 60]), (48, [55, 60, 64]), (43, [55, 59, 62])]  # Am F C G
+# ---------------- MUSIC (v2: uplifting, major key) ----------------
+B = .5
+PROG = [(38, [62, 66, 69]), (45, [61, 64, 69]), (47, [62, 66, 71]), (43, [62, 67, 71])]  # D A Bm G
 def chord_at(t): return PROG[int(t // 2) % 4]
+pump = np.zeros((N, 2)); KICKS = []
+def ep(m, dur=1.2, g=1.0):  # electric piano / tine
+    n = int(dur * SR); t = tt(n); f = mf(m)
+    s = np.sin(2*np.pi*f*t + .8*np.sin(2*np.pi*f*t)*np.exp(-t*3)) + .35*np.sin(2*np.pi*f*4*t)*np.exp(-t*14)
+    return s * np.exp(-t*2.2) * env(n, .003, .15) * g
+def saws(ms, dur, g=1.0):
+    n = int(dur * SR); s = sum(additive(mf(m), dur, nh=12, roll=1.1, detune=(-18, -7, 0, 7, 18)) for m in ms)
+    return s * env(n, .01, .12) * g / len(ms)
+def snare(g=1.0):
+    n = int(.4 * SR); t = tt(n)
+    body = np.sin(2*np.pi*190*t) * np.exp(-t*25)
+    return (bandnoise(n, 1200, 9000)*np.exp(-t*14)*.7 + body*.5) * g
+def shaker(g=1.0):
+    n = int(.07 * SR); t = tt(n); return bandnoise(n, 5000, 14000) * np.sin(np.pi*t/.07)**2 * .18 * g
+def K(t, g=1.0): add(mus, t, kick(g)); KICKS.append(t)
 
-# intro drone 0-7.2
-add(mus, 0, pad([33, 40, 45], 7.6, a=3.0, r=1.5, g=.55, nh=12))
-add(mus, .3, pad([76, 81, 83], 5.5, a=2.5, r=2.5, g=.06), g=1)
-for t in np.arange(2.0, 7.0, 1.0): add(mus, t, kick(.35, .5)); add(mus, t + .25, kick(.18, .4))
-# tension 7-15.2 : 8th bass pulse + 16th hats, crescendo
-for i, t in enumerate(np.arange(7.0, 15.0, B / 2)):
-    p = (t - 7) / 8
-    add(mus, t, bass(33 if int(t) % 4 < 2 else 34, .22, .35 + .45 * p))
-    add(mus, t, hat(), pan=.3 if i % 2 else -.3, g=.4 + .8 * p)
-for t in np.arange(11.0, 15.0, B): add(mus, t, kick(.55 + .1 * (t - 11)))
-add(mus, 7.0, pad([45, 52, 57, 58], 8.4, a=4, r=.5, g=.25))  # dissonant b9 tension
-# reveal 15.2-22
-add(mus, 15.2, pad([41, 53, 57, 60, 67], 3.7, a=.05, r=1.5, g=.7, nh=10))
-add(mus, 18.6, pad([36, 48, 55, 60, 64, 74], 4.0, a=.4, r=1.0, g=.6, nh=10))
-for k, t in enumerate(np.arange(16.5, 22.0, B / 2)):
-    _, ch = PROG[1] if t < 18.6 else PROG[2]
-    tones = ch + [ch[0] + 12, ch[1] + 12]
-    add(mus, t, pluck(tones[k % 5] + 12, .4, .18 + .1 * (t - 16.5) / 5.5), pan=np.sin(k) * .5)
-add(mus, 21.0, riser(1.0, .35))
-# main groove 22-78
+# intro 0-7.2: tine arpeggio + warm pad + heartbeat
+add(mus, 0, pad([38, 50, 57, 62], 7.6, a=2.5, r=1.5, g=.5, nh=10))
+for k, t in enumerate(np.arange(.4, 7.0, .75)):
+    add(mus, t, ep([74, 69, 66, 78, 74, 69, 81, 78, 74][k % 9], 1.6, .22), pan=np.sin(k)*.4)
+for t in np.arange(2.0, 7.0, 1.0): add(mus, t, kick(.3, .5))
+# tension 7-15.2: Bm pulse, clock ticks, swelling saws
+for i, t in enumerate(np.arange(7.0, 15.0, B/2)):
+    p = (t-7)/8
+    add(mus, t, bass(35, .2, .3 + .45*p))
+    add(mus, t, shaker(.8 + p), pan=.3 if i % 2 else -.3)
+for t in np.arange(11.0, 15.0, B): K(t, .5 + .1*(t-11))
+add(mus, 7.0, pad([47, 54, 59, 62, 66], 8.3, a=5, r=.4, g=.3))
+add(fx, 13.2, riser(2.0, .35))
+# reveal 15.2-22: big D add9 + bell motif
+add(mus, 15.2, saws([50, 57, 62, 66, 69, 76], 3.6, .32))
+add(mus, 15.2, pad([38, 50, 57, 62, 64, 69], 6.6, a=.05, r=2.0, g=.55, nh=10))
+add(mus, 18.8, pad([43, 55, 62, 67, 71], 3.4, a=.6, r=1.0, g=.45, nh=10))
+for t, m in [(16.6, 78), (17.0, 76), (17.4, 74), (17.8, 69), (18.8, 71), (19.2, 74), (19.6, 76), (20.4, 74)]:
+    add(mus, t, bell(mf(m), 1.4, .16)); add(mus, t, ep(m-12, 1.4, .12))
+add(mus, 21.0, riser(1.0, .3))
+# main groove 22-78.6 (syncopated, sidechained saws)
 G0, G1 = 22.0, 78.0
-for k, t in enumerate(np.arange(G0, G1, B / 4)):
-    beat = k / 4; root, ch = chord_at(t - G0)
-    full = t >= 27.5
-    if k % 4 == 0: add(mus, t, kick(.95))
-    if full and k % 8 == 4: add(mus, t, clap(), g=.75)
-    if k % 4 == 2: add(mus, t, hat(open_=(k % 16 == 14)), pan=.25, g=.8)
-    elif full and k % 2 == 1: add(mus, t, hat(), pan=-.2, g=.35)
-    if k % 2 == 0: add(mus, t, bass(root - 12 + (12 if k % 8 == 6 else 0), .24, .75))
-    if full:
-        tones = ch + [ch[0] + 12]; pat = [0, 1, 2, 3, 2, 1, 2, 3]
-        add(mus, t, pluck(tones[pat[k % 8]] + 12, .3, .16), pan=.45 * np.sin(k * .7))
+KP = [0, 3, 6, 10]          # kick 16th positions in a bar of 16 (with variation)
 for bar in np.arange(G0, G1, 2.0):
-    root, ch = chord_at(bar - G0)
-    add(mus, bar, pad(ch + [ch[0] - 12], 2.15, a=.15, r=.4, g=.32))
-for t in (27.4, 41.0, 48.5, 60.3, 71.1): add(mus, t, hat(True), g=1.3)
-# breakdown 78-83.6
-add(mus, 78.0, pad([45, 57, 60, 64, 71], 3.0, a=.3, r=.6, g=.45))
-add(mus, 80.9, pad([43, 55, 59, 62, 69], 2.8, a=.2, r=.3, g=.45))
-for k, t in enumerate(np.arange(78.0, 83.6, B / 2)):
-    add(mus, t, pluck([69, 72, 76, 79][k % 4], .3, .12 + .1 * (t - 78) / 5.6), pan=np.sin(k) * .4)
-for k, t in enumerate(np.arange(81.6, 83.55, B / 4 if True else B)):
-    add(mus, t, clap(), g=.15 + .5 * (t - 81.6) / 2)
-for t in np.arange(78.0, 81.6, B): add(mus, t, kick(.5))
-# finale 83.6+
-add(mus, 83.6, pad([36, 48, 55, 60, 64, 67, 74], 5.6, a=.02, r=3.5, g=.85, nh=12))
-add(mus, 83.6, bass(24, 3.0, .9))
-for k, t in enumerate(np.arange(84.0, 88.4, B / 2)):
-    add(mus, t, pluck([72, 76, 79, 84, 79, 76][k % 6], .5, .14 * (1 - (t - 84) / 5)), pan=np.sin(k) * .5)
+    root, ch = chord_at(bar - G0); full = bar >= 27.5
+    for s16 in range(16):
+        t = bar + s16*B/2/2*2/2 if False else bar + s16*.125
+        if s16 in (0, 4, 8, 12) or (full and s16 in (7, 14)): K(t, .95 if s16 % 4 == 0 else .6)
+        if full and s16 in (4, 12): add(mus, t, snare(), g=.75); add(mus, t, clap(), g=.35)
+        if s16 % 2 == 1 or full: add(mus, t, shaker(.7 if s16 % 4 == 2 else .4), pan=.25*np.sin(s16))
+        if s16 % 4 == 2: add(mus, t, hat(open_=(s16 == 14)), pan=-.2, g=.6)
+        if s16 in (0, 3, 6, 8, 11, 14): add(mus, t, bass(root-12+(12 if s16 in (6, 14) else 0), .2, .8))
+        if full and s16 % 2 == 0:
+            tones = ch + [ch[0]+12, ch[1]+12]
+            add(mus, t, ep(tones[[0, 2, 1, 3, 2, 4, 3, 1][(s16//2) % 8]], .5, .11), pan=.4*np.sin(s16*.9+bar))
+    # offbeat saw stabs into pump bus
+    for off in (.25, .75, 1.25, 1.75):
+        add(pump, bar+off, saws(ch, .22, .22 if full else .12))
+    add(pump, bar, pad(ch+[ch[0]-12], 2.1, a=.08, r=.3, g=.3))
+# melodic hook every 8 bars after 30s
+HOOK = [(0, 78), (.5, 76), (.75, 74), (1.0, 76), (1.5, 81), (2.5, 78), (3.0, 76), (3.5, 74), (4.0, 73), (4.5, 74), (5.0, 76), (6.0, 69)]
+for st in (30.0, 46.0, 62.0):
+    for o, m in HOOK: add(mus, st+o, bell(mf(m), .9, .12), pan=.2); add(mus, st+o, ep(m, .9, .1))
+for t in (27.4, 41.0, 48.6, 60.4, 71.2): add(mus, t, hat(True), g=1.3)
+# breakdown 78-84.2 (map): filtered pads, rising arps, snare build
+add(mus, 78.0, pad([38, 50, 57, 62, 66, 69], 3.2, a=.3, r=.6, g=.5))
+add(mus, 81.1, pad([43, 55, 59, 62, 67, 71], 3.2, a=.2, r=.3, g=.5))
+for k, t in enumerate(np.arange(78.0, 84.2, B/2)):
+    add(mus, t, ep([74, 78, 81, 86][k % 4], .4, .1 + .1*(t-78)/6.2), pan=np.sin(k)*.4)
+for t in np.arange(78.0, 82.2, B): K(t, .45)
+for t in np.arange(82.2, 84.15, B/4): add(mus, t, snare(), g=.12 + .55*(t-82.2)/2)
+# finale 84.2+
+add(mus, 84.2, saws([50, 57, 62, 66, 69, 74, 78], 2.0, .3))
+add(mus, 84.2, pad([38, 50, 57, 62, 66, 69, 76], 5.6, a=.02, r=3.5, g=.85, nh=12))
+add(mus, 84.2, bass(26, 3.0, .9)); K(84.2, 1.0)
+for t, m in [(84.7, 78), (85.1, 76), (85.5, 74), (85.9, 81), (86.7, 78), (87.4, 74)]:
+    add(mus, t, bell(mf(m), 1.6, .15)); add(mus, t, ep(m-12, 1.6, .1))
+# sidechain pump
+duck = np.ones(N)
+for kt in KICKS:
+    i0 = int(kt*SR); n = min(int(.32*SR), N-i0)
+    if n > 0: duck[i0:i0+n] = np.minimum(duck[i0:i0+n], 1 - .7*np.exp(-np.arange(n)/SR/.09))
+mus += pump * duck[:, None]
 
 # ---------------- SFX ----------------
 for e in EV:
@@ -168,7 +197,7 @@ for e in EV:
         n = int(2.2 * SR); tq = tt(n)
         s = sum(np.sin(2 * np.pi * f * tq * (1 + .02 * tq)) for f in (1320, 1980, 2640, 3520)) * env(n, 1.4, .8) * .03
         add(fx, t, s)
-add(fx, 5.8, riser(1.3, .5)); add(fx, 81.2, riser(2.4, .55))
+add(fx, 5.8, riser(1.3, .5)); add(fx, 81.8, riser(2.4, .55))
 
 # ---------------- mix ----------------
 def reverb(x, sec=2.2, wet=.22):
@@ -182,7 +211,7 @@ def reverb(x, sec=2.2, wet=.22):
 mus = reverb(mus, 2.4, .28); fx = reverb(fx, 1.6, .18)
 mus /= np.abs(mus).max(); fx /= np.abs(fx).max()
 mix = mus * .72 + fx * .62
-fade = np.ones(N); fs = int(88.2 * SR); fe = int(89.2 * SR)
+fade = np.ones(N); fs = int((DUR-1.0) * SR); fe = int(DUR * SR)
 fade[fs:fe] = np.linspace(1, 0, fe - fs); fade[fe:] = 0
 mix *= fade[:, None]
 mix = np.tanh(mix * 1.25) / np.tanh(1.25)

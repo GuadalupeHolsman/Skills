@@ -194,7 +194,11 @@ body{font-family:Outfit,sans-serif;color:var(--txt);-webkit-font-smoothing:antia
 #nr{position:absolute;left:-10px;right:-10px;top:0;padding-left:10px;padding-right:10px;border-radius:10px;opacity:0}
 #nr .pill{right:10px}
 /* S10 */
-#mapcam{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#mapwrap{position:absolute;inset:0;perspective:1700px}
+#mapcam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-style:preserve-3d}
+#sweep{position:absolute;top:0;bottom:0;left:0;width:260px;background:linear-gradient(90deg,transparent,rgba(242,98,46,.0) 20%,rgba(255,150,100,.22) 50%,rgba(242,98,46,0) 80%,transparent);mix-blend-mode:screen;opacity:0}
+#sweep:after{content:'';position:absolute;left:129px;top:0;bottom:0;width:2px;background:rgba(255,190,150,.7);box-shadow:0 0 20px #F2622E}
+#legend b{margin-left:auto;padding-left:22px;font:600 20px Outfit;color:#fff}
 .city{position:absolute;width:0;height:0}
 .city .d{position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:#FF8A5C;box-shadow:0 0 16px var(--o)}
 .city .pr{position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;border:1.5px solid var(--o)}
@@ -214,11 +218,6 @@ body{font-family:Outfit,sans-serif;color:var(--txt);-webkit-font-smoothing:antia
 #legend i{width:14px;height:14px;border-radius:50%;background:var(--o);box-shadow:0 0 12px var(--o)}
 #legend i.n{background:#8A3A1E;box-shadow:none;border:1.5px solid #E2683A}
 #mapfade{position:absolute;inset:0;background:radial-gradient(ellipse 75% 70% at 50% 50%,transparent 60%,rgba(11,11,12,.9) 100%);pointer-events:none}
-/* S4 fragments */
-#frags{position:absolute;inset:0;perspective:1600px}
-.frag{position:absolute;left:0;top:0}
-.frag img{display:block;border-radius:14px;box-shadow:0 40px 90px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.12)}
-.frag .fg{position:absolute;inset:-2px;border-radius:15px;border:2px solid var(--o);box-shadow:0 0 40px rgba(242,98,46,.6);opacity:0}
 /* S11 */
 #s11bg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 80% at 30% 85%,#F26A2E 0,#D2491D 30%,#7A2410 58%,#1A0806 85%,#070507 100%)}
 #ctaT{position:absolute;left:0;right:0;top:560px;text-align:center;font:800 132px/1 'Barlow Condensed';letter-spacing:.18em;padding-left:.18em}
@@ -267,7 +266,6 @@ body{font-family:Outfit,sans-serif;color:var(--txt);-webkit-font-smoothing:antia
     <img src="img/login.jpg"><img src="img/navigator.jpg"><img src="img/reports.jpg">
   </div></div>
   <div id="s4shade"></div>
-  <div id="frags"></div>
   <div class="cap" id="s4cap"><span class="l1">One platform.</span><br><em class="l2">Every jurisdiction.</em><small class="l3">From the first question to an executive-ready report.</small></div>
 </div>
 
@@ -314,14 +312,14 @@ body{font-family:Outfit,sans-serif;color:var(--txt);-webkit-font-smoothing:antia
 
 <!-- S10 MAP -->
 <div id="s10" class="scene">
-  <div id="mapcam"><svg id="mapsvg" class="abs" width="1920" height="1080" style="left:0;top:0"></svg><div id="cities"></div></div>
+  <div id="mapwrap"><div id="mapcam"><svg id="mapsvg" class="abs" width="1920" height="1080" style="left:0;top:0;overflow:visible"></svg><div id="cities"></div></div></div><div id="sweep"></div>
   <div id="mapfade"></div>
   <div id="s10top">Built by <b>Black Vitriol</b> — strategic advisory since 2018</div>
   <div class="uc" id="uc1">Market entry <em>strategy</em></div>
   <div class="uc" id="uc2">Regulatory <em>assessments</em></div>
   <div class="uc" id="uc3">Investor <em>due diligence</em></div>
   <div class="uc" id="uc4">Multi-country <em>expansion</em></div>
-  <div id="legend"><div><i></i>Active markets</div><div><i class="n"></i>Expansion network</div></div>
+  <div id="legend"><div><i></i>Active markets<b id="lg1">0</b></div><div><i class="n"></i>Expansion network<b id="lg2">0</b></div></div>
 </div>
 
 <!-- S11 CTA -->
@@ -538,8 +536,9 @@ NODES.forEach((n,i)=>{const d=document.createElement('div');d.className='node';d
 
 // ================= S10 world map =================
 const C10=window.CITY, DOTGREY='rgba(255,255,255,.27)';
-let ms=`<path id="land" d="${MAPD.land}" stroke="${DOTGREY}" stroke-width="4.4" stroke-linecap="round" fill="none"/>`;
+let ms=`<defs><mask id="rvm" maskUnits="userSpaceOnUse" x="-500" y="-500" width="2920" height="2080"><circle id="rvc" cx="${C10.NY[0]}" cy="${C10.NY[1]}" r="0" fill="#fff"/></mask><filter id="glw" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5"/></filter><radialGradient id="hubg"><stop offset="0" stop-color="#F2622E" stop-opacity=".55"/><stop offset="1" stop-color="#F2622E" stop-opacity="0"/></radialGradient></defs><circle id="hubglow" cx="${C10.NY[0]}" cy="${C10.NY[1]}" r="170" fill="url(#hubg)" opacity="0"/><g mask="url(#rvm)"><path id="land" d="${MAPD.land}" stroke="${DOTGREY}" stroke-width="4.4" stroke-linecap="round" fill="none"/>`;
 for(const k in MAPD)if(k!=='land')ms+=`<path class="cty" id="cty-${k}" d="${MAPD[k]}" stroke="${DOTGREY}" stroke-width="4.4" stroke-linecap="round" fill="none"/>`;
+ms+=`</g><circle id="rvring" cx="${C10.NY[0]}" cy="${C10.NY[1]}" r="0" fill="none" stroke="#F2622E" stroke-width="3" opacity="0"/>`;
 // [cityKey, label, countryKey, active, labelSide(l/r), sub]
 const DEST=[['BO','COLOMBIA','CO',1,'r','ACTIVE'],['DU','UAE','AE',1,'r','ACTIVE'],
  ['MX','MEXICO','MX',0,'l'],['PA','PANAMA','PA',0,'l'],['SD','DOMINICAN REP.','DO',0,'r'],['QU','ECUADOR','EC',0,'l'],['LI','PERU','PE',0,'l'],
@@ -548,6 +547,8 @@ const DEST=[['BO','COLOMBIA','CO',1,'r','ACTIVE'],['DU','UAE','AE',1,'r','ACTIVE
 const NY=C10.NY;const ARC=[];
 DEST.forEach((d,i)=>{const p=C10[d[0]],dx=p[0]-NY[0],dy=p[1]-NY[1],L=Math.hypot(dx,dy);let nx=-dy/L,ny=dx/L;if(ny>0||(Math.abs(ny)<.2&&nx>0)){nx=-nx;ny=-ny}
   const k=d[3]?.22:.18,c=[(NY[0]+p[0])/2+nx*L*k,(NY[1]+p[1])/2+ny*L*k];ARC.push([NY,c,p]);
+  const dd=`M${NY[0]} ${NY[1]} Q${c[0].toFixed(1)} ${c[1].toFixed(1)} ${p[0]} ${p[1]}`;
+  ms+=`<path id="arg${i}" d="${dd}" stroke="#FF6A30" stroke-opacity="${d[3]?.8:.45}" stroke-width="${d[3]?10:6}" fill="none" filter="url(#glw)" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><circle id="sw${i}" cx="${p[0]}" cy="${p[1]}" r="0" fill="none" stroke="#FF8A5C" stroke-width="${d[3]?3:2}" opacity="0"/>`;
   ms+=`<path id="arc${i}" d="M${NY[0]} ${NY[1]} Q${c[0].toFixed(1)} ${c[1].toFixed(1)} ${p[0]} ${p[1]}" stroke="#F2622E" stroke-opacity="${d[3]?1:.6}" stroke-width="${d[3]?3:1.6}" fill="none" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>`});
 DEST.forEach((d,i)=>{for(let k=0;k<(d[3]?2:1);k++)ms+=`<circle class="trc" data-i="${i}" data-k="${k}" r="${d[3]?5:3}" fill="#FFE2D3" opacity="0"/>`});
 $('#mapsvg').innerHTML=ms;
@@ -555,14 +556,11 @@ const cityEl=(id,key,label,big,side,sub)=>{const p=C10[key];const e=document.cre
   e.innerHTML=`<div class="pr"></div><div class="d"></div><div class="lb">${label}${sub?`<i>${sub}</i>`:''}</div>`;$('#cities').appendChild(e)};
 cityEl('cNY','NY','UNITED STATES',1,'r','HEADQUARTERS');
 DEST.forEach((d,i)=>cityEl('cd'+i,d[0],d[1],d[3],d[4],d[5]));
-// ================= S4 fragments =================
-const FR=[['fr_kpi',820,1230,215,-14],['fr_risk',680,880,455,10],['fr_chat',500,1500,560,-12],['fr_src',300,620,300,16],['fr_quick',210,1795,270,-18],['fr_rows',740,1140,815,8],['fr_step',720,1360,985,-6]];
-FR.forEach((f,i)=>{const d=document.createElement('div');d.className='frag';d.id='fg'+i;d.innerHTML=`<img src="img/${f[0]}.jpg" style="width:${f[1]}px"><div class="fg"></div>`;$('#frags').appendChild(d)});
 // ================= big logos =================
 const L1=makeSwirl($('#s1logo'),{R:190,n:34,sw:10,t0:.3,dur:1.5,stag:1.1,spin:5});
 const L3=makeSwirl($('#s3logo'),{R:170,n:34,sw:9.5,t0:15.5,dur:1.0,stag:.7,spin:7,rot0:-60});
 const L6=makeSwirl($('#s6logo'),{R:95,n:30,sw:6,t0:41.1,dur:.8,stag:.5,spin:40});
-const L11=makeSwirl($('#s11logo'),{R:150,n:34,sw:9,t0:83.7,dur:1.0,stag:.7,spin:8});
+const L11=makeSwirl($('#s11logo'),{R:150,n:34,sw:9,t0:84.3,dur:1.0,stag:.7,spin:8});
 const LG=makeSwirl($('#genLogo'),{R:60,n:28,sw:4.5,t0:-10,dur:.1,stag:0,spin:120});
 
 // grain textures
@@ -629,15 +627,6 @@ sfx('whoosh',21.7);
 // ---------- S4 WALL 21.8–27.6
 show('#s4',21.8,27.7,.4,.5);
 tl.fromTo('#wall',{rotationX:34,rotationZ:-16,x:420,y:180,z:-500},{x:-260,y:-120,z:-100,duration:5.9,ease:'sine.inOut'},21.8);
-tl.fromTo('#wallwrap',{filter:'brightness(1) blur(0px)'},{filter:'brightness(.5) blur(3px)',duration:1.2},22.3);
-FR.forEach((f,i)=>{const t=22.25+i*.33,el='#fg'+i;
-  gsap.set(el,{xPercent:-50,yPercent:-50});
-  tl.fromTo(el,{x:f[2]+(f[2]-960)*.35,y:f[3]+(f[3]-540)*.35,z:-1400,rotationY:f[4]*3,rotationX:25,opacity:0},
-    {x:f[2],y:f[3],z:i%2?60:0,rotationY:f[4],rotationX:6,opacity:1,duration:1.3,ease:EX},t);
-  tl.fromTo(el+' .fg',{opacity:0},{opacity:1,duration:.2},t+.35).to(el+' .fg',{opacity:0,duration:.9},t+.6);
-  tl.to(el,{x:'+='+(f[2]>960?-40:40),rotationY:f[4]*.4,duration:4.2-i*.3,ease:'sine.inOut'},t+1.3);
-  tl.to(el,{z:900,opacity:0,duration:.55,ease:'power3.in'},26.75+i*.04);
-  sfx('pop',t+.3,.35)});
 const cl=['#s4cap .l1','#s4cap .l2','#s4cap .l3'];
 tl.fromTo(cl,{opacity:0,y:40},{opacity:1,y:0,duration:.8,stagger:.35,ease:E},22.6);
 tl.to('#s4cap',{opacity:0,y:-30,duration:.5},26.9);sfx('whoosh',27.2);
@@ -791,32 +780,40 @@ tl.to('#toast',{opacity:0,x:60,duration:.35},T9+5.9);
 tl.to(['#h9','#w9'],{opacity:0,y:-80,duration:.6,ease:'power3.in'},T9+6.5);sfx('whoosh',T9+6.8);
 
 // ---------- S10 MAP 77.8–83.5
-const T10=78.0;show('#s10',T10,83.6,.4,.4);
+const T10=78.0;show('#s10',T10,84.2,.4,.4);
 gsap.set('#mapcam',{transformOrigin:`${C10.NY[0]}px ${C10.NY[1]}px`});
-tl.fromTo('#mapcam',{scale:1.75,x:300,y:120},{scale:1.75,x:300,y:120,duration:.01},T10);
-tl.to('#mapcam',{scale:1,x:0,y:0,duration:2.0,ease:'power2.inOut'},T10+.9);
-tl.to('#mapcam',{scale:1.04,duration:2.6,ease:'none'},T10+2.9);
-tl.fromTo('#land',{opacity:0},{opacity:1,duration:.7},T10);
-tl.fromTo('.cty',{opacity:0},{opacity:1,duration:.7},T10);
+tl.fromTo('#mapcam',{scale:1.75,x:300,y:120,rotationX:32},{scale:1.75,x:300,y:120,rotationX:32,duration:.01},T10);
+tl.to('#mapcam',{scale:.97,x:0,y:-55,rotationX:10,duration:2.2,ease:'power2.inOut'},T10+.9);
+tl.to('#mapcam',{scale:1.01,rotationX:6,duration:2.7,ease:'none'},T10+3.1);
+tl.to('#mapcam',{scale:1.35,rotationX:0,opacity:0,duration:.5,ease:'power3.in'},T10+5.75);
+tl.fromTo('#rvc',{attr:{r:0}},{attr:{r:2300},duration:2.6,ease:'power2.in'},T10);
+tl.fromTo('#rvring',{attr:{r:0},opacity:.9},{attr:{r:2300},opacity:0,duration:2.6,ease:'power2.in'},T10);
+tl.fromTo('#hubglow',{opacity:0},{opacity:1,duration:.6},T10+.2);
 tl.fromTo('#s10top',{opacity:0,y:-20},{opacity:1,y:0,duration:.8,ease:E},T10+.3);
 const lit=(k,col,t)=>tl.to('#cty-'+k,{stroke:col,duration:.45},t);
 lit('US','#F2622E',T10+.2);tl.fromTo('#cNY',{scale:0},{scale:1,duration:.5,ease:'back.out(2)'},T10+.25);sfx('ding',T10+.3,.5);
 gsap.set('#cities .city:not(#cNY)',{scale:0});
-DEST.forEach((d,i)=>{const t=d[3]?(i===0?T10+.55:T10+1.25):T10+2.05+(i-2)*.11,dur=d[3]?(i===0?.6:.95):.55;
-  tl.to('#arc'+i,{strokeDashoffset:0,duration:dur,ease:'power2.inOut'},t);
-  lit(d[2],d[3]?'#F2622E':'#C2542C',t+dur-.1);
-  tl.to('#cd'+i,{scale:1,duration:.4,ease:'back.out(2.2)'},t+dur-.1);
-  if(d[3]||i%3==0)sfx(d[3]?'ding':'tick',t+dur-.1,d[3]?.6:.3)});
-['FR','DE','CR'].forEach((k,i)=>lit(k,'#C2542C',T10+3.6+i*.08));
-tl.fromTo('#legend',{opacity:0,y:20},{opacity:1,y:0,duration:.6,ease:E},T10+2.6);
-['#uc1','#uc2','#uc3','#uc4'].forEach((u,i)=>{const t=T10+1.0+i*1.1;
+const ARCT=i=>DEST[i][3]?(i===0?T10+.55:T10+1.3):T10+2.15+(i-2)*.13;
+DEST.forEach((d,i)=>{const t=ARCT(i),dur=d[3]?(i===0?.6:.95):.55,land=t+dur-.1;
+  tl.to(['#arc'+i,'#arg'+i],{strokeDashoffset:0,duration:dur,ease:'power2.inOut'},t);
+  lit(d[2],d[3]?'#F2622E':'#C2542C',land);
+  tl.to('#cd'+i,{scale:1,duration:.4,ease:'back.out(2.2)'},land);
+  tl.fromTo('#sw'+i,{attr:{r:0},opacity:1},{attr:{r:d[3]?90:40},opacity:0,duration:d[3]?1.0:.7,ease:'power2.out'},land);
+  if(d[3]||i%3==0)sfx(d[3]?'ding':'tick',land,d[3]?.6:.3)});
+['FR','DE','CR'].forEach((k,i)=>lit(k,'#C2542C',T10+3.9+i*.08));
+tl.fromTo('#legend',{opacity:0,y:20},{opacity:1,y:0,duration:.6,ease:E},T10+1.4);
+countAt('#lg1',2,T10+1.5,1.0);countAt('#lg2',15,T10+2.2,2.0);
+tl.fromTo('#sweep',{x:-300,opacity:1},{x:2100,duration:1.4,ease:'power1.inOut'},T10+4.1);tl.to('#sweep',{opacity:0,duration:.2},T10+5.4);sfx('whoosh',T10+4.6,.5);
+tl.to(['US','CO','AE'].map(k=>'#cty-'+k),{stroke:'#FFB08A',duration:.2,yoyo:true,repeat:1},T10+4.75);
+['#uc1','#uc2','#uc3','#uc4'].forEach((u,i)=>{const t=T10+1.0+i*1.25;
   tl.fromTo(u,{opacity:0,y:40,filter:'blur(10px)'},{opacity:1,y:0,filter:'blur(0px)',duration:.4,ease:E},t);
-  if(i<3)tl.to(u,{opacity:0,y:-40,filter:'blur(10px)',duration:.3,ease:'power2.in'},t+.8);sfx('tick',t,.5)});
-tl.to('#s10 > *',{opacity:0,duration:.4},T10+5.3);
-sfx('riser',T10+3.2,1);
+  if(i<3)tl.to(u,{opacity:0,y:-40,filter:'blur(10px)',duration:.3,ease:'power2.in'},t+.95);sfx('tick',t,.5)});
+tl.to(['#s10top','#legend','#uc4'],{opacity:0,duration:.4},T10+5.75);
+sfx('riser',T10+3.6,1);
+
 
 // ---------- S11 CTA 83.4–89
-const T11=83.6;show('#s11',T11,null,.25);sfx('impact',T11+.05,1);sfx('final',T11+.05);
+const T11=84.2;show('#s11',T11,null,.25);sfx('impact',T11+.05,1);sfx('final',T11+.05);
 tl.fromTo('#flash',{scale:0,opacity:1},{scale:16,opacity:0,duration:1,ease:'power2.out'},T11-.05);
 tl.fromTo('#s11logo',{scale:.5,rotation:-90},{scale:1,rotation:0,duration:2,ease:EX},T11);
 tl.fromTo('#ctaT',{opacity:0,letterSpacing:'.5em',filter:'blur(14px)'},{opacity:1,letterSpacing:'.18em',filter:'blur(0px)',duration:1.4,ease:EX},T11+.5);
@@ -824,7 +821,7 @@ tl.fromTo('#ctaTag',{opacity:0,y:20},{opacity:1,y:0,duration:.8,ease:E},T11+1.3)
 tl.fromTo('#ctaRow > div',{opacity:0,y:30,scale:.9},{opacity:1,y:0,scale:1,duration:.7,stagger:.18,ease:'back.out(1.6)'},T11+2.0);sfx('pop',T11+2.0,.6);
 tl.fromTo('#ctaUrl',{opacity:0},{opacity:1,duration:.8},T11+2.6);
 tl.to('#ctaBtn',{scale:1.05,duration:.5,yoyo:true,repeat:3,ease:'sine.inOut'},T11+3.0);
-tl.to('#fade',{opacity:1,duration:.8,ease:'none'},88.4);
+tl.to('#fade',{opacity:1,duration:.8,ease:'none'},89.0);
 
 
 // ---------- camera push-ins
@@ -836,7 +833,7 @@ zoom('#z5',S5(9.8),1.22,940,470,.6);zoom('#z5',S5(11.2),1,940,500,.5);
 zoom('#z7',T7+1.0,1.2,940,380,1.0);zoom('#z7',T7+3.9,1.12,940,560,.8);zoom('#z7',T7+6.0,1,940,400,.6);
 zoom('#z8',T8+.8,1.22,940,900,.8);zoom('#z8',T8+3.8,1,940,500,.6);zoom('#z8',T8+5.0,1.12,1300,420,1.2);zoom('#z8',T8+9.6,1,940,500,.7);
 
-const DURATION=89.2;
+const DURATION=89.8;
 tl.to({},{duration:.01},DURATION);
 
 // ================= per-frame dynamics =================
@@ -854,7 +851,7 @@ function dyn(t){
     $$('#s6svg .pt').forEach(c=>{const i=+c.dataset.i,k=+c.dataset.k,st=T6+.8+i*.55+.45;if(t<st||t>T6+6.6){c.setAttribute('opacity',0);return}
       const p=((t-st)*.9+k*.5)%1;c.setAttribute('cx',CX+(NP[i][0]-CX)*p);c.setAttribute('cy',CY+(NP[i][1]-CY)*p);c.setAttribute('opacity',Math.sin(p*Math.PI))})}
   // S10 tracers & pings
-  if(t>T10-1&&t<T10+6){$$('#mapsvg .trc').forEach(c=>{const i=+c.dataset.i,k=+c.dataset.k,d=DEST[i];const st=(d[3]?(i===0?T10+.55:T10+1.25):T10+2.05+(i-2)*.11)+(d[3]?1:.55);
+  if(t>T10-1&&t<T10+6.4){$$('#mapsvg .trc').forEach(c=>{const i=+c.dataset.i,k=+c.dataset.k,d=DEST[i];const st=ARCT(i)+(d[3]?1:.55);
       if(t<st){c.setAttribute('opacity',0);return}const p=((t-st)*(d[3]?.55:.4)+k*.5+i*.13)%1,[a,b,e]=ARC[i],u=1-p;
       c.setAttribute('cx',u*u*a[0]+2*u*p*b[0]+p*p*e[0]);c.setAttribute('cy',u*u*a[1]+2*u*p*b[1]+p*p*e[1]);c.setAttribute('opacity',Math.sin(p*Math.PI))});
     $$('#cities .city .pr').forEach((c,i)=>{const p=((t*.7+i*.37)%1);c.style.transform=`scale(${1+p*3})`;c.style.opacity=(1-p)*.9})}
