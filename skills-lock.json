@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "skills": {
+    "caption-animation": {
+      "source": "iart-ai/tiktok-video-skills",
+      "sourceType": "github",
+      "skillPath": "skills/caption-animation/SKILL.md",
+      "computedHash": "e42c4828d3c6115dfb4d8fd3c3fd485b8e6a89c35a8835eee6dae39fb83210a4"
+    },
+    "countdown-video": {
+      "source": "iart-ai/tiktok-video-skills",
+      "sourceType": "github",
+      "skillPath": "skills/countdown-video/SKILL.md",
+      "computedHash": "dafb9127ededa76d0df08be73adc46e18d6ec3955153f6ecfd0f928984ce95b2"
+    },
+    "heygen-avatar": {
+      "source": "heygen-com/skills",
+      "sourceType": "github",
+      "skillPath": "heygen-avatar/SKILL.md",
+      "computedHash": "c58cb4db3b2fd3a6ca81b2c0dfc16abab2e17fc77c4c5a613a3eb83fc215ed22"
+    },
+    "heygen-translate": {
+      "source": "heygen-com/skills",
+      "sourceType": "github",
+      "skillPath": "heygen-translate/SKILL.md",
+      "computedHash": "e6e5839c5637ca417f32a61159a10a5674a561c1d0a6d7835812ed8d82704b2d"
+    },
+    "heygen-video": {
+      "source": "heygen-com/skills",
+      "sourceType": "github",
+      "skillPath": "heygen-video/SKILL.md",
+      "computedHash": "15e19b8aca06f767574382f1323f6cb5b9cc0e964295ca8a75835c6bd87ce12c"
+    },
+    "lower-thirds": {
+      "source": "iart-ai/tiktok-video-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lower-thirds/SKILL.md",
+      "computedHash": "502c1a8a491e477dd855eb1a45469c09f6ff46a72ea841838d358d0a6a9fd790"
+    },
+    "motion-designer": {
+      "source": "dylantarre/animation-principles",
+      "sourceType": "github",
+      "skillPath": "skills/03-by-role-persona/motion-designer/SKILL.md",
+      "computedHash": "b3e9b1f0b9ed1154523cb93833dcc08cbdf2177b829d1ec6400a1df26b09a522"
+    },
+    "motion-framer": {
+      "source": "freshtechbro/claudedesignskills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/motion-framer/SKILL.md",
+      "computedHash": "16d7c6f24f1d1208500635331e0cf6e06555a44df461e6b1069e4ddb203fd737"
+    },
+    "motion-graphics": {
+      "source": "rohitg00/manim-video-generator",
+      "sourceType": "github",
+      "skillPath": "skills/motion-graphics/SKILL.md",
+      "computedHash": "833ac2bb178dbbfb249cc981d17c34465395ec65ef2cf9110b283ba7dbb3aa61"
+    },
+    "motion-system": {
+      "source": "owl-listener/designer-skills",
+      "sourceType": "github",
+      "skillPath": "design-systems/skills/motion-system/SKILL.md",
+      "computedHash": "cfb531824276f942336b95e59973637905684bf3e09b969d1b351747df11fea5"
+    },
+    "short-form-video": {
+      "source": "iart-ai/tiktok-video-skills",
+      "sourceType": "github",
+      "skillPath": "skills/short-form-video/SKILL.md",
+      "computedHash": "893ea19615f3199159b9fe94f05e37a5e538e7e0c3af7f77f9f9bed7ff933423"
+    },
+    "video-motion-graphics": {
+      "source": "dylantarre/animation-principles",
+      "sourceType": "github",
+      "skillPath": "skills/01-by-domain/video-motion-graphics/SKILL.md",
+      "computedHash": "6b82db9dbef273739ac97bd34657fcd2d92420905dad40823e676671c0c85c01"
+    }
+  }
+}
