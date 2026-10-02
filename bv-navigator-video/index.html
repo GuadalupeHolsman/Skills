@@ -183,6 +183,15 @@ body{font-family:Outfit,sans-serif;color:var(--txt);-webkit-font-smoothing:antia
 .qa i{display:block;font:400 12px Outfit;color:#444;font-style:normal;margin-top:6px}
 .hdr{position:absolute;left:0;right:0;top:56px;text-align:center;font:600 64px Outfit;letter-spacing:-.02em;text-shadow:0 10px 40px #000}
 .hdr em{font-style:normal;color:var(--o)}
+.kgl{position:absolute;inset:-1px;border-radius:18px;border:1.5px solid var(--o);box-shadow:0 0 40px rgba(242,98,46,.35);opacity:0}
+.spark{position:absolute;right:20px;top:26px}
+#toast{position:absolute;right:80px;top:16px;width:400px;border-radius:14px;background:#2A2A2D;border:1px solid rgba(255,255,255,.12);padding:14px 18px 14px 58px;box-shadow:0 24px 60px rgba(0,0,0,.65);z-index:30;opacity:0}
+#toast .ti{position:absolute;left:16px;top:17px;width:28px;height:28px;border-radius:50%;background:#183B28;display:grid;place-items:center}
+#toast b{display:block;font:600 16px Outfit}#toast i{display:block;font:400 13px Outfit;color:var(--mut);font-style:normal;margin-top:3px}
+#toast .tb{position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--o);border-radius:0 0 0 14px;transform-origin:left}
+.bdot{position:absolute;right:6px;top:6px;width:9px;height:9px;border-radius:50%;background:#FF5A4E;box-shadow:0 0 10px #FF5A4E;opacity:0}
+#nr{position:absolute;left:-10px;right:-10px;top:0;padding-left:10px;padding-right:10px;border-radius:10px;opacity:0}
+#nr .pill{right:10px}
 /* S10 */
 #dotgrid{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.2) 1.5px,transparent 1.6px);background-size:26px 26px;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 55%,#000 30%,transparent 80%)}
 .city{position:absolute;width:0;height:0}
@@ -282,7 +291,7 @@ body{font-family:Outfit,sans-serif;color:var(--txt);-webkit-font-smoothing:antia
 
 <!-- S9 DASHBOARD -->
 <div id="s9" class="scene">
-  <div class="persp"><div class="win" id="w9" style="left:150px;top:220px;width:1620px;height:900px"></div></div>
+  <div class="zm" id="z9"><div class="win" id="w9" style="left:150px;top:220px;width:1620px;height:900px"></div></div>
   <div class="hdr" id="h9">Your entire expansion. <em>One command center.</em></div>
 </div>
 
@@ -306,7 +315,7 @@ body{font-family:Outfit,sans-serif;color:var(--txt);-webkit-font-smoothing:antia
   <div id="s11logo" class="abs" style="left:960px;top:330px"></div>
   <div id="ctaT">BV NAVIGATOR AI</div>
   <div id="ctaTag">We know who. We know how.</div>
-  <div id="ctaRow"><div id="ctaPrice">From USD 1,500 / month</div><div id="ctaBtn">Request your invitation&nbsp;&nbsp;→</div></div>
+  <div id="ctaRow"><div id="ctaBtn">Request your invitation&nbsp;&nbsp;→</div></div>
   <div id="ctaUrl">BLACKVITRIOL.COM/BV-NAVIGATOR-AI</div>
 </div>
 
@@ -479,14 +488,18 @@ $('#w8').innerHTML=shell('Navigator',`
  </div>`)+`<div class="clk" id="clk8"></div><div class="cur" id="cur8">${ICON.cursor}</div>`;
 
 // ---- W9 dashboard
+const SPD=[[2, 3, 2, 4, 3, 5, 6], [1, 2, 4, 3, 5, 6, 8], [5, 4, 4, 3, 3, 2, 2], [80, 84, 83, 88, 90, 91, 94]];
+const spark=i=>{const d=SPD[i],mx=Math.max(...d),mn=Math.min(...d);const p=d.map((v,k)=>`${k?'L':'M'}${(k*18).toFixed(0)} ${(40-(v-mn)/(mx-mn||1)*34).toFixed(1)}`).join(' ');return `<svg class="spark" width="110" height="44" viewBox="-2 -2 112 46"><path d="${p}" fill="none" stroke="${i==2?'#F5B83D':'#F2622E'}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>`};
 $('#w9').innerHTML=shell('Dashboard',`
  <div class="h1" style="font-size:44px">Dashboard</div><div class="h1s" style="top:88px;font-size:16px">Welcome back. Here's your compliance overview.</div>
- ${[['doc','Active Intakes','6','+6 this week'],['doc','Reports Generated','8','+8 this month'],['warn','Risk Flags','2','Requiring attention'],['grid','Compliance Rate','94%','+2% from last month']].map((k,i)=>`<div class="kpi" id="kp${i}" style="left:${44+i*326}px"><div class="ic" style="color:#F2622E">${k[0]==='warn'?ICON.warn:ICON[k[0]].replace('<svg','<svg width="18" height="18"')}</div><s>${k[1]}</s><b id="kv${i}">0</b><i>${k[3]}</i></div>`).join('')}
+ ${[['doc','Active Intakes','6','+6 this week'],['doc','Reports Generated','8','+8 this month'],['warn','Risk Flags','2','Requiring attention'],['grid','Compliance Rate','94%','+2% from last month']].map((k,i)=>`<div class="kpi" id="kp${i}" style="left:${44+i*326}px"><div class="ic" style="color:#F2622E">${k[0]==='warn'?ICON.warn:ICON[k[0]].replace('<svg','<svg width="18" height="18"')}</div><s>${k[1]}</s><b id="kv${i}">0</b><i>${k[3]}</i>${spark(i)}<div class="kgl"></div></div>`).join('')}
  <div class="lst" id="ls1" style="left:44px;width:490px;height:420px"><h4>Recent Intakes<span>View All →</span></h4>
-   ${[['Civic Systems SAS','Colombia','In Progress','#2B4A5C','#7FD3FF'],['Harbor Metrics LLC','United Arab Emirates','Pending Review','#4A3E1E','#F5C46A'],['CrossBorder Ledger Labs','United States','Complete','#183B28','#3DDC84']].map(r=>`<div class="row"><b>${r[0]}</b><i>${r[1]}</i><span class="pill" style="background:${r[3]};color:${r[4]}">${r[2]}</span></div>`).join('')}</div>
+   ${[['Civic Systems SAS','Colombia','In Progress','#2B4A5C','#7FD3FF'],['Harbor Metrics LLC','United Arab Emirates','Pending Review','#4A3E1E','#F5C46A'],['CrossBorder Ledger Labs','United States','Complete','#183B28','#3DDC84']].map(r=>`<div class="row"><b>${r[0]}</b><i>${r[1]}</i><span class="pill" style="background:${r[3]};color:${r[4]}">${r[2]}</span>${r[0].startsWith('Harbor')?'<span class="pill" id="pillOk" style="background:#183B28;color:#3DDC84;opacity:0">Complete</span>':''}</div>`).join('')}</div>
  <div class="lst" id="ls2" style="left:554px;width:490px;height:420px"><h4>Recent Reports<span>View All →</span></h4>
-   ${[['Harbor Metrics LLC - Software','Compliance Report'],['Civic Systems SAS - Software','Compliance Report'],['U.S. Federal Regulatory Analysis','Federal Checklist']].map(r=>`<div class="row"><b>${r[0]}</b><i>${r[1]}</i><span class="pill" style="background:#4A1E1A;color:#FF7A6E">High</span></div>`).join('')}</div>
- <div class="qa" id="qa9" style="left:1064px;width:302px"><div><span style="color:#F2622E;font-size:22px">+</span><b>Start New Intake</b><i>Begin a new compliance assessment</i></div><div><b>Ask Navigator</b><i>Get instant compliance answers</i></div><div><b>Browse Sources</b><i>Access regulatory documentation</i></div></div>`);
+   <div style="position:relative" id="rr"><div class="row" id="nr"><b>Northline Studio LLC - Prof. Services</b><i>Federal Checklist</i><span class="pill" style="background:#183B28;color:#3DDC84">Low</span></div>${[['Harbor Metrics LLC - Software','Compliance Report'],['Civic Systems SAS - Software','Compliance Report'],['U.S. Federal Regulatory Analysis','Federal Checklist']].map(r=>`<div class="row"><b>${r[0]}</b><i>${r[1]}</i><span class="pill" style="background:#4A1E1A;color:#FF7A6E">High</span></div>`).join('')}</div></div>
+ <div class="qa" id="qa9" style="left:1064px;width:302px"><div><span style="color:#F2622E;font-size:22px">+</span><b>Start New Intake</b><i>Begin a new compliance assessment</i></div><div><b>Ask Navigator</b><i>Get instant compliance answers</i></div><div><b>Browse Sources</b><i>Access regulatory documentation</i></div></div>
+ <div id="toast"><div class="ti">${ICON.okg.replace(/20/g,'16')}</div><b>Report ready</b><i>Northline Studio LLC · Low risk · 12 citations</i><div class="tb"></div></div>`)+`<div class="clk" id="clk9"></div><div class="cur" id="cur9">${ICON.cursor}</div>`;
+$('#w9 .topi div').insertAdjacentHTML('beforeend','<span class="bdot" id="bdot"></span>');$('#w9 .topi div').style.position='relative';
 $('#w9 .side').style.width='240px';$('#w9 .main').style.left='240px';
 
 // small logos in sidebars
@@ -528,10 +541,11 @@ const GR=[];for(let k=0;k<4;k++){const c=document.createElement('canvas');c.widt
 // ================= TIMELINE =================
 const tl=gsap.timeline({paused:true});
 const E='power3.out',EI='power3.inOut',EX='expo.out';
+const zoom=(z,t,s,ox,oy,d=.9)=>tl.to(z,{scale:s,transformOrigin:`${ox}px ${oy}px`,duration:d,ease:'power2.inOut'},t);
 const show=(s,a,b,fi=.5,fo=.5)=>{tl.fromTo(s,{autoAlpha:0},{autoAlpha:1,duration:fi,ease:'none'},a);if(b!=null)tl.to(s,{autoAlpha:0,duration:fo,ease:'none'},b-fo)};
 const TYPERS=[],COUNTERS=[];
 const typeAt=(el,str,t0,cps=18,snd=true)=>{TYPERS.push({el:$(el),str,t0,cps});if(snd)for(let i=0;i<str.length;i+=1)if(str[i]!==' ')sfx('type',t0+i/cps,.5)};
-const countAt=(el,to,t0,dur,fmt=v=>Math.round(v))=>COUNTERS.push({el:$(el),to,t0,dur,fmt});
+const countAt=(el,to,t0,dur,fmt=v=>Math.round(v),from=0)=>COUNTERS.push({el:$(el),to,t0,dur,fmt,from});
 const click=(cur,clk,x,y,t,mv=.7)=>{tl.to(cur,{x,y,duration:mv,ease:EI},t-mv);tl.to(cur,{scale:.82,duration:.08,yoyo:true,repeat:1},t);
   tl.fromTo(clk,{left:x+6,top:y+6,scale:.3,opacity:.9},{scale:1.4,opacity:0,duration:.5,ease:'power2.out'},t);sfx('click',t)};
 // blobs base
@@ -711,8 +725,29 @@ const hw=splitWords($('#h9'));tl.fromTo(hw,{opacity:0,y:30,filter:'blur(10px)'},
 tl.fromTo('.kpi',{opacity:0,y:30},{opacity:1,y:0,duration:.6,stagger:.12,ease:E},T9+.8);
 countAt('#kv0',6,T9+1.0,1.6);countAt('#kv1',8,T9+1.1,1.6);countAt('#kv2',2,T9+1.2,1.2);countAt('#kv3',94,T9+1.3,1.8,v=>Math.round(v)+'%');
 tl.fromTo(['#ls1','#ls2','#qa9'],{opacity:0,y:50},{opacity:1,y:0,duration:.7,stagger:.15,ease:E},T9+1.4);
-tl.fromTo('#w9 .row',{opacity:0,x:-20},{opacity:1,x:0,duration:.4,stagger:.08,ease:E},T9+1.9);
+tl.fromTo('#w9 .row:not(#nr)',{opacity:0,x:-20},{opacity:1,x:0,duration:.4,stagger:.08,ease:E},T9+1.9);
 for(let i=0;i<4;i++)sfx('pop',T9+.8+i*.12,.35);
+tl.to('#w9 .spark path',{strokeDashoffset:0,duration:1.2,stagger:.12,ease:'power2.out'},T9+1.2);
+gsap.set('#cur9',{x:1500,y:960});gsap.set('#z9',{transformOrigin:'960px 540px'});
+tl.to('#cur9',{x:1080,y:250,duration:.8,ease:EI},T9+1.9);
+tl.to('#kp2',{y:-8,duration:.3,ease:E},T9+2.6);tl.to('#kp2 .kgl',{opacity:1,duration:.3},T9+2.6);sfx('tick',T9+2.6,.4);
+tl.to('#kp2',{y:0,duration:.3},T9+3.3);tl.to('#kp2 .kgl',{opacity:0,duration:.3},T9+3.3);
+zoom('#z9',T9+2.9,1.16,1450,420,1.0);
+tl.fromTo('#toast',{opacity:0,x:80,scale:.95},{opacity:1,x:0,scale:1,duration:.5,ease:'back.out(1.5)'},T9+3.2);sfx('ding',T9+3.25,.8);
+tl.fromTo('#toast .tb',{scaleX:1},{scaleX:0,duration:2.6,ease:'none'},T9+3.3);
+tl.fromTo('#bdot',{opacity:0,scale:0},{opacity:1,scale:1,duration:.3,ease:'back.out(3)'},T9+3.2);
+tl.to('#rr .row:not(#nr)',{y:76,duration:.5,ease:EI},T9+3.5);
+tl.fromTo('#nr',{opacity:0,y:-20,background:'rgba(242,98,46,.28)'},{opacity:1,y:0,duration:.5,ease:E},T9+3.75);tl.to('#nr',{background:'rgba(242,98,46,0)',duration:1.2},T9+4.3);sfx('pop',T9+3.75,.6);
+countAt('#kv1',9,T9+3.75,.3,v=>Math.round(v),8);
+tl.fromTo('#kv1',{scale:1},{scale:1.35,color:'#F2622E',duration:.18,yoyo:true,repeat:1,transformOrigin:'left center'},T9+3.75);
+tl.to('#cur9',{x:770,y:500,duration:.7,ease:EI},T9+3.7);
+tl.to('#pillOk',{opacity:1,duration:.3},T9+4.5);tl.to('#pillOk',{scale:1.2,duration:.15,yoyo:true,repeat:1},T9+4.5);sfx('check',T9+4.5,.7);
+tl.to('#ls1 .row:nth-of-type(2) .pill:not(#pillOk)',{opacity:0,duration:.2},T9+4.5);
+zoom('#z9',T9+4.9,1,960,540,.8);
+tl.to('#cur9',{x:1460,y:400,duration:.8,ease:EI},T9+4.9);
+tl.to('#qa9 div:first-child',{scale:1.04,background:'rgba(255,255,255,.85)',duration:.25},T9+5.6);
+click('#cur9','#clk9',1460,400,T9+5.95,.01);
+tl.to('#toast',{opacity:0,x:60,duration:.35},T9+5.9);
 tl.to(['#h9','#w9'],{opacity:0,y:-80,duration:.6,ease:'power3.in'},T9+6.5);sfx('whoosh',T9+6.8);
 
 // ---------- S10 MAP 77.8–83.5
@@ -736,14 +771,14 @@ tl.fromTo('#flash',{scale:0,opacity:1},{scale:16,opacity:0,duration:1,ease:'powe
 tl.fromTo('#s11logo',{scale:.5,rotation:-90},{scale:1,rotation:0,duration:2,ease:EX},T11);
 tl.fromTo('#ctaT',{opacity:0,letterSpacing:'.5em',filter:'blur(14px)'},{opacity:1,letterSpacing:'.18em',filter:'blur(0px)',duration:1.4,ease:EX},T11+.5);
 tl.fromTo('#ctaTag',{opacity:0,y:20},{opacity:1,y:0,duration:.8,ease:E},T11+1.3);
-tl.fromTo('#ctaRow > div',{opacity:0,y:30,scale:.9},{opacity:1,y:0,scale:1,duration:.7,stagger:.18,ease:'back.out(1.6)'},T11+2.0);sfx('pop',T11+2.0,.6);sfx('pop',T11+2.18,.6);
+tl.fromTo('#ctaRow > div',{opacity:0,y:30,scale:.9},{opacity:1,y:0,scale:1,duration:.7,stagger:.18,ease:'back.out(1.6)'},T11+2.0);sfx('pop',T11+2.0,.6);
 tl.fromTo('#ctaUrl',{opacity:0},{opacity:1,duration:.8},T11+2.6);
 tl.to('#ctaBtn',{scale:1.05,duration:.5,yoyo:true,repeat:3,ease:'sine.inOut'},T11+3.0);
 tl.to('#fade',{opacity:1,duration:.8,ease:'none'},88.4);
 
 
 // ---------- camera push-ins
-const zoom=(z,t,s,ox,oy,d=.9)=>tl.to(z,{scale:s,transformOrigin:`${ox}px ${oy}px`,duration:d,ease:'power2.inOut'},t);
+
 gsap.set(['#z5','#z7','#z8'],{transformOrigin:'940px 400px'});
 zoom('#z5',S5(.8),1.24,940,380);zoom('#z5',S5(2.7),1.24,940,560,.7);zoom('#z5',S5(4.5),1,940,500,.6);
 zoom('#z5',S5(5.5),1.2,940,560);zoom('#z5',S5(9.0),1,940,500,.5);
@@ -758,7 +793,7 @@ tl.to({},{duration:.01},DURATION);
 function dyn(t){
   updSwirls(t);
   for(const T of TYPERS){if(t<T.t0)continue;const n=Math.min(T.str.length,Math.floor((t-T.t0)*T.cps));T.el.textContent=T.str.slice(0,n)}
-  for(const C of COUNTERS){if(t<C.t0)continue;const p=clamp((t-C.t0)/C.dur),e=1-Math.pow(1-p,3);C.el.textContent=C.fmt(C.to*e)}
+  for(const C of COUNTERS){if(t<C.t0)continue;const p=clamp((t-C.t0)/C.dur),e=1-Math.pow(1-p,3);C.el.textContent=C.fmt(C.from+(C.to-C.from)*e)}
   $$('.caret').forEach(c=>c.style.visibility=(Math.floor(t*2.2)%2)?'hidden':'visible');
   // blobs drift
   $('#bg').style.transform=`translate(${Math.sin(t*.13)*80}px,${Math.cos(t*.11)*60}px)`;
