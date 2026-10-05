@@ -157,3 +157,42 @@ async function ready() {
   await Promise.all(PRELOAD.map(s => new Promise(r => { const i = new Image(); i.onload = i.onerror = r; i.src = s; })));
   await document.fonts.ready;
 }
+
+// ---------- kinetic type helpers (videos 4 & 5) ----------
+const BIG = (txt, size, extra = '', font = 'Montserrat', w = 900) => `<div style="font:${w} ${size}px/0.92 '${font}';letter-spacing:${font === 'Montserrat' ? '-.035em' : '-.01em'};${extra}">${txt}</div>`;
+function SLAM(el, t, t0, tout = 999, from = 1.9) {
+  const p = E.out5(prog(t, t0, t0 + .16)), q = E.in(prog(t, tout, tout + .25));
+  el.style.opacity = t < t0 ? 0 : 1 - q;
+  el.style.transform = `scale(${lerp(from, 1, p) + q * 1.4})`;
+  el.style.filter = q > 0 ? `blur(${q * 14}px)` : 'none';
+}
+// simple 2.5D "object" (cutout image) with float, tilt and drop shadow
+function makeObj(parent, src, w) {
+  const el = add(parent, `<div class="abs" style="left:0;top:0;width:${w}px"><img src="${A}${src}" style="width:100%;display:block;filter:drop-shadow(0 40px 50px rgba(0,0,40,.45))"></div>`);
+  PRELOAD.push(A + src);
+  return { el, set({ x, y, s = 1, r = 0, ry = 0, o = 1 }) { el.style.transform = `translate(${x - w / 2}px,${y - el.offsetHeight / 2}px) perspective(1200px) rotateY(${ry}deg) rotate(${r}deg) scale(${s})`; el.style.opacity = o; } };
+}
+
+// ---------- Locky totem (large 3D-printed Locky figure people tap at events) ----------
+function makeTotem(parent, w = 620) {
+  const mh = w * 1127 / 1194, ph = w * .36;
+  const el = add(parent, `<div class="abs" style="left:0;top:0;width:${w}px;height:${mh + ph}px;transform-origin:50% 100%">
+    <div class="abs" style="left:${w * .08}px;right:${w * .08}px;top:${mh - ph * .3}px;height:${ph * 1.3}px">
+      <div class="abs" style="left:0;right:0;top:${ph * .2}px;bottom:0;border-radius:0 0 50% 50% / 0 0 30% 30%;background:linear-gradient(90deg,#0b1050,#1D29C2 45%,#0b1050)"></div>
+      <div class="abs" style="left:0;right:0;top:0;height:${ph * .4}px;border-radius:50%;background:radial-gradient(closest-side,#5F68D7,#2a33a8);box-shadow:0 0 40px rgba(159,216,255,.5)"></div>
+      <div class="abs" style="left:0;right:0;bottom:${ph * .1}px;text-align:center;font:800 ${w * .04}px Montserrat;letter-spacing:.2em;color:#9FD8FF">TAP HERE</div></div>
+    <img src="${A}mascot.png" class="abs" style="left:0;top:0;width:${w}px;filter:drop-shadow(0 30px 40px rgba(0,0,30,.45))">
+    <div class="badge abs center" style="left:${w * .5 - w * .085}px;top:${mh + ph * .36 - w * .085}px;width:${w * .17}px;height:${w * .17}px;border-radius:50%;background:#fff;box-shadow:0 0 0 ${w * .012}px #9FD8FF,0 0 ${w * .08}px rgba(159,216,255,.9)">${KEY_GLYPH('#3F49CC', w * .07)}</div></div>`);
+  PRELOAD.push(A + 'mascot.png');
+  const badge = el.querySelector('.badge');
+  return {
+    el, w, h: mh + ph, badge,
+    // x,y = bottom-center of the pedestal
+    set({ x, y, s = 1, r = 0, o = 1, glow = 0 }) {
+      el.style.transform = `translate(${x - w / 2}px,${y - (mh + ph)}px) rotate(${r}deg) scale(${s})`; el.style.opacity = o;
+      badge.style.transform = `scale(${1 + glow * .12})`;
+    },
+    // badge center in stage coords for given placement (no rotation)
+    badgeAt(x, y, s = 1) { return { x, y: y - (ph * .64) * s }; }
+  };
+}

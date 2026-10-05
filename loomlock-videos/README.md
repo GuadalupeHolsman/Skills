@@ -1,5 +1,13 @@
 # loomlock explainer videos
 
+## Latest: event versions (9:16, English, with music, built on the brand book)
+- `videos/loomlock_what-is-loomlock_9x16_EN.mp4` (45s): core idea, ecosystem (Lock, Journal, App), keys, Experiences with the Locky totem, Locky, Loomlockers.
+- `videos/loomlock_how-to-use-experiences_9x16_EN.mp4` (54s): 6 steps in the app, with the tap on the Locky totem at the entrance (and card keys as an alternative).
+
+Source: `source/v4.js`, `source/v5.js`; music: `python3 source/music2.py v4|v5`.
+
+## Earlier versions
+
 | Video | 16:9 | 9:16 |
 |---|---|---|
 | What are we? (42s) | `videos/loomlock_what-are-we_16x9_EN.mp4` / `_ES` | `videos/loomlock_what-are-we_9x16_EN.mp4` / `_ES` |
