@@ -1,6 +1,6 @@
 # Loomlock videos
 
-Three 60-second videos, 60 fps, H.264 with AAC sound. They share one style: a flat Loomlock blue background, big filled words and schematic motion graphics.
+Three 60-second videos, 60 fps, H.264 with AAC sound. They share the look of the loomlock promo films: a lit blue-violet gradient with soft bokeh, sentence-case headlines aligned left (white with a glowing yellow line), calm word-by-word reveals, and sunbursts behind the hero moments.
 
 | File | Format | What it is |
 |---|---|---|
