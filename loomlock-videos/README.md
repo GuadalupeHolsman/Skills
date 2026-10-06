@@ -17,6 +17,6 @@ Two 20-second vertical (1080×1920) options, each with its own music:
 | File | Mood |
 |---|---|
 | `invitation-donjulio-elegant.mp4` | Elegant night: black and gold, serif type, gold dust, Locky in a spotlight, lounge jazz. |
-| `invitation-donjulio-mystery.mp4` | No signal: the bars fall to "No Service", the wifi drops, "Connection lost.", TV static and colour-split glitches; Locky, the two names and "29.10" come through. A drone with a heartbeat, signal beeps and dropouts. |
+| `invitation-donjulio-mystery.mp4` | No signal, with stock footage: a phone glowing in bed at night loses its bars to "No Service", "Connection lost.", then the night comes through the static (a toast, a dance floor, hats against an agave sunset, friends laughing); the two names and "29.10" over dark crowd footage. Footage: Mixkit, free licence. |
 
 Both end with "+18 · Please drink responsibly." The Don Julio logo is a public web copy recolored to gold and white; swap in the brand's official file before publishing.
