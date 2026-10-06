@@ -52,7 +52,11 @@
   #screen { position: relative; width: 430px; height: 930px; border-radius: 57px; overflow: hidden; background: #eef3ef; }
   .island { position: absolute; top: 12px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: #000; z-index: 90; }
   .scr { position: absolute; inset: 0; opacity: 0; will-change: transform; background: #eef3ef; }
-  .scr > img { position: absolute; left: 0; top: 0; width: 430px; height: auto; display: block; }
+  .scr > img, .band img, .patch img { position: absolute; left: 0; top: 0; width: 430px; height: auto; display: block; }
+  .content, .band { position: absolute; inset: 0; }
+  .band { will-change: transform, opacity; }
+  .patch { position: absolute; overflow: hidden; }
+  .cover { position: absolute; }
   .hl { position: absolute; border: 3px solid var(--orange); border-radius: 16px; background: rgba(226,96,35,.08); opacity: 0; }
   #finger { position: absolute; left: 0; top: 0; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; z-index: 95; opacity: 0;
             background: radial-gradient(circle, rgba(255,255,255,.85) 0%, rgba(255,255,255,.55) 60%, rgba(255,255,255,.35) 100%);
@@ -153,8 +157,8 @@
 
           <div class="scr" id="Home"><img src="assets/screens/Home_EnergyCheckIn.jpg">
             <div class="hl" id="hl-high" style="left:64.5%;top:33.6%;width:30%;height:7.4%"></div>
-            <div class="abs" style="left:8%;top:76.2%;width:70%;height:3.3%;background:#fff"></div>
-            <div class="abs" id="typed" style="left:9.2%;top:76.2%;height:3.3%;display:flex;align-items:center;font:500 15px Manrope;color:#1E1E1E;white-space:nowrap"><span id="typed-txt" style="color:#a9a9a9">ask me what you want</span><span id="caret" style="display:inline-block;width:2px;height:18px;background:#3B7668;margin-left:1px;opacity:0"></span></div>
+            <div class="abs ovl" style="left:8%;top:76.2%;width:70%;height:3.3%;background:#fff"></div>
+            <div class="abs ovl" id="typed" style="left:9.2%;top:76.2%;height:3.3%;display:flex;align-items:center;font:500 15px Manrope;color:#1E1E1E;white-space:nowrap"><span id="typed-txt" style="color:#a9a9a9">ask me what you want</span><span id="caret" style="display:inline-block;width:2px;height:18px;background:#3B7668;margin-left:1px;opacity:0"></span></div>
           </div>
           <div class="scr" id="Quick"><img src="assets/screens/Home_QuickActions.jpg"></div>
           <div class="scr" id="Coach"><img id="coach-img" src="assets/screens/Coach_Conversation.jpg">
@@ -173,7 +177,6 @@
           <div class="scr" id="Journal"><img src="assets/screens/Journal_DailyLog.jpg"><div class="hl" id="hl-lunch" style="left:3%;top:76.4%;width:94%;height:9.4%"></div></div>
           <div class="scr" id="Food"><img id="food-img" src="assets/screens/Journal_FoodDetail.jpg"></div>
           <div class="scr" id="Hyd1"><img src="assets/screens/Hydration_FirstUse.jpg"></div>
-          <div class="scr" id="Hyd2" style="background:transparent"><img src="assets/screens/Hydration_InProgress.jpg"></div>
           <div class="scr" id="Sleep1"><img src="assets/screens/SleepRecovery_Clean.jpg"></div>
           <div class="scr" id="Sleep2"><img src="assets/screens/SleepRecovery.jpg"></div>
           <div class="scr" id="Stats"><img src="assets/screens/Statistics_Month.jpg"></div>
@@ -203,6 +206,7 @@
 <script src="vendor/gsap.min.js"></script>
 <script src="assets/flower.js"></script>
 <script src="assets/wordmark.js"></script>
+<script src="assets/bands.js"></script>
 <script>
 (() => {
   const VB = "411 96 618 618", CX = 720, CY = 405;      // flower geometry (from brandbook vector)
@@ -210,6 +214,72 @@
   const flowerSVG = `<svg viewBox="${VB}" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="${FLOWER_D}"/></svg>`;
   document.querySelectorAll('.flower').forEach(el => el.innerHTML = flowerSVG);
   document.documentElement.style.setProperty('--wm', `url(${WORDMARK_URI})`);
+
+  // ---------- split every app screen into horizontal UI bands so its blocks can animate in ----------
+  const SW = 430, SH = 930, IH = 430 * 2532 / 1170;
+  const OVR = {
+    Welcome: [0.06, 0.77, 0.855, 0.925],
+    Home: [0.06, 0.13, 0.21, 0.315, 0.43, 0.535, 0.745, 0.825, 0.8977, 0.9526],
+    Hyd1: [0.06, 0.13, 0.185, 0.3, 0.3578, 0.4048, 0.47, 0.76, 0.8562, 0.9289, 0.9749],
+  };
+  const BAND = {}, SRC = {};
+  document.querySelectorAll('.scr').forEach(scr => {
+    const img = scr.querySelector(':scope > img');
+    if (!img) return;
+    const src = SRC[scr.id] = img.getAttribute('src');
+    img.remove();
+    const edges = [0, ...(OVR[scr.id] || BANDS[scr.id] || [0.06]), 1];
+    scr.style.background = SCR_BG[scr.id] || '#eef3ef';
+    const content = document.createElement('div');
+    content.className = 'content';
+    BAND[scr.id] = [];
+    for (let i = 0; i < edges.length - 1; i++) {
+      const a = edges[i], b = edges[i + 1];
+      const d = document.createElement('div');
+      d.className = 'band';
+      d.dataset.a = a;
+      d.dataset.b = b;
+      d.style.clipPath = `inset(calc(${a * 100}% - 0.6px) 0 calc(${(1 - b) * 100}% - 0.6px) 0)`;
+      d.innerHTML = `<img src="${src}">`;
+      content.appendChild(d);
+      BAND[scr.id].push(d);
+    }
+    scr.prepend(content);
+  });
+  const bandAt = (id, y) => BAND[id].find(b => y >= +b.dataset.a && y < +b.dataset.b);
+  // a window onto another (or the same) screenshot, placed inside the band that holds it
+  const patch = (id, src, x0, y0, x1, y1, extra = '', inBand = true) => {
+    const el = document.createElement('div');
+    el.className = 'patch';
+    el.style.cssText = `left:${x0 * SW}px;top:${y0 * IH}px;width:${(x1 - x0) * SW}px;height:${(y1 - y0) * IH}px;${extra}`;
+    el.innerHTML = `<img src="${src}" style="left:${-x0 * SW}px;top:${-y0 * IH}px">`;
+    (inBand ? bandAt(id, y0) : document.querySelector(`#${id} .content`)).appendChild(el);
+    return el;
+  };
+  const cover = (id, x0, y0, x1, y1, color, radius = 0) => {
+    const el = document.createElement('div');
+    el.className = 'cover';
+    el.style.cssText = `left:${x0 * SW}px;top:${y0 * IH}px;width:${(x1 - x0) * SW}px;height:${(y1 - y0) * IH}px;background:${color};border-radius:${radius}px`;
+    bandAt(id, y0).appendChild(el);
+    return el;
+  };
+  // hydration: pieces of the "in progress" state that animate over the first-use screen
+  const HYD2 = 'assets/screens/Hydration_InProgress.jpg';
+  const hyd = {
+    count: patch('Hyd1', HYD2, 0.06, 0.368, 0.34, 0.396, '', false),
+    ml: patch('Hyd1', HYD2, 0.06, 0.404, 0.34, 0.422, '', false),
+    bar: patch('Hyd1', HYD2, 0.06, 0.429, 0.34, 0.444, '', false),
+    water: patch('Hyd1', HYD2, 0.285, 0.672, 0.715, 0.734, '', false),
+    toast: patch('Hyd1', HYD2, 0.14, 0.783, 0.72, 0.85, '', false),
+    minus: patch('Hyd1', HYD2, 0.05, 0.882, 0.14, 0.908, '', false),
+  };
+  // journal: calorie bar draws itself
+  cover('Journal', 0.06, 0.340, 0.297, 0.355, '#F9F4F2');
+  const kcalBar = patch('Journal', SRC.Journal, 0.06, 0.340, 0.297, 0.355);
+  // statistics: monthly ring draws itself
+  cover('Stats', 0.06, 0.214, 0.38, 0.366, '#FFFFFF');
+  const ring = patch('Stats', SRC.Stats, 0.06, 0.214, 0.38, 0.366,
+    '-webkit-mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));--a:0deg');
 
   const seedsBox = document.getElementById('s1-seeds');
   const k = 360 / 618;
@@ -241,7 +311,11 @@
   });
 
   // ---------- phone helpers ----------
-  const SW = 430, SH = 930, PX = 1020 + 14, PY = 61 + 14;
+  const PX = 1020 + 14, PY = 61 + 14;
+  const build = (id, t, { from = 0.06, stagger = 0.045, skip = [], dy = 34 } = {}) => {
+    const els = BAND[id].filter(b => +b.dataset.a >= from - 1e-6 && !skip.includes(b));
+    tl.fromTo(els, { y: dy, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, stagger, ease: 'power3.out', immediateRender: false }, t);
+  };
   let z = 1;
   const enter = (id, t, how = 'push', from = null) => {
     const el = '#' + id;
@@ -256,6 +330,8 @@
       tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power1.out' }, t);
     } else if (how === 'fill') {      // bottom-up reveal
       tl.fromTo(el, { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 0.9, ease: 'power2.inOut' }, t);
+    } else if (how === 'cut') {
+      // instant swap: used when the new screen shares its top with the old one and builds in below
     } else if (how === 'rise') {
       tl.fromTo(el, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, t);
     }
@@ -313,22 +389,28 @@
   caption('capA', 'bgA', 9.1);
   tl.set('#bgA', { opacity: 1 }, 9.05);
   enter('Welcome', 9.05, 'fade');
+  build('Welcome', 9.7, { stagger: 0.09, dy: 50 });
   tl.fromTo('#phone', { y: 1000, rotation: 6 }, { y: 0, rotation: 0, duration: 1.2, ease: 'expo.out' }, 9.1);
   tap(0.5, 0.815, 10.6);                 // Create an Account
+  build('Step1', 10.75 + 0.12);
   enter('Step1', 10.75, 'push', 'Welcome');
   tap(0.505, 0.795, 11.75);              // goal: build sustainable habits
   hl('#hl-goal', 11.75);
   tap(0.5, 0.955, 12.55);                // Continue
+  build('Step2', 12.7 + 0.12);
   enter('Step2', 12.7, 'push', 'Step1');
   lift(12.9);
   zoom(0.5, 0.27, 1.6, 13.0);            // height number
   unzoom(14.2);
   tap(0.62, 0.955, 14.95);               // Continue
+  build('Step3', 15.1 + 0.12);
   enter('Step3', 15.1, 'push', 'Step2');
   tap(0.62, 0.955, 15.95);
+  build('Step6', 16.1 + 0.12);
   enter('Step6', 16.1, 'push', 'Step3');
   tap(0.58, 0.843, 16.75);               // Moderate
   tap(0.62, 0.955, 17.35);
+  build('Step7', 17.5 + 0.12);
   enter('Step7', 17.5, 'push', 'Step6');
   lift(17.7);
   zoom(0.5, 0.56, 1.55, 17.8);           // "Hello, Srushti"
@@ -336,7 +418,10 @@
 
   // ---------- chapter B: AI coach (19.6 → 30.6) ----------
   caption('capB', 'bgB', 19.6, 'capA', 'bgA');
-  enter('Home', 19.75, 'rise');
+  enter('Home', 19.75, 'push', 'Step7');
+  build('Home', 19.8, { stagger: 0.06 });
+  tl.set('#Home .ovl', { opacity: 0 }, 0);
+  tl.to('#Home .ovl', { opacity: 1, duration: 0.2 }, 20.5);
   zoom(0.5, 0.33, 1.55, 20.4);           // energy card
   tap(0.78, 0.37, 21.2);                 // High
   hl('#hl-high', 21.2, 22.3);
@@ -359,6 +444,7 @@
   tap(0.875, 0.778, tSend);
   unzoom(tSend + 0.15, 0.7);
   enter('Coach', tSend + 0.3, 'push', 'Home');
+  build('Coach', tSend + 0.4, { stagger: 0.08 });
   lift(tSend + 0.5);
   tl.fromTo('#coach-dots span', { y: 0, opacity: 0.4 }, { y: -5, opacity: 1, duration: 0.22, stagger: 0.1, yoyo: true, repeat: 3, ease: 'sine.inOut' }, tSend + 0.8);
   tl.to('#coach-dots', { opacity: 0, duration: 0.15 }, tSend + 1.75);
@@ -374,8 +460,11 @@
   tl.set('#hl-high', { opacity: 0 }, C);
   tap(0.5, 0.853, C + 1.0);                // "+" button
   enter('Quick', C + 1.15, 'fade');
-  tl.fromTo('#Quick img', { yPercent: 4 }, { yPercent: 0, duration: 0.45 }, C + 1.15);
+  build('Quick', C + 1.15, { from: 0.8, stagger: 0.06, dy: 160 });
   tap(0.42, 0.898, C + 1.95);              // Product
+  const card = BAND.Scanner.filter(b => +b.dataset.a >= 0.67);
+  tl.set(card, { opacity: 0, y: 60 }, 0);
+  build('Scanner', C + 2.2, { skip: card });
   enter('Scanner', C + 2.1, 'push', 'Quick');
   lift(C + 2.3);
   zoom(0.45, 0.45, 1.5, C + 2.35);
@@ -384,6 +473,7 @@
   tl.set('#scanline', { opacity: 0 }, C + 5.1);
   tl.fromTo('#scanflash', { opacity: 0.85 }, { opacity: 0, duration: 0.5, immediateRender: false }, C + 5.1);
   TAPS.push(C + 5.1);                      // "beep"
+  tl.to(card, { opacity: 1, y: 0, duration: 0.55, stagger: 0.07, ease: 'back.out(1.4)' }, C + 5.3);
   zoom(0.5, 0.86, 1.45, C + 5.5);          // product card
   hl('#hl-product', C + 6.1, C + 6.9);
   tap(0.75, 0.944, C + 7.0);               // Log meal
@@ -392,31 +482,46 @@
   unzoom(C + 7.6);
   tl.to('#pill-logged', { opacity: 0, duration: 0.3 }, C + 8.3);
   enter('Journal', C + 8.4, 'push', 'Scanner');
+  build('Journal', C + 8.5);
+  tl.fromTo(kcalBar, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.0, ease: 'power2.inOut', immediateRender: false }, C + 9.2);
   zoom(0.5, 0.8, 1.5, C + 9.0);
   hl('#hl-lunch', C + 9.5, C + 10.6);
   tap(0.5, 0.81, C + 10.7);
   enter('Food', C + 10.85, 'push', 'Journal');
+  build('Food', C + 10.95);
   unzoom(C + 10.85);
   lift(C + 11.0);
-  tl.to('#food-img', { y: -260, duration: 1.4, ease: 'power2.inOut' }, C + 11.4);
+  tl.to('#Food .content', { y: -260, duration: 1.4, ease: 'power2.inOut' }, C + 11.6);
 
   // ---------- chapter D: habits (43.4 → 54.6) ----------
   const D = 43.4;
   caption('capD', 'bgD', D, 'capC', 'bgC');
   enter('Hyd1', D + 0.15, 'push', 'Food');
+  build('Hyd1', D + 0.25);
+  tl.set(Object.values(hyd), { opacity: 0 }, 0);
   zoom(0.5, 0.6, 1.3, D + 0.7);
   tap(0.75, 0.947, D + 1.6);               // Add record
-  enter('Hyd2', D + 1.75, 'fill');
+  // first glass: water rises, counter rolls, progress bar fills, the hint updates
+  tl.fromTo(hyd.water, { clipPath: 'inset(100% 0 0 0)', opacity: 1 }, { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 0.9, ease: 'power2.out', immediateRender: false }, D + 1.65);
+  tl.fromTo([hyd.count, hyd.ml], { clipPath: 'inset(0 0 100% 0)', y: 10, opacity: 1 }, { clipPath: 'inset(0 0 0% 0)', y: 0, opacity: 1, duration: 0.45, stagger: 0.08, immediateRender: false }, D + 1.7);
+  tl.fromTo(hyd.bar, { clipPath: 'inset(0 100% 0 0)', opacity: 1 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 0.7, ease: 'power2.out', immediateRender: false }, D + 1.75);
+  tl.fromTo(hyd.toast, { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.5, immediateRender: false }, D + 1.9);
+  tl.fromTo(hyd.minus, { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: false }, D + 1.7);
+  tl.fromTo(hyd.water, { y: 4 }, { y: 0, duration: 0.9, ease: 'elastic.out(1, 0.35)', immediateRender: false }, D + 2.65);
   tap(0.75, 0.947, D + 2.6);
   lift(D + 2.9);
   unzoom(D + 3.0);
-  enter('Sleep1', D + 3.7, 'push', 'Hyd2');
+  enter('Sleep1', D + 3.7, 'push', 'Hyd1');
+  build('Sleep1', D + 3.8);
   tap(0.5, 0.627, D + 4.5);                // + Add Sleep Log
-  enter('Sleep2', D + 4.65, 'fade');
+  enter('Sleep2', D + 4.65, 'cut');
+  build('Sleep2', D + 4.65, { from: 0.34, stagger: 0.07 });
   lift(D + 4.9);
   zoom(0.5, 0.36, 1.5, D + 5.0);           // 8.0 hours
   unzoom(D + 6.4);
   enter('Stats', D + 7.0, 'push', 'Sleep2');
+  build('Stats', D + 7.1);
+  tl.fromTo(ring, { '--a': '0deg' }, { '--a': '360deg', duration: 1.3, ease: 'power2.inOut', immediateRender: false }, D + 7.7);
   zoom(0.32, 0.27, 1.5, D + 7.5);          // 29 days ring
   unzoom(D + 9.0);
   tl.fromTo('#milestone', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'back.out(1.4)' }, D + 7.9);
