@@ -1,0 +1,138 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(Anton-Regular.ttf)}
+@font-face{font-family:Bebas;src:url(BebasNeue-Regular.ttf)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0d0405}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#0d0405}
+.layer{position:absolute;inset:0;opacity:0}
+.c{position:absolute;left:0;right:0;text-align:center}
+.anton{font-family:Anton;text-transform:uppercase;letter-spacing:2px}
+.bebas{font-family:Bebas;letter-spacing:6px}
+.img{position:absolute;inset:0;background-size:cover;background-position:center}
+.chili{color:#ffcf1a}
+.red{color:#e3191d}
+.glow{text-shadow:0 0 30px rgba(255,90,20,.85),0 0 80px rgba(227,25,29,.6)}
+.vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 40%,rgba(0,0,0,.75) 100%)}
+.shade{position:absolute;left:0;right:0;height:900px}
+.pill{display:inline-block;padding:18px 44px;border:4px solid #ffcf1a;border-radius:999px}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#grain{position:absolute;inset:-50%;opacity:.07;pointer-events:none;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#legal{position:absolute;left:0;right:0;bottom:46px;text-align:center;font-family:Bebas;font-size:34px;letter-spacing:3px;color:rgba(255,255,255,.85)}
+</style></head>
+<body><div id="stage">
+
+<!-- ESCENA 1 · Intro Loomlock -->
+<div class="layer" id="s1">
+  <div class="img" style="background:radial-gradient(circle at 50% 50%,#5a0d0f 0%,#1a0506 55%,#0d0405 100%)"></div>
+  <div id="rings" style="position:absolute;left:50%;top:50%;width:1600px;height:1600px;margin:-800px 0 0 -800px"></div>
+  <div class="c bebas chili" id="s1a" style="top:640px;font-size:64px;letter-spacing:22px">PRESENTA</div>
+  <div class="c anton glow" id="s1b" style="top:740px;font-size:230px;line-height:.95;color:#fff">LOOM<br>LOCK</div>
+  <div class="c bebas" id="s1c" style="top:1210px;font-size:92px;letter-spacing:30px;color:#ffcf1a">EXPERIENCE</div>
+</div>
+
+<!-- ESCENA 2 · Etiqueta -->
+<div class="layer" id="s2">
+  <div class="img" id="s2img" style="background-image:url(label.jpg)"></div>
+  <div class="shade" style="bottom:0;height:1100px;background:linear-gradient(to top,rgba(13,4,5,.97) 0%,rgba(13,4,5,.9) 45%,rgba(13,4,5,0) 100%)"></div>
+  <div class="c anton" id="s2a" style="bottom:470px;font-size:150px;line-height:1;color:#fff">AGRIDULCE.</div>
+  <div class="c anton chili" id="s2b" style="bottom:320px;font-size:150px;line-height:1;text-shadow:0 0 40px rgba(255,80,0,.8)">PICANTE.</div>
+  <div class="c bebas" id="s2c" style="color:#fff;bottom:220px;font-size:70px">EL SABOR DEL TAMARINDO</div>
+</div>
+
+<!-- ESCENA 3 · Botella hero -->
+<div class="layer" id="s3">
+  <div class="img" id="s3img" style="background-image:url(hero.jpg)"></div>
+  <div class="shade" style="top:0;height:700px;background:linear-gradient(to bottom,rgba(13,4,5,.85),rgba(13,4,5,0))"></div>
+  <div class="c bebas" id="s3a" style="top:120px;font-size:72px;color:#fff;letter-spacing:10px">UNA NOCHE CON</div>
+  <div class="c anton glow" id="s3b" style="top:200px;font-size:150px;line-height:1;color:#ffcf1a">TOQUE DE SABOR</div>
+  <div class="c bebas" id="s3c" style="top:380px;font-size:56px;color:#fff;letter-spacing:6px">TAMIMOSA · BLOODY MARY · SKYBALL</div>
+  <div class="vig"></div>
+</div>
+
+<!-- ESCENA 4 · Cierre -->
+<div class="layer" id="s4">
+  <div class="img" style="background:radial-gradient(circle at 50% 38%,#c8141a 0%,#6d0b0e 45%,#1a0506 100%)"></div>
+  <div id="rays" style="position:absolute;left:50%;top:40%;width:2600px;height:2600px;margin:-1300px 0 0 -1300px;
+    background:repeating-conic-gradient(rgba(255,207,26,.10) 0deg 6deg,rgba(0,0,0,0) 6deg 15deg)"></div>
+  <div class="c anton glow" id="s4a" style="top:250px;font-size:190px;line-height:.92;color:#fff">LOOMLOCK<br><span style="font-size:118px;color:#ffcf1a;letter-spacing:16px">EXPERIENCE</span></div>
+  <div class="c anton" id="s4x" style="top:640px;font-size:110px;color:#fff;opacity:.9">×</div>
+  <div class="c anton" id="s4b" style="top:780px;font-size:140px;line-height:1;color:#fff">SMIRNOFF</div>
+  <div class="c anton chili" id="s4c" style="top:920px;font-size:118px;line-height:1">SPICY TAMARINDO</div>
+  <div class="c" id="s4d" style="top:1180px"><span class="pill bebas chili" id="evDate" style="font-size:78px"></span></div>
+  <div class="c bebas" id="s4e" style="top:1340px;font-size:70px;color:#fff;letter-spacing:8px"></div>
+  <div class="c bebas" id="s4f" style="top:1450px;font-size:58px;color:#ffcf1a;letter-spacing:8px"></div>
+</div>
+
+<div id="grain"></div>
+<div id="flash"></div>
+<div id="legal">EVITA EL EXCESO · SOLO PARA MAYORES DE 18 AÑOS</div>
+</div>
+
+<script>
+/* ==== DATOS DEL EVENTO: edita aquí ==== */
+const EVENT = {
+  fecha: "SÁBADO [FECHA] · [HORA]",
+  lugar: "[LUGAR · CIUDAD]",
+  cta:   "RESERVA TU LUGAR · @LOOMLOCK"
+};
+/* ===================================== */
+document.getElementById('evDate').textContent = EVENT.fecha;
+document.getElementById('s4e').textContent = EVENT.lugar;
+document.getElementById('s4f').textContent = EVENT.cta;
+
+// anillos concéntricos de la intro
+const rings = document.getElementById('rings');
+for (let i=0;i<9;i++){const d=document.createElement('div');
+  d.style.cssText=`position:absolute;left:50%;top:50%;border-radius:50%;border:${i%2?3:6}px solid ${i%3?'#e3191d':'#ffcf1a'}`;
+  rings.appendChild(d);}
+
+const $ = id => document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease=x=>1-Math.pow(1-clamp(x),3);
+const easeIO=x=>{x=clamp(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const ramp=(t,a,b)=>clamp((t-a)/(b-a));
+// opacidad de escena con fundidos
+const vis=(t,a,b,f=.35)=>Math.min(ramp(t,a,a+f),1-ramp(t,b-f,b));
+function pop(el,t,start,dur=.5,dy=60){const p=ease(ramp(t,start,start+dur));
+  el.style.opacity=p; el.style.transform=`translateY(${(1-p)*dy}px) scale(${.9+.1*p})`;}
+function slam(el,t,start,dur=.35){const p=ramp(t,start,start+dur);
+  el.style.opacity=p>0?1:0; el.style.transform=`scale(${1+ (1-ease(p))*1.6})`;}
+
+const BEAT=0.5; // 120 bpm
+window.render = function(t){
+  // Escena 1: 0 – 3.2
+  $('s1').style.opacity = vis(t,0,3.2,.3);
+  [...rings.children].forEach((r,i)=>{const s=((t*0.45+i/9)%1);const d=s*1600;
+    r.style.width=r.style.height=d+'px';r.style.margin=`${-d/2}px 0 0 ${-d/2}px`;r.style.opacity=(1-s)*.55;});
+  pop($('s1a'),t,.15,.5,-40);
+  slam($('s1b'),t,.5,.4);
+  const g = (t>.9&&t<1.05)||(t>2.0&&t<2.08) ? 1:0; // glitch
+  $('s1b').style.textShadow = g? '-14px 0 #e3191d, 14px 0 #ffcf1a' : '';
+  pop($('s1c'),t,1.0,.5,40);
+  // Escena 2: 3.0 – 6.6
+  $('s2').style.opacity = vis(t,3.0,6.6,.3);
+  $('s2img').style.transform=`scale(${1.15-0.12*easeIO(ramp(t,3,6.6))}) translateY(${-60+80*ramp(t,3,6.6)}px)`;
+  slam($('s2a'),t,3.5,.3); slam($('s2b'),t,4.0,.3); pop($('s2c'),t,4.6,.5,40);
+  // Escena 3: 6.4 – 10.6
+  $('s3').style.opacity = vis(t,6.4,10.6,.3);
+  $('s3img').style.transform=`scale(${1.05+0.12*ramp(t,6.4,10.6)}) rotate(${(ramp(t,6.4,10.6)-.5)*2}deg)`;
+  pop($('s3a'),t,6.8,.5,-40); slam($('s3b'),t,7.2,.35); pop($('s3c'),t,8.0,.6,40);
+  // Escena 4: 10.4 – 15
+  $('s4').style.opacity = vis(t,10.4,99,.3);
+  $('rays').style.transform=`rotate(${t*8}deg)`;
+  slam($('s4a'),t,10.6,.35); pop($('s4x'),t,11.1,.4,0); pop($('s4b'),t,11.3,.45); pop($('s4c'),t,11.6,.45);
+  pop($('s4d'),t,12.2,.5); pop($('s4e'),t,12.5,.5); pop($('s4f'),t,12.8,.5);
+  // flash en cortes + pulso al beat
+  const cuts=[.5,3.5,4.0,7.2,10.6];
+  let f=0; cuts.forEach(c=>{if(t>=c&&t<c+.15) f=Math.max(f,.55*(1-(t-c)/.15));});
+  $('flash').style.opacity=f;
+  const beat = 1-((t%BEAT)/BEAT);
+  $('stage').style.transform=`scale(${1+0.006*Math.pow(beat,4)})`;
+  $('grain').style.transform=`translate(${(t*137%60)-30}px,${(t*91%60)-30}px)`;
+};
+window.render(0);
+</script>
+</body></html>
