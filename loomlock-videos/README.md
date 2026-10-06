@@ -9,3 +9,14 @@ Three 60-second videos, 60 fps, H.264 with AAC sound. They share the look of the
 | `loomlock-what-is-loomlock.mp4` | 1080×1920 (9:16) | What loomlock is: the app, the keys, the three app locks, a focus session, the totem at events and building the habit. It has its own music (warm half-time pop in D major) and its own letter-by-letter animations. |
 
 The app screens are real Loomlock iOS screens. Event and brand names show as "Your event / Your brand", and third-party app icons are blank tiles.
+
+## Invitations: loomlock × Don Julio, Thursday 29 October
+
+Two 20-second vertical (1080×1920) options, each with its own music:
+
+| File | Mood |
+|---|---|
+| `invitation-donjulio-elegant.mp4` | Elegant night: black and gold, serif type, gold dust, Locky in a spotlight, lounge jazz. |
+| `invitation-donjulio-mystery.mp4` | Mystery teaser: typed monospace lines, light through a keyhole onto Locky, logos flicker on, "29.10", a drone with a heartbeat. |
+
+Both end with "+18 · Please drink responsibly." The Don Julio logo is a public web copy recolored to gold and white; swap in the brand's official file before publishing.
