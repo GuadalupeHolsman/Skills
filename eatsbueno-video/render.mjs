@@ -1,6 +1,7 @@
 // Renders index.html frame-by-frame with Playwright and encodes with ffmpeg.
 // Usage: node render.mjs [out.mp4] [fps]          (full film)
 //        node render.mjs --stills 1,5,12 outdir    (PNG stills at given seconds)
+//        node render.mjs --meta meta.json          (tap/key/cut times for music.py)
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
 import path from 'node:path';
@@ -15,11 +16,15 @@ const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, de
 await page.goto(page_url);
 await page.evaluate(() => window.__ready);
 
-if (args[0] === '--stills') {
+if (args[0] === '--meta') {
+  const fs = await import('node:fs');
+  fs.writeFileSync(args[1] || 'meta.json', JSON.stringify(await page.evaluate(() => window.META), null, 1));
+} else if (args[0] === '--stills') {
   const times = args[1].split(',').map(Number);
   const outDir = args[2] || '.';
   for (const t of times) {
     await page.evaluate((t) => window.__seek(t), t);
+    await page.waitForTimeout(200);
     await page.screenshot({ path: path.join(outDir, `still_${String(t).replace('.', '_')}.png`) });
   }
 } else {

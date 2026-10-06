@@ -1,45 +1,53 @@
 # EatsBueno — motion graphics product film
 
-A 47-second, 1920×1080 / 30 fps product video for the EatsBueno app. It is built with the
+A 60-second, 1920×1080 / 30 fps product video for the EatsBueno app. It is built with the
 brandbook's palette, isotype, wordmark and verbal universe, plus the real app screens from
-`EatsBueno_App_Assests.zip`.
+`EatsBueno_App_Assests.zip`. Most of the runtime is a live app walkthrough: one continuous phone
+with taps (finger and ripple), typing, scrolling, screen transitions and camera zoom-ins on the UI.
+Each tap and keystroke has a sound.
 
 **Output:** `eatsbueno_product_video.mp4` (H.264 + AAC)
 
 ## Storyboard
 
-| Time | Scene | Content |
+| Time | Scene | Interaction |
 |---|---|---|
-| 0–4.7s | Logo reveal | The eight "seeds" spin in and bloom into the isotype, then the wordmark wipes in (orange brand gradient) |
-| 4.7–10s | Brand idea | *EatsBurger · EatsSalad · EatsAnything* → *just* **EatsBueno** |
-| 10–15.7s | Manifesto | "Forget strict diets." → "No 'bad' foods. No guilt." → "Just smarter choices." |
-| 15.7–22.6s | Personalization | "Built around you": the onboarding flow (welcome → goal → height → weight → activity → "Hello, Srushti") |
-| 22.6–29s | Core features | "Every bite, made simple.": meal logging, AI home and barcode scanner |
-| 29–35s | AI coach | "A coach that speaks human.": coach conversation with animated chat bubbles |
-| 35–41s | Habits | "Celebrate small victories.": hydration, sleep and monthly stats with counters, plus a milestone toast |
-| 41–47s | End card | Logo lockup, "A healthier life, your way.", "No diets · No guilt · Just good" |
+| 0–4.4s | Logo reveal | The eight "seeds" spin in and bloom into the isotype, then the wordmark wipes in |
+| 4.4–9s | Brand idea | *EatsBurger · EatsSalad · EatsAnything* → *just* **EatsBueno** |
+| 9–19.6s | 1 · Get started: "Built around you." | Tap *Create an Account* → pick a goal → *Continue* through height, weight and activity → zoom on "Hello, Srushti" |
+| 19.6–30.6s | 2 · AI coach: "A coach that speaks human." | Zoom in and tap energy *High* → type "Suggest some good lunch options" → send → the coach's answer streams in while the camera follows |
+| 30.6–43.4s | 3 · Log in seconds: "Scan it. Log it. Done." | Tap **+** → *Product* → barcode scan (scan line and flash) → product card → *Log meal* → journal → open the meal detail and scroll |
+| 43.4–54s | 4 · Build habits: "Celebrate small victories." | *Add record* fills the water glass → *Add Sleep Log* → zoom on 8.0 hours → monthly stats, plus a "Keep it up!" milestone |
+| 54–60s | End card | Logo lockup, "A healthier life, your way.", "No diets · No guilt · Just good" |
 
-Brand colors used: `#E26023` orange, `#3B7668` green, `#FAF0DF` cream, `#AFCFC4` mint,
-`#F9F4F2` paper and `#1E1E1E` ink. The isotype is the exact vector from the brandbook. The
-wordmark is traced from the brandbook at high resolution. Type is Fraunces (a soft serif,
-standing in for Cooper BT) with Manrope.
+## Brand
+
+- **Colors:** `#E26023` orange, `#3B7668` green, `#FAF0DF` cream, `#AFCFC4` mint, `#F9F4F2` paper and `#1E1E1E` ink.
+- **Logo:** the isotype is the exact vector from the brandbook, and the wordmark is traced from it at high resolution.
+- **Type:** Cooper. Bitstream's Cooper BT is a commercial font, so the film uses
+  [Cooper*](https://github.com/indestructible-type/Cooper), an OFL-licensed revival of the same Oswald
+  Cooper family (`assets/fonts/Cooper-OFL.txt`). Manrope is used for body text, as in the brandbook.
+  If you have licensed Cooper BT files, replace `assets/fonts/cooper*.woff2` (or edit the
+  `@font-face` rules) and re-render.
 
 ## Files
 
 - `index.html`: the animated composition (GSAP timeline). Open it in a browser to preview it live (it loops).
-- `render.mjs`: renders the composition frame by frame with Playwright and pipes the frames to ffmpeg.
-- `music.py`: synthesizes the original soundtrack (pad, plucks, soft beat and whooshes timed to the cuts).
-- `assets/`: screens, fonts, logo assets and `music.wav`.
+- `render.mjs`: renders the composition frame by frame with Playwright and pipes the frames to ffmpeg. It also exports the timing metadata.
+- `music.py`: synthesizes the original soundtrack. Whooshes, UI taps and keyboard ticks are synced from `assets/meta.json`.
+- `assets/`: screens, fonts, logo assets, `meta.json` and `music.wav`.
 
 ## Re-render
 
 ```bash
 npm i playwright            # or link a global install
-python3 music.py assets/music.wav
+node render.mjs --meta assets/meta.json
+python3 music.py assets/music.wav assets/meta.json
 node render.mjs silent.mp4 30
 ffmpeg -i silent.mp4 -i assets/music.wav -c:v copy -c:a aac -b:a 192k -shortest eatsbueno_product_video.mp4
 # stills for review:
 node render.mjs --stills 3.5,12,26 ./stills
 ```
 
-Copy and timings live in `index.html`. Change the text or the times in the timeline section, then re-render.
+Tap positions, zoom targets and timings live in the timeline section of `index.html`. The
+`tap(x, y, t)` and `zoom(x, y, scale, t)` helpers take screen-relative coordinates from 0 to 1.

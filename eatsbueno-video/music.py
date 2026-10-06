@@ -1,15 +1,17 @@
 """Synthesizes the film's original soundtrack (warm pad + plucks + soft beat + transition whooshes).
 
-Usage: python3 music.py out.wav
-Timing matches the scene cuts in index.html.
+Usage: python3 music.py out.wav [meta.json]
+Timing (scene cuts, taps, key presses) comes from meta.json, exported with `node render.mjs --meta`.
 """
+import json
 import sys
 import wave
 
 import numpy as np
 
+META = json.load(open(sys.argv[2] if len(sys.argv) > 2 else "assets/meta.json"))
 SR = 44100
-DUR = 47.0
+DUR = float(META["duration"])
 BPM = 100
 BEAT = 60 / BPM
 N = int(SR * DUR)
@@ -105,11 +107,23 @@ for b in range(bars):
             add(kick(), b * BAR + i * BEAT, gain=0.32)
             add(shaker(), b * BAR + i * BEAT + BEAT / 2, pan=0.4, gain=0.05)
 
+
+def click(f=1800, length=0.06):
+    n = int(length * SR)
+    tt = np.arange(n) / SR
+    return (np.sin(2 * np.pi * f * tt) * 0.6 + rng.standard_normal(n) * 0.25) * np.exp(-tt * 90)
+
+
 # transition whooshes, landing on each cut
-for cut in [4.0, 9.6, 14.95, 22.0, 28.4, 34.6, 40.3]:
-    add(whoosh(), cut - 0.15, gain=0.12)
+for cut in META["cuts"]:
+    add(whoosh(), cut - 0.6, gain=0.12)
+# UI taps (soft "tock") and keyboard ticks
+for tp in META["taps"]:
+    add(click(1400, 0.08), tp, gain=0.32)
+for kp in META["keys"]:
+    add(click(3200 + rng.integers(-300, 300), 0.03), kp, pan=float(rng.uniform(-0.2, 0.2)), gain=0.12)
 # bell-like chime on the logo reveals
-for tt0 in [1.3, 41.15]:
+for tt0 in META["logo"]:
     for m, g in [(77, 0.12), (84, 0.06), (89, 0.03)]:
         add(pluck(m, 2.5), tt0, gain=g)
 

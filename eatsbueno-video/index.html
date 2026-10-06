@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=1920, height=1080">
 <title>EatsBueno Product Film</title>
 <style>
-  @font-face { font-family: "Fraunces"; font-style: normal; font-weight: 100 900; font-display: block; src: url(assets/fonts/fraunces.woff2) format("woff2"); }
-  @font-face { font-family: "Fraunces"; font-style: italic; font-weight: 100 900; font-display: block; src: url(assets/fonts/fraunces-italic.woff2) format("woff2"); }
+  /* Cooper* (OFL revival of the Cooper family, matching the brand's Cooper BT) */
+  @font-face { font-family: "Cooper"; font-style: normal; font-weight: 300 900; font-display: block; src: url(assets/fonts/cooper.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: italic; font-weight: 300 900; font-display: block; src: url(assets/fonts/cooper-italic.woff2) format("woff2"); }
   @font-face { font-family: "Manrope"; font-style: normal; font-weight: 200 800; font-display: block; src: url(assets/fonts/manrope.woff2) format("woff2"); }
 
   :root {
@@ -24,51 +25,53 @@
   #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); font-family: "Manrope", sans-serif; color: var(--ink); }
   .scene { position: absolute; inset: 0; overflow: hidden; visibility: hidden; }
   .abs { position: absolute; }
-  .serif, .label, .stat .n, .bubble b { font-family: "Fraunces", serif; font-optical-sizing: none; font-variation-settings: "opsz" 28, "SOFT" 100, "WONK" 0; }
-  .it { font-style: italic; font-weight: 400; }
+  .serif { font-family: "Cooper", serif; }
+  .it { font-style: italic; font-weight: 300; }
   .b { font-weight: 700; }
   .blob { position: absolute; border-radius: 50%; filter: blur(90px); will-change: transform; }
-  .grain { position: absolute; inset: 0; pointer-events: none; opacity: .16; mix-blend-mode: overlay; z-index: 50; }
+  .grain { position: absolute; inset: 0; pointer-events: none; opacity: .12; mix-blend-mode: overlay; z-index: 50; }
   .eyebrow { font-family: "Manrope"; font-weight: 700; font-size: 20px; letter-spacing: .22em; text-transform: uppercase; }
   .word { display: inline-block; will-change: transform; }
   .line { display: block; overflow: hidden; padding-bottom: .12em; }
 
-  /* logo pieces */
   .flower svg { width: 100%; height: 100%; display: block; overflow: visible; }
   .wordmark { -webkit-mask: var(--wm) center / contain no-repeat; mask: var(--wm) center / contain no-repeat; background: var(--cream); aspect-ratio: 1174 / 194; }
   .seed { position: absolute; border-radius: 50%; background: var(--cream); }
 
-  /* phone */
-  .phone { position: absolute; width: 412px; height: 878px; border-radius: 66px; background: #111; padding: 13px;
-           box-shadow: 0 60px 120px -30px rgba(20,40,34,.45), 0 20px 40px -20px rgba(0,0,0,.35), inset 0 0 0 2px #2b2b2b; will-change: transform; }
-  .phone .screen { position: relative; width: 100%; height: 100%; border-radius: 54px; overflow: hidden; background: #e9efe9; }
-  .phone .screen img { position: absolute; left: 0; top: 0; width: 100%; height: auto; display: block; }
-  .phone .island { position: absolute; top: 26px; left: 50%; width: 112px; height: 32px; margin-left: -56px; border-radius: 20px; background: #000; z-index: 3; }
+  /* ---- persistent phone ---- */
+  #cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; will-change: transform; z-index: 5; }
+  #phone { position: absolute; left: 1020px; top: 61px; width: 458px; height: 958px; border-radius: 70px; background: #111; padding: 14px;
+           box-shadow: 0 70px 140px -40px rgba(20,40,34,.5), 0 24px 48px -24px rgba(0,0,0,.4), inset 0 0 0 2px #2b2b2b; }
+  #screen { position: relative; width: 430px; height: 930px; border-radius: 57px; overflow: hidden; background: #eef3ef; }
+  .island { position: absolute; top: 12px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: #000; z-index: 90; }
+  .scr { position: absolute; inset: 0; opacity: 0; will-change: transform; background: #eef3ef; }
+  .scr > img { position: absolute; left: 0; top: 0; width: 430px; height: auto; display: block; }
+  .hl { position: absolute; border: 3px solid var(--orange); border-radius: 16px; background: rgba(226,96,35,.08); opacity: 0; }
+  #finger { position: absolute; left: 0; top: 0; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; z-index: 95; opacity: 0;
+            background: radial-gradient(circle, rgba(255,255,255,.85) 0%, rgba(255,255,255,.55) 60%, rgba(255,255,255,.35) 100%);
+            border: 2px solid rgba(30,30,30,.18); box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+  #ripple { position: absolute; left: 0; top: 0; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; z-index: 94; opacity: 0; border: 3px solid rgba(226,96,35,.9); }
+  .pill { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; background: #1E1E1E; color: #fff; font: 600 15px Manrope; padding: 12px 20px; border-radius: 999px; opacity: 0; box-shadow: 0 10px 24px rgba(0,0,0,.25); }
 
-  .label { font-family: "Fraunces"; font-size: 34px; font-weight: 600; text-align: center; color: var(--deep); }
-  .sub { font-family: "Manrope"; font-size: 20px; font-weight: 500; text-align: center; color: #5b6b66; margin-top: 6px; }
-
-  .bubble { position: absolute; font-family: "Manrope"; font-size: 26px; line-height: 1.4; padding: 22px 30px; border-radius: 30px; max-width: 640px; will-change: transform; }
-  .bubble.user { background: var(--cream); color: var(--deep); font-weight: 700; border-bottom-right-radius: 8px; }
-  .bubble.coach { background: rgba(255,255,255,.12); color: var(--cream); border: 1.5px solid rgba(250,240,223,.35); border-bottom-left-radius: 8px; }
-  .dots span { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--cream); margin: 0 4px; }
+  /* captions */
+  .cap { position: absolute; left: 150px; top: 330px; width: 720px; opacity: 0; z-index: 4; }
+  .cap .num { font-family: "Cooper"; font-weight: 700; font-size: 26px; display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; margin-right: 16px; vertical-align: middle; }
+  .cap .eyebrow { display: inline-block; vertical-align: middle; }
+  .cap h2 { font-family: "Cooper"; font-weight: 700; font-size: 100px; line-height: 1.02; margin-top: 30px; letter-spacing: -.01em; }
+  .cap h2 i { font-weight: 300; }
+  .cap p { font-size: 30px; line-height: 1.45; margin-top: 30px; max-width: 640px; }
+  .bg { position: absolute; inset: 0; opacity: 0; }
 
   .toast { position: absolute; display: flex; align-items: center; gap: 22px; background: #fff; border-radius: 28px; padding: 22px 30px 22px 22px;
-           box-shadow: 0 30px 60px -20px rgba(30,30,30,.25); font-family: "Manrope"; }
+           box-shadow: 0 30px 60px -20px rgba(30,30,30,.3); font-family: "Manrope"; z-index: 20; }
   .toast .ic { width: 64px; height: 64px; border-radius: 18px; background: var(--green); display: grid; place-items: center; flex: none; }
-  .toast .t1 { font-weight: 800; font-size: 22px; color: var(--deep); }
+  .toast .t1 { font-family: "Cooper"; font-weight: 700; font-size: 26px; color: var(--deep); }
   .toast .t2 { font-weight: 500; font-size: 20px; color: #5b6b66; margin-top: 2px; }
-
-  .stat { text-align: center; }
-  .stat .n { font-family: "Fraunces"; font-weight: 700; font-size: 64px; color: var(--deep); line-height: 1; }
-  .stat .n i { font-weight: 400; font-size: 40px; }
-  .stat .k { font-family: "Manrope"; font-weight: 700; font-size: 18px; letter-spacing: .18em; text-transform: uppercase; color: var(--orange); margin-top: 10px; }
 </style>
 </head>
 <body>
 <div id="stage">
 
-  <!-- shared grain -->
   <svg class="grain" width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
     <filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
     <rect width="100%" height="100%" filter="url(#n)"/>
@@ -96,88 +99,97 @@
     <div class="abs wordmark" id="s2-word" style="left:1196px;top:790px;width:640px;background:var(--ink)"></div>
   </section>
 
-  <!-- S3 · Manifesto -->
-  <section class="scene" id="s3" style="background:var(--orange)">
-    <div class="blob" style="width:900px;height:1300px;left:560px;top:-200px;background:radial-gradient(ellipse,#F6B36F 0%,#EF8F4C 40%,transparent 70%)" data-drift></div>
-    <div class="blob" style="width:600px;height:600px;left:1150px;top:560px;background:radial-gradient(circle,#E58BB0 0%,transparent 70%)" data-drift></div>
-    <div id="s3-flower" class="abs flower" style="left:120px;top:110px;width:130px;height:130px;color:var(--cream)"></div>
-    <div class="abs serif" style="left:0;right:0;top:0;bottom:0;display:grid;place-items:center;text-align:center;color:var(--cream)">
-      <div style="position:relative;width:1600px;height:360px">
-        <div class="abs s3-card" style="inset:0;display:grid;place-items:center"><div class="b" style="font-size:132px;line-height:1.05">Forget strict diets.</div></div>
-        <div class="abs s3-card" style="inset:0;display:grid;place-items:center"><div style="font-size:112px;line-height:1.1"><span class="b">No ‘bad’ foods.</span><br><span class="it">No guilt.</span></div></div>
-        <div class="abs s3-card" style="inset:0;display:grid;place-items:center"><div style="font-size:112px;line-height:1.1"><span class="it">Just</span> <span class="b">smarter choices.</span></div></div>
+  <!-- APP · one continuous phone, four chapters -->
+  <section class="scene" id="app">
+    <div class="bg" id="bgA" style="background:linear-gradient(160deg,#EEF3EC 0%,#D5E6DD 55%,#BFD9CF 100%)"></div>
+    <div class="bg" id="bgB" style="background:radial-gradient(120% 120% at 80% 20%,#4C8A7A 0%,#3B7668 40%,#24493F 100%)"></div>
+    <div class="bg" id="bgC" style="background:var(--cream)"><div class="blob" style="width:1100px;height:900px;left:700px;top:200px;background:radial-gradient(ellipse,#F6B47E 0%,rgba(250,240,223,0) 70%)"></div></div>
+    <div class="bg" id="bgD" style="background:var(--paper)"><div class="blob" style="width:1100px;height:900px;left:700px;top:-200px;background:radial-gradient(ellipse,#CFE3DA 0%,rgba(249,244,242,0) 70%)"></div></div>
+
+    <div class="cap" id="capA" style="color:var(--deep)">
+      <span class="num" style="background:var(--green);color:var(--cream)">1</span><span class="eyebrow" style="color:var(--green)">Get started</span>
+      <h2>Built <i>around you.</i></h2>
+      <p style="color:#3d4f4a">Tell us your goal, your body and your routine. EatsBueno adapts to your world.</p>
+    </div>
+    <div class="cap" id="capB" style="color:var(--cream)">
+      <span class="num" style="background:var(--cream);color:var(--deep)">2</span><span class="eyebrow" style="color:var(--mint)">Your AI coach</span>
+      <h2>A coach that <i>speaks human.</i></h2>
+      <p style="color:rgba(250,240,223,.85)">Ask anything and get ideas that fit your taste, your budget and your day.</p>
+    </div>
+    <div class="cap" id="capC" style="color:var(--ink)">
+      <span class="num" style="background:var(--orange);color:var(--cream)">3</span><span class="eyebrow" style="color:var(--orange)">Log in seconds</span>
+      <h2>Scan it. Log it. <i>Done.</i></h2>
+      <p style="color:#4b4b4b">Barcode scanning, smart macros and a food journal that keeps up with you.</p>
+    </div>
+    <div class="cap" id="capD" style="color:var(--deep)">
+      <span class="num" style="background:var(--green);color:var(--cream)">4</span><span class="eyebrow" style="color:var(--green)">Build habits</span>
+      <h2>Celebrate <i>small victories.</i></h2>
+      <p style="color:#3d4f4a">Water, sleep and progress: consistency over perfection.</p>
+    </div>
+
+    <div class="toast" id="milestone" style="left:150px;top:820px;width:720px;opacity:0">
+      <div class="ic"><div class="flower" style="width:40px;height:40px;color:var(--cream)"></div></div>
+      <div><div class="t1">Keep it up!</div><div class="t2">You’ve logged your meals for three days straight. You’re building a great habit.</div></div>
+    </div>
+
+    <div id="cam">
+      <div id="phone">
+        <div id="screen">
+          <div class="island"></div>
+
+          <div class="scr" id="Welcome"><img src="assets/screens/Welcome.jpg"></div>
+          <div class="scr" id="Step1"><img src="assets/screens/Onboarding_Step1.jpg"><div class="hl" id="hl-goal" style="left:41%;top:75.5%;width:18%;height:8.4%"></div></div>
+          <div class="scr" id="Step2"><img src="assets/screens/Onboarding_Step2.jpg"></div>
+          <div class="scr" id="Step3"><img src="assets/screens/Onboarding_Step3.jpg"></div>
+          <div class="scr" id="Step6"><img src="assets/screens/Onboarding_Step6.jpg"></div>
+          <div class="scr" id="Step7"><img src="assets/screens/Onboarding_Step7.jpg"></div>
+
+          <div class="scr" id="Home"><img src="assets/screens/Home_EnergyCheckIn.jpg">
+            <div class="hl" id="hl-high" style="left:64.5%;top:33.6%;width:30%;height:7.4%"></div>
+            <div class="abs" style="left:8%;top:76.2%;width:70%;height:3.3%;background:#fff"></div>
+            <div class="abs" id="typed" style="left:9.2%;top:76.2%;height:3.3%;display:flex;align-items:center;font:500 15px Manrope;color:#1E1E1E;white-space:nowrap"><span id="typed-txt" style="color:#a9a9a9">ask me what you want</span><span id="caret" style="display:inline-block;width:2px;height:18px;background:#3B7668;margin-left:1px;opacity:0"></span></div>
+          </div>
+          <div class="scr" id="Quick"><img src="assets/screens/Home_QuickActions.jpg"></div>
+          <div class="scr" id="Coach"><img id="coach-img" src="assets/screens/Coach_Conversation.jpg">
+            <div class="abs" id="coach-cover" style="left:0;right:0;top:19%;height:64.6%;background:linear-gradient(#E6EFEA 0%,#F6F9F5 45%,#F6F9F5 100%);transform-origin:50% 100%">
+              <div class="abs" id="coach-dots" style="left:7%;top:3%;display:flex;gap:6px;padding:12px 16px;background:#fff;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.06)">
+                <span style="width:9px;height:9px;border-radius:50%;background:#3B7668"></span><span style="width:9px;height:9px;border-radius:50%;background:#3B7668"></span><span style="width:9px;height:9px;border-radius:50%;background:#3B7668"></span>
+              </div>
+            </div>
+          </div>
+          <div class="scr" id="Scanner"><img src="assets/screens/Scanner_Barcode.jpg">
+            <div class="abs" id="scanline" style="left:6%;width:88%;top:32%;height:4px;border-radius:4px;background:#E26023;box-shadow:0 0 18px 4px rgba(226,96,35,.75);opacity:0"></div>
+            <div class="abs" id="scanflash" style="left:0;right:0;top:11%;height:73%;background:#fff;opacity:0"></div>
+            <div class="hl" id="hl-product" style="left:3%;top:84.2%;width:94%;height:7.2%"></div>
+            <div class="pill" id="pill-logged" style="top:80%">✓ Added to your journal</div>
+          </div>
+          <div class="scr" id="Journal"><img src="assets/screens/Journal_DailyLog.jpg"><div class="hl" id="hl-lunch" style="left:3%;top:76.4%;width:94%;height:9.4%"></div></div>
+          <div class="scr" id="Food"><img id="food-img" src="assets/screens/Journal_FoodDetail.jpg"></div>
+          <div class="scr" id="Hyd1"><img src="assets/screens/Hydration_FirstUse.jpg"></div>
+          <div class="scr" id="Hyd2" style="background:transparent"><img src="assets/screens/Hydration_InProgress.jpg"></div>
+          <div class="scr" id="Sleep1"><img src="assets/screens/SleepRecovery_Clean.jpg"></div>
+          <div class="scr" id="Sleep2"><img src="assets/screens/SleepRecovery.jpg"></div>
+          <div class="scr" id="Stats"><img src="assets/screens/Statistics_Month.jpg"></div>
+
+          <div id="ripple"></div>
+          <div id="finger"></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- S4 · Onboarding -->
-  <section class="scene" id="s4" style="background:linear-gradient(160deg,#EEF3EC 0%,#D5E6DD 55%,#BFD9CF 100%)">
-    <div class="blob" style="width:900px;height:900px;left:980px;top:120px;background:radial-gradient(circle,rgba(255,255,255,.85) 0%,transparent 70%)" data-drift></div>
-    <div class="abs" style="left:150px;top:300px;width:860px">
-      <div class="eyebrow s4-in" style="color:var(--green)">Personal from day one</div>
-      <div class="serif s4-in" style="font-size:112px;line-height:1.02;margin-top:26px;color:var(--deep);white-space:nowrap"><span class="b">Built</span> <span class="it">around you.</span></div>
-      <div class="s4-in" style="font-size:32px;line-height:1.45;margin-top:34px;color:#3d4f4a;max-width:760px">Tell us your tastes, your culture and your routine. EatsBueno adapts to your world&nbsp;— not the other way around.</div>
-      <div class="s4-in" id="s4-steps" style="display:flex;gap:12px;margin-top:48px"></div>
-    </div>
-    <div class="phone" id="s4-phone" style="left:1270px;top:101px">
-      <div class="island"></div>
-      <div class="screen" id="s4-screen"></div>
-    </div>
-  </section>
-
-  <!-- S5 · Features trio -->
-  <section class="scene" id="s5" style="background:var(--cream)">
-    <div class="blob" style="width:1300px;height:700px;left:300px;top:420px;background:radial-gradient(ellipse,#F6C08F 0%,rgba(250,240,223,0) 70%)" data-drift></div>
-    <div class="abs serif s5-head" style="left:0;right:0;top:64px;text-align:center;font-size:76px;color:var(--ink)"><span class="b">Every bite,</span> <span class="it">made simple.</span></div>
-    <div class="phone s5-phone" id="s5-p1" style="left:300px;top:230px;transform-origin:50% 100%"><div class="island"></div><div class="screen"><img src="assets/screens/Journal_FoodDetail.jpg"></div></div>
-    <div class="phone s5-phone" id="s5-p2" style="left:754px;top:190px;transform-origin:50% 100%"><div class="island"></div><div class="screen"><img src="assets/screens/Home_EnergyCheckIn.jpg"></div></div>
-    <div class="phone s5-phone" id="s5-p3" style="left:1208px;top:230px;transform-origin:50% 100%"><div class="island"></div><div class="screen"><img src="assets/screens/Scanner_Barcode.jpg"></div></div>
-  </section>
-
-  <!-- S6 · AI Coach -->
-  <section class="scene" id="s6" style="background:radial-gradient(120% 120% at 80% 20%,#4C8A7A 0%,#3B7668 40%,#24493F 100%)">
-    <div class="blob" style="width:800px;height:800px;left:-100px;top:400px;background:radial-gradient(circle,rgba(175,207,196,.55) 0%,transparent 70%)" data-drift></div>
-    <div class="phone" id="s6-phone" style="left:190px;top:101px"><div class="island"></div><div class="screen"><img id="s6-img" src="assets/screens/Coach_Conversation.jpg"></div></div>
-    <div class="abs" style="left:800px;top:120px;width:960px;color:var(--cream)">
-      <div class="eyebrow s6-in" style="color:var(--mint)">Your AI wellness coach</div>
-      <div class="serif s6-in" style="font-size:100px;line-height:1.02;margin-top:22px"><span class="b">A coach that</span><br><span class="it">speaks human.</span></div>
-    </div>
-    <div class="bubble user" id="s6-b1" style="right:180px;top:500px">Suggest some good lunch options</div>
-    <div class="bubble coach dots" id="s6-dots" style="left:800px;top:630px;padding:26px 30px"><span></span><span></span><span></span></div>
-    <div class="bubble coach" id="s6-b2" style="left:800px;top:630px;width:860px;max-width:860px">Nice — let’s pick lunches that are filling, balanced and realistic for a workday. 🥗</div>
-    <div class="abs" id="s6-chips" style="left:800px;top:820px;display:flex;gap:14px;flex-wrap:wrap;width:960px"></div>
-  </section>
-
-  <!-- S7 · Habits -->
-  <section class="scene" id="s7" style="background:var(--paper)">
-    <div class="blob" style="width:1100px;height:800px;left:420px;top:-300px;background:radial-gradient(ellipse,#CFE3DA 0%,rgba(249,244,242,0) 70%)" data-drift></div>
-    <div class="abs serif s7-head" style="left:0;right:0;top:56px;text-align:center;font-size:76px"><span class="b">Celebrate</span> <span class="it">small victories.</span></div>
-    <div class="phone s7-phone" style="left:236px;top:200px;width:330px;height:703px;border-radius:54px;padding:11px"><div class="screen" style="border-radius:44px">
-      <img src="assets/screens/Hydration_FirstUse.jpg"><img id="s7-hyd2" src="assets/screens/Hydration_InProgress.jpg" style="opacity:0"></div></div>
-    <div class="phone s7-phone" style="left:795px;top:200px;width:330px;height:703px;border-radius:54px;padding:11px"><div class="screen" style="border-radius:44px"><img src="assets/screens/SleepRecovery.jpg"></div></div>
-    <div class="phone s7-phone" style="left:1354px;top:200px;width:330px;height:703px;border-radius:54px;padding:11px"><div class="screen" style="border-radius:44px"><img src="assets/screens/Statistics_Month.jpg"></div></div>
-    <div class="abs stat s7-stat" style="left:186px;top:930px;width:430px"><div class="n"><span class="cnt" data-to="8" data-dec="0">0</span><i> glasses</i></div><div class="k">Hydration</div></div>
-    <div class="abs stat s7-stat" style="left:745px;top:930px;width:430px"><div class="n"><span class="cnt" data-to="8" data-dec="1">0</span><i> hours</i></div><div class="k">Sleep &amp; recovery</div></div>
-    <div class="abs stat s7-stat" style="left:1304px;top:930px;width:430px"><div class="n"><span class="cnt" data-to="29" data-dec="0">0</span><i> days</i></div><div class="k">Monthly progress</div></div>
-    <div class="toast" id="s7-toast" style="left:560px;top:-140px;width:800px">
-      <div class="ic"><div class="flower" style="width:40px;height:40px;color:var(--cream)"></div></div>
-      <div><div class="t1">Keep it up!</div><div class="t2">You’ve logged your meals for three days straight. You’re building a great habit.</div></div>
-    </div>
-  </section>
-
-  <!-- S8 · End card -->
+  <!-- END card -->
   <section class="scene" id="s8" style="background:#E26023">
     <div class="blob" style="width:1500px;height:1100px;left:-200px;top:0;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)" data-drift></div>
     <div class="blob" style="width:900px;height:700px;left:300px;top:380px;background:radial-gradient(circle,#E27A78 0%,transparent 70%)" data-drift></div>
     <div id="s8-flower" class="abs flower" style="left:840px;top:190px;width:240px;height:240px;color:var(--cream)"></div>
     <div id="s8-word" class="abs wordmark" style="left:660px;top:470px;width:600px"></div>
-    <div class="abs serif it" id="s8-tag" style="left:0;right:0;top:640px;text-align:center;font-size:54px;color:var(--cream)">A healthier life, your way.</div>
+    <div class="abs serif it" id="s8-tag" style="left:0;right:0;top:640px;text-align:center;font-size:56px;color:var(--cream)">A healthier life, your way.</div>
     <div class="abs" id="s8-cta" style="left:0;right:0;top:770px;text-align:center">
       <span style="display:inline-block;padding:20px 44px;border-radius:999px;border:2px solid rgba(250,240,223,.7);font-family:Manrope;font-weight:700;font-size:24px;letter-spacing:.2em;text-transform:uppercase;color:var(--cream)">No diets · No guilt · Just good</span>
     </div>
   </section>
 
-  <!-- circle wipe used between scenes -->
   <div id="wipe" class="abs" style="left:960px;top:540px;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;z-index:40;visibility:hidden"></div>
 </div>
 
@@ -186,13 +198,12 @@
 <script src="assets/wordmark.js"></script>
 <script>
 (() => {
-  const VB = "411 96 618 618", CX = 720, CY = 405, R = 309;      // flower geometry (from brandbook vector)
+  const VB = "411 96 618 618", CX = 720, CY = 405;      // flower geometry (from brandbook vector)
   const HOLES = [[784.4,165.3],[596.1,189.9],[480.3,340.4],[504.9,528.6],[655.4,644.4],[843.6,619.9],[959.4,469.4],[934.9,281.1]];
   const flowerSVG = `<svg viewBox="${VB}" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="${FLOWER_D}"/></svg>`;
   document.querySelectorAll('.flower').forEach(el => el.innerHTML = flowerSVG);
   document.documentElement.style.setProperty('--wm', `url(${WORDMARK_URI})`);
 
-  // seeds for intro: positioned as the flower's eight holes, scaled to the 360px flower
   const seedsBox = document.getElementById('s1-seeds');
   const k = 360 / 618;
   const seeds = HOLES.map(([x, y]) => {
@@ -206,179 +217,224 @@
     return s;
   });
 
-  // onboarding screens
-  const S4 = ['Welcome','Onboarding_Step1','Onboarding_Step2','Onboarding_Step3','Onboarding_Step6','Onboarding_Step7'];
-  const scr = document.getElementById('s4-screen');
-  const stepsBar = document.getElementById('s4-steps');
-  S4.forEach((n, i) => {
-    const img = document.createElement('img');
-    img.src = `assets/screens/${n}.jpg`;
-    img.className = 's4-img';
-    scr.appendChild(img);
-    const pip = document.createElement('div');
-    pip.className = 's4-pip';
-    pip.style.cssText = 'height:8px;width:44px;border-radius:8px;background:rgba(59,118,104,.22);overflow:hidden';
-    pip.innerHTML = '<div style="height:100%;width:100%;background:#3B7668;transform-origin:0 50%;transform:scaleX(0)"></div>';
-    stepsBar.appendChild(pip);
-  });
-
-  const chips = ['Turkey croissant + side salad', 'Grilled chicken bowl', 'Hearty soup + whole-grain bread'];
-  const chipBox = document.getElementById('s6-chips');
-  chips.forEach(c => {
-    const el = document.createElement('div');
-    el.className = 's6-chip';
-    el.style.cssText = 'padding:14px 24px;border-radius:999px;background:rgba(250,240,223,.14);border:1.5px solid rgba(250,240,223,.3);color:#FAF0DF;font:600 22px Manrope';
-    el.textContent = c;
-    chipBox.appendChild(el);
-  });
-
-  // ---------- timeline ----------
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+  const TAPS = [], KEYS = [], CUTS = [];
   const show = (id, t) => tl.set('#' + id, { visibility: 'visible' }, t);
   const hide = (id, t) => tl.set('#' + id, { visibility: 'hidden' }, t);
+  const wipe = (color, t) => {
+    CUTS.push(t + 0.6);
+    tl.set('#wipe', { visibility: 'visible', background: color, scale: 0 }, t);
+    tl.to('#wipe', { scale: 260, duration: 0.75, ease: 'power3.in' }, t);
+    tl.set('#wipe', { visibility: 'hidden' }, t + 0.76);
+  };
 
-  // ambient drift for all blobs across the whole film
   document.querySelectorAll('[data-drift]').forEach((b, i) => {
     tl.fromTo(b, { x: (i % 2 ? -60 : 60), y: (i % 3 ? 40 : -40), scale: 1 },
-                 { x: (i % 2 ? 80 : -80), y: (i % 3 ? -50 : 50), scale: 1.12, ease: 'sine.inOut', duration: 47 }, 0);
+                 { x: (i % 2 ? 80 : -80), y: (i % 3 ? -50 : 50), scale: 1.12, ease: 'sine.inOut', duration: 60 }, 0);
   });
 
-  // S1 · 0 → 4.6
+  // ---------- phone helpers ----------
+  const SW = 430, SH = 930, PX = 1020 + 14, PY = 61 + 14;
+  let z = 1;
+  const enter = (id, t, how = 'push', from = null) => {
+    const el = '#' + id;
+    tl.set(el, { zIndex: ++z, opacity: 1, xPercent: 0, yPercent: 0, scale: 1, filter: 'brightness(1)' }, t);
+    if (how === 'push') {
+      tl.fromTo(el, { xPercent: 100 }, { xPercent: 0, duration: 0.55, ease: 'power3.inOut' }, t);
+      if (from) tl.to('#' + from, { xPercent: -30, filter: 'brightness(.8)', duration: 0.55, ease: 'power3.inOut' }, t);
+    } else if (how === 'back') {
+      tl.fromTo(el, { xPercent: -30, filter: 'brightness(.8)' }, { xPercent: 0, filter: 'brightness(1)', duration: 0.55, ease: 'power3.inOut' }, t);
+      if (from) { tl.set('#' + from, { zIndex: ++z }, t); tl.to('#' + from, { xPercent: 100, duration: 0.55, ease: 'power3.inOut' }, t); }
+    } else if (how === 'fade') {
+      tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power1.out' }, t);
+    } else if (how === 'fill') {      // bottom-up reveal
+      tl.fromTo(el, { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 0.9, ease: 'power2.inOut' }, t);
+    } else if (how === 'rise') {
+      tl.fromTo(el, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, t);
+    }
+  };
+  const tap = (fx, fy, t) => {
+    TAPS.push(t);
+    const x = fx * SW, y = fy * SH;
+    tl.to('#finger', { x, y, opacity: 1, scale: 1, duration: 0.38, ease: 'power2.inOut' }, t - 0.42);
+    tl.to('#finger', { scale: 0.74, duration: 0.09, ease: 'power2.in' }, t - 0.04);
+    tl.to('#finger', { scale: 1, duration: 0.2, ease: 'power2.out' }, t + 0.06);
+    tl.fromTo('#ripple', { x, y, scale: 0.4, opacity: 0.9 }, { scale: 2.6, opacity: 0, duration: 0.55, ease: 'power2.out', immediateRender: false }, t);
+  };
+  const lift = (t) => tl.to('#finger', { opacity: 0, scale: 1.3, duration: 0.3 }, t);
+  const zoom = (fx, fy, s, t, dur = 0.9, tx = 1250, ty = 540) => {
+    const px = PX + fx * SW, py = PY + fy * SH;
+    tl.to('#cam', { scale: s, x: tx - s * px, y: ty - s * py, duration: dur, ease: 'power3.inOut' }, t);
+  };
+  const unzoom = (t, dur = 0.8) => tl.to('#cam', { scale: 1, x: 0, y: 0, duration: dur, ease: 'power3.inOut' }, t);
+  const hl = (sel, t, out) => {
+    tl.fromTo(sel, { opacity: 0, scale: 1.15 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(2)' }, t);
+    if (out) tl.to(sel, { opacity: 0, duration: 0.3 }, out);
+  };
+  const caption = (id, bg, t, prev, prevBg) => {
+    CUTS.push(t);
+    tl.to('#' + bg, { opacity: 1, duration: 0.7, ease: 'power1.inOut' }, t);
+    if (prevBg) tl.to('#' + prevBg, { opacity: 0, duration: 0.7, ease: 'power1.inOut' }, t + 0.1);
+    if (prev) tl.to('#' + prev + ' > *', { y: -30, opacity: 0, duration: 0.35, stagger: 0.04, ease: 'power2.in' }, t - 0.1);
+    tl.set('#' + id, { opacity: 1 }, t);
+    tl.fromTo('#' + id + ' > *', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.1 }, t + 0.25);
+  };
+
+  // ---------- S1 · logo (0 → 4.4) ----------
   show('s1', 0);
   tl.from(seeds, { x: (i) => Math.cos(i * Math.PI / 4) * 700, y: (i) => Math.sin(i * Math.PI / 4) * 700, scale: 0, duration: 1.3, ease: 'expo.out', stagger: 0.04 }, 0.15);
-  tl.fromTo(seedsBox, { rotation: -180 }, { rotation: 0, duration: 1.6, ease: 'power3.out' }, 0.15);
+  tl.fromTo(seedsBox, { rotation: -180 }, { rotation: 0, duration: 1.6 }, 0.15);
   tl.fromTo('#s1-flower', { scale: 0, rotation: -140 }, { scale: 1, rotation: 0, duration: 1.3, ease: 'back.out(1.5)' }, 1.25);
   tl.to(seeds, { scale: 0, duration: 0.5, ease: 'power2.in' }, 1.35);
   tl.fromTo('#s1-word', { clipPath: 'inset(0 100% 0 0)', x: -30, opacity: 0 }, { clipPath: 'inset(0 0% 0 0)', x: 0, opacity: 1, duration: 1.0, ease: 'power4.out' }, 2.15);
   tl.to('#s1-flower', { rotation: 45, duration: 3, ease: 'sine.inOut' }, 2.6);
-  // wipe to S2
-  tl.set('#wipe', { visibility: 'visible', background: '#F9F4F2', scale: 0 }, 4.0);
-  tl.to('#wipe', { scale: 260, duration: 0.75, ease: 'power3.in' }, 4.0);
-  tl.to(['#s1-flower', '#s1-word'], { scale: 0.85, opacity: 0, duration: 0.5, ease: 'power2.in' }, 4.0);
-  show('s2', 4.75); hide('s1', 4.75);
-  tl.set('#wipe', { visibility: 'hidden' }, 4.76);
+  wipe('#F9F4F2', 3.7);
+  tl.to(['#s1-flower', '#s1-word'], { scale: 0.85, opacity: 0, duration: 0.5, ease: 'power2.in' }, 3.7);
+  show('s2', 4.45); hide('s1', 4.45);
 
-  // S2 · 4.75 → 10.2
-  tl.fromTo('#s2-sun', { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.2, ease: 'power2.out' }, 4.75);
-  tl.from('.s2w', { yPercent: 110, duration: 0.8, stagger: 0.55, ease: 'power4.out' }, 5.0);
-  tl.to('.s2w', { opacity: 0.22, duration: 0.6, stagger: 0.0 }, 7.3);
-  tl.fromTo('#s2-just', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 7.4);
-  tl.fromTo('#s2-word', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power4.inOut' }, 7.75);
-  tl.to('#s2-sun', { x: 520, y: 260, scale: 0.75, duration: 2.0, ease: 'power2.inOut' }, 7.6);
-  // S2 → S3: orange panel rises
-  tl.set('#s3', { visibility: 'visible', clipPath: 'inset(100% 0 0 0)' }, 9.6);
-  tl.to('#s3', { clipPath: 'inset(0% 0 0 0)', duration: 0.7, ease: 'power4.inOut' }, 9.6);
-  hide('s2', 10.3);
+  // ---------- S2 · brand idea (4.45 → 9.0) ----------
+  tl.fromTo('#s2-sun', { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.0, ease: 'power2.out' }, 4.45);
+  tl.from('.s2w', { yPercent: 110, duration: 0.8, stagger: 0.45, ease: 'power4.out' }, 4.6);
+  tl.to('.s2w', { opacity: 0.22, duration: 0.6 }, 6.45);
+  tl.fromTo('#s2-just', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 6.55);
+  tl.fromTo('#s2-word', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.0, ease: 'power4.inOut' }, 6.85);
+  tl.to('#s2-sun', { x: 520, y: 260, scale: 0.75, duration: 2.0, ease: 'power2.inOut' }, 6.7);
+  wipe('#E3EDE7', 8.3);
+  show('app', 9.05); hide('s2', 9.05);
 
-  // S3 · 9.6 → 15.2
-  const cards = gsap.utils.toArray('.s3-card');
-  tl.set(cards, { opacity: 0 }, 0);
-  tl.fromTo('#s3-flower', { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 1, ease: 'back.out(1.6)' }, 10.0);
-  tl.to('#s3-flower', { rotation: 90, duration: 5, ease: 'none' }, 11.0);
-  [10.05, 11.85, 13.55].forEach((t, i) => {
-    tl.fromTo(cards[i], { opacity: 0, y: 70, filter: 'blur(14px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.75 }, t);
-    if (i < 2) tl.to(cards[i], { opacity: 0, y: -60, filter: 'blur(14px)', duration: 0.45, ease: 'power2.in' }, t + 1.45);
-  });
-  tl.to(cards[2], { scale: 1.06, duration: 1.6, ease: 'sine.inOut' }, 14.0);
-  // S3 → S4 wipe
-  tl.set('#wipe', { visibility: 'visible', background: '#E3EDE7', scale: 0 }, 14.95);
-  tl.to('#wipe', { scale: 260, duration: 0.75, ease: 'power3.in' }, 14.95);
-  show('s4', 15.7); hide('s3', 15.7);
-  tl.set('#wipe', { visibility: 'hidden' }, 15.71);
+  // ---------- APP · chapter A: onboarding (9.05 → 19.6) ----------
+  caption('capA', 'bgA', 9.1);
+  tl.set('#bgA', { opacity: 1 }, 9.05);
+  enter('Welcome', 9.05, 'fade');
+  tl.fromTo('#phone', { y: 1000, rotation: 6 }, { y: 0, rotation: 0, duration: 1.2, ease: 'expo.out' }, 9.1);
+  tap(0.5, 0.815, 10.6);                 // Create an Account
+  enter('Step1', 10.75, 'push', 'Welcome');
+  tap(0.505, 0.795, 11.75);              // goal: build sustainable habits
+  hl('#hl-goal', 11.75);
+  tap(0.5, 0.955, 12.55);                // Continue
+  enter('Step2', 12.7, 'push', 'Step1');
+  lift(12.9);
+  zoom(0.5, 0.27, 1.6, 13.0);            // height number
+  unzoom(14.2);
+  tap(0.62, 0.955, 14.95);               // Continue
+  enter('Step3', 15.1, 'push', 'Step2');
+  tap(0.62, 0.955, 15.95);
+  enter('Step6', 16.1, 'push', 'Step3');
+  tap(0.58, 0.843, 16.75);               // Moderate
+  tap(0.62, 0.955, 17.35);
+  enter('Step7', 17.5, 'push', 'Step6');
+  lift(17.7);
+  zoom(0.5, 0.56, 1.55, 17.8);           // "Hello, Srushti"
+  unzoom(19.0);
 
-  // S4 · 15.7 → 22.6
-  tl.from('.s4-in', { y: 50, opacity: 0, duration: 0.9, stagger: 0.12 }, 15.75);
-  tl.fromTo('#s4-phone', { y: 900, rotation: 8 }, { y: 0, rotation: 0, duration: 1.2, ease: 'expo.out' }, 15.75);
-  tl.to('#s4-phone', { y: -14, rotation: -1.2, duration: 6, ease: 'sine.inOut' }, 17.0);
-  const imgs = gsap.utils.toArray('.s4-img');
-  const pips = gsap.utils.toArray('.s4-pip > div');
-  tl.set(imgs, { xPercent: 100 }, 0);
-  tl.set(imgs[0], { xPercent: 0 }, 0);
-  tl.to(pips[0], { scaleX: 1, duration: 0.5 }, 16.2);
-  const stepT = [17.0, 18.0, 18.95, 19.9, 20.85];
-  stepT.forEach((t, i) => {
-    tl.to(imgs[i], { xPercent: -35, filter: 'brightness(.85)', duration: 0.6, ease: 'power3.inOut' }, t);
-    tl.to(imgs[i + 1], { xPercent: 0, duration: 0.6, ease: 'power3.inOut' }, t);
-    tl.to(pips[i + 1], { scaleX: 1, duration: 0.5 }, t + 0.1);
-  });
-  // S4 → S5: phone flies, cream slides in from right
-  tl.set('#s5', { visibility: 'visible', clipPath: 'inset(0 0 0 100%)' }, 22.0);
-  tl.to('#s5', { clipPath: 'inset(0 0 0 0%)', duration: 0.75, ease: 'power4.inOut' }, 22.0);
-  hide('s4', 22.8);
+  // ---------- chapter B: AI coach (19.6 → 30.6) ----------
+  caption('capB', 'bgB', 19.6, 'capA', 'bgA');
+  enter('Home', 19.75, 'rise');
+  zoom(0.5, 0.33, 1.55, 20.4);           // energy card
+  tap(0.78, 0.37, 21.2);                 // High
+  hl('#hl-high', 21.2, 22.3);
+  zoom(0.45, 0.778, 1.6, 21.9);          // to input
+  tap(0.4, 0.778, 22.75);
+  lift(22.95);
+  tl.set('#caret', { opacity: 1 }, 22.8);
+  const msg = 'Suggest some good lunch options';
+  const typed = document.getElementById('typed-txt');
+  const typeObj = { n: -1 };
+  const t0 = 23.0, cps = 17;
+  tl.to(typeObj, { n: msg.length, duration: msg.length / cps, ease: 'none', onUpdate: () => {
+    const n = Math.floor(typeObj.n);
+    typed.textContent = n < 0 ? 'ask me what you want' : msg.slice(0, n);
+    typed.style.color = n < 0 ? '#a9a9a9' : '#1E1E1E';
+  } }, t0);
+  for (let i = 0; i < msg.length; i++) if (msg[i] !== ' ') KEYS.push(t0 + (i + 1) / cps);
+  tl.to('#caret', { opacity: 0, duration: 0.01, repeat: 5, yoyo: true, repeatDelay: 0.25 }, t0 + msg.length / cps);
+  const tSend = t0 + msg.length / cps + 0.45;       // ≈ 25.3
+  tap(0.875, 0.778, tSend);
+  unzoom(tSend + 0.15, 0.7);
+  enter('Coach', tSend + 0.3, 'push', 'Home');
+  lift(tSend + 0.5);
+  tl.fromTo('#coach-dots span', { y: 0, opacity: 0.4 }, { y: -5, opacity: 1, duration: 0.22, stagger: 0.1, yoyo: true, repeat: 3, ease: 'sine.inOut' }, tSend + 0.8);
+  tl.to('#coach-dots', { opacity: 0, duration: 0.15 }, tSend + 1.75);
+  tl.fromTo('#coach-cover', { scaleY: 1 }, { scaleY: 0, duration: 3.0, ease: 'none' }, tSend + 1.8);   // streamed answer
+  zoom(0.5, 0.3, 1.45, tSend + 1.6, 1.0);
+  zoom(0.5, 0.66, 1.45, tSend + 2.7, 2.2);
+  unzoom(tSend + 5.0);
 
-  // S5 · 22.0 → 29.0
-  tl.from('.s5-head', { y: 40, opacity: 0, duration: 0.8 }, 22.45);
-  tl.fromTo('#s5-p2', { y: 900 }, { y: 0, duration: 1.1, ease: 'expo.out' }, 22.4);
-  tl.fromTo('#s5-p1', { y: 900, rotation: 0 }, { y: 40, rotation: -7, duration: 1.2, ease: 'expo.out' }, 22.6);
-  tl.fromTo('#s5-p3', { y: 900, rotation: 0 }, { y: 40, rotation: 7, duration: 1.2, ease: 'expo.out' }, 22.75);
-  // slow scroll inside screens + gentle float
-  tl.to('#s5-p1 img', { y: -260, duration: 2.4, ease: 'power2.inOut' }, 24.4);
-  tl.to('#s5-p2', { y: -24, duration: 5, ease: 'sine.inOut' }, 23.6);
-  tl.to('#s5-p3 img', { y: -300, duration: 2.4, ease: 'power2.inOut' }, 25.4);
-  // callouts
-  const callouts = [['#s5-p1', 'Log meals', 'Macros & micros in seconds', -30, 26.0], ['#s5-p2', 'Ask the AI', 'Ideas that fit your day', 0, 24.3], ['#s5-p3', 'Scan products', 'Barcode to nutrition, instantly', 30, 25.2]];
-  callouts.forEach(([sel, a, b, rot, t]) => {
-    const p = document.querySelector(sel);
-    const c = document.createElement('div');
-    c.className = 'abs';
-    c.style.cssText = `left:${parseInt(p.style.left) - 40}px;top:${p.id === 's5-p2' ? 985 : 955}px;width:492px;z-index:5`;
-    c.innerHTML = `<div style="margin:0 auto;width:max-content;background:#fff;border-radius:999px;padding:14px 30px;box-shadow:0 20px 40px -18px rgba(0,0,0,.3);text-align:center"><span style="font:700 26px Fraunces;color:#2A5D51">${a}</span><span style="font:500 20px Manrope;color:#5b6b66;margin-left:12px">${b}</span></div>`;
-    document.getElementById('s5').appendChild(c);
-    tl.fromTo(c, { y: 40, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(2)' }, t);
-  });
-  // S5 → S6 wipe (green)
-  tl.set('#wipe', { visibility: 'visible', background: '#3B7668', scale: 0 }, 28.4);
-  tl.to('#wipe', { scale: 260, duration: 0.75, ease: 'power3.in' }, 28.4);
-  show('s6', 29.15); hide('s5', 29.15);
-  tl.set('#wipe', { visibility: 'hidden' }, 29.16);
+  // ---------- chapter C: scan & log (30.6 → 43.0) ----------
+  const C = 30.6;
+  caption('capC', 'bgC', C, 'capB', 'bgB');
+  enter('Home', C + 0.15, 'back', 'Coach');
+  tl.set('#hl-high', { opacity: 0 }, C);
+  tap(0.5, 0.853, C + 1.0);                // "+" button
+  enter('Quick', C + 1.15, 'fade');
+  tl.fromTo('#Quick img', { yPercent: 4 }, { yPercent: 0, duration: 0.45 }, C + 1.15);
+  tap(0.42, 0.898, C + 1.95);              // Product
+  enter('Scanner', C + 2.1, 'push', 'Quick');
+  lift(C + 2.3);
+  zoom(0.45, 0.45, 1.5, C + 2.35);
+  tl.set('#scanline', { opacity: 1 }, C + 2.9);
+  tl.fromTo('#scanline', { top: '30%' }, { top: '62%', duration: 0.55, ease: 'sine.inOut', yoyo: true, repeat: 3 }, C + 2.9);
+  tl.set('#scanline', { opacity: 0 }, C + 5.1);
+  tl.fromTo('#scanflash', { opacity: 0.85 }, { opacity: 0, duration: 0.5, immediateRender: false }, C + 5.1);
+  TAPS.push(C + 5.1);                      // "beep"
+  zoom(0.5, 0.86, 1.45, C + 5.5);          // product card
+  hl('#hl-product', C + 6.1, C + 6.9);
+  tap(0.75, 0.944, C + 7.0);               // Log meal
+  tl.fromTo('#pill-logged', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, ease: 'back.out(2)' }, C + 7.2);
+  lift(C + 7.4);
+  unzoom(C + 7.6);
+  tl.to('#pill-logged', { opacity: 0, duration: 0.3 }, C + 8.3);
+  enter('Journal', C + 8.4, 'push', 'Scanner');
+  zoom(0.5, 0.8, 1.5, C + 9.0);
+  hl('#hl-lunch', C + 9.5, C + 10.6);
+  tap(0.5, 0.81, C + 10.7);
+  enter('Food', C + 10.85, 'push', 'Journal');
+  unzoom(C + 10.85);
+  lift(C + 11.0);
+  tl.to('#food-img', { y: -260, duration: 1.4, ease: 'power2.inOut' }, C + 11.4);
 
-  // S6 · 29.15 → 35.2
-  tl.fromTo('#s6-phone', { x: -700, rotation: -10 }, { x: 0, rotation: -3, duration: 1.2, ease: 'expo.out' }, 29.15);
-  tl.to('#s6-phone', { rotation: 0, y: -12, duration: 5, ease: 'sine.inOut' }, 30.3);
-  tl.to('#s6-img', { y: -140, duration: 3.5, ease: 'power1.inOut' }, 30.8);
-  tl.from('.s6-in', { y: 50, opacity: 0, duration: 0.9, stagger: 0.15 }, 29.3);
-  tl.fromTo('#s6-b1', { scale: 0.6, opacity: 0, transformOrigin: '100% 100%' }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2)' }, 30.6);
-  tl.fromTo('#s6-dots', { scale: 0.6, opacity: 0, transformOrigin: '0% 100%' }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' }, 31.3);
-  tl.fromTo('#s6-dots span', { y: 0, opacity: .4 }, { y: -8, opacity: 1, duration: 0.25, stagger: 0.12, yoyo: true, repeat: 3, ease: 'sine.inOut' }, 31.5);
-  tl.to('#s6-dots', { opacity: 0, scale: 0.8, duration: 0.2 }, 32.4);
-  tl.fromTo('#s6-b2', { scale: 0.7, opacity: 0, transformOrigin: '0% 100%' }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.6)' }, 32.45);
-  tl.from('.s6-chip', { y: 30, opacity: 0, duration: 0.5, stagger: 0.14, ease: 'back.out(2)' }, 33.1);
-  // S6 → S7 panel down
-  tl.set('#s7', { visibility: 'visible', clipPath: 'inset(0 0 100% 0)' }, 34.6);
-  tl.to('#s7', { clipPath: 'inset(0 0 0% 0)', duration: 0.75, ease: 'power4.inOut' }, 34.6);
-  hide('s6', 35.4);
+  // ---------- chapter D: habits (43.4 → 54.6) ----------
+  const D = 43.4;
+  caption('capD', 'bgD', D, 'capC', 'bgC');
+  enter('Hyd1', D + 0.15, 'push', 'Food');
+  zoom(0.5, 0.6, 1.3, D + 0.7);
+  tap(0.75, 0.947, D + 1.6);               // Add record
+  enter('Hyd2', D + 1.75, 'fill');
+  tap(0.75, 0.947, D + 2.6);
+  lift(D + 2.9);
+  unzoom(D + 3.0);
+  enter('Sleep1', D + 3.7, 'push', 'Hyd2');
+  tap(0.5, 0.627, D + 4.5);                // + Add Sleep Log
+  enter('Sleep2', D + 4.65, 'fade');
+  lift(D + 4.9);
+  zoom(0.5, 0.36, 1.5, D + 5.0);           // 8.0 hours
+  unzoom(D + 6.4);
+  enter('Stats', D + 7.0, 'push', 'Sleep2');
+  zoom(0.32, 0.27, 1.5, D + 7.5);          // 29 days ring
+  unzoom(D + 9.0);
+  tl.fromTo('#milestone', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'back.out(1.4)' }, D + 7.9);
+  TAPS.push(D + 7.95);
 
-  // S7 · 34.6 → 41.0
-  tl.from('.s7-head', { y: 40, opacity: 0, duration: 0.8 }, 35.0);
-  tl.from('.s7-phone', { y: 700, duration: 1.1, stagger: 0.12, ease: 'expo.out' }, 35.0);
-  tl.from('.s7-stat', { y: 30, opacity: 0, duration: 0.6, stagger: 0.12 }, 35.9);
-  document.querySelectorAll('.cnt').forEach((el, i) => {
-    const o = { v: 0 }, to = +el.dataset.to, dec = +el.dataset.dec;
-    tl.to(o, { v: to, duration: 1.6, ease: 'power2.out', onUpdate: () => el.textContent = o.v.toFixed(dec) }, 36.0 + i * 0.12);
-  });
-  tl.to('#s7-hyd2', { opacity: 1, duration: 0.6 }, 37.0);
-  tl.to('#s7-toast', { y: 180, duration: 0.8, ease: 'back.out(1.4)' }, 38.0);
-  tl.to('#s7-toast', { y: 0, duration: 0.6, ease: 'power3.in' }, 40.0);
-  // S7 → S8 wipe (orange)
-  tl.set('#wipe', { visibility: 'visible', background: '#E26023', scale: 0 }, 40.3);
-  tl.to('#wipe', { scale: 260, duration: 0.75, ease: 'power3.in' }, 40.3);
-  show('s8', 41.05); hide('s7', 41.05);
-  tl.set('#wipe', { visibility: 'hidden' }, 41.06);
+  // ---------- END card ----------
+  const E = 54.0;
+  wipe('#E26023', E);
+  show('s8', E + 0.75); hide('app', E + 0.75);
+  tl.fromTo('#s8-flower', { scale: 0, rotation: -140 }, { scale: 1, rotation: 0, duration: 1.3, ease: 'back.out(1.5)' }, E + 0.8);
+  tl.fromTo('#s8-word', { clipPath: 'inset(0 100% 0 0)', opacity: 0 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 1.0, ease: 'power4.out' }, E + 1.4);
+  tl.fromTo('#s8-tag', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9 }, E + 2.1);
+  tl.fromTo('#s8-cta', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, E + 2.7);
+  tl.to('#s8-flower', { rotation: 30, duration: 5, ease: 'sine.inOut' }, E + 2.1);
+  tl.to('#stage', { opacity: 0, duration: 0.8, ease: 'power1.in' }, 59.2);
+  tl.set({}, {}, 60.0);
 
-  // S8 · 41.05 → 47
-  tl.fromTo('#s8-flower', { scale: 0, rotation: -140 }, { scale: 1, rotation: 0, duration: 1.3, ease: 'back.out(1.5)' }, 41.1);
-  tl.fromTo('#s8-word', { clipPath: 'inset(0 100% 0 0)', opacity: 0 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 1.0, ease: 'power4.out' }, 41.7);
-  tl.fromTo('#s8-tag', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9 }, 42.4);
-  tl.fromTo('#s8-cta', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, 43.0);
-  tl.to('#s8-flower', { rotation: 30, duration: 5, ease: 'sine.inOut' }, 42.4);
-  tl.to('#stage', { opacity: 0, duration: 0.8, ease: 'power1.in' }, 46.2);
-  tl.set({}, {}, 47.0);
+  // idle float of the phone through the app chapters
+  tl.to('#phone', { y: -12, rotation: -0.6, duration: 2.5, ease: 'sine.inOut', yoyo: true, repeat: 17 }, 10.3);
 
-  window.DURATION = 47.0;
+  window.DURATION = 60.0;
+  window.META = { duration: 60.0, taps: TAPS, keys: KEYS, cuts: CUTS, logo: [1.3, E + 0.85] };
   window.__seek = (t) => { tl.seek(t, false); };
   window.__ready = Promise.all([document.fonts.ready, ...Array.from(document.images).map(i => i.decode().catch(() => {}))]);
 
-  // live preview when opened in a browser (not during rendering)
   if (!/render=1/.test(location.search)) {
     tl.play(0);
     tl.eventCallback('onComplete', () => tl.play(0));
