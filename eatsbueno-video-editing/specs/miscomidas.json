@@ -1,125 +1,79 @@
 {
  "out": "out/05_MisComidas_EnLaCalle.mp4",
  "grade": "warm",
+ "auto_sfx": false,
+ "sfx": [],
  "clips": [
   {
-   "image": "miscomidas/cards/9520F665.jpg",
-   "dur": 2.791,
+   "dur": 2.65,
    "zoom": [
     1.0,
-    1.06
-   ]
-  },
-  {
-   "image": "miscomidas/cards/833222EF.jpg",
-   "dur": 2.093,
-   "zoom": [
-    1.06,
-    1.0
+    1.04
    ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.2
-   }
+   "image": "miscomidas/cards/9520F665.jpg"
   },
   {
-   "image": "miscomidas/cards/C5480A82.jpg",
-   "dur": 2.093,
+   "dur": 4.2,
    "zoom": [
     1.0,
-    1.06
+    1.04
    ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.2
-   }
+   "image": "miscomidas/cards/833222EF.jpg"
   },
   {
-   "image": "miscomidas/cards/96119354.jpg",
-   "dur": 2.093,
-   "zoom": [
-    1.06,
-    1.0
-   ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.2
-   }
-  },
-  {
-   "image": "miscomidas/cards/E55B9AC3.jpg",
-   "dur": 1.395,
+   "dur": 3.0,
    "zoom": [
     1.0,
-    1.06
+    1.04
    ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.2
-   }
+   "image": "miscomidas/cards/C5480A82.jpg"
   },
   {
-   "image": "miscomidas/cards/2FDBC50E.jpg",
-   "dur": 1.395,
-   "zoom": [
-    1.06,
-    1.0
-   ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.2
-   }
-  },
-  {
-   "image": "miscomidas/cards/E1C2942F.jpg",
-   "dur": 2.093,
+   "dur": 3.45,
    "zoom": [
     1.0,
-    1.06
+    1.04
    ],
-   "trans": {
-    "type": "zoomin",
-    "d": 0.25,
-    "sfx_vol": 0.2
-   }
+   "image": "miscomidas/cards/96119354.jpg"
   },
   {
-   "image": "miscomidas/cards/6AD15472.jpg",
-   "dur": 2.093,
+   "dur": 2.65,
    "zoom": [
-    1.06,
-    1.0
+    1.0,
+    1.04
    ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.2
-   }
+   "image": "miscomidas/cards/E55B9AC3.jpg"
   },
   {
-   "card": true,
-   "palette": "green",
-   "dur": 2.093,
-   "kicker": "Sin culpa",
-   "title": "Comer fuera tambi\u00e9n puede ser bueno.",
-   "y": 760,
-   "size": 96,
-   "trans": {
-    "type": "fadewhite",
-    "d": 0.3
-   }
+   "dur": 2.35,
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "image": "miscomidas/cards/E1C2942F.jpg"
+  },
+  {
+   "dur": 2.15,
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "image": "miscomidas/cards/6AD15472.jpg"
+  },
+  {
+   "dur": 3.25,
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "image": "miscomidas/cards/2FDBC50E.jpg"
   },
   {
    "outro": true,
-   "dur": 3.0,
+   "dur": 2.6,
    "trans": {
-    "type": "circleopen",
-    "d": 0.45
+    "type": "fade",
+    "d": 0.4
    }
   }
  ],
@@ -128,118 +82,118 @@
    "type": "title",
    "kicker": "Comer bien fuera de casa",
    "title": "Mis comidas cuando ando en la calle",
-   "start": 0.15,
-   "end": 2.791,
+   "start": 0.0,
+   "end": 2.65,
    "y": 180,
-   "size": 92,
-   "sfx": false
+   "size": 100
   },
   {
    "type": "label",
    "kicker": "Desayuno",
-   "start": 2.8409999999999997,
-   "end": 4.884,
+   "start": 2.65,
+   "end": 9.85,
    "y": 150
-  },
-  {
-   "type": "caption",
-   "text": "Huevos pochados, salchichas y caf\u00e9",
-   "start": 2.941,
-   "end": 4.884,
-   "anim": "rise",
-   "y": 1640,
-   "size": 64
-  },
-  {
-   "type": "caption",
-   "text": "Revuelto de vegetales + muffin ingl\u00e9s",
-   "start": 5.034000000000001,
-   "end": 6.977,
-   "anim": "rise",
-   "y": 1640,
-   "size": 64
   },
   {
    "type": "label",
    "kicker": "Almuerzo",
-   "start": 7.027,
-   "end": 9.07,
+   "start": 9.85,
+   "end": 15.95,
    "y": 150
-  },
-  {
-   "type": "caption",
-   "text": "Sashimi + ensalada de algas",
-   "start": 7.127000000000001,
-   "end": 9.07,
-   "anim": "rise",
-   "y": 1640,
-   "size": 64
-  },
-  {
-   "type": "caption",
-   "text": "Prote\u00edna + vegetales, sin complicarse",
-   "start": 9.22,
-   "end": 10.465,
-   "anim": "rise",
-   "y": 1640,
-   "size": 64
-  },
-  {
-   "type": "caption",
-   "text": "Roll de at\u00fan",
-   "start": 10.615,
-   "end": 11.86,
-   "anim": "rise",
-   "y": 1640,
-   "size": 64
   },
   {
    "type": "label",
    "kicker": "Para llevar",
-   "start": 11.91,
-   "end": 13.953,
+   "start": 15.95,
+   "end": 20.45,
    "y": 150
   },
   {
    "type": "caption",
-   "text": "\u00bfComida r\u00e1pida? Tambi\u00e9n se puede.",
-   "start": 12.01,
-   "end": 13.953,
-   "anim": "rise",
+   "text": "Desayuno: huevos pochados, salchichas y caf\u00e9\u2026",
+   "start": 2.65,
+   "end": 6.85,
    "y": 1640,
-   "size": 64
+   "size": 58
   },
   {
    "type": "caption",
-   "text": "Pollo a la parrilla + vegetales",
-   "start": 14.103,
-   "end": 16.046,
-   "anim": "rise",
+   "text": "o un revuelto de vegetales con muffin ingl\u00e9s.",
+   "start": 6.85,
+   "end": 9.85,
    "y": 1640,
-   "size": 64
+   "size": 58
+  },
+  {
+   "type": "caption",
+   "text": "Almuerzo: sashimi con ensalada de algas.",
+   "start": 9.85,
+   "end": 13.3,
+   "y": 1640,
+   "size": 58
+  },
+  {
+   "type": "caption",
+   "text": "Prote\u00edna y vegetales, sin complicarme.",
+   "start": 13.3,
+   "end": 15.95,
+   "y": 1640,
+   "size": 58
+  },
+  {
+   "type": "caption",
+   "text": "\u00bfComida r\u00e1pida? Tambi\u00e9n se puede:",
+   "start": 15.95,
+   "end": 18.3,
+   "y": 1640,
+   "size": 58
+  },
+  {
+   "type": "caption",
+   "text": "pollo a la parrilla con vegetales.",
+   "start": 18.3,
+   "end": 20.45,
+   "y": 1640,
+   "size": 58
+  },
+  {
+   "type": "caption",
+   "text": "Comer fuera tambi\u00e9n puede ser bueno.",
+   "start": 20.45,
+   "end": 22.7,
+   "y": 1640,
+   "size": 58
+  },
+  {
+   "type": "caption",
+   "text": "Sin culpa.",
+   "start": 22.7,
+   "end": 23.7,
+   "y": 1640,
+   "size": 58
   }
  ],
- "sfx": [],
  "keywords": [
-  "caf\u00e9",
+  "caf\u00e9\u2026",
   "vegetales",
   "sashimi",
-  "algas",
+  "algas.",
   "prote\u00edna",
-  "at\u00fan",
+  "vegetales,",
+  "r\u00e1pida?",
   "pollo",
   "parrilla",
-  "tambi\u00e9n"
+  "bueno.",
+  "culpa."
  ],
  "audio": [
   {
-   "src": "music/lofi22.wav",
+   "src": "vo3/miscomidas.mp3",
    "in": 0,
    "start": 0,
-   "dur": 21.14,
-   "vol": 0.6,
-   "fade_out": 1.2
+   "dur": 23.7,
+   "eq": "voice",
+   "fade_out": 0.3
   }
- ],
- "auto_sfx": false
+ ]
 }

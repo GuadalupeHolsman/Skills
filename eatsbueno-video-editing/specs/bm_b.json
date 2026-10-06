@@ -1,23 +1,13 @@
 {
  "out": "out/03_BurningMan_TheExperience.mp4",
  "grade": "desert",
- "keywords": [
-  "desert",
-  "burning",
-  "man,",
-  "fire,",
-  "exactly",
-  "who",
-  "they",
-  "are.",
-  "differently,",
-  "week."
- ],
+ "auto_sfx": false,
+ "sfx": [],
  "clips": [
   {
    "src": "burningman/IMG_0823_4.mov",
    "in": 0.5,
-   "dur": 0.9,
+   "dur": 1.7,
    "zoom": [
     1.0,
     1.06
@@ -26,16 +16,16 @@
   {
    "src": "burningman/IMG_0809.mov",
    "in": 2.0,
-   "dur": 1.1,
+   "dur": 1.4,
    "zoom": [
     1.0,
-    1.05
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_1181.mov",
    "in": 1.0,
-   "dur": 1.32,
+   "dur": 0.75,
    "zoom": [
     1.0,
     1.06
@@ -44,7 +34,7 @@
   {
    "src": "burningman/IMG_1620.mov",
    "in": 6.0,
-   "dur": 1.58,
+   "dur": 1.7,
    "zoom": [
     1.0,
     1.06
@@ -53,16 +43,16 @@
   {
    "src": "burningman/IMG_1288.mov",
    "in": 1.0,
-   "dur": 1.3,
+   "dur": 1.25,
    "zoom": [
     1.0,
-    1.05
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_1453.mov",
    "in": 2.0,
-   "dur": 1.46,
+   "dur": 1.85,
    "zoom": [
     1.0,
     1.06
@@ -71,30 +61,30 @@
   {
    "src": "burningman/IMG_1297.mov",
    "in": 3.0,
-   "dur": 0.54,
+   "dur": 1.1,
    "zoom": [
     1.0,
-    1.05
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_2407.mov",
    "in": 9.5,
-   "dur": 1.95,
+   "dur": 2.25,
    "zoom": [
-    1.05,
-    1.15
+    1.0,
+    1.06
    ],
    "shake": [
     0.0,
-    0.8,
-    26
+    0.6,
+    22
    ]
   },
   {
    "src": "burningman/IMG_1222.mov",
    "in": 1.0,
-   "dur": 1.75,
+   "dur": 2.05,
    "zoom": [
     1.0,
     1.06
@@ -103,7 +93,7 @@
   {
    "src": "burningman/IMG_2246.mov",
    "in": 1.4,
-   "dur": 2.25,
+   "dur": 2.95,
    "zoom": [
     1.0,
     1.06
@@ -112,25 +102,25 @@
   {
    "src": "burningman/IMG_1449.mov",
    "in": 4.0,
-   "dur": 1.45,
+   "dur": 1.9,
    "zoom": [
     1.0,
-    1.08
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_1430.mov",
    "in": 1.0,
-   "dur": 1.5,
+   "dur": 2.0,
    "zoom": [
     1.0,
-    1.08
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_2406.mov",
    "in": 2.0,
-   "dur": 1.55,
+   "dur": 1.2,
    "zoom": [
     1.0,
     1.06
@@ -139,7 +129,7 @@
   {
    "src": "burningman/f33c3980.mov",
    "in": 0.0,
-   "dur": 2.0,
+   "dur": 1.4,
    "zoom": [
     1.0,
     1.06
@@ -147,120 +137,144 @@
   },
   {
    "outro": true,
-   "dur": 3.0,
+   "dur": 2.6,
    "trans": {
     "type": "fade",
     "d": 0.4
    }
   }
  ],
- "audio": [
-  {
-   "src": "burningman_audio/VO_B_141728.m4a",
-   "in": 2.9,
-   "start": 0.6,
-   "dur": 20.05,
-   "eq": "voice",
-   "fade_in": 0.05,
-   "fade_out": 0.4
-  }
- ],
- "sfx": [],
  "overlays": [
   {
    "type": "title",
    "kicker": "Burning Man",
    "title": "the experience",
    "start": 0.0,
-   "end": 2.0,
+   "end": 1.9,
    "y": 760,
-   "size": 110,
-   "sfx": false
+   "size": 110
   },
   {
    "type": "caption",
    "text": "We left everything behind",
-   "start": 0.75,
-   "end": 2.0
+   "start": 0.5,
+   "end": 2.08
   },
   {
    "type": "caption",
    "text": "for a week in the desert",
-   "start": 2.0,
-   "end": 3.3
+   "start": 2.08,
+   "end": 3.85
   },
   {
    "type": "caption",
    "text": "at Burning Man,",
-   "start": 3.3,
-   "end": 4.85
+   "start": 3.85,
+   "end": 5.55
   },
   {
    "type": "caption",
    "text": "and we arrived somewhere",
-   "start": 4.9,
-   "end": 6.04
+   "start": 5.55,
+   "end": 6.8
   },
   {
    "type": "caption",
-   "text": "where art moves.",
-   "start": 6.04,
-   "end": 7.6
+   "text": "where art moves,",
+   "start": 6.8,
+   "end": 8.65
   },
   {
    "type": "caption",
-   "text": "People danced",
-   "start": 7.66,
-   "end": 8.2
+   "text": "people dance",
+   "start": 8.65,
+   "end": 9.5
   },
   {
    "type": "caption",
    "text": "on sculptures made of fire,",
-   "start": 8.2,
-   "end": 10.15
+   "start": 9.5,
+   "end": 12.0
   },
   {
    "type": "caption",
-   "text": "and no one looked twice",
-   "start": 10.2,
-   "end": 11.3
+   "text": "and no one looks twice",
+   "start": 12.0,
+   "end": 13.34
   },
   {
    "type": "caption",
    "text": "at anyone for being",
-   "start": 11.3,
-   "end": 12.34
+   "start": 13.34,
+   "end": 14.7
   },
   {
    "type": "caption",
    "text": "exactly who they are.",
-   "start": 12.34,
-   "end": 14.1
+   "start": 14.7,
+   "end": 17.0
   },
   {
    "type": "caption",
    "text": "It wasn't just a trip,",
-   "start": 14.2,
-   "end": 15.6
+   "start": 17.0,
+   "end": 18.9
   },
   {
    "type": "caption",
    "text": "it was a reminder",
-   "start": 15.6,
-   "end": 16.64
+   "start": 18.9,
+   "end": 19.94
   },
   {
    "type": "caption",
    "text": "that you can live differently,",
-   "start": 16.64,
-   "end": 18.65
+   "start": 19.94,
+   "end": 22.1
   },
   {
    "type": "caption",
    "text": "even if just for a week.",
-   "start": 18.65,
-   "end": 20.65
+   "start": 22.1,
+   "end": 23.5
   }
  ],
- "auto_sfx": false
+ "keywords": [
+  "balance",
+  "weekend,",
+  "style.",
+  "sun,",
+  "road",
+  "trips,",
+  "fire,",
+  "taco",
+  "bell",
+  "burrito.",
+  "okay.",
+  "wellness",
+  "perfectly",
+  "guilt.",
+  "bueno",
+  "desert",
+  "burning",
+  "man,",
+  "art",
+  "moves,",
+  "exactly",
+  "who",
+  "they",
+  "are.",
+  "differently,",
+  "week."
+ ],
+ "audio": [
+  {
+   "src": "vo2/vo_183853.mp3",
+   "in": 0,
+   "start": 0.5,
+   "dur": 23.0,
+   "eq": "voice",
+   "fade_out": 0.3
+  }
+ ]
 }

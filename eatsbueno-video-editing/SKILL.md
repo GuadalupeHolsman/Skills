@@ -69,3 +69,7 @@ once to synthesize the SFX kit into `sfx/`. Fonts are SIL OFL (Google Fonts).
 ## Fonts
 
 Titles use **Cooper BT** (Cooper Lt BT Bold / Italic). It is a commercial font, so it is not in this repo: drop the licensed `CooperLtBT-*.ttf` / `CooperMdBT-*.ttf` files into `fonts/`. Captions, chips and step labels use **Manrope** (OFL, included).
+
+## Voiceovers (ElevenLabs)
+
+`scripts/tts_elevenlabs.py` generates voiceovers with the cloned **Angie** voice (`eleven_v4`, stability 0.5, similarity 0.75, speed 1.0). It reads the key from the `ELEVENLABS_API_KEY` environment variable. Never commit the key (this repo is public).

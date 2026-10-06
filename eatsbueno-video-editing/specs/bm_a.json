@@ -1,87 +1,70 @@
 {
  "out": "out/02_BurningMan_BuenoIsReal.mp4",
  "grade": "desert",
- "keywords": [
-  "bueno",
-  "real,",
-  "perfect.",
-  "balance",
-  "sun,",
-  "road",
-  "treats,",
-  "fire,",
-  "taco",
-  "bell",
-  "burrito.",
-  "okay.",
-  "wellness",
-  "perfectly",
-  "balance.",
-  "guilt,",
-  "bueno"
- ],
+ "auto_sfx": false,
+ "sfx": [],
  "clips": [
   {
    "src": "burningman/IMG_1676.mov",
    "in": 0.4,
-   "dur": 2.4,
-   "zoom": [
-    1.0,
-    1.08
-   ]
-  },
-  {
-   "src": "burningman/IMG_1820.mov",
-   "in": 1.0,
-   "dur": 1.8,
+   "dur": 1.95,
    "zoom": [
     1.0,
     1.06
    ]
   },
   {
-   "src": "burningman/IMG_1591.mov",
-   "in": 1.6,
-   "dur": 1.9,
+   "src": "burningman/IMG_1820.mov",
+   "in": 1.0,
+   "dur": 1.7,
    "zoom": [
-    1.04,
-    1.0
+    1.0,
+    1.06
+   ]
+  },
+  {
+   "src": "burningman/IMG_2246.mov",
+   "in": 1.4,
+   "dur": 1.35,
+   "zoom": [
+    1.0,
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_1565.mov",
    "in": 0.2,
-   "dur": 1.1,
+   "dur": 0.7,
    "zoom": [
     1.0,
-    1.08
+    1.06
    ]
   },
   {
-   "src": "burningman/IMG_1539.mov",
-   "in": 0.6,
-   "dur": 0.75,
+   "src": "burningman/IMG_0809.mov",
+   "in": 2.0,
+   "dur": 1.05,
    "zoom": [
     1.0,
-    1.12
+    1.06
    ]
   },
   {
    "src": "burningman/f33c3980.mov",
    "in": 6.4,
-   "dur": 0.7,
+   "dur": 1.0,
    "zoom": [
     1.0,
-    1.05
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_2407.mov",
    "in": 12.0,
-   "dur": 0.75,
+   "dur": 0.9,
    "zoom": [
-    1.05,
-    1.15
+    1.0,
+    1.06
    ],
    "shake": [
     0.0,
@@ -92,7 +75,7 @@
   {
    "src": "burningman/IMG_0779.mov",
    "in": 1.2,
-   "dur": 1.7,
+   "dur": 1.6,
    "zoom": [
     1.0,
     1.06
@@ -104,186 +87,205 @@
    "dur": 1.4,
    "zoom": [
     1.0,
-    1.05
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_1032.mov",
    "in": 1.0,
-   "dur": 1.35,
+   "dur": 1.25,
    "zoom": [
     1.0,
-    1.08
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_1371.mov",
    "in": 0.6,
-   "dur": 1.25,
+   "dur": 1.55,
    "zoom": [
     1.0,
-    1.1
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_2414.mov",
    "in": 1.2,
-   "dur": 1.1,
+   "dur": 1.35,
    "zoom": [
     1.0,
-    1.08
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_0873.mov",
    "in": 0.4,
-   "dur": 1.2,
+   "dur": 2.1,
    "zoom": [
     1.0,
-    1.08
+    1.06
    ]
   },
   {
    "src": "burningman/IMG_0793_2.mov",
    "in": 3.0,
-   "dur": 2.15,
+   "dur": 1.4,
    "zoom": [
     1.0,
-    1.05
+    1.06
    ]
   },
   {
    "outro": true,
-   "dur": 2.8,
+   "dur": 2.6,
    "trans": {
     "type": "fade",
     "d": 0.4
    }
   }
  ],
- "audio": [
-  {
-   "src": "burningman_audio/VO_A_140748.m4a",
-   "in": 0.8999999999999999,
-   "start": 0,
-   "dur": 19.55,
-   "eq": "voice",
-   "fade_out": 0.3
-  }
- ],
- "sfx": [],
  "overlays": [
   {
    "type": "label",
    "kicker": "Burning Man edition",
    "start": 0.0,
-   "end": 6.1,
+   "end": 5.0,
    "y": 200
-  },
-  {
-   "type": "caption",
-   "text": "Bueno is real,",
-   "start": 0.26,
-   "end": 1.45
-  },
-  {
-   "type": "caption",
-   "text": "not perfect.",
-   "start": 1.45,
-   "end": 2.4
-  },
-  {
-   "type": "caption",
-   "text": "That's what balance",
-   "start": 2.46,
-   "end": 3.35
-  },
-  {
-   "type": "caption",
-   "text": "actually looks like",
-   "start": 3.35,
-   "end": 4.36
-  },
-  {
-   "type": "caption",
-   "text": "this week",
-   "start": 4.36,
-   "end": 6.0
   },
   {
    "type": "label",
    "kicker": "Real life menu",
-   "start": 6.7,
-   "end": 11.1,
-   "y": 200,
-   "sfx": false
+   "start": 5.0,
+   "end": 10.25,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "This is what balance",
+   "start": 0.0,
+   "end": 1.3
+  },
+  {
+   "type": "caption",
+   "text": "actually looked like",
+   "start": 1.3,
+   "end": 2.5
+  },
+  {
+   "type": "caption",
+   "text": "this weekend,",
+   "start": 2.5,
+   "end": 3.65
+  },
+  {
+   "type": "caption",
+   "text": "with style.",
+   "start": 3.65,
+   "end": 5.0
   },
   {
    "type": "caption",
    "text": "Sun,",
-   "start": 6.7,
-   "end": 7.2
+   "start": 5.0,
+   "end": 5.7
   },
   {
    "type": "caption",
-   "text": "road treats,",
-   "start": 7.2,
-   "end": 7.95
+   "text": "road trips,",
+   "start": 5.7,
+   "end": 6.75
   },
   {
    "type": "caption",
    "text": "dancing on a car on fire,",
-   "start": 7.95,
-   "end": 9.4
+   "start": 6.75,
+   "end": 8.65
   },
   {
    "type": "caption",
    "text": "and a Taco Bell burrito.",
-   "start": 9.4,
-   "end": 11.05
+   "start": 8.65,
+   "end": 10.25
   },
   {
    "type": "caption",
    "text": "And that's okay.",
-   "start": 11.1,
-   "end": 12.45
+   "start": 10.25,
+   "end": 11.65
   },
   {
    "type": "caption",
    "text": "Wellness doesn't mean",
-   "start": 12.5,
-   "end": 13.6
+   "start": 11.65,
+   "end": 12.66
   },
   {
    "type": "caption",
    "text": "eating perfectly all the time.",
-   "start": 13.6,
-   "end": 14.95
+   "start": 12.66,
+   "end": 14.45
   },
   {
    "type": "caption",
    "text": "It means finding your way",
-   "start": 15.0,
-   "end": 16.2
+   "start": 14.45,
+   "end": 15.6
   },
   {
    "type": "caption",
-   "text": "back to balance.",
-   "start": 16.2,
-   "end": 17.4
+   "text": "back to balance,",
+   "start": 15.6,
+   "end": 16.8
   },
   {
    "type": "caption",
-   "text": "Without guilt,",
-   "start": 17.45,
-   "end": 18.35
+   "text": "without guilt.",
+   "start": 16.8,
+   "end": 17.9
   },
   {
    "type": "caption",
-   "text": "that's bueno too.",
-   "start": 18.35,
-   "end": 19.55
+   "text": "That's bueno too.",
+   "start": 17.9,
+   "end": 19.3
   }
  ],
- "auto_sfx": false
+ "keywords": [
+  "balance",
+  "weekend,",
+  "style.",
+  "sun,",
+  "road",
+  "trips,",
+  "fire,",
+  "taco",
+  "bell",
+  "burrito.",
+  "okay.",
+  "wellness",
+  "perfectly",
+  "guilt.",
+  "bueno",
+  "desert",
+  "burning",
+  "man,",
+  "art",
+  "moves,",
+  "exactly",
+  "who",
+  "they",
+  "are.",
+  "differently,",
+  "week."
+ ],
+ "audio": [
+  {
+   "src": "vo2/vo_183602.mp3",
+   "in": 0,
+   "start": 0.0,
+   "dur": 19.3,
+   "eq": "voice",
+   "fade_out": 0.3
+  }
+ ]
 }

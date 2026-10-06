@@ -1,260 +1,150 @@
 {
  "out": "out/06_EatsBueno_LogAnyMealAnywhere.mp4",
  "grade": "warm",
+ "auto_sfx": false,
+ "sfx": [],
  "clips": [
   {
+   "dur": 2.6,
+   "zoom": [
+    1.0,
+    1.05
+   ],
    "src": "videos/IMG_9240.mov",
-   "in": 1.0,
-   "dur": 2.143,
-   "zoom": [
-    1.0,
-    1.07
-   ]
+   "in": 1.0
   },
   {
+   "dur": 2.9,
+   "zoom": [
+    1.0,
+    1.05
+   ],
    "src": "videos/od1813.mov",
-   "in": 13.5,
-   "dur": 1.607,
-   "zoom": [
-    1.04,
-    1.0
-   ],
-   "trans": {
-    "type": "whip",
-    "d": 0.18,
-    "sfx_vol": 0.35
-   }
+   "in": 13.5
   },
   {
+   "dur": 2.3,
+   "zoom": [
+    1.0,
+    1.05
+   ],
    "src": "videos/od1761.mov",
-   "in": 16.0,
-   "dur": 1.607,
-   "zoom": [
-    1.0,
-    1.07
-   ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.35
-   }
+   "in": 16.0
   },
   {
+   "dur": 2.2,
+   "zoom": [
+    1.0,
+    1.05
+   ],
    "src": "videos/IMG_9107.mov",
-   "in": 1.0,
-   "dur": 1.071,
-   "zoom": [
-    1.04,
-    1.0
-   ],
-   "trans": {
-    "type": "whip",
-    "d": 0.18,
-    "sfx_vol": 0.35
-   }
+   "in": 1.0
   },
   {
+   "dur": 1.0,
+   "zoom": [
+    1.0,
+    1.05
+   ],
    "src": "videos/od1746.mov",
-   "in": 10.0,
-   "dur": 1.071,
+   "in": 10.0
+  },
+  {
+   "dur": 1.6,
    "zoom": [
     1.0,
-    1.07
+    1.05
    ],
-   "trans": {
-    "type": "whip",
-    "d": 0.18,
-    "sfx_vol": 0.35
-   }
+   "src": "videos/od1364.mov",
+   "in": 15.0
   },
   {
-   "src": "videos/v1539.mov",
-   "in": 9.0,
-   "dur": 1.607,
+   "dur": 0.75,
    "zoom": [
-    1.04,
-    1.0
+    1.0,
+    1.05
    ],
-   "trans": {
-    "type": "zoomin",
-    "d": 0.25,
-    "sfx_vol": 0.35
-   }
-  },
-  {
    "src": "videos/IMG_9355.mov",
-   "in": 1.5,
-   "dur": 1.071,
+   "in": 1.5
+  },
+  {
+   "dur": 0.95,
    "zoom": [
     1.0,
-    1.07
+    1.05
    ],
-   "trans": {
-    "type": "whip",
-    "d": 0.18,
-    "sfx_vol": 0.35
-   }
-  },
-  {
-   "src": "videos/v1806.mov",
-   "in": 9.0,
-   "dur": 1.607,
-   "zoom": [
-    1.04,
-    1.0
-   ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.35
-   }
-  },
-  {
    "src": "videos/IMG_9639.mov",
-   "in": 1.0,
-   "dur": 1.071,
+   "in": 1.0
+  },
+  {
+   "dur": 0.55,
    "zoom": [
     1.0,
-    1.07
+    1.05
    ],
-   "trans": {
-    "type": "whip",
-    "d": 0.18,
-    "sfx_vol": 0.35
-   }
-  },
-  {
-   "src": "videos/v1898.mov",
-   "in": 9.0,
-   "dur": 1.607,
-   "zoom": [
-    1.04,
-    1.0
-   ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.35
-   }
-  },
-  {
    "src": "videos/IMG_9787.mov",
-   "in": 0.0,
-   "dur": 1.071,
+   "in": 0.2
+  },
+  {
+   "dur": 1.05,
    "zoom": [
     1.0,
-    1.07
+    1.05
    ],
-   "trans": {
-    "type": "whip",
-    "d": 0.18,
-    "sfx_vol": 0.35
-   }
-  },
-  {
-   "src": "videos/v1934.mov",
-   "in": 8.0,
-   "dur": 1.607,
-   "zoom": [
-    1.04,
-    1.0
-   ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.35
-   }
-  },
-  {
    "src": "videos/IMG_9895.mov",
-   "in": 0.5,
-   "dur": 1.071,
+   "in": 0.5
+  },
+  {
+   "dur": 1.0,
    "zoom": [
     1.0,
-    1.07
+    1.05
    ],
-   "trans": {
-    "type": "whip",
-    "d": 0.18,
-    "sfx_vol": 0.35
-   }
-  },
-  {
-   "src": "videos/v1481.mov",
-   "in": 10.0,
-   "dur": 1.607,
-   "zoom": [
-    1.04,
-    1.0
-   ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.35
-   }
-  },
-  {
    "src": "videos/IMG_9267.mov",
-   "in": 1.5,
-   "dur": 1.071,
-   "zoom": [
-    1.0,
-    1.07
-   ],
-   "trans": {
-    "type": "whip",
-    "d": 0.18,
-    "sfx_vol": 0.35
-   }
+   "in": 1.5
   },
   {
+   "dur": 1.0,
+   "zoom": [
+    1.0,
+    1.05
+   ],
    "src": "videos/od1646.mov",
-   "in": 17.5,
-   "dur": 1.607,
-   "zoom": [
-    1.04,
-    1.0
-   ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.25,
-    "sfx_vol": 0.35
-   }
+   "in": 17.5
   },
   {
-   "src": "videos/v1195.mov",
-   "in": 4.0,
-   "dur": 2.143,
+   "dur": 2.05,
    "zoom": [
     1.0,
-    1.07
+    1.05
    ],
-   "trans": {
-    "type": "smoothleft",
-    "d": 0.25,
-    "sfx_vol": 0.35
-   }
+   "src": "videos/v1806.mov",
+   "in": 9.0
   },
   {
-   "src": "videos/IMG_9247.mov",
-   "in": 0.5,
-   "dur": 2.143,
+   "dur": 1.0,
    "zoom": [
-    1.04,
-    1.0
+    1.0,
+    1.05
    ],
-   "trans": {
-    "type": "dissolve",
-    "d": 0.25,
-    "sfx_vol": 0.35
-   }
+   "src": "videos/v1195.mov",
+   "in": 4.0
+  },
+  {
+   "dur": 3.75,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "src": "videos/IMG_9247.mov",
+   "in": 0.3
   },
   {
    "outro": true,
-   "dur": 3.2,
+   "dur": 2.6,
    "trans": {
-    "type": "circleopen",
-    "d": 0.45
+    "type": "fade",
+    "d": 0.4
    }
   }
  ],
@@ -263,130 +153,170 @@
    "type": "title",
    "kicker": "EatsBueno",
    "title": "Log any meal. Anywhere.",
-   "start": 0.15,
-   "end": 2.143,
+   "start": 0.0,
+   "end": 2.6,
    "y": 720,
-   "size": 100,
-   "sfx": false
-  },
-  {
-   "type": "caption",
-   "text": "Snap your meal",
-   "start": 2.263,
-   "end": 3.75,
-   "anim": "rise",
-   "y": 1290
-  },
-  {
-   "type": "caption",
-   "text": "Get the why, not just the what",
-   "start": 3.87,
-   "end": 5.357,
-   "anim": "rise",
-   "y": 1290
+   "size": 100
   },
   {
    "type": "label",
    "kicker": "At home",
-   "start": 5.407,
-   "end": 6.428,
+   "start": 7.8,
+   "end": 11.0,
    "y": 200
-  },
-  {
-   "type": "caption",
-   "text": "Homemade waffles",
-   "start": 5.477,
-   "end": 6.428,
-   "anim": "rise",
-   "y": 1290
-  },
-  {
-   "type": "caption",
-   "text": "Home cooking",
-   "start": 6.548,
-   "end": 7.499,
-   "anim": "rise",
-   "y": 1290
   },
   {
    "type": "label",
    "kicker": "Mexican",
-   "start": 7.5489999999999995,
-   "end": 10.177,
+   "start": 12.6,
+   "end": 13.35,
    "y": 200
   },
   {
    "type": "label",
    "kicker": "Colombian",
-   "start": 10.227,
-   "end": 12.855,
+   "start": 13.35,
+   "end": 14.3,
    "y": 200
   },
   {
    "type": "label",
    "kicker": "Thai",
-   "start": 12.905,
-   "end": 15.532999999999998,
+   "start": 14.3,
+   "end": 14.85,
    "y": 200
   },
   {
    "type": "label",
    "kicker": "Japanese",
-   "start": 15.582999999999998,
-   "end": 18.211,
+   "start": 14.85,
+   "end": 15.9,
    "y": 200
   },
   {
    "type": "label",
    "kicker": "Comfort food",
-   "start": 18.261,
-   "end": 20.889,
+   "start": 15.9,
+   "end": 16.9,
    "y": 200
   },
   {
    "type": "label",
    "kicker": "Pizza night",
-   "start": 20.939,
-   "end": 22.496,
+   "start": 16.9,
+   "end": 17.9,
    "y": 200
   },
   {
    "type": "caption",
-   "text": "Real life. Real food. No guilt.",
-   "start": 22.616,
-   "end": 24.639,
-   "anim": "rise",
-   "y": 1290
+   "text": "Snap your meal, and EatsBueno breaks it down:",
+   "start": 2.6,
+   "end": 5.5
   },
   {
    "type": "caption",
-   "text": "We adapt to your world, not you to ours.",
-   "start": 24.759,
-   "end": 26.782,
-   "anim": "rise",
-   "y": 1290
+   "text": "the why, not just the what.",
+   "start": 5.5,
+   "end": 7.8
+  },
+  {
+   "type": "caption",
+   "text": "At home\u2026 homemade waffles,",
+   "start": 7.8,
+   "end": 10.0
+  },
+  {
+   "type": "caption",
+   "text": "home cooking.",
+   "start": 10.0,
+   "end": 11.0
+  },
+  {
+   "type": "caption",
+   "text": "Or out with family:",
+   "start": 11.0,
+   "end": 12.6
+  },
+  {
+   "type": "caption",
+   "text": "Mexican,",
+   "start": 12.6,
+   "end": 13.35
+  },
+  {
+   "type": "caption",
+   "text": "Colombian,",
+   "start": 13.35,
+   "end": 14.3
+  },
+  {
+   "type": "caption",
+   "text": "Thai,",
+   "start": 14.3,
+   "end": 14.85
+  },
+  {
+   "type": "caption",
+   "text": "Japanese,",
+   "start": 14.85,
+   "end": 15.9
+  },
+  {
+   "type": "caption",
+   "text": "comfort food,",
+   "start": 15.9,
+   "end": 16.9
+  },
+  {
+   "type": "caption",
+   "text": "pizza night.",
+   "start": 16.9,
+   "end": 17.9
+  },
+  {
+   "type": "caption",
+   "text": "Real life. Real food.",
+   "start": 17.9,
+   "end": 19.95
+  },
+  {
+   "type": "caption",
+   "text": "No guilt.",
+   "start": 19.95,
+   "end": 20.95
+  },
+  {
+   "type": "caption",
+   "text": "EatsBueno adapts to your world\u2026",
+   "start": 20.95,
+   "end": 23.0
+  },
+  {
+   "type": "caption",
+   "text": "not you to ours.",
+   "start": 23.0,
+   "end": 24.7
   }
  ],
- "sfx": [],
  "keywords": [
   "snap",
   "why,",
   "home",
+  "waffles,",
+  "cooking.",
+  "family:",
   "guilt.",
-  "world,",
-  "ours.",
-  "waffles",
-  "cooking"
+  "world\u2026",
+  "ours."
  ],
  "audio": [
   {
-   "src": "music/sunny31.wav",
+   "src": "vo3/app.mp3",
    "in": 0,
    "start": 0,
-   "dur": 29.98,
-   "vol": 0.6,
-   "fade_out": 1.2
+   "dur": 24.7,
+   "eq": "voice",
+   "fade_out": 0.3
   }
- ],
- "auto_sfx": false
+ ]
 }
