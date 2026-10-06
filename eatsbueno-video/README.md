@@ -24,11 +24,11 @@ Each tap and keystroke has a sound.
 
 - **Colors:** `#E26023` orange, `#3B7668` green, `#FAF0DF` cream, `#AFCFC4` mint, `#F9F4F2` paper and `#1E1E1E` ink.
 - **Logo:** the isotype is the exact vector from the brandbook, and the wordmark is traced from it at high resolution.
-- **Type:** Cooper. Bitstream's Cooper BT is a commercial font, so the film uses
-  [Cooper*](https://github.com/indestructible-type/Cooper), an OFL-licensed revival of the same Oswald
-  Cooper family (`assets/fonts/Cooper-OFL.txt`). Manrope is used for body text, as in the brandbook.
-  If you have licensed Cooper BT files, replace `assets/fonts/cooper*.woff2` (or edit the
-  `@font-face` rules) and re-render.
+- **Type:** Cooper BT, the brand font (Light, Light Italic, Bold, Bold Italic, Medium and Black), with Manrope for body text.
+  Cooper BT is a commercial font and this repository is public, so its files are **not** committed.
+  To render with it, put the `.ttf` files in `assets/fonts/cooperbt/` (this folder is gitignored).
+  Without them, the composition falls back to [Cooper*](https://github.com/indestructible-type/Cooper),
+  an OFL-licensed revival of the same family (`assets/fonts/Cooper-OFL.txt`).
 
 ## Files
 

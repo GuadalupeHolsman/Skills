@@ -5,9 +5,16 @@
 <meta name="viewport" content="width=1920, height=1080">
 <title>EatsBueno Product Film</title>
 <style>
-  /* Cooper* (OFL revival of the Cooper family, matching the brand's Cooper BT) */
-  @font-face { font-family: "Cooper"; font-style: normal; font-weight: 300 900; font-display: block; src: url(assets/fonts/cooper.woff2) format("woff2"); }
-  @font-face { font-family: "Cooper"; font-style: italic; font-weight: 300 900; font-display: block; src: url(assets/fonts/cooper-italic.woff2) format("woff2"); }
+  /* Cooper BT (licensed brand font, kept out of git in assets/fonts/cooperbt/).
+     If those files are missing, each face falls back to Cooper* (OFL revival of the same family). */
+  @font-face { font-family: "Cooper"; font-style: normal; font-weight: 300; font-display: block; src: url(assets/fonts/cooperbt/CooperLtBT-Regular.ttf), url(assets/fonts/cooper.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: normal; font-weight: 500; font-display: block; src: url(assets/fonts/cooperbt/CooperMdBT-Regular.ttf), url(assets/fonts/cooper.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: normal; font-weight: 700; font-display: block; src: url(assets/fonts/cooperbt/CooperLtBT-Bold.ttf), url(assets/fonts/cooper.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: normal; font-weight: 900; font-display: block; src: url(assets/fonts/cooperbt/CooperBlkBT-Regular.ttf), url(assets/fonts/cooper.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: italic; font-weight: 300; font-display: block; src: url(assets/fonts/cooperbt/CooperLtBT-Italic.ttf), url(assets/fonts/cooper-italic.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: italic; font-weight: 500; font-display: block; src: url(assets/fonts/cooperbt/CooperMdBT-Italic.ttf), url(assets/fonts/cooper-italic.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: italic; font-weight: 700; font-display: block; src: url(assets/fonts/cooperbt/CooperLtBT-BoldItalic.ttf), url(assets/fonts/cooper-italic.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: italic; font-weight: 900; font-display: block; src: url(assets/fonts/cooperbt/CooperBlkBT-Italic.ttf), url(assets/fonts/cooper-italic.woff2) format("woff2"); }
   @font-face { font-family: "Manrope"; font-style: normal; font-weight: 200 800; font-display: block; src: url(assets/fonts/manrope.woff2) format("woff2"); }
 
   :root {
@@ -54,10 +61,10 @@
   .pill { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; background: #1E1E1E; color: #fff; font: 600 15px Manrope; padding: 12px 20px; border-radius: 999px; opacity: 0; box-shadow: 0 10px 24px rgba(0,0,0,.25); }
 
   /* captions */
-  .cap { position: absolute; left: 150px; top: 330px; width: 720px; opacity: 0; z-index: 4; }
+  .cap { position: absolute; left: 140px; top: 330px; width: 840px; opacity: 0; z-index: 4; }
   .cap .num { font-family: "Cooper"; font-weight: 700; font-size: 26px; display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; margin-right: 16px; vertical-align: middle; }
   .cap .eyebrow { display: inline-block; vertical-align: middle; }
-  .cap h2 { font-family: "Cooper"; font-weight: 700; font-size: 100px; line-height: 1.02; margin-top: 30px; letter-spacing: -.01em; }
+  .cap h2 { font-family: "Cooper"; font-weight: 700; font-size: 94px; line-height: 1.02; margin-top: 30px; letter-spacing: -.01em; }
   .cap h2 i { font-weight: 300; }
   .cap p { font-size: 30px; line-height: 1.45; margin-top: 30px; max-width: 640px; }
   .bg { position: absolute; inset: 0; opacity: 0; }
