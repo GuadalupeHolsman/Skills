@@ -1,0 +1,344 @@
+{
+ "out": "out/03_BurningMan_TheExperience.mp4",
+ "grade": "desert",
+ "keywords": [
+  "desert",
+  "burning",
+  "man,",
+  "fire,",
+  "exactly",
+  "who",
+  "they",
+  "are.",
+  "differently,",
+  "week."
+ ],
+ "clips": [
+  {
+   "src": "burningman/IMG_0823_4.mov",
+   "in": 0.5,
+   "dur": 1.78,
+   "zoom": [
+    1.0,
+    1.06
+   ]
+  },
+  {
+   "src": "burningman/IMG_0809.mov",
+   "in": 2.0,
+   "dur": 1.92,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "trans": {
+    "type": "fadeblack",
+    "d": 0.4
+   }
+  },
+  {
+   "src": "burningman/IMG_1181.mov",
+   "in": 1.0,
+   "dur": 1.32,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "smoothleft",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "burningman/IMG_1620.mov",
+   "in": 6.0,
+   "dur": 1.58,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "zoomin",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "burningman/IMG_1288.mov",
+   "in": 1.0,
+   "dur": 1.3,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "trans": {
+    "type": "dissolve",
+    "d": 0.4
+   }
+  },
+  {
+   "src": "burningman/IMG_1453.mov",
+   "in": 2.0,
+   "dur": 1.46,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "burningman/IMG_1297.mov",
+   "in": 3.0,
+   "dur": 0.54,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "burningman/IMG_2407.mov",
+   "in": 9.5,
+   "dur": 1.95,
+   "zoom": [
+    1.05,
+    1.15
+   ],
+   "trans": {
+    "type": "fadewhite",
+    "d": 0.3
+   },
+   "shake": [
+    0.0,
+    0.8,
+    26
+   ]
+  },
+  {
+   "src": "burningman/IMG_1222.mov",
+   "in": 1.0,
+   "dur": 1.75,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "burningman/IMG_2246.mov",
+   "in": 1.4,
+   "dur": 2.25,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "smoothleft",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "burningman/IMG_1449.mov",
+   "in": 4.0,
+   "dur": 1.45,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "trans": {
+    "type": "fadeblack",
+    "d": 0.4
+   }
+  },
+  {
+   "src": "burningman/IMG_1430.mov",
+   "in": 1.0,
+   "dur": 1.5,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "trans": {
+    "type": "dissolve",
+    "d": 0.4
+   }
+  },
+  {
+   "src": "burningman/IMG_2406.mov",
+   "in": 2.0,
+   "dur": 1.55,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "dissolve",
+    "d": 0.4
+   }
+  },
+  {
+   "src": "burningman/f33c3980.mov",
+   "in": 0.0,
+   "dur": 2.0,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "smoothup",
+    "d": 0.3
+   }
+  },
+  {
+   "outro": true,
+   "dur": 3.0,
+   "tagline": "Live differently.\nEat bueno.",
+   "trans": {
+    "type": "fadeblack",
+    "d": 0.5
+   }
+  }
+ ],
+ "audio": [
+  {
+   "src": "burningman_audio/VO_B_141728.m4a",
+   "in": 0.6,
+   "start": 0,
+   "dur": 22.35,
+   "eq": "voice",
+   "fade_out": 0.4
+  }
+ ],
+ "sfx": [
+  {
+   "name": "impact",
+   "start": 0.12,
+   "vol": 0.6
+  },
+  {
+   "name": "wind",
+   "start": 0,
+   "vol": 0.16,
+   "dur": 10.5
+  },
+  {
+   "name": "riser",
+   "start": 7.9,
+   "vol": 0.35
+  },
+  {
+   "name": "impact",
+   "start": 9.9,
+   "vol": 0.6
+  },
+  {
+   "name": "sparkle",
+   "start": 18.8,
+   "vol": 0.3
+  }
+ ],
+ "overlays": [
+  {
+   "type": "title",
+   "kicker": "Burning Man",
+   "title": "the experience",
+   "start": 0.1,
+   "end": 1.78,
+   "y": 760,
+   "size": 110,
+   "sfx": false
+  },
+  {
+   "type": "caption",
+   "text": "We left everything behind",
+   "start": 1.78,
+   "end": 3.7
+  },
+  {
+   "type": "caption",
+   "text": "for a week in the desert",
+   "start": 3.7,
+   "end": 5.0
+  },
+  {
+   "type": "caption",
+   "text": "at Burning Man,",
+   "start": 5.0,
+   "end": 6.55
+  },
+  {
+   "type": "caption",
+   "text": "and we arrived somewhere",
+   "start": 6.6,
+   "end": 7.74
+  },
+  {
+   "type": "caption",
+   "text": "where art moves.",
+   "start": 7.74,
+   "end": 9.3
+  },
+  {
+   "type": "caption",
+   "text": "People danced",
+   "start": 9.36,
+   "end": 9.9
+  },
+  {
+   "type": "caption",
+   "text": "on sculptures made of fire,",
+   "start": 9.9,
+   "end": 11.85
+  },
+  {
+   "type": "caption",
+   "text": "and no one looked twice",
+   "start": 11.9,
+   "end": 13.0
+  },
+  {
+   "type": "caption",
+   "text": "at anyone for being",
+   "start": 13.0,
+   "end": 14.04
+  },
+  {
+   "type": "caption",
+   "text": "exactly who they are.",
+   "start": 14.04,
+   "end": 15.8
+  },
+  {
+   "type": "caption",
+   "text": "It wasn't just a trip,",
+   "start": 15.9,
+   "end": 17.3
+  },
+  {
+   "type": "caption",
+   "text": "it was a reminder",
+   "start": 17.3,
+   "end": 18.34
+  },
+  {
+   "type": "caption",
+   "text": "that you can live differently,",
+   "start": 18.34,
+   "end": 20.35
+  },
+  {
+   "type": "caption",
+   "text": "even if just for a week.",
+   "start": 20.35,
+   "end": 22.35
+  }
+ ]
+}

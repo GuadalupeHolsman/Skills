@@ -1,0 +1,286 @@
+{
+ "out": "out/01_FunFact_WhatIEatInADay.mp4",
+ "grade": "warm",
+ "outro_dur": 2.6,
+ "keywords": [
+  "nutrition",
+  "salads.",
+  "chocolate",
+  "waffles",
+  "matcha",
+  "beef",
+  "raviolis",
+  "protein",
+  "ice",
+  "cream",
+  "pretzel",
+  "eggs",
+  "tortilla.",
+  "context.",
+  "salads",
+  "tortilla",
+  "context"
+ ],
+ "clips": [
+  {
+   "src": "funfact/IMG_3713.MOV",
+   "in": 0.8,
+   "dur": 6.95,
+   "zoom": [
+    1.0,
+    1.06
+   ]
+  },
+  {
+   "src": "funfact/IMG_3647.MOV",
+   "in": 2.0,
+   "dur": 2.7,
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "trans": {
+    "type": "zoomin",
+    "d": 0.35
+   }
+  },
+  {
+   "src": "funfact/IMG_3655.MOV",
+   "in": 3.2,
+   "dur": 1.5,
+   "zoom": [
+    1.04,
+    1.12
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.25
+   }
+  },
+  {
+   "src": "funfact/IMG_3660.MOV",
+   "in": 1.6,
+   "dur": 2.75,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "funfact/IMG_3663.MOV",
+   "in": 0.2,
+   "dur": 2.75,
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.25
+   }
+  },
+  {
+   "src": "funfact/IMG_3713.MOV",
+   "in": 17.45,
+   "dur": 2.45,
+   "zoom": [
+    1.04,
+    1.0
+   ],
+   "trans": {
+    "type": "smoothup",
+    "d": 0.3
+   }
+  },
+  {
+   "outro": true,
+   "dur": 2.6,
+   "zoom": [
+    1.0,
+    1.03
+   ],
+   "trans": {
+    "type": "circleopen",
+    "d": 0.45
+   },
+   "tagline": "No bad foods.\nOnly smarter choices."
+  }
+ ],
+ "audio": [
+  {
+   "src": "funfact/IMG_3713.MOV",
+   "in": 0.8,
+   "start": 0,
+   "dur": 19.1,
+   "fade_out": 0.4,
+   "eq": "voice"
+  }
+ ],
+ "overlays": [
+  {
+   "type": "label",
+   "kicker": "What I eat in a day",
+   "start": 0.0,
+   "end": 6.95,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Fun fact:",
+   "start": 0.16,
+   "end": 1.4,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "working in nutrition",
+   "start": 1.4,
+   "end": 2.46,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "doesn't mean",
+   "start": 2.46,
+   "end": 3.08,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "I live on salads.",
+   "start": 3.08,
+   "end": 4.3,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "Here's what I",
+   "start": 4.3,
+   "end": 5.4,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "actually ate today",
+   "start": 5.4,
+   "end": 6.95,
+   "y": 1270
+  },
+  {
+   "type": "label",
+   "kicker": "Breakfast",
+   "start": 6.95,
+   "end": 9.65,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "chocolate waffles",
+   "start": 7.1,
+   "end": 7.96,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "with matcha",
+   "start": 7.96,
+   "end": 8.7,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "for breakfast,",
+   "start": 8.7,
+   "end": 9.65,
+   "y": 1270
+  },
+  {
+   "type": "label",
+   "kicker": "Lunch",
+   "start": 9.65,
+   "end": 11.15,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "beef raviolis for lunch,",
+   "start": 9.65,
+   "end": 11.15,
+   "y": 1270
+  },
+  {
+   "type": "label",
+   "kicker": "Snack",
+   "start": 11.15,
+   "end": 13.9,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "protein ice cream",
+   "start": 11.15,
+   "end": 12.3,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "with pretzel",
+   "start": 12.3,
+   "end": 12.96,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "for snack",
+   "start": 12.96,
+   "end": 13.7,
+   "y": 1270
+  },
+  {
+   "type": "label",
+   "kicker": "Dinner",
+   "start": 13.9,
+   "end": 16.65,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "and for dinner,",
+   "start": 13.7,
+   "end": 15.1,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "eggs with tortilla.",
+   "start": 15.1,
+   "end": 16.65,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "It's all about",
+   "start": 16.65,
+   "end": 17.52,
+   "y": 1270
+  },
+  {
+   "type": "caption",
+   "text": "context.",
+   "start": 17.52,
+   "end": 18.3,
+   "y": 1270
+  }
+ ],
+ "sfx": [
+  {
+   "name": "ding",
+   "start": 17.55,
+   "vol": 0.4
+  }
+ ]
+}

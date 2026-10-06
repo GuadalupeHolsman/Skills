@@ -1,0 +1,469 @@
+{
+ "out": "out/04_Area51_RoadTripWhatIAte.mp4",
+ "grade": "natural",
+ "keywords": [
+  "protein",
+  "electrolytes",
+  "sandwich",
+  "coleslaw",
+  "alien",
+  "hot",
+  "sauce,",
+  "pita",
+  "tea",
+  "eggs,",
+  "sausage",
+  "coffee",
+  "panda",
+  "express",
+  "bueno.",
+  "shake",
+  "bar"
+ ],
+ "clips": [
+  {
+   "src": "area51/IMG_2521.MOV",
+   "in": 3.0,
+   "dur": 3.0,
+   "zoom": [
+    1.0,
+    1.07
+   ]
+  },
+  {
+   "src": "area51/IMG_2539.MOV",
+   "in": 1.0,
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.2
+   }
+  },
+  {
+   "src": "area51/IMG_2559.MOV",
+   "in": 1.5,
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.28
+   }
+  },
+  {
+   "src": "area51/IMG_2557.MOV",
+   "in": 0.3,
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "zoomin",
+    "d": 0.28
+   }
+  },
+  {
+   "src": "area51/IMG_2723.MOV",
+   "in": 0.5,
+   "dur": 1.2,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.2
+   }
+  },
+  {
+   "src": "area51/IMG_2603.MOV",
+   "in": 0.5,
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "smoothleft",
+    "d": 0.28
+   }
+  },
+  {
+   "src": "area51/IMG_2629.MOV",
+   "in": 0.2,
+   "dur": 1.2,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "pixelize",
+    "d": 0.28
+   }
+  },
+  {
+   "src": "area51/IMG_2636.MOV",
+   "in": 2.0,
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.2
+   }
+  },
+  {
+   "src": "area51/IMG_2643.MOV",
+   "in": 0.5,
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "zoomin",
+    "d": 0.28
+   }
+  },
+  {
+   "src": "area51/IMG_2710.MOV",
+   "in": 0.3,
+   "dur": 1.2,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.2
+   }
+  },
+  {
+   "src": "area51/IMG_2651.MOV",
+   "in": 1.0,
+   "dur": 1.2,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.28
+   }
+  },
+  {
+   "src": "area51/IMG_2709.MOV",
+   "in": 2.0,
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.2
+   }
+  },
+  {
+   "src": "area51/IMG_2735.MOV",
+   "in": 0.5,
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "slideup",
+    "d": 0.28
+   }
+  },
+  {
+   "src": "area51/IMG_2743.MOV",
+   "in": 0.4,
+   "dur": 2.4,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "dissolve",
+    "d": 0.28
+   }
+  },
+  {
+   "src": "area51/IMG_2789.MOV",
+   "in": 1.0,
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "zoomin",
+    "d": 0.28
+   }
+  },
+  {
+   "src": "area51/IMG_2767.MOV",
+   "in": 0.5,
+   "dur": 1.2,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.2
+   }
+  },
+  {
+   "src": "area51/IMG_2792.MOV",
+   "in": 1.5,
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "fadewhite",
+    "d": 0.28
+   }
+  },
+  {
+   "src": "area51/IMG_2796.MOV",
+   "in": 1.5,
+   "dur": 1.2,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.2
+   }
+  },
+  {
+   "src": "area51/IMG_2681.MOV",
+   "in": 0.3,
+   "dur": 2.4,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "trans": {
+    "type": "smoothup",
+    "d": 0.28
+   }
+  },
+  {
+   "outro": true,
+   "dur": 3.0,
+   "tagline": "Wherever you go,\neat bueno.",
+   "trans": {
+    "type": "circleopen",
+    "d": 0.45
+   }
+  }
+ ],
+ "overlays": [
+  {
+   "type": "title",
+   "kicker": "What I ate on a",
+   "title": "road trip to Area 51",
+   "start": 0.2,
+   "end": 3.0,
+   "y": 700,
+   "size": 100,
+   "sfx": false
+  },
+  {
+   "type": "label",
+   "kicker": "Extraterrestrial Highway",
+   "start": 4.85,
+   "end": 6.6,
+   "y": 200
+  },
+  {
+   "type": "label",
+   "kicker": "Road snack",
+   "start": 6.6499999999999995,
+   "end": 8.4,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Caf\u00e9 latte protein shake",
+   "start": 6.75,
+   "end": 8.4,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "+ electrolytes (it's the desert)",
+   "start": 8.55,
+   "end": 9.6,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "label",
+   "kicker": "Little A'Le'Inn",
+   "start": 9.65,
+   "end": 11.4,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Top secret menu?",
+   "start": 11.55,
+   "end": 12.6,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "label",
+   "kicker": "Lunch",
+   "start": 14.450000000000001,
+   "end": 16.2,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Club sandwich + coleslaw",
+   "start": 14.55,
+   "end": 16.2,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "Alien hot sauce, obviously",
+   "start": 16.349999999999998,
+   "end": 17.4,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "+ local security",
+   "start": 17.549999999999997,
+   "end": 18.599999999999998,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "label",
+   "kicker": "Car snack",
+   "start": 20.45,
+   "end": 22.2,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Protein bar",
+   "start": 20.549999999999997,
+   "end": 22.2,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "Desert golden hour",
+   "start": 22.349999999999998,
+   "end": 24.599999999999998,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "label",
+   "kicker": "Dinner",
+   "start": 24.65,
+   "end": 26.4,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Chicken pita",
+   "start": 24.749999999999996,
+   "end": 26.4,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "+ hot tea",
+   "start": 26.549999999999997,
+   "end": 27.599999999999998,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "label",
+   "kicker": "Next morning",
+   "start": 27.65,
+   "end": 29.4,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Eggs, sausage + coffee",
+   "start": 27.749999999999996,
+   "end": 29.4,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "Panda Express for the road",
+   "start": 29.549999999999997,
+   "end": 30.599999999999998,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "Road trips can still be bueno.",
+   "start": 30.749999999999996,
+   "end": 33.0,
+   "anim": "rise",
+   "y": 1290
+  }
+ ],
+ "sfx": [
+  {
+   "name": "alien",
+   "start": 0.15,
+   "vol": 0.45
+  },
+  {
+   "name": "radar",
+   "start": 9.7,
+   "vol": 0.4
+  },
+  {
+   "name": "alien",
+   "start": 16.3,
+   "vol": 0.3
+  }
+ ],
+ "audio": [
+  {
+   "src": "music/space37.wav",
+   "in": 0,
+   "start": 0,
+   "dur": 36.0,
+   "vol": 0.55,
+   "fade_out": 1.2
+  }
+ ]
+}

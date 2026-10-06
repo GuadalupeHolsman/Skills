@@ -1,0 +1,286 @@
+{
+ "out": "out/05_MisComidas_EnLaCalle.mp4",
+ "grade": "warm",
+ "clips": [
+  {
+   "image": "miscomidas/cards/9520F665.jpg",
+   "dur": 2.791,
+   "zoom": [
+    1.0,
+    1.06
+   ]
+  },
+  {
+   "image": "miscomidas/cards/833222EF.jpg",
+   "dur": 2.093,
+   "zoom": [
+    1.06,
+    1.0
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.25,
+    "sfx_vol": 0.2
+   }
+  },
+  {
+   "image": "miscomidas/cards/C5480A82.jpg",
+   "dur": 2.093,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.25,
+    "sfx_vol": 0.2
+   }
+  },
+  {
+   "image": "miscomidas/cards/96119354.jpg",
+   "dur": 2.093,
+   "zoom": [
+    1.06,
+    1.0
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.25,
+    "sfx_vol": 0.2
+   }
+  },
+  {
+   "image": "miscomidas/cards/E55B9AC3.jpg",
+   "dur": 1.395,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.25,
+    "sfx_vol": 0.2
+   }
+  },
+  {
+   "image": "miscomidas/cards/2FDBC50E.jpg",
+   "dur": 1.395,
+   "zoom": [
+    1.06,
+    1.0
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.25,
+    "sfx_vol": 0.2
+   }
+  },
+  {
+   "image": "miscomidas/cards/E1C2942F.jpg",
+   "dur": 2.093,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "zoomin",
+    "d": 0.25,
+    "sfx_vol": 0.2
+   }
+  },
+  {
+   "image": "miscomidas/cards/6AD15472.jpg",
+   "dur": 2.093,
+   "zoom": [
+    1.06,
+    1.0
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.25,
+    "sfx_vol": 0.2
+   }
+  },
+  {
+   "card": true,
+   "palette": "green",
+   "dur": 2.093,
+   "kicker": "Sin culpa",
+   "title": "Comer fuera tambi\u00e9n puede ser bueno.",
+   "y": 760,
+   "size": 96,
+   "trans": {
+    "type": "fadewhite",
+    "d": 0.3
+   }
+  },
+  {
+   "outro": true,
+   "dur": 3.0,
+   "tagline": "No hay comidas malas.\nSolo mejores elecciones.",
+   "trans": {
+    "type": "circleopen",
+    "d": 0.45
+   }
+  }
+ ],
+ "overlays": [
+  {
+   "type": "title",
+   "kicker": "Comer bien fuera de casa",
+   "title": "Mis comidas cuando ando en la calle",
+   "start": 0.15,
+   "end": 2.791,
+   "y": 180,
+   "size": 92,
+   "sfx": false
+  },
+  {
+   "type": "label",
+   "kicker": "Desayuno",
+   "start": 2.8409999999999997,
+   "end": 4.884,
+   "y": 150
+  },
+  {
+   "type": "caption",
+   "text": "Huevos pochados, salchichas y caf\u00e9",
+   "start": 2.941,
+   "end": 4.884,
+   "anim": "rise",
+   "y": 1640,
+   "size": 64
+  },
+  {
+   "type": "caption",
+   "text": "Revuelto de vegetales + muffin ingl\u00e9s",
+   "start": 5.034000000000001,
+   "end": 6.977,
+   "anim": "rise",
+   "y": 1640,
+   "size": 64
+  },
+  {
+   "type": "label",
+   "kicker": "Almuerzo",
+   "start": 7.027,
+   "end": 9.07,
+   "y": 150
+  },
+  {
+   "type": "caption",
+   "text": "Sashimi + ensalada de algas",
+   "start": 7.127000000000001,
+   "end": 9.07,
+   "anim": "rise",
+   "y": 1640,
+   "size": 64
+  },
+  {
+   "type": "caption",
+   "text": "Prote\u00edna + vegetales, sin complicarse",
+   "start": 9.22,
+   "end": 10.465,
+   "anim": "rise",
+   "y": 1640,
+   "size": 64
+  },
+  {
+   "type": "caption",
+   "text": "Roll de at\u00fan",
+   "start": 10.615,
+   "end": 11.86,
+   "anim": "rise",
+   "y": 1640,
+   "size": 64
+  },
+  {
+   "type": "label",
+   "kicker": "Para llevar",
+   "start": 11.91,
+   "end": 13.953,
+   "y": 150
+  },
+  {
+   "type": "caption",
+   "text": "\u00bfComida r\u00e1pida? Tambi\u00e9n se puede.",
+   "start": 12.01,
+   "end": 13.953,
+   "anim": "rise",
+   "y": 1640,
+   "size": 64
+  },
+  {
+   "type": "caption",
+   "text": "Pollo a la parrilla + vegetales",
+   "start": 14.103,
+   "end": 16.046,
+   "anim": "rise",
+   "y": 1640,
+   "size": 64
+  }
+ ],
+ "sfx": [
+  {
+   "name": "shutter",
+   "start": 0.02,
+   "vol": 0.45
+  },
+  {
+   "name": "shutter",
+   "start": 2.811,
+   "vol": 0.45
+  },
+  {
+   "name": "shutter",
+   "start": 4.904,
+   "vol": 0.45
+  },
+  {
+   "name": "shutter",
+   "start": 6.997,
+   "vol": 0.45
+  },
+  {
+   "name": "shutter",
+   "start": 9.09,
+   "vol": 0.45
+  },
+  {
+   "name": "shutter",
+   "start": 10.485,
+   "vol": 0.45
+  },
+  {
+   "name": "shutter",
+   "start": 11.879999999999999,
+   "vol": 0.45
+  },
+  {
+   "name": "shutter",
+   "start": 13.972999999999999,
+   "vol": 0.45
+  }
+ ],
+ "keywords": [
+  "caf\u00e9",
+  "vegetales",
+  "sashimi",
+  "algas",
+  "prote\u00edna",
+  "at\u00fan",
+  "pollo",
+  "parrilla",
+  "tambi\u00e9n"
+ ],
+ "audio": [
+  {
+   "src": "music/lofi22.wav",
+   "in": 0,
+   "start": 0,
+   "dur": 21.14,
+   "vol": 0.6,
+   "fade_out": 1.2
+  }
+ ]
+}

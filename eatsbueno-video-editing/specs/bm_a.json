@@ -1,0 +1,363 @@
+{
+ "out": "out/02_BurningMan_BuenoIsReal.mp4",
+ "grade": "desert",
+ "keywords": [
+  "bueno",
+  "real,",
+  "perfect.",
+  "balance",
+  "sun,",
+  "road",
+  "treats,",
+  "fire,",
+  "taco",
+  "bell",
+  "burrito.",
+  "okay.",
+  "wellness",
+  "perfectly",
+  "balance.",
+  "guilt,",
+  "bueno"
+ ],
+ "clips": [
+  {
+   "src": "burningman/IMG_1676.mov",
+   "in": 0.4,
+   "dur": 2.4,
+   "zoom": [
+    1.0,
+    1.08
+   ]
+  },
+  {
+   "src": "burningman/IMG_1820.mov",
+   "in": 1.0,
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.22
+   }
+  },
+  {
+   "src": "burningman/IMG_1591.mov",
+   "in": 1.6,
+   "dur": 1.9,
+   "zoom": [
+    1.04,
+    1.0
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "burningman/IMG_1565.mov",
+   "in": 0.2,
+   "dur": 1.1,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "trans": {
+    "type": "zoomin",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "burningman/IMG_1539.mov",
+   "in": 0.6,
+   "dur": 0.75,
+   "zoom": [
+    1.0,
+    1.12
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.22
+   }
+  },
+  {
+   "src": "burningman/f33c3980.mov",
+   "in": 6.4,
+   "dur": 0.7,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.22
+   }
+  },
+  {
+   "src": "burningman/IMG_2407.mov",
+   "in": 12.0,
+   "dur": 0.75,
+   "zoom": [
+    1.05,
+    1.15
+   ],
+   "trans": {
+    "type": "fadewhite",
+    "d": 0.3
+   },
+   "shake": [
+    0.0,
+    0.6,
+    22
+   ]
+  },
+  {
+   "src": "burningman/IMG_0779.mov",
+   "in": 1.2,
+   "dur": 1.7,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.22
+   }
+  },
+  {
+   "src": "burningman/IMG_1411.mov",
+   "in": 0.9,
+   "dur": 1.4,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "trans": {
+    "type": "slideup",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "burningman/IMG_1032.mov",
+   "in": 1.0,
+   "dur": 1.35,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "trans": {
+    "type": "slideleft",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "burningman/IMG_1371.mov",
+   "in": 0.6,
+   "dur": 1.25,
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.22
+   }
+  },
+  {
+   "src": "burningman/IMG_2414.mov",
+   "in": 1.2,
+   "dur": 1.1,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "trans": {
+    "type": "smoothleft",
+    "d": 0.3
+   }
+  },
+  {
+   "src": "burningman/IMG_0873.mov",
+   "in": 0.4,
+   "dur": 1.2,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "trans": {
+    "type": "whip",
+    "d": 0.22
+   }
+  },
+  {
+   "src": "burningman/IMG_0793_2.mov",
+   "in": 3.0,
+   "dur": 2.15,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "trans": {
+    "type": "zoomin",
+    "d": 0.3
+   }
+  },
+  {
+   "outro": true,
+   "dur": 2.8,
+   "tagline": "Real, not perfect.\nThat's bueno too.",
+   "trans": {
+    "type": "circleopen",
+    "d": 0.45
+   }
+  }
+ ],
+ "audio": [
+  {
+   "src": "burningman_audio/VO_A_140748.m4a",
+   "in": 0.8999999999999999,
+   "start": 0,
+   "dur": 19.55,
+   "eq": "voice",
+   "fade_out": 0.3
+  }
+ ],
+ "sfx": [
+  {
+   "name": "wind",
+   "start": 0,
+   "vol": 0.1,
+   "dur": 19.55
+  },
+  {
+   "name": "impact",
+   "start": 8.62,
+   "vol": 0.55
+  },
+  {
+   "name": "pop_hi",
+   "start": 9.7,
+   "vol": 0.4
+  },
+  {
+   "name": "ding",
+   "start": 18.7,
+   "vol": 0.4
+  }
+ ],
+ "overlays": [
+  {
+   "type": "label",
+   "kicker": "Burning Man edition",
+   "start": 0.0,
+   "end": 6.1,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Bueno is real,",
+   "start": 0.26,
+   "end": 1.45
+  },
+  {
+   "type": "caption",
+   "text": "not perfect.",
+   "start": 1.45,
+   "end": 2.4
+  },
+  {
+   "type": "caption",
+   "text": "That's what balance",
+   "start": 2.46,
+   "end": 3.35
+  },
+  {
+   "type": "caption",
+   "text": "actually looks like",
+   "start": 3.35,
+   "end": 4.36
+  },
+  {
+   "type": "caption",
+   "text": "this week",
+   "start": 4.36,
+   "end": 6.0
+  },
+  {
+   "type": "label",
+   "kicker": "Real life menu",
+   "start": 6.7,
+   "end": 11.1,
+   "y": 200,
+   "sfx": false
+  },
+  {
+   "type": "caption",
+   "text": "Sun,",
+   "start": 6.7,
+   "end": 7.2
+  },
+  {
+   "type": "caption",
+   "text": "road treats,",
+   "start": 7.2,
+   "end": 7.95
+  },
+  {
+   "type": "caption",
+   "text": "dancing on a car on fire,",
+   "start": 7.95,
+   "end": 9.4
+  },
+  {
+   "type": "caption",
+   "text": "and a Taco Bell burrito.",
+   "start": 9.4,
+   "end": 11.05
+  },
+  {
+   "type": "caption",
+   "text": "And that's okay.",
+   "start": 11.1,
+   "end": 12.45
+  },
+  {
+   "type": "caption",
+   "text": "Wellness doesn't mean",
+   "start": 12.5,
+   "end": 13.6
+  },
+  {
+   "type": "caption",
+   "text": "eating perfectly all the time.",
+   "start": 13.6,
+   "end": 14.95
+  },
+  {
+   "type": "caption",
+   "text": "It means finding your way",
+   "start": 15.0,
+   "end": 16.2
+  },
+  {
+   "type": "caption",
+   "text": "back to balance.",
+   "start": 16.2,
+   "end": 17.4
+  },
+  {
+   "type": "caption",
+   "text": "Without guilt,",
+   "start": 17.45,
+   "end": 18.35
+  },
+  {
+   "type": "caption",
+   "text": "that's bueno too.",
+   "start": 18.35,
+   "end": 19.55
+  }
+ ]
+}
