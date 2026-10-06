@@ -21,7 +21,7 @@ They use the look of the loomlock promo films: a blue-violet gradient with soft 
 | `3-no-signal-no-bars.mp4` | The same as 2, without the signal bars and wifi at the start. |
 | `4-disposable-camera.mp4` | Disposable camera: warm film, five flash "shots" of the night that turn into prints and frame the invitation. |
 | `5-phone-free-party.mp4` | Phone-free alt party: black and white club footage, giant uppercase type. The sticker over the camera is off-brand, so it is kept as a reference only. |
-| `6-tap-in.mp4` | **Tap in** (latest): an on-brand alt party. Club footage in a loomlock-blue duotone, the promo-film type, and the real mechanic: a phone taps a yellow experience key and its apps lock. "Live the moment." bursts into colour. |
+| `6-tap-in.mp4` | **Tap in** (latest): an on-brand alt party. Club footage in a loomlock-blue duotone, the promo-film type, and the real mechanic: a yellow experience key spins in and taps the top of the phone (where the NFC is), the buzzing apps flip to locked in a wave from the tap point, the screen turns loomlock blue with a padlock closing ("Locked in"), and the camera dives into the screen and comes out into "Live the moment." in full colour. |
 
 ### Before publishing
 
