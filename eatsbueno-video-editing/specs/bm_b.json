@@ -17,7 +17,7 @@
   {
    "src": "burningman/IMG_0823_4.mov",
    "in": 0.5,
-   "dur": 1.78,
+   "dur": 0.9,
    "zoom": [
     1.0,
     1.06
@@ -26,15 +26,11 @@
   {
    "src": "burningman/IMG_0809.mov",
    "in": 2.0,
-   "dur": 1.92,
+   "dur": 1.1,
    "zoom": [
     1.0,
     1.05
-   ],
-   "trans": {
-    "type": "fadeblack",
-    "d": 0.4
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1181.mov",
@@ -43,11 +39,7 @@
    "zoom": [
     1.0,
     1.06
-   ],
-   "trans": {
-    "type": "smoothleft",
-    "d": 0.3
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1620.mov",
@@ -56,11 +48,7 @@
    "zoom": [
     1.0,
     1.06
-   ],
-   "trans": {
-    "type": "zoomin",
-    "d": 0.3
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1288.mov",
@@ -69,11 +57,7 @@
    "zoom": [
     1.0,
     1.05
-   ],
-   "trans": {
-    "type": "dissolve",
-    "d": 0.4
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1453.mov",
@@ -82,11 +66,7 @@
    "zoom": [
     1.0,
     1.06
-   ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.3
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1297.mov",
@@ -95,11 +75,7 @@
    "zoom": [
     1.0,
     1.05
-   ],
-   "trans": {
-    "type": "whip",
-    "d": 0.3
-   }
+   ]
   },
   {
    "src": "burningman/IMG_2407.mov",
@@ -109,10 +85,6 @@
     1.05,
     1.15
    ],
-   "trans": {
-    "type": "fadewhite",
-    "d": 0.3
-   },
    "shake": [
     0.0,
     0.8,
@@ -126,11 +98,7 @@
    "zoom": [
     1.0,
     1.06
-   ],
-   "trans": {
-    "type": "whip",
-    "d": 0.3
-   }
+   ]
   },
   {
    "src": "burningman/IMG_2246.mov",
@@ -139,11 +107,7 @@
    "zoom": [
     1.0,
     1.06
-   ],
-   "trans": {
-    "type": "smoothleft",
-    "d": 0.3
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1449.mov",
@@ -152,11 +116,7 @@
    "zoom": [
     1.0,
     1.08
-   ],
-   "trans": {
-    "type": "fadeblack",
-    "d": 0.4
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1430.mov",
@@ -165,11 +125,7 @@
    "zoom": [
     1.0,
     1.08
-   ],
-   "trans": {
-    "type": "dissolve",
-    "d": 0.4
-   }
+   ]
   },
   {
    "src": "burningman/IMG_2406.mov",
@@ -178,11 +134,7 @@
    "zoom": [
     1.0,
     1.06
-   ],
-   "trans": {
-    "type": "dissolve",
-    "d": 0.4
-   }
+   ]
   },
   {
    "src": "burningman/f33c3980.mov",
@@ -191,67 +143,37 @@
    "zoom": [
     1.0,
     1.06
-   ],
-   "trans": {
-    "type": "smoothup",
-    "d": 0.3
-   }
+   ]
   },
   {
    "outro": true,
    "dur": 3.0,
    "tagline": "Live differently.\nEat bueno.",
    "trans": {
-    "type": "fadeblack",
-    "d": 0.5
+    "type": "fade",
+    "d": 0.4
    }
   }
  ],
  "audio": [
   {
    "src": "burningman_audio/VO_B_141728.m4a",
-   "in": 0.6,
-   "start": 0,
-   "dur": 22.35,
+   "in": 2.9,
+   "start": 0.6,
+   "dur": 20.05,
    "eq": "voice",
+   "fade_in": 0.05,
    "fade_out": 0.4
   }
  ],
- "sfx": [
-  {
-   "name": "impact",
-   "start": 0.12,
-   "vol": 0.6
-  },
-  {
-   "name": "wind",
-   "start": 0,
-   "vol": 0.16,
-   "dur": 10.5
-  },
-  {
-   "name": "riser",
-   "start": 7.9,
-   "vol": 0.35
-  },
-  {
-   "name": "impact",
-   "start": 9.9,
-   "vol": 0.6
-  },
-  {
-   "name": "sparkle",
-   "start": 18.8,
-   "vol": 0.3
-  }
- ],
+ "sfx": [],
  "overlays": [
   {
    "type": "title",
    "kicker": "Burning Man",
    "title": "the experience",
-   "start": 0.1,
-   "end": 1.78,
+   "start": 0.0,
+   "end": 2.0,
    "y": 760,
    "size": 110,
    "sfx": false
@@ -259,86 +181,87 @@
   {
    "type": "caption",
    "text": "We left everything behind",
-   "start": 1.78,
-   "end": 3.7
+   "start": 0.75,
+   "end": 2.0
   },
   {
    "type": "caption",
    "text": "for a week in the desert",
-   "start": 3.7,
-   "end": 5.0
+   "start": 2.0,
+   "end": 3.3
   },
   {
    "type": "caption",
    "text": "at Burning Man,",
-   "start": 5.0,
-   "end": 6.55
+   "start": 3.3,
+   "end": 4.85
   },
   {
    "type": "caption",
    "text": "and we arrived somewhere",
-   "start": 6.6,
-   "end": 7.74
+   "start": 4.9,
+   "end": 6.04
   },
   {
    "type": "caption",
    "text": "where art moves.",
-   "start": 7.74,
-   "end": 9.3
+   "start": 6.04,
+   "end": 7.6
   },
   {
    "type": "caption",
    "text": "People danced",
-   "start": 9.36,
-   "end": 9.9
+   "start": 7.66,
+   "end": 8.2
   },
   {
    "type": "caption",
    "text": "on sculptures made of fire,",
-   "start": 9.9,
-   "end": 11.85
+   "start": 8.2,
+   "end": 10.15
   },
   {
    "type": "caption",
    "text": "and no one looked twice",
-   "start": 11.9,
-   "end": 13.0
+   "start": 10.2,
+   "end": 11.3
   },
   {
    "type": "caption",
    "text": "at anyone for being",
-   "start": 13.0,
-   "end": 14.04
+   "start": 11.3,
+   "end": 12.34
   },
   {
    "type": "caption",
    "text": "exactly who they are.",
-   "start": 14.04,
-   "end": 15.8
+   "start": 12.34,
+   "end": 14.1
   },
   {
    "type": "caption",
    "text": "It wasn't just a trip,",
-   "start": 15.9,
-   "end": 17.3
+   "start": 14.2,
+   "end": 15.6
   },
   {
    "type": "caption",
    "text": "it was a reminder",
-   "start": 17.3,
-   "end": 18.34
+   "start": 15.6,
+   "end": 16.64
   },
   {
    "type": "caption",
    "text": "that you can live differently,",
-   "start": 18.34,
-   "end": 20.35
+   "start": 16.64,
+   "end": 18.65
   },
   {
    "type": "caption",
    "text": "even if just for a week.",
-   "start": 20.35,
-   "end": 22.35
+   "start": 18.65,
+   "end": 20.65
   }
- ]
+ ],
+ "auto_sfx": false
 }

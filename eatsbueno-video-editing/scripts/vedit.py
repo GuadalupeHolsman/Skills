@@ -175,8 +175,8 @@ def seg_filter(sw, sh, W, H, dur, zoom, fps, grade, pan=None, shake=None):
     z0, z1 = zoom
     cover = max(W / sw, H / sh)
     zexpr = f"({z0}+({z1}-{z0})*min(t/{dur:.3f},1))"
-    sw_e = f"trunc({sw}*{cover:.6f}*{zexpr}/2)*2"
-    sh_e = f"trunc({sh}*{cover:.6f}*{zexpr}/2)*2"
+    sw_e = f"ceil({sw}*{cover:.6f}*{zexpr}/2)*2"
+    sh_e = f"ceil({sh}*{cover:.6f}*{zexpr}/2)*2"
     px, py = pan or (0.5, 0.5)
     cx, cy = f"(iw-{W})*{px}", f"(ih-{H})*{py}"
     if shake:  # [start, end, amplitude_px] camera shake for impacts
@@ -315,7 +315,8 @@ def main(spec_path):
             tr = segs[i][1]
             if tr:
                 typ = {"whip": "hblur"}.get(tr["type"], tr["type"])
-                fc.append(f"[{last}][{i}:v]xfade=transition={typ}:duration={tr.get('d', 0.3)}:offset={starts[i]:.3f}[x{i}]")
+                fc.append(f"[{last}]settb=AVTB,setpts=PTS-STARTPTS[l{i}];[{i}:v]settb=AVTB,setpts=PTS-STARTPTS[r{i}];"
+                          f"[l{i}][r{i}]xfade=transition={typ}:duration={tr.get('d', 0.3)}:offset={starts[i]:.3f}[x{i}]")
             else:  # hard cut: trim then concat
                 fc.append(f"[{last}]trim=duration={starts[i]:.3f},setpts=PTS-STARTPTS[t{i}];[{i}:v]setpts=PTS-STARTPTS[s{i}];[t{i}][s{i}]concat=n=2:v=1:a=0[x{i}]")
             last = f"x{i}"
@@ -377,7 +378,7 @@ def main(spec_path):
         fc.append(chain); amix.append(f"[a{m}]"); m += 1
     if amix:
         fc.append(f"{''.join(amix)}amix=inputs={len(amix)}:normalize=0:dropout_transition=0,"
-                  f"loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.89,apad,atrim=duration={total:.3f}[aout]")
+                  f"loudnorm=I={spec.get('lufs', -14)}:TP=-1.5:LRA=11,alimiter=limit=0.89,apad,atrim=duration={total:.3f}[aout]")
     else:
         fc.append(f"anullsrc=r=48000:cl=stereo,atrim=duration={total:.3f}[aout]")
     fc.append(f"[{last}]null[vout]")

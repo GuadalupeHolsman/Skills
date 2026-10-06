@@ -276,11 +276,6 @@
    "y": 1270
   }
  ],
- "sfx": [
-  {
-   "name": "ding",
-   "start": 17.55,
-   "vol": 0.4
-  }
- ]
+ "sfx": [],
+ "auto_sfx": false
 }

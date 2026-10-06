@@ -37,11 +37,7 @@
    "zoom": [
     1.0,
     1.06
-   ],
-   "trans": {
-    "type": "whip",
-    "d": 0.22
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1591.mov",
@@ -50,11 +46,7 @@
    "zoom": [
     1.04,
     1.0
-   ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.3
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1565.mov",
@@ -63,11 +55,7 @@
    "zoom": [
     1.0,
     1.08
-   ],
-   "trans": {
-    "type": "zoomin",
-    "d": 0.3
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1539.mov",
@@ -76,11 +64,7 @@
    "zoom": [
     1.0,
     1.12
-   ],
-   "trans": {
-    "type": "whip",
-    "d": 0.22
-   }
+   ]
   },
   {
    "src": "burningman/f33c3980.mov",
@@ -89,11 +73,7 @@
    "zoom": [
     1.0,
     1.05
-   ],
-   "trans": {
-    "type": "whip",
-    "d": 0.22
-   }
+   ]
   },
   {
    "src": "burningman/IMG_2407.mov",
@@ -103,10 +83,6 @@
     1.05,
     1.15
    ],
-   "trans": {
-    "type": "fadewhite",
-    "d": 0.3
-   },
    "shake": [
     0.0,
     0.6,
@@ -120,11 +96,7 @@
    "zoom": [
     1.0,
     1.06
-   ],
-   "trans": {
-    "type": "whip",
-    "d": 0.22
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1411.mov",
@@ -133,11 +105,7 @@
    "zoom": [
     1.0,
     1.05
-   ],
-   "trans": {
-    "type": "slideup",
-    "d": 0.3
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1032.mov",
@@ -146,11 +114,7 @@
    "zoom": [
     1.0,
     1.08
-   ],
-   "trans": {
-    "type": "slideleft",
-    "d": 0.3
-   }
+   ]
   },
   {
    "src": "burningman/IMG_1371.mov",
@@ -159,11 +123,7 @@
    "zoom": [
     1.0,
     1.1
-   ],
-   "trans": {
-    "type": "whip",
-    "d": 0.22
-   }
+   ]
   },
   {
    "src": "burningman/IMG_2414.mov",
@@ -172,11 +132,7 @@
    "zoom": [
     1.0,
     1.08
-   ],
-   "trans": {
-    "type": "smoothleft",
-    "d": 0.3
-   }
+   ]
   },
   {
    "src": "burningman/IMG_0873.mov",
@@ -185,11 +141,7 @@
    "zoom": [
     1.0,
     1.08
-   ],
-   "trans": {
-    "type": "whip",
-    "d": 0.22
-   }
+   ]
   },
   {
    "src": "burningman/IMG_0793_2.mov",
@@ -198,19 +150,15 @@
    "zoom": [
     1.0,
     1.05
-   ],
-   "trans": {
-    "type": "zoomin",
-    "d": 0.3
-   }
+   ]
   },
   {
    "outro": true,
    "dur": 2.8,
    "tagline": "Real, not perfect.\nThat's bueno too.",
    "trans": {
-    "type": "circleopen",
-    "d": 0.45
+    "type": "fade",
+    "d": 0.4
    }
   }
  ],
@@ -224,29 +172,7 @@
    "fade_out": 0.3
   }
  ],
- "sfx": [
-  {
-   "name": "wind",
-   "start": 0,
-   "vol": 0.1,
-   "dur": 19.55
-  },
-  {
-   "name": "impact",
-   "start": 8.62,
-   "vol": 0.55
-  },
-  {
-   "name": "pop_hi",
-   "start": 9.7,
-   "vol": 0.4
-  },
-  {
-   "name": "ding",
-   "start": 18.7,
-   "vol": 0.4
-  }
- ],
+ "sfx": [],
  "overlays": [
   {
    "type": "label",
@@ -359,5 +285,6 @@
    "start": 18.35,
    "end": 19.55
   }
- ]
+ ],
+ "auto_sfx": false
 }

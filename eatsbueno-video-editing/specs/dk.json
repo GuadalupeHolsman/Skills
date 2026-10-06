@@ -1,0 +1,268 @@
+{
+ "out": "out/08_HeladoProteico_DarkChocolate.mp4",
+ "grade": "warm",
+ "auto_sfx": false,
+ "sfx": [],
+ "lufs": -18,
+ "clips": [
+  {
+   "image": "dark/IMG_0292.jpg",
+   "dur": 2.4,
+   "zoom": [
+    1.0,
+    1.08
+   ]
+  },
+  {
+   "src": "dark/IMG_0285.MOV",
+   "in": 0.8,
+   "dur": 1.8,
+   "speed": 1.0,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "dark/IMG_0284.MOV",
+   "in": 1.5,
+   "dur": 1.6,
+   "speed": 1.0,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "dark/IMG_0284.MOV",
+   "in": 10.5,
+   "dur": 1.2,
+   "speed": 1.0,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "dark/IMG_0286.MOV",
+   "in": 6.5,
+   "dur": 1.6,
+   "speed": 1.0,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "dark/IMG_0287.MOV",
+   "in": 2.5,
+   "dur": 1.5,
+   "speed": 1.0,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "dark/IMG_0289.MOV",
+   "in": 3.0,
+   "dur": 1.6,
+   "speed": 1.0,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "dark/IMG_0288.MOV",
+   "in": 3.5,
+   "dur": 1.8,
+   "speed": 1.0,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "dark/IMG_0290.MOV",
+   "in": 5.0,
+   "dur": 2.0,
+   "speed": 1.5,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "audio": false,
+   "vol": 0.8
+  },
+  {
+   "src": "dark/IMG_0290.MOV",
+   "in": 27.0,
+   "dur": 1.8,
+   "speed": 1.0,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "dark/IMG_0291.MOV",
+   "in": 3.5,
+   "dur": 2.6,
+   "speed": 1.0,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "image": "dark/IMG_0293.jpg",
+   "dur": 1.8,
+   "zoom": [
+    1.0,
+    1.08
+   ]
+  },
+  {
+   "outro": true,
+   "dur": 2.8,
+   "tagline": "Postre sin culpa.\nSolo mejores elecciones.",
+   "trans": {
+    "type": "fade",
+    "d": 0.4
+   }
+  }
+ ],
+ "overlays": [
+  {
+   "type": "title",
+   "kicker": "Helado proteico",
+   "title": "Dark Chocolate & Oreo",
+   "start": 0.1,
+   "end": 2.4,
+   "y": 260,
+   "size": 104,
+   "sfx": false
+  },
+  {
+   "type": "label",
+   "kicker": "Paso 1 \u00b7 La base",
+   "start": 2.4499999999999997,
+   "end": 4.2,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Tu base de chocolate, congelada",
+   "start": 2.5,
+   "end": 4.2,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "label",
+   "kicker": "Paso 2 \u00b7 El mix-in",
+   "start": 4.25,
+   "end": 7.0,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Oreo Thins",
+   "start": 4.3,
+   "end": 7.0,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "label",
+   "kicker": "Paso 3 \u00b7 Ninja Creami",
+   "start": 7.050000000000001,
+   "end": 11.700000000000001,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "A la Ninja Creami",
+   "start": 7.1000000000000005,
+   "end": 10.100000000000001,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "Presiona y deja que gire",
+   "start": 10.200000000000001,
+   "end": 11.700000000000001,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "label",
+   "kicker": "Paso 4 \u00b7 Mix-in",
+   "start": 11.750000000000002,
+   "end": 17.3,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Haz un hueco en el centro",
+   "start": 11.8,
+   "end": 13.500000000000002,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "Agrega las Oreo en trozos",
+   "start": 13.600000000000001,
+   "end": 17.3,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "Cremoso, alto en prote\u00edna y sin culpa.",
+   "start": 17.400000000000002,
+   "end": 19.900000000000002,
+   "anim": "rise",
+   "y": 1290
+  }
+ ],
+ "keywords": [
+  "cottage",
+  "fairlife",
+  "red",
+  "velvet",
+  "prote\u00edna",
+  "alulosa",
+  "xantana",
+  "vainilla",
+  "voortman",
+  "oreo",
+  "thins",
+  "creami",
+  "mix-in",
+  "congela",
+  "prote\u00edna,",
+  "culpa."
+ ]
+}
