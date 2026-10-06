@@ -267,7 +267,6 @@
   {
    "outro": true,
    "dur": 3.0,
-   "tagline": "Wherever you go,\neat bueno.",
    "trans": {
     "type": "circleopen",
     "d": 0.45
@@ -439,23 +438,7 @@
    "y": 1290
   }
  ],
- "sfx": [
-  {
-   "name": "alien",
-   "start": 0.15,
-   "vol": 0.45
-  },
-  {
-   "name": "radar",
-   "start": 9.7,
-   "vol": 0.4
-  },
-  {
-   "name": "alien",
-   "start": 16.3,
-   "vol": 0.3
-  }
- ],
+ "sfx": [],
  "audio": [
   {
    "src": "music/space37.wav",
@@ -465,5 +448,6 @@
    "vol": 0.55,
    "fade_out": 1.2
   }
- ]
+ ],
+ "auto_sfx": false
 }

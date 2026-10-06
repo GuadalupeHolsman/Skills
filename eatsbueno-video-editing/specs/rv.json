@@ -7,236 +7,284 @@
  "clips": [
   {
    "image": "redvelvet/IMG_0318.jpg",
-   "dur": 2.4,
+   "dur": 2.2,
    "zoom": [
     1.0,
-    1.08
+    1.0
    ]
   },
   {
    "src": "redvelvet/IMG_0273.MOV",
-   "in": 37.5,
-   "dur": 2.2,
-   "speed": 1.5,
+   "in": 6.2,
+   "dur": 1.538,
+   "speed": 1.3,
    "zoom": [
     1.0,
-    1.05
+    1.0
    ],
-   "audio": false,
+   "audio": true,
    "vol": 0.8
   },
   {
-   "src": "redvelvet/IMG_0274.MOV",
-   "in": 3.2,
-   "dur": 1.4,
-   "speed": 1.0,
+   "src": "redvelvet/IMG_0273.MOV",
+   "in": 38.0,
+   "dur": 2.4,
+   "speed": 10,
    "zoom": [
     1.0,
-    1.05
+    1.0
    ],
    "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0274.MOV",
-   "in": 18.5,
-   "dur": 1.4,
-   "speed": 1.0,
-   "zoom": [
-    1.0,
-    1.05
-   ],
-   "audio": true,
-   "vol": 0.8
-  },
-  {
-   "src": "redvelvet/IMG_0275.MOV",
    "in": 2.4,
-   "dur": 1.6,
-   "speed": 1.0,
+   "dur": 1.5,
+   "speed": 2,
    "zoom": [
     1.0,
-    1.05
+    1.0
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "redvelvet/IMG_0274.MOV",
+   "in": 13.5,
+   "dur": 2.0,
+   "speed": 4.5,
+   "zoom": [
+    1.0,
+    1.0
    ],
    "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0275.MOV",
-   "in": 18.6,
-   "dur": 1.4,
-   "speed": 1.0,
+   "in": 1.6,
+   "dur": 1.481,
+   "speed": 2.7,
    "zoom": [
     1.0,
-    1.05
+    1.0
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "redvelvet/IMG_0275.MOV",
+   "in": 16.5,
+   "dur": 2.0,
+   "speed": 4,
+   "zoom": [
+    1.0,
+    1.0
    ],
    "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0276.MOV",
-   "in": 3.5,
-   "dur": 1.6,
-   "speed": 1.0,
-   "zoom": [
-    1.0,
-    1.05
-   ],
-   "audio": true,
-   "vol": 0.8
-  },
-  {
-   "src": "redvelvet/IMG_0277.MOV",
-   "in": 1.0,
+   "in": 7.0,
    "dur": 1.5,
-   "speed": 1.0,
+   "speed": 2,
    "zoom": [
     1.0,
-    1.05
+    1.0
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "redvelvet/IMG_0276.MOV",
+   "in": 27.0,
+   "dur": 2.143,
+   "speed": 7,
+   "zoom": [
+    1.0,
+    1.0
    ],
    "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0277.MOV",
-   "in": 83.0,
-   "dur": 1.6,
-   "speed": 1.0,
+   "in": 21.5,
+   "dur": 2.0,
+   "speed": 5,
    "zoom": [
     1.0,
-    1.05
+    1.0
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "redvelvet/IMG_0277.MOV",
+   "in": 37.0,
+   "dur": 1.5,
+   "speed": 2,
+   "zoom": [
+    1.0,
+    1.0
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "redvelvet/IMG_0277.MOV",
+   "in": 82.0,
+   "dur": 2.0,
+   "speed": 4.25,
+   "zoom": [
+    1.0,
+    1.0
    ],
    "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0278.MOV",
-   "in": 15.5,
+   "in": 6.0,
    "dur": 1.5,
-   "speed": 1.0,
+   "speed": 2,
    "zoom": [
     1.0,
-    1.05
+    1.0
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "redvelvet/IMG_0278.MOV",
+   "in": 13.0,
+   "dur": 2.0,
+   "speed": 3.25,
+   "zoom": [
+    1.0,
+    1.0
    ],
    "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0279.MOV",
-   "in": 8.0,
-   "dur": 1.8,
-   "speed": 2.0,
+   "in": 3.0,
+   "dur": 2.929,
+   "speed": 14,
    "zoom": [
     1.0,
-    1.05
+    1.0
    ],
-   "audio": false,
+   "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0280.MOV",
-   "in": 15.0,
-   "dur": 2.0,
-   "speed": 2.0,
+   "in": 12.0,
+   "dur": 2.923,
+   "speed": 13,
    "zoom": [
     1.0,
-    1.05
+    1.0
    ],
-   "audio": false,
+   "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0281.MOV",
-   "in": 6.0,
-   "dur": 1.2,
-   "speed": 1.0,
+   "in": 5.5,
+   "dur": 2.0,
+   "speed": 3,
    "zoom": [
     1.0,
-    1.05
+    1.0
    ],
    "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0282.MOV",
-   "in": 9.0,
-   "dur": 1.8,
-   "speed": 1.5,
+   "in": 8.5,
+   "dur": 2.333,
+   "speed": 3,
    "zoom": [
     1.0,
-    1.05
+    1.0
    ],
-   "audio": false,
+   "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0310.MOV",
-   "in": 1.5,
-   "dur": 1.6,
-   "speed": 1.0,
+   "in": 0.0,
+   "dur": 2.0,
+   "speed": 3,
    "zoom": [
     1.0,
-    1.05
+    1.0
    ],
    "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0311.MOV",
-   "in": 1.0,
+   "in": 0.5,
+   "dur": 2.478,
+   "speed": 2.3,
+   "zoom": [
+    1.0,
+    1.0
+   ],
+   "audio": true,
+   "vol": 0.8
+  },
+  {
+   "src": "redvelvet/IMG_0313.MOV",
+   "in": 1.5,
    "dur": 1.5,
-   "speed": 1.0,
+   "speed": 2,
    "zoom": [
     1.0,
-    1.05
+    1.0
    ],
    "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0313.MOV",
-   "in": 0.8,
-   "dur": 1.6,
-   "speed": 1.0,
+   "in": 5.0,
+   "dur": 2.857,
+   "speed": 7,
    "zoom": [
     1.0,
-    1.05
-   ],
-   "audio": true,
-   "vol": 0.8
-  },
-  {
-   "src": "redvelvet/IMG_0313.MOV",
-   "in": 13.0,
-   "dur": 1.6,
-   "speed": 1.0,
-   "zoom": [
-    1.0,
-    1.05
+    1.0
    ],
    "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0314.MOV",
-   "in": 0.5,
-   "dur": 1.2,
-   "speed": 1.0,
+   "in": 0.0,
+   "dur": 2.1,
+   "speed": 3,
    "zoom": [
     1.0,
-    1.05
+    1.0
    ],
    "audio": true,
    "vol": 0.8
   },
   {
    "src": "redvelvet/IMG_0316.MOV",
-   "in": 8.5,
-   "dur": 2.6,
-   "speed": 1.0,
+   "in": 4.0,
+   "dur": 4.043,
+   "speed": 2.3,
    "zoom": [
     1.0,
-    1.05
+    1.0
    ],
    "audio": true,
    "vol": 0.8
@@ -246,13 +294,12 @@
    "dur": 1.8,
    "zoom": [
     1.0,
-    1.08
+    1.0
    ]
   },
   {
    "outro": true,
-   "dur": 2.8,
-   "tagline": "Postre sin culpa.\nSolo mejores elecciones.",
+   "dur": 2.5,
    "trans": {
     "type": "fade",
     "d": 0.4
@@ -265,7 +312,7 @@
    "kicker": "Helado proteico",
    "title": "Red Velvet",
    "start": 0.1,
-   "end": 2.4,
+   "end": 2.2,
    "y": 260,
    "size": 104,
    "sfx": false
@@ -273,200 +320,268 @@
   {
    "type": "label",
    "kicker": "Paso 1 \u00b7 La base",
-   "start": 2.4499999999999997,
-   "end": 4.6,
+   "start": 2.25,
+   "end": 3.738,
    "y": 200
   },
   {
    "type": "caption",
-   "text": "Queso cottage",
-   "start": 2.5,
-   "end": 4.6,
+   "text": "Yogur griego Fage 0%",
+   "start": 2.3,
+   "end": 6.138,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "label",
    "kicker": "Paso 1 \u00b7 La base",
-   "start": 4.6499999999999995,
-   "end": 6.0,
+   "start": 3.788,
+   "end": 6.138,
+   "y": 200
+  },
+  {
+   "type": "label",
+   "kicker": "Paso 1 \u00b7 La base",
+   "start": 6.188,
+   "end": 7.638,
    "y": 200
   },
   {
    "type": "caption",
-   "text": "Leche Fairlife",
-   "start": 4.699999999999999,
-   "end": 7.3999999999999995,
+   "text": "Leche Fairlife sin grasa",
+   "start": 6.238,
+   "end": 9.638,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "label",
    "kicker": "Paso 1 \u00b7 La base",
-   "start": 7.45,
-   "end": 9.0,
+   "start": 7.688,
+   "end": 9.638,
+   "y": 200
+  },
+  {
+   "type": "label",
+   "kicker": "Paso 1 \u00b7 La base",
+   "start": 9.688,
+   "end": 11.119,
    "y": 200
   },
   {
    "type": "caption",
-   "text": "Mezcla de pud\u00edn red velvet",
-   "start": 7.5,
-   "end": 10.4,
+   "text": "Mezcla Sprinkles red velvet",
+   "start": 9.738,
+   "end": 14.619,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "label",
    "kicker": "Paso 1 \u00b7 La base",
-   "start": 10.450000000000001,
-   "end": 12.0,
+   "start": 11.169,
+   "end": 13.119,
+   "y": 200
+  },
+  {
+   "type": "label",
+   "kicker": "Paso 1 \u00b7 La base",
+   "start": 13.169,
+   "end": 14.619,
    "y": 200
   },
   {
    "type": "caption",
-   "text": "Prote\u00edna whey isolate",
-   "start": 10.5,
-   "end": 12.0,
+   "text": "Prote\u00edna ISO100",
+   "start": 13.219,
+   "end": 16.762,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "label",
    "kicker": "Paso 1 \u00b7 La base",
-   "start": 12.05,
-   "end": 13.5,
+   "start": 14.669,
+   "end": 16.762,
+   "y": 200
+  },
+  {
+   "type": "label",
+   "kicker": "Paso 1 \u00b7 La base",
+   "start": 16.812,
+   "end": 18.762,
    "y": 200
   },
   {
    "type": "caption",
    "text": "Endulzante con alulosa",
-   "start": 12.1,
-   "end": 13.5,
+   "start": 16.862,
+   "end": 18.762,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "label",
    "kicker": "Paso 1 \u00b7 La base",
-   "start": 13.55,
-   "end": 15.1,
+   "start": 18.812,
+   "end": 20.262,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "Una pizca de sal",
+   "start": 18.862,
+   "end": 20.262,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "label",
+   "kicker": "Paso 1 \u00b7 La base",
+   "start": 20.312,
+   "end": 22.262,
    "y": 200
   },
   {
    "type": "caption",
    "text": "1/8 cdta de goma xantana",
-   "start": 13.6,
-   "end": 15.1,
+   "start": 20.362,
+   "end": 22.262,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "label",
    "kicker": "Paso 1 \u00b7 La base",
-   "start": 15.15,
-   "end": 16.6,
+   "start": 22.312,
+   "end": 23.762,
    "y": 200
   },
   {
    "type": "caption",
-   "text": "Un toque de vainilla",
-   "start": 15.2,
-   "end": 16.6,
+   "text": "Vainilla",
+   "start": 22.362,
+   "end": 25.762,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "label",
+   "kicker": "Paso 1 \u00b7 La base",
+   "start": 23.812,
+   "end": 25.762,
+   "y": 200
+  },
+  {
+   "type": "label",
    "kicker": "Paso 2 \u00b7 Mezcla",
-   "start": 16.650000000000002,
-   "end": 21.6,
+   "start": 25.812,
+   "end": 31.614,
    "y": 200
   },
   {
    "type": "caption",
-   "text": "Mezcla todo",
-   "start": 16.700000000000003,
-   "end": 18.400000000000002,
+   "text": "Mezcla bien",
+   "start": 25.862,
+   "end": 28.691,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "caption",
    "text": "Lic\u00faa hasta que quede suave",
-   "start": 18.500000000000004,
-   "end": 20.400000000000002,
+   "start": 28.791,
+   "end": 31.614,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "Tapa el pint",
+   "start": 31.714,
+   "end": 33.614,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "label",
    "kicker": "Paso 3 \u00b7 Congela",
-   "start": 21.650000000000002,
-   "end": 23.400000000000002,
+   "start": 33.664,
+   "end": 35.947,
    "y": 200
   },
   {
    "type": "caption",
-   "text": "Al congelador toda la noche",
-   "start": 21.700000000000003,
-   "end": 23.400000000000002,
+   "text": "Congela toda la noche",
+   "start": 33.714,
+   "end": 35.947,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "label",
    "kicker": "Paso 4 \u00b7 Ninja Creami",
-   "start": 23.450000000000003,
-   "end": 26.500000000000004,
+   "start": 35.997,
+   "end": 41.925,
    "y": 200
   },
   {
    "type": "caption",
    "text": "A la Ninja Creami",
-   "start": 23.500000000000004,
-   "end": 26.500000000000004,
+   "start": 38.047,
+   "end": 40.425,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "label",
    "kicker": "Paso 5 \u00b7 Mix-in",
-   "start": 26.550000000000004,
-   "end": 30.900000000000006,
+   "start": 40.475,
+   "end": 46.882,
    "y": 200
   },
   {
    "type": "caption",
    "text": "Galletas Voortman zero sugar",
-   "start": 26.600000000000005,
-   "end": 29.700000000000003,
+   "start": 40.525,
+   "end": 41.925,
+   "anim": "rise",
+   "y": 1290
+  },
+  {
+   "type": "caption",
+   "text": "Haz un hueco y agrega las galletas",
+   "start": 42.025,
+   "end": 44.782,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "caption",
    "text": "Funci\u00f3n mix-in",
-   "start": 29.800000000000008,
-   "end": 30.900000000000006,
+   "start": 44.882,
+   "end": 46.882,
    "anim": "rise",
    "y": 1290
   },
   {
    "type": "caption",
    "text": "Cremoso, alto en prote\u00edna y sin culpa.",
-   "start": 31.000000000000007,
-   "end": 33.50000000000001,
+   "start": 46.982,
+   "end": 50.925,
    "anim": "rise",
    "y": 1290
   }
  ],
  "keywords": [
-  "cottage",
+  "fage",
+  "griego",
   "fairlife",
   "red",
   "velvet",
-  "prote\u00edna",
+  "iso100",
   "alulosa",
+  "sal",
   "xantana",
   "vainilla",
   "voortman",

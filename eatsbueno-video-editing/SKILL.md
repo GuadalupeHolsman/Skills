@@ -65,3 +65,7 @@ the wordmark and tagline rise in with a sparkle).
 
 `pip install faster-whisper pillow numpy pillow-heif`, then run `python3 scripts/sfx.py`
 once to synthesize the SFX kit into `sfx/`. Fonts are SIL OFL (Google Fonts).
+
+## Fonts
+
+Titles use **Cooper BT** (Cooper Lt BT Bold / Italic). It is a commercial font, so it is not in this repo: drop the licensed `CooperLtBT-*.ttf` / `CooperMdBT-*.ttf` files into `fonts/`. Captions, chips and step labels use **Manrope** (OFL, included).

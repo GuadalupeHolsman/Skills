@@ -252,7 +252,6 @@
   {
    "outro": true,
    "dur": 3.2,
-   "tagline": "Any meal. Any culture.\nJust bueno.",
    "trans": {
     "type": "circleopen",
     "d": 0.45
@@ -368,93 +367,7 @@
    "y": 1290
   }
  ],
- "sfx": [
-  {
-   "name": "impact",
-   "start": 0.1,
-   "vol": 0.4
-  },
-  {
-   "name": "tick",
-   "start": 2.643,
-   "vol": 0.6
-  },
-  {
-   "name": "pop_hi",
-   "start": 3.0429999999999997,
-   "vol": 0.35
-  },
-  {
-   "name": "tick",
-   "start": 4.25,
-   "vol": 0.6
-  },
-  {
-   "name": "pop_hi",
-   "start": 4.65,
-   "vol": 0.35
-  },
-  {
-   "name": "tick",
-   "start": 7.999,
-   "vol": 0.6
-  },
-  {
-   "name": "pop_hi",
-   "start": 8.399,
-   "vol": 0.35
-  },
-  {
-   "name": "tick",
-   "start": 10.677,
-   "vol": 0.6
-  },
-  {
-   "name": "pop_hi",
-   "start": 11.077,
-   "vol": 0.35
-  },
-  {
-   "name": "tick",
-   "start": 13.354999999999999,
-   "vol": 0.6
-  },
-  {
-   "name": "pop_hi",
-   "start": 13.754999999999999,
-   "vol": 0.35
-  },
-  {
-   "name": "tick",
-   "start": 16.032999999999998,
-   "vol": 0.6
-  },
-  {
-   "name": "pop_hi",
-   "start": 16.432999999999996,
-   "vol": 0.35
-  },
-  {
-   "name": "tick",
-   "start": 18.711,
-   "vol": 0.6
-  },
-  {
-   "name": "pop_hi",
-   "start": 19.110999999999997,
-   "vol": 0.35
-  },
-  {
-   "name": "tick",
-   "start": 21.389,
-   "vol": 0.6
-  },
-  {
-   "name": "pop_hi",
-   "start": 21.788999999999998,
-   "vol": 0.35
-  }
- ],
+ "sfx": [],
  "keywords": [
   "snap",
   "why,",
@@ -474,5 +387,6 @@
    "vol": 0.6,
    "fade_out": 1.2
   }
- ]
+ ],
+ "auto_sfx": false
 }

@@ -117,7 +117,6 @@
   {
    "outro": true,
    "dur": 3.0,
-   "tagline": "No hay comidas malas.\nSolo mejores elecciones.",
    "trans": {
     "type": "circleopen",
     "d": 0.45
@@ -220,48 +219,7 @@
    "size": 64
   }
  ],
- "sfx": [
-  {
-   "name": "shutter",
-   "start": 0.02,
-   "vol": 0.45
-  },
-  {
-   "name": "shutter",
-   "start": 2.811,
-   "vol": 0.45
-  },
-  {
-   "name": "shutter",
-   "start": 4.904,
-   "vol": 0.45
-  },
-  {
-   "name": "shutter",
-   "start": 6.997,
-   "vol": 0.45
-  },
-  {
-   "name": "shutter",
-   "start": 9.09,
-   "vol": 0.45
-  },
-  {
-   "name": "shutter",
-   "start": 10.485,
-   "vol": 0.45
-  },
-  {
-   "name": "shutter",
-   "start": 11.879999999999999,
-   "vol": 0.45
-  },
-  {
-   "name": "shutter",
-   "start": 13.972999999999999,
-   "vol": 0.45
-  }
- ],
+ "sfx": [],
  "keywords": [
   "caf\u00e9",
   "vegetales",
@@ -282,5 +240,6 @@
    "vol": 0.6,
    "fade_out": 1.2
   }
- ]
+ ],
+ "auto_sfx": false
 }

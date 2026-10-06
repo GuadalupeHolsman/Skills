@@ -16,8 +16,13 @@ GREEN = (43, 94, 82)
 DARK = (24, 44, 39)
 ACCENT = (255, 170, 102)
 
+FONT_MAP = {  # brand typography: Cooper BT family
+    "Fraunces900": "CooperLtBT-Bold", "Fraunces800": "CooperLtBT-Bold",
+    "FrauncesItalic700": "CooperLtBT-Bold", "FrauncesItalic500": "CooperLtBT-Italic",
+}
+
 def font(name, size):
-    return ImageFont.truetype(os.path.join(FONTS, name + ".ttf"), size)
+    return ImageFont.truetype(os.path.join(FONTS, FONT_MAP.get(name, name) + ".ttf"), size)
 
 def run(cmd):
     r = subprocess.run(cmd, capture_output=True, text=True)
@@ -334,7 +339,7 @@ def main(spec_path):
     kw = set(k.lower().strip(".,!?") for k in spec.get("keywords", []))
     for j, o in enumerate(spec.get("overlays", [])):
         if o["type"] == "caption":
-            im = caption_png(W, H, o["text"], o.get("y", 1290), o.get("size", 70), kw | set(k.lower() for k in o.get("keywords", [])))
+            im = caption_png(W, H, o["text"], o.get("y", 1290), o.get("size", 66), kw | set(k.lower() for k in o.get("keywords", [])))
             anim = o.get("anim", spec.get("caption_anim", "pop"))
         elif o["type"] == "label":
             im = label_png(W, H, o.get("kicker"), o.get("title"), o.get("y", 300), title_size=o.get("size", 84))
