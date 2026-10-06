@@ -1,0 +1,227 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(Anton-Regular.ttf)}
+@font-face{font-family:Bebas;src:url(BebasNeue-Regular.ttf)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#000}
+canvas{position:absolute;inset:0}
+.t{position:absolute;left:0;right:0;text-align:center;opacity:0}
+.anton{font-family:Anton;text-transform:uppercase}
+.bebas{font-family:Bebas}
+img{display:block;position:absolute;opacity:0}
+#card{position:absolute;left:150px;width:780px;top:780px;height:330px;opacity:0;background:#d8141b;border:8px solid #fff;
+  border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.45);text-align:center}
+.pill{display:inline-block;font-size:84px;letter-spacing:5px;color:#3f49cc;background:#fff;border-radius:999px;padding:14px 52px 6px}
+</style></head>
+<body><div id="stage">
+<canvas id="cv" width="1080" height="1920"></canvas>
+<div class="t anton" id="noiseWord" style="top:760px;font-size:300px;line-height:1;color:#fff"></div>
+<img id="mark" src="mark.svg" style="left:50%;top:50%;width:300px">
+<img id="lockup" src="lockup.svg" style="left:190px;top:170px;width:700px">
+<div class="t bebas" id="exp" style="top:440px;font-size:96px;letter-spacing:34px;padding-left:34px;color:#fff">EXPERIENCE</div>
+<div class="t anton" id="x" style="top:540px;font-size:130px;color:#fff">×</div>
+<div id="card">
+  <div class="anton" style="font-size:150px;line-height:1;color:#fff;margin-top:26px;letter-spacing:4px">SMIRNOFF</div>
+  <div class="anton" style="font-size:96px;line-height:1;color:#ffc72c;margin-top:14px;letter-spacing:2px">SPICY TAMARIND</div>
+</div>
+<div class="t" id="date" style="top:1310px"><span class="bebas pill" id="dateTxt"></span></div>
+<div class="t bebas" id="venue" style="top:1450px;font-size:72px;letter-spacing:8px;color:#fff"></div>
+<div class="t bebas" id="cta" style="top:1545px;font-size:60px;letter-spacing:8px;color:#ffc72c"></div>
+<div class="t bebas" id="extra" style="top:1630px;font-size:46px;letter-spacing:6px;color:rgba(255,255,255,.9)"></div>
+<div id="free"></div>
+<div class="t bebas" id="legal" style="bottom:48px;font-size:34px;letter-spacing:3px;color:rgba(255,255,255,.85)"></div>
+</div>
+
+<script>
+/* ==== EVENT DETAILS: edit here ==== */
+const EVENT = {
+  date:  "[DAY] [DATE] · [TIME]",
+  venue: "[VENUE · CITY]",
+  rsvp:  "RSVP · @LOOMLOCK",
+  legal: "ENJOY RESPONSIBLY · 18+ ONLY"
+};
+/* ================================== */
+const $=id=>document.getElementById(id);
+$('dateTxt').textContent=EVENT.date; $('venue').textContent=EVENT.venue; $('cta').textContent=EVENT.rsvp; $('legal').textContent=EVENT.legal;
+
+const W=1080,H=1920, c=$('cv').getContext('2d');
+const BLUE='#3f49cc';
+const SPICY=['#e3191d','#ff6b1a','#ffc72c','#6b2a12','#2ba84a','#ffffff'];
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ramp=(t,a,b)=>clamp((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-clamp(x),3);
+const eio=x=>{x=clamp(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const back=x=>{x=clamp(x);const s=1.7;return 1+(s+1)*Math.pow(x-1,3)+s*Math.pow(x-1,2)};
+function rng(seed){let s=seed*9301+49297;return()=>{s=(s*9301+49297)%233280;return s/233280}}
+
+/* ---------- patterns ---------- */
+function pat(type,t,pal){
+  const [A,B,C]=pal; c.fillStyle=A; c.fillRect(0,0,W,H); c.save();
+  if(type===0){ const h=120, off=(t*900)%(h*2);
+    for(let y=-h*2;y<H+h*2;y+=h){ c.fillStyle=((y/h)&1)?B:C; c.beginPath();
+      for(let x=0;x<=W+90;x+=90){const yy=y+off+((x/90)&1?45:0); x===0?c.moveTo(x,yy):c.lineTo(x,yy);}
+      for(let x=W+90;x>=0;x-=90){c.lineTo(x,y+off+h/2+((x/90)&1?45:0));} c.fill(); }
+  } else if(type===1){ c.translate(W/2,H/2); c.rotate(t*2.2);
+    for(let i=0;i<36;i++){c.fillStyle=i%2?B:C; c.beginPath(); c.moveTo(0,0); c.arc(0,0,2400,i*Math.PI/18,(i+1)*Math.PI/18); c.fill();}
+  } else if(type===2){ const s=90+40*Math.sin(t*30);
+    for(let y=0;y<H/s+1;y++)for(let x=0;x<W/s+1;x++) if((x+y)&1){c.fillStyle=(x%3)?B:C;c.fillRect(x*s,y*s,s,s);}
+  } else if(type===3){ const off=(t*500)%160;
+    for(let rr=2400+off;rr>0;rr-=80){c.fillStyle=((rr-off)/80|0)%2?B:C;c.beginPath();c.arc(W/2,H/2,rr,0,7);c.fill();}
+  } else if(type===4){
+    for(let y=0;y<H;y+=60)for(let x=0;x<W;x+=60){const d=Math.hypot(x-W/2,y-H/2);
+      c.fillStyle=(x/60+y/60)%2?B:C; c.beginPath();c.arc(x+30,y+30,8+22*(.5+.5*Math.sin(d/60-t*14)),0,7);c.fill();}
+  } else if(type===5){ c.translate(W/2,H/2); c.rotate(-.6); const off=(t*1200)%140;
+    for(let x=-1600;x<1600;x+=140){c.fillStyle=B;c.fillRect(x+off,-1600,60,3200);c.fillStyle=C;c.fillRect(x+off+70,-1600,22,3200);}
+  } else { for(let row=0;row<14;row++){const y=row*150-((t*600)%150), dir=row%2?1:-1;
+      for(let x=-200;x<W+200;x+=100){const xx=x+dir*((t*500)%100); c.fillStyle=(row%2)?B:C;
+        c.beginPath();c.moveTo(xx,y);c.lineTo(xx+100,y);c.lineTo(xx+50,y+120);c.fill();}}
+  }
+  c.restore();
+}
+function notifs(t,count){
+  for(let i=0;i<count;i++){
+    const rr=rng(i*7+3), w=760+rr()*160, x=(W-w)/2+(rr()-.5)*120, y=1700-i*86-(rr()*30);
+    c.save(); c.globalAlpha=clamp((t-i*.09)*8)*.96; c.translate(x+w/2,y); c.rotate((rr()-.5)*.12);
+    c.fillStyle='#fff'; c.shadowColor='rgba(0,0,0,.35)'; c.shadowBlur=24;
+    const h=130; c.beginPath(); c.roundRect(-w/2,-h/2,w,h,34); c.fill(); c.shadowBlur=0;
+    c.fillStyle=SPICY[i%5]; c.beginPath(); c.arc(-w/2+70,0,36,0,7); c.fill();
+    c.fillStyle='#1b1b1b'; c.fillRect(-w/2+130,-28,w*.45,20); c.fillStyle='#9a9a9a'; c.fillRect(-w/2+130,10,w*.62,16);
+    c.fillStyle='#e3191d'; c.beginPath(); c.arc(w/2-50,-h/2+10,30,0,7); c.fill();
+    c.fillStyle='#fff'; c.font='34px Anton'; c.textAlign='center'; c.fillText(String(1+((i*7)%99)),w/2-50,-h/2+23);
+    c.restore();
+  }
+}
+/* NOISE: accelerating cuts between patterns + stacked notifications */
+const WORDS=['+99','PING','SCROLL','SEEN','ONE MORE','@','99+','NEW','REFRESH','•••'];
+function noise(t,len,startInterval=.55){
+  const cuts=[0]; {let x=0,d=startInterval; while(x<len){x+=d;cuts.push(x);d=Math.max(.1,d*.86);}}
+  let k=0; while(k+1<cuts.length&&cuts[k+1]<=t)k++;
+  const r=rng(k+11), type=Math.floor(r()*7);
+  const pal=[SPICY[k%5],SPICY[(k+2)%5],SPICY[(k+1)%6]];
+  if(k%4===3){pal[0]='#0b0f3a';pal[1]=BLUE;pal[2]='#11163f';}
+  const sh=Math.pow(t/len,2)*40; c.save(); c.translate((r()-.5)*sh,(r()-.5)*sh);
+  pat(type,t,pal); notifs(t,Math.floor(t*4.2*(4.6/len))); c.restore();
+  const nw=$('noiseWord'); nw.textContent=WORDS[k%WORDS.length]; nw.style.opacity=(k%2===0)?1:0;
+  const g=(r()-.5)*30; nw.style.textShadow=`${g}px 0 #e3191d, ${-g}px 0 ${BLUE}, 0 10px 40px rgba(0,0,0,.4)`;
+  nw.style.transform=`scale(${1+.15*r()}) rotate(${(r()-.5)*10}deg)`;
+}
+/* TAP: the Loomlock key appears, taps, blue wipe */
+function tapScene(t,appear,tap,wipeEnd){
+  c.fillStyle='#000'; c.fillRect(0,0,W,H);
+  const m=$('mark'), inn=eo(ramp(t,appear,appear+.6));
+  let s=.85+.15*inn; if(t>=tap) s*=1-.08*Math.sin(clamp((t-tap)/.18)*Math.PI);
+  m.style.opacity=inn; m.style.transform=`translate(-50%,-50%) scale(${s})`;
+  if(t>=tap){ const p=eio(ramp(t,tap,wipeEnd)); c.fillStyle=BLUE; c.beginPath(); c.arc(W/2,H/2,p*1200,0,7); c.fill();
+    for(let k=0;k<3;k++){const q=ramp(t,tap+k*.08,tap+.7+k*.08); if(q>0&&q<1){
+      c.strokeStyle=`rgba(255,255,255,${1-q})`; c.lineWidth=10*(1-q)+2; c.beginPath(); c.arc(W/2,H/2,160+q*900,0,7); c.stroke();}}}
+}
+function blueBg(t,gridFrom){
+  c.fillStyle=BLUE; c.fillRect(0,0,W,H);
+  const g=c.createRadialGradient(W/2,H*.45,100,W/2,H*.45,1300); g.addColorStop(0,'rgba(255,255,255,.08)'); g.addColorStop(1,'rgba(0,0,0,.25)');
+  c.fillStyle=g; c.fillRect(0,0,W,H);
+  const a=.10*eo(ramp(t,gridFrom,gridFrom+1)); c.save(); c.strokeStyle=`rgba(255,255,255,${a})`; c.lineWidth=2;
+  const s=90, dy=(t*18)%s, k=Math.tan(Math.PI/6);
+  for(let i=-30;i<40;i++){c.beginPath();c.moveTo(0,i*s+dy);c.lineTo(W,i*s+dy+W*k);c.stroke();c.beginPath();c.moveTo(0,i*s+dy);c.lineTo(W,i*s+dy-W*k);c.stroke();}
+  c.restore();
+}
+/* WEAVE: loom textile in spicy colors */
+function weave(t,start,y0,y1,speed=1){
+  const cols=SPICY.slice(0,5), sw=60, gap=8, nWarp=Math.ceil(W/(sw+gap))+1, nWeft=Math.floor((y1-y0)/(sw+gap));
+  const T=start+(t-start)*speed;
+  for(let i=0;i<nWarp;i++){const p=eo(ramp(T,start+i*.02,start+.5+i*.02)); if(p<=0)continue;
+    c.fillStyle=cols[i%5]; c.fillRect(i*(sw+gap),y0,sw,(y1-y0)*p);}
+  for(let j=0;j<nWeft;j++){const p=eio(ramp(T,start+.4+j*.09,start+.95+j*.09)); if(p<=0)continue;
+    const y=y0+j*(sw+gap)+gap/2, dir=j%2?1:-1, len=W*p;
+    c.fillStyle=cols[(j+2)%5]; dir>0?c.fillRect(0,y,len,sw):c.fillRect(W-len,y,len,sw);
+    for(let i=0;i<nWarp;i++){ if((i+j)%2)continue; const x=i*(sw+gap);
+      if(!(dir>0? x<len : x+sw>W-len))continue;
+      c.fillStyle=cols[i%5]; c.fillRect(x,y-2,sw,sw+4); c.fillStyle='rgba(0,0,0,.18)'; c.fillRect(x,y+sw-6,sw,6);}}
+}
+/* DOM helpers */
+function show(el,t,a,dur=.45,dy=50){const p=eo(ramp(t,a,a+dur));el.style.opacity=p;el.style.transform=`translateY(${(1-p)*dy}px)`;return p;}
+function slam(el,t,a,dur=.3){const p=ramp(t,a,a+dur);el.style.opacity=p>0?1:0;el.style.transform=`scale(${1+(1-eo(p))*1.4})`;}
+function out(el,t,a,dur=.3){el.style.opacity=parseFloat(el.style.opacity||0)*(1-ramp(t,a,a+dur));}
+const FREE={};
+function free(id,html,style){ if(!FREE[id]){const d=document.createElement('div'); d.className='t'; d.id=id; d.innerHTML=html; d.style.cssText+=';'+style; $('free').appendChild(d); FREE[id]=d;} return FREE[id]; }
+function closing(t,S,o={}){
+  weave(t,S,690,1200,o.speed||1);
+  show($('lockup'),t,S+.1,.5,-40); show($('exp'),t,S+.35,.5,-30); show($('x'),t,S+.9*(o.k||1),.4,0);
+  const a=S+1.6*(o.k||1), cp=back(ramp(t,a,a+.5)), cd=$('card');
+  cd.style.opacity=ramp(t,a,a+.15); cd.style.transform=`scale(${.6+.4*cp}) rotate(${(1-clamp(cp))*-6}deg)`;
+  const d=S+2.5*(o.k||1); show($('date'),t,d,.45); show($('venue'),t,d+.25,.45); show($('cta'),t,d+.5,.45);
+  if(o.extra){$('extra').textContent=o.extra; show($('extra'),t,d+.8,.45);}
+}
+
+/* ================= VARIANTS ================= */
+const V={};
+
+/* 1 · INVITATION (20s) */
+V.invite={dur:20,draw(t){
+  $('legal').style.opacity=t>=7.0?1:0;
+  const l1=free('i1','TONIGHT, YOUR PHONE','top:820px;font-family:Bebas;font-size:92px;letter-spacing:10px;color:#fff');
+  const l2=free('i2','WANTS YOUR ATTENTION.','top:930px;font-family:Bebas;font-size:92px;letter-spacing:10px;color:#fff');
+  const y1=free('y1',"YOU'RE",'top:640px;font-family:Anton;font-size:230px;line-height:1;color:#fff');
+  const y2=free('y2','INVITED.','top:880px;font-family:Anton;font-size:230px;line-height:1;color:#ffc72c');
+  const y3=free('y3','TO A NIGHT LIVED FIRST.','top:1160px;font-family:Bebas;font-size:80px;letter-spacing:10px;color:#fff');
+  if(t<2.5){ c.fillStyle='#000'; c.fillRect(0,0,W,H); show(l1,t,.3,.5,30); show(l2,t,1.0,.5,30); out(l1,t,2.2,.25); out(l2,t,2.2,.25); return; }
+  if(t<5.1){ noise(t-2.5,2.6,.42); return; }
+  if(t<5.4){ c.fillStyle='#000'; c.fillRect(0,0,W,H); return; }
+  if(t<7.0){ tapScene(t,5.4,6.3,7.0); return; }
+  blueBg(t,7.0);
+  if(t<10.6){ const m=$('mark'), up=eio(ramp(t,7.0,7.6));
+    m.style.opacity=1-ramp(t,10.3,10.6); m.style.transform=`translate(-50%,${-50-170*up}%) scale(${1-.5*up})`;
+    slam(y1,t,7.7); slam(y2,t,8.2); show(y3,t,8.9,.5,40); [y1,y2,y3].forEach(e=>out(e,t,10.3,.3)); return; }
+  closing(t,10.6,{extra:'GUEST LIST ONLY · TAP YOUR KEY AT THE DOOR'});
+  const lp=free('lp','LIVE NOW. POST LATER.','top:1740px;font-family:Anton;font-size:64px;letter-spacing:4px;color:#fff');
+  show(lp,t,15.2,.5,30);
+}};
+
+/* 2 · PROMO "NOISE / CUT / SILENCE" (15s) */
+V.noise={dur:15,draw(t){
+  $('legal').style.opacity=t>=6.5?1:0;
+  const L=free('live','LIVE NOW.','top:820px;font-family:Anton;font-size:210px;line-height:1;color:#fff');
+  const P=free('post','POST LATER.','top:1040px;font-family:Anton;font-size:210px;line-height:1;color:#fff');
+  if(t<4.6){ noise(t,4.6); return; }
+  if(t<5.0){ c.fillStyle='#000'; c.fillRect(0,0,W,H); return; }
+  if(t<6.5){ tapScene(t,5.0,5.9,6.5); return; }
+  blueBg(t,6.5);
+  if(t<9.4){ const m=$('mark'), up=eio(ramp(t,6.5,7.1));
+    m.style.opacity=1-ramp(t,9.1,9.4); m.style.transform=`translate(-50%,${-50-150*up}%) scale(${1-.45*up})`;
+    show(L,t,7.1,.45,60); show(P,t,7.8,.45,60); out(L,t,9.1); out(P,t,9.1); return; }
+  closing(t,9.4);
+}};
+
+/* 3 · PROMO "SWEET. TART. SPICY." (10s, cuts on the beat @120bpm) */
+V.spicy={dur:10,draw(t){
+  $('legal').style.opacity=t>=4.6?1:0;
+  const beats=[['SWEET.',1,['#ffc72c','#ff6b1a','#ffffff'],'#e3191d'],['TART.',2,['#2ba84a','#ffc72c','#1d7a35'],'#fff'],
+    ['SPICY.',0,['#e3191d','#ff6b1a','#6b2a12'],'#ffc72c'],['TAMARIND.',3,['#6b2a12','#ff6b1a','#e3191d'],'#fff'],
+    ['PHONES',5,['#0b0f3a',BLUE,'#11163f'],'#fff'],['LOCKED.',2,[BLUE,'#2a318f','#ffffff'],'#ffc72c'],
+    ['NIGHT',6,['#e3191d','#ffc72c','#ff6b1a'],'#fff'],['UNLOCKED.',1,['#ffc72c','#e3191d','#ff6b1a'],BLUE]];
+  const w=free('bw','','top:780px;font-family:Anton;font-size:260px;line-height:1');
+  if(t<4.0){ const k=Math.floor(t/.5), b=beats[k], lt=t-k*.5;
+    pat(b[1],t,b[2]);
+    w.textContent=b[0]; w.style.color=b[3]; w.style.opacity=1;
+    w.style.fontSize=(b[0].length>7?190:260)+'px';
+    const p=eo(clamp(lt/.12)); w.style.transform=`scale(${1.5-.5*p})`;
+    w.style.webkitTextStroke='10px #1a0506'; w.style.paintOrder='stroke fill'; w.style.textShadow='0 16px 0 rgba(26,5,6,.85)';
+    return; }
+  w.style.opacity=0;
+  if(t<4.6){ tapScene(t,3.95,4.0,4.6); $('mark').style.opacity=1; return; }
+  blueBg(t,4.6);
+  const m=$('mark'); m.style.opacity=1-ramp(t,4.6,4.9); m.style.transform=`translate(-50%,-50%) scale(${1-.5*ramp(t,4.6,4.9)})`;
+  closing(t,4.6,{k:.7,speed:1.4,extra:'LIVE NOW. POST LATER.'});
+}};
+
+const VAR=V[(location.hash||'#noise').slice(1)];
+window.DURATION=VAR.dur;
+window.render=function(t){
+  ['noiseWord','mark','lockup','exp','x','card','date','venue','cta','extra'].forEach(i=>$(i).style.opacity=0);
+  Object.values(FREE).forEach(e=>e.style.opacity=0);
+  c.setTransform(1,0,0,1,0,0); VAR.draw(t);
+};
+window.render(0);
+</script>
+</body></html>
