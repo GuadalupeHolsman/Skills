@@ -17,6 +17,6 @@ Two 20-second vertical (1080×1920) options, each with its own music:
 | File | Mood |
 |---|---|
 | `invitation-donjulio-elegant.mp4` | Elegant night: black and gold, serif type, gold dust, Locky in a spotlight, lounge jazz. |
-| `invitation-donjulio-mystery.mp4` | No signal, with stock footage: a phone glowing in bed at night loses its bars to "No Service", "Connection lost.", then the night comes through the static (a toast, a dance floor, hats against an agave sunset, friends laughing); the two names and "29.10" over dark crowd footage. Footage: Mixkit, free licence. |
+| `invitation-donjulio-mystery.mp4` | No-signal look with stock footage (noise, colour-split glitches, falling signal bars), with copy about control: "Put it down.", "Gain control.", "Take your time back. Look up. Be here.", "Live the moment.", then "29.10", "Your night. Your time.", "By invitation only." Footage: Mixkit, free licence. |
 
 Both end with "+18 · Please drink responsibly." The Don Julio logo is a public web copy recolored to gold and white; swap in the brand's official file before publishing.
