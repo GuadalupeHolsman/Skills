@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>EatsBueno Product Film</title>
+<style>
+  @font-face { font-family: "Fraunces"; font-style: normal; font-weight: 100 900; font-display: block; src: url(assets/fonts/fraunces.woff2) format("woff2"); }
+  @font-face { font-family: "Fraunces"; font-style: italic; font-weight: 100 900; font-display: block; src: url(assets/fonts/fraunces-italic.woff2) format("woff2"); }
+  @font-face { font-family: "Manrope"; font-style: normal; font-weight: 200 800; font-display: block; src: url(assets/fonts/manrope.woff2) format("woff2"); }
+
+  :root {
+    --ink: #1E1E1E;
+    --green: #3B7668;
+    --deep: #2A5D51;
+    --cream: #FAF0DF;
+    --mint: #AFCFC4;
+    --sage: #EAECDE;
+    --paper: #F9F4F2;
+    --orange: #E26023;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); font-family: "Manrope", sans-serif; color: var(--ink); }
+  .scene { position: absolute; inset: 0; overflow: hidden; visibility: hidden; }
+  .abs { position: absolute; }
+  .serif, .label, .stat .n, .bubble b { font-family: "Fraunces", serif; font-optical-sizing: none; font-variation-settings: "opsz" 28, "SOFT" 100, "WONK" 0; }
+  .it { font-style: italic; font-weight: 400; }
+  .b { font-weight: 700; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(90px); will-change: transform; }
+  .grain { position: absolute; inset: 0; pointer-events: none; opacity: .16; mix-blend-mode: overlay; z-index: 50; }
+  .eyebrow { font-family: "Manrope"; font-weight: 700; font-size: 20px; letter-spacing: .22em; text-transform: uppercase; }
+  .word { display: inline-block; will-change: transform; }
+  .line { display: block; overflow: hidden; padding-bottom: .12em; }
+
+  /* logo pieces */
+  .flower svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .wordmark { -webkit-mask: var(--wm) center / contain no-repeat; mask: var(--wm) center / contain no-repeat; background: var(--cream); aspect-ratio: 1174 / 194; }
+  .seed { position: absolute; border-radius: 50%; background: var(--cream); }
+
+  /* phone */
+  .phone { position: absolute; width: 412px; height: 878px; border-radius: 66px; background: #111; padding: 13px;
+           box-shadow: 0 60px 120px -30px rgba(20,40,34,.45), 0 20px 40px -20px rgba(0,0,0,.35), inset 0 0 0 2px #2b2b2b; will-change: transform; }
+  .phone .screen { position: relative; width: 100%; height: 100%; border-radius: 54px; overflow: hidden; background: #e9efe9; }
+  .phone .screen img { position: absolute; left: 0; top: 0; width: 100%; height: auto; display: block; }
+  .phone .island { position: absolute; top: 26px; left: 50%; width: 112px; height: 32px; margin-left: -56px; border-radius: 20px; background: #000; z-index: 3; }
+
+  .label { font-family: "Fraunces"; font-size: 34px; font-weight: 600; text-align: center; color: var(--deep); }
+  .sub { font-family: "Manrope"; font-size: 20px; font-weight: 500; text-align: center; color: #5b6b66; margin-top: 6px; }
+
+  .bubble { position: absolute; font-family: "Manrope"; font-size: 26px; line-height: 1.4; padding: 22px 30px; border-radius: 30px; max-width: 640px; will-change: transform; }
+  .bubble.user { background: var(--cream); color: var(--deep); font-weight: 700; border-bottom-right-radius: 8px; }
+  .bubble.coach { background: rgba(255,255,255,.12); color: var(--cream); border: 1.5px solid rgba(250,240,223,.35); border-bottom-left-radius: 8px; }
+  .dots span { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--cream); margin: 0 4px; }
+
+  .toast { position: absolute; display: flex; align-items: center; gap: 22px; background: #fff; border-radius: 28px; padding: 22px 30px 22px 22px;
+           box-shadow: 0 30px 60px -20px rgba(30,30,30,.25); font-family: "Manrope"; }
+  .toast .ic { width: 64px; height: 64px; border-radius: 18px; background: var(--green); display: grid; place-items: center; flex: none; }
+  .toast .t1 { font-weight: 800; font-size: 22px; color: var(--deep); }
+  .toast .t2 { font-weight: 500; font-size: 20px; color: #5b6b66; margin-top: 2px; }
+
+  .stat { text-align: center; }
+  .stat .n { font-family: "Fraunces"; font-weight: 700; font-size: 64px; color: var(--deep); line-height: 1; }
+  .stat .n i { font-weight: 400; font-size: 40px; }
+  .stat .k { font-family: "Manrope"; font-weight: 700; font-size: 18px; letter-spacing: .18em; text-transform: uppercase; color: var(--orange); margin-top: 10px; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- shared grain -->
+  <svg class="grain" width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
+    <filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+    <rect width="100%" height="100%" filter="url(#n)"/>
+  </svg>
+
+  <!-- S1 · Logo reveal -->
+  <section class="scene" id="s1" style="background:#E26023">
+    <div class="blob" style="width:1500px;height:1100px;left:-200px;top:0;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)" data-drift></div>
+    <div class="blob" style="width:900px;height:700px;left:300px;top:380px;background:radial-gradient(circle,#E27A78 0%,transparent 70%)" data-drift></div>
+    <div class="blob" style="width:900px;height:700px;left:1100px;top:200px;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)" data-drift></div>
+    <div id="s1-seeds" class="abs" style="left:960px;top:440px;width:0;height:0"></div>
+    <div id="s1-flower" class="abs flower" style="left:780px;top:260px;width:360px;height:360px;color:var(--cream)"></div>
+    <div id="s1-word" class="abs wordmark" style="left:690px;top:660px;width:540px"></div>
+  </section>
+
+  <!-- S2 · EatsAnything / just EatsBueno -->
+  <section class="scene" id="s2" style="background:var(--paper)">
+    <div id="s2-sun" class="blob" style="width:900px;height:900px;left:560px;top:110px;filter:blur(40px);background:radial-gradient(circle,#F38A2E 0%,#F6A766 30%,#F9CBA6 55%,rgba(249,244,242,0) 72%)"></div>
+    <div class="abs serif" style="left:150px;top:150px;font-size:120px;line-height:1.12">
+      <div class="line"><span class="word s2w"><span class="b">Eats</span><span class="it">Burger</span></span></div>
+      <div class="line"><span class="word s2w"><span class="b">Eats</span><span class="it">Salad</span></span></div>
+      <div class="line"><span class="word s2w"><span class="b">Eats</span><span class="it">Anything</span></span></div>
+    </div>
+    <div class="abs serif it" id="s2-just" style="left:1200px;top:640px;font-size:100px">just</div>
+    <div class="abs wordmark" id="s2-word" style="left:1196px;top:790px;width:640px;background:var(--ink)"></div>
+  </section>
+
+  <!-- S3 · Manifesto -->
+  <section class="scene" id="s3" style="background:var(--orange)">
+    <div class="blob" style="width:900px;height:1300px;left:560px;top:-200px;background:radial-gradient(ellipse,#F6B36F 0%,#EF8F4C 40%,transparent 70%)" data-drift></div>
+    <div class="blob" style="width:600px;height:600px;left:1150px;top:560px;background:radial-gradient(circle,#E58BB0 0%,transparent 70%)" data-drift></div>
+    <div id="s3-flower" class="abs flower" style="left:120px;top:110px;width:130px;height:130px;color:var(--cream)"></div>
+    <div class="abs serif" style="left:0;right:0;top:0;bottom:0;display:grid;place-items:center;text-align:center;color:var(--cream)">
+      <div style="position:relative;width:1600px;height:360px">
+        <div class="abs s3-card" style="inset:0;display:grid;place-items:center"><div class="b" style="font-size:132px;line-height:1.05">Forget strict diets.</div></div>
+        <div class="abs s3-card" style="inset:0;display:grid;place-items:center"><div style="font-size:112px;line-height:1.1"><span class="b">No ‘bad’ foods.</span><br><span class="it">No guilt.</span></div></div>
+        <div class="abs s3-card" style="inset:0;display:grid;place-items:center"><div style="font-size:112px;line-height:1.1"><span class="it">Just</span> <span class="b">smarter choices.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4 · Onboarding -->
+  <section class="scene" id="s4" style="background:linear-gradient(160deg,#EEF3EC 0%,#D5E6DD 55%,#BFD9CF 100%)">
+    <div class="blob" style="width:900px;height:900px;left:980px;top:120px;background:radial-gradient(circle,rgba(255,255,255,.85) 0%,transparent 70%)" data-drift></div>
+    <div class="abs" style="left:150px;top:300px;width:860px">
+      <div class="eyebrow s4-in" style="color:var(--green)">Personal from day one</div>
+      <div class="serif s4-in" style="font-size:118px;line-height:1.02;margin-top:26px;color:var(--deep)"><span class="b">Built</span> <span class="it">around you.</span></div>
+      <div class="s4-in" style="font-size:32px;line-height:1.45;margin-top:34px;color:#3d4f4a;max-width:760px">Tell us your tastes, your culture and your routine. EatsBueno adapts to your world&nbsp;— not the other way around.</div>
+      <div class="s4-in" id="s4-steps" style="display:flex;gap:12px;margin-top:48px"></div>
+    </div>
+    <div class="phone" id="s4-phone" style="left:1270px;top:101px">
+      <div class="island"></div>
+      <div class="screen" id="s4-screen"></div>
+    </div>
+  </section>
+
+  <!-- S5 · Features trio -->
+  <section class="scene" id="s5" style="background:var(--cream)">
+    <div class="blob" style="width:1300px;height:700px;left:300px;top:420px;background:radial-gradient(ellipse,#F6C08F 0%,rgba(250,240,223,0) 70%)" data-drift></div>
+    <div class="abs serif s5-head" style="left:0;right:0;top:64px;text-align:center;font-size:76px;color:var(--ink)"><span class="b">Every bite,</span> <span class="it">made simple.</span></div>
+    <div class="phone s5-phone" id="s5-p1" style="left:300px;top:230px;transform-origin:50% 100%"><div class="island"></div><div class="screen"><img src="assets/screens/Journal_FoodDetail.jpg"></div></div>
+    <div class="phone s5-phone" id="s5-p2" style="left:754px;top:190px;transform-origin:50% 100%"><div class="island"></div><div class="screen"><img src="assets/screens/Home_EnergyCheckIn.jpg"></div></div>
+    <div class="phone s5-phone" id="s5-p3" style="left:1208px;top:230px;transform-origin:50% 100%"><div class="island"></div><div class="screen"><img src="assets/screens/Scanner_Barcode.jpg"></div></div>
+  </section>
+
+  <!-- S6 · AI Coach -->
+  <section class="scene" id="s6" style="background:radial-gradient(120% 120% at 80% 20%,#4C8A7A 0%,#3B7668 40%,#24493F 100%)">
+    <div class="blob" style="width:800px;height:800px;left:-100px;top:400px;background:radial-gradient(circle,rgba(175,207,196,.55) 0%,transparent 70%)" data-drift></div>
+    <div class="phone" id="s6-phone" style="left:190px;top:101px"><div class="island"></div><div class="screen"><img id="s6-img" src="assets/screens/Coach_Conversation.jpg"></div></div>
+    <div class="abs" style="left:800px;top:120px;width:960px;color:var(--cream)">
+      <div class="eyebrow s6-in" style="color:var(--mint)">Your AI wellness coach</div>
+      <div class="serif s6-in" style="font-size:100px;line-height:1.02;margin-top:22px"><span class="b">A coach that</span><br><span class="it">speaks human.</span></div>
+    </div>
+    <div class="bubble user" id="s6-b1" style="right:180px;top:500px">Suggest some good lunch options</div>
+    <div class="bubble coach dots" id="s6-dots" style="left:800px;top:630px;padding:26px 30px"><span></span><span></span><span></span></div>
+    <div class="bubble coach" id="s6-b2" style="left:800px;top:630px;width:860px;max-width:860px">Nice — let’s pick lunches that are filling, balanced and realistic for a workday. 🥗</div>
+    <div class="abs" id="s6-chips" style="left:800px;top:820px;display:flex;gap:14px;flex-wrap:wrap;width:960px"></div>
+  </section>
+
+  <!-- S7 · Habits -->
+  <section class="scene" id="s7" style="background:var(--paper)">
+    <div class="blob" style="width:1100px;height:800px;left:420px;top:-300px;background:radial-gradient(ellipse,#CFE3DA 0%,rgba(249,244,242,0) 70%)" data-drift></div>
+    <div class="abs serif s7-head" style="left:0;right:0;top:56px;text-align:center;font-size:76px"><span class="b">Celebrate</span> <span class="it">small victories.</span></div>
+    <div class="phone s7-phone" style="left:236px;top:200px;width:330px;height:703px;border-radius:54px;padding:11px"><div class="screen" style="border-radius:44px">
+      <img src="assets/screens/Hydration_FirstUse.jpg"><img id="s7-hyd2" src="assets/screens/Hydration_InProgress.jpg" style="opacity:0"></div></div>
+    <div class="phone s7-phone" style="left:795px;top:200px;width:330px;height:703px;border-radius:54px;padding:11px"><div class="screen" style="border-radius:44px"><img src="assets/screens/SleepRecovery.jpg"></div></div>
+    <div class="phone s7-phone" style="left:1354px;top:200px;width:330px;height:703px;border-radius:54px;padding:11px"><div class="screen" style="border-radius:44px"><img src="assets/screens/Statistics_Month.jpg"></div></div>
+    <div class="abs stat s7-stat" style="left:186px;top:930px;width:430px"><div class="n"><span class="cnt" data-to="8" data-dec="0">0</span><i> glasses</i></div><div class="k">Hydration</div></div>
+    <div class="abs stat s7-stat" style="left:745px;top:930px;width:430px"><div class="n"><span class="cnt" data-to="8" data-dec="1">0</span><i> hours</i></div><div class="k">Sleep &amp; recovery</div></div>
+    <div class="abs stat s7-stat" style="left:1304px;top:930px;width:430px"><div class="n"><span class="cnt" data-to="29" data-dec="0">0</span><i> days</i></div><div class="k">Monthly progress</div></div>
+    <div class="toast" id="s7-toast" style="left:560px;top:-140px;width:800px">
+      <div class="ic"><div class="flower" style="width:40px;height:40px;color:var(--cream)"></div></div>
+      <div><div class="t1">Keep it up!</div><div class="t2">You’ve logged your meals for three days straight. You’re building a great habit.</div></div>
+    </div>
+  </section>
+
+  <!-- S8 · End card -->
+  <section class="scene" id="s8" style="background:#E26023">
+    <div class="blob" style="width:1500px;height:1100px;left:-200px;top:0;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)" data-drift></div>
+    <div class="blob" style="width:900px;height:700px;left:300px;top:380px;background:radial-gradient(circle,#E27A78 0%,transparent 70%)" data-drift></div>
+    <div id="s8-flower" class="abs flower" style="left:840px;top:190px;width:240px;height:240px;color:var(--cream)"></div>
+    <div id="s8-word" class="abs wordmark" style="left:660px;top:470px;width:600px"></div>
+    <div class="abs serif it" id="s8-tag" style="left:0;right:0;top:640px;text-align:center;font-size:54px;color:var(--cream)">A healthier life, your way.</div>
+    <div class="abs" id="s8-cta" style="left:0;right:0;top:770px;text-align:center">
+      <span style="display:inline-block;padding:20px 44px;border-radius:999px;border:2px solid rgba(250,240,223,.7);font-family:Manrope;font-weight:700;font-size:24px;letter-spacing:.2em;text-transform:uppercase;color:var(--cream)">No diets · No guilt · Just good</span>
+    </div>
+  </section>
+
+  <!-- circle wipe used between scenes -->
+  <div id="wipe" class="abs" style="left:960px;top:540px;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;z-index:40;visibility:hidden"></div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="assets/flower.js"></script>
+<script src="assets/wordmark.js"></script>
+<script>
+(() => {
+  const VB = "411 96 618 618", CX = 720, CY = 405, R = 309;      // flower geometry (from brandbook vector)
+  const HOLES = [[784.4,165.3],[596.1,189.9],[480.3,340.4],[504.9,528.6],[655.4,644.4],[843.6,619.9],[959.4,469.4],[934.9,281.1]];
+  const flowerSVG = `<svg viewBox="${VB}" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="${FLOWER_D}"/></svg>`;
+  document.querySelectorAll('.flower').forEach(el => el.innerHTML = flowerSVG);
+  document.documentElement.style.setProperty('--wm', `url(${WORDMARK_URI})`);
+
+  // seeds for intro: positioned as the flower's eight holes, scaled to the 360px flower
+  const seedsBox = document.getElementById('s1-seeds');
+  const k = 360 / 618;
+  const seeds = HOLES.map(([x, y]) => {
+    const s = document.createElement('div');
+    s.className = 'seed';
+    const d = 36 * 2 * k;
+    s.style.width = s.style.height = d + 'px';
+    s.style.left = ((x - CX) * k - d / 2) + 'px';
+    s.style.top = ((y - CY) * k - d / 2) + 'px';
+    seedsBox.appendChild(s);
+    return s;
+  });
+
+  // onboarding screens
+  const S4 = ['Welcome','Onboarding_Step1','Onboarding_Step2','Onboarding_Step3','Onboarding_Step6','Onboarding_Step7'];
+  const scr = document.getElementById('s4-screen');
+  const stepsBar = document.getElementById('s4-steps');
+  S4.forEach((n, i) => {
+    const img = document.createElement('img');
+    img.src = `assets/screens/${n}.jpg`;
+    img.className = 's4-img';
+    scr.appendChild(img);
+    const pip = document.createElement('div');
+    pip.className = 's4-pip';
+    pip.style.cssText = 'height:8px;width:44px;border-radius:8px;background:rgba(59,118,104,.22);overflow:hidden';
+    pip.innerHTML = '<div style="height:100%;width:100%;background:#3B7668;transform-origin:0 50%;transform:scaleX(0)"></div>';
+    stepsBar.appendChild(pip);
+  });
+
+  const chips = ['Turkey croissant + side salad', 'Grilled chicken bowl', 'Hearty soup + whole-grain bread'];
+  const chipBox = document.getElementById('s6-chips');
+  chips.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 's6-chip';
+    el.style.cssText = 'padding:14px 24px;border-radius:999px;background:rgba(250,240,223,.14);border:1.5px solid rgba(250,240,223,.3);color:#FAF0DF;font:600 22px Manrope';
+    el.textContent = c;
+    chipBox.appendChild(el);
+  });
+
+  // ---------- timeline ----------
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+  const show = (id, t) => tl.set('#' + id, { visibility: 'visible' }, t);
+  const hide = (id, t) => tl.set('#' + id, { visibility: 'hidden' }, t);
+
+  // ambient drift for all blobs across the whole film
+  document.querySelectorAll('[data-drift]').forEach((b, i) => {
+    tl.fromTo(b, { x: (i % 2 ? -60 : 60), y: (i % 3 ? 40 : -40), scale: 1 },
+                 { x: (i % 2 ? 80 : -80), y: (i % 3 ? -50 : 50), scale: 1.12, ease: 'sine.inOut', duration: 47 }, 0);
+  });
+
+  // S1 · 0 → 4.6
+  show('s1', 0);
+  tl.from(seeds, { x: (i) => Math.cos(i * Math.PI / 4) * 700, y: (i) => Math.sin(i * Math.PI / 4) * 700, scale: 0, duration: 1.3, ease: 'expo.out', stagger: 0.04 }, 0.15);
+  tl.fromTo(seedsBox, { rotation: -180 }, { rotation: 0, duration: 1.6, ease: 'power3.out' }, 0.15);
+  tl.fromTo('#s1-flower', { scale: 0, rotation: -140 }, { scale: 1, rotation: 0, duration: 1.3, ease: 'back.out(1.5)' }, 1.25);
+  tl.to(seeds, { scale: 0, duration: 0.5, ease: 'power2.in' }, 1.35);
+  tl.fromTo('#s1-word', { clipPath: 'inset(0 100% 0 0)', x: -30, opacity: 0 }, { clipPath: 'inset(0 0% 0 0)', x: 0, opacity: 1, duration: 1.0, ease: 'power4.out' }, 2.15);
+  tl.to('#s1-flower', { rotation: 45, duration: 3, ease: 'sine.inOut' }, 2.6);
+  // wipe to S2
+  tl.set('#wipe', { visibility: 'visible', background: '#F9F4F2', scale: 0 }, 4.0);
+  tl.to('#wipe', { scale: 260, duration: 0.75, ease: 'power3.in' }, 4.0);
+  tl.to(['#s1-flower', '#s1-word'], { scale: 0.85, opacity: 0, duration: 0.5, ease: 'power2.in' }, 4.0);
+  show('s2', 4.75); hide('s1', 4.75);
+  tl.set('#wipe', { visibility: 'hidden' }, 4.76);
+
+  // S2 · 4.75 → 10.2
+  tl.fromTo('#s2-sun', { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.2, ease: 'power2.out' }, 4.75);
+  tl.from('.s2w', { yPercent: 110, duration: 0.8, stagger: 0.55, ease: 'power4.out' }, 5.0);
+  tl.to('.s2w', { opacity: 0.22, duration: 0.6, stagger: 0.0 }, 7.3);
+  tl.fromTo('#s2-just', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 7.4);
+  tl.fromTo('#s2-word', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power4.inOut' }, 7.75);
+  tl.to('#s2-sun', { x: 520, y: 260, scale: 0.75, duration: 2.0, ease: 'power2.inOut' }, 7.6);
+  // S2 → S3: orange panel rises
+  tl.set('#s3', { visibility: 'visible', clipPath: 'inset(100% 0 0 0)' }, 9.6);
+  tl.to('#s3', { clipPath: 'inset(0% 0 0 0)', duration: 0.7, ease: 'power4.inOut' }, 9.6);
+  hide('s2', 10.3);
+
+  // S3 · 9.6 → 15.2
+  const cards = gsap.utils.toArray('.s3-card');
+  tl.set(cards, { opacity: 0 }, 0);
+  tl.fromTo('#s3-flower', { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 1, ease: 'back.out(1.6)' }, 10.0);
+  tl.to('#s3-flower', { rotation: 90, duration: 5, ease: 'none' }, 11.0);
+  [10.05, 11.85, 13.55].forEach((t, i) => {
+    tl.fromTo(cards[i], { opacity: 0, y: 70, filter: 'blur(14px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.75 }, t);
+    if (i < 2) tl.to(cards[i], { opacity: 0, y: -60, filter: 'blur(14px)', duration: 0.45, ease: 'power2.in' }, t + 1.45);
+  });
+  tl.to(cards[2], { scale: 1.06, duration: 1.6, ease: 'sine.inOut' }, 14.0);
+  // S3 → S4 wipe
+  tl.set('#wipe', { visibility: 'visible', background: '#E3EDE7', scale: 0 }, 14.95);
+  tl.to('#wipe', { scale: 260, duration: 0.75, ease: 'power3.in' }, 14.95);
+  show('s4', 15.7); hide('s3', 15.7);
+  tl.set('#wipe', { visibility: 'hidden' }, 15.71);
+
+  // S4 · 15.7 → 22.6
+  tl.from('.s4-in', { y: 50, opacity: 0, duration: 0.9, stagger: 0.12 }, 15.75);
+  tl.fromTo('#s4-phone', { y: 900, rotation: 8 }, { y: 0, rotation: 0, duration: 1.2, ease: 'expo.out' }, 15.75);
+  tl.to('#s4-phone', { y: -14, rotation: -1.2, duration: 6, ease: 'sine.inOut' }, 17.0);
+  const imgs = gsap.utils.toArray('.s4-img');
+  const pips = gsap.utils.toArray('.s4-pip > div');
+  tl.set(imgs, { xPercent: 100 }, 0);
+  tl.set(imgs[0], { xPercent: 0 }, 0);
+  tl.to(pips[0], { scaleX: 1, duration: 0.5 }, 16.2);
+  const stepT = [17.0, 18.0, 18.95, 19.9, 20.85];
+  stepT.forEach((t, i) => {
+    tl.to(imgs[i], { xPercent: -35, filter: 'brightness(.85)', duration: 0.6, ease: 'power3.inOut' }, t);
+    tl.to(imgs[i + 1], { xPercent: 0, duration: 0.6, ease: 'power3.inOut' }, t);
+    tl.to(pips[i + 1], { scaleX: 1, duration: 0.5 }, t + 0.1);
+  });
+  // S4 → S5: phone flies, cream slides in from right
+  tl.set('#s5', { visibility: 'visible', clipPath: 'inset(0 0 0 100%)' }, 22.0);
+  tl.to('#s5', { clipPath: 'inset(0 0 0 0%)', duration: 0.75, ease: 'power4.inOut' }, 22.0);
+  hide('s4', 22.8);
+
+  // S5 · 22.0 → 29.0
+  tl.from('.s5-head', { y: 40, opacity: 0, duration: 0.8 }, 22.45);
+  tl.fromTo('#s5-p2', { y: 900 }, { y: 0, duration: 1.1, ease: 'expo.out' }, 22.4);
+  tl.fromTo('#s5-p1', { y: 900, rotation: 0 }, { y: 40, rotation: -7, duration: 1.2, ease: 'expo.out' }, 22.6);
+  tl.fromTo('#s5-p3', { y: 900, rotation: 0 }, { y: 40, rotation: 7, duration: 1.2, ease: 'expo.out' }, 22.75);
+  // slow scroll inside screens + gentle float
+  tl.to('#s5-p1 img', { y: -260, duration: 2.4, ease: 'power2.inOut' }, 24.4);
+  tl.to('#s5-p2', { y: -24, duration: 5, ease: 'sine.inOut' }, 23.6);
+  tl.to('#s5-p3 img', { y: -300, duration: 2.4, ease: 'power2.inOut' }, 25.4);
+  // callouts
+  const callouts = [['#s5-p1', 'Log meals', 'Macros & micros in seconds', -30, 26.0], ['#s5-p2', 'Ask the AI', 'Ideas that fit your day', 0, 24.3], ['#s5-p3', 'Scan products', 'Barcode to nutrition, instantly', 30, 25.2]];
+  callouts.forEach(([sel, a, b, rot, t]) => {
+    const p = document.querySelector(sel);
+    const c = document.createElement('div');
+    c.className = 'abs';
+    c.style.cssText = `left:${parseInt(p.style.left) - 40}px;top:${p.id === 's5-p2' ? 985 : 955}px;width:492px;z-index:5`;
+    c.innerHTML = `<div style="margin:0 auto;width:max-content;background:#fff;border-radius:999px;padding:14px 30px;box-shadow:0 20px 40px -18px rgba(0,0,0,.3);text-align:center"><span style="font:700 26px Fraunces;color:#2A5D51">${a}</span><span style="font:500 20px Manrope;color:#5b6b66;margin-left:12px">${b}</span></div>`;
+    document.getElementById('s5').appendChild(c);
+    tl.fromTo(c, { y: 40, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(2)' }, t);
+  });
+  // S5 → S6 wipe (green)
+  tl.set('#wipe', { visibility: 'visible', background: '#3B7668', scale: 0 }, 28.4);
+  tl.to('#wipe', { scale: 260, duration: 0.75, ease: 'power3.in' }, 28.4);
+  show('s6', 29.15); hide('s5', 29.15);
+  tl.set('#wipe', { visibility: 'hidden' }, 29.16);
+
+  // S6 · 29.15 → 35.2
+  tl.fromTo('#s6-phone', { x: -700, rotation: -10 }, { x: 0, rotation: -3, duration: 1.2, ease: 'expo.out' }, 29.15);
+  tl.to('#s6-phone', { rotation: 0, y: -12, duration: 5, ease: 'sine.inOut' }, 30.3);
+  tl.to('#s6-img', { y: -140, duration: 3.5, ease: 'power1.inOut' }, 30.8);
+  tl.from('.s6-in', { y: 50, opacity: 0, duration: 0.9, stagger: 0.15 }, 29.3);
+  tl.fromTo('#s6-b1', { scale: 0.6, opacity: 0, transformOrigin: '100% 100%' }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2)' }, 30.6);
+  tl.fromTo('#s6-dots', { scale: 0.6, opacity: 0, transformOrigin: '0% 100%' }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' }, 31.3);
+  tl.fromTo('#s6-dots span', { y: 0, opacity: .4 }, { y: -8, opacity: 1, duration: 0.25, stagger: 0.12, yoyo: true, repeat: 3, ease: 'sine.inOut' }, 31.5);
+  tl.to('#s6-dots', { opacity: 0, scale: 0.8, duration: 0.2 }, 32.4);
+  tl.fromTo('#s6-b2', { scale: 0.7, opacity: 0, transformOrigin: '0% 100%' }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.6)' }, 32.45);
+  tl.from('.s6-chip', { y: 30, opacity: 0, duration: 0.5, stagger: 0.14, ease: 'back.out(2)' }, 33.1);
+  // S6 → S7 panel down
+  tl.set('#s7', { visibility: 'visible', clipPath: 'inset(0 0 100% 0)' }, 34.6);
+  tl.to('#s7', { clipPath: 'inset(0 0 0% 0)', duration: 0.75, ease: 'power4.inOut' }, 34.6);
+  hide('s6', 35.4);
+
+  // S7 · 34.6 → 41.0
+  tl.from('.s7-head', { y: 40, opacity: 0, duration: 0.8 }, 35.0);
+  tl.from('.s7-phone', { y: 700, duration: 1.1, stagger: 0.12, ease: 'expo.out' }, 35.0);
+  tl.from('.s7-stat', { y: 30, opacity: 0, duration: 0.6, stagger: 0.12 }, 35.9);
+  document.querySelectorAll('.cnt').forEach((el, i) => {
+    const o = { v: 0 }, to = +el.dataset.to, dec = +el.dataset.dec;
+    tl.to(o, { v: to, duration: 1.6, ease: 'power2.out', onUpdate: () => el.textContent = o.v.toFixed(dec) }, 36.0 + i * 0.12);
+  });
+  tl.to('#s7-hyd2', { opacity: 1, duration: 0.6 }, 37.0);
+  tl.to('#s7-toast', { y: 180, duration: 0.8, ease: 'back.out(1.4)' }, 38.0);
+  tl.to('#s7-toast', { y: 0, duration: 0.6, ease: 'power3.in' }, 40.0);
+  // S7 → S8 wipe (orange)
+  tl.set('#wipe', { visibility: 'visible', background: '#E26023', scale: 0 }, 40.3);
+  tl.to('#wipe', { scale: 260, duration: 0.75, ease: 'power3.in' }, 40.3);
+  show('s8', 41.05); hide('s7', 41.05);
+  tl.set('#wipe', { visibility: 'hidden' }, 41.06);
+
+  // S8 · 41.05 → 47
+  tl.fromTo('#s8-flower', { scale: 0, rotation: -140 }, { scale: 1, rotation: 0, duration: 1.3, ease: 'back.out(1.5)' }, 41.1);
+  tl.fromTo('#s8-word', { clipPath: 'inset(0 100% 0 0)', opacity: 0 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 1.0, ease: 'power4.out' }, 41.7);
+  tl.fromTo('#s8-tag', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9 }, 42.4);
+  tl.fromTo('#s8-cta', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, 43.0);
+  tl.to('#s8-flower', { rotation: 30, duration: 5, ease: 'sine.inOut' }, 42.4);
+  tl.to('#stage', { opacity: 0, duration: 0.8, ease: 'power1.in' }, 46.2);
+  tl.set({}, {}, 47.0);
+
+  window.DURATION = 47.0;
+  window.__seek = (t) => { tl.seek(t, false); };
+  window.__ready = Promise.all([document.fonts.ready, ...Array.from(document.images).map(i => i.decode().catch(() => {}))]);
+
+  // live preview when opened in a browser (not during rendering)
+  if (!/render=1/.test(location.search)) {
+    tl.play(0);
+    tl.eventCallback('onComplete', () => tl.play(0));
+  }
+})();
+</script>
+</body>
+</html>
