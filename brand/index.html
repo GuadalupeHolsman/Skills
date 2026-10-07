@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JustBueno – Elementos de marca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caprasimo&family=DM+Sans:wght@400;500;700&family=Manrope:wght@500;700;800&family=Newsreader:ital,wght@1,300;1,400&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg-page);color:var(--fg-1);font:400 var(--fs-md)/var(--lh-body) var(--font-body)}
+.w{max-width:1120px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+small.k{display:block;font:700 11px var(--font-ui);letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta)}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:var(--lh-tight);letter-spacing:var(--ls-display);margin:0}
+h1 i,h2 i,h3 i{font-family:var(--font-accent);font-weight:300}
+.hero{background:var(--plum);color:var(--cream)}
+.hero .w{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding-top:clamp(32px,6vw,64px);padding-bottom:clamp(32px,6vw,64px)}
+.hero small.k{color:var(--orange)}
+.hero h1{font-size:clamp(36px,6vw,64px);margin:10px 0 12px}
+.hero p{margin:0;max-width:520px}
+.hero img{height:clamp(110px,16vw,170px)}
+section{padding:clamp(36px,6vw,64px) 0 0}
+h2{font-size:clamp(26px,3.6vw,36px);margin:6px 0 8px}
+.lead{margin:0 0 24px;max-width:680px;color:var(--fg-2)}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.card{background:var(--bg-card);border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow-md)}
+.card .tx{padding:14px 18px 18px;font-size:14px}
+.card .tx b{display:block;font:700 15px var(--font-body)}
+.card .tx a{color:var(--terracotta-dark)}
+.logo{aspect-ratio:4/3;display:grid;place-items:center;padding:28px}
+.logo img{max-width:100%;max-height:100%}
+.on-plum{background:var(--plum)}.on-cream{background:var(--cream)}.on-grad{background:var(--gradient)}.on-orange{background:var(--orange)}
+.sw{height:110px;display:flex;align-items:flex-end;padding:10px 14px;font:700 12px var(--font-ui);letter-spacing:.08em}
+.type{background:var(--bg-card);border-radius:var(--r-md);padding:22px 24px;box-shadow:var(--shadow-sm)}
+.type .s{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:6px 0 10px}
+.type p{margin:0;font-size:14px;color:var(--fg-2)}
+.rot{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px}
+.rot div{aspect-ratio:16/9;border-radius:12px;color:var(--cream);padding:16px;display:flex;flex-direction:column;justify-content:center;font:400 clamp(20px,2.4vw,26px)/1 var(--font-display)}
+.rot em{font:600 11px var(--font-ui);font-style:normal;letter-spacing:.12em;margin-bottom:8px}
+.rot i{font-family:var(--font-accent);font-weight:300}
+ul.rules{background:var(--plum);color:var(--cream);border-radius:var(--r-md);padding:24px 24px 24px 44px;margin:0;columns:2 300px;column-gap:40px;font-size:15px}
+ul.rules li{margin:0 0 10px;break-inside:avoid}
+ul.rules b{color:var(--orange)}
+.apps{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr))}
+.apps a{display:block;border-radius:10px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)}
+.apps img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}
+.apps span{display:block;padding:6px 10px;font-size:12px;color:var(--fg-2)}
+code{font:13px ui-monospace,monospace;background:var(--cream-dark);padding:1px 5px;border-radius:4px}
+footer{padding:56px 0 40px;font-size:13px;color:var(--fg-3)}
+</style>
+</head>
+<body>
+<header class="hero"><div class="w">
+  <div><small class="k">Guía de marca</small><h1>Elementos de <i>marca</i></h1>
+  <p>Logo, colores, tipografías y reglas de uso de JustBueno, el podcast de EatsBueno. Extraídos del sitio de plataformas y del PDF de posts y banners.</p></div>
+  <img src="logos/logo-vertical-cream.svg" alt="Logo vertical de JustBueno">
+</div></header>
+
+<main class="w">
+<section>
+  <small class="k">01 · Logo</small><h2>Símbolo y <i>wordmark</i></h2>
+  <p class="lead">El símbolo son dos globos de diálogo con una yema de huevo: las dos voces del podcast y la comida de EatsBueno. El wordmark combina “Just” en Cooper Bold con “Bueno” en Cooper Light Italic.</p>
+  <div class="grid">
+    <div class="card"><div class="logo on-plum"><img src="logos/logo-horizontal-cream.svg" alt=""></div><div class="tx"><b>Horizontal, crema</b>Sobre ciruela, naranja o degradado. <a href="logos/logo-horizontal-cream.svg" download>SVG</a></div></div>
+    <div class="card"><div class="logo on-cream"><img src="logos/logo-horizontal-plum.svg" alt=""></div><div class="tx"><b>Horizontal, ciruela</b>Sobre crema o blanco. <a href="logos/logo-horizontal-plum.svg" download>SVG</a></div></div>
+    <div class="card"><div class="logo on-plum"><img src="logos/logo-vertical-cream.svg" alt=""></div><div class="tx"><b>Vertical, crema</b>Portadas y piezas cuadradas. <a href="logos/logo-vertical-cream.svg" download>SVG</a></div></div>
+    <div class="card"><div class="logo on-cream"><img src="logos/logo-vertical-plum.svg" alt=""></div><div class="tx"><b>Vertical, ciruela</b>Sobre fondos claros. <a href="logos/logo-vertical-plum.svg" download>SVG</a></div></div>
+    <div class="card"><div class="logo on-plum"><img src="logos/simbolo-cream.svg" alt=""></div><div class="tx"><b>Símbolo, crema + naranja</b>Avatar, merch, esquina fija de las portadas. <a href="logos/simbolo-cream.svg" download>SVG</a></div></div>
+    <div class="card"><div class="logo on-cream"><img src="logos/simbolo-plum.svg" alt=""></div><div class="tx"><b>Símbolo, ciruela + terracota</b>Sobre crema. <a href="logos/simbolo-plum.svg" download>SVG</a></div></div>
+    <div class="card"><div class="logo on-grad"><img src="logos/simbolo-cream.svg" alt=""></div><div class="tx"><b>Símbolo sobre degradado</b>Avatar de YouTube y portada del show.</div></div>
+    <div class="card"><div class="logo on-plum"><img src="logos/wordmark-cream.svg" alt=""></div><div class="tx"><b>Wordmark solo</b><a href="logos/wordmark-cream.svg" download>Crema</a> · <a href="logos/wordmark-plum.svg" download>Ciruela</a></div></div>
+  </div>
+</section>
+
+<section>
+  <small class="k">02 · Color</small><h2>Paleta <i>cálida</i></h2>
+  <p class="lead">Ciruela y crema son la base. El naranja es el acento sobre oscuro y el terracota sobre claro. El verde y el degradado entran en la rotación de episodios.</p>
+  <div class="grid">
+    <div class="card"><div class="sw" style="background:#3B2027;color:#F2EDE3">CIRUELA</div><div class="tx"><b>#3B2027</b>Fondo principal, texto</div></div>
+    <div class="card"><div class="sw" style="background:#F2EDE3;color:#3B2027">CREMA</div><div class="tx"><b>#F2EDE3</b>Logo sobre oscuro, fondo de página</div></div>
+    <div class="card"><div class="sw" style="background:#E8651A;color:#F2EDE3">NARANJA</div><div class="tx"><b>#E8651A</b>Yema del símbolo, acento sobre oscuro</div></div>
+    <div class="card"><div class="sw" style="background:#C0713F;color:#F2EDE3">TERRACOTA</div><div class="tx"><b>#C0713F</b>Acento sobre claro, links</div></div>
+    <div class="card"><div class="sw" style="background:#1B6B4A;color:#F2EDE3">VERDE</div><div class="tx"><b>#1B6B4A</b>Rotación de episodios</div></div>
+    <div class="card"><div class="sw" style="background:linear-gradient(135deg,#E8913F,#E08C5C,#DD8A7C);color:#F2EDE3">DEGRADADO</div><div class="tx"><b>#E8913F → #E08C5C → #DD8A7C</b>135°, portadas y cabeceras</div></div>
+    <div class="card"><div class="sw" style="background:#2A171C;color:#F2EDE3">CIRUELA PROFUNDO</div><div class="tx"><b>#2A171C</b>Fondos oscuros del PDF</div></div>
+    <div class="card"><div class="sw" style="background:#E4DCCB;color:#3B2027">CREMA OSCURO</div><div class="tx"><b>#E4DCCB</b>Fondos de tarjetas sobre crema</div></div>
+  </div>
+</section>
+
+<section>
+  <small class="k">03 · Tipografía</small><h2>Cooper con una <i>sola</i> itálica</h2>
+  <p class="lead">Cooper BT es una fuente comercial. Las alternativas libres de Google Fonts que usa el sitio se muestran entre paréntesis y son las que ves en esta página.</p>
+  <div class="grid">
+    <div class="type"><small class="k">Display</small><div class="s" style="font-family:var(--font-display)">Culpa en la</div><p>Cooper BT Bold / Cooper Black BT (Caprasimo). Titulares y “Just”.</p></div>
+    <div class="type"><small class="k">Acento</small><div class="s" style="font-family:var(--font-accent);font-style:italic;font-weight:300">mesa</div><p>Cooper BT Light Italic (Newsreader Italic 300). “Bueno” y una palabra por titular.</p></div>
+    <div class="type"><small class="k">Texto</small><div class="s" style="font-family:var(--font-body);font-size:28px">Conversaciones reales</div><p>DM Sans 400/500/700. Texto corrido, 16 px / 1.5.</p></div>
+    <div class="type"><small class="k">Etiquetas</small><div class="s" style="font:700 16px var(--font-ui);letter-spacing:.14em;text-transform:uppercase">EP. 04 · Trailer</div><p>Manrope 600–800, mayúsculas, tracking .14em.</p></div>
+  </div>
+</section>
+
+<section>
+  <small class="k">04 · Sistema de portadas</small><h2>Rotación de <i>color</i></h2>
+  <p class="lead">Los episodios alternan degradado, verde, terracota y ciruela en ese orden, para que el feed tenga ritmo.</p>
+  <div class="rot">
+    <div style="background:var(--gradient)"><em>EP. 01</em><span>Arroz con huevo <i>frito</i></span></div>
+    <div style="background:var(--green)"><em>EP. 02</em><span>Comer solo <i>no</i> es castigo</span></div>
+    <div style="background:var(--terracotta)"><em>EP. 03</em><span>La dieta de tu <i>abuela</i></span></div>
+    <div style="background:var(--plum)"><em>TRAILER</em><span>Las <i>dos</i> voces</span></div>
+  </div>
+</section>
+
+<section>
+  <small class="k">05 · Reglas</small><h2>Cómo se <i>usa</i></h2>
+  <ul class="rules">
+    <li><b>Titular:</b> máximo cuatro o cinco palabras, una sola en Cooper Light Italic, la que carga el sentimiento, y nunca la primera.</li>
+    <li><b>Símbolo fijo:</b> en las portadas de episodio va siempre en la misma esquina superior derecha.</li>
+    <li><b>Avatar:</b> solo el símbolo en crema sobre degradado, a 3000 px. Sin wordmark: a 48 px no se lee.</li>
+    <li><b>Miniatura YouTube:</b> 1280 × 720. Rostro o plato a la izquierda, titular a la derecha sobre color plano.</li>
+    <li><b>Portada de episodio:</b> 3000 × 3000. Franja de color arriba con número y título, foto en la mitad inferior.</li>
+    <li><b>Cabecera YouTube:</b> 2560 × 1440, zona segura de 1235 × 338. Wordmark centrado, descriptor debajo, fondo degradado.</li>
+    <li><b>Descriptor:</b> “el podcast de EatsBueno” en Cooper Light, debajo del wordmark.</li>
+    <li><b>Gráficos:</b> globos de diálogo grandes y recortados, círculos, anillos y cuartos de círculo en naranja, crema y ciruela. Patrón repetido de símbolos en naranja.</li>
+    <li><b>Fotografía:</b> cálida, con luz de tungsteno, mesas compartidas, estudio con madera y ladrillo. Hosts con remeras de la marca.</li>
+    <li><b>Tono:</b> sin dietas, sin reglas, sin juicio. Conversaciones reales sobre bienestar, un paso a la vez.</li>
+  </ul>
+</section>
+
+<section>
+  <small class="k">06 · Aplicaciones</small><h2>Del <i>PDF</i></h2>
+  <p class="lead">Las 22 piezas del PDF “JustBueno post-banner”, como referencia.</p>
+  <div class="apps">
+    <a href="aplicaciones/01-portada-microfono.jpg"><img loading="lazy" src="aplicaciones/01-portada-microfono.jpg" alt=""><span>Portada micrófono</span></a>
+    <a href="aplicaciones/02-logo-vertical-ciruela.jpg"><img loading="lazy" src="aplicaciones/02-logo-vertical-ciruela.jpg" alt=""><span>Logo vertical</span></a>
+    <a href="aplicaciones/03-simbolo-ciruela.jpg"><img loading="lazy" src="aplicaciones/03-simbolo-ciruela.jpg" alt=""><span>Símbolo</span></a>
+    <a href="aplicaciones/04-post-episodios.jpg"><img loading="lazy" src="aplicaciones/04-post-episodios.jpg" alt=""><span>Post episodios</span></a>
+    <a href="aplicaciones/05-mural-evento.jpg"><img loading="lazy" src="aplicaciones/05-mural-evento.jpg" alt=""><span>Mural</span></a>
+    <a href="aplicaciones/06-collage-patron.jpg"><img loading="lazy" src="aplicaciones/06-collage-patron.jpg" alt=""><span>Collage y patrón</span></a>
+    <a href="aplicaciones/07-host-stickers.jpg"><img loading="lazy" src="aplicaciones/07-host-stickers.jpg" alt=""><span>Stickers</span></a>
+    <a href="aplicaciones/08-microfono-simbolo.jpg"><img loading="lazy" src="aplicaciones/08-microfono-simbolo.jpg" alt=""><span>Micrófono</span></a>
+    <a href="aplicaciones/09-mesa-burbujas.jpg"><img loading="lazy" src="aplicaciones/09-mesa-burbujas.jpg" alt=""><span>Mesa compartida</span></a>
+    <a href="aplicaciones/10-spotify-mockup.jpg"><img loading="lazy" src="aplicaciones/10-spotify-mockup.jpg" alt=""><span>Spotify</span></a>
+    <a href="aplicaciones/11-gorra.jpg"><img loading="lazy" src="aplicaciones/11-gorra.jpg" alt=""><span>Gorra</span></a>
+    <a href="aplicaciones/12-set-estudio.jpg"><img loading="lazy" src="aplicaciones/12-set-estudio.jpg" alt=""><span>Set</span></a>
+    <a href="aplicaciones/13-botella.jpg"><img loading="lazy" src="aplicaciones/13-botella.jpg" alt=""><span>Botella</span></a>
+    <a href="aplicaciones/14-foto-silueta.jpg"><img loading="lazy" src="aplicaciones/14-foto-silueta.jpg" alt=""><span>Foto silueta</span></a>
+    <a href="aplicaciones/15-host-remera.jpg"><img loading="lazy" src="aplicaciones/15-host-remera.jpg" alt=""><span>Host</span></a>
+    <a href="aplicaciones/16-host-remera-2.jpg"><img loading="lazy" src="aplicaciones/16-host-remera-2.jpg" alt=""><span>Host (variante)</span></a>
+    <a href="aplicaciones/17-variantes-logo.jpg"><img loading="lazy" src="aplicaciones/17-variantes-logo.jpg" alt=""><span>Variantes de logo</span></a>
+    <a href="aplicaciones/18-poster-ep500.jpg"><img loading="lazy" src="aplicaciones/18-poster-ep500.jpg" alt=""><span>Póster EP500</span></a>
+    <a href="aplicaciones/19-poster-ep500-foto.jpg"><img loading="lazy" src="aplicaciones/19-poster-ep500-foto.jpg" alt=""><span>Póster EP500 con foto</span></a>
+    <a href="aplicaciones/20-banner-naranja.jpg"><img loading="lazy" src="aplicaciones/20-banner-naranja.jpg" alt="" style="aspect-ratio:16/9"><span>Banner naranja</span></a>
+    <a href="aplicaciones/21-banner-ciruela-bloque.jpg"><img loading="lazy" src="aplicaciones/21-banner-ciruela-bloque.jpg" alt="" style="aspect-ratio:16/9"><span>Banner ciruela</span></a>
+    <a href="aplicaciones/22-banner-ciruela-anillos.jpg"><img loading="lazy" src="aplicaciones/22-banner-ciruela-anillos.jpg" alt="" style="aspect-ratio:16/9"><span>Banner anillos</span></a>
+  </div>
+</section>
+
+<section>
+  <small class="k">07 · Archivos</small><h2>Para <i>descargar</i></h2>
+  <p class="lead">Tokens en <a href="tokens.css"><code>tokens.css</code></a> y <a href="tokens.json"><code>tokens.json</code></a>. Logos en la carpeta <code>logos/</code>.</p>
+</section>
+</main>
+<footer class="w">JustBueno · el podcast de EatsBueno</footer>
+</body>
+</html>
