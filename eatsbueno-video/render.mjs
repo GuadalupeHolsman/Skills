@@ -1,5 +1,5 @@
 // Renders index.html frame-by-frame with Playwright and encodes with ffmpeg.
-// Usage: node render.mjs [out.mp4] [fps] [--sub N] [--workers N]   (full film)
+// Usage: node render.mjs [out.mp4] [fps] [--sub N] [--workers N] [--page file.html]   (full film)
 //          --sub N     render N sub-frames per output frame and blend them (motion blur, 180°-style shutter)
 //          --workers N render N chunks in parallel browser pages
 //        node render.mjs --stills 1,5,12 outdir    (PNG stills at given seconds)
@@ -12,9 +12,10 @@ import path from 'node:path';
 import url from 'node:url';
 
 const here = path.dirname(url.fileURLToPath(import.meta.url));
-const pageUrl = url.pathToFileURL(path.join(here, 'index.html')).href + '?render=1';
 const argv = process.argv.slice(2);
 const opt = (name, def) => { const i = argv.indexOf(name); return i >= 0 ? argv.splice(i, 2)[1] : def; };
+const PAGE = opt('--page', 'index.html');
+const pageUrl = url.pathToFileURL(path.join(here, PAGE)).href + '?render=1';
 const SUB = Number(opt('--sub', 1));
 const WORKERS = Number(opt('--workers', 1));
 const args = argv;
