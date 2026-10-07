@@ -175,14 +175,160 @@ PIECES = {
     "post-4-door-policy-panorama": carousel,
 }
 
+
+# ---------------------------------------------------------------- party-style (the reel's six-screen grid)
+STILLS = ["face", "crowd", "dancer", "lights", "hands", "warm"]
+
+def grid(W, H, cols, rows, on=(), order=None, dim=0.0, gap=4):
+    tw, th = W / cols, H / rows
+    order = order or STILLS
+    cells = []
+    for r in range(rows):
+        for c in range(cols):
+            i = r * cols + c
+            name = order[i % len(order)]
+            tint = "" if i in on else '<div style="position:absolute;inset:0;background:#1d29c2;mix-blend-mode:color"></div>'
+            cells.append(f'''<div style="position:absolute;left:{c*tw:.0f}px;top:{r*th:.0f}px;width:{tw-gap:.0f}px;height:{th-gap:.0f}px;overflow:hidden">
+              <img src="assets/stills/{name}.jpg" style="width:100%;height:100%;object-fit:cover;filter:contrast(1.15) saturate(1.2)">{tint}</div>''')
+    shade = f'<div style="position:absolute;inset:0;background:rgba(5,7,31,{dim})"></div>' if dim else ""
+    return "".join(cells) + shade
+
+def diff(txt, left, top, size, extra=""):
+    return f'<div class="big" style="position:absolute;left:{left}px;top:{top}px;font-size:{size}px;color:#fff;mix-blend-mode:difference;{extra}">{txt}</div>'
+
+def strip(top, W, txt, h=88, size=26):
+    return f'''<div style="position:absolute;left:0;top:{top}px;width:{W}px;height:{h}px;background:var(--yellow);color:#05071f;display:flex;align-items:center;justify-content:space-between;padding:0 64px;font-weight:800;font-size:{size}px;letter-spacing:.24em;text-transform:uppercase">{txt}</div>'''
+
+def flyer_party_feed():
+    W, H = 1080, 1350
+    b = f'''{grid(W, 1180, 2, 3, on=(2,), dim=0.15)}
+    <div style="position:absolute;left:64px;right:64px;top:54px;display:flex;justify-content:space-between;align-items:center;z-index:2">{logos(32, 24, 16, 52)}<span class="meta" style="font-size:18px">Invite only</span></div>
+    {diff("LEAVE YOUR", 52, 300, 132)}
+    {diff("PHONE AT", 52, 420, 132)}
+    {diff("THE DOOR.", 52, 540, 132)}
+    {diff("29.10", 40, 800, 300, "color:#fcce21;mix-blend-mode:normal;text-shadow:0 20px 60px rgba(0,0,0,.5)")}
+    {strip(1180, W, "<span>Thursday</span><span>Tap in at the door</span>", 90, 26)}
+    <div style="position:absolute;left:0;top:1270px;width:{W}px;height:80px;background:#05071f"></div>
+    <div class="foot" style="top:1300px;font-size:16px"><span>+18 · Please drink responsibly</span><span>Location sent to the list</span></div>'''
+    return W, H, page(W, H, b)
+
+def flyer_party_story():
+    W, H = 1080, 1920
+    b = f'''{grid(W, 1700, 2, 3, on=(2,), dim=0.15)}
+    <div style="position:absolute;left:64px;right:64px;top:110px;display:flex;justify-content:space-between;align-items:center">{logos(34, 26, 18, 56)}<span class="meta" style="font-size:20px">Invite only</span></div>
+    {diff("LEAVE", 52, 330, 200)}
+    {diff("YOUR", 52, 500, 200)}
+    {diff("PHONE", 52, 670, 200)}
+    {diff("AT THE", 52, 840, 170)}
+    {diff("DOOR.", 52, 990, 200)}
+    {diff("29.10", 40, 1250, 300, "color:#fcce21;mix-blend-mode:normal;text-shadow:0 20px 60px rgba(0,0,0,.5)")}
+    {strip(1700, W, "<span>Thursday</span><span>Tap in at the door</span>", 100, 28)}
+    <div class="foot" style="top:1840px;font-size:17px"><span>+18 · Please drink responsibly</span><span>Location sent to the list</span></div>'''
+    return W, H, page(W, H, b)
+
+def triptych():
+    """3240x1350 -> three posts that read LOCKED / IN. / 29.10 side by side on the profile grid"""
+    W, H = 3240, 1350
+    order = ["face", "crowd", "dancer", "lights", "warm", "hands", "crowd", "face", "hands", "dancer", "lights", "warm"]
+    b = f'''{grid(W, H, 6, 2, on=(0, 9), order=order, dim=0.12)}
+    {diff("LOCKED", 80, 500, 228)}
+    {diff("IN<span style='color:#fcce21'>.</span>", 1080 + 210, 470, 420)}
+    {diff("29.10", 2160 + 60, 470, 300, "color:#fcce21;mix-blend-mode:normal;text-shadow:0 20px 60px rgba(0,0,0,.45)")}
+    <div class="meta" style="position:absolute;left:86px;top:830px;font-size:24px">Loomlock × Don Julio</div>
+    <div class="meta" style="position:absolute;left:1150px;top:930px;font-size:24px">Your phone comes in. Its apps don’t.</div>
+    <div class="meta" style="position:absolute;left:2230px;top:810px;font-size:24px">Thursday · Invite only</div>
+    <div class="meta" style="position:absolute;left:86px;top:1260px;font-size:18px;color:rgba(255,255,255,.75)">+18 · Please drink responsibly</div>
+    <div class="meta y" style="position:absolute;left:1166px;top:1260px;font-size:18px">No photos. No feed.</div>
+    <div class="meta y" style="position:absolute;left:2246px;top:1260px;font-size:18px">Tap in at the door</div>'''
+    return W, H, page(W, H, b)
+
+PIECES.update({"flyer-party-feed": flyer_party_feed, "flyer-party-story": flyer_party_story, "post-5-triptych-panorama": triptych})
+
+# ---------------------------------------------------------------- INVITE ONLY (club flyer, per the boss's reference)
+CREAM = "#f2ecdf"
+KEYICON = '<svg viewBox="0 0 100 100" style="width:{s}px;height:{s}px;flex:0 0 {s}px"><g transform="rotate(-35 50 50)"><path d="M8 50A20 20 0 1 1 48 50A20 20 0 1 1 8 50ZM17 50A7 7 0 1 0 31 50A7 7 0 1 0 17 50ZM44 44H90V56H44ZM70 56H78V68H70ZM82 56H90V72H82Z" fill="#fcce21"/></g></svg>'
+
+def inv_bg(W, H):
+    return f'''<img src="assets/stills/bg_crowd.jpg" style="position:absolute;left:0;top:0;width:{W}px;height:{H}px;object-fit:cover;object-position:62% 50%;filter:contrast(1.1) saturate(1.15)">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,31,.88) 0%,rgba(5,7,31,.62) 48%,rgba(5,7,31,.18) 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,31,.55) 0%,rgba(5,7,31,0) 22%,rgba(5,7,31,0) 70%,rgba(5,7,31,.8) 100%)"></div>'''
+
+def rule(top, left=68, width=944, op=.7):
+    return f'<div style="position:absolute;left:{left}px;top:{top}px;width:{width}px;height:2px;background:{CREAM};opacity:{op}"></div>'
+
+def label(top, html, size=34, left=68, ls=".06em", weight=700, color=CREAM):
+    return f'<div style="position:absolute;left:{left}px;top:{top}px;font-weight:{weight};font-size:{size}px;line-height:1.22;letter-spacing:{ls};text-transform:uppercase;color:{color}">{html}</div>'
+
+def cta(top, left=60, size=38, text="Request your key"):
+    return f'''<div style="position:absolute;left:{left}px;top:{top}px;display:flex;align-items:center;gap:16px;padding:20px 32px;border-radius:30px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.25);font-weight:600;font-size:{size}px;color:#fff">{KEYICON.format(s=int(size*1.25))}{text}</div>'''
+
+def invite_story(with_cta=True):
+    W, H = 1080, 1920
+    b = f'''{inv_bg(W, H)}
+    <div style="position:absolute;left:68px;right:68px;top:62px;display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;align-items:baseline;gap:18px;color:{CREAM}"><span style="font-weight:800;font-size:40px;letter-spacing:.1em">LOOMLOCK × DON JULIO</span><span style="font-weight:700;font-size:24px;letter-spacing:.14em">PRESENT</span></div>
+      <img src="assets/img/loomlock_mark_white.png" style="height:58px">
+    </div>
+    {rule(146)}
+    <div class="cond" style="position:absolute;left:58px;top:182px;font-size:340px;color:{CREAM}">INVITE</div>
+    <div class="cond" style="position:absolute;left:58px;top:466px;font-size:340px;color:{CREAM}">ONLY</div>
+    {rule(800, width=110)}
+    {label(830, "Thursday", 40, ls=".42em")}
+    <div class="cond" style="position:absolute;left:58px;top:886px;font-size:250px;color:{CREAM}">29</div>
+    {label(1110, "October", 48, ls=".08em", weight=800)}
+    {label(1190, "Your phone comes in<br>Its apps don’t<br>No photos<br>No feed", 38)}
+    {rule(1398, width=110)}
+    {label(1420, "Guestlist and<br>invite only", 34)}
+    {rule(1524, width=110)}
+    {label(1546, "Door policy<br>applies", 34)}
+    {rule(1650, width=110)}
+    {label(1672, "Venue:<br>sent to the list", 34)}
+    {cta(1546, 560) if with_cta else ""}
+    {rule(1800)}
+    {label(1826, "+18 · Drink responsibly", 28, ls=".1em")}
+    {label(1826, "Tap in at the door", 28, left=0, ls=".1em").replace("left:0px", "right:68px")}'''
+    return W, H, page(W, H, b)
+
+def invite_feed():
+    W, H = 1080, 1350
+    b = f'''{inv_bg(W, H)}
+    <div style="position:absolute;left:64px;right:64px;top:48px;display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;align-items:baseline;gap:14px;color:{CREAM}"><span style="font-weight:800;font-size:32px;letter-spacing:.1em">LOOMLOCK × DON JULIO</span><span style="font-weight:700;font-size:20px;letter-spacing:.14em">PRESENT</span></div>
+      <img src="assets/img/loomlock_mark_white.png" style="height:46px">
+    </div>
+    {rule(114, 64, 952)}
+    <div class="cond" style="position:absolute;left:56px;top:140px;font-size:300px;color:{CREAM}">INVITE</div>
+    <div class="cond" style="position:absolute;left:56px;top:388px;font-size:300px;color:{CREAM}">ONLY</div>
+    {rule(670, 64, 100)}
+    {label(694, "Thursday", 34, left=64, ls=".42em")}
+    <div class="cond" style="position:absolute;left:54px;top:740px;font-size:210px;color:{CREAM}">29</div>
+    {label(930, "October", 40, left=64, ls=".08em", weight=800)}
+    {label(700, "Your phone comes in<br>Its apps don’t<br>No photos · No feed", 30, left=500)}
+    {rule(830, 500, 90)}
+    {label(850, "Guestlist and invite only", 30, left=500)}
+    {rule(905, 500, 90)}
+    {label(925, "Door policy applies", 30, left=500)}
+    {rule(980, 500, 90)}
+    {label(1000, "Venue: sent to the list", 30, left=500)}
+    {cta(1060, 490, 32)}
+    {rule(1240, 64, 952)}
+    {label(1264, "+18 · Drink responsibly", 24, left=64, ls=".1em")}
+    {label(1264, "Tap in at the door", 24, left=0, ls=".1em").replace("left:0px", "right:64px")}'''
+    return W, H, page(W, H, b)
+
+PIECES.update({"invite-only-story": invite_story, "invite-only-story-sin-boton": lambda: invite_story(False), "invite-only-feed": invite_feed})
+
 def export(name, scale=1):
     W, H, html = PIECES[name]()
     f = ROOT / f"{name}.html"
     f.write_text(html)
     out = ROOT / "out" / f"{name}{'@2x' if scale == 2 else ''}.png"
+    pad = 200  # very wide windows lose some viewport height in headless Chrome: render taller, crop back
     subprocess.run([CHROME, "--headless=new", "--no-sandbox", "--hide-scrollbars", "--disable-gpu", f"--force-device-scale-factor={scale}",
-                    f"--window-size={W},{H}", "--virtual-time-budget=3000", f"--screenshot={out}", f.as_uri()],
+                    f"--window-size={W},{H + pad}", "--virtual-time-budget=3000", f"--screenshot={out}", f.as_uri()],
                    check=True, capture_output=True)
+    from PIL import Image
+    Image.open(out).crop((0, 0, W * scale, H * scale)).save(out)
     return out
 
 if __name__ == "__main__":

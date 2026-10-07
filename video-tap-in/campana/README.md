@@ -9,6 +9,7 @@ Sistema visual: Montserrat 900/800/600, azul noche → `#1D29C2`, amarillo `#FCC
 | Pieza | Archivo | Idea |
 |---|---|---|
 | Teaser 8 s (9:16) | `teaser/teaser-the-list.mp4` | Una lista de invitados pasa con ✓ hasta frenar en **YOUR PHONE ✗**. En el drop cae el sello **NOT ON THE LIST.** → "YOUR KEY IS." → LOCKED IN. 29.10 |
+| Flyer INVITE ONLY (story 9:16 y feed 4:5) | `flyer/invite-only-story.png`, `invite-only-story-sin-boton.png`, `invite-only-feed.png` (+ `@2x`) | Estilo de la referencia: INVITE ONLY gigante en Roboto Condensed (familia del brandbook), foto real del público, info apilada con filetes. La versión sin botón es para poner encima el sticker de link nativo de Instagram |
 | Flyer feed (4:5) | `flyer/flyer-feed.png` (+ `@2x` para imprimir) | "Door policy": las reglas de la puerta del club con la key card como objeto principal |
 | Flyer story (9:16) | `flyer/flyer-story.png` (+ `@2x`) | Mismo flyer para stories |
 | Post 1 | `instagram/post-1-the-list.png` | La lista impresa con YOUR PHONE tachado y el sello |
