@@ -33,6 +33,8 @@ mstart = sys.argv[4] if len(sys.argv) > 4 else "5.31"
 tint = sys.argv[5] if len(sys.argv) > 5 else "#1d29c2"
 html = html.replace('src="assets/music_full.wav" data-start="0" data-duration="14.69" data-media-start="5.31"', f'src="{music}" data-start="0" data-duration="14.69" data-media-start="{mstart}"')
 html = html.replace("--core: #1d29c2;", f"--core: {tint};")
+impact = len(sys.argv) > 6 and sys.argv[6] == "1"
+html = html.replace("const IMPACT = false;", f"const IMPACT = {str(impact).lower()};")
 html = html.replace("<!--TILES_A-->", tiles("ga", 0, 2.88, 0.3))
 html = html.replace("<!--TILES_B-->", tiles("gb", 5.09, 4.99, 0.33))
 open(out,"w").write(html)

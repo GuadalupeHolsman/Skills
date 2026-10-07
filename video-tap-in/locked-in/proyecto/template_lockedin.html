@@ -52,10 +52,7 @@
       #lockscr .l1 { margin-top: 44px; font-weight: 800; font-size: 40px; letter-spacing: 0.3em; }
       #lockscr .l2 { margin-top: 14px; font-weight: 600; font-size: 20px; letter-spacing: 0.3em; color: var(--ice); }
       .ring { position: absolute; left: 640px; top: 460px; width: 160px; height: 160px; border-radius: 50%; border: 6px solid var(--yellow); box-sizing: border-box; opacity: 0; }
-      #ekey { position: absolute; left: 530px; top: 425px; width: 380px; height: 230px; border-radius: 28px; background: var(--yellow); color: var(--ink); box-shadow: 0 30px 60px rgba(0,0,0,0.5); opacity: 0; }
-      #ekey img { position: absolute; left: 26px; top: 24px; width: 54px; filter: brightness(0); }
-      #ekey .k1 { position: absolute; right: 26px; top: 30px; font-weight: 800; font-size: 17px; letter-spacing: 0.22em; }
-      #ekey .k2 { position: absolute; left: 24px; bottom: 14px; font-weight: 800; font-size: 96px; letter-spacing: -0.04em; line-height: 1; }
+      #ekey { position: absolute; left: 580px; top: 224px; width: 280px; height: auto; filter: drop-shadow(0 30px 50px rgba(0,0,0,0.6)) drop-shadow(0 0 30px rgba(59,92,255,0.35)); opacity: 0; }
 
       /* words over the grid */
       .gw { position: absolute; left: 0; right: 0; text-align: center; color: #fff; mix-blend-mode: difference; opacity: 0; }
@@ -79,12 +76,15 @@
       /* chrome */
       .foot { position: absolute; left: 64px; right: 64px; top: 1800px; display: flex; justify-content: space-between; font-weight: 600; font-size: 22px; letter-spacing: 0.3em; color: rgba(255,255,255,0.78); text-shadow: 0 1px 6px rgba(0,0,0,0.6); }
       .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+      .inv { position: absolute; inset: 0; background: #fff; mix-blend-mode: difference; opacity: 0; }
+      .rgb { position: absolute; left: 0; right: 0; text-align: center; mix-blend-mode: screen; opacity: 0; pointer-events: none; }
       .grain { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: overlay; opacity: 0; image-rendering: pixelated; }
       .vignette { position: absolute; inset: 0; background: radial-gradient(120% 85% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%); }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="14.69">
+      <div id="shake" class="layer">
 
       <!-- 0 – 1.44  HOOK: LEAVE YOUR PHONE AT THE DOOR. (footage through the letters) -->
       <!-- 1.44 – 2.88  date over a dim grid -->
@@ -124,7 +124,7 @@
           </div>
         </div>
         <div class="ring" id="rg0"></div><div class="ring" id="rg1"></div><div class="ring" id="rg2"></div>
-        <div id="ekey"><img src="assets/img/loomlock_mark_white.png" alt="" /><div class="k1">EXPERIENCE KEY</div><div class="k2">29.10</div></div>
+        <img id="ekey" src="assets/img/loomlock_lock.png" alt="Loomlock lock" />
         <div class="big cap" id="cap1" style="color:#fcce21">TAP IN.</div>
         <div class="big cap" id="cap2">STAY IN.</div>
       </div>
@@ -166,15 +166,58 @@
       <img class="grain" id="gr3" src="assets/img/grain3.png" alt="" />
       <div class="foot"><span>LOOMLOCK × DON JULIO</span><span>+18</span></div>
 
+      </div>
+      <div class="inv" id="inv"></div>
+
       <audio id="music" src="assets/music_full.wav" data-start="0" data-duration="14.69" data-media-start="5.31" data-volume="1"
         data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.9},{"t":14.2,"v":1},{"t":14.69,"v":0}]}]}'></audio>
       <audio id="fx-tap" src="assets/sfx/tap.wav" data-start="3.25" data-volume="0.9"></audio>
     </div>
 
     <script>
+      const IMPACT = false;
+      // impact mode: RGB-split copies of every big word (built before the timeline, deterministic)
+      if (IMPACT) {
+        document.querySelectorAll(".hw, .gw").forEach((el) => {
+          ["#ff2a6d", "#2af6ff"].forEach((c, k) => {
+            const d = el.cloneNode(true);
+            d.id = el.id + (k ? "c" : "m");
+            d.className = el.className.replace(/\b(hw|gw)\b/, "") + " rgb";
+            d.style.color = c;
+            el.parentNode.insertBefore(d, el);
+          });
+        });
+      }
       const tl = gsap.timeline({ paused: true });
       const B = 0.48;
       const flash = (t, a = 0.85, d = 0.14) => { tl.set("#fl", { opacity: a }, t); tl.to("#fl", { opacity: 0, duration: d, ease: "power2.out" }, t); };
+      // ---- impact helpers (only used when IMPACT is on)
+      let shk = 0;
+      const shake = (t, amp = 22) => {
+        const pts = [[1, -0.6], [-0.8, 0.9], [0.6, -0.4], [-0.3, 0.3], [0, 0]];
+        pts.forEach(([x, y], k) => tl.to("#shake", { x: x * amp * (1 - k * 0.18), y: y * amp * (1 - k * 0.18), duration: 0.03, ease: "none" }, t + k * 0.03));
+      };
+      const invert = (t, frames = 2) => { tl.set("#inv", { opacity: 1 }, t); tl.set("#inv", { opacity: 0 }, t + frames / 30); };
+      const rgb = (id, t, from) => {
+        [["m", -34], ["c", 34]].forEach(([k, dx]) => {
+          const el = "#" + id + k;
+          tl.set(el, { opacity: 0.95, x: dx, scale: from }, t);
+          tl.to(el, { x: 0, scale: 1, opacity: 0, duration: 0.22, ease: "expo.out" }, t);
+        });
+      };
+      // one word in: slam (+ split, shake, invert in IMPACT mode); out: cut or zoom-through
+      const wordIn = (s, t, soft, k) => {
+        tl.set(s, { opacity: 1 }, t);
+        if (!IMPACT) { tl.fromTo(s, { scale: soft }, { scale: 1, duration: 0.22, ease: "power3.out" }, t); return; }
+        tl.fromTo(s, { scale: 2.6 }, { scale: 1, duration: 0.13, ease: "expo.out" }, t);
+        rgb(s.slice(1), t, 2.6);
+        shake(t, k % 2 ? 26 : 18);
+        if (k % 2 === 0) invert(t);
+      };
+      const wordOut = (s, t) => {
+        if (!IMPACT) { tl.set(s, { opacity: 0 }, t); return; }
+        tl.to(s, { scale: 3.4, opacity: 0, duration: 0.08, ease: "power2.in" }, t - 0.06);
+      };
 
       // grain: cycle four frames at ~15 fps for the whole film
       for (let i = 0; i < 4; i++) tl.set("#gr" + i, { opacity: 0 }, 0);
@@ -189,9 +232,9 @@
       tl.set("#dimA", { backgroundColor: "rgba(5,7,31,0.72)" }, 1.44);
       const hw = [["#w0", 0.0], ["#w1", 0.24], ["#w2", 0.48], ["#w3", 0.96], ["#w4", 1.2]];
       hw.forEach(([s, t], i) => {
-        tl.set(s, { opacity: 1 }, t);
-        if (i < hw.length - 1) tl.set(s, { opacity: 0 }, hw[i + 1][1]);
-        tl.fromTo(s, { scale: 1.08 }, { scale: 1, duration: 0.22, ease: "power3.out" }, t);
+        wordIn(s, t, 1.08, i);
+        if (i < hw.length - 1) wordOut(s, hw[i + 1][1]);
+        else if (IMPACT) tl.to(s, { scale: 3.4, opacity: 0, duration: 0.1, ease: "power2.in" }, 1.38);
       });
       flash(0.0, 0.6, 0.18); flash(0.48, 0.35); flash(0.96, 0.35);
 
@@ -200,7 +243,8 @@
       // ---- DATE over dim grid
       tl.set("#date", { opacity: 1 }, 1.44);
       flash(1.44, 0.9, 0.2);
-      tl.fromTo("#dd", { scale: 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power4.out" }, 1.44);
+      tl.fromTo("#dd", { scale: IMPACT ? 2.6 : 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: IMPACT ? 0.14 : 0.3, ease: IMPACT ? "expo.out" : "power4.out" }, 1.44);
+      if (IMPACT) { shake(1.44, 28); invert(1.44, 2); }
       tl.fromTo("#dm", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 1.68);
       tl.to("#dd", { scale: 1.04, duration: 1.2, ease: "none" }, 1.74);
       tl.set(["#gridA", "#dimA", "#date"], { opacity: 0 }, 2.88);
@@ -209,8 +253,8 @@
       tl.fromTo("#phone", { y: 60, opacity: 0, rotationY: -18, transformPerspective: 1600 }, { y: 0, opacity: 1, rotationY: 0, duration: 0.4, ease: "power3.out" }, 2.88);
       tl.fromTo("#rule", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.95);
       tl.fromTo("#nstack", { y: 0 }, { y: -260, duration: 0.45, ease: "none" }, 2.88);
-      tl.set("#ekey", { opacity: 1, x: 560, y: 900, rotation: 28 }, 2.88);
-      tl.to("#ekey", { x: 0, y: 0, rotation: -10, duration: 0.3, ease: "power3.in" }, 2.95);
+      tl.set("#ekey", { opacity: 1, x: 520, y: 900, rotation: 30 }, 2.88);
+      tl.to("#ekey", { x: 0, y: 0, rotation: -12, duration: 0.3, ease: "power3.in" }, 2.95);
       tl.to("#ekey", { scale: 0.95, duration: 0.05, yoyo: true, repeat: 1 }, 3.25);
       // contact
       tl.set("#tglow", { opacity: 1 }, 0);
@@ -226,8 +270,8 @@
       tl.fromTo("#lmark", { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)" }, 3.6);
       tl.fromTo("#ll1", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.3 }, 3.78);
       tl.fromTo("#ll2", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.95);
-      tl.to("#ekey", { x: 760, y: 1100, rotation: 30, duration: 0.45, ease: "power3.in" }, 3.5);
-      tl.set("#ekey", { opacity: 0 }, 3.96);
+      tl.to("#ekey", { x: 190, y: 560, rotation: 8, scale: 0.92, duration: 0.5, ease: "power3.inOut" }, 3.45);
+      tl.to("#ekey", { y: 540, duration: 1.1, ease: "sine.inOut" }, 3.95);
       tl.set("#cap1", { opacity: 1 }, 3.25); flash(3.25, 0.15, 0.12);
       tl.fromTo("#cap1", { scale: 1.2 }, { scale: 1, duration: 0.25, ease: "power4.out" }, 3.25);
       tl.set("#cap1", { opacity: 0 }, 4.2);
@@ -244,10 +288,9 @@
       flash(5.09, 0.7);
       const gw = [["#g0", 5.57], ["#g1", 6.05], ["#g2", 6.53], ["#g3", 6.77], ["#g4", 7.2], ["#g5", 7.44], ["#g6", 7.68], ["#g7", 8.16], ["#g8", 8.64], ["#g9", 8.88]];
       gw.forEach(([s, t], i) => {
-        tl.set(s, { opacity: 1 }, t);
-        tl.fromTo(s, { scale: 1.12 }, { scale: 1, duration: 0.2, ease: "power3.out" }, t);
+        wordIn(s, t, 1.12, i);
         const end = i < gw.length - 1 ? gw[i + 1][1] : 9.6;
-        tl.set(s, { opacity: 0 }, end);
+        wordOut(s, end);
       });
       // build-up strobe before the drop
       [6.53, 6.65, 6.77, 6.89, 7.01, 7.10].forEach((t) => flash(t, 0.35, 0.08));
@@ -265,16 +308,18 @@
       // ---- TAGLINE
       flash(10.08, 0.8, 0.2);
       tl.set("#ta", { opacity: 1 }, 10.08);
-      tl.fromTo("#ta", { scale: 1.15 }, { scale: 1, duration: 0.3, ease: "power4.out" }, 10.08);
+      tl.fromTo("#ta", { scale: IMPACT ? 2.8 : 1.15 }, { scale: 1, duration: IMPACT ? 0.14 : 0.3, ease: IMPACT ? "expo.out" : "power4.out" }, 10.08);
       tl.set("#tb", { opacity: 1 }, 10.56);
-      tl.fromTo("#tb", { scale: 1.15 }, { scale: 1, duration: 0.3, ease: "power4.out" }, 10.56);
+      tl.fromTo("#tb", { scale: IMPACT ? 2.8 : 1.15 }, { scale: 1, duration: IMPACT ? 0.14 : 0.3, ease: IMPACT ? "expo.out" : "power4.out" }, 10.56);
+      if (IMPACT) { shake(10.08, 30); invert(10.08, 3); shake(10.56, 34); invert(10.56, 2); invert(10.7, 1); tl.to("#ta", { scale: 1.06, duration: 0.9, ease: "none" }, 10.2); }
       tl.set(["#ta", "#tb"], { opacity: 0 }, 11.52);
 
       // ---- END CARD
       tl.set("#end", { opacity: 1 }, 11.52);
       flash(11.52, 0.6, 0.25);
       tl.fromTo("#elogos", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 11.52);
-      tl.fromTo("#ed", { opacity: 0, scale: 1.2 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power4.out" }, 11.76);
+      tl.fromTo("#ed", { opacity: 0, scale: IMPACT ? 2.4 : 1.2 }, { opacity: 1, scale: 1, duration: IMPACT ? 0.16 : 0.35, ease: IMPACT ? "expo.out" : "power4.out" }, 11.76);
+      if (IMPACT) { shake(11.76, 26); invert(11.76, 2); }
       tl.fromTo("#em", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 12.0);
       tl.fromTo("#edoor", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 12.48);
       tl.to("#edoor", { opacity: 0.45, duration: 0.24, yoyo: true, repeat: 3, ease: "steps(1)" }, 13.2);
