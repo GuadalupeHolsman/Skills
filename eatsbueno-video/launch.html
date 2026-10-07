@@ -33,10 +33,8 @@
   .phone { position: absolute; width: 458px; height: 958px; border-radius: 70px; background: #0d0d0d; padding: 14px; will-change: transform;
            box-shadow: 0 80px 160px -50px rgba(0,0,0,.55), 0 30px 60px -30px rgba(0,0,0,.45), inset 0 0 0 2px #2b2b2b, inset 0 0 0 5px #161616; }
   .screen { position: relative; width: 430px; height: 930px; border-radius: 57px; overflow: hidden; background: #eef3ef; }
-  .screen > img.base { position: absolute; left: 0; top: 0; width: 430px; }
+  .screen img.base { position: absolute; left: 0; top: 0; width: 430px; }
   .island { position: absolute; top: 12px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: #000; z-index: 90; }
-  .sbar { position: absolute; left: 0; top: 0; width: 145px; height: 48px; z-index: 5; }
-  .sbar span { position: absolute; left: 24px; top: 14px; width: 74px; text-align: center; font: 700 16px Manrope; color: #111; }
   .glare { position: absolute; inset: -20%; background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.55) 48%, rgba(255,255,255,.08) 56%, transparent 64%); z-index: 85; mix-blend-mode: screen; opacity: 0; }
   .finger { position: absolute; left: 0; top: 0; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; z-index: 95; opacity: 0;
             background: radial-gradient(circle, rgba(255,255,255,.9), rgba(255,255,255,.5) 60%, rgba(255,255,255,.3)); border: 2px solid rgba(30,30,30,.18); box-shadow: 0 8px 20px rgba(0,0,0,.25); }
@@ -183,31 +181,28 @@
   // ---------- phone factory ----------
   const SW = 430, IH = 430 * 2532 / 1170;
   const box = (x0, y0, x1, y1) => `left:${x0 * SW}px;top:${y0 * IH}px;width:${(x1 - x0) * SW}px;height:${(y1 - y0) * IH}px;`;
-  const makePhone = (parent, file, key, cx, cy) => {
+  // plates come from tools/clean_plates.py: uniform 9:41, no TestFlight link, no debug pill.
+  // `base` is an optional "before" plate; P.src is always the finished screen that pieces are cut from.
+  const plate = (f) => `assets/screens/clean/${f}.jpg`;
+  const makePhone = (parent, file, cx, cy, base = file) => {
     const ph = document.createElement('div');
     ph.className = 'phone';
     ph.style.left = (cx - 229) + 'px'; ph.style.top = (cy - 479) + 'px';
-    const src = `assets/screens/${file}.jpg`;
-    ph.innerHTML = `<div class="screen"><img class="base" src="${src}"><div class="island"></div><div class="glare"></div></div>`;
+    ph.innerHTML = `<div class="screen"><div class="content" style="position:absolute;inset:0"><img class="base" src="${plate(base)}"></div><div class="island"></div><div class="glare"></div></div>`;
     parent.appendChild(ph);
-    const P = { ph, scr: ph.querySelector('.screen'), src, glare: ph.querySelector('.glare') };
-    const st = key && STATUS[key];
-    if (st) {
-      add(P, `background:linear-gradient(180deg,${st[0]},${st[2]})`, '<span>9:41</span>', 'sbar');
-      if (/^Step/.test(key)) add(P, `${box(0.462, 0.065, 1, 0.117)}background:${st[2]};z-index:5`);
-    }
+    const P = { ph, scr: ph.querySelector('.screen'), content: ph.querySelector('.content'), src: plate(file), glare: ph.querySelector('.glare') };
     return P;
   };
-  function add(P, css, html = '', cls = '') {
+  // layers go into the scrolling content unless `fixed` (keyboard, finger, status bar)
+  function add(P, css, html = '', cls = '', fixed = false) {
     const d = document.createElement('div');
     d.className = cls; d.style.cssText = 'position:absolute;' + css; d.innerHTML = html;
-    P.scr.insertBefore(d, P.glare);
+    if (fixed) P.scr.insertBefore(d, P.glare); else P.content.appendChild(d);
     return d;
   }
   const patch = (P, x0, y0, x1, y1, extra = '', src = P.src) =>
     add(P, `overflow:hidden;${box(x0, y0, x1, y1)}${extra}`, `<img src="${src}" style="position:absolute;width:430px;left:${-x0 * SW}px;top:${-y0 * IH}px">`);
-  const cover = (P, x0, y0, x1, y1, bg, r = 0) => add(P, `${box(x0, y0, x1, y1)}background:${bg};border-radius:${r}px`);
-  const finger = (P) => { P.ripple = add(P, '', '', 'ripple'); P.finger = add(P, '', '', 'finger'); };
+  const finger = (P) => { P.ripple = add(P, '', '', 'ripple', true); P.finger = add(P, '', '', 'finger', true); };
   const tap = (P, fx, fy, t) => {
     META.taps.push(t);
     const x = fx * SW, y = fy * IH;
@@ -221,7 +216,7 @@
   const lift = (P, t) => tl.to(P.finger, { opacity: 0, scale: 1.15, duration: 0.3, ease: 'ebIn' }, t);
   const glareSweep = (P, t) => tl.fromTo(P.glare, { xPercent: -60, opacity: 1 }, { xPercent: 60, opacity: 1, duration: 0.9, ease: 'ebSoft', immediateRender: false }, t);
   const makeKB = (P) => {
-    const kb = add(P, '', '', 'kb'), KEY = {};
+    const kb = add(P, '', '', 'kb', true), KEY = {};
     [['qwertyuiop'], ['asdfghjkl'], ['⇧', 'zxcvbnm', '⌫'], ['123', ' ', 'return']].forEach(row => {
       const r = document.createElement('div'); r.className = 'row';
       row.forEach(part => ((part.length > 1 && !['123', 'return'].includes(part)) ? part.split('') : [part]).forEach(ch => {
@@ -354,13 +349,14 @@
   tl.fromTo('#wm2', { opacity: 1, clipPath: 'inset(0 100% 0 0)' }, { opacity: 1, clipPath: 'inset(0 0% 0 0)', duration: 0.6, ease: 'ebOut', immediateRender: false }, 9.95);
   META.hits.push(9.95);
   // zoom-through into the hero
+  tl.set('#sc2', { zIndex: 5 }, 10.44);
   tl.to('#sc2', { scale: 1.35, filter: 'blur(14px)', opacity: 0, duration: 0.5, ease: 'ebIn' }, 10.45);
   META.whooshes.push(10.45);
 
   // ================= 3 · Phone hero (10.5 – 14.4) =================
   scene('sc3', 10.45, 14.45);
-  tl.fromTo('#sc3', { opacity: 0, scale: 1.12, filter: 'blur(12px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.6, ease: 'ebOut', immediateRender: false }, 10.45);
-  const P3 = makePhone($('#ph3wrap'), 'Welcome', null, 960, 680);
+  tl.fromTo('#sc3', { scale: 1.12, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'ebOut', immediateRender: false }, 10.55);
+  const P3 = makePhone($('#ph3wrap'), 'Welcome', 960, 680);
   gsap.set(P3.ph, { scale: 0.8 });
   finger(P3);
   tl.fromTo(P3.ph, { x: 380, y: 520, z: -1800, rotationY: 78, rotationX: 28, rotationZ: -14, opacity: 0 },
@@ -373,11 +369,8 @@
   tap(P3, 0.5, 0.815, 13.25);
   lift(P3, 13.4);
   // the screen itself advances to onboarding step 1 (in-app push) …
-  const st1 = STATUS.Step1;
-  const step1In = add(P3, 'inset:0;background:#e5efe8;z-index:6',
-    `<img src="assets/screens/Onboarding_Step1.jpg" style="position:absolute;width:430px;left:0;top:0">` +
-    `<div class="sbar" style="background:linear-gradient(180deg,${st1[0]},${st1[2]})"><span>9:41</span></div>` +
-    `<div style="position:absolute;${box(0.462, 0.065, 1, 0.117)}background:${st1[2]}"></div>`);
+  const step1In = add(P3, 'inset:0;z-index:6;box-shadow:-30px 0 60px rgba(0,0,0,.25)',
+    `<img src="${plate('Onboarding_Step1')}" style="position:absolute;width:430px;left:0;top:0">`);
   tl.fromTo(step1In, { xPercent: 100 }, { xPercent: 0, duration: 0.6, ease: 'ebPush', immediateRender: true }, 13.4);
   tl.to('#meet, #sub3', { opacity: 0, y: -40, duration: 0.4, ease: 'ebIn' }, 13.5);
   META.whooshes.push(13.45);
@@ -386,9 +379,9 @@
   scene('sc4', 13.95, 21.2);
   tl.fromTo('#sc4', { opacity: 0 }, { opacity: 1, duration: 0.45, ease: 'ebSoft', immediateRender: false }, 13.95);   // only the background changes
   const W4 = $('#world4');
-  const P4a = makePhone(W4, 'Onboarding_Step1', 'Step1', 960, 650);
-  const P4b = makePhone(W4, 'Onboarding_Step2', 'Step2', 1560, 650);
-  const P4c = makePhone(W4, 'Onboarding_Step7', 'Step7', 2160, 650);
+  const P4a = makePhone(W4, 'Onboarding_Step1', 960, 650);
+  const P4b = makePhone(W4, 'Onboarding_Step2', 1560, 650);
+  const P4c = makePhone(W4, 'Onboarding_Step7', 2160, 650, 'Onboarding_Step7_Empty');
   [P4a, P4b, P4c].forEach((P, i) => gsap.set(P.ph, { scale: 0.86, z: i === 0 ? 0 : -220, rotationY: i === 0 ? 0 : -14 }));
   // world starts matched to the hero phone (center 960,680 · scale .8), then opens up
   tl.fromTo(W4, { scale: 0.8 / 0.86, y: 30, transformOrigin: '960px 650px' }, { scale: 1, y: 0, duration: 0.9, ease: 'ebSoft', immediateRender: true }, 14.35);
@@ -410,10 +403,10 @@
   travel(15.9, -600, P4b, P4a);
   travel(17.15, -1200, P4c, P4b);
   // name: field → keyboard → "Srushti"
-  const S7 = P4c.src;
-  cover(P4c, 0.4, 0.4094, 0.6, 0.5018, '#306457', 999);
-  const greet = [cover(P4c, 0.08, 0.553, 0.92, 0.584, '#e7f0ea'), cover(P4c, 0.08, 0.706, 0.92, 0.732, '#ecf3ed')];
-  cover(P4c, 0.08, 0.598, 0.92, 0.652, '#e9f2ec');
+  const greet = [patch(P4c, 0.08, 0.553, 0.92, 0.586), patch(P4c, 0.08, 0.704, 0.92, 0.734)];
+  tl.set(greet, { opacity: 0 }, 0);
+  const sbar7 = patch(P4c, 0, 0, 1, 0.056, 'z-index:70', P4c.src);   // status bar stays put while content scrolls
+  P4c.scr.insertBefore(sbar7, P4c.glare);
   const avatarS = patch(P4c, 0.4, 0.4094, 0.6, 0.5018, 'border-radius:50%');
   const nameP = patch(P4c, 0.3, 0.598, 0.705, 0.652);
   const caret = add(P4c, `top:${0.603 * IH}px;height:${0.044 * IH}px;width:2.5px;background:#3B7668;opacity:0;left:${0.5 * SW}px`);
@@ -421,6 +414,7 @@
   tl.set([avatarS, nameP], { opacity: 0 }, 0);
   tap(P4c, 0.5, 0.625, 17.95);
   tl.fromTo(K4.kb, { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'ebPush', immediateRender: false }, 18.05);
+  tl.fromTo(P4c.content, { y: 0 }, { y: -110, duration: 0.45, ease: 'ebPush', immediateRender: false }, 18.05);   // keep the field above the keyboard
   lift(P4c, 18.15);
   tl.set(caret, { opacity: 1 }, 18.2);
   const NAME = 'Srushti', nTimes = schedule(NAME, 18.35, 7);
@@ -434,9 +428,10 @@
     caret.style.left = `${0.3 * SW + TX0 + w + (TW - w) / 2 + 3 - (f === 0 ? TW / 2 : 0)}px`;
   });
   tl.fromTo(avatarS, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.5, immediateRender: false }, nTimes[0]);
-  tl.to(greet, { opacity: 0, duration: 0.4, stagger: 0.15 }, 19.45);
-  tl.to(K4.kb, { yPercent: 100, duration: 0.4, ease: 'ebIn' }, 19.55);
-  tl.set(caret, { opacity: 0 }, 19.6);
+  tl.to(K4.kb, { yPercent: 100, duration: 0.45, ease: 'ebSoft' }, 19.3);
+  tl.to(P4c.content, { y: 0, duration: 0.45, ease: 'ebSoft' }, 19.3);
+  tl.set(caret, { opacity: 0 }, 19.3);
+  tl.fromTo(greet, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.45, stagger: 0.12, immediateRender: false }, 19.5);
   // pull back: all three phones, one person
   tl.to(W4, { x: -600, y: 40, scale: 0.78, duration: 0.9, ease: 'ebSoft' }, 19.75);
   tl.to([P4a.ph, P4b.ph], { z: 0, rotationY: 0, duration: 0.9, ease: 'ebSoft' }, 19.75);
@@ -447,11 +442,13 @@
   // ================= 5 · Coach (20.9 – 28.4) =================
   scene('sc5', 20.55, 29.0);
   tl.fromTo('#sc5', { x: 1920, filter: 'blur(18px)' }, { x: 0, filter: 'blur(0px)', duration: 0.6, ease: 'ebSoft', immediateRender: false }, 20.55);
-  const P5 = makePhone($('#ph5wrap'), 'Coach_Conversation', 'Coach', 1480, 560);
+  const P5 = makePhone($('#ph5wrap'), 'Coach_Conversation', 1480, 560, 'Coach_Conversation_Empty');
   gsap.set(P5.ph, { scale: 0.9, rotationY: -12 });
-  const bubbleCover = cover(P5, 0.42, 0.148, 0.985, 0.193, '#dfece4');
-  const ansCover = add(P5, `left:0;right:0;top:${0.19 * IH}px;height:${0.645 * IH}px;background:linear-gradient(#E6EFEA 0%,#F6F9F5 45%);transform-origin:50% 100%`,
-    `<div class="dots" style="position:absolute;left:7%;top:3%;display:flex;gap:6px;padding:12px 16px;background:#fff;border-radius:16px;opacity:0"><i style="width:9px;height:9px;border-radius:50%;background:#3B7668"></i><i style="width:9px;height:9px;border-radius:50%;background:#3B7668"></i><i style="width:9px;height:9px;border-radius:50%;background:#3B7668"></i></div>`);
+  const bubble = patch(P5, 0.26, 0.124, 0.995, 0.19, 'transform-origin:100% 100%');
+  const answer = patch(P5, 0, 0.19, 1, 0.835);
+  const dots = add(P5, `left:7%;top:${0.205 * IH}px;display:flex;gap:6px;padding:14px 18px;background:#fff;border-radius:18px;box-shadow:0 2px 8px rgba(0,0,0,.06);opacity:0`,
+    '<i style="width:9px;height:9px;border-radius:50%;background:#3B7668"></i><i style="width:9px;height:9px;border-radius:50%;background:#3B7668"></i><i style="width:9px;height:9px;border-radius:50%;background:#3B7668"></i>');
+  tl.set([bubble, answer], { opacity: 0 }, 0);
   tl.fromTo('#eb5', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, immediateRender: true }, 21.0);
   const PROMPT = 'Suggest some good lunch options', pTimes = schedule(PROMPT, 21.35, 15);
   tl.set('#pcaret', { opacity: 1 }, 21.2);
@@ -462,14 +459,19 @@
   META.whooshes.push(tSend);
   tl.to('#prompt5', { x: 1050, y: -170, scale: 0.18, opacity: 0, duration: 0.55, ease: 'ebIn', transformOrigin: '0% 0%' }, tSend);
   tl.to('#eb5', { opacity: 0, duration: 0.3 }, tSend);
-  tl.to(bubbleCover, { opacity: 0, duration: 0.25 }, tSend + 0.45);
+  tl.fromTo(bubble, { opacity: 0, scale: 0.6, y: 14 }, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: 'ebOut', immediateRender: false }, tSend + 0.42);
   META.taps.push(tSend + 0.45);
   tl.to(P5.ph, { rotationY: 0, x: -140, scale: 1, duration: 0.9, ease: 'ebSoft' }, tSend + 0.1);
-  const dots = ansCover.querySelector('.dots');
   tl.set(dots, { opacity: 1 }, tSend + 0.7);
   tl.fromTo(dots.children, { y: 0, opacity: 0.4 }, { y: -5, opacity: 1, duration: 0.2, stagger: 0.09, yoyo: true, repeat: 3, ease: 'sine.inOut', immediateRender: false }, tSend + 0.7);
   tl.set(dots, { opacity: 0 }, tSend + 1.55);
-  tl.fromTo(ansCover, { scaleY: 1 }, { scaleY: 0, duration: 1.9, ease: 'none', immediateRender: false }, tSend + 1.55);
+  // the answer streams in top-down (soft leading edge, like text arriving)
+  const stream = { p: 0 };
+  tl.fromTo(stream, { p: 0 }, { p: 1, duration: 1.9, ease: 'none', immediateRender: false, onUpdate: () => {
+    const e = stream.p * 112;
+    const m = `linear-gradient(#000 ${e - 12}%, transparent ${e}%)`;
+    answer.style.webkitMaskImage = m; answer.style.maskImage = m; answer.style.opacity = stream.p > 0 ? 1 : 0;
+  } }, tSend + 1.55);
   // the answer leaves the phone as three real cards
   const CARDS = [
     ['🥐', 'Turkey croissant + side salad', 'Protein-rich · simple greens'],
@@ -486,14 +488,16 @@
       { x: 0, y: 0, scale: 1.15, rotationY: 0, opacity: 1, duration: 0.85, ease: 'ebOut', immediateRender: true }, t);
     META.whooshes.push(t + 0.1);
   });
+  tl.set('#sc5', { zIndex: 5 }, 28.39);
   tl.to('#sc5', { scale: 1.3, filter: 'blur(14px)', opacity: 0, duration: 0.5, ease: 'ebIn' }, 28.4);
   META.whooshes.push(28.4);
 
   // ================= 6 · Scan (28.9 – 34.4) =================
-  scene('sc6', 28.4, 34.95);
-  tl.fromTo('#sc6', { opacity: 0, scale: 1.12, filter: 'blur(12px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.6, ease: 'ebOut', immediateRender: false }, 28.4);
-  const P6 = makePhone($('#ph6wrap'), 'Scanner_Barcode', 'Scanner', 1460, 560);
-  const cardCover = cover(P6, 0, 0.677, 1, 1, '#f9fbfe');
+  scene('sc6', 28.4, 35.15);
+  tl.fromTo('#sc6', { scale: 1.12, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'ebOut', immediateRender: false }, 28.5);
+  const P6 = makePhone($('#ph6wrap'), 'Scanner_Barcode', 1460, 560, 'Scanner_Barcode_Empty');
+  const card6 = patch(P6, 0, 0.684, 1, 0.85);
+  tl.set(card6, { opacity: 0 }, 0);
   const scanline = add(P6, `left:6%;width:88%;top:30%;height:4px;border-radius:4px;background:#E26023;box-shadow:0 0 18px 4px rgba(226,96,35,.75);opacity:0`);
   const flash = add(P6, `left:0;right:0;top:11%;height:57%;background:#fff;opacity:0`);
   // camera dives into the barcode
@@ -504,7 +508,7 @@
   tl.fromTo(flash, { opacity: 0.9 }, { opacity: 0, duration: 0.45, immediateRender: false }, 30.1);
   META.beeps.push(30.1);
   tl.to(P6.ph, { scale: 0.92, x: 0, y: 0, duration: 0.8, ease: 'ebSoft' }, 30.2);
-  tl.to(cardCover, { yPercent: 100, duration: 0.6, ease: 'ebOut' }, 30.55);
+  tl.fromTo(card6, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: 'ebOut', immediateRender: false }, 30.55);
   // the product card pops out of the phone
   const cardClone = document.createElement('div');
   cardClone.className = 'abs';
@@ -532,28 +536,28 @@
     tl.fromTo(sp, { opacity: 0, scale: 1.6, filter: 'blur(8px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.18, ease: 'power3.out', immediateRender: true }, 33.1 + i * 0.4);
     META.slams.push(33.1 + i * 0.4);
   });
-  tl.to('#sc6', { yPercent: -100, duration: 0.55, ease: 'ebIn' }, 34.4);
+  tl.to('#sc6', { yPercent: -100, duration: 0.7, ease: 'ebSoft' }, 34.4);
   META.whooshes.push(34.45);
 
   // ================= 7 · Small victories (34.9 – 41.0) =================
   scene('sc7', 34.4, 41.6);
-  tl.fromTo('#sc7', { yPercent: 100 }, { yPercent: 0, duration: 0.55, ease: 'ebIn', immediateRender: false }, 34.4);   // moves with sc6, no gap
+  tl.fromTo('#sc7', { yPercent: 100 }, { yPercent: 0, duration: 0.7, ease: 'ebSoft', immediateRender: false }, 34.4);   // moves with sc6, no gap
   const W7 = $('#world7');
   const P7 = [
-    makePhone(W7, 'SleepRecovery', 'Sleep2', 460, 640),
-    makePhone(W7, 'Hydration_FirstUse', 'Hyd1', 960, 610),
-    makePhone(W7, 'Statistics_Month', 'Stats', 1460, 640),
+    makePhone(W7, 'SleepRecovery', 460, 610),
+    makePhone(W7, 'Hydration_FirstUse', 960, 585),
+    makePhone(W7, 'Statistics_Month', 1460, 610),
   ];
   const fan = [{ ry: 22, z: -160 }, { ry: 0, z: 0 }, { ry: -22, z: -160 }];
   P7.forEach((P, i) => {
-    tl.fromTo(P.ph, { y: 900, scale: 0.66, rotationY: fan[i].ry, z: fan[i].z }, { y: 0, scale: 0.66, rotationY: fan[i].ry, z: fan[i].z, duration: 1.0, ease: 'ebOut', immediateRender: true }, 35.0 + [0.12, 0, 0.24][i]);
+    tl.fromTo(P.ph, { y: 900, scale: 0.66, rotationY: fan[i].ry, z: fan[i].z }, { y: 0, scale: 0.66, rotationY: fan[i].ry, z: fan[i].z, duration: 1.1, ease: 'ebOut', immediateRender: true }, 34.55 + [0.08, 0, 0.16][i]);   // rising while the scene pushes in
   });
-  reveal($('#h7'), 35.1, 0.09);
+  reveal($('#h7'), 34.85, 0.09);
   // counters under each phone
   const CNT = [['8.0', ' h', 'sleep', 37.6], ['2', ' / 8', 'glasses', 36.3], ['29', ' days', 'tracked', 38.9]];
   CNT.forEach(([v, u, k, t], i) => {
     const s = document.createElement('div'); s.className = 'abs stat';
-    s.style.cssText = `left:${[460, 960, 1460][i] - 220}px;width:440px;top:960px;text-align:center;z-index:6`;
+    s.style.cssText = `left:${[460, 960, 1460][i] - 220}px;width:440px;top:925px;text-align:center;z-index:6`;
     s.innerHTML = `<div class="n" style="font-size:72px"><span class="cnt">0</span><i style="font-size:40px">${u}</i></div><div class="k" style="font-size:16px;margin-top:4px">${k}</div>`;
     $('#sc7').appendChild(s);
     const o = { v: 0 }, to = parseFloat(v), dec = v.includes('.') ? 1 : 0, cnt = s.querySelector('.cnt');
@@ -582,7 +586,9 @@
   focus(P7[1], 36.1); focus(P7[0], 37.5); focus(P7[2], 38.8);
   // monthly ring draws itself
   const PS = P7[2];
-  cover(PS, 0.06, 0.214, 0.38, 0.366, '#FFFFFF');
+  // hide only the ring itself (annulus), so the centre count and the 0%/100% chips never flicker
+  { const k = SW / 1170, cx = 256 * k, cy = 737 * k, R = 186 * k;
+    add(PS, `left:${cx - R}px;top:${cy - R}px;width:${2 * R}px;height:${2 * R}px;border-radius:50%;background:radial-gradient(circle,transparent 58.5%,#fff 59.5%)`); }
   const ring = patch(PS, 0.06, 0.214, 0.38, 0.366, '-webkit-mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));--a:0deg');
   tl.fromTo(ring, { '--a': '0deg' }, { '--a': '360deg', duration: 1.2, ease: 'ebSoft', immediateRender: false }, 38.9);
   // clear the stage: phones fly off the edges
