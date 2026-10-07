@@ -8,14 +8,18 @@ Sistema visual: Montserrat 900/800/600, azul noche → `#1D29C2`, amarillo `#FCC
 
 | Pieza | Archivo | Idea |
 |---|---|---|
-| Teaser 8 s (9:16) | `teaser/teaser-the-list.mp4` | Una lista de invitados pasa con ✓ hasta frenar en **YOUR PHONE ✗**. En el drop cae el sello **NOT ON THE LIST.** → "YOUR KEY IS." → LOCKED IN. 29.10 |
+| Teaser 1 · 8 s (9:16) | `teaser/teaser-1-the-list.mp4` | Una lista de invitados pasa con ✓ hasta frenar en **YOUR PHONE ✗**. En el drop cae el sello **NOT ON THE LIST.** → "YOUR KEY IS." → LOCKED IN. 29.10 |
+| Teaser 2 · 8 s (9:16) | `teaser/teaser-2-youre-invited.mp4` | Estilo del reel (6 pantallas): YOU’RE INVITED. → YOUR PHONE ISN’T. → cuenta 3-2-1 → en el drop 29.10 → LOCKED IN. |
+| Teaser 3 · 6 s (9:16) | `teaser/teaser-3-unposted.mp4` | Pantallas a oscuras; en cada beat se enciende una: WHAT HAPPENS ON 29.10 STAYS UNPOSTED. |
 | Flyer INVITE ONLY (story 9:16 y feed 4:5) | `flyer/invite-only-story.png`, `invite-only-story-sin-boton.png`, `invite-only-feed.png` (+ `@2x`) | Estilo de la referencia: INVITE ONLY gigante en Roboto Condensed (familia del brandbook), foto real del público, info apilada con filetes. La versión sin botón es para poner encima el sticker de link nativo de Instagram |
 | Flyer feed (4:5) | `flyer/flyer-feed.png` (+ `@2x` para imprimir) | "Door policy": las reglas de la puerta del club con la key card como objeto principal |
 | Flyer story (9:16) | `flyer/flyer-story.png` (+ `@2x`) | Mismo flyer para stories |
+| Flyer estilo fiesta (feed y story) | `flyer/flyer-party-feed.png`, `flyer-party-story.png` (+ `@2x`) | La grilla del reel con LEAVE YOUR PHONE AT THE DOOR. gigante y 29.10 en amarillo |
 | Post 1 | `instagram/post-1-the-list.png` | La lista impresa con YOUR PHONE tachado y el sello |
 | Post 2 | `instagram/post-2-the-key.png` | La key como invitación: "This is your invite. It also locks your apps." |
 | Post 3 | `instagram/post-3-lock-screen.png` | Pantalla de bloqueo con la única notificación de la noche |
 | Post 4 (carrusel 3) | `instagram/post-4-door-policy-1of3.png` … `3of3` | Carrusel panorámico: una soga de club cruza las tres slides; 01 / 02 / 03 |
+| Post 5 (tríptico de perfil) | `instagram/post-5-triptych-1of3.png` … `3of3` | Tres posts que juntos en la grilla del perfil dicen LOCKED / IN. / 29.10. Publicar en orden inverso (3of3, 2of3, 1of3) para que queden bien |
 
 ## Captions sugeridos (Instagram)
 
