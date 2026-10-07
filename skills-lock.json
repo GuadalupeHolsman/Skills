@@ -1,0 +1,731 @@
+{
+  "version": 1,
+  "skills": {
+    "ad-copy-variants": {
+      "source": "mbfinotti/advertising-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ad-copy-variants/SKILL.md",
+      "computedHash": "c05722136b743c6a714caf636537582e0f63ba8b4b14b32d4fba0409ceabd4c7"
+    },
+    "ad-creative": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/ad-creative/SKILL.md",
+      "computedHash": "dd25996e6ef7d682e66b3af66244561fa07fae36c51f3b4841f7684a736160a3"
+    },
+    "ad-creative-brief": {
+      "source": "mbfinotti/advertising-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ad-creative-brief/SKILL.md",
+      "computedHash": "88b0c26d625643e0076ba04f418e9ffe1962f4b5619092825918f2595983a3b1"
+    },
+    "ad-creative-test-plan": {
+      "source": "mbfinotti/advertising-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ad-creative-test-plan/SKILL.md",
+      "computedHash": "c4cac4031eafc04851a411c913434fec422fd5ab9e8e946078faee08accbcfcd"
+    },
+    "ad-format-fit": {
+      "source": "mbfinotti/advertising-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ad-format-fit/SKILL.md",
+      "computedHash": "5c1fa7903d421b91697435e130ec44c355afc50f3b606f28b1ab0bd88fe6ebb3"
+    },
+    "ad-hook-analyzer": {
+      "source": "mbfinotti/advertising-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ad-hook-analyzer/SKILL.md",
+      "computedHash": "ae40dd8a0a43f1a91a1d2cb65088908a7d0008d118a5d1c0965c3cd64375d4c6"
+    },
+    "ad-swipe-file": {
+      "source": "mbfinotti/advertising-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ad-swipe-file/SKILL.md",
+      "computedHash": "70d2d302e54599b7efc1fd8de3f3540a79a6b9ff2daa88ed3f84758fb81e664b"
+    },
+    "ai-video-storyboard": {
+      "source": "aicontentskills/ai-video-storyboard-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "3d4a84dee001221534314810d487d79d8677bf06c99fc1bcd337ef68bab81744"
+    },
+    "audio-edit": {
+      "source": "agamm/video-agent",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/audio-edit/SKILL.md",
+      "computedHash": "df60de699b81e0ba3f6aa7e3fbb872b1958d130f3dba5e7954e4dfb9c6bc636f"
+    },
+    "auto-cut": {
+      "source": "notivn/AIEV",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/auto-cut/SKILL.md",
+      "computedHash": "b49395bd1a784d4118f7141571ef716ef3163316ea58f603d920a431212162e7"
+    },
+    "background-music": {
+      "source": "notivn/AIEV",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/background-music/SKILL.md",
+      "computedHash": "11a432d4c9dcec95d5105b74ae3c3355484239d1edbef2a9ea609d228bb2d859"
+    },
+    "captions": {
+      "source": "agamm/video-agent",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/captions/SKILL.md",
+      "computedHash": "cb56b926e68bec94fc54da7c04477d8c86142428efc880bc78b4837e11fbfab9"
+    },
+    "claude-video": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video/SKILL.md",
+      "computedHash": "71a94ce4e01a4b7b53754e72ba6541ab8da30a6e0488a425148b7c9f451b7a44"
+    },
+    "claude-video-analyze": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-analyze/SKILL.md",
+      "computedHash": "c9ccad24a58223465b79a120753de2447481cd7150901e25fb679e5101698a33"
+    },
+    "claude-video-audio": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-audio/SKILL.md",
+      "computedHash": "b789bfbf4c5121ac89a3eb65d14f19c6a57bad6c82d818918a4fe9bffffb55dc"
+    },
+    "claude-video-caption": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-caption/SKILL.md",
+      "computedHash": "7d05bb20418edfaa1714616874b2e112aa892dd716b32abce4b26c7411bcdc50"
+    },
+    "claude-video-create": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-create/SKILL.md",
+      "computedHash": "d1750dbfd6c57601aaaad628f42da1bb5ab4cfc1360b912ba7e02d8b0eef3b6a"
+    },
+    "claude-video-download": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-download/SKILL.md",
+      "computedHash": "3a94a7d0f32ccae75c43edb3b7da3f1c0997d3227b7b4b8861a4f62a68209002"
+    },
+    "claude-video-edit": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-edit/SKILL.md",
+      "computedHash": "952985d3a3fa3ea9981b7b19d6f75d1346458a844792dcdeb18db223965d0bf7"
+    },
+    "claude-video-enhance": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-enhance/SKILL.md",
+      "computedHash": "9b3612bd92506b1c1dcda3e90d2902b45e2a4fe6000028826b7344ea88edf26d"
+    },
+    "claude-video-enhance-audio": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-enhance-audio/SKILL.md",
+      "computedHash": "d5e6d5d8abf6099f7567c4a866ddd98aa3a98a12239d3e4d8b8285a35be935fd"
+    },
+    "claude-video-export": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-export/SKILL.md",
+      "computedHash": "6cf045a225546835bed15d2b62d1d528505e82b7fbd28d6bda82131546db43a3"
+    },
+    "claude-video-generate": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-generate/SKILL.md",
+      "computedHash": "016d5bc55384471c5e7acc1660a07852b87926b1b6269524784d1dbac349fac4"
+    },
+    "claude-video-image": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-image/SKILL.md",
+      "computedHash": "53ebb37520fd772379fafddd7204200333611ff75de841cb92662ecce2bbe585"
+    },
+    "claude-video-promo": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-promo/SKILL.md",
+      "computedHash": "63ac4d419e9bfb9fc121334757302994567d16addfb3584b5313277744994c9f"
+    },
+    "claude-video-screenshot": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-screenshot/SKILL.md",
+      "computedHash": "b08b087596b195530592f252254bf443a8c18cb1ac5a662abb2474d039586281"
+    },
+    "claude-video-shorts": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-shorts/SKILL.md",
+      "computedHash": "d531ecc70a4c4b829589eeb95f202a682bb219180a6337ef20f5c2e374d38095"
+    },
+    "claude-video-transcode": {
+      "source": "agricidaniel/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/video-transcode/SKILL.md",
+      "computedHash": "43b1a53f05860be40847ff5955217a7e29c807cae4d5c3eba740143f38da43c2"
+    },
+    "co-marketing": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/co-marketing/SKILL.md",
+      "computedHash": "f645f86a531616178a4368a9a8d7970f2c9845dd250661b5d12902b30aa2c238"
+    },
+    "color-grade": {
+      "source": "agamm/video-agent",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/color-grade/SKILL.md",
+      "computedHash": "7291635783b8d97726f5eab38409e6a0d6708bd84ca6be281a69591023287640"
+    },
+    "color-grading": {
+      "source": "notivn/AIEV",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/color-grading/SKILL.md",
+      "computedHash": "b25301eaf1e9a962992755aac6e82f9cc35b85acdcd0d41204dcab6379ed9a92"
+    },
+    "copy-anatomy": {
+      "source": "realjaymes/marketingagentskills",
+      "sourceType": "github",
+      "skillPath": "skills/copy-anatomy/SKILL.md",
+      "computedHash": "c8819731e2e946676addfa85f59cf1b44075bdf22380322356f855cce372417c"
+    },
+    "copywriting": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/copywriting/SKILL.md",
+      "computedHash": "34095dc1ba236967c7515c62568591008f8ec795e1a5fd4b018f2b127a36b32c"
+    },
+    "cutting-rhythm": {
+      "source": "agamm/video-agent",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/cutting-rhythm/SKILL.md",
+      "computedHash": "0a302ee3cda852e99d20d3fcd8605e9bedf50e38387a73fc2d127fb801cde57d"
+    },
+    "edl-edit": {
+      "source": "agamm/video-agent",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/edl-edit/SKILL.md",
+      "computedHash": "86a3f73a2e59421e11529de31773a0a6d379aa2565e08d353232b96515c842da"
+    },
+    "embedded-captions": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/embedded-captions/SKILL.md",
+      "computedHash": "c99d75dbc328e3c4a6b0947997fe421b81cd254ade6993d3f791715262f265aa"
+    },
+    "events": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/events/SKILL.md",
+      "computedHash": "f92f21a38255f8e472ef10286036543b53f08501750f01b66236c31a6a357c70"
+    },
+    "faceless-explainer": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/faceless-explainer/SKILL.md",
+      "computedHash": "10984627b1aed2c89cda04e7f6fd46c0d39cc5978338f985149ee9ab905db220"
+    },
+    "fal-audio": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/fal-ai-master/skills/fal-audio/SKILL.md",
+      "computedHash": "6832b61a3bb94435497d4b918127d3e5b72cc6a9a448d3f700296e4b9a870daa"
+    },
+    "fal-image-to-video": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/fal-ai-master/skills/fal-image-to-video/SKILL.md",
+      "computedHash": "a69b24843c4f0da973ff8ef5498f30bfd804025d216416b27367890dc68b4872"
+    },
+    "fal-text-to-video": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/fal-ai-master/skills/fal-text-to-video/SKILL.md",
+      "computedHash": "92880c964065434178e2324a92f36e46f80f565f98b61199dff91362256432fe"
+    },
+    "fal-video-to-video": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/fal-ai-master/skills/fal-video-to-video/SKILL.md",
+      "computedHash": "61d755627f58c89d91df293ae1f620861296b36954f9ac501b661f6e9f160a5b"
+    },
+    "ffmpeg-animation-timing-reference": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-effects/skills/ffmpeg-animation-timing-reference/SKILL.md",
+      "computedHash": "7e1b6368f6e90ba53359d25ba503e721adf9a29940f525d143f3dd03281cbad3"
+    },
+    "ffmpeg-audio-processing": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-core/skills/ffmpeg-audio-processing/SKILL.md",
+      "computedHash": "c4aa5cbea461b78204c38a0d4d649136a5b494b36b23dcf54c07e289d91ad8bd"
+    },
+    "ffmpeg-captions-subtitles": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-core/skills/ffmpeg-captions-subtitles/SKILL.md",
+      "computedHash": "127b483ce3ea33d8aa8a9e4c46a13967e9a5c8a8054421618bf826503546c94e"
+    },
+    "ffmpeg-color-grading-chromakey": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-effects/skills/ffmpeg-color-grading-chromakey/SKILL.md",
+      "computedHash": "7c2638096e68b584ef495ae0a2b284375c5ef354004a4f9e096160bd049e6b5b"
+    },
+    "ffmpeg-command-syntax": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-core/skills/ffmpeg-command-syntax/SKILL.md",
+      "computedHash": "abab7b9241cf6f2d8dd46a5ea934e06be77ea575b4a29013d3ddfd971c91a507"
+    },
+    "ffmpeg-filter-complex-patterns": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-core/skills/ffmpeg-filter-complex-patterns/SKILL.md",
+      "computedHash": "beb52a10b7ebe82af5fa8d91d6d1e12cee4408ef1e8defcbcbc835019d0cbdf7"
+    },
+    "ffmpeg-fundamentals-2025": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-core/skills/ffmpeg-fundamentals-2025/SKILL.md",
+      "computedHash": "1a4f1db2972f7c5d804f7dda5c91b1734fc72b07ed83b44ac54ccb054548fa1c"
+    },
+    "ffmpeg-glitch-distortion-effects": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-effects/skills/ffmpeg-glitch-distortion-effects/SKILL.md",
+      "computedHash": "5f1ed23306403fa1d9cd4fc4f1334f3182250d91dce46fbf401d3a6fb0f5389e"
+    },
+    "ffmpeg-karaoke-animated-text": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-effects/skills/ffmpeg-karaoke-animated-text/SKILL.md",
+      "computedHash": "9195e0d9516f88baa26d0f6eeb19d45c80a33811ed68af263d94799b1fca9e8b"
+    },
+    "ffmpeg-kinetic-captions": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-effects/skills/ffmpeg-kinetic-captions/SKILL.md",
+      "computedHash": "bfeef96a5c5c8fcca9c5b031564c8ca646e7941c6aa33800655a203e870bb796"
+    },
+    "ffmpeg-noise-reduction": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-core/skills/ffmpeg-noise-reduction/SKILL.md",
+      "computedHash": "7a207a13cc9c0c0c9a037e2aec637de513d3ab5b447309be0023c0631ae123fa"
+    },
+    "ffmpeg-shapes-graphics": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-effects/skills/ffmpeg-shapes-graphics/SKILL.md",
+      "computedHash": "87f5feccbfd4a77fc44eba8f99654665d94dbc9b771faa349505c42a80cd2c01"
+    },
+    "ffmpeg-stabilization-360": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-core/skills/ffmpeg-stabilization-360/SKILL.md",
+      "computedHash": "dca3c418129f7723a9005526f6e9f693da001792ee827247e2ae53c2ac974caf"
+    },
+    "ffmpeg-transitions-effects": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-effects/skills/ffmpeg-transitions-effects/SKILL.md",
+      "computedHash": "9f18aaf7403071307cfdb7ea8e8c6aa9858978068bd9bc41d69d68da0907029e"
+    },
+    "ffmpeg-video-analysis": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-core/skills/ffmpeg-video-analysis/SKILL.md",
+      "computedHash": "793673d44349e4611891726add7ceb7e62dea8dcee1efca3a999bec1e4576caa"
+    },
+    "ffmpeg-waveforms-visualization": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-effects/skills/ffmpeg-waveforms-visualization/SKILL.md",
+      "computedHash": "73e1a315acfd4181082503a0591b05ff21108352eeb0660a3bdc6d7082facecc"
+    },
+    "figma": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/figma/SKILL.md",
+      "computedHash": "0aed427d5eaac09e92181b85a7ccc9bbdeab138a01272a02c13349546c10bbc8"
+    },
+    "filler-removal": {
+      "source": "agamm/video-agent",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/filler-removal/SKILL.md",
+      "computedHash": "dbed5ace3605f06ecd3786703050eeec1eb11c52d93def8ed20fb8f36ea3e29c"
+    },
+    "general-video": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/general-video/SKILL.md",
+      "computedHash": "d6deba70181518a3e4b6d82706b8d47c2bce80132599ecb711232928a1895b3b"
+    },
+    "grok-video-edit": {
+      "source": "agamm/video-agent",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/grok-video-edit/SKILL.md",
+      "computedHash": "faf451467b52ddc4bca8006a785666746ffbb5912d883b71726b1f3b6a898052"
+    },
+    "gsap": {
+      "source": "notivn/AIEV",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/gsap/SKILL.md",
+      "computedHash": "715673dd6e18da649cb9bdd757b0d300b27c3c923ec02ac163505033641452b8"
+    },
+    "hyperframes": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes/SKILL.md",
+      "computedHash": "04c7577109c62b0de2fda5fcf4e578e908d3e0e7c9435d2587c8325fe0bc6006"
+    },
+    "hyperframes-animation": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-animation/SKILL.md",
+      "computedHash": "2f1efd20c9f88c418d5bb72de92cd607baded878dd279522abcd7c8da6c81e3b"
+    },
+    "hyperframes-audio": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-audio/SKILL.md",
+      "computedHash": "d6da35d6e64b830df3a5705b6d41402f5df9b2e526594973f304c31a16c3d59d"
+    },
+    "hyperframes-cli": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-cli/SKILL.md",
+      "computedHash": "e895f1c07b54828a175e0499997e8a6bca7733384b3a8bd5e6130c4ac74cca12"
+    },
+    "hyperframes-core": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-core/SKILL.md",
+      "computedHash": "f50ee4785cb80fc4b6061ebd5576facf99fe01ee766544261ed917c60c805b21"
+    },
+    "hyperframes-creative": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-creative/SKILL.md",
+      "computedHash": "58d5b2aba7ff2cb90c78c0863a17f139a95b8f27e643d79bd32c385e3fbfabf5"
+    },
+    "hyperframes-keyframes": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-keyframes/SKILL.md",
+      "computedHash": "99f3b420941f6f91d49c36865fb21e46a562cd43a3b88a1f2297f79d55542c35"
+    },
+    "hyperframes-registry": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-registry/SKILL.md",
+      "computedHash": "54b17fdebee3ac56d279f0e2c1cfdab78839c05344bb4c0874c6f3941621e2ff"
+    },
+    "hyperframes-studio": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-studio/SKILL.md",
+      "computedHash": "3ac6b0019626b0cfa0d067c52ae3e46b5d98722784b1ef103ac301a1815dfd7a"
+    },
+    "influencer-marketing": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/influencer-marketing/SKILL.md",
+      "computedHash": "a4e2a98cd1e692300869f2ac2035d3e7e63fac7b53215603584e5eb864768aea"
+    },
+    "launch": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/launch/SKILL.md",
+      "computedHash": "145d50457370580e0de0c34408fef0faa7522d7daad2d0badf36272b426277e6"
+    },
+    "marketing-ideas": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/marketing-ideas/SKILL.md",
+      "computedHash": "63a1f27ff2c8ca77bf9ad8d2df4252d214d597b437c7ba2d23619248225000ad"
+    },
+    "marketing-psychology": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/marketing-psychology/SKILL.md",
+      "computedHash": "50d735eb0f5c36f379ed2200f21aeacc9b9ad85667b5d33ec6111857352a1340"
+    },
+    "media-use": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/media-use/SKILL.md",
+      "computedHash": "520c7992e9b7402a8c2685c9dfd2d61066244d9d3dd70a8eefc2c6a8b60da05f"
+    },
+    "motion-graphics": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/motion-graphics/SKILL.md",
+      "computedHash": "73420963bea97e1008257c32f89b172486e87b87132ee4ebc83d21e1805ffd25"
+    },
+    "music-to-video": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/music-to-video/SKILL.md",
+      "computedHash": "66793a5bc8dfb9ce03b7721fe42f4a685d8a95bc727602e6d661ec1f4aa9711d"
+    },
+    "pr-to-video": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/pr-to-video/SKILL.md",
+      "computedHash": "00996f2cd045bb2879fab6ff4dc058b30d59ee44be9e3cd66d79d58e86d1da92"
+    },
+    "product-launch-video": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/product-launch-video/SKILL.md",
+      "computedHash": "824bec3729b135798d20fb0dda7ad7315b0623ccec685c736e6872d5f0b726a7"
+    },
+    "product-marketing": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/product-marketing/SKILL.md",
+      "computedHash": "b8a9cd747705923a7a29cda12e478594e3a5062d8f7c7bfbf19d7fc0b24cee76"
+    },
+    "python-video-pipeline": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/python-master/skills/python-video-pipeline/SKILL.md",
+      "computedHash": "b4b3d75289a0d997d3f082c2dd8c85f38f1a589a3767a53970ae5b30cbd769c7"
+    },
+    "reframe-social": {
+      "source": "agamm/video-agent",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/reframe-social/SKILL.md",
+      "computedHash": "d4e0b6bb33b7bd6f8300111d6c19338f378f99725e0de2e1d8eba927c025f9c4"
+    },
+    "remotion-assemble": {
+      "source": "notivn/AIEV",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/remotion-assemble/SKILL.md",
+      "computedHash": "3ad59020aa47be7221625d3ea99f8717a5cd7d5855a2d1bc6244bb75afbe6348"
+    },
+    "remotion-best-practices": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-best-practices/SKILL.md",
+      "computedHash": "a40e3a83b43ac27b202c219509d758e42094f866ba036875a1568364b36f1854"
+    },
+    "remotion-captions": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-captions/SKILL.md",
+      "computedHash": "2055eb593953216ab6a81cd80382133e31f99011c82d8a1861072cf73e8ac7b4"
+    },
+    "remotion-create": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-create/SKILL.md",
+      "computedHash": "20eb707888ae89bf8563a9b88d23fa79ff0fad35dbf690b200e23d6362b924ef"
+    },
+    "remotion-docs": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-docs/SKILL.md",
+      "computedHash": "91c2d85c33e2a4c053f80fc132c0ac037be70a69eef543f9de4971ee25f3fd31"
+    },
+    "remotion-graphics": {
+      "source": "agamm/video-agent",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/remotion-graphics/SKILL.md",
+      "computedHash": "eff1c333e6ded692e38c52db40565b8861f69076583063edce3f2b0eff39c2b6"
+    },
+    "remotion-interactivity": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-interactivity/SKILL.md",
+      "computedHash": "f536bb62093066d21935788b001b1d1327d991384ef433d2b14f222686178730"
+    },
+    "remotion-maps": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-maps/SKILL.md",
+      "computedHash": "6813e21dd91f289888ee9745c97adfd5e7f45075647662402827591304dff3da"
+    },
+    "remotion-markup": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-markup/SKILL.md",
+      "computedHash": "a9bda9f4f1deaba030fda04683ae9284356139c10090a97e2d99aca4f8f5806c"
+    },
+    "remotion-motion-graphics": {
+      "source": "haidrrrry/claude-remotion-skill",
+      "sourceType": "github",
+      "skillPath": "remotion-motion-graphics/SKILL.md",
+      "computedHash": "f3557d026c87e290d2c10376e49e043086f657ac8d5eb261ac07e9c8cf423e21"
+    },
+    "remotion-multimedia": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-multimedia/SKILL.md",
+      "computedHash": "9f07d63522ca781b42396607d16fbb7873eacef3a06f07b9f64ad3c7643ce1ba"
+    },
+    "remotion-render": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-render/SKILL.md",
+      "computedHash": "31a2873ad414ddff5a7d4b861886632c26eff56f53faa7a24fd6c16c6d5aee1e"
+    },
+    "remotion-saas": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-saas/SKILL.md",
+      "computedHash": "e4d1f0ebccbd279cd9fcf5d39f0d4ab075519a02f002c20effe8097f6ffe37c9"
+    },
+    "remotion-studio": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-studio/SKILL.md",
+      "computedHash": "9abee4601075af47b4dd173ab731a60e7dea47479ccbc6cd68db1253ffcd1dea"
+    },
+    "remotion-to-hyperframes": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-to-hyperframes/SKILL.md",
+      "computedHash": "17c26590575d28118b783f6a534288ac38df50fae5b95826ee9d4976328ad687"
+    },
+    "remotion-upgrade": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-upgrade/SKILL.md",
+      "computedHash": "59d789462c7842d2fc0bc54d4aa9f6e8f1f355f204e6451de3af3c0a7e05ca41"
+    },
+    "slideshow": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/slideshow/SKILL.md",
+      "computedHash": "fa178947b4cfe834d416c4d826d50cdd1f92dfb22395569032a40aa5d26819cc"
+    },
+    "social": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/social/SKILL.md",
+      "computedHash": "7eeedd17a4d59d75281ecd7ff6cb6e2992b1095459550e8d97ef1cae522ea389"
+    },
+    "storytelling-framework": {
+      "source": "realjaymes/marketingagentskills",
+      "sourceType": "github",
+      "skillPath": "skills/storytelling-framework/SKILL.md",
+      "computedHash": "0880882f48516271ac20433e87738fc504d35e913f633c183b8fd5072ecf4c31"
+    },
+    "talking-head-recut": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/talking-head-recut/SKILL.md",
+      "computedHash": "991315e8803089b6b0d008026c9b42c2c83f6ea95c44b26956cd6ff6197f5305"
+    },
+    "ugc-ad-scripts": {
+      "source": "mbfinotti/advertising-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ugc-ad-scripts/SKILL.md",
+      "computedHash": "ed2036733546935c4c2404893aa4f0380e7ff78074fa8ea726352c36990ac90e"
+    },
+    "video": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/video/SKILL.md",
+      "computedHash": "9755cc816fc5c05e382fb551d76158060fd89ee2b3105a73d2c8165e3e6bd9e1"
+    },
+    "video-overlay": {
+      "source": "agamm/video-agent",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/video-overlay/SKILL.md",
+      "computedHash": "06e04e32548f2daab66efce0a243e212af14fcf6a2472140a0cbb318b7f1b353"
+    },
+    "video-transitions": {
+      "source": "agamm/video-agent",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/video-transitions/SKILL.md",
+      "computedHash": "dab194e58f15f0bd5527434ae89dfac20c8165591563f526dceb5fc4950d0d83"
+    },
+    "viral-captions-and-ctas": {
+      "source": "vyralcontent/content-skills",
+      "sourceType": "github",
+      "skillPath": "skills/viral-captions-and-ctas/SKILL.md",
+      "computedHash": "e81f522eb00f1c0cc77ca225230cf8cf279c676af2d0f43a4f105f309e78cb10"
+    },
+    "viral-hooks": {
+      "source": "vyralcontent/content-skills",
+      "sourceType": "github",
+      "skillPath": "skills/viral-hooks/SKILL.md",
+      "computedHash": "0a2a93066e95e2705dfca2c7f565da5baac3ba1f79151808e42e5ffbd0253546"
+    },
+    "viral-instagram-reels": {
+      "source": "vyralcontent/content-skills",
+      "sourceType": "github",
+      "skillPath": "skills/viral-instagram-reels/SKILL.md",
+      "computedHash": "b5907ae13e5d8f5743149a51f4fcfa2d66b56731ef21583df12d50958c43a5b3"
+    },
+    "viral-short-form": {
+      "source": "vyralcontent/content-skills",
+      "sourceType": "github",
+      "skillPath": "skills/viral-short-form/SKILL.md",
+      "computedHash": "c60a80164b0efb9a390c30a2a12463d7460c75c44ea73e39393261a78a67b036"
+    },
+    "viral-short-form-ideas": {
+      "source": "vyralcontent/content-skills",
+      "sourceType": "github",
+      "skillPath": "skills/viral-short-form-ideas/SKILL.md",
+      "computedHash": "388c809f68e3ce94fe09f8abd8979beff8e2c402368f470ece234ea93e96f2db"
+    },
+    "viral-tiktok-content": {
+      "source": "vyralcontent/content-skills",
+      "sourceType": "github",
+      "skillPath": "skills/viral-tiktok-content/SKILL.md",
+      "computedHash": "9d9b92eca9940e569bc9301b9aa54333c8e2e645020b159ba6ac46972f83bb35"
+    },
+    "viral-video-animated-captions": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-social-video/skills/viral-video-animated-captions/SKILL.md",
+      "computedHash": "023bfa8810cad2dc0c46be5dc8c69d49e4a5fffd5dd79724851a025fc1d76085"
+    },
+    "viral-video-hook-templates": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-social-video/skills/viral-video-hook-templates/SKILL.md",
+      "computedHash": "fa271c4249fa96ea029c693e2f8d6a4da4dcd93800acc325409ccf59affbe978"
+    },
+    "viral-video-hooks-retention": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/viral-video-master/skills/viral-video-hooks-retention/SKILL.md",
+      "computedHash": "c9f119abfe4b5d5733106b461cf1f5aee924ff56051ce77f78992912a84a99eb"
+    },
+    "viral-video-platform-algorithms": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/viral-video-master/skills/viral-video-platform-algorithms/SKILL.md",
+      "computedHash": "f5d384cd5d0ad5ef42bec04b49a2f815875cb40f2156689e358e76f5ef6c1d04"
+    },
+    "viral-video-platform-specs": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/ffmpeg-social-video/skills/viral-video-platform-specs/SKILL.md",
+      "computedHash": "2d5d44e1a066a34a1127cccaaffd67ba088c684d9fddbf28ff3fef34d4ef0713"
+    },
+    "viral-video-short-form": {
+      "source": "josiahsiegel/claude-plugin-marketplace",
+      "sourceType": "github",
+      "skillPath": "plugins/viral-video-master/skills/viral-video-short-form/SKILL.md",
+      "computedHash": "f06df50b451186360ba67861178fcae0414c7f5e8091dfc82f9a873d097434d5"
+    },
+    "viral-youtube-shorts": {
+      "source": "vyralcontent/content-skills",
+      "sourceType": "github",
+      "skillPath": "skills/viral-youtube-shorts/SKILL.md",
+      "computedHash": "a182212babdf9d6a26d11aa022a119275afdf962b5ed7a9492a39fac95ceb132"
+    }
+  }
+}
