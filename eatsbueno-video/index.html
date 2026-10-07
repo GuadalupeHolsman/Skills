@@ -237,6 +237,7 @@
 </div>
 
 <script src="vendor/gsap.min.js"></script>
+<script src="vendor/CustomEase.min.js"></script>
 <script src="assets/flower.js"></script>
 <script src="assets/wordmark.js"></script>
 <script src="assets/bands.js"></script>
@@ -383,15 +384,23 @@
     return s;
   });
 
-  const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+  // ---------- motion tokens: one signature curve family for the whole film ----------
+  gsap.registerPlugin(CustomEase);
+  CustomEase.create('ebOut', '0.2, 0, 0, 1');        // entrances: fast start, long gentle landing
+  CustomEase.create('ebIn', '0.4, 0, 1, 1');         // exits: gentle start, quick departure
+  CustomEase.create('ebPush', '0.32, 0.72, 0, 1');   // screen-to-screen (iOS navigation feel)
+  CustomEase.create('ebSoft', '0.45, 0, 0.2, 1');    // on-screen moves
+  const POP = 'back.out(1.3)';                       // small, warm overshoot for success moments only
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'ebOut' } });
   const TAPS = [], KEYS = [], CUTS = [];
   const show = (id, t) => tl.set('#' + id, { visibility: 'visible' }, t);
   const hide = (id, t) => tl.set('#' + id, { visibility: 'hidden' }, t);
   const wipe = (color, t) => {
     CUTS.push(t + 0.6);
-    tl.set('#wipe', { visibility: 'visible', background: color, scale: 0 }, t);
-    tl.to('#wipe', { scale: 260, duration: 0.75, ease: 'power3.in' }, t);
-    tl.set('#wipe', { visibility: 'hidden' }, t + 0.76);
+    tl.set('#wipe', { visibility: 'visible', opacity: 1, background: color, scale: 0 }, t);
+    tl.to('#wipe', { scale: 260, duration: 0.75, ease: 'power2.in' }, t);
+    tl.to('#wipe', { opacity: 0, duration: 0.5, ease: 'ebSoft' }, t + 0.76);   // dissolve into the next scene
+    tl.set('#wipe', { visibility: 'hidden' }, t + 1.27);
   };
 
   document.querySelectorAll('[data-drift]').forEach((b, i) => {
@@ -401,12 +410,13 @@
 
   // ---------- phone helpers ----------
   const PX = 1020 + 14, PY = 61 + 14;
-  const build = (id, t, { from = 0.06, stagger = 0.045, skip = [], dy = 34 } = {}) => {
+  const build = (id, t, { from = 0.06, stagger = 0.045, skip = [], dy = 24 } = {}) => {
     const els = BAND[id].filter(b => +b.dataset.a >= from - 1e-6 && !skip.includes(b));
+    stagger = Math.min(stagger, 0.36 / Math.max(1, els.length - 1));   // whole cascade stays under ~0.4s
     // each block slides up inside its own window, so neighbouring blocks never overlap
     els.forEach((b, i) => {
-      tl.fromTo(b, { opacity: 0 }, { opacity: 1, duration: 0.45, ease: 'power2.out', immediateRender: false }, t + i * stagger);
-      tl.fromTo(Array.from(b.children), { y: dy }, { y: 0, duration: 0.6, ease: 'power3.out', immediateRender: false }, t + i * stagger);
+      tl.fromTo(b, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'ebSoft', immediateRender: false }, t + i * stagger);
+      tl.fromTo(Array.from(b.children), { y: dy }, { y: 0, duration: 0.6, ease: 'ebOut', immediateRender: false }, t + i * stagger);
     });
   };
   let z = 1;
@@ -414,38 +424,43 @@
     const el = '#' + id;
     tl.set(el, { zIndex: ++z, opacity: 1, xPercent: 0, yPercent: 0, scale: 1, filter: 'brightness(1)' }, t);
     if (how === 'push') {
-      tl.fromTo(el, { xPercent: 100 }, { xPercent: 0, duration: 0.55, ease: 'power3.inOut' }, t);
-      if (from) tl.to('#' + from, { xPercent: -100, duration: 0.55, ease: 'power3.inOut' }, t);
+      tl.fromTo(el, { xPercent: 100 }, { xPercent: 0, duration: 0.6, ease: 'ebPush' }, t);
+      if (from) tl.to('#' + from, { xPercent: -100, duration: 0.6, ease: 'ebPush' }, t);
     } else if (how === 'back') {
-      tl.fromTo(el, { xPercent: -100 }, { xPercent: 0, duration: 0.55, ease: 'power3.inOut' }, t);
-      if (from) { tl.set('#' + from, { zIndex: ++z }, t); tl.to('#' + from, { xPercent: 100, duration: 0.55, ease: 'power3.inOut' }, t); }
+      tl.fromTo(el, { xPercent: -100 }, { xPercent: 0, duration: 0.6, ease: 'ebPush' }, t);
+      if (from) { tl.set('#' + from, { zIndex: ++z }, t); tl.to('#' + from, { xPercent: 100, duration: 0.6, ease: 'ebPush' }, t); }
     } else if (how === 'fade') {
       tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power1.out' }, t);
     } else if (how === 'fill') {      // bottom-up reveal
-      tl.fromTo(el, { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 0.9, ease: 'power2.inOut' }, t);
+      tl.fromTo(el, { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 0.9, ease: 'ebSoft' }, t);
     } else if (how === 'cut') {
       // instant swap: used when the new screen shares its top with the old one and builds in below
     } else if (how === 'rise') {
-      tl.fromTo(el, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, t);
+      tl.fromTo(el, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'ebOut' }, t);
     }
   };
   const tap = (fx, fy, t) => {
     TAPS.push(t);
     const x = fx * SW, y = fy * SH;
-    tl.to('#finger', { x, y, opacity: 1, scale: 1, duration: 0.38, ease: 'power2.inOut' }, t - 0.42);
-    tl.to('#finger', { scale: 0.74, duration: 0.09, ease: 'power2.in' }, t - 0.04);
-    tl.to('#finger', { scale: 1, duration: 0.2, ease: 'power2.out' }, t + 0.06);
-    tl.fromTo('#ripple', { x, y, scale: 0.4, opacity: 0.9 }, { scale: 2.6, opacity: 0, duration: 0.55, ease: 'power2.out', immediateRender: false }, t);
+    tl.to('#finger', { x, duration: 0.46, ease: 'power1.inOut' }, t - 0.5);      // x and y on different curves → a natural arc
+    tl.to('#finger', { y, duration: 0.46, ease: 'ebSoft' }, t - 0.5);
+    tl.to('#finger', { opacity: 1, duration: 0.2, ease: 'ebSoft' }, t - 0.5);
+    tl.to('#finger', { scale: 0.86, duration: 0.08, ease: 'ebIn' }, t - 0.05);
+    tl.to('#finger', { scale: 1, duration: 0.3, ease: POP }, t + 0.04);
+    tl.fromTo('#ripple', { x, y, scale: 0.5, opacity: 0.8 }, { scale: 2.2, opacity: 0, duration: 0.5, ease: 'ebOut', immediateRender: false }, t);
   };
-  const lift = (t) => tl.to('#finger', { opacity: 0, scale: 1.3, duration: 0.3 }, t);
+  const lift = (t) => tl.to('#finger', { opacity: 0, scale: 1.15, duration: 0.3, ease: 'ebIn' }, t);
+  // Camera: zoom()/unzoom() only set targets. A critically damped spring follows them, so every move
+  // leaves rest smoothly, glides, and blends into the next one without stopping (continuous velocity).
+  const CAM = [{ t: 0, x: 0, y: 0, s: 1 }];
   const zoom = (fx, fy, s, t, dur = 0.9, tx = 1250, ty = 540) => {
     const px = PX + fx * SW, py = PY + fy * SH;
-    tl.to('#cam', { scale: s, x: tx - s * px, y: ty - s * py, duration: dur, ease: 'power3.inOut' }, t);
+    CAM.push({ t, x: tx - s * px, y: ty - s * py, s });
   };
-  const unzoom = (t, dur = 0.8) => tl.to('#cam', { scale: 1, x: 0, y: 0, duration: dur, ease: 'power3.inOut' }, t);
+  const unzoom = (t) => CAM.push({ t, x: 0, y: 0, s: 1 });
   const hl = (sel, t, out) => {
-    tl.fromTo(sel, { opacity: 0, scale: 1.15 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(2)' }, t);
-    if (out) tl.to(sel, { opacity: 0, duration: 0.3 }, out);
+    tl.fromTo(sel, { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 0.4, ease: POP }, t);
+    if (out) tl.to(sel, { opacity: 0, duration: 0.3, ease: 'ebIn' }, out);
   };
   document.querySelectorAll('.cap h2').forEach(h => {
     const wrap = (node) => {
@@ -467,12 +482,12 @@
     CUTS.push(t);
     tl.to('#' + bg, { opacity: 1, duration: 0.7, ease: 'power1.inOut' }, t);
     if (prevBg) tl.to('#' + prevBg, { opacity: 0, duration: 0.7, ease: 'power1.inOut' }, t + 0.1);
-    if (prev) tl.to('#' + prev + ' > *', { y: -30, opacity: 0, duration: 0.35, stagger: 0.04, ease: 'power2.in' }, t - 0.1);
+    if (prev) tl.to('#' + prev + ' > *', { y: -24, opacity: 0, duration: 0.35, stagger: 0.04, ease: 'ebIn' }, t - 0.1);
     tl.set('#' + id, { opacity: 1 }, t);
     tl.fromTo('#' + id + ' > :not(h2)', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.1 }, t + 0.25);
-    tl.fromTo('#' + id + ' h2 .w', { yPercent: 110, rotation: 4 }, { yPercent: 0, rotation: 0, duration: 0.8, stagger: 0.07, ease: 'power4.out' }, t + 0.3);
-    // phone swings in with each new chapter
-    if (prev) tl.fromTo('#phone', { rotationY: -16, transformPerspective: 1800 }, { rotationY: 0, duration: 1.1, ease: 'power3.out' }, t);
+    tl.fromTo('#' + id + ' h2 .w', { yPercent: 110, rotation: 3 }, { yPercent: 0, rotation: 0, duration: 0.9, stagger: 0.06, ease: 'ebOut' }, t + 0.3);
+    // phone turns gently toward the new chapter (after the caption starts, so the two don't compete)
+    if (prev) tl.fromTo('#phone', { rotationY: -9, transformPerspective: 1800 }, { rotationY: 0, duration: 1.4, ease: 'ebOut' }, t + 0.15);
   };
 
   // ---------- S1 · logo (0 → 4.4) ----------
@@ -480,20 +495,20 @@
   tl.from(seeds, { x: (i) => Math.cos(i * Math.PI / 4) * 700, y: (i) => Math.sin(i * Math.PI / 4) * 700, scale: 0, duration: 1.3, ease: 'expo.out', stagger: 0.04 }, 0.15);
   tl.fromTo(seedsBox, { rotation: -180 }, { rotation: 0, duration: 1.6 }, 0.15);
   tl.fromTo('#s1-flower', { scale: 0, rotation: -140 }, { scale: 1, rotation: 0, duration: 1.3, ease: 'back.out(1.5)' }, 1.25);
-  tl.to(seeds, { scale: 0, duration: 0.5, ease: 'power2.in' }, 1.35);
-  tl.fromTo('#s1-word', { clipPath: 'inset(0 100% 0 0)', x: -30, opacity: 0 }, { clipPath: 'inset(0 0% 0 0)', x: 0, opacity: 1, duration: 1.0, ease: 'power4.out' }, 2.15);
+  tl.to(seeds, { scale: 0, duration: 0.5, ease: 'ebIn' }, 1.35);
+  tl.fromTo('#s1-word', { clipPath: 'inset(0 100% 0 0)', x: -30, opacity: 0 }, { clipPath: 'inset(0 0% 0 0)', x: 0, opacity: 1, duration: 1.0, ease: 'ebOut' }, 2.15);
   tl.to('#s1-flower', { rotation: 45, duration: 3, ease: 'sine.inOut' }, 2.6);
   wipe('#F9F4F2', 3.7);
-  tl.to(['#s1-flower', '#s1-word'], { scale: 0.85, opacity: 0, duration: 0.5, ease: 'power2.in' }, 3.7);
+  tl.to(['#s1-flower', '#s1-word'], { scale: 0.85, opacity: 0, duration: 0.5, ease: 'ebIn' }, 3.7);
   show('s2', 4.45); hide('s1', 4.45);
 
   // ---------- S2 · brand idea (4.45 → 9.0) ----------
-  tl.fromTo('#s2-sun', { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.0, ease: 'power2.out' }, 4.45);
-  tl.from('.s2w', { yPercent: 110, duration: 0.8, stagger: 0.45, ease: 'power4.out' }, 4.6);
+  tl.fromTo('#s2-sun', { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.0, ease: 'ebOut' }, 4.45);
+  tl.from('.s2w', { yPercent: 110, duration: 0.8, stagger: 0.45, ease: 'ebOut' }, 4.6);
   tl.to('.s2w', { opacity: 0.22, duration: 0.6 }, 6.45);
   tl.fromTo('#s2-just', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 6.55);
-  tl.fromTo('#s2-word', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.0, ease: 'power4.inOut' }, 6.85);
-  tl.to('#s2-sun', { x: 520, y: 260, scale: 0.75, duration: 2.0, ease: 'power2.inOut' }, 6.7);
+  tl.fromTo('#s2-word', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.0, ease: 'ebSoft' }, 6.85);
+  tl.to('#s2-sun', { x: 520, y: 260, scale: 0.75, duration: 2.0, ease: 'ebSoft' }, 6.7);
   wipe('#E3EDE7', 8.3);
   show('app', 9.05); hide('s2', 9.05);
 
@@ -529,11 +544,26 @@
   zoom(0.5, 0.66, 1.3, 17.75, 0.8);
   tap(0.5, 0.625, 18.2);
   tl.set(kb, { yPercent: 100 }, 0);
-  tl.fromTo(kb, { yPercent: 100 }, { yPercent: 0, duration: 0.4, ease: 'power3.out', immediateRender: false }, 18.3);
+  tl.fromTo(kb, { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'ebPush', immediateRender: false }, 18.3);
   lift(18.45);
-  const typeKeys = (text, t0, cps) => {
+  // human typing rhythm: deterministic uneven gaps (longer after a space), same total duration
+  const schedule = (text, t0, cps) => {
+    const r = (i) => { const x = Math.sin(i * 12.9898 + text.length * 78.233) * 43758.5453; return x - Math.floor(x); };
+    const gaps = Array.from(text, (ch, i) => (0.65 + 0.7 * r(i)) * (i > 0 && text[i - 1] === ' ' ? 1.5 : 1));
+    const total = text.length / cps, sum = gaps.reduce((a, b) => a + b, 0);
+    let acc = 0;
+    return gaps.map(g => t0 + (acc += g * total / sum));
+  };
+  // reveal driven by the schedule: n = number of keystrokes that have happened at time tt
+  const typeReveal = (times, t0, render) => {
+    const end = times[times.length - 1], o = { p: 0 };
+    tl.fromTo(o, { p: 0 }, { p: 1, duration: end - t0 + 0.05, ease: 'none', immediateRender: false,
+      onUpdate: () => { const tt = t0 + o.p * (end - t0 + 0.05); render(times.filter(x => x <= tt + 1e-6).length); } }, t0);
+    tl.call(() => render(0), null, t0 - 0.01);
+  };
+  const typeKeys = (text, times) => {
     for (let i = 0; i < text.length; i++) {
-      const ch = text[i].toLowerCase(), tk = t0 + (i + 0.5) / cps, k = KEY[ch];
+      const ch = text[i].toLowerCase(), tk = times[i], k = KEY[ch];
       KEYS.push(tk);
       if (!k) continue;
       tl.fromTo(k, { backgroundColor: '#B9BEC6' }, { backgroundColor: ch === ' ' ? '#ffffff' : '#ffffff', duration: 0.18, immediateRender: false }, tk);
@@ -542,30 +572,29 @@
     }
   };
   const NAME = 'Srushti', nT0 = 18.8, nCps = 6.5;
-  typeKeys(NAME, nT0, nCps);
+  const nTimes = schedule(NAME, nT0, nCps);
+  typeKeys(NAME, nTimes);
   tl.set(caret, { opacity: 1 }, 18.6);
-  const nameObj = { n: 0 };
   const PW = 0.405 * SW, TX0 = (0.3111 - 0.3) * SW, TW = (0.6932 - 0.3111) * SW;
-  const renderName = () => {
-    const f = Math.min(1, Math.floor(nameObj.n + 1e-6) / NAME.length), w = TW * f;
+  const renderName = (n) => {
+    const f = Math.min(1, n / NAME.length), w = TW * f;
     nameP.style.clipPath = `inset(0 ${PW - (TX0 + w) + 1}px 0 0)`;
     nameP.style.transform = `translateX(${(TW - w) / 2}px)`;
     nameP.style.opacity = f > 0 ? 1 : 0;
     caret.style.left = `${0.3 * SW + TX0 + w + (TW - w) / 2 + 3 - (f === 0 ? TW / 2 : 0)}px`;
   };
-  tl.fromTo(nameObj, { n: 0 }, { n: NAME.length, duration: NAME.length / nCps, ease: 'none', onUpdate: renderName, immediateRender: false }, nT0);
-  tl.call(renderName, null, nT0 - 0.01);
-  tl.fromTo(avatarS, { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(2.5)', immediateRender: false }, nT0 + 0.1);
+  typeReveal(nTimes, nT0, renderName);
+  tl.fromTo(avatarS, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.55, ease: POP, immediateRender: false }, nTimes[0]);
   tl.to(caret, { opacity: 0, duration: 0.01, repeat: 3, yoyo: true, repeatDelay: 0.22 }, nT0 + NAME.length / nCps);
   tl.to(greet, { opacity: 0, duration: 0.45, stagger: 0.2 }, 19.95);
-  tl.to(kb, { yPercent: 100, duration: 0.4, ease: 'power3.in' }, 20.35);
+  tl.to(kb, { yPercent: 100, duration: 0.4, ease: 'ebIn' }, 20.35);
   tl.set(caret, { opacity: 0 }, 20.4);
-  tl.fromTo('#co-name', { opacity: 0, x: -50, scale: 0.85 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.8)' }, 20.2);
-  tl.to('#co-name', { opacity: 0, x: 30, duration: 0.35 }, 21.4);
+  tl.fromTo('#co-name', { opacity: 0, x: -36, scale: 0.94 }, { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: POP }, 20.2);
+  tl.to('#co-name', { opacity: 0, x: 24, duration: 0.3, ease: 'ebIn' }, 21.4);
   unzoom(20.55, 0.7);
   tap(0.5, 0.952, 21.15);                // Continue
-  tl.fromTo('#co-goal', { opacity: 0, x: -50, scale: 0.85 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.8)' }, 11.95);
-  tl.to('#co-goal', { opacity: 0, x: 30, duration: 0.35 }, 13.2);
+  tl.fromTo('#co-goal', { opacity: 0, x: -36, scale: 0.94 }, { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: POP }, 11.95);
+  tl.to('#co-goal', { opacity: 0, x: 24, duration: 0.3, ease: 'ebIn' }, 13.2);
 
   // ---------- chapter B: AI coach (21.6 → 33.4) ----------
   const B = 21.6;
@@ -581,26 +610,25 @@
   zoom(0.45, 0.778, 1.5, B + 2.3);       // to input
   tap(0.4, 0.778, B + 3.15);
   // keyboard slides up and pushes the screen up, like iOS
-  tl.fromTo(kb, { yPercent: 100 }, { yPercent: 0, duration: 0.4, ease: 'power3.out', immediateRender: false }, B + 3.3);
-  tl.to('#Home', { y: -186, duration: 0.4, ease: 'power3.out' }, B + 3.3);
+  tl.fromTo(kb, { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'ebPush', immediateRender: false }, B + 3.3);
+  tl.to('#Home', { y: -186, duration: 0.45, ease: 'ebPush' }, B + 3.3);
   zoom(0.5, 0.69, 1.32, B + 3.3, 0.6);
   lift(B + 3.35);
   tl.set('#caret', { opacity: 1 }, B + 3.4);
   const msg = 'Suggest some good lunch options';
   const typed = document.getElementById('typed-txt');
-  const typeObj = { n: -1 };
   const t0 = B + 3.75, cps = 15;
-  tl.to(typeObj, { n: msg.length, duration: msg.length / cps, ease: 'none', onUpdate: () => {
-    const n = Math.floor(typeObj.n);
-    typed.textContent = n < 0 ? 'ask me what you want' : msg.slice(0, n);
-    typed.style.color = n < 0 ? '#a9a9a9' : '#1E1E1E';
-  } }, t0);
-  typeKeys(msg, t0 - 0.5 / cps + 1 / cps, cps);
+  const mTimes = schedule(msg, t0, cps);
+  typeReveal(mTimes, t0, (n) => {
+    typed.textContent = n === 0 ? 'ask me what you want' : msg.slice(0, n);
+    typed.style.color = n === 0 ? '#a9a9a9' : '#1E1E1E';
+  });
+  typeKeys(msg, mTimes);
   tl.to('#caret', { opacity: 0, duration: 0.01, repeat: 3, yoyo: true, repeatDelay: 0.2 }, t0 + msg.length / cps);
   const tSend = t0 + msg.length / cps + 0.45;
   tap(0.875, 0.778 - 186 / SH, tSend);
-  tl.to(kb, { yPercent: 100, duration: 0.35, ease: 'power3.in' }, tSend + 0.1);
-  tl.to('#Home', { y: 0, duration: 0.35, ease: 'power3.in' }, tSend + 0.1);
+  tl.to(kb, { yPercent: 100, duration: 0.35, ease: 'ebIn' }, tSend + 0.1);
+  tl.to('#Home', { y: 0, duration: 0.35, ease: 'ebIn' }, tSend + 0.1);
   unzoom(tSend + 0.15, 0.7);
   enter('Coach', tSend + 0.35, 'push', 'Home');
   build('Coach', tSend + 0.45, { stagger: 0.08 });
@@ -611,8 +639,8 @@
   zoom(0.5, 0.3, 1.45, tSend + 1.6, 1.0);
   zoom(0.5, 0.66, 1.45, tSend + 2.7, 2.2);
   unzoom(tSend + 5.0);
-  tl.fromTo('#co-coach', { opacity: 0, x: -50, scale: 0.85 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.8)' }, tSend + 5.2);
-  tl.to('#co-coach', { opacity: 0, x: 30, duration: 0.35 }, tSend + 6.3);
+  tl.fromTo('#co-coach', { opacity: 0, x: -36, scale: 0.94 }, { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: POP }, tSend + 5.2);
+  tl.to('#co-coach', { opacity: 0, x: 24, duration: 0.3, ease: 'ebIn' }, tSend + 6.3);
 
   // ---------- chapter C: scan & log ----------
   const C = 34.4;
@@ -636,17 +664,17 @@
   TAPS.push(C + 5.1);                      // "beep"
   tl.to(card, { opacity: 1, y: 0, duration: 0.55, stagger: 0.07, ease: 'back.out(1.4)' }, C + 5.3);
   zoom(0.5, 0.86, 1.45, C + 5.5);          // product card
-  tl.fromTo('#co-scan', { opacity: 0, x: -50, scale: 0.85 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.8)' }, C + 5.4);
-  tl.to('#co-scan', { opacity: 0, x: 30, duration: 0.35 }, C + 7.6);
+  tl.fromTo('#co-scan', { opacity: 0, x: -36, scale: 0.94 }, { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: POP }, C + 5.4);
+  tl.to('#co-scan', { opacity: 0, x: 24, duration: 0.3, ease: 'ebIn' }, C + 7.6);
   hl('#hl-product', C + 6.1, C + 6.9);
   tap(0.75, 0.944, C + 7.0);               // Log meal
-  tl.fromTo('#pill-logged', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, ease: 'back.out(2)' }, C + 7.2);
+  tl.fromTo('#pill-logged', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: POP }, C + 7.2);
   lift(C + 7.4);
   unzoom(C + 7.6);
   tl.to('#pill-logged', { opacity: 0, duration: 0.3 }, C + 8.3);
   enter('Journal', C + 8.4, 'push', 'Scanner');
   build('Journal', C + 8.5);
-  tl.fromTo(kcalBar, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.0, ease: 'power2.inOut', immediateRender: false }, C + 9.2);
+  tl.fromTo(kcalBar, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.0, ease: 'ebSoft', immediateRender: false }, C + 9.2);
   zoom(0.5, 0.8, 1.5, C + 9.0);
   hl('#hl-lunch', C + 9.5, C + 10.6);
   tap(0.5, 0.81, C + 10.7);
@@ -654,7 +682,7 @@
   build('Food', C + 10.95);
   unzoom(C + 10.85);
   lift(C + 11.0);
-  tl.to('#Food .content', { y: -260, duration: 1.4, ease: 'power2.inOut' }, C + 11.6);
+  tl.to('#Food .content', { y: -260, duration: 1.4, ease: 'ebSoft' }, C + 11.6);
 
   // ---------- chapter D: habits (43.4 → 54.6) ----------
   const D = 47.2;
@@ -665,15 +693,15 @@
   zoom(0.5, 0.6, 1.3, D + 0.7);
   tap(0.75, 0.947, D + 1.6);               // Add record
   // first glass: water rises, counter rolls, progress bar fills, the hint updates
-  tl.fromTo(hyd.water, { clipPath: 'inset(100% 0 0 0)', opacity: 1 }, { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 0.9, ease: 'power2.out', immediateRender: false }, D + 1.65);
+  tl.fromTo(hyd.water, { clipPath: 'inset(100% 0 0 0)', opacity: 1 }, { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 0.9, ease: 'ebOut', immediateRender: false }, D + 1.65);
   tl.fromTo([hyd.count, hyd.ml], { clipPath: 'inset(0 0 100% 0)', y: 10, opacity: 1 }, { clipPath: 'inset(0 0 0% 0)', y: 0, opacity: 1, duration: 0.45, stagger: 0.08, immediateRender: false }, D + 1.7);
-  tl.fromTo(hyd.bar, { clipPath: 'inset(0 100% 0 0)', opacity: 1 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 0.7, ease: 'power2.out', immediateRender: false }, D + 1.75);
+  tl.fromTo(hyd.bar, { clipPath: 'inset(0 100% 0 0)', opacity: 1 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 0.7, ease: 'ebOut', immediateRender: false }, D + 1.75);
   tl.fromTo(hyd.toast, { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.5, immediateRender: false }, D + 1.9);
   tl.fromTo(hyd.minus, { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: false }, D + 1.7);
   tl.fromTo(hyd.water, { y: 4 }, { y: 0, duration: 0.9, ease: 'elastic.out(1, 0.35)', immediateRender: false }, D + 2.65);
   tap(0.75, 0.947, D + 2.6);
-  tl.fromTo('#co-water', { opacity: 0, x: -50, scale: 0.85 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.8)' }, D + 2.0);
-  tl.to('#co-water', { opacity: 0, x: 30, duration: 0.35 }, D + 3.5);
+  tl.fromTo('#co-water', { opacity: 0, x: -36, scale: 0.94 }, { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: POP }, D + 2.0);
+  tl.to('#co-water', { opacity: 0, x: 24, duration: 0.3, ease: 'ebIn' }, D + 3.5);
   lift(D + 2.9);
   unzoom(D + 3.0);
   enter('Sleep1', D + 3.7, 'push', 'Hyd1');
@@ -683,12 +711,12 @@
   build('Sleep2', D + 4.65, { from: 0.34, stagger: 0.07 });
   lift(D + 4.9);
   zoom(0.5, 0.36, 1.5, D + 5.0);           // 8.0 hours
-  tl.fromTo('#co-sleep', { opacity: 0, x: -50, scale: 0.85 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.8)' }, D + 5.3);
-  tl.to('#co-sleep', { opacity: 0, x: 30, duration: 0.35 }, D + 6.6);
+  tl.fromTo('#co-sleep', { opacity: 0, x: -36, scale: 0.94 }, { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: POP }, D + 5.3);
+  tl.to('#co-sleep', { opacity: 0, x: 24, duration: 0.3, ease: 'ebIn' }, D + 6.6);
   unzoom(D + 6.4);
   enter('Stats', D + 7.0, 'push', 'Sleep2');
   build('Stats', D + 7.1);
-  tl.fromTo(ring, { '--a': '0deg' }, { '--a': '360deg', duration: 1.3, ease: 'power2.inOut', immediateRender: false }, D + 7.7);
+  tl.fromTo(ring, { '--a': '0deg' }, { '--a': '360deg', duration: 1.3, ease: 'ebSoft', immediateRender: false }, D + 7.7);
   zoom(0.32, 0.27, 1.5, D + 7.5);          // 29 days ring
   unzoom(D + 9.0);
   tl.fromTo('#milestone', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'back.out(1.4)' }, D + 7.9);
@@ -699,7 +727,7 @@
   wipe('#E26023', E);
   show('s8', E + 0.75); hide('app', E + 0.75);
   tl.fromTo('#s8-flower', { scale: 0, rotation: -140 }, { scale: 1, rotation: 0, duration: 1.3, ease: 'back.out(1.5)' }, E + 0.8);
-  tl.fromTo('#s8-word', { clipPath: 'inset(0 100% 0 0)', opacity: 0 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 1.0, ease: 'power4.out' }, E + 1.4);
+  tl.fromTo('#s8-word', { clipPath: 'inset(0 100% 0 0)', opacity: 0 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 1.0, ease: 'ebOut' }, E + 1.4);
   tl.fromTo('#s8-tag', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9 }, E + 2.1);
   tl.fromTo('#s8-cta', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, E + 2.7);
   tl.to('#s8-flower', { rotation: 30, duration: 5, ease: 'sine.inOut' }, E + 2.1);
@@ -707,7 +735,33 @@
   tl.set({}, {}, 63.8);
 
   // idle float of the phone through the app chapters
-  tl.to('#phone', { y: -12, rotation: -0.6, duration: 2.5, ease: 'sine.inOut', yoyo: true, repeat: 19 }, 10.3);
+  tl.to('#phone', { y: -7, rotation: -0.3, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: 15 }, 10.3);
+
+  // ---------- camera spring: precompute a smooth path from the targets, then drive #cam from it ----------
+  {
+    const DUR = 63.8, DT = 1 / 240, n = Math.ceil(DUR / DT) + 2;
+    CAM.sort((a, b) => a.t - b.t);
+    const out = { x: new Float32Array(n), y: new Float32Array(n), s: new Float32Array(n) };
+    const cur = { x: 0, y: 0, s: 1 }, vel = { x: 0, y: 0, s: 0 }, pre = { x: 0, y: 0, s: 1 };
+    const W = 4.6, PRE = 1 - Math.exp(-DT / 0.12);     // spring stiffness and a short target pre-filter
+    let ev = 0, tgt = CAM[0];
+    for (let i = 0; i < n; i++) {
+      const t = i * DT;
+      while (ev < CAM.length && CAM[ev].t <= t) tgt = CAM[ev++];
+      for (const k of ['x', 'y', 's']) {
+        pre[k] += (tgt[k] - pre[k]) * PRE;
+        vel[k] += (W * W * (pre[k] - cur[k]) - 2 * W * vel[k]) * DT;
+        cur[k] += vel[k] * DT;
+        out[k][i] = cur[k];
+      }
+    }
+    const camEl = document.getElementById('cam'), drive = { p: 0 };
+    tl.to(drive, { p: 1, duration: DUR, ease: 'none', onUpdate: () => {
+      const f = drive.p * DUR / DT, i = Math.min(n - 2, Math.floor(f)), u = f - i;
+      const v = (k) => out[k][i] + (out[k][i + 1] - out[k][i]) * u;
+      camEl.style.transform = `translate(${v('x')}px, ${v('y')}px) scale(${v('s')})`;
+    } }, 0);
+  }
 
   window.DURATION = 63.8;
   window.META = { duration: 63.8, taps: TAPS, keys: KEYS, cuts: CUTS, logo: [1.3, E + 0.85] };
