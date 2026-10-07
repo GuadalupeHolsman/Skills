@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Tap in — V2 Three rules</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Montserrat"; font-weight: 600; src: url("assets/fonts/montserrat-600.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 800; src: url("assets/fonts/montserrat-800.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 900; src: url("assets/fonts/montserrat-900.woff2") format("woff2"); }
+      :root { --blue: #2e33c8; --navy: #151a7a; --yellow: #fcee21; }
+      body { margin: 0; background: #1d22a3; font-family: "Montserrat", sans-serif; color: #fff; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #1d22a3; }
+      .full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .layer { position: absolute; inset: 0; }
+      .y { color: var(--yellow); }
+      .chrome-top { position: absolute; left: 64px; right: 64px; top: 88px; height: 52px; border-bottom: 2px solid rgba(255,255,255,0.55); display: flex; justify-content: space-between; align-items: flex-start; font-weight: 800; font-size: 27px; letter-spacing: 0.2em; }
+      .chrome-top .date { color: var(--yellow); }
+      .chrome-bot { position: absolute; left: 64px; right: 64px; top: 1778px; height: 60px; border-top: 2px solid rgba(255,255,255,0.55); display: flex; justify-content: space-between; align-items: flex-end; font-weight: 800; font-size: 27px; letter-spacing: 0.2em; }
+
+      /* title card */
+      .title { position: absolute; left: 64px; right: 64px; top: 560px; font-weight: 900; letter-spacing: -0.03em; }
+      .title .big { display: flex; align-items: baseline; gap: 34px; font-size: 300px; line-height: 0.9; }
+      .title .big .num { color: var(--yellow); }
+      .title .big .word { font-size: 190px; }
+      .title .sub { display: block; font-size: 150px; line-height: 1; margin-top: 18px; color: var(--yellow); }
+      .ticks { position: absolute; left: 64px; top: 1260px; display: flex; gap: 18px; }
+      .ticks div { width: 120px; height: 14px; border-radius: 7px; background: rgba(255,255,255,0.3); }
+      .ticks div.on { background: var(--yellow); }
+
+      /* bands */
+      .lband { position: absolute; left: 0; right: 0; top: 1594px; height: 194px; background: var(--yellow); overflow: hidden; color: var(--navy); }
+      .lband .lab { position: absolute; left: 64px; top: 24px; font-weight: 800; font-size: 30px; letter-spacing: 0.24em; }
+      .lband .txt { position: absolute; left: 64px; top: 62px; font-weight: 900; font-size: 92px; line-height: 1.1; letter-spacing: -0.02em; white-space: nowrap; }
+      .mband { position: absolute; left: 0; right: 0; top: 676px; height: 456px; background: var(--blue); border-top: 6px solid var(--yellow); border-bottom: 6px solid var(--yellow); box-sizing: border-box; overflow: hidden; }
+      .mband.alt { background: var(--yellow); border-color: var(--blue); color: var(--navy); }
+      .mband .lab { position: absolute; left: 64px; top: 44px; font-weight: 800; font-size: 32px; letter-spacing: 0.24em; color: var(--yellow); }
+      .mband.alt .lab { color: var(--blue); }
+      .mband .txt { position: absolute; left: 64px; right: 40px; top: 104px; font-weight: 900; font-size: 136px; line-height: 0.95; letter-spacing: -0.03em; }
+      .mband .txt span { display: block; }
+      .mband.alt .txt .y { color: var(--blue); }
+
+      .cta { position: absolute; left: 64px; right: 64px; top: 1250px; font-weight: 800; font-size: 72px; line-height: 1.1; letter-spacing: -0.01em; }
+      .cta span { display: block; }
+      .cta .arrow { display: inline-block; width: 92px; height: 92px; margin-top: 26px; border-radius: 50%; background: var(--yellow); color: var(--navy); font-size: 56px; line-height: 92px; text-align: center; font-weight: 900; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="12.29">
+
+      <!-- Title (0 – 1.44) -->
+      <div id="s1" class="layer clip" data-start="0" data-duration="1.44" data-track-index="1">
+        <img class="full" src="assets/bg_blue.png" alt="" />
+        <div class="chrome-top"><span>INVITE ONLY</span><span class="date">29.10</span></div>
+        <div class="chrome-bot"><span>LOOMLOCK × DON JULIO</span><span>+18</span></div>
+        <div class="title">
+          <div class="big"><span id="t-num" class="num">3</span><span id="t-word" class="word">rules</span></div>
+          <span id="t-sub" class="sub">for 29.10.</span>
+        </div>
+        <div class="ticks"><div id="k1"></div><div id="k2"></div><div id="k3"></div></div>
+      </div>
+
+      <!-- Rule 1 (1.44 – 3.07): crowd -->
+      <video id="r1v" class="full" src="assets/src.mp4" muted playsinline data-start="1.44" data-duration="1.63" data-media-start="4.00" data-track-index="0"></video>
+      <div id="r1" class="layer clip" data-start="1.44" data-duration="1.63" data-track-index="1">
+        <div class="mband"><div class="lab">RULE 01</div><div id="r1t" class="txt"><span>Your phone</span><span class="y">comes in.</span></div></div>
+      </div>
+
+      <!-- Rule 2 (3.07 – 5.28): the lock, original 10.30 → 12.51 -->
+      <video id="r2v" class="full" src="assets/src.mp4" muted playsinline data-start="3.07" data-duration="2.21" data-media-start="10.30" data-track-index="0"></video>
+      <div id="r2" class="layer clip" data-start="3.07" data-duration="1.97" data-track-index="1">
+        <div id="lband" class="lband"><div class="lab">RULE 02</div><div id="r2t" class="txt">Your apps don’t.</div></div>
+      </div>
+
+      <!-- Rule 3 (5.28 – 8.64): party on the drop -->
+      <video id="r3a" class="full" src="assets/src.mp4" muted playsinline data-start="5.28" data-duration="1.68" data-media-start="12.57" data-track-index="0"></video>
+      <video id="r3b" class="full" src="assets/src.mp4" muted playsinline data-start="6.96" data-duration="1.68" data-media-start="5.90" data-track-index="0"></video>
+      <div id="r3" class="layer clip" data-start="5.28" data-duration="3.36" data-track-index="1">
+        <div id="r3band" class="mband alt"><div class="lab">RULE 03</div><div id="r3t" class="txt"><span>Be there.</span><span class="y">Not online.</span></div></div>
+      </div>
+
+      <!-- End card (8.64 – 12.29) -->
+      <video id="v-end" class="full" src="assets/src.mp4" muted playsinline data-start="8.64" data-duration="3.65" data-media-start="16.35" data-track-index="0"></video>
+      <div id="s5" class="layer clip" data-start="9.4" data-duration="2.89" data-track-index="1">
+        <div class="cta"><span id="c1">Send this</span><span id="c2" class="y">to your +1.</span><span id="c3" class="arrow">↗</span></div>
+      </div>
+
+      <!-- Audio -->
+      <audio id="music" src="assets/music_full.wav" data-start="0" data-duration="12.29" data-media-start="7.23" data-volume="1"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.9},{"t":11.8,"v":1},{"t":12.29,"v":0}]}]}'></audio>
+      <audio id="sx-i0" src="assets/sfx/impact.wav" data-start="0.0" data-volume="0.9"></audio>
+      <audio id="sx-c0" src="assets/sfx/click.wav" data-start="0.48" data-volume="0.7"></audio>
+      <audio id="sx-w1" src="assets/sfx/whoosh.wav" data-start="1.2" data-volume="0.8"></audio>
+      <audio id="sx-w2" src="assets/sfx/whoosh.wav" data-start="2.83" data-volume="0.8"></audio>
+      <audio id="sx-c1" src="assets/sfx/click.wav" data-start="3.44" data-volume="1"></audio>
+      <audio id="sx-c2" src="assets/sfx/click.wav" data-start="4.10" data-volume="0.8"></audio>
+      <audio id="sx-c3" src="assets/sfx/click.wav" data-start="4.44" data-volume="1"></audio>
+      <audio id="sx-i1" src="assets/sfx/impact.wav" data-start="5.28" data-volume="0.9"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // title
+      tl.fromTo("#t-num", { scale: 2.2, opacity: 0, transformOrigin: "50% 60%" }, { scale: 1, opacity: 1, duration: 0.22, ease: "power4.out" }, 0);
+      tl.fromTo("#t-word", { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.2, ease: "power3.out" }, 0.24);
+      tl.fromTo("#t-sub", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.2, ease: "power3.out" }, 0.48);
+      tl.set(["#k1", "#k2", "#k3"], { backgroundColor: "rgba(255,255,255,0.3)" }, 0);
+      tl.to("#k1", { backgroundColor: "#fcee21", duration: 0.05 }, 0.72);
+      tl.to("#k2", { backgroundColor: "#fcee21", duration: 0.05 }, 0.96);
+      tl.to("#k3", { backgroundColor: "#fcee21", duration: 0.05 }, 1.2);
+
+      // rules
+      tl.fromTo("#r1t", { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.18, ease: "power4.out" }, 1.44);
+      tl.fromTo("#lband", { xPercent: -100 }, { xPercent: 0, duration: 0.22, ease: "power3.out" }, 3.07);
+      tl.fromTo("#r2t", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.18 }, 3.2);
+      tl.to("#lband", { xPercent: 100, duration: 0.18, ease: "power3.in" }, 4.88);
+      tl.fromTo("#r3t", { scale: 1.18, opacity: 0, transformOrigin: "0% 50%" }, { scale: 1, opacity: 1, duration: 0.14, ease: "power4.out" }, 5.28);
+      tl.fromTo("#r3band", { scaleY: 0.85 }, { scaleY: 1, duration: 0.18, ease: "back.out(2)" }, 6.96);
+
+      // CTA
+      tl.fromTo("#c1", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 9.4);
+      tl.fromTo("#c2", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 9.64);
+      tl.fromTo("#c3", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2)" }, 9.88);
+      tl.to("#c3", { x: 10, y: -10, duration: 0.24, ease: "power2.inOut", yoyo: true, repeat: 3 }, 10.3);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
