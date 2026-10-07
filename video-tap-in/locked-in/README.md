@@ -19,6 +19,7 @@ Marca: Montserrat (ExtraBold / SemiBold), azul `#1D29C2`, amarillo `#FCCE21`, lo
 | Archivo | Música | Color |
 |---|---|---|
 | `locked-in-A-tarjeta-loomlock.mp4` | track original del reel (desde 5.31 s) | azul `#1D29C2`, con la tarjeta Loomlock (Experience Key) en el tap |
+| `locked-in-AB-tarjeta-loomlock-intermedia.mp4` | track original | intermedia: golpe medio, split RGB sutil, sacudida suave, frames invertidos solo en 29.10, el drop y el tagline |
 | `locked-in-B-tarjeta-loomlock-impacto.mp4` | track original | igual que A, con textos de impacto: slam, split RGB, sacudida, frames invertidos y zoom-through |
 | `locked-in-techno-violeta.mp4` | techno oscuro con línea acid (original) | violeta `#5713C0` |
 | `locked-in-afro-house-naranja.mp4` | afro house: congas, shaker, marimba (original) | naranja `#D87700` |
@@ -28,4 +29,4 @@ Las tres músicas nuevas están compuestas por código (`musica/synth.py`, WAV e
 
 ## Editar / volver a renderizar
 En `proyecto/`: añade el video original como `assets/src.mp4` y su audio como `assets/music_full.wav`. Si cambias `template_lockedin.html`, regenera con
-`python3 build_lockedin.py index.html template_lockedin.html <música> <inicio> <color>` (ej. `assets/techno.wav 0 '#5713c0'`; añade `1` al final para el modo de textos de impacto) y luego `npx hyperframes render -o out.mp4`.
+`python3 build_lockedin.py index.html template_lockedin.html <música> <inicio> <color>` (ej. `assets/techno.wav 0 '#5713c0'`; añade al final `0` (calma), `1` (intermedia) o `2` (impacto)) y luego `npx hyperframes render -o out.mp4`.
