@@ -58,10 +58,16 @@
   .card .t1 { font: 700 30px Cooper; color: var(--deep); line-height: 1.1; } .card .t2 { font: 600 19px Manrope; color: #6a7a75; margin-top: 6px; }
   .stat .n { font: 700 150px/0.95 Cooper; color: var(--deep); } .stat .n i { font: italic 300 70px Cooper; color: var(--orange); }
   .stat .k { font: 700 22px Manrope; letter-spacing: .2em; text-transform: uppercase; color: #6a7a75; margin-top: 10px; }
-  .chip7 { left: 130px; top: 700px; display: flex; gap: 18px; align-items: center; padding: 20px 34px 20px 20px; border-radius: 999px; background: #fff;
-           box-shadow: 0 30px 60px -28px rgba(42,93,81,.45); font: 500 21px Manrope; color: #6a7a75; white-space: nowrap; z-index: 5; }
-  .chip7 .ic { width: 58px; height: 58px; border-radius: 50%; background: var(--cream); display: grid; place-items: center; font-size: 30px; }
-  .chip7 b { font: 700 26px Cooper; color: var(--deep); }
+  .vic { position: absolute; inset: 0; overflow: hidden; visibility: hidden; z-index: 20; }
+  .vin { position: absolute; inset: 0; transform-origin: 50% 50%; }
+  .vic .wave { position: absolute; left: -1000px; width: 3840px; height: 600px; }
+  .vt { position: absolute; left: 0; right: 0; text-align: center; }
+  .vn { font: 700 330px/0.9 Cooper; letter-spacing: -.02em; } .vn i { font: italic 300 150px Cooper; color: var(--orange); }
+  #v2 .vn i { color: #F0A26A; }
+  .vk { font: 700 26px Manrope; letter-spacing: .24em; text-transform: uppercase; margin-top: 18px; }
+  .vs { font: 700 40px Cooper; margin-top: 26px; } .vs i { font-weight: 300; }
+  .star { position: absolute; border-radius: 50%; background: #FAF0DF; }
+  .moon { position: absolute; left: 1430px; top: 110px; width: 170px; height: 170px; border-radius: 50%; box-shadow: 44px 14px 0 0 #FAF0DF; }
   .eyebrow { font: 700 22px Manrope; letter-spacing: .24em; text-transform: uppercase; }
 </style>
 </head>
@@ -118,10 +124,31 @@
 
   <!-- 7 · Habits -->
   <section class="scene" id="sc7" style="background:radial-gradient(110% 100% at 50% 0%,#E3EFE9 0%,#F4F1EC 55%,#F9F4F2 100%)">
-    <div class="abs cooper" id="h7" style="left:130px;top:110px;font-size:84px;line-height:1.05;color:var(--deep);font-weight:700;z-index:5">Celebrate<br><i style="font-weight:300">small victories.</i></div>
-    <div class="abs" id="stat7" style="left:130px;top:350px;width:820px;height:300px;overflow:hidden"></div>
-    <div class="abs" id="burst7" style="left:330px;top:460px;width:0;height:0;z-index:4"></div>
+    <div class="abs cooper" id="h7" style="left:0;right:0;top:56px;text-align:center;font-size:88px;color:var(--deep);font-weight:700;z-index:5">Celebrate <i style="font-weight:300">small victories.</i></div>
     <div class="abs" id="world7" style="inset:0;transform-style:preserve-3d"></div>
+    <div class="vic" id="v1" style="background:linear-gradient(180deg,#E3F0EB 0%,#C6DED5 100%)">
+      <div class="vin">
+        <svg class="wave" viewBox="0 0 3840 600" style="top:560px;opacity:.55"><path d="M0,60.0 L8,63.3 L16,66.7 L24,69.9 L32,73.2 L40,76.3 L48,79.3 L56,82.1 L64,84.8 L72,87.4 L80,89.7 L88,91.9 L96,93.8 L104,95.4 L112,96.9 L120,98.0 L128,98.9 L136,99.6 L144,99.9 L152,100.0 L160,99.8 L168,99.3 L176,98.5 L184,97.5 L192,96.2 L200,94.6 L208,92.8 L216,90.8 L224,88.6 L232,86.1 L240,83.5 L248,80.7 L256,77.8 L264,74.7 L272,71.6 L280,68.3 L288,65.0 L296,61.7 L304,58.3 L312,55.0 L320,51.7 L328,48.4 L336,45.3 L344,42.2 L352,39.3 L360,36.5 L368,33.9 L376,31.4 L384,29.2 L392,27.2 L400,25.4 L408,23.8 L416,22.5 L424,21.5 L432,20.7 L440,20.2 L448,20.0 L456,20.1 L464,20.4 L472,21.1 L480,22.0 L488,23.1 L496,24.6 L504,26.2 L512,28.1 L520,30.3 L528,32.6 L536,35.2 L544,37.9 L552,40.7 L560,43.7 L568,46.8 L576,50.1 L584,53.3 L592,56.7 L600,60.0 L608,63.3 L616,66.7 L624,69.9 L632,73.2 L640,76.3 L648,79.3 L656,82.1 L664,84.8 L672,87.4 L680,89.7 L688,91.9 L696,93.8 L704,95.4 L712,96.9 L720,98.0 L728,98.9 L736,99.6 L744,99.9 L752,100.0 L760,99.8 L768,99.3 L776,98.5 L784,97.5 L792,96.2 L800,94.6 L808,92.8 L816,90.8 L824,88.6 L832,86.1 L840,83.5 L848,80.7 L856,77.8 L864,74.7 L872,71.6 L880,68.3 L888,65.0 L896,61.7 L904,58.3 L912,55.0 L920,51.7 L928,48.4 L936,45.3 L944,42.2 L952,39.3 L960,36.5 L968,33.9 L976,31.4 L984,29.2 L992,27.2 L1000,25.4 L1008,23.8 L1016,22.5 L1024,21.5 L1032,20.7 L1040,20.2 L1048,20.0 L1056,20.1 L1064,20.4 L1072,21.1 L1080,22.0 L1088,23.1 L1096,24.6 L1104,26.2 L1112,28.1 L1120,30.3 L1128,32.6 L1136,35.2 L1144,37.9 L1152,40.7 L1160,43.7 L1168,46.8 L1176,50.1 L1184,53.3 L1192,56.7 L1200,60.0 L1208,63.3 L1216,66.7 L1224,69.9 L1232,73.2 L1240,76.3 L1248,79.3 L1256,82.1 L1264,84.8 L1272,87.4 L1280,89.7 L1288,91.9 L1296,93.8 L1304,95.4 L1312,96.9 L1320,98.0 L1328,98.9 L1336,99.6 L1344,99.9 L1352,100.0 L1360,99.8 L1368,99.3 L1376,98.5 L1384,97.5 L1392,96.2 L1400,94.6 L1408,92.8 L1416,90.8 L1424,88.6 L1432,86.1 L1440,83.5 L1448,80.7 L1456,77.8 L1464,74.7 L1472,71.6 L1480,68.3 L1488,65.0 L1496,61.7 L1504,58.3 L1512,55.0 L1520,51.7 L1528,48.4 L1536,45.3 L1544,42.2 L1552,39.3 L1560,36.5 L1568,33.9 L1576,31.4 L1584,29.2 L1592,27.2 L1600,25.4 L1608,23.8 L1616,22.5 L1624,21.5 L1632,20.7 L1640,20.2 L1648,20.0 L1656,20.1 L1664,20.4 L1672,21.1 L1680,22.0 L1688,23.1 L1696,24.6 L1704,26.2 L1712,28.1 L1720,30.3 L1728,32.6 L1736,35.2 L1744,37.9 L1752,40.7 L1760,43.7 L1768,46.8 L1776,50.1 L1784,53.3 L1792,56.7 L1800,60.0 L1808,63.3 L1816,66.7 L1824,69.9 L1832,73.2 L1840,76.3 L1848,79.3 L1856,82.1 L1864,84.8 L1872,87.4 L1880,89.7 L1888,91.9 L1896,93.8 L1904,95.4 L1912,96.9 L1920,98.0 L1928,98.9 L1936,99.6 L1944,99.9 L1952,100.0 L1960,99.8 L1968,99.3 L1976,98.5 L1984,97.5 L1992,96.2 L2000,94.6 L2008,92.8 L2016,90.8 L2024,88.6 L2032,86.1 L2040,83.5 L2048,80.7 L2056,77.8 L2064,74.7 L2072,71.6 L2080,68.3 L2088,65.0 L2096,61.7 L2104,58.3 L2112,55.0 L2120,51.7 L2128,48.4 L2136,45.3 L2144,42.2 L2152,39.3 L2160,36.5 L2168,33.9 L2176,31.4 L2184,29.2 L2192,27.2 L2200,25.4 L2208,23.8 L2216,22.5 L2224,21.5 L2232,20.7 L2240,20.2 L2248,20.0 L2256,20.1 L2264,20.4 L2272,21.1 L2280,22.0 L2288,23.1 L2296,24.6 L2304,26.2 L2312,28.1 L2320,30.3 L2328,32.6 L2336,35.2 L2344,37.9 L2352,40.7 L2360,43.7 L2368,46.8 L2376,50.1 L2384,53.3 L2392,56.7 L2400,60.0 L2408,63.3 L2416,66.7 L2424,69.9 L2432,73.2 L2440,76.3 L2448,79.3 L2456,82.1 L2464,84.8 L2472,87.4 L2480,89.7 L2488,91.9 L2496,93.8 L2504,95.4 L2512,96.9 L2520,98.0 L2528,98.9 L2536,99.6 L2544,99.9 L2552,100.0 L2560,99.8 L2568,99.3 L2576,98.5 L2584,97.5 L2592,96.2 L2600,94.6 L2608,92.8 L2616,90.8 L2624,88.6 L2632,86.1 L2640,83.5 L2648,80.7 L2656,77.8 L2664,74.7 L2672,71.6 L2680,68.3 L2688,65.0 L2696,61.7 L2704,58.3 L2712,55.0 L2720,51.7 L2728,48.4 L2736,45.3 L2744,42.2 L2752,39.3 L2760,36.5 L2768,33.9 L2776,31.4 L2784,29.2 L2792,27.2 L2800,25.4 L2808,23.8 L2816,22.5 L2824,21.5 L2832,20.7 L2840,20.2 L2848,20.0 L2856,20.1 L2864,20.4 L2872,21.1 L2880,22.0 L2888,23.1 L2896,24.6 L2904,26.2 L2912,28.1 L2920,30.3 L2928,32.6 L2936,35.2 L2944,37.9 L2952,40.7 L2960,43.7 L2968,46.8 L2976,50.1 L2984,53.3 L2992,56.7 L3000,60.0 L3008,63.3 L3016,66.7 L3024,69.9 L3032,73.2 L3040,76.3 L3048,79.3 L3056,82.1 L3064,84.8 L3072,87.4 L3080,89.7 L3088,91.9 L3096,93.8 L3104,95.4 L3112,96.9 L3120,98.0 L3128,98.9 L3136,99.6 L3144,99.9 L3152,100.0 L3160,99.8 L3168,99.3 L3176,98.5 L3184,97.5 L3192,96.2 L3200,94.6 L3208,92.8 L3216,90.8 L3224,88.6 L3232,86.1 L3240,83.5 L3248,80.7 L3256,77.8 L3264,74.7 L3272,71.6 L3280,68.3 L3288,65.0 L3296,61.7 L3304,58.3 L3312,55.0 L3320,51.7 L3328,48.4 L3336,45.3 L3344,42.2 L3352,39.3 L3360,36.5 L3368,33.9 L3376,31.4 L3384,29.2 L3392,27.2 L3400,25.4 L3408,23.8 L3416,22.5 L3424,21.5 L3432,20.7 L3440,20.2 L3448,20.0 L3456,20.1 L3464,20.4 L3472,21.1 L3480,22.0 L3488,23.1 L3496,24.6 L3504,26.2 L3512,28.1 L3520,30.3 L3528,32.6 L3536,35.2 L3544,37.9 L3552,40.7 L3560,43.7 L3568,46.8 L3576,50.1 L3584,53.3 L3592,56.7 L3600,60.0 L3608,63.3 L3616,66.7 L3624,69.9 L3632,73.2 L3640,76.3 L3648,79.3 L3656,82.1 L3664,84.8 L3672,87.4 L3680,89.7 L3688,91.9 L3696,93.8 L3704,95.4 L3712,96.9 L3720,98.0 L3728,98.9 L3736,99.6 L3744,99.9 L3752,100.0 L3760,99.8 L3768,99.3 L3776,98.5 L3784,97.5 L3792,96.2 L3800,94.6 L3808,92.8 L3816,90.8 L3824,88.6 L3832,86.1 L3840,83.5 L3840,600 L0,600Z" fill="#AFCFC4"/></svg>
+        <svg class="wave" viewBox="0 0 3840 600" style="top:620px"><path d="M0,88.6 L8,90.4 L16,91.8 L24,92.9 L32,93.6 L40,94.0 L48,93.9 L56,93.6 L64,92.8 L72,91.7 L80,90.2 L88,88.4 L96,86.3 L104,83.9 L112,81.3 L120,78.4 L128,75.3 L136,72.0 L144,68.6 L152,65.1 L160,61.6 L168,58.0 L176,54.5 L184,51.0 L192,47.7 L200,44.4 L208,41.3 L216,38.5 L224,35.8 L232,33.5 L240,31.4 L248,29.6 L256,28.2 L264,27.1 L272,26.4 L280,26.0 L288,26.1 L296,26.4 L304,27.2 L312,28.3 L320,29.8 L328,31.6 L336,33.7 L344,36.1 L352,38.7 L360,41.6 L368,44.7 L376,48.0 L384,51.4 L392,54.9 L400,58.4 L408,62.0 L416,65.5 L424,69.0 L432,72.3 L440,75.6 L448,78.7 L456,81.5 L464,84.2 L472,86.5 L480,88.6 L488,90.4 L496,91.8 L504,92.9 L512,93.6 L520,94.0 L528,93.9 L536,93.6 L544,92.8 L552,91.7 L560,90.2 L568,88.4 L576,86.3 L584,83.9 L592,81.3 L600,78.4 L608,75.3 L616,72.0 L624,68.6 L632,65.1 L640,61.6 L648,58.0 L656,54.5 L664,51.0 L672,47.7 L680,44.4 L688,41.3 L696,38.5 L704,35.8 L712,33.5 L720,31.4 L728,29.6 L736,28.2 L744,27.1 L752,26.4 L760,26.0 L768,26.1 L776,26.4 L784,27.2 L792,28.3 L800,29.8 L808,31.6 L816,33.7 L824,36.1 L832,38.7 L840,41.6 L848,44.7 L856,48.0 L864,51.4 L872,54.9 L880,58.4 L888,62.0 L896,65.5 L904,69.0 L912,72.3 L920,75.6 L928,78.7 L936,81.5 L944,84.2 L952,86.5 L960,88.6 L968,90.4 L976,91.8 L984,92.9 L992,93.6 L1000,94.0 L1008,93.9 L1016,93.6 L1024,92.8 L1032,91.7 L1040,90.2 L1048,88.4 L1056,86.3 L1064,83.9 L1072,81.3 L1080,78.4 L1088,75.3 L1096,72.0 L1104,68.6 L1112,65.1 L1120,61.6 L1128,58.0 L1136,54.5 L1144,51.0 L1152,47.7 L1160,44.4 L1168,41.3 L1176,38.5 L1184,35.8 L1192,33.5 L1200,31.4 L1208,29.6 L1216,28.2 L1224,27.1 L1232,26.4 L1240,26.0 L1248,26.1 L1256,26.4 L1264,27.2 L1272,28.3 L1280,29.8 L1288,31.6 L1296,33.7 L1304,36.1 L1312,38.7 L1320,41.6 L1328,44.7 L1336,48.0 L1344,51.4 L1352,54.9 L1360,58.4 L1368,62.0 L1376,65.5 L1384,69.0 L1392,72.3 L1400,75.6 L1408,78.7 L1416,81.5 L1424,84.2 L1432,86.5 L1440,88.6 L1448,90.4 L1456,91.8 L1464,92.9 L1472,93.6 L1480,94.0 L1488,93.9 L1496,93.6 L1504,92.8 L1512,91.7 L1520,90.2 L1528,88.4 L1536,86.3 L1544,83.9 L1552,81.3 L1560,78.4 L1568,75.3 L1576,72.0 L1584,68.6 L1592,65.1 L1600,61.6 L1608,58.0 L1616,54.5 L1624,51.0 L1632,47.7 L1640,44.4 L1648,41.3 L1656,38.5 L1664,35.8 L1672,33.5 L1680,31.4 L1688,29.6 L1696,28.2 L1704,27.1 L1712,26.4 L1720,26.0 L1728,26.1 L1736,26.4 L1744,27.2 L1752,28.3 L1760,29.8 L1768,31.6 L1776,33.7 L1784,36.1 L1792,38.7 L1800,41.6 L1808,44.7 L1816,48.0 L1824,51.4 L1832,54.9 L1840,58.4 L1848,62.0 L1856,65.5 L1864,69.0 L1872,72.3 L1880,75.6 L1888,78.7 L1896,81.5 L1904,84.2 L1912,86.5 L1920,88.6 L1928,90.4 L1936,91.8 L1944,92.9 L1952,93.6 L1960,94.0 L1968,93.9 L1976,93.6 L1984,92.8 L1992,91.7 L2000,90.2 L2008,88.4 L2016,86.3 L2024,83.9 L2032,81.3 L2040,78.4 L2048,75.3 L2056,72.0 L2064,68.6 L2072,65.1 L2080,61.6 L2088,58.0 L2096,54.5 L2104,51.0 L2112,47.7 L2120,44.4 L2128,41.3 L2136,38.5 L2144,35.8 L2152,33.5 L2160,31.4 L2168,29.6 L2176,28.2 L2184,27.1 L2192,26.4 L2200,26.0 L2208,26.1 L2216,26.4 L2224,27.2 L2232,28.3 L2240,29.8 L2248,31.6 L2256,33.7 L2264,36.1 L2272,38.7 L2280,41.6 L2288,44.7 L2296,48.0 L2304,51.4 L2312,54.9 L2320,58.4 L2328,62.0 L2336,65.5 L2344,69.0 L2352,72.3 L2360,75.6 L2368,78.7 L2376,81.5 L2384,84.2 L2392,86.5 L2400,88.6 L2408,90.4 L2416,91.8 L2424,92.9 L2432,93.6 L2440,94.0 L2448,93.9 L2456,93.6 L2464,92.8 L2472,91.7 L2480,90.2 L2488,88.4 L2496,86.3 L2504,83.9 L2512,81.3 L2520,78.4 L2528,75.3 L2536,72.0 L2544,68.6 L2552,65.1 L2560,61.6 L2568,58.0 L2576,54.5 L2584,51.0 L2592,47.7 L2600,44.4 L2608,41.3 L2616,38.5 L2624,35.8 L2632,33.5 L2640,31.4 L2648,29.6 L2656,28.2 L2664,27.1 L2672,26.4 L2680,26.0 L2688,26.1 L2696,26.4 L2704,27.2 L2712,28.3 L2720,29.8 L2728,31.6 L2736,33.7 L2744,36.1 L2752,38.7 L2760,41.6 L2768,44.7 L2776,48.0 L2784,51.4 L2792,54.9 L2800,58.4 L2808,62.0 L2816,65.5 L2824,69.0 L2832,72.3 L2840,75.6 L2848,78.7 L2856,81.5 L2864,84.2 L2872,86.5 L2880,88.6 L2888,90.4 L2896,91.8 L2904,92.9 L2912,93.6 L2920,94.0 L2928,93.9 L2936,93.6 L2944,92.8 L2952,91.7 L2960,90.2 L2968,88.4 L2976,86.3 L2984,83.9 L2992,81.3 L3000,78.4 L3008,75.3 L3016,72.0 L3024,68.6 L3032,65.1 L3040,61.6 L3048,58.0 L3056,54.5 L3064,51.0 L3072,47.7 L3080,44.4 L3088,41.3 L3096,38.5 L3104,35.8 L3112,33.5 L3120,31.4 L3128,29.6 L3136,28.2 L3144,27.1 L3152,26.4 L3160,26.0 L3168,26.1 L3176,26.4 L3184,27.2 L3192,28.3 L3200,29.8 L3208,31.6 L3216,33.7 L3224,36.1 L3232,38.7 L3240,41.6 L3248,44.7 L3256,48.0 L3264,51.4 L3272,54.9 L3280,58.4 L3288,62.0 L3296,65.5 L3304,69.0 L3312,72.3 L3320,75.6 L3328,78.7 L3336,81.5 L3344,84.2 L3352,86.5 L3360,88.6 L3368,90.4 L3376,91.8 L3384,92.9 L3392,93.6 L3400,94.0 L3408,93.9 L3416,93.6 L3424,92.8 L3432,91.7 L3440,90.2 L3448,88.4 L3456,86.3 L3464,83.9 L3472,81.3 L3480,78.4 L3488,75.3 L3496,72.0 L3504,68.6 L3512,65.1 L3520,61.6 L3528,58.0 L3536,54.5 L3544,51.0 L3552,47.7 L3560,44.4 L3568,41.3 L3576,38.5 L3584,35.8 L3592,33.5 L3600,31.4 L3608,29.6 L3616,28.2 L3624,27.1 L3632,26.4 L3640,26.0 L3648,26.1 L3656,26.4 L3664,27.2 L3672,28.3 L3680,29.8 L3688,31.6 L3696,33.7 L3704,36.1 L3712,38.7 L3720,41.6 L3728,44.7 L3736,48.0 L3744,51.4 L3752,54.9 L3760,58.4 L3768,62.0 L3776,65.5 L3784,69.0 L3792,72.3 L3800,75.6 L3808,78.7 L3816,81.5 L3824,84.2 L3832,86.5 L3840,88.6 L3840,600 L0,600Z" fill="#3B7668"/></svg>
+        <div class="vt" style="top:150px;color:var(--deep)"><div class="vn"><span class="cnt">0</span><i> / 8</i></div><div class="vl vk" style="color:#3B7668">glasses of water today</div><div class="vl vs" style="color:var(--deep)">Great pace. <i>You're building a solid habit.</i></div></div>
+        <div class="sd abs" style="left:960px;top:380px"></div>
+      </div>
+    </div>
+    <div class="vic" id="v2" style="background:radial-gradient(120% 120% at 70% 0%,#2A5D51 0%,#1B3A33 45%,#10231F 100%)">
+      <div class="vin"><i class="star" style="left:0px;top:0px;width:3px;height:3px"></i><i class="star" style="left:1770px;top:762px;width:5px;height:5px"></i><i class="star" style="left:110px;top:918px;width:7px;height:7px"></i><i class="star" style="left:1072px;top:647px;width:3px;height:3px"></i><i class="star" style="left:718px;top:718px;width:5px;height:5px"></i><i class="star" style="left:871px;top:387px;width:7px;height:7px"></i><i class="star" style="left:1202px;top:1004px;width:3px;height:3px"></i><i class="star" style="left:318px;top:541px;width:5px;height:5px"></i><i class="star" style="left:632px;top:568px;width:7px;height:7px"></i><i class="star" style="left:1036px;top:87px;width:3px;height:3px"></i><i class="star" style="left:1865px;top:303px;width:5px;height:5px"></i><i class="star" style="left:1577px;top:826px;width:7px;height:7px"></i><i class="star" style="left:344px;top:552px;width:3px;height:3px"></i><i class="star" style="left:1911px;top:279px;width:5px;height:5px"></i><i class="star" style="left:1567px;top:1029px;width:7px;height:7px"></i><i class="star" style="left:848px;top:144px;width:3px;height:3px"></i><i class="star" style="left:1780px;top:735px;width:5px;height:5px"></i><i class="star" style="left:834px;top:393px;width:7px;height:7px"></i><i class="star" style="left:1237px;top:645px;width:3px;height:3px"></i><i class="star" style="left:619px;top:259px;width:5px;height:5px"></i><i class="star" style="left:1460px;top:602px;width:7px;height:7px"></i><i class="star" style="left:1068px;top:407px;width:3px;height:3px"></i><i class="star" style="left:1269px;top:375px;width:5px;height:5px"></i><i class="star" style="left:805px;top:31px;width:7px;height:7px"></i><i class="star" style="left:261px;top:288px;width:3px;height:3px"></i><i class="star" style="left:635px;top:262px;width:5px;height:5px"></i><i class="star" style="left:951px;top:1039px;width:7px;height:7px"></i><i class="star" style="left:1px;top:531px;width:3px;height:3px"></i><i class="star" style="left:311px;top:154px;width:5px;height:5px"></i><i class="star" style="left:807px;top:301px;width:7px;height:7px"></i><i class="star" style="left:1891px;top:368px;width:3px;height:3px"></i><i class="star" style="left:1389px;top:85px;width:5px;height:5px"></i><i class="star" style="left:549px;top:920px;width:7px;height:7px"></i><i class="star" style="left:803px;top:187px;width:3px;height:3px"></i><i class="star" style="left:385px;top:885px;width:5px;height:5px"></i><i class="star" style="left:1106px;top:864px;width:7px;height:7px"></i><i class="star" style="left:1885px;top:393px;width:3px;height:3px"></i><i class="star" style="left:1767px;top:140px;width:5px;height:5px"></i><i class="star" style="left:903px;top:911px;width:7px;height:7px"></i><i class="star" style="left:1475px;top:726px;width:3px;height:3px"></i><i class="star" style="left:1146px;top:240px;width:5px;height:5px"></i><i class="star" style="left:1794px;top:773px;width:7px;height:7px"></i><i class="star" style="left:870px;top:487px;width:3px;height:3px"></i><i class="star" style="left:414px;top:812px;width:5px;height:5px"></i><i class="star" style="left:1334px;top:358px;width:7px;height:7px"></i><i class="star" style="left:1528px;top:871px;width:3px;height:3px"></i><i class="star" style="left:544px;top:825px;width:5px;height:5px"></i><i class="star" style="left:987px;top:971px;width:7px;height:7px"></i><i class="star" style="left:274px;top:641px;width:3px;height:3px"></i><i class="star" style="left:220px;top:841px;width:5px;height:5px"></i><i class="star" style="left:580px;top:516px;width:7px;height:7px"></i><i class="star" style="left:223px;top:391px;width:3px;height:3px"></i><i class="star" style="left:1559px;top:347px;width:5px;height:5px"></i><i class="star" style="left:1063px;top:373px;width:7px;height:7px"></i><i class="star" style="left:777px;top:42px;width:3px;height:3px"></i><i class="star" style="left:1676px;top:566px;width:5px;height:5px"></i><i class="star" style="left:911px;top:637px;width:7px;height:7px"></i><i class="star" style="left:432px;top:1035px;width:3px;height:3px"></i><i class="star" style="left:594px;top:738px;width:5px;height:5px"></i><i class="star" style="left:336px;top:319px;width:7px;height:7px"></i><i class="star" style="left:326px;top:1014px;width:3px;height:3px"></i><i class="star" style="left:158px;top:618px;width:5px;height:5px"></i><i class="star" style="left:1557px;top:152px;width:7px;height:7px"></i><i class="star" style="left:32px;top:639px;width:3px;height:3px"></i><i class="star" style="left:169px;top:20px;width:5px;height:5px"></i><i class="star" style="left:149px;top:1039px;width:7px;height:7px"></i><i class="star" style="left:1147px;top:301px;width:3px;height:3px"></i><i class="star" style="left:464px;top:116px;width:5px;height:5px"></i><i class="star" style="left:745px;top:965px;width:7px;height:7px"></i><i class="star" style="left:630px;top:436px;width:3px;height:3px"></i>
+        <div class="moon"></div>
+        <div class="vt" style="top:230px;color:var(--cream)"><div class="vn"><span class="cnt">0</span><i> h</i></div><div class="vl vk" style="color:var(--mint)">of restful sleep</div><div class="vl vs" style="color:var(--cream)">Sleep logged. <i>Right on your goal.</i></div></div>
+      </div>
+    </div>
+    <div class="vic" id="v3" style="background:#E26023">
+      <div class="blob" style="width:1500px;height:1100px;left:-200px;top:0;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div>
+      <div class="blob" style="width:900px;height:700px;left:300px;top:380px;background:radial-gradient(circle,#E27A78 0%,transparent 70%)"></div>
+      <div class="vin">
+        <svg class="abs" width="760" height="760" viewBox="0 0 760 760" style="left:580px;top:160px"><circle cx="380" cy="380" r="340" fill="none" stroke="rgba(250,240,223,.22)" stroke-width="38"/><circle id="ring3" cx="380" cy="380" r="340" fill="none" stroke="#FAF0DF" stroke-width="38" stroke-linecap="round" stroke-dasharray="2136.3" stroke-dashoffset="2136.3" transform="rotate(-90 380 380)"/></svg>
+        <div class="vt" style="top:330px;color:var(--cream)"><div class="vn" style="font-size:300px"><span class="cnt">0</span></div><div class="vl vk" style="color:var(--cream);margin-top:-6px">days tracked this month</div></div>
+        <div class="sd abs" style="left:960px;top:540px"></div>
+      </div>
+    </div>
   </section>
 
   <!-- 8 · Outro -->
@@ -545,107 +572,101 @@
   tl.to('#sc6', { yPercent: -100, duration: 0.7, ease: 'ebSoft' }, 34.4);
   META.whooshes.push(34.45);
 
-  // ================= 7 · Small victories (34.4 – 41.0) =================
-  // one hero phone on the right moves through Hydration → Sleep → Statistics with in-app pushes;
-  // every win lands as a huge number on the left, a burst of brand seeds and a victory chip
+  // ================= 7 · Small victories (34.4 – 41.2) =================
+  // each win bursts OUT of the phone and takes over the frame: water floods it, night falls,
+  // the month ring draws itself huge on brand orange — which is already the outro's background
   scene('sc7', 34.4, 41.6);
   tl.fromTo('#sc7', { yPercent: 100 }, { yPercent: 0, duration: 0.7, ease: 'ebSoft', immediateRender: false }, 34.4);   // moves with sc6, no gap
-  const W7 = $('#world7');
-  const P7 = makePhone(W7, 'Hydration_FirstUse', 1390, 560);
-  tl.fromTo(P7.ph, { y: 760, scale: 0.94, rotationY: -16 }, { y: 0, scale: 0.94, rotationY: -6, duration: 1.1, ease: 'ebOut', immediateRender: true }, 34.55);
+  const W7 = $('#world7'), S7 = 0.78, PX = 960, PY = 625;
+  const P7 = makePhone(W7, 'Hydration_FirstUse', PX, PY);
+  const at = (fx, fy) => [PX + (14 + fx * SW - 229) * S7, PY + (14 + fy * IH - 479) * S7];   // screen point → stage point
+  tl.fromTo(P7.ph, { y: 820, scale: S7, rotationX: 18 }, { y: 0, scale: S7, rotationX: 0, duration: 1.1, ease: 'ebOut', immediateRender: true }, 34.6);
   reveal($('#h7'), 34.85, 0.09);
   finger(P7);
-  // big numbers, swapped through a mask like an odometer
-  const STAT7 = [['2', ' / 8', 'glasses of water'], ['8.0', ' h', 'of restful sleep'], ['29', ' days', 'tracked this month']];
-  const stats7 = STAT7.map(([v, u, k]) => {
-    const s = document.createElement('div'); s.className = 'abs stat';
-    s.style.cssText = 'left:0;top:0';
-    s.innerHTML = `<div class="n" style="font-size:200px"><span class="cnt">0</span><i style="font-size:96px">${u}</i></div><div class="k" style="font-size:24px;margin-top:6px">${k}</div>`;
-    $('#stat7').appendChild(s);
-    tl.set(s, { y: 320 }, 0);
-    return { s, v, cnt: s.querySelector('.cnt') };
-  });
-  const CHIPS = [['💧', 'Great pace!', "You're building a solid habit."], ['🌙', 'Sleep logged', 'Right on your goal.'], ['⭐', 'Build Sustainable Habits', 'Your goal, one day at a time.']];
-  const chips7 = CHIPS.map(([ic, a, b]) => {
-    const c = document.createElement('div'); c.className = 'abs chip7';
-    c.innerHTML = `<span class="ic">${ic}</span><span><b>${a}</b><br>${b}</span>`;
-    $('#sc7').appendChild(c);
-    tl.set(c, { opacity: 0 }, 0);
-    return c;
-  });
-  const count = (st, t, dur) => {
-    const o = { v: 0 }, to = parseFloat(st.v), dec = st.v.includes('.') ? 1 : 0;
-    tl.fromTo(o, { v: 0 }, { v: to, duration: dur, ease: 'ebOut', immediateRender: false, onUpdate: () => st.cnt.textContent = o.v.toFixed(dec) }, t);
-    tl.call(() => st.cnt.textContent = (0).toFixed(dec), null, t - 0.01);
-    META.ticks.push(t);
-  };
-  const statIn = (i, t) => {
-    // one reel: outgoing and incoming move together, exactly one window apart
-    tl.fromTo(stats7[i].s, { y: 320 }, { y: 0, duration: 0.6, ease: 'ebPush', immediateRender: false }, t);
-    if (i > 0) tl.fromTo(stats7[i - 1].s, { y: 0 }, { y: -320, duration: 0.6, ease: 'ebPush', immediateRender: false }, t);
-  };
-  // victory: the number pops, seeds burst out of it, the chip slides in from the phone
-  const SEEDC = ['#E26023', '#3B7668', '#AFCFC4', '#F0A26A', '#2A5D51'];
-  const celebrate = (i, t) => {
-    const n = stats7[i].s.querySelector('.n');
-    tl.fromTo(n, { scale: 1.08 }, { scale: 1, duration: 0.6, ease: 'ebOut', transformOrigin: '0% 60%', immediateRender: false }, t);
-    const host = $('#burst7');
-    for (let k = 0; k < 12; k++) {
-      const d = document.createElement('div'), a = k / 12 * Math.PI * 2 + i, r = 150 + (k % 3) * 55, sz = 12 + (k % 4) * 5;
-      d.style.cssText = `position:absolute;left:${-sz / 2}px;top:${-sz / 2}px;width:${sz}px;height:${sz}px;border-radius:50%;background:${SEEDC[(k + i) % 5]};opacity:0`;
-      host.appendChild(d);
-      tl.fromTo(d, { x: 0, y: 0, scale: 0.4, opacity: 1 }, { x: Math.cos(a) * r, y: Math.sin(a) * r * 0.8, scale: 1, duration: 0.7, ease: 'ebOut', immediateRender: false }, t);
-      tl.to(d, { opacity: 0, scale: 0.2, duration: 0.35, ease: 'ebIn' }, t + 0.45);
-    }
-    const c = chips7[i];
-    tl.fromTo(c, { opacity: 0, x: 260, scale: 0.85 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'ebOut', immediateRender: false }, t + 0.05);
-    if (i > 0) tl.to(chips7[i - 1], { opacity: 0, y: -24, duration: 0.3, ease: 'ebIn' }, t - 0.2);
-    META.notifs.push(t + 0.05);
-  };
-  // in-app push to the next screen (the outgoing one slides a little, like iOS)
   const pushTo = (file, t) => {
     const d = add(P7, 'inset:0;z-index:6;box-shadow:-30px 0 60px rgba(0,0,0,.18)', `<img src="${plate(file)}" style="position:absolute;width:430px;left:0;top:0">`, '', true);
-    tl.fromTo(d, { xPercent: 100 }, { xPercent: 0, duration: 0.6, ease: 'ebPush', immediateRender: true }, t);
-    META.whooshes.push(t + 0.1);
+    tl.fromTo(d, { xPercent: 100 }, { xPercent: 0, duration: 0.5, ease: 'ebPush', immediateRender: true }, t);
     return d;
   };
-  // 1 · hydration: tap → water rises, counter rolls, bar fills
+  // victory layers: open as a circle from a point on the phone, close into the next one
+  const V = [$('#v1'), $('#v2'), $('#v3')];
+  const circle = (r, [x, y]) => `circle(${r}px at ${x}px ${y}px)`;
+  const open = (v, pt, t) => {
+    tl.set(v, { visibility: 'visible' }, t);
+    tl.fromTo(v, { clipPath: circle(0, pt) }, { clipPath: circle(2300, pt), duration: 0.75, ease: 'ebPush', immediateRender: false }, t);
+    tl.fromTo(v.querySelector('.vin'), { scale: 0.7 }, { scale: 1, duration: 0.9, ease: 'ebOut', immediateRender: false }, t);
+    META.hits.push(t); META.whooshes.push(t + 0.1);
+  };
+  const close = (v, from, to, t) => {
+    tl.fromTo(v, { clipPath: circle(2300, from) }, { clipPath: circle(0, to), duration: 0.55, ease: 'ebIn', immediateRender: false }, t);
+    tl.to(v.querySelector('.vin'), { scale: 0.75, duration: 0.55, ease: 'ebIn' }, t);
+    tl.set(v, { visibility: 'hidden' }, t + 0.56);
+  };
+  const SEEDC = ['#E26023', '#3B7668', '#AFCFC4', '#F0A26A', '#FAF0DF'];
+  const seeds = (host, t, n, R, cols) => {
+    for (let k = 0; k < n; k++) {
+      const d = document.createElement('div'), a = k / n * Math.PI * 2 + 0.3, r = R * (0.75 + (k % 3) * 0.2), sz = 14 + (k % 4) * 7;
+      d.style.cssText = `position:absolute;left:${-sz / 2}px;top:${-sz / 2}px;width:${sz}px;height:${sz}px;border-radius:50%;background:${cols[k % cols.length]};opacity:0`;
+      host.appendChild(d);
+      tl.fromTo(d, { x: 0, y: 0, scale: 0.3, opacity: 1 }, { x: Math.cos(a) * r, y: Math.sin(a) * r, scale: 1, duration: 0.9, ease: 'ebOut', immediateRender: false }, t);
+      tl.to(d, { opacity: 0, scale: 0.3, duration: 0.4, ease: 'ebIn' }, t + 0.6);
+    }
+  };
+  const count = (el, v, t, dur) => {
+    const o = { v: 0 }, to = parseFloat(v), dec = v.includes('.') ? 1 : 0;
+    tl.fromTo(o, { v: 0 }, { v: to, duration: dur, ease: 'ebOut', immediateRender: false, onUpdate: () => el.textContent = o.v.toFixed(dec) }, t);
+    tl.call(() => el.textContent = (0).toFixed(dec), null, t - 0.01);
+    META.ticks.push(t);
+  };
+  const lines = (v, t) => tl.fromTo(v.querySelectorAll('.vl'), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, immediateRender: false }, t);
+
+  // 1 · water: tap → the glass fills → the water floods out of the phone
   const HYD2 = 'assets/screens/Hydration_InProgress.jpg';
   const hyd = {
     count: patch(P7, 0.06, 0.368, 0.34, 0.396, '', HYD2), ml: patch(P7, 0.06, 0.404, 0.34, 0.422, '', HYD2),
     bar: patch(P7, 0.06, 0.429, 0.34, 0.444, '', HYD2), water: patch(P7, 0.285, 0.672, 0.715, 0.734, '', HYD2),
-    toast: patch(P7, 0.14, 0.783, 0.72, 0.85, '', HYD2),
   };
   tl.set(Object.values(hyd), { opacity: 0 }, 0);
-  statIn(0, 35.25);
-  tap(P7, 0.75, 0.947, 35.95);
-  lift(P7, 36.2);
-  count(stats7[0], 36.0, 0.6);
-  tl.fromTo(hyd.water, { clipPath: 'inset(100% 0 0 0)', opacity: 1 }, { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 0.9, immediateRender: false }, 36.0);
-  tl.fromTo([hyd.count, hyd.ml], { clipPath: 'inset(0 0 100% 0)', y: 10, opacity: 1 }, { clipPath: 'inset(0 0 0% 0)', y: 0, opacity: 1, duration: 0.45, stagger: 0.08, immediateRender: false }, 36.05);
-  tl.fromTo(hyd.bar, { clipPath: 'inset(0 100% 0 0)', opacity: 1 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 0.7, immediateRender: false }, 36.1);
-  tl.fromTo(hyd.toast, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, immediateRender: false }, 36.3);
-  celebrate(0, 36.45);
-  // 2 · sleep
-  tl.to(P7.ph, { rotationY: 0, duration: 1.2, ease: 'ebSoft' }, 36.9);
-  pushTo('SleepRecovery', 37.3);
-  statIn(1, 37.35);
-  count(stats7[1], 37.5, 0.8);
-  celebrate(1, 38.2);
-  glareSweep(P7, 37.4);
-  // 3 · statistics: the monthly ring draws itself
-  const L3 = pushTo('Statistics_Month', 38.65);
-  { const k = SW / 1170, cx = 256 * k, cy = 737 * k, R = 186 * k;
+  tap(P7, 0.75, 0.947, 35.85);
+  lift(P7, 36.05);
+  tl.fromTo(hyd.water, { clipPath: 'inset(100% 0 0 0)', opacity: 1 }, { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 0.55, immediateRender: false }, 35.9);
+  tl.fromTo([hyd.count, hyd.ml], { clipPath: 'inset(0 0 100% 0)', y: 10, opacity: 1 }, { clipPath: 'inset(0 0 0% 0)', y: 0, opacity: 1, duration: 0.4, stagger: 0.06, immediateRender: false }, 35.95);
+  tl.fromTo(hyd.bar, { clipPath: 'inset(0 100% 0 0)', opacity: 1 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 0.5, immediateRender: false }, 36.0);
+  const pGlass = at(0.5, 0.705), pSleep = at(0.5, 0.40), pRing = at(0.219, 0.291);
+  open(V[0], pGlass, 36.45);
+  tl.fromTo('#v1 .wave', { y: 520 }, { y: 0, duration: 1.0, ease: 'ebOut', immediateRender: false }, 36.45);
+  tl.fromTo('#v1 .wave', { x: 0 }, { x: (i) => -600 + i * 260, duration: 1.6, ease: 'none', immediateRender: false }, 36.45);
+  count($('#v1 .cnt'), '2', 36.6, 0.5);
+  lines(V[0], 36.7);
+  seeds($('#v1 .sd'), 36.95, 14, 330, ['#FAF0DF', '#3B7668', '#E26023']);
+  pushTo('SleepRecovery', 37.3);                       // happens under the water
+  close(V[0], pGlass, pSleep, 37.65);
+
+  // 2 · sleep: night falls out of the "8.0"
+  tl.to(P7.ph, { y: -8, duration: 0.5, ease: 'ebSoft' }, 37.75);
+  open(V[1], pSleep, 38.15);
+  count($('#v2 .cnt'), '8.0', 38.3, 0.7);
+  lines(V[1], 38.4);
+  tl.fromTo('#v2 .star', { opacity: 0, scale: 0.3 }, { opacity: (i) => 0.35 + (i % 5) * 0.13, scale: 1, duration: 0.5, stagger: { each: 0.012, from: 'random' }, immediateRender: false }, 38.3);
+  tl.fromTo('#v2 .moon', { x: 120, y: 60, rotation: -25, opacity: 0 }, { x: 0, y: 0, rotation: 0, opacity: 1, duration: 1.0, ease: 'ebOut', immediateRender: false }, 38.3);
+  const L3 = pushTo('Statistics_Month', 38.85);
+  { const k = SW / 1170, cx = 256 * k, cy = 737 * k, R = 186 * k;    // the small ring inside the phone draws first
     L3.insertAdjacentHTML('beforeend', `<div style="position:absolute;left:${cx - R}px;top:${cy - R}px;width:${2 * R}px;height:${2 * R}px;border-radius:50%;background:radial-gradient(circle,transparent 58.5%,#fff 59.5%)"></div>`); }
   L3.insertAdjacentHTML('beforeend', `<div class="ring7" style="position:absolute;overflow:hidden;${box(0.06, 0.214, 0.38, 0.366)}-webkit-mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));--a:0deg"><img src="${plate('Statistics_Month')}" style="position:absolute;width:430px;left:${-0.06 * SW}px;top:${-0.214 * IH}px"></div>`);
-  tl.fromTo(L3.querySelector('.ring7'), { '--a': '0deg' }, { '--a': '360deg', duration: 1.1, ease: 'ebSoft', immediateRender: false }, 39.05);
-  statIn(2, 38.7);
-  count(stats7[2], 38.95, 1.0);
-  celebrate(2, 39.75);
-  // clear the stage
-  tl.to(P7.ph, { y: 1100, rotationY: 0, duration: 0.55, ease: 'ebIn' }, 40.5);
-  tl.to(['#h7', '#stat7', ...chips7], { opacity: 0, y: -30, duration: 0.35, ease: 'ebIn' }, 40.45);
-  burst('#E26023', 40.65);
+  close(V[1], pSleep, pRing, 39.1);
+  tl.fromTo(L3.querySelector('.ring7'), { '--a': '0deg' }, { '--a': '360deg', duration: 0.6, ease: 'ebSoft', immediateRender: false }, 39.4);
+
+  // 3 · the month: the ring leaves the phone and draws itself across the frame
+  open(V[2], pRing, 39.85);
+  const C = 2 * Math.PI * 340;
+  tl.fromTo('#ring3', { strokeDashoffset: C }, { strokeDashoffset: C * (1 - 29 / 31), duration: 1.0, ease: 'ebSoft', immediateRender: false }, 39.95);
+  count($('#v3 .cnt'), '29', 39.95, 1.0);
+  lines(V[2], 40.1);
+  seeds($('#v3 .sd'), 40.85, 16, 470, ['#FAF0DF', '#F0A26A', '#AFCFC4']);
+  META.hits.push(40.85);
+  // the orange stays: the ring streaks past the lens into JUST / EATS / BUENO
+  tl.to('#v3 .vin', { scale: 2.4, opacity: 0, filter: 'blur(20px)', duration: 0.4, ease: 'ebIn' }, 40.85);
+  META.whooshes.push(40.95);
 
   // ================= 8 · Outro (41.2 – 48) =================
   scene('sc8', 41.2, 48.1);
@@ -662,7 +683,7 @@
     META.whooshes.push(t + 0.25); META.slams.push(t);
   });
   const seedsC = seedRing($('#seedsC'), 280);
-  tl.fromTo(seedsC, { x: (i) => Math.cos(i * Math.PI / 4) * 1100, y: (i) => Math.sin(i * Math.PI / 4) * 1100, opacity: 1, scale: 1 },
+  tl.fromTo(seedsC, { x: (i) => Math.cos(i * Math.PI / 4) * 1100, y: (i) => Math.sin(i * Math.PI / 4) * 1100, opacity: 0, scale: 1 },
     { x: 0, y: 0, opacity: 1, duration: 0.7, stagger: 0.03, ease: 'ebOut', immediateRender: true }, 42.75);
   tl.fromTo('#fl8', { scale: 0, rotation: -140 }, { scale: 1, rotation: 0, duration: 1.1, ease: 'ebOut', immediateRender: true }, 43.35);
   tl.to(seedsC, { scale: 0, duration: 0.4, ease: 'ebIn' }, 43.45);
