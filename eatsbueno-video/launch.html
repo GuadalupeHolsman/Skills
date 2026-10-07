@@ -58,6 +58,10 @@
   .card .t1 { font: 700 30px Cooper; color: var(--deep); line-height: 1.1; } .card .t2 { font: 600 19px Manrope; color: #6a7a75; margin-top: 6px; }
   .stat .n { font: 700 150px/0.95 Cooper; color: var(--deep); } .stat .n i { font: italic 300 70px Cooper; color: var(--orange); }
   .stat .k { font: 700 22px Manrope; letter-spacing: .2em; text-transform: uppercase; color: #6a7a75; margin-top: 10px; }
+  .chip7 { left: 130px; top: 700px; display: flex; gap: 18px; align-items: center; padding: 20px 34px 20px 20px; border-radius: 999px; background: #fff;
+           box-shadow: 0 30px 60px -28px rgba(42,93,81,.45); font: 500 21px Manrope; color: #6a7a75; white-space: nowrap; z-index: 5; }
+  .chip7 .ic { width: 58px; height: 58px; border-radius: 50%; background: var(--cream); display: grid; place-items: center; font-size: 30px; }
+  .chip7 b { font: 700 26px Cooper; color: var(--deep); }
   .eyebrow { font: 700 22px Manrope; letter-spacing: .24em; text-transform: uppercase; }
 </style>
 </head>
@@ -114,7 +118,9 @@
 
   <!-- 7 · Habits -->
   <section class="scene" id="sc7" style="background:radial-gradient(110% 100% at 50% 0%,#E3EFE9 0%,#F4F1EC 55%,#F9F4F2 100%)">
-    <div class="abs cooper" id="h7" style="left:0;right:0;top:56px;text-align:center;font-size:92px;color:var(--deep);font-weight:700;z-index:5">Celebrate <i style="font-weight:300">small victories.</i></div>
+    <div class="abs cooper" id="h7" style="left:130px;top:110px;font-size:84px;line-height:1.05;color:var(--deep);font-weight:700;z-index:5">Celebrate<br><i style="font-weight:300">small victories.</i></div>
+    <div class="abs" id="stat7" style="left:130px;top:350px;width:820px;height:300px;overflow:hidden"></div>
+    <div class="abs" id="burst7" style="left:330px;top:460px;width:0;height:0;z-index:4"></div>
     <div class="abs" id="world7" style="inset:0;transform-style:preserve-3d"></div>
   </section>
 
@@ -539,63 +545,106 @@
   tl.to('#sc6', { yPercent: -100, duration: 0.7, ease: 'ebSoft' }, 34.4);
   META.whooshes.push(34.45);
 
-  // ================= 7 · Small victories (34.9 – 41.0) =================
+  // ================= 7 · Small victories (34.4 – 41.0) =================
+  // one hero phone on the right moves through Hydration → Sleep → Statistics with in-app pushes;
+  // every win lands as a huge number on the left, a burst of brand seeds and a victory chip
   scene('sc7', 34.4, 41.6);
   tl.fromTo('#sc7', { yPercent: 100 }, { yPercent: 0, duration: 0.7, ease: 'ebSoft', immediateRender: false }, 34.4);   // moves with sc6, no gap
   const W7 = $('#world7');
-  const P7 = [
-    makePhone(W7, 'SleepRecovery', 460, 610),
-    makePhone(W7, 'Hydration_FirstUse', 960, 585),
-    makePhone(W7, 'Statistics_Month', 1460, 610),
-  ];
-  const fan = [{ ry: 22, z: -160 }, { ry: 0, z: 0 }, { ry: -22, z: -160 }];
-  P7.forEach((P, i) => {
-    tl.fromTo(P.ph, { y: 900, scale: 0.66, rotationY: fan[i].ry, z: fan[i].z }, { y: 0, scale: 0.66, rotationY: fan[i].ry, z: fan[i].z, duration: 1.1, ease: 'ebOut', immediateRender: true }, 34.55 + [0.08, 0, 0.16][i]);   // rising while the scene pushes in
-  });
+  const P7 = makePhone(W7, 'Hydration_FirstUse', 1390, 560);
+  tl.fromTo(P7.ph, { y: 760, scale: 0.94, rotationY: -16 }, { y: 0, scale: 0.94, rotationY: -6, duration: 1.1, ease: 'ebOut', immediateRender: true }, 34.55);
   reveal($('#h7'), 34.85, 0.09);
-  // counters under each phone
-  const CNT = [['8.0', ' h', 'sleep', 37.6], ['2', ' / 8', 'glasses', 36.3], ['29', ' days', 'tracked', 38.9]];
-  CNT.forEach(([v, u, k, t], i) => {
+  finger(P7);
+  // big numbers, swapped through a mask like an odometer
+  const STAT7 = [['2', ' / 8', 'glasses of water'], ['8.0', ' h', 'of restful sleep'], ['29', ' days', 'tracked this month']];
+  const stats7 = STAT7.map(([v, u, k]) => {
     const s = document.createElement('div'); s.className = 'abs stat';
-    s.style.cssText = `left:${[460, 960, 1460][i] - 220}px;width:440px;top:925px;text-align:center;z-index:6`;
-    s.innerHTML = `<div class="n" style="font-size:72px"><span class="cnt">0</span><i style="font-size:40px">${u}</i></div><div class="k" style="font-size:16px;margin-top:4px">${k}</div>`;
-    $('#sc7').appendChild(s);
-    const o = { v: 0 }, to = parseFloat(v), dec = v.includes('.') ? 1 : 0, cnt = s.querySelector('.cnt');
-    tl.fromTo(s, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, immediateRender: true }, t - 0.1);
-    tl.fromTo(o, { v: 0 }, { v: to, duration: 0.9, ease: 'ebOut', immediateRender: false, onUpdate: () => cnt.textContent = o.v.toFixed(dec) }, t);
-    tl.call(() => cnt.textContent = (0).toFixed(dec), null, t - 0.11);
-    META.ticks.push(t);
+    s.style.cssText = 'left:0;top:0';
+    s.innerHTML = `<div class="n" style="font-size:200px"><span class="cnt">0</span><i style="font-size:96px">${u}</i></div><div class="k" style="font-size:24px;margin-top:6px">${k}</div>`;
+    $('#stat7').appendChild(s);
+    tl.set(s, { y: 320 }, 0);
+    return { s, v, cnt: s.querySelector('.cnt') };
   });
-  // hydration: tap → water rises, counter rolls, bar fills
-  const PH = P7[1], HYD2 = 'assets/screens/Hydration_InProgress.jpg';
-  finger(PH);
+  const CHIPS = [['💧', 'Great pace!', "You're building a solid habit."], ['🌙', 'Sleep logged', 'Right on your goal.'], ['⭐', 'Build Sustainable Habits', 'Your goal, one day at a time.']];
+  const chips7 = CHIPS.map(([ic, a, b]) => {
+    const c = document.createElement('div'); c.className = 'abs chip7';
+    c.innerHTML = `<span class="ic">${ic}</span><span><b>${a}</b><br>${b}</span>`;
+    $('#sc7').appendChild(c);
+    tl.set(c, { opacity: 0 }, 0);
+    return c;
+  });
+  const count = (st, t, dur) => {
+    const o = { v: 0 }, to = parseFloat(st.v), dec = st.v.includes('.') ? 1 : 0;
+    tl.fromTo(o, { v: 0 }, { v: to, duration: dur, ease: 'ebOut', immediateRender: false, onUpdate: () => st.cnt.textContent = o.v.toFixed(dec) }, t);
+    tl.call(() => st.cnt.textContent = (0).toFixed(dec), null, t - 0.01);
+    META.ticks.push(t);
+  };
+  const statIn = (i, t) => {
+    // one reel: outgoing and incoming move together, exactly one window apart
+    tl.fromTo(stats7[i].s, { y: 320 }, { y: 0, duration: 0.6, ease: 'ebPush', immediateRender: false }, t);
+    if (i > 0) tl.fromTo(stats7[i - 1].s, { y: 0 }, { y: -320, duration: 0.6, ease: 'ebPush', immediateRender: false }, t);
+  };
+  // victory: the number pops, seeds burst out of it, the chip slides in from the phone
+  const SEEDC = ['#E26023', '#3B7668', '#AFCFC4', '#F0A26A', '#2A5D51'];
+  const celebrate = (i, t) => {
+    const n = stats7[i].s.querySelector('.n');
+    tl.fromTo(n, { scale: 1.08 }, { scale: 1, duration: 0.6, ease: 'ebOut', transformOrigin: '0% 60%', immediateRender: false }, t);
+    const host = $('#burst7');
+    for (let k = 0; k < 12; k++) {
+      const d = document.createElement('div'), a = k / 12 * Math.PI * 2 + i, r = 150 + (k % 3) * 55, sz = 12 + (k % 4) * 5;
+      d.style.cssText = `position:absolute;left:${-sz / 2}px;top:${-sz / 2}px;width:${sz}px;height:${sz}px;border-radius:50%;background:${SEEDC[(k + i) % 5]};opacity:0`;
+      host.appendChild(d);
+      tl.fromTo(d, { x: 0, y: 0, scale: 0.4, opacity: 1 }, { x: Math.cos(a) * r, y: Math.sin(a) * r * 0.8, scale: 1, duration: 0.7, ease: 'ebOut', immediateRender: false }, t);
+      tl.to(d, { opacity: 0, scale: 0.2, duration: 0.35, ease: 'ebIn' }, t + 0.45);
+    }
+    const c = chips7[i];
+    tl.fromTo(c, { opacity: 0, x: 260, scale: 0.85 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'ebOut', immediateRender: false }, t + 0.05);
+    if (i > 0) tl.to(chips7[i - 1], { opacity: 0, y: -24, duration: 0.3, ease: 'ebIn' }, t - 0.2);
+    META.notifs.push(t + 0.05);
+  };
+  // in-app push to the next screen (the outgoing one slides a little, like iOS)
+  const pushTo = (file, t) => {
+    const d = add(P7, 'inset:0;z-index:6;box-shadow:-30px 0 60px rgba(0,0,0,.18)', `<img src="${plate(file)}" style="position:absolute;width:430px;left:0;top:0">`, '', true);
+    tl.fromTo(d, { xPercent: 100 }, { xPercent: 0, duration: 0.6, ease: 'ebPush', immediateRender: true }, t);
+    META.whooshes.push(t + 0.1);
+    return d;
+  };
+  // 1 · hydration: tap → water rises, counter rolls, bar fills
+  const HYD2 = 'assets/screens/Hydration_InProgress.jpg';
   const hyd = {
-    count: patch(PH, 0.06, 0.368, 0.34, 0.396, '', HYD2), ml: patch(PH, 0.06, 0.404, 0.34, 0.422, '', HYD2),
-    bar: patch(PH, 0.06, 0.429, 0.34, 0.444, '', HYD2), water: patch(PH, 0.285, 0.672, 0.715, 0.734, '', HYD2),
-    toast: patch(PH, 0.14, 0.783, 0.72, 0.85, '', HYD2),
+    count: patch(P7, 0.06, 0.368, 0.34, 0.396, '', HYD2), ml: patch(P7, 0.06, 0.404, 0.34, 0.422, '', HYD2),
+    bar: patch(P7, 0.06, 0.429, 0.34, 0.444, '', HYD2), water: patch(P7, 0.285, 0.672, 0.715, 0.734, '', HYD2),
+    toast: patch(P7, 0.14, 0.783, 0.72, 0.85, '', HYD2),
   };
   tl.set(Object.values(hyd), { opacity: 0 }, 0);
-  tap(PH, 0.75, 0.947, 36.2);
-  lift(PH, 36.45);
-  tl.fromTo(hyd.water, { clipPath: 'inset(100% 0 0 0)', opacity: 1 }, { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 0.9, immediateRender: false }, 36.25);
-  tl.fromTo([hyd.count, hyd.ml], { clipPath: 'inset(0 0 100% 0)', y: 10, opacity: 1 }, { clipPath: 'inset(0 0 0% 0)', y: 0, opacity: 1, duration: 0.45, stagger: 0.08, immediateRender: false }, 36.3);
-  tl.fromTo(hyd.bar, { clipPath: 'inset(0 100% 0 0)', opacity: 1 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 0.7, immediateRender: false }, 36.35);
-  tl.fromTo(hyd.toast, { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.5, immediateRender: false }, 36.5);
-  // focus moves left → right with the counters (lift the phone being talked about)
-  const focus = (P, t) => { tl.to(P.ph, { y: -26, duration: 0.5, ease: 'ebSoft' }, t); tl.to(P.ph, { y: 0, duration: 0.6, ease: 'ebSoft' }, t + 1.0); };
-  focus(P7[1], 36.1); focus(P7[0], 37.5); focus(P7[2], 38.8);
-  // monthly ring draws itself
-  const PS = P7[2];
-  // hide only the ring itself (annulus), so the centre count and the 0%/100% chips never flicker
+  statIn(0, 35.25);
+  tap(P7, 0.75, 0.947, 35.95);
+  lift(P7, 36.2);
+  count(stats7[0], 36.0, 0.6);
+  tl.fromTo(hyd.water, { clipPath: 'inset(100% 0 0 0)', opacity: 1 }, { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 0.9, immediateRender: false }, 36.0);
+  tl.fromTo([hyd.count, hyd.ml], { clipPath: 'inset(0 0 100% 0)', y: 10, opacity: 1 }, { clipPath: 'inset(0 0 0% 0)', y: 0, opacity: 1, duration: 0.45, stagger: 0.08, immediateRender: false }, 36.05);
+  tl.fromTo(hyd.bar, { clipPath: 'inset(0 100% 0 0)', opacity: 1 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 0.7, immediateRender: false }, 36.1);
+  tl.fromTo(hyd.toast, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, immediateRender: false }, 36.3);
+  celebrate(0, 36.45);
+  // 2 · sleep
+  tl.to(P7.ph, { rotationY: 0, duration: 1.2, ease: 'ebSoft' }, 36.9);
+  pushTo('SleepRecovery', 37.3);
+  statIn(1, 37.35);
+  count(stats7[1], 37.5, 0.8);
+  celebrate(1, 38.2);
+  glareSweep(P7, 37.4);
+  // 3 · statistics: the monthly ring draws itself
+  const L3 = pushTo('Statistics_Month', 38.65);
   { const k = SW / 1170, cx = 256 * k, cy = 737 * k, R = 186 * k;
-    add(PS, `left:${cx - R}px;top:${cy - R}px;width:${2 * R}px;height:${2 * R}px;border-radius:50%;background:radial-gradient(circle,transparent 58.5%,#fff 59.5%)`); }
-  const ring = patch(PS, 0.06, 0.214, 0.38, 0.366, '-webkit-mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));--a:0deg');
-  tl.fromTo(ring, { '--a': '0deg' }, { '--a': '360deg', duration: 1.2, ease: 'ebSoft', immediateRender: false }, 38.9);
-  // clear the stage: phones fly off the edges
-  tl.to(P7[0].ph, { x: -900, rotationY: 40, duration: 0.55, ease: 'ebIn' }, 40.5);
-  tl.to(P7[2].ph, { x: 900, rotationY: -40, duration: 0.55, ease: 'ebIn' }, 40.5);
-  tl.to(P7[1].ph, { y: 1100, duration: 0.55, ease: 'ebIn' }, 40.55);
-  tl.to('#h7, #sc7 .stat', { opacity: 0, y: -30, duration: 0.35, ease: 'ebIn' }, 40.5);
+    L3.insertAdjacentHTML('beforeend', `<div style="position:absolute;left:${cx - R}px;top:${cy - R}px;width:${2 * R}px;height:${2 * R}px;border-radius:50%;background:radial-gradient(circle,transparent 58.5%,#fff 59.5%)"></div>`); }
+  L3.insertAdjacentHTML('beforeend', `<div class="ring7" style="position:absolute;overflow:hidden;${box(0.06, 0.214, 0.38, 0.366)}-webkit-mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));--a:0deg"><img src="${plate('Statistics_Month')}" style="position:absolute;width:430px;left:${-0.06 * SW}px;top:${-0.214 * IH}px"></div>`);
+  tl.fromTo(L3.querySelector('.ring7'), { '--a': '0deg' }, { '--a': '360deg', duration: 1.1, ease: 'ebSoft', immediateRender: false }, 39.05);
+  statIn(2, 38.7);
+  count(stats7[2], 38.95, 1.0);
+  celebrate(2, 39.75);
+  // clear the stage
+  tl.to(P7.ph, { y: 1100, rotationY: 0, duration: 0.55, ease: 'ebIn' }, 40.5);
+  tl.to(['#h7', '#stat7', ...chips7], { opacity: 0, y: -30, duration: 0.35, ease: 'ebIn' }, 40.45);
   burst('#E26023', 40.65);
 
   // ================= 8 · Outro (41.2 – 48) =================
