@@ -358,8 +358,8 @@
   META.whooshes.push(10.45);
 
   // ================= 3 · Phone hero (10.5 – 14.4) =================
-  scene('sc3', 10.5, 14.85);
-  tl.fromTo('#sc3', { scale: 0.86, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.7, immediateRender: false }, 10.55);
+  scene('sc3', 10.45, 14.45);
+  tl.fromTo('#sc3', { opacity: 0, scale: 1.12, filter: 'blur(12px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.6, ease: 'ebOut', immediateRender: false }, 10.45);
   const P3 = makePhone($('#ph3wrap'), 'Welcome', null, 960, 680);
   gsap.set(P3.ph, { scale: 0.8 });
   finger(P3);
@@ -371,20 +371,28 @@
   reveal($('#meet'), 11.55, 0.12);
   tl.fromTo('#sub3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, immediateRender: true }, 12.2);
   tap(P3, 0.5, 0.815, 13.25);
-  // push through the screen
-  tl.to(P3.ph, { scale: 2.6, y: 20, duration: 0.65, ease: 'ebIn' }, 13.7);
-  tl.to('#meet, #sub3', { opacity: 0, y: -40, duration: 0.4, ease: 'ebIn' }, 13.65);
-  tl.to('#sc3', { opacity: 0, filter: 'blur(10px)', duration: 0.35, ease: 'ebIn' }, 14.05);
-  META.whooshes.push(14.0);
+  lift(P3, 13.4);
+  // the screen itself advances to onboarding step 1 (in-app push) …
+  const st1 = STATUS.Step1;
+  const step1In = add(P3, 'inset:0;background:#e5efe8;z-index:6',
+    `<img src="assets/screens/Onboarding_Step1.jpg" style="position:absolute;width:430px;left:0;top:0">` +
+    `<div class="sbar" style="background:linear-gradient(180deg,${st1[0]},${st1[2]})"><span>9:41</span></div>` +
+    `<div style="position:absolute;${box(0.462, 0.065, 1, 0.117)}background:${st1[2]}"></div>`);
+  tl.fromTo(step1In, { xPercent: 100 }, { xPercent: 0, duration: 0.6, ease: 'ebPush', immediateRender: true }, 13.4);
+  tl.to('#meet, #sub3', { opacity: 0, y: -40, duration: 0.4, ease: 'ebIn' }, 13.5);
+  META.whooshes.push(13.45);
 
   // ================= 4 · Built around you (14.4 – 20.6) =================
-  scene('sc4', 14.4, 20.95);
-  tl.fromTo('#sc4', { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 0.6, immediateRender: false }, 14.35);
+  scene('sc4', 13.95, 21.2);
+  tl.fromTo('#sc4', { opacity: 0 }, { opacity: 1, duration: 0.45, ease: 'ebSoft', immediateRender: false }, 13.95);   // only the background changes
   const W4 = $('#world4');
   const P4a = makePhone(W4, 'Onboarding_Step1', 'Step1', 960, 650);
   const P4b = makePhone(W4, 'Onboarding_Step2', 'Step2', 1560, 650);
   const P4c = makePhone(W4, 'Onboarding_Step7', 'Step7', 2160, 650);
   [P4a, P4b, P4c].forEach((P, i) => gsap.set(P.ph, { scale: 0.86, z: i === 0 ? 0 : -220, rotationY: i === 0 ? 0 : -14 }));
+  // world starts matched to the hero phone (center 960,680 · scale .8), then opens up
+  tl.fromTo(W4, { scale: 0.8 / 0.86, y: 30, transformOrigin: '960px 650px' }, { scale: 1, y: 0, duration: 0.9, ease: 'ebSoft', immediateRender: true }, 14.35);
+  tl.fromTo([P4b.ph, P4c.ph], { x: 700 }, { x: 0, duration: 0.9, stagger: 0.08, ease: 'ebOut', immediateRender: true }, 14.35);
   finger(P4a); finger(P4c);
   reveal($('#h4'), 14.6, 0.1);
   // goal pick
@@ -433,12 +441,12 @@
   tl.to(W4, { x: -600, y: 40, scale: 0.78, duration: 0.9, ease: 'ebSoft' }, 19.75);
   tl.to([P4a.ph, P4b.ph], { z: 0, rotationY: 0, duration: 0.9, ease: 'ebSoft' }, 19.75);
   // whip pan out
-  tl.to('#sc4', { x: -1920, filter: 'blur(18px)', duration: 0.45, ease: 'ebIn' }, 20.55);
+  tl.to('#sc4', { x: -1920, filter: 'blur(18px)', duration: 0.6, ease: 'ebSoft' }, 20.55);
   META.whooshes.push(20.6);
 
   // ================= 5 · Coach (20.9 – 28.4) =================
-  scene('sc5', 20.85, 28.95);
-  tl.fromTo('#sc5', { x: 1920, filter: 'blur(18px)' }, { x: 0, filter: 'blur(0px)', duration: 0.5, ease: 'ebOut', immediateRender: false }, 20.85);
+  scene('sc5', 20.55, 29.0);
+  tl.fromTo('#sc5', { x: 1920, filter: 'blur(18px)' }, { x: 0, filter: 'blur(0px)', duration: 0.6, ease: 'ebSoft', immediateRender: false }, 20.55);
   const P5 = makePhone($('#ph5wrap'), 'Coach_Conversation', 'Coach', 1480, 560);
   gsap.set(P5.ph, { scale: 0.9, rotationY: -12 });
   const bubbleCover = cover(P5, 0.42, 0.148, 0.985, 0.193, '#dfece4');
@@ -482,8 +490,8 @@
   META.whooshes.push(28.4);
 
   // ================= 6 · Scan (28.9 – 34.4) =================
-  scene('sc6', 28.85, 34.95);
-  tl.fromTo('#sc6', { scale: 0.88, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.6, immediateRender: false }, 28.85);
+  scene('sc6', 28.4, 34.95);
+  tl.fromTo('#sc6', { opacity: 0, scale: 1.12, filter: 'blur(12px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.6, ease: 'ebOut', immediateRender: false }, 28.4);
   const P6 = makePhone($('#ph6wrap'), 'Scanner_Barcode', 'Scanner', 1460, 560);
   const cardCover = cover(P6, 0, 0.677, 1, 1, '#f9fbfe');
   const scanline = add(P6, `left:6%;width:88%;top:30%;height:4px;border-radius:4px;background:#E26023;box-shadow:0 0 18px 4px rgba(226,96,35,.75);opacity:0`);
