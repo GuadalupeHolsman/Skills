@@ -8,7 +8,7 @@ Marca: Montserrat (ExtraBold / SemiBold), azul `#1D29C2`, amarillo `#FCCE21`, lo
 |---|---|
 | 0–1.4 s | Gancho, una palabra por medio beat: **LEAVE / YOUR / PHONE / AT THE / DOOR.** |
 | 1.4–2.9 s | **29.10**: invite only · thursday |
-| 2.9–5.1 s | Tap diseñado: teléfono desbordado de notificaciones → la tarjeta Loomlock Experience Key (logo y patrón del brandbook) toca → anillos → las notificaciones colapsan → pantalla azul con el logo, LOCKED IN / UNTIL 04:00. Textos: **TAP IN.** → **STAY IN.** |
+| 2.9–5.1 s | Tap diseñado: teléfono desbordado de notificaciones → la key card de Loomlock (mismo diseño que el film Key Tiers, skin Season: NFC, llave amarilla, marca) toca → anillos → las notificaciones colapsan → pantalla azul con el logo, LOCKED IN / UNTIL 04:00. Textos: **TAP IN.** → **STAY IN.** |
 | 5.1–7.2 s | La cuadrícula se arma pantalla a pantalla: NO PHOTOS. NO FEED. JUST TONIGHT. (strobe antes del drop) |
 | 7.2–10.1 s | Drop: BE HERE. DANCE. TALK. LOSE TRACK. En cada beat una pantalla se pone a todo color |
 | 10.1–11.5 s | **UNPOSTED. UNFORGETTABLE.** |
@@ -18,7 +18,7 @@ Marca: Montserrat (ExtraBold / SemiBold), azul `#1D29C2`, amarillo `#FCCE21`, lo
 
 | Archivo | Música | Color |
 |---|---|---|
-| `locked-in-A-tarjeta-loomlock.mp4` | track original del reel (desde 5.31 s) | azul `#1D29C2`, con la tarjeta Loomlock (Experience Key) en el tap |
+| `locked-in-A-tarjeta-loomlock.mp4` | track original del reel (desde 5.31 s) | azul `#1D29C2`, con la key card de Loomlock (skin Season) en el tap |
 | `locked-in-AB-tarjeta-loomlock-intermedia.mp4` | track original | intermedia: golpe medio, split RGB sutil, sacudida suave, frames invertidos solo en 29.10, el drop y el tagline |
 | `locked-in-B-tarjeta-loomlock-impacto.mp4` | track original | igual que A, con textos de impacto: slam, split RGB, sacudida, frames invertidos y zoom-through |
 | `locked-in-techno-violeta.mp4` | techno oscuro con línea acid (original) | violeta `#5713C0` |
