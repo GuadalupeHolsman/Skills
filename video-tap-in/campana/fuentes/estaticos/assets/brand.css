@@ -1,0 +1,28 @@
+@font-face { font-family: "Montserrat"; font-weight: 500; src: url("fonts/montserrat-500.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-weight: 600; src: url("fonts/montserrat-600.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-weight: 700; src: url("fonts/montserrat-700.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-weight: 800; src: url("fonts/montserrat-800.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-weight: 900; src: url("fonts/montserrat-900.woff2") format("woff2"); }
+:root { --ink: #05071f; --night: #0b1060; --core: #1d29c2; --blue: #3f49cc; --ice: #c0c8ff; --yellow: #fcce21; --key: #fcee21; --red: #e83852; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: "Montserrat", sans-serif; color: #fff; background: var(--ink); -webkit-font-smoothing: antialiased; }
+.art { position: relative; overflow: hidden; background: radial-gradient(90% 70% at 50% 40%, #141c9a 0%, #0b1060 45%, #05071f 100%); }
+.grain { position: absolute; inset: 0; background: url("img/grain0.png") 0 0 / 540px 960px; mix-blend-mode: overlay; opacity: 0.2; pointer-events: none; }
+.vig { position: absolute; inset: 0; background: radial-gradient(120% 85% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%); pointer-events: none; }
+.meta { font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; }
+.big { font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.86; }
+.y { color: var(--yellow); }
+.outline { color: transparent; -webkit-text-stroke: 2px rgba(192,200,255,0.18); }
+/* Loomlock key card — same build as the Key Tiers film (480x300), Season skin */
+.kc { position: absolute; width: 480px; height: 300px; border-radius: 30px; overflow: hidden; color: var(--key); box-shadow: 0 40px 90px rgba(4,6,40,0.65), inset 0 0 0 3px rgba(252,238,33,0.55); transform-origin: 50% 50%; }
+.kc .face { position: absolute; inset: 0; background: radial-gradient(80% 90% at 20% 10%, rgba(143,211,244,0.35), rgba(143,211,244,0) 60%), radial-gradient(70% 80% at 90% 90%, rgba(255,143,177,0.35), rgba(255,143,177,0) 60%), linear-gradient(135deg, #2b34c9 0%, #121b95 60%, #070d66 100%); }
+.kc .nfc { position: absolute; left: 30px; top: 30px; width: 46px; height: 46px; }
+.kc .keyg { position: absolute; left: 250px; top: 28px; width: 210px; height: 210px; }
+.kc .lab { position: absolute; left: 34px; bottom: 30px; }
+.kc .lab b { display: block; font-weight: 900; font-size: 30px; line-height: 1; letter-spacing: 0.1em; text-transform: uppercase; }
+.kc .lab span { display: block; margin-top: 9px; font-weight: 700; font-size: 21px; line-height: 1; opacity: 0.8; }
+.kc .mark { position: absolute; right: 30px; bottom: 28px; width: 26px; opacity: 0.75; }
+.kc .shine { position: absolute; top: -40px; left: 250px; width: 150px; height: 400px; transform: skewX(-18deg); background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.45), rgba(255,255,255,0)); }
+.ring { position: absolute; border-radius: 50%; border: 5px solid var(--yellow); }
+.foot { position: absolute; left: 64px; right: 64px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 20px; letter-spacing: 0.3em; color: rgba(255,255,255,0.7); }

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=1080, height=1920" />
+<title>Locked In — teaser: The List</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+@font-face { font-family: "Montserrat"; font-weight: 500; src: url("assets/fonts/montserrat-500.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-weight: 600; src: url("assets/fonts/montserrat-600.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-weight: 700; src: url("assets/fonts/montserrat-700.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-weight: 800; src: url("assets/fonts/montserrat-800.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-weight: 900; src: url("assets/fonts/montserrat-900.woff2") format("woff2"); }
+:root { --ink:#05071f; --core:#1d29c2; --ice:#c0c8ff; --yellow:#fcce21; --key:#fcee21; --paper:#f3f2ec; --pink:#14163a; --red:#e83852; }
+body { margin:0; background:var(--ink); font-family:"Montserrat",sans-serif; color:#fff; }
+#root { position:relative; width:100%; height:100%; overflow:hidden; background:radial-gradient(90% 70% at 50% 45%, #141c9a 0%, #0b1060 45%, #05071f 100%); }
+.layer { position:absolute; inset:0; }
+.meta { font-weight:600; letter-spacing:.32em; text-transform:uppercase; }
+.big { font-weight:900; text-transform:uppercase; letter-spacing:-.04em; line-height:.86; white-space:nowrap; }
+.y { color:var(--yellow); }
+/* the list */
+#sheetwrap { position:absolute; left:100px; top:290px; width:880px; height:1340px; transform:rotate(-2deg); }
+#sheet { position:absolute; inset:0; background:var(--paper); border-radius:12px; box-shadow:0 60px 120px rgba(0,0,0,.65); color:var(--pink); }
+.shead { position:absolute; left:64px; right:64px; top:56px; display:flex; justify-content:space-between; align-items:flex-end; border-bottom:5px solid var(--pink); padding-bottom:20px; }
+.shead .t { font-weight:900; font-size:76px; letter-spacing:-.03em; line-height:.9; }
+.shead .d { text-align:right; font-weight:700; font-size:22px; letter-spacing:.2em; line-height:1.5; }
+#win { position:absolute; left:64px; right:64px; top:210px; height:1110px; overflow:hidden; }
+#hl { position:absolute; left:-20px; right:-20px; top:507.0px; height:96px; background:rgba(252,206,33,.22); border-top:3px solid rgba(29,41,194,.5); border-bottom:3px solid rgba(29,41,194,.5); }
+#list { position:absolute; left:0; right:0; top:0; }
+.row { box-sizing:border-box; height:96px; display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed rgba(20,22,58,.22); font-weight:700; font-size:44px; }
+.row .ck { font-weight:800; color:var(--core); font-size:46px; }
+.row.you .nm { background:linear-gradient(transparent 58%, rgba(252,206,33,.8) 58%, rgba(252,206,33,.8) 90%, transparent 90%); padding:0 6px; }
+.row.ph { font-weight:900; font-size:50px; }
+.row.ph .nm { position:relative; }
+#strike { position:absolute; left:-12px; right:-16px; top:46%; height:9px; background:var(--red); transform-origin:0 50%; }
+.row .x { font-weight:900; font-size:54px; color:var(--red); opacity:0; }
+#stamp { position:absolute; left:250px; top:1180px; border:12px solid var(--yellow); border-radius:22px; padding:26px 44px 18px; background:rgba(5,7,31,.9); color:var(--yellow); text-align:center; opacity:0; }
+#stamp div { font-weight:900; font-size:104px; line-height:.88; letter-spacing:-.03em; }
+/* key card (Loomlock Key Tiers build, Season skin) */
+.kc { position:absolute; left:300px; top:810px; width:480px; height:300px; border-radius:30px; overflow:hidden; color:var(--key); box-shadow:0 40px 90px rgba(4,6,40,.65), inset 0 0 0 3px rgba(252,238,33,.55); opacity:0; }
+.kc .face { position:absolute; inset:0; background:radial-gradient(80% 90% at 20% 10%, rgba(143,211,244,.35), rgba(143,211,244,0) 60%), radial-gradient(70% 80% at 90% 90%, rgba(255,143,177,.35), rgba(255,143,177,0) 60%), linear-gradient(135deg,#2b34c9 0%,#121b95 60%,#070d66 100%); }
+.kc .nfc { position:absolute; left:30px; top:30px; width:46px; height:46px; }
+.kc .keyg { position:absolute; left:250px; top:28px; width:210px; height:210px; }
+.kc .lab { position:absolute; left:34px; bottom:30px; }
+.kc .lab b { display:block; font-weight:900; font-size:30px; line-height:1; letter-spacing:.1em; text-transform:uppercase; }
+.kc .lab span { display:block; margin-top:9px; font-weight:700; font-size:21px; line-height:1; opacity:.8; }
+.kc .mark { position:absolute; right:30px; bottom:28px; width:26px; opacity:.75; }
+.kc .shine { position:absolute; inset:0; overflow:hidden; }
+.kc .shine i { position:absolute; top:-40px; left:0; width:150px; height:400px; background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.6),rgba(255,255,255,0)); }
+.ring { position:absolute; left:400px; top:820px; width:280px; height:280px; border-radius:50%; border:6px solid var(--yellow); box-sizing:border-box; opacity:0; }
+.cap { position:absolute; left:0; right:0; text-align:center; opacity:0; }
+#end { opacity:0; }
+.logos { position:absolute; left:0; right:0; top:330px; display:flex; justify-content:center; align-items:center; gap:28px; }
+.foot { position:absolute; left:64px; right:64px; top:1800px; display:flex; justify-content:space-between; font-weight:600; font-size:22px; letter-spacing:.3em; color:rgba(255,255,255,.75); }
+.flash { position:absolute; inset:0; background:#fff; opacity:0; }
+.grain { position:absolute; inset:0; width:100%; height:100%; mix-blend-mode:overlay; opacity:0; image-rendering:pixelated; }
+.vig { position:absolute; inset:0; background:radial-gradient(120% 85% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%); }
+</style></head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="8.0">
+  <div id="shake" class="layer">
+    <div class="meta" id="top" style="position:absolute;left:0;right:0;top:150px;text-align:center;font-size:26px;color:var(--ice);opacity:0">Guest list · 29.10</div>
+    <div id="sheetwrap"><div id="sheet">
+      <div class="shead"><div class="t">GUEST<br>LIST</div><div class="d">THU · 29.10<br><span style="color:#1d29c2">LOCKED IN</span></div></div>
+      <div id="win"><div id="hl"></div><div id="list"><div class="row"><span class="nm">SOFI M.</span><span class="ck">✓</span></div><div class="row"><span class="nm">JUANI P.</span><span class="ck">✓</span></div><div class="row"><span class="nm">CAMI R.</span><span class="ck">✓</span></div><div class="row"><span class="nm">TOMI G.</span><span class="ck">✓</span></div><div class="row"><span class="nm">VALEN A.</span><span class="ck">✓</span></div><div class="row"><span class="nm">MILI F.</span><span class="ck">✓</span></div><div class="row"><span class="nm">NACHO D.</span><span class="ck">✓</span></div><div class="row"><span class="nm">LULI S.</span><span class="ck">✓</span></div><div class="row"><span class="nm">FRAN B.</span><span class="ck">✓</span></div><div class="row"><span class="nm">MATI L.</span><span class="ck">✓</span></div><div class="row"><span class="nm">JULI C.</span><span class="ck">✓</span></div><div class="row"><span class="nm">AGUS T.</span><span class="ck">✓</span></div><div class="row"><span class="nm">FLOR V.</span><span class="ck">✓</span></div><div class="row"><span class="nm">NICO R.</span><span class="ck">✓</span></div><div class="row"><span class="nm">MICA H.</span><span class="ck">✓</span></div><div class="row"><span class="nm">SANTI P.</span><span class="ck">✓</span></div><div class="row"><span class="nm">BRUNO K.</span><span class="ck">✓</span></div><div class="row"><span class="nm">PILAR E.</span><span class="ck">✓</span></div><div class="row"><span class="nm">MORA Q.</span><span class="ck">✓</span></div><div class="row you"><span class="nm">YOU</span><span class="ck">✓</span></div><div class="row ph" id="rowph"><span class="nm">YOUR PHONE<i id="strike"></i></span><span class="x" id="xmark">✗</span></div><div class="row"><span class="nm">LOLA N.</span><span class="ck">✓</span></div><div class="row"><span class="nm">IÑAKI W.</span><span class="ck">✓</span></div></div></div>
+    </div></div>
+    <div id="stamp"><div>NOT ON</div><div>THE LIST.</div></div>
+
+    <div class="ring" id="rg0"></div><div class="ring" id="rg1"></div>
+    <div class="kc" id="kc"><div class="face"></div>
+      <svg class="nfc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 8.5a5 5 0 0 1 0 7M9.5 6a9 9 0 0 1 0 12M13 3.5a13 13 0 0 1 0 17"/></svg>
+      <svg class="keyg" viewBox="0 0 100 100"><g transform="rotate(-35 50 50)"><path d="M8 50A20 20 0 1 1 48 50A20 20 0 1 1 8 50ZM17 50A7 7 0 1 0 31 50A7 7 0 1 0 17 50ZM44 44H90V56H44ZM70 56H78V68H70ZM82 56H90V72H82Z" fill="currentColor"/></g></svg>
+      <div class="lab"><b>Experience</b><span>29.10 · Invite only</span></div>
+      <img class="mark" src="assets/img/loomlock_mark_white.png" alt="" />
+      <div class="shine"><i id="sheen"></i></div>
+    </div>
+    <div class="cap big" id="c1" style="top:380px;font-size:150px">YOUR KEY</div>
+    <div class="cap big y" id="c2" style="top:520px;font-size:150px">IS.</div>
+    <div class="cap" id="c3" style="top:1370px;font-weight:700;font-size:44px;color:var(--ice)">Your phone comes in. Its apps don’t.</div>
+
+    <div id="end" class="layer">
+      <div class="logos"><img src="assets/img/loomlock_white.png" style="height:60px" alt="loomlock" /><span style="font-weight:500;font-size:44px;color:rgba(255,255,255,.7)">×</span><img src="assets/img/donjulio_white.png" style="height:100px" alt="Don Julio" /></div>
+      <div class="cap big" id="e1" style="top:650px;font-size:190px">LOCKED</div>
+      <div class="cap big" id="e2" style="top:815px;font-size:190px">IN<span class="y">.</span></div>
+      <div class="cap big y" id="e3" style="top:1080px;font-size:230px">29.10</div>
+      <div class="cap meta" id="e4" style="top:1310px;font-size:30px">Thursday · Invite only</div>
+      <div class="cap meta" id="e5" style="top:1370px;font-size:24px;color:var(--ice)">Location sent to the list</div>
+      <div class="cap meta" style="top:1700px;font-size:20px;color:rgba(255,255,255,.6);opacity:1">Please drink responsibly</div>
+    </div>
+  </div>
+  <div class="flash" id="fl"></div>
+  <div class="vig"></div>
+  <img class="grain" id="gr0" src="assets/img/grain0.png" alt="" /><img class="grain" id="gr1" src="assets/img/grain1.png" alt="" />
+  <img class="grain" id="gr2" src="assets/img/grain2.png" alt="" /><img class="grain" id="gr3" src="assets/img/grain3.png" alt="" />
+  <div class="foot"><span>LOOMLOCK × DON JULIO</span><span>+18</span></div>
+
+  <audio id="music" src="assets/music_full.wav" data-start="0" data-duration="8.0" data-media-start="9.0" data-volume="1"
+    data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.25,"v":0.9},{"t":7.5,"v":1},{"t":8.0,"v":0}]}]}'></audio>
+  <audio id="fx-scratch" src="assets/scratch.wav" data-start="3.25" data-volume="0.8"></audio>
+  <audio id="fx-thud" src="assets/tap.wav" data-start="3.57" data-volume="1"></audio>
+</div>
+<script>
+  const tl = gsap.timeline({ paused: true });
+  const flash = (t, a, d) => { tl.set("#fl", { opacity: a }, t); tl.to("#fl", { opacity: 0, duration: d, ease: "power2.out" }, t); };
+  const shake = (t, amp) => { [[1,-.6],[-.8,.9],[.6,-.4],[-.3,.3],[0,0]].forEach(([x,y],k) => tl.to("#shake", { x: x*amp*(1-k*.18), y: y*amp*(1-k*.18), duration: .03, ease: "none" }, t + k*.03)); };
+  for (let i = 0; i < 4; i++) tl.set("#gr" + i, { opacity: 0 }, 0);
+  for (let f = 0, t = 0; t < 8; f++, t = f / 15) { tl.set("#gr" + (f % 4), { opacity: .2 }, t); tl.set("#gr" + ((f + 3) % 4), { opacity: 0 }, t); }
+
+  // the list scrolls, speeding up with the riser, and lands on YOUR PHONE
+  tl.to("#top", { opacity: 1, duration: .3 }, .05);
+  tl.fromTo("#sheetwrap", { y: 140, opacity: 0 }, { y: 0, opacity: 1, duration: .45, ease: "power3.out" }, 0);
+  tl.fromTo("#list", { y: 0 }, { y: -1413, duration: 2.9, ease: "power3.inOut" }, .3);
+  tl.set("#strike", { scaleX: 0 }, 0);
+  tl.to("#strike", { scaleX: 1, duration: .2, ease: "power2.out" }, 3.25);
+  tl.to("#xmark", { opacity: 1, duration: .1 }, 3.38);
+  // the stamp lands on the drop
+  tl.set("#stamp", { opacity: 1, scale: 3, rotation: -4 }, 3.57);
+  tl.to("#stamp", { scale: 1, rotation: -12, duration: .14, ease: "expo.out" }, 3.57);
+  flash(3.57, .7, .25); shake(3.6, 30);
+  // out with the list, in with the key
+  tl.to(["#sheetwrap", "#stamp", "#top"], { y: 260, opacity: 0, duration: .3, ease: "power2.in" }, 4.3);
+  tl.set("#kc", { opacity: 1, scale: .4, rotation: 30, y: 300 }, 4.45);
+  tl.to("#kc", { scale: 1.45, rotation: -8, y: 0, duration: .5, ease: "back.out(1.4)" }, 4.45);
+  tl.set("#sheen", { x: -260, skewX: -18 }, 0);
+  tl.to("#sheen", { x: 620, duration: .7, ease: "power2.inOut" }, 4.8);
+  [["#rg0", 4.9], ["#rg1", 5.05]].forEach(([r, t]) => { tl.set(r, { opacity: .9, scale: .4 }, t); tl.to(r, { opacity: 0, scale: 3.4, duration: .7, ease: "power2.out" }, t); });
+  tl.set("#c1", { opacity: 1 }, 4.6); tl.fromTo("#c1", { scale: 1.3 }, { scale: 1, duration: .2, ease: "power4.out" }, 4.6);
+  tl.set("#c2", { opacity: 1 }, 4.84); tl.fromTo("#c2", { scale: 1.3 }, { scale: 1, duration: .2, ease: "power4.out" }, 4.84);
+  tl.fromTo("#c3", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35 }, 5.2);
+  tl.to(["#kc", "#c1", "#c2", "#c3"], { opacity: 0, duration: .2 }, 6.0);
+  // end card
+  tl.set("#end", { opacity: 1 }, 6.05); flash(6.05, .5, .2);
+  tl.fromTo(".logos", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35 }, 6.05);
+  [["#e1", 6.1], ["#e2", 6.22], ["#e3", 6.46]].forEach(([s, t]) => { tl.set(s, { opacity: 1 }, t); tl.fromTo(s, { scale: 1.25 }, { scale: 1, duration: .22, ease: "power4.out" }, t); });
+  tl.fromTo("#e4", { opacity: 0 }, { opacity: 1, duration: .3 }, 6.7);
+  tl.fromTo("#e5", { opacity: 0 }, { opacity: 1, duration: .3 }, 6.9);
+  window.__timelines["main"] = tl;
+</script>
+</body></html>
