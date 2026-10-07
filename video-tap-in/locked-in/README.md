@@ -8,14 +8,23 @@ Marca: Montserrat (ExtraBold / SemiBold), azul `#1D29C2`, amarillo `#FCCE21`, lo
 |---|---|
 | 0–1.4 s | Gancho, una palabra por medio beat: **LEAVE / YOUR / PHONE / AT THE / DOOR.** |
 | 1.4–2.9 s | **29.10**: invite only · thursday |
-| 2.9–5.1 s | El momento del producto, enmarcado: ONE RULE → **TAP IN.** → **STAY IN.** |
+| 2.9–5.1 s | Tap diseñado: teléfono desbordado de notificaciones → la llave amarilla toca → anillos → las notificaciones colapsan → pantalla azul con el logo, LOCKED IN / UNTIL 04:00. Textos: **TAP IN.** → **STAY IN.** |
 | 5.1–7.2 s | La cuadrícula se arma pantalla a pantalla: NO PHOTOS. NO FEED. JUST TONIGHT. (strobe antes del drop) |
 | 7.2–10.1 s | Drop: BE HERE. DANCE. TALK. LOSE TRACK. En cada beat una pantalla se pone a todo color |
 | 10.1–11.5 s | **UNPOSTED. UNFORGETTABLE.** |
 | 11.5–14.7 s | Loomlock × Don Julio, 29.10, TAP IN AT THE DOOR, Please drink responsibly, +18 |
 
-Audio: música original desde 5.31 s (el drop cae en "BE HERE."), −14 LUFS.
+## Versiones
+
+| Archivo | Música | Color |
+|---|---|---|
+| `locked-in-musica-original.mp4` | track original del reel (desde 5.31 s) | azul `#1D29C2` |
+| `locked-in-techno-violeta.mp4` | techno oscuro con línea acid (original) | violeta `#5713C0` |
+| `locked-in-afro-house-naranja.mp4` | afro house: congas, shaker, marimba (original) | naranja `#D87700` |
+| `locked-in-garage-cian.mp4` | UK garage / 2-step con swing (original) | cian `#0C77B7` |
+
+Las tres músicas nuevas están compuestas por código (`musica/synth.py`, WAV en `musica/`), así que no tienen derechos de terceros. Todas van a 125 BPM con el drop en 7.20 s (cae en "BE HERE."). Audio a −14 LUFS.
 
 ## Editar / volver a renderizar
 En `proyecto/`: añade el video original como `assets/src.mp4` y su audio como `assets/music_full.wav`. Si cambias `template_lockedin.html`, regenera con
-`python3 build_lockedin.py index.html template_lockedin.html` y luego `npx hyperframes render -o out.mp4`.
+`python3 build_lockedin.py index.html template_lockedin.html <música> <inicio> <color>` (ej. `assets/techno.wav 0 '#5713c0'`) y luego `npx hyperframes render -o out.mp4`.

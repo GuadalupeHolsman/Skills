@@ -34,11 +34,28 @@
       #date .d { font-size: 300px; color: var(--yellow); }
       #date .m { margin-top: 40px; }
 
-      /* the tap */
-      #tap .vid { position: absolute; inset: 0; width: 100%; height: 100%; clip-path: inset(200px 220px 320px 220px round 44px); }
-      #tap .frame { position: absolute; left: 216px; top: 196px; width: 648px; height: 1408px; border-radius: 48px; border: 4px solid rgba(255,255,255,0.18); box-sizing: border-box; }
-      #tap .rule { position: absolute; left: 0; right: 0; top: 110px; text-align: center; color: var(--ice); }
-      #tap .cap { position: absolute; left: 0; right: 0; top: 1630px; text-align: center; font-size: 132px; opacity: 0; }
+      /* the tap (designed) */
+      #tap .glow { position: absolute; left: 140px; top: 260px; width: 800px; height: 1200px; border-radius: 50%; background: radial-gradient(closest-side, rgba(29,41,194,0.55), rgba(29,41,194,0)); }
+      #tap .rule { position: absolute; left: 0; right: 0; top: 200px; text-align: center; color: var(--ice); }
+      #tap .cap { position: absolute; left: 0; right: 0; top: 1500px; text-align: center; font-size: 150px; opacity: 0; }
+      #phone { position: absolute; left: 300px; top: 330px; width: 480px; height: 980px; border-radius: 70px; border: 5px solid rgba(255,255,255,0.92); box-sizing: border-box; background: #03041a; box-shadow: 0 50px 120px rgba(0,0,0,0.7), 0 0 80px rgba(29,41,194,0.35); }
+      #phone .scr { position: absolute; inset: 14px; border-radius: 56px; overflow: hidden; background: linear-gradient(180deg, #0d1150 0%, #05071f 100%); }
+      #phone .sbar { position: absolute; left: 40px; right: 40px; top: 26px; display: flex; justify-content: space-between; font-weight: 700; font-size: 22px; color: rgba(255,255,255,0.85); }
+      #phone .sbar .dots { font-size: 12px; letter-spacing: 0.2em; }
+      #nstack { position: absolute; left: 22px; right: 22px; top: 96px; }
+      .nrow { display: flex; align-items: center; gap: 18px; height: 96px; margin-bottom: 14px; padding: 0 22px; border-radius: 26px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.16); box-sizing: border-box; }
+      .nrow i { width: 44px; height: 44px; border-radius: 13px; flex: 0 0 44px; display: block; }
+      .nrow b { display: block; font-weight: 700; font-size: 22px; color: #fff; }
+      .nrow span { display: block; font-weight: 500; font-size: 20px; color: rgba(255,255,255,0.7); white-space: nowrap; }
+      #lockscr { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(80% 60% at 50% 45%, #2a37d6 0%, #1d29c2 45%, #0e1676 100%); opacity: 0; }
+      #lockscr img { width: 150px; }
+      #lockscr .l1 { margin-top: 44px; font-weight: 800; font-size: 40px; letter-spacing: 0.3em; }
+      #lockscr .l2 { margin-top: 14px; font-weight: 600; font-size: 20px; letter-spacing: 0.3em; color: var(--ice); }
+      .ring { position: absolute; left: 640px; top: 460px; width: 160px; height: 160px; border-radius: 50%; border: 6px solid var(--yellow); box-sizing: border-box; opacity: 0; }
+      #ekey { position: absolute; left: 530px; top: 425px; width: 380px; height: 230px; border-radius: 28px; background: var(--yellow); color: var(--ink); box-shadow: 0 30px 60px rgba(0,0,0,0.5); opacity: 0; }
+      #ekey img { position: absolute; left: 26px; top: 24px; width: 54px; filter: brightness(0); }
+      #ekey .k1 { position: absolute; right: 26px; top: 30px; font-weight: 800; font-size: 17px; letter-spacing: 0.22em; }
+      #ekey .k2 { position: absolute; left: 24px; bottom: 14px; font-weight: 800; font-size: 96px; letter-spacing: -0.04em; line-height: 1; }
 
       /* words over the grid */
       .gw { position: absolute; left: 0; right: 0; text-align: center; color: #fff; mix-blend-mode: difference; opacity: 0; }
@@ -88,12 +105,29 @@
 
       <!-- 2.88 – 5.09  the tap (original product moment, framed) -->
       <div id="tap" class="layer clip" data-start="2.88" data-duration="2.21" data-track-index="1">
-        <div class="frame"></div>
+        <div class="glow" id="tglow"></div>
         <div class="meta rule" id="rule">One rule</div>
+        <div id="phone">
+          <div class="scr">
+            <div class="sbar"><span>23:41</span><span class="dots">● ● ●</span></div>
+            <div id="nstack">
+              <div class="nrow" id="nr0"><i style="background:#ff6cd2"></i><div><b>Group chat</b><span>12 new messages</span></div></div>
+              <div class="nrow" id="nr1"><i style="background:#61baf7"></i><div><b>Feed</b><span>You were tagged</span></div></div>
+              <div class="nrow" id="nr2"><i style="background:#ff931e"></i><div><b>Live</b><span>Someone you follow is live</span></div></div>
+              <div class="nrow" id="nr3"><i style="background:#68ee8f"></i><div><b>Stories</b><span>3 new stories</span></div></div>
+              <div class="nrow" id="nr4"><i style="background:#a881e4"></i><div><b>Mail</b><span>Re: Re: urgent</span></div></div>
+              <div class="nrow" id="nr5"><i style="background:#e83852"></i><div><b>Feed</b><span>47 new likes</span></div></div>
+              <div class="nrow" id="nr6"><i style="background:#ff6cd2"></i><div><b>Group chat</b><span>“where are you??”</span></div></div>
+              <div class="nrow" id="nr7"><i style="background:#61baf7"></i><div><b>Reminder</b><span>Don’t miss this</span></div></div>
+            </div>
+            <div id="lockscr"><img id="lmark" src="assets/img/loomlock_mark_white.png" alt="" /><div class="l1" id="ll1">LOCKED IN</div><div class="l2" id="ll2">UNTIL 04:00</div></div>
+          </div>
+        </div>
+        <div class="ring" id="rg0"></div><div class="ring" id="rg1"></div><div class="ring" id="rg2"></div>
+        <div id="ekey"><img src="assets/img/loomlock_mark_white.png" alt="" /><div class="k1">EXPERIENCE KEY</div><div class="k2">29.10</div></div>
         <div class="big cap" id="cap1" style="color:#fcce21">TAP IN.</div>
         <div class="big cap" id="cap2">STAY IN.</div>
       </div>
-      <video id="tapv" class="full" src="assets/src.mp4" muted playsinline data-start="2.88" data-duration="2.21" data-media-start="10.30" data-track-index="0" style="clip-path: inset(200px 220px 320px 220px round 44px)"></video>
 
       <!-- 5.09 – 10.08  the night: six screens, cut on the beat -->
       <div id="gridB" class="layer" style="opacity:0">
@@ -171,13 +205,35 @@
       tl.to("#dd", { scale: 1.04, duration: 1.2, ease: "none" }, 1.74);
       tl.set(["#gridA", "#dimA", "#date"], { opacity: 0 }, 2.88);
 
-      // ---- TAP
+      // ---- TAP (designed): phone overflowing, key taps, everything goes quiet
+      tl.fromTo("#phone", { y: 60, opacity: 0, rotationY: -18, transformPerspective: 1600 }, { y: 0, opacity: 1, rotationY: 0, duration: 0.4, ease: "power3.out" }, 2.88);
       tl.fromTo("#rule", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.95);
-      tl.set("#cap1", { opacity: 1 }, 3.25); flash(3.25, 0.5, 0.2);
+      tl.fromTo("#nstack", { y: 0 }, { y: -260, duration: 0.45, ease: "none" }, 2.88);
+      tl.set("#ekey", { opacity: 1, x: 560, y: 900, rotation: 28 }, 2.88);
+      tl.to("#ekey", { x: 0, y: 0, rotation: -10, duration: 0.3, ease: "power3.in" }, 2.95);
+      tl.to("#ekey", { scale: 0.95, duration: 0.05, yoyo: true, repeat: 1 }, 3.25);
+      // contact
+      tl.set("#tglow", { opacity: 1 }, 0);
+      ["#rg0", "#rg1", "#rg2"].forEach((r, i) => {
+        tl.set(r, { opacity: 0.95, scale: 0.3 }, 3.25 + i * 0.09);
+        tl.to(r, { opacity: 0, scale: 3.2, duration: 0.6, ease: "power2.out" }, 3.25 + i * 0.09);
+      });
+      tl.to("#phone", { x: -10, duration: 0.04 }, 3.25);
+      tl.to("#phone", { x: 0, duration: 0.25, ease: "elastic.out(1, 0.3)" }, 3.29);
+      for (let i = 0; i < 8; i++) tl.to("#nr" + i, { opacity: 0, x: i % 2 ? 80 : -80, scaleY: 0.4, duration: 0.18, ease: "power2.in" }, 3.3 + i * 0.03);
+      tl.to("#nstack", { y: -260, duration: 0.01 }, 3.33);
+      tl.to("#lockscr", { opacity: 1, duration: 0.25 }, 3.55);
+      tl.fromTo("#lmark", { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)" }, 3.6);
+      tl.fromTo("#ll1", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.3 }, 3.78);
+      tl.fromTo("#ll2", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.95);
+      tl.to("#ekey", { x: 760, y: 1100, rotation: 30, duration: 0.45, ease: "power3.in" }, 3.5);
+      tl.set("#ekey", { opacity: 0 }, 3.96);
+      tl.set("#cap1", { opacity: 1 }, 3.25); flash(3.25, 0.15, 0.12);
       tl.fromTo("#cap1", { scale: 1.2 }, { scale: 1, duration: 0.25, ease: "power4.out" }, 3.25);
       tl.set("#cap1", { opacity: 0 }, 4.2);
       tl.set("#cap2", { opacity: 1 }, 4.2);
       tl.fromTo("#cap2", { scale: 1.2 }, { scale: 1, duration: 0.25, ease: "power4.out" }, 4.2);
+      tl.to("#phone", { scale: 1.04, duration: 0.9, ease: "none" }, 4.2);
 
       // ---- THE NIGHT: grid builds tile by tile, then words on the beat
       tl.set("#gridB", { opacity: 1 }, 5.09);
