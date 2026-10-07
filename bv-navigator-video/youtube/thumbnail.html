@@ -1,0 +1,41 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>BV Navigator AI Thumbnail</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:#0B0B0C}
+#t{position:relative;width:1280px;height:720px;overflow:hidden;
+ background:radial-gradient(ellipse 70% 90% at 82% 105%,#F26A2E 0,#C9431C 28%,#5A1A0C 55%,#0B0B0C 82%)}
+#dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.5px);background-size:18px 18px;
+ -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 55%,#000 100%)}
+#sw{position:absolute;right:-170px;top:-190px;width:640px;opacity:.12}
+#scr{position:absolute;left:600px;top:110px;width:780px;perspective:1600px}
+#scr img{width:100%;border-radius:18px;transform:rotateY(-24deg) rotateX(8deg) rotateZ(-2deg);transform-origin:left center;
+ box-shadow:0 50px 100px rgba(0,0,0,.75),0 0 0 2px rgba(255,255,255,.12),0 0 80px rgba(242,98,46,.35)}
+#badge{position:absolute;left:640px;top:470px;padding:18px 26px;border-radius:18px;background:#1C1C1E;border:2px solid rgba(255,90,78,.6);
+ box-shadow:0 30px 60px rgba(0,0,0,.7),0 0 40px rgba(255,90,78,.35);font-family:Outfit;color:#fff;transform:rotate(-4deg)}
+#badge s{display:block;text-decoration:none;font:500 18px Outfit;color:#aaa;letter-spacing:.04em}
+#badge b{display:flex;align-items:baseline;gap:14px;font:800 64px/1 'Barlow Condensed';color:#FF5A4E;margin-top:4px}
+#badge b span{font:700 30px 'Barlow Condensed';letter-spacing:.06em}
+#shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,11,12,.96) 0,rgba(11,11,12,.85) 38%,rgba(11,11,12,0) 62%)}
+#brand{position:absolute;left:56px;top:48px;display:flex;align-items:center;gap:16px}
+#brand img{width:58px}
+#brand div{font:700 26px 'Barlow Condensed';letter-spacing:.32em;color:#fff}
+#brand div i{display:block;font:500 13px Outfit;letter-spacing:.3em;color:#F2622E;font-style:normal;margin-top:2px}
+#h{position:absolute;left:52px;top:150px;font:800 128px/.88 'Barlow Condensed';color:#fff;letter-spacing:-.005em;text-shadow:0 10px 40px rgba(0,0,0,.6)}
+#h em{font-style:normal;color:#F2622E}
+#pill{position:absolute;left:56px;top:586px;display:flex;gap:12px}
+#pill div{font:700 26px 'Barlow Condensed';letter-spacing:.14em;color:#fff;padding:10px 20px;border-radius:12px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.22)}
+#pill div.o{background:#F2622E;border-color:#F2622E}
+</style></head><body>
+<div id="t">
+  <div id="dots"></div>
+  <img id="sw" src="logo/BlackVitriol_isotipo_crema.png">
+  <div id="scr"><img src="../img/report.jpg"></div>
+  <div id="badge"><s>RISK SCORE</s><b>91<span>CRITICAL</span></b></div>
+  <div id="shade"></div>
+  <div id="brand"><img src="logo/BlackVitriol_isotipo_crema.png"><div>BV NAVIGATOR AI<i>BY BLACK VITRIOL</i></div></div>
+  <div id="h">KNOW THE<br><em>RULES</em> BEFORE<br>YOU EXPAND</div>
+  <div id="pill"><div class="o">AI</div><div>U.S.</div><div>LATAM</div><div>UAE</div></div>
+</div>
+</body></html>
