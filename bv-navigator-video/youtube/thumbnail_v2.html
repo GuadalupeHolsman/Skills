@@ -1,0 +1,79 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>BV Navigator AI Thumbnails</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<script src="../map.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:#0B0B0C;font-family:Outfit;color:#fff}
+.v{position:absolute;inset:0;overflow:hidden;display:none}
+.grain{position:absolute;inset:0;opacity:.06;mix-blend-mode:overlay;background-size:320px 180px}
+/* A: brand reveal */
+#A{background:radial-gradient(ellipse 85% 95% at 70% 95%,#F0602A 0,#B8401A 30%,#4A160B 58%,#0A0708 85%)}
+#A .logo{position:absolute;left:50%;top:70px;width:300px;transform:translateX(-50%);filter:drop-shadow(0 20px 50px rgba(0,0,0,.5))}
+#A h1{position:absolute;left:0;right:0;top:400px;text-align:center;font:800 132px/1 'Barlow Condensed';letter-spacing:.14em;padding-left:.14em;text-shadow:0 10px 40px rgba(0,0,0,.5)}
+#A .ul{position:absolute;left:470px;width:340px;top:548px;height:9px;border-radius:5px;background:#FF7A45}
+#A p{position:absolute;left:0;right:0;top:582px;text-align:center;font:400 38px Outfit;color:#F3E9E1}
+#A p b{font-weight:600;color:#fff}
+/* B: map */
+#B{background:radial-gradient(ellipse 70% 80% at 60% 60%,#2A0F08 0,#0B0B0C 70%)}
+#B svg{position:absolute;left:-40px;top:70px;width:1400px;height:787px}
+#B .sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,12,.9) 0,rgba(11,11,12,0) 34%,rgba(11,11,12,0) 70%,rgba(11,11,12,.85) 100%)}
+#B h1{position:absolute;left:0;right:0;top:30px;text-align:center;font:800 100px/.92 'Barlow Condensed';letter-spacing:.01em;text-shadow:0 8px 30px #000}
+#B h1 em{font-style:normal;color:#F2622E}
+#B .brand{position:absolute;left:0;right:0;bottom:36px;display:flex;justify-content:center;align-items:center;gap:18px}
+#B .brand img{width:64px}
+#B .brand div{font:700 44px 'Barlow Condensed';letter-spacing:.24em}
+#B .brand i{font-style:normal;color:#F2622E}
+/* C: product hook */
+#C{background:radial-gradient(ellipse 60% 80% at 85% 50%,#7A2410 0,#2A0D07 45%,#0B0B0C 80%)}
+#C .scr{position:absolute;left:560px;top:96px;width:900px;border-radius:18px;box-shadow:0 50px 100px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.12),0 0 100px rgba(242,98,46,.35)}
+#C .sh{position:absolute;inset:0;background:linear-gradient(90deg,#0B0B0C 0,rgba(11,11,12,.95) 40%,rgba(11,11,12,.1) 62%,rgba(11,11,12,0) 100%)}
+#C h1{position:absolute;left:58px;top:120px;font:800 124px/.9 'Barlow Condensed';text-shadow:0 10px 40px #000}
+#C h1 em{font-style:normal;color:#F2622E}
+#C .tag{position:absolute;left:62px;top:520px;font:400 30px Outfit;color:#E9E2DA}
+#C .brand{position:absolute;left:58px;top:600px;display:flex;align-items:center;gap:14px}
+#C .brand img{width:54px}
+#C .brand div{font:700 34px 'Barlow Condensed';letter-spacing:.24em}
+</style></head><body>
+<div class="v" id="A">
+  <img class="logo" src="logo/BlackVitriol_isotipo_crema.png">
+  <h1>BV NAVIGATOR AI</h1><div class="ul"></div>
+  <p>Regulatory intelligence for <b>global expansion</b></p>
+  <div class="grain"></div>
+</div>
+<div class="v" id="B">
+  <svg viewBox="0 0 1920 1080" id="map"></svg>
+  <div class="sh"></div>
+  <h1>EXPAND GLOBALLY.<br><em>KNOW THE RULES.</em></h1>
+  <div class="brand"><img src="logo/BlackVitriol_isotipo_crema.png"><div>BV NAVIGATOR <i>AI</i></div></div>
+  <div class="grain"></div>
+</div>
+<div class="v" id="C">
+  <img class="scr" src="../img/dashboard.jpg">
+  <div class="sh"></div>
+  <h1>YOUR NEXT<br><em>MARKET</em> IS<br>WAITING</h1>
+  <div class="tag">AI regulatory intelligence · U.S. · LATAM · UAE</div>
+  <div class="brand"><img src="logo/BlackVitriol_isotipo_crema.png"><div>BV NAVIGATOR AI</div></div>
+  <div class="grain"></div>
+</div>
+<script>
+const v=(location.hash||'#A').slice(1);document.getElementById(v).style.display='block';
+// grain
+const c=document.createElement('canvas');c.width=320;c.height=180;const x=c.getContext('2d'),im=x.createImageData(320,180);let s=7;
+for(let i=0;i<im.data.length;i+=4){s=(s*16807)%2147483647;const g=s%255;im.data[i]=im.data[i+1]=im.data[i+2]=g;im.data[i+3]=255}x.putImageData(im,0,0);
+document.querySelectorAll('.grain').forEach(e=>e.style.backgroundImage=`url(${c.toDataURL()})`);
+// map
+const C=window.CITY,NY=C.NY,ACT={US:1,CO:1,AE:1};
+let m=`<defs><filter id="g"><feGaussianBlur stdDeviation="6"/></filter><radialGradient id="h"><stop offset="0" stop-color="#F2622E" stop-opacity=".6"/><stop offset="1" stop-color="#F2622E" stop-opacity="0"/></radialGradient></defs>`;
+m+=`<path d="${MAPD.land}" stroke="rgba(255,255,255,.22)" stroke-width="4.6" stroke-linecap="round" fill="none"/>`;
+for(const k in MAPD)if(k!=='land')m+=`<path d="${MAPD[k]}" stroke="${ACT[k]?'#F2622E':'#B24A26'}" stroke-width="4.6" stroke-linecap="round" fill="none"/>`;
+m+=`<circle cx="${NY[0]}" cy="${NY[1]}" r="200" fill="url(#h)"/>`;
+const D=[['BO',1],['DU',1],['MX'],['PA'],['SD'],['QU'],['LI'],['SP'],['SC'],['BA'],['MA'],['LO'],['CA'],['RI'],['MU']];
+D.forEach(([k,a])=>{const p=C[k],dx=p[0]-NY[0],dy=p[1]-NY[1],L=Math.hypot(dx,dy);let nx=-dy/L,ny=dx/L;if(ny>0||(Math.abs(ny)<.2&&nx>0)){nx=-nx;ny=-ny}
+  const q=a?.22:.18,cx=(NY[0]+p[0])/2+nx*L*q,cy=(NY[1]+p[1])/2+ny*L*q,d=`M${NY[0]} ${NY[1]} Q${cx} ${cy} ${p[0]} ${p[1]}`;
+  m+=`<path d="${d}" stroke="#FF6A30" stroke-opacity="${a?.9:.5}" stroke-width="${a?14:7}" fill="none" filter="url(#g)"/><path d="${d}" stroke="${a?'#FF8A5C':'#F2622E'}" stroke-opacity="${a?1:.7}" stroke-width="${a?4:2}" fill="none"/>`;
+  m+=`<circle cx="${p[0]}" cy="${p[1]}" r="${a?13:7}" fill="${a?'#F2622E':'#FF8A5C'}"/>${a?`<circle cx="${p[0]}" cy="${p[1]}" r="26" fill="none" stroke="#F2622E" stroke-width="2.5" opacity=".7"/>`:''}`});
+m+=`<circle cx="${NY[0]}" cy="${NY[1]}" r="15" fill="#F2622E"/><circle cx="${NY[0]}" cy="${NY[1]}" r="32" fill="none" stroke="#F2622E" stroke-width="3" opacity=".7"/>`;
+document.getElementById('map').innerHTML=m;
+</script>
+</body></html>
