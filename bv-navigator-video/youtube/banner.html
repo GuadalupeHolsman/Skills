@@ -1,0 +1,50 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>BV Navigator AI Banner</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<script src="../map.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:2560px;height:1440px;overflow:hidden;background:#0B0B0C;color:#fff}
+#b{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,#2A0F08 0,#0B0B0C 75%)}
+#map{position:absolute;left:0;top:0;width:2560px;height:1440px}
+/* darken band behind text so it reads on every crop */
+#band{position:absolute;inset:0;background:radial-gradient(ellipse 34% 20% at 50% 50%,rgba(11,11,12,.88) 0,rgba(11,11,12,.6) 55%,rgba(11,11,12,0) 100%)}
+#safe{position:absolute;left:507px;top:508px;width:1546px;height:423px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px}
+h1{font:800 96px/1 'Barlow Condensed';letter-spacing:.01em;text-align:center;white-space:nowrap;text-shadow:0 8px 40px #000}
+h1 em{font-style:normal;color:#F2622E}
+.brand{display:flex;align-items:center;gap:22px}
+.brand img{width:78px}
+.brand div{font:700 52px 'Barlow Condensed';letter-spacing:.26em;text-shadow:0 4px 20px #000}
+.brand i{font-style:normal;color:#F2622E}
+.brand span{font:400 30px Outfit;letter-spacing:.06em;color:#D9D2CA;margin-left:14px;padding-left:28px;border-left:2px solid rgba(255,255,255,.25)}
+.grain{position:absolute;inset:0;opacity:.05;mix-blend-mode:overlay;background-size:640px 360px}
+#guide{position:absolute;left:507px;top:508px;width:1546px;height:423px;outline:3px dashed #0f0;display:none}
+</style></head><body>
+<div id="b">
+  <svg id="map" viewBox="0 0 1920 1080"></svg>
+  <div id="band"></div>
+  <div id="safe">
+    <h1>EXPAND GLOBALLY. <em>KNOW THE RULES.</em></h1>
+    <div class="brand"><img src="logo/BlackVitriol_isotipo_crema.png"><div>BV NAVIGATOR <i>AI</i></div><span>U.S. · LATAM · UAE</span></div>
+  </div>
+  <div class="grain"></div>
+  <div id="guide"></div>
+</div>
+<script>
+if(location.hash==='#guide')document.getElementById('guide').style.display='block';
+const c=document.createElement('canvas');c.width=640;c.height=360;const x=c.getContext('2d'),im=x.createImageData(640,360);let s=7;
+for(let i=0;i<im.data.length;i+=4){s=(s*16807)%2147483647;const g=s%255;im.data[i]=im.data[i+1]=im.data[i+2]=g;im.data[i+3]=255}x.putImageData(im,0,0);
+document.querySelector('.grain').style.backgroundImage=`url(${c.toDataURL()})`;
+const C=window.CITY,NY=C.NY,ACT={US:1,CO:1,AE:1};
+let m=`<defs><filter id="g"><feGaussianBlur stdDeviation="6"/></filter><radialGradient id="h"><stop offset="0" stop-color="#F2622E" stop-opacity=".6"/><stop offset="1" stop-color="#F2622E" stop-opacity="0"/></radialGradient></defs>`;
+m+=`<path d="${MAPD.land}" stroke="rgba(255,255,255,.22)" stroke-width="4.6" stroke-linecap="round" fill="none"/>`;
+for(const k in MAPD)if(k!=='land')m+=`<path d="${MAPD[k]}" stroke="${ACT[k]?'#F2622E':'#B24A26'}" stroke-width="4.6" stroke-linecap="round" fill="none"/>`;
+m+=`<circle cx="${NY[0]}" cy="${NY[1]}" r="200" fill="url(#h)"/>`;
+[['BO',1],['DU',1],['MX'],['PA'],['SD'],['QU'],['LI'],['SP'],['SC'],['BA'],['MA'],['LO'],['CA'],['RI'],['MU']].forEach(([k,a])=>{const p=C[k],dx=p[0]-NY[0],dy=p[1]-NY[1],L=Math.hypot(dx,dy);let nx=-dy/L,ny=dx/L;if(ny>0||(Math.abs(ny)<.2&&nx>0)){nx=-nx;ny=-ny}
+  const q=a?.22:.18,cx=(NY[0]+p[0])/2+nx*L*q,cy=(NY[1]+p[1])/2+ny*L*q,d=`M${NY[0]} ${NY[1]} Q${cx} ${cy} ${p[0]} ${p[1]}`;
+  m+=`<path d="${d}" stroke="#FF6A30" stroke-opacity="${a?.9:.5}" stroke-width="${a?14:7}" fill="none" filter="url(#g)"/><path d="${d}" stroke="${a?'#FF8A5C':'#F2622E'}" stroke-opacity="${a?1:.7}" stroke-width="${a?4:2}" fill="none"/>`;
+  m+=`<circle cx="${p[0]}" cy="${p[1]}" r="${a?13:7}" fill="${a?'#F2622E':'#FF8A5C'}"/>${a?`<circle cx="${p[0]}" cy="${p[1]}" r="26" fill="none" stroke="#F2622E" stroke-width="2.5" opacity=".7"/>`:''}`});
+m+=`<circle cx="${NY[0]}" cy="${NY[1]}" r="15" fill="#F2622E"/><circle cx="${NY[0]}" cy="${NY[1]}" r="32" fill="none" stroke="#F2622E" stroke-width="3" opacity=".7"/>`;
+document.getElementById('map').innerHTML=m;
+</script>
+</body></html>
