@@ -75,7 +75,7 @@ def save(a, name):
 
 
 for name, onb in [('Welcome', 0), ('Onboarding_Step1', 1), ('Onboarding_Step2', 1), ('Onboarding_Step7', 1),
-                  ('Coach_Conversation', 0), ('Scanner_Barcode', 0), ('SleepRecovery', 0), ('Hydration_FirstUse', 0),
+                  ('Coach_Conversation', 0), ('Scanner_Barcode', 0), ('SleepRecovery', 0), ('SleepRecovery_Clean', 0), ('Hydration_FirstUse', 0), ('Hydration_InProgress', 0),
                   ('Statistics_Month', 0)]:
     a = load(name)
     top_strip(a)
@@ -93,6 +93,13 @@ for name, onb in [('Welcome', 0), ('Onboarding_Step1', 1), ('Onboarding_Step2', 
         ring = b[(r > 112) & (r < 128)]
         b[r < 118] = np.median(ring, 0)
         save(b, name + '_Empty')
+    if name == 'SleepRecovery':          # before logging: no "Sleep logged" toast (it pops in on cue)
+        b = a.copy()
+        vfill(b, 30, 1140, 2290, 2486)       # the toast and the button it sits on -> plain card
+        b[2290:2478, 45:48] = b[2280, 46]          # redraw the card's side and bottom borders the toast covered
+        b[2290:2478, 1122:1125] = b[2280, 1123]
+        b[2476:2479, 60:1108] = b[2280, 46]
+        save(b, name + '_NoToast')
     if name == 'Coach_Conversation':    # empty thread: no user bubble, no answer
         b = a.copy()
         vfill(b, 0, 1170, 312, 2118, flat=True)

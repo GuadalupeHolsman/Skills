@@ -648,7 +648,7 @@
   scene('sc7', 34.4, 41.6);
   tl.fromTo('#sc7', { yPercent: 100 }, { yPercent: 0, duration: 0.7, ease: 'ebSoft', immediateRender: false }, 34.4);   // moves with sc6, no gap
   const W7 = $('#world7'), S7 = 0.74, PX = 960, PY = 600;
-  const P7 = makePhone(W7, 'Hydration_FirstUse', PX, PY);
+  const P7 = makePhone(W7, 'Hydration_InProgress', PX, PY);   // final state; the first-use UI sits on top and is lifted away
   tl.fromTo(P7.ph, { y: 820, scale: S7, rotationX: 16 }, { y: 0, scale: S7, rotationX: 0, duration: 1.1, ease: 'ebOut', immediateRender: true }, 34.6);
   tl.fromTo(P7.ph, { rotationY: -14 }, { rotationY: 12, duration: 6.0, ease: 'none', immediateRender: true }, 34.6);   // continuous camera move
   reveal($('#h7'), 34.85, 0.09);
@@ -701,20 +701,31 @@
     }
   };
 
-  // 1 · water: tap → the glass fills → water rises behind the phone
-  const HYD2 = 'assets/screens/Hydration_InProgress.jpg';
-  const hyd = {
-    count: patch(P7, 0.06, 0.368, 0.34, 0.396, '', HYD2), ml: patch(P7, 0.06, 0.404, 0.34, 0.422, '', HYD2),
-    bar: patch(P7, 0.06, 0.429, 0.34, 0.444, '', HYD2), water: patch(P7, 0.285, 0.672, 0.715, 0.734, '', HYD2),
-    toast: patch(P7, 0.14, 0.783, 0.72, 0.85, '', HYD2),
+  // real app UI (assets/ui, from the dev team), placed at positions measured on the screenshots (786-wide @2x grid)
+  const UI = (parent, file, xf, yf, wpx, css = '') => {
+    const d = document.createElement('div');
+    d.style.cssText = `position:absolute;left:${xf * SW}px;top:${yf * IH}px;width:${wpx / 786 * SW}px;${css}`;
+    d.innerHTML = `<img src="assets/ui/${file}.png" style="display:block;width:100%">`;
+    parent.appendChild(d);
+    return d;
   };
-  tl.set(Object.values(hyd), { opacity: 0 }, 0);
+  // 1 · water: tap "Add record" → the glass fills from the bottom, the counter and the tip switch state
+  const C7 = P7.content;
+  const glass0 = UI(C7, 'Hydration_WaterGlass_Composite_FirstUse', 0.2564, 0.5079, 380);
+  const bubbles = UI(C7, 'Hydration_WaterBubbles_Frame', 0.2564, 0.5079, 380, 'opacity:0');
+  const count0 = UI(C7, 'Hydration_GlassesCounterCard_FirstUse', 0.0393, 0.3495, 726);
+  const tip0 = UI(C7, 'Hydration_TipCard_StartStrong', 0.1299, 0.7741, 580);
+  const tip1 = UI(C7, 'Hydration_TipCard_GreatPace', 0.1299, 0.7741, 580, 'opacity:0');
+  const minus0 = patch(P7, 0.0, 0.855, 0.2, 0.935, '', plate('Hydration_FirstUse'));
   tap(P7, 0.75, 0.947, 35.75);
   lift(P7, 35.95);
-  tl.fromTo(hyd.water, { clipPath: 'inset(100% 0 0 0)', opacity: 1 }, { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 0.7, immediateRender: false }, 35.8);
-  tl.fromTo([hyd.count, hyd.ml], { clipPath: 'inset(0 0 100% 0)', y: 10, opacity: 1 }, { clipPath: 'inset(0 0 0% 0)', y: 0, opacity: 1, duration: 0.4, stagger: 0.06, immediateRender: false }, 35.85);
-  tl.fromTo(hyd.bar, { clipPath: 'inset(0 100% 0 0)', opacity: 1 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 0.6, immediateRender: false }, 35.9);
-  tl.fromTo(hyd.toast, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, immediateRender: false }, 36.2);
+  tl.fromTo(glass0, { clipPath: 'inset(0% 0 0% 0)' }, { clipPath: 'inset(0% 0 28% 0)', duration: 0.75, ease: 'ebOut', immediateRender: false }, 35.8);   // water rises
+  tl.fromTo(bubbles, { opacity: 0, y: 10 }, { keyframes: [{ opacity: 0.9, y: 0, duration: 0.35 }, { opacity: 0, y: -14, duration: 0.6, delay: 0.3 }], immediateRender: false }, 36.05);
+  tl.to(count0, { opacity: 0, y: -8, duration: 0.35, ease: 'ebSoft' }, 35.9);
+  tl.to(minus0, { opacity: 0, duration: 0.3 }, 35.85);
+  tl.to(tip0, { opacity: 0, y: 14, duration: 0.3, ease: 'ebIn' }, 36.1);
+  tl.fromTo(tip1, { opacity: 0, y: 16, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: 'ebOut', immediateRender: false }, 36.3);
+  META.water = [35.8];
   tl.fromTo('#bg7 .wave', { y: 640 }, { y: 0, duration: 1.2, ease: 'ebOut', immediateRender: true }, 35.85);
   tl.fromTo('#bg7 .wave', { x: 0 }, { x: (i) => -700 + i * 300, duration: 2.4, ease: 'none', immediateRender: false }, 35.85);
   win(0, 36.0, 0.5);
@@ -722,7 +733,12 @@
   META.hits.push(36.0);
 
   // 2 · sleep: the water drains and night falls
-  pushTo('SleepRecovery', 37.2);
+  const L2 = pushTo('SleepRecovery_NoToast', 37.2);
+  const sleep0 = UI(L2, 'SleepRecovery_TodayCard_Clean', 0.0376, 0.3321, 726);
+  const toast = UI(L2, 'SleepRecovery_Toast_SleepLogged', 0.0419, 0.9297, 722, 'opacity:0');
+  tl.to(sleep0, { opacity: 0, scale: 0.97, duration: 0.4, ease: 'ebSoft' }, 37.85);
+  tl.fromTo(toast, { opacity: 0, y: 24, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: 'ebOut', immediateRender: false }, 38.0);
+  META.pops.push(37.9); META.success.push(38.0);
   tl.to('#bg7 .wave', { y: 700, duration: 0.8, ease: 'ebIn' }, 37.25);
   tl.to('#night7', { opacity: 1, duration: 0.9, ease: 'ebSoft' }, 37.35);
   tl.to('#h7', { color: '#FAF0DF', duration: 0.9, ease: 'ebSoft' }, 37.35);
@@ -736,6 +752,13 @@
   { const k = SW / 1170, cx = 256 * k, cy = 737 * k, R = 186 * k;
     L3.insertAdjacentHTML('beforeend', `<div style="position:absolute;left:${cx - R}px;top:${cy - R}px;width:${2 * R}px;height:${2 * R}px;border-radius:50%;background:radial-gradient(circle,transparent 58.5%,#fff 59.5%)"></div>`); }
   L3.insertAdjacentHTML('beforeend', `<div class="ring7" style="position:absolute;overflow:hidden;${box(0.06, 0.214, 0.38, 0.366)}-webkit-mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));mask:conic-gradient(from 0deg at 49.7% 50.8%, #000 var(--a), transparent var(--a));--a:0deg"><img src="${plate('Statistics_Month')}" style="position:absolute;width:430px;left:${-0.06 * SW}px;top:${-0.214 * IH}px"></div>`);
+  const cal0 = UI(L3, 'Statistics_Calendar_Grid_Empty', 0.0658, 0.4494, 682);
+  const sweep = { p: 0 };
+  tl.fromTo(sweep, { p: 0 }, { p: 1, duration: 0.9, ease: 'ebSoft', immediateRender: false, onUpdate: () => {
+    const e = -20 + sweep.p * 160, m = `linear-gradient(135deg, transparent ${e - 20}%, #000 ${e}%)`;
+    cal0.style.webkitMaskImage = m; cal0.style.maskImage = m;
+  } }, 39.35);
+  tl.call(() => { cal0.style.webkitMaskImage = cal0.style.maskImage = 'linear-gradient(135deg, transparent -40%, #000 -20%)'; }, null, 39.34);
   tl.fromTo(L3.querySelector('.ring7'), { '--a': '0deg' }, { '--a': '360deg', duration: 0.9, ease: 'ebSoft', immediateRender: false }, 39.15);
   tl.fromTo('#orange7', { clipPath: `circle(0px at ${PX}px ${PY}px)` }, { clipPath: `circle(1300px at ${PX}px ${PY}px)`, duration: 0.9, ease: 'ebPush', immediateRender: true }, 39.0);
   META.hits.push(39.0);
@@ -848,7 +871,7 @@
   });
 
   META.risers = [10.45, 20.55, 28.4, 40.65];        // tension builds into the big transitions
-  META.water = [35.8]; META.night = [37.4];
+  META.night = [37.4];
   META.titles = [7.95, 8.95, 9.95, 11.55, 14.6, 21.0, 30.3, 34.85, 44.0];   // headline moments
   META.words = [41.3, 41.8, 42.3];                                             // JUST / EATS / BUENO
   window.DURATION = DUR;
