@@ -1,0 +1,431 @@
+{
+ "out": "out/09_SumarNoProhibir_ARealDay.mp4",
+ "grade": "warm",
+ "caption_style": "clean",
+ "keywords": [
+  "coffee.",
+  "takeout.",
+  "greens,",
+  "ziploc",
+  "Chick-fil-A.",
+  "kale",
+  "trick.",
+  "perfect",
+  "add",
+  "salads",
+  "additions."
+ ],
+ "audio": [
+  {
+   "src": "sumar/IMG_4238.MOV",
+   "in": 1.25,
+   "start": 0,
+   "dur": 6.35,
+   "eq": "voice"
+  },
+  {
+   "src": "sumar/vo.ogg",
+   "in": 0.55,
+   "start": 6.55,
+   "dur": 7.55,
+   "eq": "voice",
+   "vol": 1.0
+  },
+  {
+   "src": "sumar/vo.ogg",
+   "in": 9.6,
+   "start": 14.299999999999999,
+   "dur": 5.6,
+   "eq": "voice",
+   "vol": 1.0
+  },
+  {
+   "src": "sumar/vo.ogg",
+   "in": 17.55,
+   "start": 20.099999999999998,
+   "dur": 4.449999999999999,
+   "eq": "voice",
+   "vol": 1.0
+  },
+  {
+   "src": "sumar/vo.ogg",
+   "in": 25.25,
+   "start": 24.749999999999996,
+   "dur": 9.0,
+   "eq": "voice",
+   "vol": 1.0
+  },
+  {
+   "src": "sumar/IMG_4242.MOV",
+   "in": 0.75,
+   "start": 33.95,
+   "dur": 10.15,
+   "eq": "voice",
+   "fade_out": 0.4
+  }
+ ],
+ "sfx": [],
+ "auto_sfx": false,
+ "clips": [
+  {
+   "src": "sumar/IMG_4238.MOV",
+   "in": 1.25,
+   "dur": 6.35,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "sumar/IMG_3892.MOV",
+   "in": 0.0,
+   "dur": 7.75,
+   "speed": 0.516,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "sumar/IMG_3908.MOV",
+   "in": 0.7,
+   "dur": 2.6,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "image": "sumar/IMG_3909_p.jpg",
+   "dur": 3.2,
+   "zoom": [
+    1.0,
+    1.04
+   ]
+  },
+  {
+   "src": "sumar/IMG_3912.MOV",
+   "in": 1.2,
+   "dur": 2.0,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "sumar/IMG_3913.MOV",
+   "in": 0.3,
+   "dur": 2.65,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "sumar/IMG_3922.MOV",
+   "in": 0.9,
+   "dur": 3.0,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "sumar/IMG_3920.MOV",
+   "in": 0.0,
+   "dur": 4.2,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "image": "sumar/IMG_3923_p.jpg",
+   "dur": 2.2,
+   "zoom": [
+    1.0,
+    1.04
+   ]
+  },
+  {
+   "src": "sumar/IMG_4242.MOV",
+   "in": 0.75,
+   "dur": 10.15,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  }
+ ],
+ "overlays": [
+  {
+   "type": "label",
+   "kicker": "Add, don't restrict",
+   "start": 0.0,
+   "end": 6.35,
+   "y": 200
+  },
+  {
+   "type": "label",
+   "kicker": "Breakfast",
+   "start": 6.35,
+   "end": 14.3,
+   "y": 200
+  },
+  {
+   "type": "label",
+   "kicker": "Lunch",
+   "start": 14.1,
+   "end": 20.1,
+   "y": 200
+  },
+  {
+   "type": "label",
+   "kicker": "Snack",
+   "start": 19.9,
+   "end": 24.75,
+   "y": 200
+  },
+  {
+   "type": "label",
+   "kicker": "Dinner",
+   "start": 24.55,
+   "end": 33.95,
+   "y": 200
+  },
+  {
+   "type": "caption",
+   "text": "A real day",
+   "start": 0.15,
+   "end": 0.95
+  },
+  {
+   "type": "caption",
+   "text": "between meetings,",
+   "start": 0.92,
+   "end": 2.09
+  },
+  {
+   "type": "caption",
+   "text": "takeout included,",
+   "start": 2.06,
+   "end": 3.37
+  },
+  {
+   "type": "caption",
+   "text": "not perfect meals,",
+   "start": 3.34,
+   "end": 4.87
+  },
+  {
+   "type": "caption",
+   "text": "just small additions.",
+   "start": 4.84,
+   "end": 6.25
+  },
+  {
+   "type": "caption",
+   "text": "Breakfast at my desk",
+   "start": 6.61,
+   "end": 7.78
+  },
+  {
+   "type": "caption",
+   "text": "before the first call.",
+   "start": 7.75,
+   "end": 9.22
+  },
+  {
+   "type": "caption",
+   "text": "Egg, fruit,",
+   "start": 9.19,
+   "end": 10.06
+  },
+  {
+   "type": "caption",
+   "text": "and my coffee.",
+   "start": 10.03,
+   "end": 11.04
+  },
+  {
+   "type": "caption",
+   "text": "Not fancy,",
+   "start": 11.01,
+   "end": 11.8
+  },
+  {
+   "type": "caption",
+   "text": "just something",
+   "start": 11.77,
+   "end": 12.58
+  },
+  {
+   "type": "caption",
+   "text": "that keeps me going.",
+   "start": 12.55,
+   "end": 14.42
+  },
+  {
+   "type": "caption",
+   "text": "Lunch is takeout.",
+   "start": 14.39,
+   "end": 15.92
+  },
+  {
+   "type": "caption",
+   "text": "I pick what I'm craving",
+   "start": 15.89,
+   "end": 17.16
+  },
+  {
+   "type": "caption",
+   "text": "and there's a chance",
+   "start": 17.13,
+   "end": 18.06
+  },
+  {
+   "type": "caption",
+   "text": "to add more greens,",
+   "start": 18.03,
+   "end": 19.08
+  },
+  {
+   "type": "caption",
+   "text": "I take it.",
+   "start": 19.05,
+   "end": 20.23
+  },
+  {
+   "type": "caption",
+   "text": "Afternoon snack",
+   "start": 20.2,
+   "end": 21.09
+  },
+  {
+   "type": "caption",
+   "text": "between meetings.",
+   "start": 21.06,
+   "end": 22.35
+  },
+  {
+   "type": "caption",
+   "text": "Literally a ziploc",
+   "start": 22.32,
+   "end": 23.69
+  },
+  {
+   "type": "caption",
+   "text": "on my desk.",
+   "start": 23.66,
+   "end": 24.38
+  },
+  {
+   "type": "caption",
+   "text": "And dinner?",
+   "start": 24.35,
+   "end": 26.06
+  },
+  {
+   "type": "caption",
+   "text": "Chick-fil-A.",
+   "start": 26.03,
+   "end": 27.06
+  },
+  {
+   "type": "caption",
+   "text": "Yes, a Chick-fil-A",
+   "start": 27.03,
+   "end": 28.5
+  },
+  {
+   "type": "caption",
+   "text": "sandwich.",
+   "start": 28.47,
+   "end": 29.5
+  },
+  {
+   "type": "caption",
+   "text": "I just added",
+   "start": 29.47,
+   "end": 30.18
+  },
+  {
+   "type": "caption",
+   "text": "a side of kale salad.",
+   "start": 30.15,
+   "end": 31.82
+  },
+  {
+   "type": "caption",
+   "text": "That is the",
+   "start": 31.79,
+   "end": 32.86
+  },
+  {
+   "type": "caption",
+   "text": "whole trick.",
+   "start": 32.83,
+   "end": 33.86
+  },
+  {
+   "type": "caption",
+   "text": "So,",
+   "start": 33.83,
+   "end": 34.66
+  },
+  {
+   "type": "caption",
+   "text": "you don't need",
+   "start": 34.63,
+   "end": 35.1
+  },
+  {
+   "type": "caption",
+   "text": "a perfect day.",
+   "start": 35.07,
+   "end": 36.06
+  },
+  {
+   "type": "caption",
+   "text": "Next time you eat",
+   "start": 36.03,
+   "end": 37.02
+  },
+  {
+   "type": "caption",
+   "text": "something that you love,",
+   "start": 36.99,
+   "end": 38.4
+  },
+  {
+   "type": "caption",
+   "text": "just add",
+   "start": 38.37,
+   "end": 38.74
+  },
+  {
+   "type": "caption",
+   "text": "one thing to it.",
+   "start": 38.71,
+   "end": 40.42
+  },
+  {
+   "type": "caption",
+   "text": "Send this to a friend",
+   "start": 40.39,
+   "end": 41.42
+  },
+  {
+   "type": "caption",
+   "text": "who thinks eating well",
+   "start": 41.39,
+   "end": 42.62
+  },
+  {
+   "type": "caption",
+   "text": "means salads only.",
+   "start": 42.59,
+   "end": 44.22
+  }
+ ]
+}
