@@ -1,0 +1,205 @@
+<title>Loomlock OS CH 02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@400;500;600;700&family=VT323&display=swap">
+<style>
+/* Layout: a system manual. The six outputs share one spine (ident, channel, coordinates, mono data); the page shows the spine, the outputs, the calendar and the grid. Single dark look by choice. */
+:root {
+  --bg: #0b0b0d; --panel: #141418; --fg: #f2efe8; --muted: #9a978f; --line: #2a2a31;
+  --blue: #3F49CC; --yel: #FCCE21; --teal: #0B5A6A; --teal2: #5FB1C1; --cream: #E9E1D8; --win: #008080; --red: #FF3B3B;
+  --mono: "Space Mono", ui-monospace, Menlo, monospace; --body: "Outfit", "Helvetica Neue", Arial, sans-serif; --vt: "VT323", monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 32px 80px; display: grid; gap: 64px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+h1 { font-family: var(--mono); font-weight: 700; font-size: clamp(40px, 7vw, 84px); line-height: .95; text-transform: uppercase; letter-spacing: -.01em; }
+h2 { font-family: var(--mono); font-weight: 700; font-size: clamp(24px, 3.4vw, 34px); text-transform: uppercase; line-height: 1.05; }
+h3 { font-size: 17px; font-weight: 700; }
+p { margin: 0; }
+section { display: grid; gap: 20px; }
+.k { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--teal2); }
+.lede { color: var(--muted); font-size: 18px; max-width: 66ch; }
+.ident { display: inline-flex; align-items: center; gap: 10px; background: var(--blue); color: #F9F9FF; border-radius: 8px; padding: 4px 12px; font-weight: 700; font-size: 14px; letter-spacing: .06em; }
+.ident b { font-family: var(--vt); font-size: 22px; font-weight: 400; border-left: 1.5px solid rgba(249,249,255,.5); padding-left: 10px; }
+.head { display: grid; gap: 8px; border-top: 1px solid var(--line); padding-top: 20px; }
+.head p { color: var(--muted); max-width: 66ch; }
+
+.hero { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 32px; align-items: center; }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr; } }
+.phone { width: 100%; max-width: 340px; justify-self: center; border-radius: 34px; border: 8px solid #222; background: #000; overflow: hidden; }
+.phone video { display: block; width: 100%; aspect-ratio: 9/16; height: auto; }
+
+.outputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 12px; }
+.out { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: grid; }
+.out .sw { height: 10px; }
+.out div.b { padding: 14px; display: grid; gap: 4px; }
+.out .dev { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; }
+.out h3 { font-family: var(--mono); font-size: 15px; text-transform: uppercase; }
+.out span { font-size: 13px; color: var(--muted); }
+
+.spine { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 10px; }
+.spine div { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 8px; align-content: start; }
+.spine .ex { font-family: var(--mono); font-size: 14px; color: var(--fg); }
+.spine span { font-size: 14px; color: var(--muted); }
+
+.cal { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; min-width: 820px; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 400; }
+tr:last-child td { border-bottom: 0; }
+td.d { font-family: var(--mono); white-space: nowrap; color: var(--yel); }
+td.c { font-family: var(--mono); font-size: 12px; color: var(--teal2); white-space: nowrap; text-transform: uppercase; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 8px; vertical-align: 1px; }
+
+.grids { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 32px; align-items: start; }
+@media (max-width: 860px) { .grids { grid-template-columns: 1fr; } }
+.ig { background: #000; border: 8px solid #222; border-radius: 34px; padding: 18px 10px 14px; display: grid; gap: 12px; max-width: 380px; width: 100%; justify-self: center; }
+.ig .top { display: flex; align-items: center; gap: 12px; padding: 0 6px; }
+.ig .av { width: 58px; height: 58px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; font-family: var(--vt); font-size: 22px; color: #fff; flex: none; }
+.ig .nm { font-weight: 700; font-size: 15px; }
+.ig .bio { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.ig .hl { display: flex; gap: 10px; padding: 0 6px; overflow: hidden; }
+.ig .hl span { flex: none; width: 52px; height: 52px; border-radius: 50%; border: 2px solid #444; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9px; color: var(--muted); text-align: center; line-height: 1.1; }
+.ig .g { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.ig .g img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+.stories { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: 10px; align-content: start; }
+.stories figure { margin: 0; display: grid; gap: 6px; }
+.stories img { width: 100%; aspect-ratio: 9/16; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); display: block; }
+.stories figcaption { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; }
+
+.reels { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 12px; }
+.reels figure { margin: 0; display: grid; gap: 6px; }
+.reels video { width: 100%; aspect-ratio: 9/16; height: auto; border-radius: 12px; background: #000; display: block; }
+.reels figcaption { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; }
+
+.venue { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 10px; }
+.venue div { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 6px; align-content: start; }
+.venue .w { font-family: var(--mono); font-size: 11px; color: var(--yel); text-transform: uppercase; }
+.venue span { font-size: 14px; color: var(--muted); }
+
+.rules { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; color: var(--muted); max-width: 72ch; }
+.rules b { color: var(--fg); }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div style="display:grid;gap:18px">
+      <span class="ident">loomlock experiences <b>CH 02</b></span>
+      <h1>Loomlock OS:<br>un sistema,<br>seis salidas</h1>
+      <p class="lede">La noche con Tequila Don Julio contada como si todo saliera de una misma máquina. Cada formato es una salida distinta del sistema (una pantalla de aeropuerto, una impresora, una ventana, una terminal, un visual, un juego), pero todos dicen lo mismo: el celular se queda contigo, las apps descansan. Cambia la salida; la regla no.</p>
+      <p class="k">29.10 · Resto Bar Bikinis · Bogotá · 4°39′N 74°03′W · GMT−5</p>
+    </div>
+    <div class="phone"><video controls playsinline preload="metadata" poster="v/supercut.jpg" src="v/supercut.mp4" aria-label="Las seis salidas en un solo reel"></video></div>
+  </header>
+
+  <section aria-labelledby="s1">
+    <div class="head"><span class="k">01 · Las salidas</span><h2 id="s1">Seis dispositivos, una regla</h2><p>Cada salida tiene su propio color, pero todas comparten la misma columna vertebral.</p></div>
+    <div class="outputs">
+      <div class="out"><div class="sw" style="background:var(--yel)"></div><div class="b"><span class="dev">pantalla</span><h3>Tablero</h3><span>Anuncia: fecha, lugar, embarque.</span></div></div>
+      <div class="out"><div class="sw" style="background:var(--win)"></div><div class="b"><span class="dev">ventana</span><h3>Windows 98</h3><span>Pregunta: ¿pausar las apps?</span></div></div>
+      <div class="out"><div class="sw" style="background:var(--teal2)"></div><div class="b"><span class="dev">terminal</span><h3>ASCII</h3><span>Ejecuta: loomlock tap.</span></div></div>
+      <div class="out"><div class="sw" style="background:var(--blue)"></div><div class="b"><span class="dev">visual</span><h3>Ácido</h3><span>Celebra: la noche en sí.</span></div></div>
+      <div class="out"><div class="sw" style="background:#f7f5ef"></div><div class="b"><span class="dev">impresora</span><h3>Ticket</h3><span>Cuenta: total, una noche.</span></div></div>
+      <div class="out"><div class="sw" style="background:var(--teal)"></div><div class="b"><span class="dev">juego</span><h3>1 bit</h3><span>Invita: press tap.</span></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s2">
+    <div class="head"><span class="k">02 · Lo que nunca cambia</span><h2 id="s2">La columna vertebral</h2><p>Estos seis elementos aparecen en todas las piezas. Es lo que hace que se lean como una sola campaña aunque se vean distintas.</p></div>
+    <div class="spine">
+      <div><span class="ident">loomlock experiences <b>CH 02</b></span><span>El sello de Loomlock. Siempre presente, siempre chico.</span></div>
+      <div><p class="ex">CH 02</p><span>El número de canal. Cada noche de la red es un canal.</span></div>
+      <div><p class="ex">4°39′N 74°03′W · GMT−5</p><span>Coordenadas y huso horario: la capa global. Cambian con la ciudad.</span></div>
+      <div><p class="ex">una regla, todas las ciudades<br>one rule, every city</p><span>Bilingüe, siempre en este orden.</span></div>
+      <div><p class="ex">Space Mono</p><span>La letra del sistema para todo dato: fechas, comandos, estados.</span></div>
+      <div><p class="ex">Placa final</p><span>Loomlock × Tequila Don Julio, 29.10 · Bikinis, la regla y el legal de Colombia.</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s3">
+    <div class="head"><span class="k">03 · Cuándo sale cada una</span><h2 id="s3">El calendario de la noche</h2><p>Sigue las fechas del plan de octubre (anuncio 14.10, registro 15–27.10, galería 1.11) y los cuatro capítulos de la plataforma.</p></div>
+    <div class="cal">
+      <table>
+        <thead><tr><th>Fecha</th><th>Capítulo</th><th>Salida</th><th>Formato</th><th>Para qué</th></tr></thead>
+        <tbody>
+          <tr><td class="d">14.10</td><td class="c">1 · invitación</td><td><span class="dot" style="background:var(--teal)"></span>1 bit · press tap</td><td>Reel + story</td><td>Anuncio: “nivel 02: Bogotá”. Abre la curiosidad.</td></tr>
+          <tr><td class="d">15.10</td><td class="c">1 · invitación</td><td><span class="dot" style="background:var(--yel)"></span>Tablero de salidas</td><td>Reel + feed</td><td>Abre el registro: fecha, lugar, “embarcando”.</td></tr>
+          <tr><td class="d">20.10</td><td class="c">2 · ritual</td><td><span class="dot" style="background:var(--win)"></span>Windows 98</td><td>Reel + feed</td><td>Cómo funciona la pausa, con humor.</td></tr>
+          <tr><td class="d">23.10</td><td class="c">2 · ritual</td><td><span class="dot" style="background:var(--teal2)"></span>ASCII</td><td>Reel + story</td><td>El tap como comando. Recordatorio de registro.</td></tr>
+          <tr><td class="d">27.10</td><td class="c">2 · ritual</td><td><span class="dot" style="background:var(--yel)"></span>Tablero · última llamada</td><td>Story</td><td>Cierre del registro: “última llamada, puerta 02”.</td></tr>
+          <tr><td class="d">29.10</td><td class="c">3 · fuera del aire</td><td><span class="dot" style="background:var(--blue)"></span>Ácido</td><td>Pantallas del venue + 1 story</td><td>El visual de la noche. En redes, solo la ventana “feed.exe dejó de responder”.</td></tr>
+          <tr><td class="d">01.11</td><td class="c">4 · se cuenta</td><td><span class="dot" style="background:#f7f5ef"></span>Ticket</td><td>Reel + feed + galería</td><td>Recap: “total: una noche”, con los datos reales de Loomlock.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="s4">
+    <div class="head"><span class="k">04 · Cómo se ve junto</span><h2 id="s4">La grilla y las stories</h2><p>Ejemplo de perfil: lo más reciente arriba a la izquierda. Seis salidas distintas que se leen como una serie.</p></div>
+    <div class="grids">
+      <div class="ig" aria-label="Ejemplo de grilla de Instagram">
+        <div class="top"><div class="av">CH</div><div style="display:grid;gap:2px"><span class="nm">loomlock experiences</span><span class="bio">una regla, todas las ciudades<br>CH 02 · Bogotá · 29.10 · +18</span></div></div>
+        <div class="hl"><span>CH 02</span><span>cómo<br>funciona</span><span>galería</span><span>CH 03</span><span>CH 04</span></div>
+        <div class="g">
+          <img src="img/djx-x2-ticket-feed.jpg" alt="Ticket">
+          <img src="img/djx-x5-acido-feed.jpg" alt="Ácido">
+          <img src="img/djx-x4-ascii-feed.jpg" alt="ASCII">
+          <img src="img/djx-x3-windows-feed.jpg" alt="Windows 98">
+          <img src="img/djx-x1-salidas-feed.jpg" alt="Tablero">
+          <img src="img/djx-x6-bits-feed.jpg" alt="1 bit">
+        </div>
+      </div>
+      <div class="stories">
+        <figure><img src="img/djx-x6-bits-story.jpg" alt="Story 1 bit"><figcaption>14.10 · press tap</figcaption></figure>
+        <figure><img src="img/djx-x1-salidas-story.jpg" alt="Story tablero"><figcaption>15.10 · salidas</figcaption></figure>
+        <figure><img src="img/djx-x3-windows-story.jpg" alt="Story Windows"><figcaption>20.10 · ventanas</figcaption></figure>
+        <figure><img src="img/djx-x4-ascii-story.jpg" alt="Story ASCII"><figcaption>23.10 · terminal</figcaption></figure>
+        <figure><img src="img/djx-x5-acido-story.jpg" alt="Story ácido"><figcaption>29.10 · la noche</figcaption></figure>
+        <figure><img src="img/djx-x2-ticket-story.jpg" alt="Story ticket"><figcaption>01.11 · total</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s5">
+    <div class="head"><span class="k">05 · Los reels</span><h2 id="s5">Seis reels, un orden</h2><p>En el orden del calendario.</p></div>
+    <div class="reels">
+      <figure><video controls playsinline preload="none" poster="v/x6-bits.jpg" src="v/x6-bits.mp4" aria-label="Reel 1 bit"></video><figcaption>14.10 · 1 bit</figcaption></figure>
+      <figure><video controls playsinline preload="none" poster="v/x1-salidas.jpg" src="v/x1-salidas.mp4" aria-label="Reel tablero"></video><figcaption>15.10 · tablero</figcaption></figure>
+      <figure><video controls playsinline preload="none" poster="v/x3-windows.jpg" src="v/x3-windows.mp4" aria-label="Reel Windows"></video><figcaption>20.10 · windows</figcaption></figure>
+      <figure><video controls playsinline preload="none" poster="v/x4-ascii.jpg" src="v/x4-ascii.mp4" aria-label="Reel ASCII"></video><figcaption>23.10 · ascii</figcaption></figure>
+      <figure><video controls playsinline preload="none" poster="v/x5-acido.jpg" src="v/x5-acido.mp4" aria-label="Reel ácido"></video><figcaption>29.10 · ácido</figcaption></figure>
+      <figure><video controls playsinline preload="none" poster="v/x2-ticket.jpg" src="v/x2-ticket.mp4" aria-label="Reel ticket"></video><figcaption>01.11 · ticket</figcaption></figure>
+    </div>
+  </section>
+
+  <section aria-labelledby="s6">
+    <div class="head"><span class="k">06 · En Bikinis</span><h2 id="s6">El sistema en el lugar</h2><p>Cada salida también existe en el venue, así lo que se vio en redes se encuentra en la noche.</p></div>
+    <div class="venue">
+      <div><span class="w">Entrada · pantalla</span><h3>Tablero de llegadas</h3><span>Una pantalla junto al tótem con el tablero: “CH 02 Bogotá · embarcando · puerta 02”.</span></div>
+      <div><span class="w">Tótem · pantalla</span><h3>La ventana del tap</h3><span>Al hacer tap aparece “¿Pausar Instagram, TikTok y WhatsApp? Sí / Sí, obvio”.</span></div>
+      <div><span class="w">Cabina de DJ</span><h3>Terminal en LED</h3><span>El ASCII y el comando corriendo en la pantalla de la cabina.</span></div>
+      <div><span class="w">Pantallas del salón</span><h3>Visual ácido</h3><span>El reel ácido en loop, sin sonido, durante la fiesta.</span></div>
+      <div><span class="w">Barra</span><h3>Ticket impreso</h3><span>Con el primer trago, un ticket real en impresora térmica: “gracias por no postear”. Es el recuerdo que la gente se lleva.</span></div>
+      <div><span class="w">La llave</span><h3>Dorso en 1 bit</h3><span>La edición CH 02 de la llave con la gráfica pixelada y “press tap”.</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s7">
+    <div class="head"><span class="k">07 · Reglas del sistema</span><h2 id="s7">Para que no se rompa</h2></div>
+    <ol class="rules">
+      <li><b>Una salida por pieza.</b> Nunca mezclar dos dispositivos en la misma pieza.</li>
+      <li><b>La columna siempre.</b> Sello, CH 02, coordenadas, línea bilingüe y placa final en todas.</li>
+      <li><b>El sistema habla serio, el chiste está en lo que dice.</b> “Tus apps viajan en bodega”, “feed.exe dejó de responder”.</li>
+      <li><b>Sin fotos.</b> La única imagen real es la galería del fotógrafo oficial, en la app, después.</li>
+      <li><b>Escalable.</b> Para CH 03, CH 04 y CH 05 cambian el número, la ciudad, las coordenadas y la marca anfitriona; las seis salidas se reutilizan.</li>
+      <li><b>Legal.</b> “Disfruta con moderación. Prohibido el expendio de bebidas alcohólicas a menores de edad.” en toda pieza con alcohol.</li>
+    </ol>
+  </section>
+</div>
+<script>
+document.querySelectorAll("video").forEach(v => v.addEventListener("play", () => {
+  document.querySelectorAll("video").forEach(o => { if (o !== v) o.pause(); });
+}));
+</script>
