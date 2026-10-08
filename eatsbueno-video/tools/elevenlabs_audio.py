@@ -100,6 +100,8 @@ SFX = {
     'riser': ('short cinematic tension riser building into a transition, airy and modern', 1.5),
     'water': ('water pouring into a glass, close, clean, short', 1.2),
     'night': ('soft magical night chime with gentle crickets, calm', 1.6),
+    'title': ('elegant cinematic title hit, soft deep boom with a warm bright shimmer tail, premium brand film', 1.8),
+    'word': ('huge cinematic bass hit with a short reverse swell into it, punchy, wide, modern trailer', 1.0),
 }
 kit = {k: load(post('/v1/sound-generation', {'text': t, 'duration_seconds': d, 'prompt_influence': 0.5},
                     os.path.join(CACHE, f'sfx_{k}.mp3'))) for k, (t, d) in SFX.items()}
@@ -150,14 +152,23 @@ def place(sig, t, gain, pan=0.0, ducks=0.0):
 
 
 M = lambda k: META.get(k, [])
+TITLES, WORDS = M('titles'), M('words')
+near = lambda t, pts, w: any(abs(t - p) < w for p in pts)
+for t in TITLES:                                  # titles get their own signature hit instead of a swoosh
+    place(kit['title'], t - 0.05, 0.55, ducks=0.4)
+for t in WORDS:
+    place(kit['word'], t - 0.12, 0.6, ducks=0.5)
 for t in M('slams'):
-    place(kit['slam'] if t < SIL0 else kit['impact'], t, 0.55, ducks=0.35)
+    if not near(t, WORDS, 0.1):
+        place(kit['slam'] if t < SIL0 else kit['impact'], t, 0.55, ducks=0.35)
 for t in M('hits'):
-    place(kit['impact'], t, 0.5, ducks=0.45)
+    if not near(t, TITLES + WORDS, 0.2):
+        place(kit['impact'], t, 0.5, ducks=0.45)
 for t in M('notifs'):
     place(kit['notif'], t, 0.32, pan=0.25)
 for k, t in enumerate(M('whooshes')):
-    place(kit['whoosh'], t - 0.4, 0.33, pan=0.35 if k % 2 else -0.35)
+    if not near(t, TITLES + WORDS, 0.9):          # no swoosh on top of a title moment
+        place(kit['whoosh'], t - 0.4, 0.33, pan=0.35 if k % 2 else -0.35)
 for t in M('risers'):
     place(kit['riser'], t - 1.45, 0.3)
 for t in M('taps'):
