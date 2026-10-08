@@ -113,11 +113,12 @@ mus = np.zeros((N, 2), dtype=np.float32)
 # generated file): (picture start, picture end, source start). Bloom is pulled forward so the groove lands on
 # G0; one 4-bar phrase repeats at the scan -> victories seam so the resolve lands on the logo.
 GROOVE_SRC = 16.0
+RA = float(META.get('repeatAt', 34.4))   # picture time where one 4-bar phrase repeats (a beat-aligned scene seam)
 SEGS = [(0.0, SIL0, 0.0),
         (SIL1 - 0.95, G0, GROOVE_SRC - (G0 - (SIL1 - 0.95))),
-        (G0, 34.4, GROOVE_SRC),
-        (34.4, 42.4, GROOVE_SRC + (34.4 - G0) - 8.0),
-        (42.4, DUR, GROOVE_SRC + (42.4 - G0) - 8.0)]
+        (G0, RA, GROOVE_SRC),
+        (RA, RA + 8.0, GROOVE_SRC + (RA - G0) - 8.0),
+        (RA + 8.0, DUR, GROOVE_SRC + (RA + 8.0 - G0) - 8.0)]
 XF = int(0.02 * SR)
 for p0, p1, src in SEGS:
     a, b, s0 = int(p0 * SR), int(p1 * SR), int(src * SR)
