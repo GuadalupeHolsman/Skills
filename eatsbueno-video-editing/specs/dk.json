@@ -3,11 +3,10 @@
  "grade": "warm",
  "auto_sfx": false,
  "sfx": [],
- "lufs": -18,
  "clips": [
   {
    "image": "dark/IMG_0292.jpg",
-   "dur": 2.2,
+   "dur": 3.281,
    "zoom": [
     1.0,
     1.0
@@ -16,114 +15,114 @@
   {
    "src": "dark/IMG_0284.MOV",
    "in": 1.8,
-   "dur": 3.0,
-   "speed": 1.6,
+   "dur": 1.692,
+   "speed": 2.837,
    "zoom": [
     1.0,
     1.0
    ],
-   "audio": true,
+   "audio": false,
    "vol": 0.8
   },
   {
    "src": "dark/IMG_0284.MOV",
    "in": 8.5,
-   "dur": 2.4,
-   "speed": 2.0,
+   "dur": 1.354,
+   "speed": 3.545,
    "zoom": [
     1.0,
     1.0
    ],
-   "audio": true,
+   "audio": false,
    "vol": 0.8
   },
   {
    "src": "dark/IMG_0285.MOV",
    "in": 1.5,
-   "dur": 3.318,
-   "speed": 2.2,
+   "dur": 1.623,
+   "speed": 4.498,
    "zoom": [
     1.0,
     1.0
    ],
-   "audio": true,
+   "audio": false,
    "vol": 0.8
   },
   {
    "src": "dark/IMG_0286.MOV",
    "in": 5.8,
-   "dur": 2.75,
-   "speed": 1.6,
+   "dur": 1.345,
+   "speed": 3.271,
    "zoom": [
     1.0,
     1.0
    ],
-   "audio": true,
+   "audio": false,
    "vol": 0.8
   },
   {
    "src": "dark/IMG_0287.MOV",
    "in": 1.0,
-   "dur": 3.182,
-   "speed": 2.2,
+   "dur": 1.766,
+   "speed": 3.964,
    "zoom": [
     1.0,
     1.0
    ],
-   "audio": true,
+   "audio": false,
    "vol": 0.8
   },
   {
    "src": "dark/IMG_0288.MOV",
    "in": 1.0,
-   "dur": 4.0,
-   "speed": 3.5,
+   "dur": 3.202,
+   "speed": 4.372,
    "zoom": [
     1.0,
     1.0
    ],
-   "audio": true,
+   "audio": false,
    "vol": 0.8
   },
   {
    "src": "dark/IMG_0289.MOV",
    "in": 1.0,
-   "dur": 3.0,
-   "speed": 3.0,
+   "dur": 1.687,
+   "speed": 5.335,
    "zoom": [
     1.0,
     1.0
    ],
-   "audio": true,
+   "audio": false,
    "vol": 0.8
   },
   {
    "src": "dark/IMG_0290.MOV",
    "in": 3.0,
-   "dur": 4.5,
-   "speed": 4.0,
+   "dur": 2.236,
+   "speed": 8.05,
    "zoom": [
     1.0,
     1.0
    ],
-   "audio": true,
+   "audio": false,
    "vol": 0.8
   },
   {
    "src": "dark/IMG_0291.MOV",
    "in": 2.5,
-   "dur": 5.0,
-   "speed": 1.6,
+   "dur": 3.525,
+   "speed": 2.27,
    "zoom": [
     1.0,
     1.0
    ],
-   "audio": true,
+   "audio": false,
    "vol": 0.8
   },
   {
    "image": "dark/IMG_0293.jpg",
-   "dur": 1.8,
+   "dur": 1.269,
    "zoom": [
     1.0,
     1.0
@@ -136,102 +135,86 @@
    "kicker": "Helado proteico",
    "title": "Dark Chocolate & Oreo",
    "start": 0.1,
-   "end": 2.2,
+   "end": 3.281,
    "y": 260,
    "size": 104,
    "sfx": false
   },
   {
    "type": "label",
-   "kicker": "Paso 1 \u00b7 El mix-in",
-   "start": 2.25,
-   "end": 7.6,
+   "kicker": "Paso 1 · El mix-in",
+   "start": 3.331,
+   "end": 6.327,
    "y": 200
-  },
-  {
-   "type": "caption",
-   "text": "Oreo Thins",
-   "start": 2.3000000000000003,
-   "end": 5.2,
-   "anim": "rise",
-   "y": 1290
-  },
-  {
-   "type": "caption",
-   "text": "Separa unas galletas",
-   "start": 5.3,
-   "end": 7.6,
-   "anim": "rise",
-   "y": 1290
   },
   {
    "type": "label",
-   "kicker": "Paso 2 \u00b7 La base",
-   "start": 7.6499999999999995,
-   "end": 13.718,
+   "kicker": "Paso 2 · La base",
+   "start": 6.377,
+   "end": 9.294,
    "y": 200
-  },
-  {
-   "type": "caption",
-   "text": "Saca tu base de chocolate congelada",
-   "start": 7.699999999999999,
-   "end": 13.718,
-   "anim": "rise",
-   "y": 1290
   },
   {
    "type": "label",
-   "kicker": "Paso 3 \u00b7 Ninja Creami",
-   "start": 13.718,
-   "end": 16.849999999999998,
+   "kicker": "Paso 3 · Ninja Creami",
+   "start": 9.344,
+   "end": 11.06,
    "y": 200
-  },
-  {
-   "type": "caption",
-   "text": "A la Ninja Creami",
-   "start": 13.767999999999999,
-   "end": 16.849999999999998,
-   "anim": "rise",
-   "y": 1290
   },
   {
    "type": "label",
-   "kicker": "Paso 4 \u00b7 Mix-in",
-   "start": 16.9,
-   "end": 23.849999999999998,
+   "kicker": "Paso 4 · Mix-in",
+   "start": 11.11,
+   "end": 18.185,
    "y": 200
   },
   {
    "type": "caption",
-   "text": "Haz un hueco y agrega las Oreo",
-   "start": 16.95,
-   "end": 20.849999999999998,
-   "anim": "rise",
-   "y": 1290
+   "text": "Helado proteico de chocolate oscuro con Oreo.",
+   "start": 0.05,
+   "end": 3.281
   },
   {
    "type": "caption",
-   "text": "Funci\u00f3n mix-in",
-   "start": 20.95,
-   "end": 23.849999999999998,
-   "anim": "rise",
-   "y": 1290
+   "text": "Para el mix-in, uso Oreo Thins.",
+   "start": 3.331,
+   "end": 6.327
   },
   {
    "type": "caption",
-   "text": "Termina con m\u00e1s Oreo encima",
-   "start": 23.95,
-   "end": 28.349999999999998,
-   "anim": "rise",
-   "y": 1290
+   "text": "Saco mi base de chocolate del congelador.",
+   "start": 6.377,
+   "end": 9.294
   },
   {
    "type": "caption",
-   "text": "Cremoso, alto en prote\u00edna y sin culpa.",
-   "start": 28.45,
-   "end": 33.349999999999994,
-   "anim": "rise",
-   "y": 1290
+   "text": "A la Ninja Creami.",
+   "start": 9.344,
+   "end": 11.06
+  },
+  {
+   "type": "caption",
+   "text": "Hago un hueco en el centro y agrego las Oreo.",
+   "start": 11.11,
+   "end": 14.262
+  },
+  {
+   "type": "caption",
+   "text": "Función mix-in.",
+   "start": 14.312,
+   "end": 15.949
+  },
+  {
+   "type": "caption",
+   "text": "Termino con más Oreo encima.",
+   "start": 15.999,
+   "end": 18.185
+  },
+  {
+   "type": "caption",
+   "text": "Cremoso, alto en proteína y sin culpa.",
+   "start": 18.235,
+   "end": 22.98
   }
  ],
  "keywords": [
@@ -251,8 +234,82 @@
   "creami",
   "mix-in",
   "congela",
-  "prote\u00edna,",
+  "proteína,",
   "culpa."
  ],
- "caption_style": "clean"
+ "caption_style": "clean",
+ "audio": [
+  {
+   "src": "vo4/dk_00.mp3",
+   "in": 0,
+   "start": 0.0,
+   "dur": 3.161,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo4/dk_01.mp3",
+   "in": 0,
+   "start": 3.281,
+   "dur": 2.926,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo4/dk_02.mp3",
+   "in": 0,
+   "start": 6.327,
+   "dur": 2.847,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo4/dk_03.mp3",
+   "in": 0,
+   "start": 9.294,
+   "dur": 1.646,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo4/dk_04.mp3",
+   "in": 0,
+   "start": 11.06,
+   "dur": 3.082,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo4/dk_05.mp3",
+   "in": 0,
+   "start": 14.262,
+   "dur": 1.567,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo4/dk_06.mp3",
+   "in": 0,
+   "start": 15.949,
+   "dur": 2.116,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo4/dk_07.mp3",
+   "in": 0,
+   "start": 18.185,
+   "dur": 3.474,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  }
+ ]
 }
