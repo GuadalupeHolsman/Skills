@@ -1,0 +1,334 @@
+<title>Narrativa Locked In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: a single reading column (~68ch) with full-width charts and tables; chapter strip as the one bold moment. */
+:root {
+  --bg: #f5f6fb; --surface: #ffffff; --fg: #0b1040; --ink-2: #4a5080; --ink-3: #8a90b8;
+  --line: #dfe2f0; --accent: #1d29c2; --key: #fcce21; --key-ink: #1a1500; --muted-bar: #c9cdea;
+  --go: #12805c; --caution: #a86400; --skip: #b2304a;
+  --display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --body: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Space Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #060a2c; --surface: #0d1350; --fg: #eef0ff; --ink-2: #b4baf0; --ink-3: #7a82c4;
+  --line: #222a74; --accent: #9aa2ff; --key: #fcce21; --key-ink: #1a1500; --muted-bar: #2c3480;
+  --go: #4fd1a1; --caution: #f2b45a; --skip: #ff8098; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #060a2c; --surface: #0d1350; --fg: #eef0ff; --ink-2: #b4baf0; --ink-3: #7a82c4;
+  --line: #222a74; --accent: #9aa2ff; --key: #fcce21; --key-ink: #1a1500; --muted-bar: #2c3480;
+  --go: #4fd1a1; --caution: #f2b45a; --skip: #ff8098; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.62; font-weight: 500; }
+.wrap { max-width: 860px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; display: grid; gap: 56px; }
+.col { max-width: 68ch; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
+h1 { font-size: clamp(40px, 8vw, 72px); font-weight: 800; line-height: 0.95; }
+h2 { font-size: clamp(24px, 4vw, 32px); font-weight: 800; line-height: 1.1; }
+h3 { font-size: 18px; font-weight: 700; line-height: 1.3; }
+p { margin: 0; }
+section { display: grid; gap: 18px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.lede { font-size: 19px; color: var(--ink-2); max-width: 60ch; }
+.mark { background: var(--key); color: var(--key-ink); padding: 0 .2em; border-radius: 2px; }
+.small { font-size: 13px; color: var(--ink-2); }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+ul.clean { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+
+header.top { display: grid; gap: 18px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; }
+
+.summary { display: grid; gap: 12px; padding: 22px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.summary ol { margin: 0; padding-left: 1.2em; display: grid; gap: 10px; }
+.summary li { padding-left: 4px; }
+
+figure { margin: 0; display: grid; gap: 10px; min-width: 0; }
+figcaption { font-size: 13px; color: var(--ink-2); }
+.chart { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .ax { fill: var(--ink-3); font: 12px var(--mono); }
+.chart .lab { font: 700 13px var(--body); }
+.chart .lab2 { fill: var(--fg); font: 500 13px var(--body); }
+.chart .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+.two > * { min-width: 0; }
+
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); font-weight: 400; }
+tr:last-child td { border-bottom: 0; }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pill { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .06em; padding: 2px 8px; border-radius: 99px; border: 1.5px solid currentColor; white-space: nowrap; }
+.go { color: var(--go); } .caution { color: var(--caution); } .skip { color: var(--skip); } .watch { color: var(--ink-3); }
+
+.callout { border-left: 4px solid var(--key); padding: 4px 0 4px 18px; display: grid; gap: 8px; }
+
+.scr { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.scr div { padding: 16px 20px; display: grid; gap: 6px; border-bottom: 1px solid var(--line); }
+.scr div:last-child { border-bottom: 0; }
+.scr b { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); font-weight: 700; }
+
+.bible { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.bible > div { background: var(--surface); padding: 16px 18px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.bible b { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); font-weight: 400; }
+.bible p { font-size: 15px; }
+
+/* the one bold moment: the four chapters */
+.chapters { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.ch { background: var(--accent); color: #fff; border-radius: 12px; padding: 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+:root:not([data-theme="light"]) .ch { color: #fff; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ch { background: #1d29c2; } }
+:root[data-theme="dark"] .ch { background: #1d29c2; }
+.ch .k { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
+.ch h3 { font-size: 22px; font-weight: 800; }
+.ch p { font-size: 14px; line-height: 1.5; }
+.ch .when { font-family: var(--mono); font-size: 12px; background: var(--key); color: var(--key-ink); justify-self: start; padding: 2px 8px; border-radius: 4px; }
+.ch ul { margin: 0; padding-left: 1.1em; font-size: 13px; display: grid; gap: 4px; }
+.ch.ten { background: #05071f; outline: 2px solid var(--key); outline-offset: -2px; }
+
+.lines { display: grid; gap: 10px; }
+.line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.line q { font-family: var(--display); font-weight: 800; font-size: 20px; quotes: "“" "”"; letter-spacing: -0.01em; }
+.line span { font-size: 13px; color: var(--ink-2); }
+
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+.rules div { padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); display: grid; gap: 4px; }
+.rules b { font-size: 15px; }
+.rules span { font-size: 14px; color: var(--ink-2); }
+
+.sources { font-size: 13px; color: var(--ink-2); display: grid; gap: 6px; }
+.sources ol { margin: 0; padding-left: 1.3em; display: grid; gap: 4px; }
+.sources li { overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">Loomlock × Tequila Don Julio · 29.10 · Invite only</div>
+  <h1>Locked In:<br>la noche que no se postea</h1>
+  <p class="lede">Análisis de tendencias y propuesta de narrativa para la campaña. Primero lo que muestran los datos, después la historia que proponemos contar y cómo se reparte en cada pieza.</p>
+  <div class="meta"><span>Actualizado 8 oct 2026</span><span>Google Trends AR · 5 años</span><span>Fuentes web 2025–2026</span></div>
+</header>
+
+<section class="summary" aria-labelledby="sum">
+  <h2 id="sum" style="font-size:22px">En una pantalla</h2>
+  <ol>
+    <li><b>Las noches sin celular crecen afuera y casi no existen acá.</b> Eventbrite registra +567% de eventos “phone-free” en el mundo entre 2024 y el primer trimestre de 2026, con clubes de Londres, Washington y Ámsterdam guardando celulares en bolsas. No encontramos una escena así en Buenos Aires: hay lugar para ser los primeros.</li>
+    <li><b>En Argentina el tequila se busca menos, pero más premium.</b> Las búsquedas de “tequila” cayeron de 57 a 41 (promedio anual, 2021 → 2026), mientras crecen las de marcas premium: “tequila don julio 1942” +130%, “tequila don julio” +80%.</li>
+    <li><b>En Buenos Aires, “Don Julio” es una parrilla.</b> Lo que más se busca con “don julio” es la parrilla de Palermo (y Messi comiendo ahí). Toda pieza tiene que decir <span class="mark">Tequila Don Julio</span>, completo.</li>
+    <li><b>La historia que proponemos:</b> no es “prohibido el celular”. Es una noche que existe solo para los que estuvieron, y que después se cuenta en lugar de postearse. La campaña se arma en cuatro capítulos y en el tercero la propia cuenta de la marca se apaga durante la fiesta.</li>
+  </ol>
+</section>
+
+<section aria-labelledby="t1">
+  <div class="eyebrow">01 · Tendencias</div>
+  <h2 id="t1">Qué está pasando</h2>
+  <p class="col">Puntuamos cada tendencia solo cuando hay evidencia fechada, sobre cinco criterios de 1 a 5: público, valores de marca, adaptabilidad, riesgo (más alto = menos riesgo) y momento. Casi toda la evidencia de noches sin celular es de Reino Unido y Estados Unidos; para Argentina no encontramos datos, así que el “llegar primero” es una hipótesis, no un hecho medido.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Tendencia</th><th>Evidencia</th><th>Puntaje</th><th>Decisión</th></tr></thead>
+      <tbody>
+        <tr><td><b>Noches y clubes sin celular</b></td><td>+567% eventos “phone-free” global, 2024 → T1 2026 (Eventbrite, solo su plataforma). Clubes con bolsas Yondr: Lost (Londres), Tigres de la Noche (DC), A’DAM Tower. En Reino Unido, 50% de 2.000 adultos dice que el celular “arruina” la pista (Censuswide para Ray-Ban Meta, oct 2025). Google Trends mundial: “phone free” pasa de 18 (2025) a 52 (2026).</td><td class="n">23/25</td><td><span class="pill go">GO</span><br><span class="small">El corazón de la campaña.</span></td></tr>
+        <tr><td><b>Lo offline como lujo</b></td><td>Marcas de lujo con cenas en silencio y celulares guardados (sep 2026); Forbes, mar 2026: “Why offline is the new luxury”. Invite only + sin celular = exclusividad que no se puede comprar.</td><td class="n">21/25</td><td><span class="pill go">GO</span><br><span class="small">Tono y formato invite only.</span></td></tr>
+        <tr><td><b>Premiumización del tequila en AR</b></td><td>Google Trends AR, 5 años: “tequila” baja, suben “clase azul” +800%, “patrón” +250%, “don julio 1942” +130%, “mezcal vs tequila” +170%.</td><td class="n">20/25</td><td><span class="pill go">GO</span><br><span class="small">Del shot de boliche al ritual.</span></td></tr>
+        <tr><td><b>Gen Z: menos alcohol por ocasión</b></td><td>IWSR (jul 2026): 74% de Gen Z en edad legal toma alcohol, cerca del 76% total; toman menos por salida. En Argentina, salen menos por plata y crecen previas y encuentros en casa (Perfil).</td><td class="n">15/25</td><td><span class="pill caution">CUIDADO</span><br><span class="small">Hablar de calidad, no de cantidad. +18 siempre.</span></td></tr>
+        <tr><td><b>Beber temprano (“daycaps”)</b></td><td>Encuesta Bacardi 2026 (EE.UU.): 34% de Gen Z prefiere tomar temprano.</td><td class="n">9/25</td><td><span class="pill skip">SKIP</span><br><span class="small">No encaja con una fiesta nocturna.</span></td></tr>
+        <tr><td><b>Lentes con cámara en clubes</b></td><td>BASEMENT (NY) y otros clubes prohíben lentes con cámara (ago–sep 2026).</td><td class="n">—</td><td><span class="pill watch">OBSERVAR</span><br><span class="small">Sin evidencia local.</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section aria-labelledby="t1b">
+  <div class="eyebrow">01b · Google Trends mundial</div>
+  <h2 id="t1b">“Phone free” se dispara en 2026</h2>
+  <div class="two">
+    <figure>
+      <span id="c0t" style="font-weight:700">Interés mundial en “phone free”, promedio anual</span>
+      <svg viewBox="0 0 640 260" role="img" aria-labelledby="c0t" class="chart"><line x1="44" x2="548" y1="226.0" y2="226.0" class="grid"/><text x="36" y="230.0" class="ax" text-anchor="end">0</text><line x1="44" x2="548" y1="173.5" y2="173.5" class="grid"/><text x="36" y="177.5" class="ax" text-anchor="end">15</text><line x1="44" x2="548" y1="121.0" y2="121.0" class="grid"/><text x="36" y="125.0" class="ax" text-anchor="end">30</text><line x1="44" x2="548" y1="68.5" y2="68.5" class="grid"/><text x="36" y="72.5" class="ax" text-anchor="end">45</text><line x1="44" x2="548" y1="16.0" y2="16.0" class="grid"/><text x="36" y="20.0" class="ax" text-anchor="end">60</text><text x="44.0" y="250" class="ax" text-anchor="middle">2021</text><text x="144.8" y="250" class="ax" text-anchor="middle">2022</text><text x="245.6" y="250" class="ax" text-anchor="middle">2023</text><text x="346.4" y="250" class="ax" text-anchor="middle">2024</text><text x="447.2" y="250" class="ax" text-anchor="middle">2025</text><text x="548.0" y="250" class="ax" text-anchor="middle">2026</text><polyline points="44.0,189.7 144.8,185.5 245.6,186.8 346.4,187.1 447.2,163.9 548.0,42.6" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="44.0" cy="189.7" r="4" fill="var(--accent)"/><circle cx="144.8" cy="185.5" r="2.5" fill="var(--accent)"/><circle cx="245.6" cy="186.8" r="2.5" fill="var(--accent)"/><circle cx="346.4" cy="187.1" r="2.5" fill="var(--accent)"/><circle cx="447.2" cy="163.9" r="2.5" fill="var(--accent)"/><circle cx="548.0" cy="42.6" r="4" fill="var(--accent)"/><text x="558.0" y="46.6" class="lab" fill="var(--accent)">phone free 52</text></svg>
+      <figcaption>Índice 0–100 de Google Trends, todo el mundo, oct 2021 – oct 2026. De 18 en 2025 a 52 en lo que va de 2026.</figcaption>
+    </figure>
+    <div class="callout" style="align-self:center">
+      <h3>Y en Argentina, otras palabras</h3>
+      <p>“Yondr”, la marca de bolsas para guardar celulares, pasó de 5 a 33 en el mundo. En Argentina, en cambio, casi nadie busca “detox digital” ni “desconectarse”: el índice está cerca de 0.</p>
+      <p>Para la historia: no hablar en idioma de bienestar (“detox”, “desconexión”). Hablar de la noche.</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="t2">
+  <div class="eyebrow">02 · Google Trends Argentina</div>
+  <h2 id="t2">Tequila: menos volumen, más marca</h2>
+  <div class="two">
+    <figure>
+      <span id="c1t" class="h3" style="font-weight:700">Interés en “tequila”, promedio anual</span>
+      <svg viewBox="0 0 640 260" role="img" aria-labelledby="c1t" class="chart"><line x1="44" x2="548" y1="226.0" y2="226.0" class="grid"/><text x="36" y="230.0" class="ax" text-anchor="end">0</text><line x1="44" x2="548" y1="173.5" y2="173.5" class="grid"/><text x="36" y="177.5" class="ax" text-anchor="end">15</text><line x1="44" x2="548" y1="121.0" y2="121.0" class="grid"/><text x="36" y="125.0" class="ax" text-anchor="end">30</text><line x1="44" x2="548" y1="68.5" y2="68.5" class="grid"/><text x="36" y="72.5" class="ax" text-anchor="end">45</text><line x1="44" x2="548" y1="16.0" y2="16.0" class="grid"/><text x="36" y="20.0" class="ax" text-anchor="end">60</text><text x="44.0" y="250" class="ax" text-anchor="middle">2021</text><text x="144.8" y="250" class="ax" text-anchor="middle">2022</text><text x="245.6" y="250" class="ax" text-anchor="middle">2023</text><text x="346.4" y="250" class="ax" text-anchor="middle">2024</text><text x="447.2" y="250" class="ax" text-anchor="middle">2025</text><text x="548.0" y="250" class="ax" text-anchor="middle">2026</text><polyline points="44.0,25.2 144.8,30.3 245.6,48.9 346.4,58.5 447.2,68.7 548.0,82.5" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="44.0" cy="25.2" r="4" fill="var(--accent)"/><circle cx="144.8" cy="30.3" r="2.5" fill="var(--accent)"/><circle cx="245.6" cy="48.9" r="2.5" fill="var(--accent)"/><circle cx="346.4" cy="58.5" r="2.5" fill="var(--accent)"/><circle cx="447.2" cy="68.7" r="2.5" fill="var(--accent)"/><circle cx="548.0" cy="82.5" r="4" fill="var(--accent)"/><text x="558.0" y="86.5" class="lab" fill="var(--accent)">tequila 41</text></svg>
+      <figcaption>Índice 0–100 de Google Trends, Argentina, oct 2021 – oct 2026. Los picos de cada año caen en diciembre (fiestas).</figcaption>
+    </figure>
+    <figure>
+      <span id="c2t" style="font-weight:700">Tequila frente a gin y fernet</span>
+      <svg viewBox="0 0 640 260" role="img" aria-labelledby="c2t" class="chart"><line x1="44" x2="548" y1="226.0" y2="226.0" class="grid"/><text x="36" y="230.0" class="ax" text-anchor="end">0</text><line x1="44" x2="548" y1="173.5" y2="173.5" class="grid"/><text x="36" y="177.5" class="ax" text-anchor="end">10</text><line x1="44" x2="548" y1="121.0" y2="121.0" class="grid"/><text x="36" y="125.0" class="ax" text-anchor="end">20</text><line x1="44" x2="548" y1="68.5" y2="68.5" class="grid"/><text x="36" y="72.5" class="ax" text-anchor="end">30</text><line x1="44" x2="548" y1="16.0" y2="16.0" class="grid"/><text x="36" y="20.0" class="ax" text-anchor="end">40</text><text x="44.0" y="250" class="ax" text-anchor="middle">2021</text><text x="144.8" y="250" class="ax" text-anchor="middle">2022</text><text x="245.6" y="250" class="ax" text-anchor="middle">2023</text><text x="346.4" y="250" class="ax" text-anchor="middle">2024</text><text x="447.2" y="250" class="ax" text-anchor="middle">2025</text><text x="548.0" y="250" class="ax" text-anchor="middle">2026</text><polyline points="44.0,38.6 144.8,36.0 245.6,24.7 346.4,70.5 447.2,99.4 548.0,135.4" fill="none" stroke="var(--ink-3)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="44.0" cy="38.6" r="4" fill="var(--ink-3)"/><circle cx="144.8" cy="36.0" r="2.5" fill="var(--ink-3)"/><circle cx="245.6" cy="24.7" r="2.5" fill="var(--ink-3)"/><circle cx="346.4" cy="70.5" r="2.5" fill="var(--ink-3)"/><circle cx="447.2" cy="99.4" r="2.5" fill="var(--ink-3)"/><circle cx="548.0" cy="135.4" r="4" fill="var(--ink-3)"/><text x="558.0" y="139.4" class="lab" fill="var(--ink-3)">gin 17</text><polyline points="44.0,97.6 144.8,75.4 245.6,58.1 346.4,83.7 447.2,98.6 548.0,104.4" fill="none" stroke="var(--ink-2)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="44.0" cy="97.6" r="4" fill="var(--ink-2)"/><circle cx="144.8" cy="75.4" r="2.5" fill="var(--ink-2)"/><circle cx="245.6" cy="58.1" r="2.5" fill="var(--ink-2)"/><circle cx="346.4" cy="83.7" r="2.5" fill="var(--ink-2)"/><circle cx="447.2" cy="98.6" r="2.5" fill="var(--ink-2)"/><circle cx="548.0" cy="104.4" r="4" fill="var(--ink-2)"/><text x="558.0" y="108.4" class="lab" fill="var(--ink-2)">fernet 23</text><polyline points="44.0,187.6 144.8,188.4 245.6,191.3 346.4,193.7 447.2,195.8 548.0,198.4" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="44.0" cy="187.6" r="4" fill="var(--accent)"/><circle cx="144.8" cy="188.4" r="2.5" fill="var(--accent)"/><circle cx="245.6" cy="191.3" r="2.5" fill="var(--accent)"/><circle cx="346.4" cy="193.7" r="2.5" fill="var(--accent)"/><circle cx="447.2" cy="195.8" r="2.5" fill="var(--accent)"/><circle cx="548.0" cy="198.4" r="4" fill="var(--accent)"/><text x="558.0" y="202.4" class="lab" fill="var(--accent)">tequila 5</text></svg>
+      <figcaption>Misma escala para los tres. El boom del gin se desinfla (36 → 17), el fernet se mantiene y el tequila es todavía chico.</figcaption>
+    </figure>
+  </div>
+  <figure>
+    <span id="c3t" style="font-weight:700">Búsquedas de tequila que más crecieron (5 años)</span>
+    <svg viewBox="0 0 640 198" role="img" aria-labelledby="c3t" class="chart"><text x="200" y="19.4" class="lab2" text-anchor="end">tequila clase azul</text><rect x="210" y="4" width="360.0" height="22" rx="3" fill="var(--muted-bar)"/><text x="578.0" y="19.4" class="lab2 num">+800%</text><text x="200" y="51.4" class="lab2" text-anchor="end">818 tequila</text><rect x="210" y="36" width="112.5" height="22" rx="3" fill="var(--muted-bar)"/><text x="330.5" y="51.4" class="lab2 num">+250%</text><text x="200" y="83.4" class="lab2" text-anchor="end">patrón tequila</text><rect x="210" y="68" width="112.5" height="22" rx="3" fill="var(--muted-bar)"/><text x="330.5" y="83.4" class="lab2 num">+250%</text><text x="200" y="115.4" class="lab2" text-anchor="end">mezcal vs tequila</text><rect x="210" y="100" width="76.5" height="22" rx="3" fill="var(--muted-bar)"/><text x="294.5" y="115.4" class="lab2 num">+170%</text><text x="200" y="147.4" class="lab2" text-anchor="end">tequila don julio 1942</text><rect x="210" y="132" width="58.5" height="22" rx="3" fill="var(--accent)"/><text x="276.5" y="147.4" class="lab2 num">+130%</text><text x="200" y="179.4" class="lab2" text-anchor="end">tequila don julio</text><rect x="210" y="164" width="36.0" height="22" rx="3" fill="var(--accent)"/><text x="254.0" y="179.4" class="lab2 num">+80%</text></svg>
+    <figcaption>“Rising queries” de Google Trends para “tequila” en Argentina. En azul, las de Don Julio.</figcaption>
+  </figure>
+  <div class="callout col">
+    <h3>Lo que significa para la historia</h3>
+    <p>En Argentina el tequila se asocia al shot del boliche: “tequila boliche” aparece entre sus búsquedas principales. La curiosidad que crece es por tequila premium. Locked In puede mover a Tequila Don Julio del shot al ritual: un trago que se toma mirando a alguien, no a una pantalla.</p>
+  </div>
+  <div class="callout col">
+    <h3>Ojo con el nombre</h3>
+    <p>Las búsquedas principales con “don julio” en Argentina son:</p>
+    <ul class="clean small"><li>parrilla don julio</li><li>parrilla</li><li>don julio buenos aires</li><li>don julio restaurante</li><li>don julio palermo</li><li>don julio argentina</li><li>precios don julio</li><li>don julio menu</li></ul>
+    <p>Decir solo “Don Julio” manda a la parrilla. En copy, hashtags y menciones: <b>Tequila Don Julio</b>.</p>
+  </div>
+</section>
+
+<section aria-labelledby="t3">
+  <div class="eyebrow">03 · La tensión</div>
+  <h2 id="t3">Situación, complicación, propuesta</h2>
+  <div class="scr col">
+    <div><b>Situación</b><p>Salir es más caro y se sale menos. Cuando se sale, la noche tiene que valer la pena. Y la noche ya no es solo para vivirla: también hay que mostrarla.</p></div>
+    <div><b>Complicación</b><p>Los estudiantes secundarios de la Ciudad pasan 6 h 10 min por día frente al celular (Ministerio de Educación porteño + ITBA, sep 2026). En Reino Unido, 55% de quienes salen a bailar admite usar el celular en la pista, y la mitad dice que eso arruina la noche (Censuswide, 2025). Es decir: lo hacen aunque no les gusta.</p></div>
+    <div><b>Propuesta</b><p>Una noche que existe solo para los que estuvieron. El celular entra (no lo sacamos ni lo retamos), pero sus apps se toman la noche libre con la key de Loomlock. Lo que pasa adentro se cuenta después, de boca en boca.</p></div>
+  </div>
+  <p class="small col">La complicación sale de la evidencia: no la exageramos para que encaje con la propuesta. El celular no es el villano; Loomlock vive en el celular.</p>
+</section>
+
+<section aria-labelledby="t4">
+  <div class="eyebrow">04 · La historia</div>
+  <h2 id="t4">La biblia de la historia</h2>
+  <div class="bible">
+    <div><b>Protagonista</b><p>El invitado o la invitada: 22–35, sale menos que antes y quiere que cada salida cuente. No la marca.</p></div>
+    <div><b>Su mundo hoy</b><p>Noches que se viven a medias: filmar el drop, chequear quién vio la story, buscar al amigo por WhatsApp estando a cinco metros.</p></div>
+    <div><b>Lo que quiere</b><p>Práctico: una noche buena. De fondo: volver a perderse en algo, sentir que estuvo ahí.</p></div>
+    <div><b>El problema</b><p><b>Externo:</b> el celular en la mano. <b>Interno:</b> la sensación de estar mostrando la noche en vez de vivirla. <b>De fondo:</b> una noche que nadie recuerda porque todos la grabaron.</p></div>
+    <div><b>Lo que hace hoy y no alcanza</b><p>“Esta noche no lo saco”, y lo saca a los diez minutos. La fuerza de voluntad sola no gana contra las notificaciones.</p></div>
+    <div><b>Las guías</b><p><b>Loomlock:</b> la key que hace por vos lo que la voluntad no puede. <b>Tequila Don Julio:</b> el anfitrión que pone el ritual. Ninguna de las dos es la protagonista.</p></div>
+    <div><b>El plan</b><p>1. Te llega la key (la invitación). 2. Tap en la puerta. 3. Tu celular se queda con vos, sus apps no. 4. Al salir, se desbloquea.</p></div>
+    <div><b>Lo que está en juego</b><p>Si no pasa nada: otra noche en el carrete. Si pasa: una noche que se cuenta durante semanas.</p></div>
+    <div><b>Después</b><p>El invitado no tiene fotos, tiene una historia, y es el único que la puede contar.</p></div>
+    <div><b>Prueba</b><p>[falta prueba] Datos reales de la noche que puede dar Loomlock (horas de apps bloqueadas entre todos) y frases de invitados. No inventar números ni citas.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="t5">
+  <div class="eyebrow">05 · Estructura</div>
+  <h2 id="t5">Cuatro capítulos, sin villano</h2>
+  <p class="col">Usamos una estructura en cuatro tiempos sin conflicto (kishōtenketsu: presentación, desarrollo, giro y cierre), en lugar del clásico héroe contra villano. Encaja con una fiesta calma y cool, y evita pelear contra el celular.</p>
+  <div class="chapters">
+    <article class="ch">
+      <span class="k">Capítulo 1 · Presentación</span>
+      <h3>La invitación</h3>
+      <span class="when">~3 semanas antes</span>
+      <p>Algo va a pasar y no se explica. Llega la key como invitación.</p>
+      <ul><li>Teaser 3 “Unposted” (T3)</li><li>“Loomlock invites you” (MT1)</li><li>Envío de las keys a la lista</li></ul>
+    </article>
+    <article class="ch">
+      <span class="k">Capítulo 2 · Desarrollo</span>
+      <h3>El ritual</h3>
+      <span class="when">~10 días antes</span>
+      <p>Se revelan las reglas como un ritual, no como una prohibición.</p>
+      <ul><li>Reglas THE KEY / THE PHONE / THE NIGHT (MT7)</li><li>8-ball: “Lock ’em in for the night” (MT6)</li><li>Video del tap con la key (V1)</li></ul>
+    </article>
+    <article class="ch ten">
+      <span class="k">Capítulo 3 · Giro</span>
+      <h3>La noche</h3>
+      <span class="when">29.10</span>
+      <p>La cuenta de la marca también se apaga. Un solo post negro: “Locked in. Volvemos a las 04:00.” No hay cobertura en vivo.</p>
+      <ul><li>Post y story en negro</li><li>Sin stories de la fiesta</li><li>Fotógrafo oficial con flash, sin publicar</li></ul>
+    </article>
+    <article class="ch">
+      <span class="k">Capítulo 4 · Cierre</span>
+      <h3>Se cuenta</h3>
+      <span class="when">24–72 h después</span>
+      <p>La noche aparece contada, no posteada: fotos con flash, frases de invitados y el dato de Loomlock.</p>
+      <ul><li>Recap con flash (MT8)</li><li>Frases reales de invitados</li><li>“X horas de apps bloqueadas”</li></ul>
+    </article>
+  </div>
+  <p class="small col">Los códigos (T3, MT1, MT6…) son las piezas del comparador. El capítulo 3 es el giro: que la marca deje de publicar durante su propia fiesta es la prueba de que va en serio.</p>
+</section>
+
+<section aria-labelledby="t6">
+  <div class="eyebrow">06 · Frase madre</div>
+  <h2 id="t6">Opciones de línea</h2>
+  <div class="lines">
+    <div class="line"><q>Lo que no se postea, se cuenta.</q><span>Recomendada. Resume los capítulos 3 y 4.</span></div>
+    <div class="line"><q>Locked in.</q><span>El nombre ya es la frase. En inglés, como el resto del sistema.</span></div>
+    <div class="line"><q>Una noche para los que estuvieron.</q><span>Más exclusiva; buena para la invitación.</span></div>
+    <div class="line"><q>Levantá el vaso, no el celular.</q><span>Conecta con “Made to Be Raised”, la plataforma 2026 de Tequila Don Julio. A validar con la marca y con las reglas de alcohol.</span></div>
+  </div>
+</section>
+
+<section aria-labelledby="t7">
+  <div class="eyebrow">07 · Tono</div>
+  <h2 id="t7">Reglas para todas las piezas</h2>
+  <div class="rules">
+    <div><b>Sin palabras de bienestar</b><span>Nada de “detox” ni “desconexión”: en Argentina casi no se buscan. Hablamos de la noche.</span></div>
+    <div><b>Decir menos</b><span>Fecha, “invite only”, Locked in. La mecánica se descubre, no se explica en el teaser.</span></div>
+    <div><b>Nunca retar</b><span>Nada de “dejá el celular”. El celular entra; sus apps se toman la noche libre.</span></div>
+    <div><b>El invitado es el protagonista</b><span>La marca invita y pone el ritual. No se pone en el centro.</span></div>
+    <div><b>Tequila Don Julio, completo</b><span>Para no competir con la parrilla. Logo chico, como anfitrión.</span></div>
+    <div><b>Calidad sobre cantidad</b><span>Un trago que se toma mirando a alguien. +18 y “beber con moderación” en todo.</span></div>
+    <div><b>Pruebas reales</b><span>Datos de Loomlock y frases de invitados con permiso. Nada inventado.</span></div>
+  </div>
+</section>
+
+<section aria-labelledby="t8">
+  <div class="eyebrow">08 · A confirmar</div>
+  <h2 id="t8">Riesgos y preguntas abiertas</h2>
+  <ul class="clean col">
+    <li><b>Seguridad:</b> confirmar qué queda habilitado con la key puesta (llamadas, mapas, emergencias). En una fiesta con alcohol, la gente tiene que poder pedir un auto y llamar.</li>
+    <li><b>Datos de tendencia:</b> el +567% es solo de la plataforma Eventbrite. No hay datos de Argentina sobre fiestas sin celular.</li>
+    <li><b>Que no se vuelva pose:</b> la desconexión tiene que sentirse como un regalo para el invitado, no como una acción de marketing.</li>
+    <li><b>Línea con Tequila Don Julio:</b> validar con Diageo el uso de “Made to Be Raised” y las reglas de comunicación de alcohol para Argentina.</li>
+    <li><b>Fotos:</b> el capítulo 4 depende de un fotógrafo con flash y de recolectar frases de invitados con permiso.</li>
+  </ul>
+</section>
+
+<section aria-labelledby="t9">
+  <div class="eyebrow">09 · Próximos pasos</div>
+  <h2 id="t9">Qué hacemos ahora</h2>
+  <ul class="clean col">
+    <li>Elegir la frase madre.</li>
+    <li>Rehacer el video principal siguiendo los cuatro capítulos: uno por capítulo, en lugar de un solo reel que cuenta todo.</li>
+    <li>Diseñar el post negro del capítulo 3 y el recap del capítulo 4.</li>
+    <li>Pedirle a Loomlock qué datos de la noche puede compartir para la prueba.</li>
+  </ul>
+</section>
+
+<section class="sources" aria-labelledby="src">
+  <div class="eyebrow">Método y fuentes</div>
+  <p id="src">Skills usadas: <code>trend-spotter</code> y <code>trend-research</code> (puntaje y decisión), <code>trendspyg</code> (Google Trends, consultado el 8 oct 2026), <code>storytelling-framework</code> (biblia de la historia) y <code>storytelling</code> (estructura sin conflicto).</p>
+  <ol>
+    <li><a href="https://www.eventbrite.com/blog/press/newsroom/the-rise-of-phone-free-experiences/">Eventbrite · Offline by Design: The Rise of Phone-Free Experiences</a></li>
+    <li><a href="https://mixmag.net/read/phone-free-club-events-up-by-567-new-data-reveals-news">Mixmag · Phone-free club events up 567%</a></li>
+    <li><a href="https://washingtonian.com/2026/07/15/no-phones-allowed-at-dcs-newest-dance-club/">Washingtonian · No phones allowed at DC’s newest dance club (jul 2026)</a></li>
+    <li><a href="https://thecoldmagazine.co.uk/no-phone-parties/">The Cold · No-phone parties in London</a></li>
+    <li><a href="https://musictech.com/news/music/survey-phones-ruining-dancefloor/">MusicTech · Clubgoers feel phones are ruining the dancefloor</a></li>
+    <li><a href="https://www.beatportal.com/articles/650268-are-phone-free-dance-floors-going-mainstream">Beatportal · Are phone-free dance floors going mainstream?</a></li>
+    <li><a href="https://www.forbes.com/sites/kianbakhtiari/2026/03/29/why-offline-is-the-new-luxury/">Forbes · Why offline is the new luxury (mar 2026)</a></li>
+    <li><a href="https://www.axios.com/2026/04/24/phone-free-spaces-digital-detox-retreats-gen-z">Axios · Phone-free spaces grow as Gen Z leads digital detox (abr 2026)</a></li>
+    <li><a href="https://www.ypulse.com/article/2026/05/05/ypulse-explains-why-gen-z-is-going-analog/">YPulse · Why Gen Z is going analog</a></li>
+    <li><a href="https://www.vinetur.com/20260715104317/gen-z-now-drinks-at-nearly-the-same-rate-as-older-adults-survey-finds.html">Vinetur · IWSR: la Gen Z y el alcohol (jul 2026)</a></li>
+    <li><a href="https://www.perfil.com/noticias/cordoba/ni-boliche-ni-alcohol-ni-sexo-por-que-la-generacion-z-eligio-una-vida-mas-aburrida.phtml">Perfil · Ni boliche, ni alcohol: la Generación Z</a></li>
+    <li><a href="https://www.foxnews.com/food-drink/gen-z-still-drinks-just-earlier-daycap-trend-begins-upending-nightlife.print">Fox News · Daycap trend</a></li>
+    <li><a href="https://chequeado.com/el-explicador/adolescentes-y-celulares-6-de-cada-10-lo-usa-mas-de-5-horas-por-dia/">Chequeado · Adolescentes y celulares</a></li>
+    <li><a href="https://www.technoairlines.com/blog/basement-nyc-smart-glasses-ban">Techno Airlines · BASEMENT smart glasses ban</a></li>
+    <li><a href="https://www.luxurydaily.com/don-julio-premieres-made-to-be-raised-ahead-of-2026-world-cup/">Luxury Daily · Don Julio “Made to Be Raised” (2026)</a></li>
+    <li><a href="https://mwm.ai/apps/loomlock/6755596112">Loomlock · ficha de la app</a></li>
+    <li>Google Trends, 5 años, consulta del 8 oct 2026. Argentina: “tequila”, “tequila / gin / fernet”, “don julio”, “detox digital / tiempo de pantalla / desconectarse”. Mundial: “phone free / digital detox / dumbphone”, “yondr”.</li>
+  </ol>
+</section>
+
+</div>

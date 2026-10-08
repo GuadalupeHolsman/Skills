@@ -619,6 +619,12 @@
       "skillPath": "skills/cardiology/social-media-trends-research/SKILL.md",
       "computedHash": "281ccb70325481022b45e880da19d353a37e31926dfdcc5942be5a92186ad379"
     },
+    "storytelling": {
+      "source": "ghaida/intent",
+      "sourceType": "github",
+      "skillPath": "skills/storytelling/SKILL.md",
+      "computedHash": "d51fbc35bf8b329c63b604b65d4aea62b6c35df7fa33ef385d604714ae04766d"
+    },
     "storytelling-framework": {
       "source": "realjaymes/marketingagentskills",
       "sourceType": "github",

@@ -22,10 +22,13 @@ Están en `.claude/skills/` (Claude Code las carga solas al abrir este repo). `s
 | [gtmagents/gtm-agents](https://github.com/gtmagents/gtm-agents) | `trend-research` | *Culture listening*: momentos culturales, audios, memes y creadores para refrescar la dirección creativa |
 | [drshailesh88/integrated_content_os](https://github.com/drshailesh88/integrated_content_os) | `social-media-trends-research` | Datos reales sin API keys: Google Trends (pytrends) y Reddit |
 | [aahl/skills](https://github.com/aahl/skills) | `trendspyg` | Google Trends: búsquedas en alza, interés en el tiempo y por región |
+| [ghaida/intent](https://github.com/ghaida/intent) | `storytelling` | Cuatro estructuras narrativas (arco del protagonista, situación/complicación/resolución, lo que es/lo que podría ser, kishōtenketsu) y reglas para no forzar la historia |
 
 ## Enfoque: storytelling y narrativa
-El trabajo de la campaña es **contar una historia**, no solo hacer piezas lindas. Por eso las skills de tendencias se usan para encontrar **la tensión cultural** que cuenta la narrativa (ej. la fatiga de pantallas, el "estar presente") y no para copiar formatos virales. Skills narrativas del repo: `storytelling-framework` (estructura), `copy-anatomy` (copy), `hyperframes-creative` (beats y narración en video), `ai-video-storyboard` (plano a plano), `viral-hooks` (el primer segundo).
+El trabajo de la campaña es **contar una historia**, no solo hacer piezas lindas. Por eso las skills de tendencias se usan para encontrar **la tensión cultural** que cuenta la narrativa (ej. la fatiga de pantallas, el "estar presente") y no para copiar formatos virales. Skills narrativas del repo: `storytelling-framework` (biblia de la historia), `storytelling` (estructuras narrativas), `copy-anatomy` (copy), `hyperframes-creative` (beats y narración en video), `ai-video-storyboard` (plano a plano), `viral-hooks` (el primer segundo).
 
-No instaladas: `normalize-loudness` (gooseworks-ai; el repo no es accesible, lo cubren `claude-video-audio` y `audio-edit`) y las skills de AIEV que dependen de su panel o son específicas de TikTok en vietnamita.
+No instaladas: `refoundai/lenny-skills@brand-storytelling` (ya no existe en su repo; la reemplaza `storytelling`), `normalize-loudness` (gooseworks-ai; el repo no es accesible, lo cubren `claude-video-audio` y `audio-edit`) y las skills de AIEV que dependen de su panel o son específicas de TikTok en vietnamita.
 
 Propuesta creativa para el video "Tap in": [`video-tap-in/CONCEPTO.md`](video-tap-in/CONCEPTO.md).
+
+Análisis de tendencias y narrativa de Locked In: [`video-tap-in/narrativa/`](video-tap-in/narrativa/) (página HTML, datos de Google Trends y script).
