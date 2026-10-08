@@ -46,12 +46,17 @@
   .kb .pop { position: absolute; left: 50%; bottom: 30px; width: 54px; height: 64px; margin-left: -27px; border-radius: 10px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,.25); display: grid; place-items: center; font: 400 32px Manrope; opacity: 0; }
 
   /* scene 1 */
-  .rule { position: absolute; white-space: nowrap; will-change: transform, opacity; }
-  .notif { position: absolute; width: 520px; display: flex; gap: 16px; align-items: center; padding: 18px 22px; border-radius: 26px;
-           background: rgba(245,245,245,.92); box-shadow: 0 20px 50px rgba(0,0,0,.45); font-family: Manrope; }
-  .notif .ic { width: 50px; height: 50px; border-radius: 12px; background: #d8d8d8; display: grid; place-items: center; font-size: 26px; flex: none; }
-  .notif b { display: block; font-size: 19px; color: #111; } .notif span { font-size: 18px; color: #555; }
-
+  .rword { position: absolute; left: 110px; top: 470px; font: 900 200px/1 Cooper; letter-spacing: -.02em; white-space: nowrap; transform-origin: 0 60%; }
+  .lock { background: radial-gradient(120% 80% at 30% 0%, #2F5E53 0%, #1B3A33 50%, #0F201C 100%); }
+  .lock .ltime { position: absolute; left: 0; right: 0; top: 92px; text-align: center; font: 600 104px/1 Manrope; color: rgba(250,240,223,.92); letter-spacing: -.02em; }
+  .lock .ldate { position: absolute; left: 0; right: 0; top: 66px; text-align: center; font: 600 19px Manrope; color: rgba(250,240,223,.75); }
+  .lock .lstack { position: absolute; left: 14px; right: 14px; top: 250px; }
+  .nb { position: absolute; left: 0; right: 0; top: 0; height: 72px; display: flex; gap: 12px; align-items: center; padding: 0 14px; border-radius: 22px;
+        background: rgba(246,244,240,.9); box-shadow: 0 8px 24px rgba(0,0,0,.25); font-family: Manrope; }
+  .nb .ic { width: 40px; height: 40px; border-radius: 10px; background: #e6e2da; display: grid; place-items: center; font-size: 22px; flex: none; }
+  .nb .tx { flex: 1; position: relative; line-height: 1.25; }
+  .nb b { font-size: 15px; color: #111; } .nb i { position: absolute; right: 0; top: 0; font-style: normal; font-size: 13px; color: #888; }
+  .nb span { display: block; font-size: 15px; color: #333; }
   .card { position: absolute; width: 520px; padding: 26px 30px; border-radius: 28px; background: #fff; box-shadow: 0 40px 80px -30px rgba(0,0,0,.45);
           display: flex; gap: 22px; align-items: center; }
   .card .ic { width: 66px; height: 66px; border-radius: 20px; background: var(--cream); display: grid; place-items: center; font-size: 34px; flex: none; }
@@ -73,9 +78,9 @@
 
   <!-- 1 · Diet noise -->
   <section class="scene" id="sc1" style="background:radial-gradient(120% 120% at 50% 50%,#2a2522 0%,#151312 100%)">
-    <div class="abs" id="chaos" style="inset:0"></div>
+    <div class="abs" id="chaos" style="inset:0;perspective:1800px"></div>
     <div class="abs cooper" id="exhaust" style="left:0;right:0;top:470px;text-align:center;font-size:110px;color:var(--cream);opacity:0"><i style="font-weight:300">Exhausting,</i> <b style="font-weight:700">right?</b></div>
-    <div class="abs" id="seedsA" style="left:960px;top:540px;width:0;height:0"></div>
+    <div class="abs" id="petals" style="left:960px;top:540px;width:0;height:0;z-index:30"></div>
   </section>
 
   <!-- 2 · The turn -->
@@ -84,7 +89,7 @@
     <div class="blob" style="width:900px;height:700px;left:900px;top:300px;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
     <div class="abs" id="seedsB" style="left:960px;top:540px;width:0;height:0"></div>
     <div class="abs flower" id="fl2" style="left:780px;top:360px;width:360px;height:360px;color:var(--cream)"></div>
-    <div class="abs cooper t2" id="t2a" style="left:0;right:0;top:580px;text-align:center;font-size:132px;color:var(--cream);font-weight:700">Forget strict diets.</div>
+    <div class="abs cooper t2" id="t2a" style="left:0;right:0;top:580px;text-align:center;font-size:132px;color:var(--cream);font-weight:700">Forget <span class="strike" style="position:relative;display:inline-block">strict diets.<span class="sline" style="position:absolute;left:-2%;top:52%;width:104%;height:12px;border-radius:6px;background:#2A5D51;transform-origin:0 50%;transform:scaleX(0)"></span></span></div>
     <div class="abs cooper t2" id="t2b" style="left:0;right:0;top:580px;text-align:center;font-size:150px;color:var(--cream)"><span style="font-weight:700">Just</span> <i style="font-weight:300">eat good.</i></div>
     <div class="abs wordmark" id="wm2" style="left:410px;top:590px;width:1100px"></div>
   </section>
@@ -287,68 +292,69 @@
   };
 
   // ================= 1 · Diet noise (0 – 6.5) =================
+  // a locked phone drowning in diet-app pings while the rules hammer in on the beat;
+  // then silence, the notifications clear, and the brand flower opens over everything
   scene('sc1', 0, 6.55);
-  const RULES = [
-    { t: 'COUNT EVERY CALORIE', x: 130, y: 120, r: -4, f: '800 74px Manrope', c: '#FAF0DF' },
-    { t: 'No carbs after 6pm', x: 1020, y: 230, r: 3, f: 'italic 300 84px Cooper', c: '#F0A26A' },
-    { t: 'Detox tea?', x: 260, y: 400, r: 2, f: '700 96px Cooper', c: '#AFCFC4' },
-    { t: 'SKIP BREAKFAST', x: 1150, y: 520, r: -3, f: '800 70px Manrope', c: '#FAF0DF' },
-    { t: 'Keto. Paleo. Whole30.', x: 90, y: 640, r: -2, f: '700 80px Cooper', c: '#E26023' },
-    { t: 'Cheat day 😬', x: 1150, y: 760, r: 4, f: 'italic 300 90px Cooper', c: '#FAF0DF' },
-    { t: '1,200 KCAL MAX', x: 560, y: 860, r: -5, f: '800 76px Manrope', c: '#F0A26A' },
-    { t: 'Never eat bread', x: 700, y: 60, r: 2, f: 'italic 300 76px Cooper', c: '#AFCFC4' },
-    { t: 'JUICE CLEANSE', x: 40, y: 900, r: 3, f: '800 64px Manrope', c: '#FAF0DF' },
-    { t: 'Burn it off.', x: 1380, y: 920, r: -3, f: '700 78px Cooper', c: '#E26023' },
-    { t: 'NO SUGAR. EVER.', x: 620, y: 470, r: -6, f: '800 88px Manrope', c: '#FAF0DF' },
-  ];
+  const chaos = $('#chaos');
+  const L = document.createElement('div');
+  L.className = 'phone'; L.style.left = (1340 - 229) + 'px'; L.style.top = (560 - 479) + 'px';
+  L.innerHTML = `<div class="screen lock"><div class="ltime">9:41</div><div class="ldate">Wednesday, October 7</div><div class="lstack"></div><div class="island"></div></div>`;
+  chaos.appendChild(L);
+  tl.fromTo(L, { scale: 0.8, rotationY: -22, rotationX: 6 }, { scale: 0.9, rotationY: -8, rotationX: 0, duration: 4.6, ease: 'ebSoft', immediateRender: true }, 0);
+  tl.fromTo(chaos, { scale: 1 }, { scale: 1.05, duration: 4.6, ease: 'none', immediateRender: true }, 0);   // slow push-in, tension
   const NOTIFS = [
-    { b: 'Calorie Tracker', s: "⚠️ You're 340 kcal over today", x: 1300, y: 60, ic: '⚖️' },
-    { b: 'KetoLife', s: 'Day 3. Don’t you dare quit.', x: 120, y: 260, ic: '🥑' },
-    { b: 'Reminder', s: 'Weigh yourself. Again.', x: 1290, y: 380, ic: '⏰' },
-    { b: 'FitGoal', s: 'Goal failed ✖', x: 700, y: 690, ic: '📉' },
+    ['⚖️', 'Calorie Tracker', "You're 340 kcal over today."], ['🥑', 'KetoLife', "Day 3. Don't you dare quit."],
+    ['⏰', 'Reminder', 'Weigh yourself. Again.'], ['📉', 'FitGoal', 'Goal failed ✖'],
+    ['⏳', 'Fasting Timer', '14 h left. Stay strong.'], ['⚖️', 'Calorie Tracker', 'That cookie was 230 kcal.'],
+    ['📈', 'Scale+', '+0.4 kg since yesterday.'], ['🥗', 'DietCoach', 'Cheat day = setback.'], ['🍗', 'Macro Counter', 'Protein target missed.'],
   ];
-  const ruleT = [0.45, 0.95, 1.45, 1.9, 2.3, 2.65, 2.95, 3.2, 3.45, 3.7, 3.95];
-  const notifT = [1.65, 2.5, 3.1, 4.1];
-  const chaos = $('#chaos'), pile = [];
-  RULES.forEach((r, i) => {
-    const el = document.createElement('div');
-    el.className = 'rule'; el.textContent = r.t;
-    el.style.cssText = `left:${r.x}px;top:${r.y}px;font:${r.f};color:${r.c};transform:rotate(${r.r}deg)`;
-    chaos.appendChild(el); pile.push(el);
-    tl.fromTo(el, { opacity: 0, scale: 1.7, rotation: r.r * 2.5, filter: 'blur(10px)' },
-      { opacity: 1, scale: 1, rotation: r.r, filter: 'blur(0px)', duration: 0.16, ease: 'power3.out', immediateRender: true }, ruleT[i]);
-    META.slams.push(ruleT[i]);
+  const notifT = [0.85, 1.6, 2.2, 2.7, 3.1, 3.4, 3.7, 3.95, 4.2];
+  const stack = L.querySelector('.lstack'), NB = [];
+  NOTIFS.forEach(([ic, app, msg], k) => {
+    const n = document.createElement('div'); n.className = 'nb';
+    n.innerHTML = `<div class="ic">${ic}</div><div class="tx"><b>${app}</b><i>now</i><span>${msg}</span></div>`;
+    stack.appendChild(n); NB.push(n);
+    const t = notifT[k];
+    tl.fromTo(n, { y: -34, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.32, ease: 'ebOut', immediateRender: true }, t);
+    NB.slice(0, k).forEach((p, j) => tl.fromTo(p, { y: (k - 1 - j) * 82 }, { y: (k - j) * 82, duration: 0.3, ease: 'ebOut', immediateRender: false }, t));
+    tl.fromTo(L, { rotationZ: 0 }, { keyframes: [{ rotationZ: 1.4 }, { rotationZ: -1.4 }, { rotationZ: 1 }, { rotationZ: 0 }], duration: 0.2, ease: 'none', immediateRender: false }, t);   // buzz
+    META.notifs.push(t);
   });
-  NOTIFS.forEach((n, i) => {
-    const el = document.createElement('div');
-    el.className = 'notif';
-    el.style.cssText = `left:${n.x}px;top:${n.y}px`;
-    el.innerHTML = `<div class="ic">${n.ic}</div><div><b>${n.b}</b><span>${n.s}</span></div>`;
-    chaos.appendChild(el); pile.push(el);
-    tl.fromTo(el, { opacity: 0, y: -40, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.28, ease: 'ebOut', immediateRender: true }, notifT[i]);
-    META.notifs.push(notifT[i]);
+  // the rules, one huge word per beat, faster and faster
+  const WORDS = [['COUNT.', '#FAF0DF'], ['CUT.', '#F0A26A'], ['SKIP.', '#AFCFC4'], ['BURN.', '#E26023'], ['WEIGH.', '#FAF0DF'], ['RESTRICT.', '#F0A26A'], ['REPEAT.', '#E26023']];
+  const wordT = [0.5, 1.5, 2.25, 2.75, 3.25, 3.65, 4.05];
+  const WEL = WORDS.map(([w, c], i) => {
+    const el = document.createElement('div'); el.className = 'rword'; el.textContent = w; el.style.color = c;
+    el.style.fontSize = Math.min(210, 940 / (w.length * 0.72)) + 'px'; el.style.marginTop = -Math.min(210, 940 / (w.length * 0.72)) / 2 + 'px';
+    chaos.insertBefore(el, L);
+    tl.fromTo(el, { opacity: 0, scale: 1.35, filter: 'blur(10px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.16, ease: 'power3.out', immediateRender: true }, wordT[i]);
+    if (i < WORDS.length - 1) tl.set(el, { opacity: 0 }, wordT[i + 1]);
+    META.slams.push(wordT[i]);
+    return el;
   });
-  // tension: the whole pile shakes harder as it fills (deterministic jitter)
-  const shake = { p: 0 };
-  tl.fromTo(shake, { p: 0 }, { p: 1, duration: 4.2, ease: 'none', immediateRender: false, onUpdate: () => {
-    const t = 0.4 + shake.p * 4.2, a = Math.pow(shake.p, 2) * 9;
-    chaos.style.transform = `translate(${Math.sin(t * 47) * a}px, ${Math.cos(t * 39) * a}px) scale(${1 + shake.p * 0.04})`;
-  } }, 0.4);
-  // freeze → blur back → one human line in the silence
-  tl.set(chaos, { transform: 'translate(0px,0px) scale(1.04)' }, 4.62);
-  tl.to(chaos, { filter: 'blur(14px)', opacity: 0.28, duration: 0.6, ease: 'ebSoft' }, 4.7);
-  tl.set('#exhaust', { opacity: 1 }, 4.85);
-  reveal($('#exhaust'), 4.85, 0.12);
-  // everything implodes into eight seeds
-  tl.to('#exhaust', { scale: 0.2, opacity: 0, duration: 0.45, ease: 'ebIn' }, 5.75);
-  tl.to(pile, { x: (i, el) => 960 - (el.offsetLeft + el.offsetWidth / 2), y: (i, el) => 540 - (el.offsetTop + el.offsetHeight / 2),
-    scale: 0.02, opacity: 0, duration: 0.5, stagger: 0.015, ease: 'ebIn' }, 5.7);
-  META.hits.push(6.2);
-  const seedsA = seedRing($('#seedsA'), 360);
-  const half = (el) => parseFloat(el.style.width) / 2;
-  tl.fromTo(seedsA, { x: (i, el) => -(parseFloat(el.style.left) + half(el)), y: (i, el) => -(parseFloat(el.style.top) + half(el)), scale: 0.3, opacity: 0 },
-    { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.45, ease: 'ebOut', stagger: 0.02, immediateRender: true }, 6.0);
-  burst('#E26023', 6.05);
+  // freeze → silence: the last word dissolves, the notifications are swiped away, the phone backs off
+  tl.to(WEL[WEL.length - 1], { opacity: 0, filter: 'blur(16px)', duration: 0.5, ease: 'ebSoft' }, 4.65);
+  tl.to(NB.slice().reverse(), { x: 420, opacity: 0, duration: 0.4, stagger: 0.035, ease: 'ebIn' }, 4.7);
+  tl.to(L, { x: 960 - 1340, y: 30, scale: 0.62, rotationY: 0, opacity: 0.32, filter: 'blur(5px)', duration: 1.0, ease: 'ebSoft' }, 4.75);
+  tl.set('#exhaust', { opacity: 1 }, 4.95);
+  reveal($('#exhaust'), 4.95, 0.12);
+  tl.to('#exhaust', { scale: 0.6, opacity: 0, filter: 'blur(10px)', duration: 0.45, ease: 'ebIn' }, 5.75);
+  tl.to(L, { scale: 0.3, opacity: 0, duration: 0.45, ease: 'ebIn' }, 5.75);
+  // the flower opens: eight petals grow out of the centre and flood the frame with brand orange
+  const petals = $('#petals');
+  const PC = ['#F0A26A', '#E9876A', '#E26023', '#F2B07E'];
+  HOLES.forEach(([hx, hy], i) => {
+    const d = document.createElement('div'), k = 360 / 618;
+    d.style.cssText = `position:absolute;left:${(hx - CX) * k - 40}px;top:${(hy - CY) * k - 40}px;width:80px;height:80px;border-radius:50%;background:${PC[i % 4]}`;
+    petals.appendChild(d);
+    tl.fromTo(d, { scale: 0 }, { scale: 32, duration: 0.7, ease: 'ebIn', immediateRender: true }, 5.85 + i * 0.03);
+  });
+  const core = document.createElement('div');
+  core.style.cssText = 'position:absolute;left:-60px;top:-60px;width:120px;height:120px;border-radius:50%;background:#E26023';
+  petals.appendChild(core);
+  tl.fromTo(core, { scale: 0 }, { scale: 24, duration: 0.5, ease: 'ebIn', immediateRender: true }, 6.05);
+  tl.fromTo(petals, { rotation: -30 }, { rotation: 20, duration: 0.8, ease: 'ebSoft', immediateRender: true }, 5.85);
+  META.whooshes.push(6.3); META.hits.push(6.5);
 
   // ================= 2 · The turn (6.5 – 10.5) =================
   scene('sc2', 6.5, 10.95);
@@ -360,6 +366,8 @@
   tl.to('#fl2', { y: -250, scale: 0.42, duration: 0.9, ease: 'ebSoft' }, 7.6);
   tl.set(['#t2b', '#wm2'], { opacity: 0 }, 0);
   reveal($('#t2a'), 7.95, 0.1);
+  tl.fromTo('#t2a .sline', { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: 'ebPush', immediateRender: false }, 8.5);   // crossed out
+  META.whooshes.push(8.55);
   tl.set('#t2a', { opacity: 0 }, 8.95); tl.set('#t2b', { opacity: 1 }, 8.95);          // hard word-swap on the beat
   reveal($('#t2b'), 8.95, 0.09);
   META.hits.push(8.95);
@@ -611,6 +619,13 @@
     tl.fromTo(o, { v: 0 }, { v: to, duration: dur, ease: 'ebOut', immediateRender: false, onUpdate: () => w.cnt.textContent = o.v.toFixed(dec) }, t + 0.1);
     tl.call(() => w.cnt.textContent = (0).toFixed(dec), null, t);
     META.ticks.push(t + 0.1); META.notifs.push(t + 0.15);
+    // the phone 'beats' and sends a ripple into the world behind it
+    tl.to(P7.ph, { scale: S7 * 1.045, duration: 0.14, ease: 'ebOut' }, t + 0.15);
+    tl.to(P7.ph, { scale: S7, duration: 0.55, ease: 'ebSoft' }, t + 0.29);
+    const rp = document.createElement('div');
+    rp.style.cssText = `position:absolute;left:${PX - 260}px;top:${PY - 260}px;width:520px;height:520px;border-radius:50%;border:5px solid ${['#3B7668', '#FAF0DF', '#FAF0DF'][i]};opacity:0;z-index:2`;
+    $('#sc7').insertBefore(rp, $('#world7'));
+    tl.fromTo(rp, { scale: 0.7, opacity: 0.9 }, { scale: 2.3, opacity: 0, duration: 1.0, ease: 'ebOut', immediateRender: false }, t + 0.15);
   };
   const seeds = (t, cols) => {
     const host = $('#seed7');
