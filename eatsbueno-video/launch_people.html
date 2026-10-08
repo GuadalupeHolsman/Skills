@@ -388,7 +388,7 @@
   META.whooshes.push(6.3); META.hits.push(6.5);
 
   // ================= 2 · The turn (6.5 – 10.5) =================
-  scene('sc2', 6.5, 10.95);
+  scene('sc2', 6.5, 11.1);
   const seedsB = seedRing($('#seedsB'), 360);
   tl.set(seedsB, { opacity: 1 }, 6.5);
   tl.fromTo('#fl2', { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 1.2, ease: 'ebOut', immediateRender: true }, 6.6);
@@ -406,13 +406,12 @@
   tl.fromTo('#wm2', { opacity: 1, clipPath: 'inset(0 100% 0 0)' }, { opacity: 1, clipPath: 'inset(0 0% 0 0)', duration: 0.6, ease: 'ebOut', immediateRender: false }, 9.95);
   META.hits.push(9.95);
   // zoom-through into the hero
-  tl.set('#sc2', { zIndex: 5 }, 10.44);
-  tl.to('#sc2', { scale: 1.35, filter: 'blur(14px)', opacity: 0, duration: 0.5, ease: 'ebIn' }, 10.45);
+  tl.to('#sc2', { x: -1920, filter: 'blur(18px)', duration: 0.6, ease: 'ebSoft' }, 10.45);   // push left, the film's current
   META.whooshes.push(10.45);
 
   // ================= 3 · Phone hero (10.5 – 14.4) =================
   scene('sc3', 10.45, 14.45);
-  tl.fromTo('#sc3 > .zw', { scale: 0.86, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'ebOut', immediateRender: false }, 10.55);
+  tl.fromTo('#sc3', { x: 1920, filter: 'blur(18px)' }, { x: 0, filter: 'blur(0px)', duration: 0.6, ease: 'ebSoft', immediateRender: false }, 10.45);
   const P3 = makePhone($('#ph3wrap'), 'Welcome', 960, 680);
   gsap.set(P3.ph, { scale: 0.8 });
   finger(P3);
@@ -546,8 +545,7 @@
       { x: 0, y: 0, scale: 1.15, rotationY: 0, opacity: 1, duration: 0.85, ease: 'ebOut', immediateRender: true }, t);
     META.whooshes.push(t + 0.1);
   });
-  tl.set('#sc5', { zIndex: 5 }, 28.39);
-  tl.to('#sc5', { scale: 1.3, filter: 'blur(14px)', opacity: 0, duration: 0.5, ease: 'ebIn' }, 28.4);
+  tl.to('#sc5', { x: -1920, filter: 'blur(18px)', duration: 0.6, ease: 'ebSoft' }, 28.4);   // push left
   META.whooshes.push(28.4);
 
   // ================= 6 · Scan (28.4 – 34.4) =================
@@ -555,7 +553,7 @@
   // barcode and beeps; the card's numbers count up big on the left while each lights up on the card;
   // "Log meal" is tapped, and "Done." draws a big check before the scene lifts away
   scene('sc6', 28.4, 35.15);
-  tl.fromTo('#sc6 > .zw', { scale: 0.86, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'ebOut', immediateRender: false }, 28.4);
+  tl.fromTo('#sc6', { x: 1920, filter: 'blur(18px)' }, { x: 0, filter: 'blur(0px)', duration: 0.6, ease: 'ebSoft', immediateRender: false }, 28.4);
   META.scans = []; META.success = []; META.pops = [];
   const X6 = 1400, Y6 = 560, S6 = 0.92, C6 = 1.0;
   const P6 = makePhone($('#ph6wrap'), 'Scanner_Barcode', X6, Y6, 'Scanner_Barcode_Empty');
@@ -814,9 +812,18 @@
   // 2 · "Just eat good." — friends actually enjoying food, in brand orange
   const S2 = $('#sc2'), ORANGE = 'background:#E26023;mix-blend-mode:multiply;opacity:.78';
   const f2 = foot(S2, $('#seedsB'), 'friends', 8.95, 1.6, { tint: ORANGE, vcss: 'filter:grayscale(1) contrast(1.15) brightness(1.15)' });
-  show(f2, 8.95, 10.6);
+  show(f2, 8.95, 11.1);
   tl.fromTo(f2.firstChild, { scale: 1.12 }, { scale: 1.0, duration: 1.6, ease: 'ebOut', immediateRender: false }, 8.95);
   tl.to(f2, { opacity: 0.45, duration: 0.4, ease: 'ebSoft' }, 9.9);
+  // soft, blurred, brand-tinted life behind the UI scenes
+  const bed = (sid, before, name, t0, t1, tint) => {
+    const b = foot($('#' + sid), before, name, t0, t1 - t0 + 0.2, { tint, vcss: 'filter:blur(14px) saturate(.8);transform:scale(1.12)' });
+    show(b, t0, t1);
+    return b;
+  };
+  bed('sc3', $('#sc3 > .zw'), 'bed_friends', 10.45, 14.45, 'background:#F6E3D2;opacity:.84');
+  bed('sc4', $('#h4'), 'bed_family', 13.95, 21.2, 'background:#DCEBE4;opacity:.86');
+  bed('sc5', $('#eb5'), 'bed_salad', 20.55, 29.0, 'background:#2F6357;opacity:.86');
   // 6 · POV in the supermarket for the whole scan: sharp at first, then soft and warm behind the numbers
   const ZW6 = $('#sc6 > .zw');
   const f6 = foot(ZW6, ZW6.firstChild, 'supermarket', 28.4, 6.8, { tint: 'background:#F8E6D5;opacity:0', vcss: 'filter:saturate(.95)' });

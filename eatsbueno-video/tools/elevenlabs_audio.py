@@ -62,10 +62,26 @@ music_prompt = (
     f"{SIL0:.1f}s to {SIL1:.1f}s: complete silence. "
     f"{SIL1:.1f}s to {G0:.1f}s: a warm bloom — soft felt piano and airy pads, hopeful, like sunlight. "
     f"{G0:.1f}s to {G1:.1f}s: confident modern groove — clean kick and claps, plucked synth arpeggios, warm bass, "
-    f"playful and polished, Apple-keynote energy. "
+    f"playful and polished, tech product launch energy. "
     f"{G1:.1f}s to the end: a big uplifting final hit, then a gentle resolved outro. Instrumental, no vocals."
 )
-music = load(post('/v1/music', {'prompt': music_prompt, 'music_length_ms': int(DUR * 1000)}, os.path.join(CACHE, 'music.mp3')))
+# a composition plan pins every section to the film's own cue points, so the music turns exactly with the picture
+ms = lambda a, b: int(round((b - a) * 1000))
+PLAN = {
+    'positive_global_styles': ['premium product launch film score', 'warm, optimistic, modern', '120 BPM', 'instrumental', 'polished mix'],
+    'negative_global_styles': ['vocals', 'lyrics', 'lo-fi', 'distortion'],
+    'sections': [
+        {'section_name': 'Diet noise', 'duration_ms': ms(0, SIL0), 'lines': [],
+         'positive_local_styles': ['tense anxious build', 'fast ticking hi-hats', 'low pulsing drone', 'rising, getting faster'], 'negative_local_styles': ['melody', 'warmth']},
+        {'section_name': 'Breath and bloom', 'duration_ms': ms(SIL0, G0), 'lines': [],
+         'positive_local_styles': ['starts in near silence for about 1.6 seconds', 'then a warm bloom', 'soft felt piano', 'airy pads', 'hopeful sunlight'], 'negative_local_styles': ['drums']},
+        {'section_name': 'Groove', 'duration_ms': ms(G0, G1), 'lines': [],
+         'positive_local_styles': ['confident modern groove', 'clean kick and claps', 'plucked synth arpeggios', 'warm bass', 'playful and polished, tech product launch energy'], 'negative_local_styles': ['breakdown', 'silence']},
+        {'section_name': 'Finale', 'duration_ms': ms(G1, DUR), 'lines': [],
+         'positive_local_styles': ['big uplifting final hit', 'full warm chords', 'gentle resolved ending'], 'negative_local_styles': ['abrupt stop']},
+    ],
+}
+music = load(post('/v1/music', {'composition_plan': PLAN, 'model_id': 'music_v1'}, os.path.join(CACHE, 'music_plan.mp3')))
 
 # ---------------- sound effects kit ----------------
 SFX = {
@@ -91,8 +107,25 @@ kit = {k: load(post('/v1/sound-generation', {'text': t, 'duration_seconds': d, '
 # ---------------- mix: music bus + effects bus, music ducks under every hit ----------------
 N = int(DUR * SR)
 mus = np.zeros((N, 2), dtype=np.float32)
-m = music[:N]
-mus[:len(m)] += m
+# Re-cut the generated track onto the picture, on its own beat grid (120 BPM, groove downbeat at 16.0 s in the
+# generated file): (picture start, picture end, source start). Bloom is pulled forward so the groove lands on
+# G0; one 4-bar phrase repeats at the scan -> victories seam so the resolve lands on the logo.
+GROOVE_SRC = 16.0
+SEGS = [(0.0, SIL0, 0.0),
+        (SIL1 - 0.95, G0, GROOVE_SRC - (G0 - (SIL1 - 0.95))),
+        (G0, 34.4, GROOVE_SRC),
+        (34.4, 42.4, GROOVE_SRC + (34.4 - G0) - 8.0),
+        (42.4, DUR, GROOVE_SRC + (42.4 - G0) - 8.0)]
+XF = int(0.02 * SR)
+for p0, p1, src in SEGS:
+    a, b, s0 = int(p0 * SR), int(p1 * SR), int(src * SR)
+    seg = music[s0:s0 + (b - a)].copy()
+    if len(seg) < b - a:
+        seg = np.pad(seg, ((0, b - a - len(seg)), (0, 0)))
+    fi = int((0.3 if p0 == SIL1 - 0.95 else 0.02) * SR)
+    seg[:fi] *= np.linspace(0, 1, fi)[:, None]
+    seg[-XF:] *= np.linspace(1, 0, XF)[:, None]
+    mus[a:b] += seg[:b - a]
 sfx = np.zeros((N, 2), dtype=np.float32)
 duck = np.ones(N, dtype=np.float32)
 
