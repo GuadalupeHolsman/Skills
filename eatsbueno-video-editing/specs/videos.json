@@ -318,5 +318,6 @@
    "eq": "voice",
    "fade_out": 0.3
   }
- ]
+ ],
+ "caption_style": "clean"
 }

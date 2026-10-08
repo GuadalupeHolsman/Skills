@@ -92,6 +92,23 @@ def wrap_runs(words, maxw, f, d):
     if cur: lines.append(cur)
     return lines
 
+def caption_png_clean(W, H, text, y, size=60):
+    """Style A: Manrope Bold, white, no outline, soft drop shadow."""
+    im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); f = font("Manrope700", size); d = ImageDraw.Draw(im)
+    lines, cur = [], ""
+    for w in text.split():
+        t = (cur + " " + w).strip()
+        if cur and d.textlength(t, font=f) > W - 200: lines.append(cur); cur = w
+        else: cur = t
+    lines.append(cur); lh = int(size * 1.27)
+    sh = Image.new("RGBA", (W, H), (0, 0, 0, 0)); sd = ImageDraw.Draw(sh)
+    for i, l in enumerate(lines):
+        x = (W - d.textlength(l, font=f)) / 2; sd.text((x, y + i * lh + 3), l, font=f, fill=(0, 0, 0, 200))
+    im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(6))); d = ImageDraw.Draw(im)
+    for i, l in enumerate(lines):
+        x = (W - d.textlength(l, font=f)) / 2; d.text((x, y + i * lh), l, font=f, fill=(255, 255, 255))
+    return im
+
 def caption_png(W, H, text, y, size=66, keywords=()):
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     f = font("Manrope800", size); d = ImageDraw.Draw(im)
@@ -339,7 +356,10 @@ def main(spec_path):
     kw = set(k.lower().strip(".,!?") for k in spec.get("keywords", []))
     for j, o in enumerate(spec.get("overlays", [])):
         if o["type"] == "caption":
-            im = caption_png(W, H, o["text"], o.get("y", 1290), o.get("size", 66), kw | set(k.lower() for k in o.get("keywords", [])))
+            if spec.get("caption_style") == "clean":
+                im = caption_png_clean(W, H, o["text"], o.get("y", 1300), o.get("size", 60))
+            else:
+                im = caption_png(W, H, o["text"], o.get("y", 1290), o.get("size", 66), kw | set(k.lower() for k in o.get("keywords", [])))
             anim = o.get("anim", spec.get("caption_anim", "pop"))
         elif o["type"] == "label":
             im = label_png(W, H, o.get("kicker"), o.get("title"), o.get("y", 300), title_size=o.get("size", 84))
