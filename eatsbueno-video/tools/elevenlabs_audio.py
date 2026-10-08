@@ -15,6 +15,7 @@ import json
 import os
 import subprocess
 import sys
+import urllib.error
 import urllib.request
 
 import numpy as np
@@ -34,12 +35,17 @@ os.makedirs(CACHE, exist_ok=True)
 def post(path, body, dest):
     if os.path.exists(dest):
         return dest
-    if not KEY:
-        sys.exit('ELEVENLABS_API_KEY is not set (and %s is not cached yet)' % os.path.basename(dest))
-    req = urllib.request.Request('https://api.elevenlabs.io' + path, data=json.dumps(body).encode(),
-                                 headers={'xi-api-key': KEY, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg'})
-    with urllib.request.urlopen(req, timeout=300) as r, open(dest, 'wb') as f:
-        f.write(r.read())
+    headers = {'Content-Type': 'application/json', 'Accept': 'audio/mpeg'}
+    if KEY:                       # otherwise a cloud "network secret" injects xi-api-key at the proxy
+        headers['xi-api-key'] = KEY
+    req = urllib.request.Request('https://api.elevenlabs.io' + path, data=json.dumps(body).encode(), headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=300) as r:
+            data = r.read()
+    except urllib.error.HTTPError as e:
+        sys.exit('ElevenLabs %s -> HTTP %s: %s' % (path, e.code, e.read()[:400].decode(errors='replace')))
+    with open(dest, 'wb') as f:
+        f.write(data)
     return dest
 
 
