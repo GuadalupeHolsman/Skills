@@ -22,7 +22,7 @@ EXTRA = """
 def corners(color="var(--ink)", sub="rgba(244,242,238,.6)"):
     return (f'<div class="corner" style="left:60px;top:70px;color:{color}">LOOMLOCK<br>EXPERIENCES</div>'
             f'<div class="corner" style="right:60px;top:70px;text-align:right;color:{color}">CH 02<br>29.10</div>'
-            f'<div class="corner" style="left:60px;bottom:118px;color:{sub};font-size:17px">BOGOTÁ<br>{COORD}</div>'
+            f'<div class="corner" style="left:60px;bottom:118px;color:{sub};font-size:17px">INVITE<br>ONLY</div>'
             f'<div class="corner" style="right:60px;bottom:118px;text-align:right;color:{sub};font-size:17px">LIVE NOW,<br>POST LATER</div>')
 
 def legal(color="rgba(244,242,238,.7)", bg="rgba(6,6,9,.88)"):
@@ -37,8 +37,8 @@ def endcard(eid, bg="var(--blue)", big=("Live now,", "post later."), extra=""):
   {extra}
   <div class="sub" id="{eid}c" style="top:1130px">
     {lockup(44, 76)}
-    <div style="margin-top:26px;font-size:32px"><span class="b">Thu 29 Oct</span> <span class="i">· Resto Bar Bikinis · Bogotá</span></div>
-    <div style="margin-top:8px;font-size:30px"><span class="i">70 spots · 18+ ·</span> <span class="b">sign up via WhatsApp</span></div>
+    <div style="margin-top:26px;font-size:32px"><span class="b">Thu 29 Oct</span> <span class="i">· Bogotá · 18+</span></div>
+    <div style="margin-top:8px;font-size:30px"><span class="b y">Invite only.</span></div>
   </div>
 </div>'''
 
@@ -89,7 +89,7 @@ TEXT = ("Thursday, 29 October. Bogotá. Somewhere a phone is buzzing with forty 
         "and a story is being filmed of a party nobody is really at. Here is another idea. Your phone stays in your pocket. "
         "The apps take the night off. Tap the key at the door and Instagram, TikTok and WhatsApp go quiet until you leave. "
         "What is left is the room: music loud, tequila neat, Don Julio on the table and the people in front of you. "
-        "Seventy spots, eighteen and over, Resto Bar Bikinis. No feed tonight. Live now, post later. "
+        "Seventy guests, eighteen and over, invite only. No feed tonight. Live now, post later. "
         "Channel 02 of a series that travels city to city with one rule.")
 KEYS = {"Thursday,": 0, "29": 0, "October.": 0, "Bogotá.": 1, "phone": 2, "pocket.": 2, "apps": 3, "night": 3, "off.": 3,
         "music": 4, "loud,": 4, "tequila": 5, "neat,": 5, "people": 6, "front": 6, "you.": 6, "Live": 7, "now,": 7, "post": 7, "later.": 7}
@@ -124,7 +124,7 @@ def p1():
 <div class="corner" style="left:60px;top:70px;color:#141414">LOOMLOCK<br>EXPERIENCES</div>
 <div class="corner" style="right:60px;top:70px;text-align:right;color:#141414">CH 02<br>29.10</div>
 <div class="corner" id="redl" style="left:60px;bottom:118px;color:#141414;font-size:17px">REDACTED BY<br>LOOMLOCK</div>
-<div class="corner" style="right:60px;bottom:118px;text-align:right;color:#141414;font-size:17px">BOGOTÁ<br>{COORD}</div>
+<div class="corner" style="right:60px;bottom:118px;text-align:right;color:#141414;font-size:17px">INVITE<br>ONLY</div>
 {endcard("end")}
 {legal("rgba(20,20,20,.75)", "rgba(231,229,224,.92)")}
 '''
@@ -162,7 +162,7 @@ PHASES = [
     [("MUSIC", "w"), ("LOUD", "y"), ("TEQUILA", "o"), ("NEAT", "b"), ("DON JULIO", "w")],
     [("NO STORY", "o"), ("NO REEL", "w"), ("NO FEED", "o"), ("JUST", "y"), ("HERE", "w")],
 ]
-ANNO = ["LOOMLOCK EXPERIENCES · SERIES", "RESTO BAR BIKINIS · CRA 6 # 58–48", "70 SPOTS · 18+ · WHATSAPP", "ONE RULE · EVERY CITY"]
+ANNO = ["LOOMLOCK EXPERIENCES · SERIES", "INVITE ONLY · 18+", "70 GUESTS · NO FEED", "ONE RULE · EVERY CITY"]
 
 def style_of(st):
     return {"w": "color:var(--ink)", "y": "color:var(--yel)", "o": "color:var(--bg);-webkit-text-stroke:2.5px var(--ink)",
