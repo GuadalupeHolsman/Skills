@@ -1,0 +1,380 @@
+<title>Narrativa Loomlock Experiences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,500;1,700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: one reading column with full-width tables; the season "channel guide" is the single bold moment. */
+:root {
+  --bg: #f4f6fd; --surface: #ffffff; --fg: #10154a; --ink-2: #4b5288; --ink-3: #8d93c0;
+  --line: #dde1f2; --accent: #121b95; --sky: #9fd8ff; --sky-ink: #06264a; --muted-bar: #cdd2ee;
+  --go: #12805c; --caution: #a86400; --skip: #b2304a;
+  --tv: #121b95; --tv-ink: #ffffff; --tv-2: #e7e9fb;
+  --display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Space Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #070a2a; --surface: #0e1450; --fg: #eef0ff; --ink-2: #b8bdf0; --ink-3: #7c84c6;
+  --line: #232b78; --accent: #9fd8ff; --sky: #9fd8ff; --sky-ink: #06264a; --muted-bar: #2d3584;
+  --go: #4fd1a1; --caution: #f2b45a; --skip: #ff8098;
+  --tv: #121b95; --tv-ink: #ffffff; --tv-2: #e7e9fb; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #070a2a; --surface: #0e1450; --fg: #eef0ff; --ink-2: #b8bdf0; --ink-3: #7c84c6;
+  --line: #232b78; --accent: #9fd8ff; --sky: #9fd8ff; --sky-ink: #06264a; --muted-bar: #2d3584;
+  --go: #4fd1a1; --caution: #f2b45a; --skip: #ff8098;
+  --tv: #121b95; --tv-ink: #ffffff; --tv-2: #e7e9fb; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--display); font-size: 16px; line-height: 1.62; font-weight: 500; }
+.wrap { max-width: 880px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; display: grid; gap: 60px; }
+.col { max-width: 68ch; }
+h1, h2, h3 { text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
+h1 { font-size: clamp(42px, 8.5vw, 80px); font-weight: 800; line-height: 0.95; }
+h2 { font-size: clamp(24px, 4vw, 32px); font-weight: 800; line-height: 1.1; }
+h3 { font-size: 18px; font-weight: 700; line-height: 1.3; }
+p { margin: 0; }
+section { display: grid; gap: 18px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.lede { font-size: 19px; color: var(--ink-2); max-width: 62ch; }
+.small { font-size: 13px; color: var(--ink-2); }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+ul.clean { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; }
+header.top { display: grid; gap: 18px; }
+.lower { text-transform: lowercase; }
+
+.summary { display: grid; gap: 12px; padding: 22px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.summary ol { margin: 0; padding-left: 1.2em; display: grid; gap: 10px; }
+
+.shift { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.shift > div { padding: 18px 20px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.shift > div + div { border-left: 1px solid var(--line); }
+.shift b { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); font-weight: 400; }
+.shift q { font-weight: 800; font-size: 22px; line-height: 1.2; quotes: "“" "”"; }
+.shift .now q { color: var(--accent); }
+@media (max-width: 560px) { .shift { grid-template-columns: 1fr; } .shift > div + div { border-left: 0; border-top: 1px solid var(--line); } }
+
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); font-weight: 400; }
+tr:last-child td { border-bottom: 0; }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pill { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .06em; padding: 2px 8px; border-radius: 99px; border: 1.5px solid currentColor; white-space: nowrap; }
+.go { color: var(--go); } .caution { color: var(--caution); } .skip { color: var(--skip); } .watch { color: var(--ink-3); }
+
+figure { margin: 0; display: grid; gap: 10px; min-width: 0; }
+figcaption { font-size: 13px; color: var(--ink-2); }
+.chart { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .ax { fill: var(--ink-3); font: 12px var(--mono); }
+.chart .lab { font: 700 13px var(--display); }
+.chart .lab2 { fill: var(--fg); font: 500 13px var(--display); }
+.chart .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+.two > * { min-width: 0; }
+.callout { border-left: 4px solid var(--sky); padding: 4px 0 4px 18px; display: grid; gap: 8px; }
+
+.manifesto { background: var(--tv); color: var(--tv-ink); border-radius: 14px; padding: 32px clamp(20px, 5vw, 48px); display: grid; gap: 14px; }
+.manifesto p { font-size: clamp(19px, 2.6vw, 24px); font-weight: 600; line-height: 1.4; color: var(--tv-2); max-width: 34ch; }
+.manifesto p.last { color: var(--sky); font-weight: 800; font-size: clamp(24px, 3.4vw, 34px); }
+.manifesto .eyebrow { color: var(--sky); }
+
+.bible { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.bible > div { background: var(--surface); padding: 16px 18px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.bible b.k { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); font-weight: 400; }
+.bible p { font-size: 15px; }
+
+.steps { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.step { display: grid; grid-template-columns: 170px 1fr; gap: 6px 20px; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.step:last-child { border-bottom: 0; }
+.step .k { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); font-weight: 700; padding-top: 3px; }
+.step h3 { font-size: 17px; }
+.step p { font-size: 14px; color: var(--ink-2); }
+.step > div { display: grid; gap: 4px; min-width: 0; }
+.step.ten { background: color-mix(in srgb, var(--sky) 18%, var(--surface)); }
+@media (max-width: 560px) { .step { grid-template-columns: 1fr; } }
+
+/* the bold moment: season 01 as a TV channel guide */
+.guide { background: #05071f; color: #ffffff; border-radius: 16px; padding: clamp(18px, 4vw, 32px); display: grid; gap: 18px; }
+.guide .head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline; }
+.guide .head h3 { font-size: clamp(22px, 3.4vw, 30px); font-weight: 800; }
+.guide .head span { font-family: var(--mono); font-size: 12px; color: #9fd8ff; text-transform: uppercase; letter-spacing: .08em; }
+.chans { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.chan { background: #121b95; border-radius: 12px; padding: 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.chan .num { font-family: var(--mono); font-size: 12px; color: #9fd8ff; letter-spacing: .1em; display: flex; justify-content: space-between; gap: 8px; }
+.chan h4 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+.chan .line { font-weight: 700; font-style: italic; font-size: 17px; color: #ffffff; }
+.chan dl { margin: 0; display: grid; gap: 6px; font-size: 13px; }
+.chan dt { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #9fd8ff; }
+.chan dd { margin: 0 0 4px; color: #e7e9fb; }
+.dayline { display: grid; grid-template-columns: repeat(3, 1fr); font-family: var(--mono); font-size: 11px; color: #9fd8ff; text-transform: uppercase; letter-spacing: .08em; border-top: 1px solid #2b3490; padding-top: 10px; }
+.dayline span:nth-child(2) { text-align: center; } .dayline span:nth-child(3) { text-align: right; }
+
+.formats { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.fmt { padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); display: grid; gap: 6px; align-content: start; }
+.fmt b { font-size: 16px; }
+.fmt span { font-size: 14px; color: var(--ink-2); }
+.fmt em { font-family: var(--mono); font-style: normal; font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+.rules div { padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); display: grid; gap: 4px; }
+.rules b { font-size: 15px; }
+.rules span { font-size: 14px; color: var(--ink-2); }
+
+.sources { font-size: 13px; color: var(--ink-2); display: grid; gap: 6px; }
+.sources ol { margin: 0; padding-left: 1.3em; display: grid; gap: 4px; }
+.sources li { overflow-wrap: anywhere; }
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">Loomlock Experiences · Plataforma narrativa · Global</div>
+  <h1>El celular se queda contigo.</h1>
+  <p class="lede">La historia madre de Loomlock Experiences, desde cero: el cambio cultural que la sostiene, la historia que contamos, cómo se cuenta cada experiencia y cómo se adapta a cada marca, empezando por la temporada de octubre.</p>
+  <div class="meta"><span>Actualizado 8 oct 2026</span><span>Fuentes 2025–2026</span><span>Google Trends mundial</span></div>
+</header>
+
+<section class="summary" aria-labelledby="sum">
+  <h2 id="sum" style="font-size:22px">En una pantalla</h2>
+  <ol>
+    <li><b>El cambio que nombramos:</b> antes una noche contaba si se posteaba. Ahora cuenta si estuviste. Loomlock Experiences existe para ese segundo tipo de noche (y de mañana).</li>
+    <li><b>Nuestra diferencia tiene datos:</b> las bolsas con traba generan rechazo (crecen búsquedas de cómo abrirlas). Nosotros no le quitamos el celular a nadie: el celular se queda contigo, lo que se pausa son las apps.</li>
+    <li><b>La plataforma:</b> “Live now. Post later.” Cada experiencia se cuenta en cuatro capítulos: la invitación, el ritual, la experiencia (con la cuenta de la marca fuera del aire) y la galería.</li>
+    <li><b>Temporada 01 como un día:</b> la conversación (Juan Valdez), el ritual (Tequila Don Julio) y la fiesta (Smirnoff). Encaja con “build a better day”.</li>
+    <li><b>Cómo crece:</b> una llave, muchas puertas. Cada nueva marca aporta un ritual; la llave y la regla son siempre las mismas.</li>
+  </ol>
+</section>
+
+<section aria-labelledby="t1">
+  <div class="eyebrow">01 · El cambio</div>
+  <h2 id="t1">El cambio cultural que contamos</h2>
+  <div class="shift">
+    <div><b>Antes</b><q>La noche cuenta si se postea.</q><p class="small">Ir, filmar, subir, mirar quién vio. Estar en dos lugares a la vez.</p></div>
+    <div class="now"><b>Ahora</b><q>La noche cuenta si estuviste.</q><p class="small">Clubes que guardan el celular, cafés que hacen fiestas de mañana, gente que se junta a correr para conocer gente.</p></div>
+  </div>
+  <p class="col">No es una moda de bienestar: es gente que quiere que su tiempo libre valga la pena. Loomlock Experiences no se presenta como la solución a un problema (“usas mucho el celular”). Se presenta como quien abre las puertas a ese nuevo tipo de salida.</p>
+</section>
+
+<section aria-labelledby="t2">
+  <div class="eyebrow">02 · Tendencias</div>
+  <h2 id="t2">Lo que está pasando en el mundo</h2>
+  <p class="col">Puntaje sobre 25 (público, valores de marca, adaptabilidad, riesgo y momento), solo con evidencia fechada. La mayoría de los datos es de Estados Unidos, Reino Unido, Australia y Corea; casi no hay datos de América Latina.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Tendencia</th><th>Evidencia</th><th>Para Experiences</th><th>Puntaje</th><th>Decisión</th></tr></thead>
+      <tbody>
+        <tr><td><b>Eventos sin celular</b></td><td>+567% de eventos “phone-free” en Eventbrite, 2024 → T1 2026 (solo su plataforma). Clubes en Londres, Washington y Ámsterdam guardan celulares.</td><td>Es nuestra categoría.</td><td class="n">23/25</td><td><span class="pill go">GO</span></td></tr>
+        <tr><td><b>Rechazo a encerrar el celular</b></td><td>Google Trends mundial, 5 años: “yondr pouch opener” +1.350%, “yondr pouch magnet” +650%, “yondr pouches in schools” +700%.</td><td>Nuestra diferencia: el celular se queda contigo.</td><td class="n">22/25</td><td><span class="pill go">GO</span></td></tr>
+        <tr><td><b>Lo offline como lujo</b></td><td>Forbes (mar 2026): “Why offline is the new luxury”. Marcas de lujo con cenas en silencio y celulares guardados (sep 2026).</td><td>Invitación, cupos limitados, la llave como objeto deseable.</td><td class="n">21/25</td><td><span class="pill go">GO</span></td></tr>
+        <tr><td><b>Salir de día y sin alcohol</b></td><td>Coffee raves: Seoul Morning Coffee Club, AM.RADIO (Los Ángeles); Daybreaker hizo festivales sobrios en Santa Mónica y Brooklyn (sep 2026, CNN).</td><td>Formato natural para Juan Valdez y marcas sin alcohol.</td><td class="n">20/25</td><td><span class="pill go">GO</span></td></tr>
+        <tr><td><b>Comunidad en persona</b></td><td>Strava: +59% de clubes de running en 2024; 55% de Gen Z se suma por lo social. Datos de soledad entre 41% y 80% según la encuesta (no comparables).</td><td>Experiences como lugar para encontrarse, no solo para ir a una fiesta.</td><td class="n">18/25</td><td><span class="pill go">GO</span></td></tr>
+        <tr><td><b>Experiencias de marca</b></td><td>EventTrack 2026 (vía Campaign): 61% más dispuesto a comprar tras una experiencia en vivo. Backlash (2026): rechazo a experiencias armadas para redes.</td><td>Hacerlo en serio: si la experiencia existe para el feed, pierde.</td><td class="n">17/25</td><td><span class="pill caution">CUIDADO</span></td></tr>
+        <tr><td><b>Gen Z toma distinto</b></td><td>IWSR (jul 2026): 74% de Gen Z en edad legal toma, pero menos por ocasión.</td><td>Con espirituosas: calidad y ritual, no cantidad. +18 siempre.</td><td class="n">15/25</td><td><span class="pill caution">CUIDADO</span></td></tr>
+        <tr><td><b>Lentes con cámara</b></td><td>Clubes como BASEMENT (Nueva York) los prohíben (ago–sep 2026).</td><td>La llave no los bloquea. Definir política.</td><td class="n">—</td><td><span class="pill watch">OBSERVAR</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section aria-labelledby="t3">
+  <div class="eyebrow">03 · El dato</div>
+  <h2 id="t3">Encerrar el celular genera rechazo</h2>
+  <figure>
+    <span id="c1t" style="font-weight:700">Búsquedas en alza relacionadas con “yondr” (bolsas con traba), mundial</span>
+    <svg viewBox="0 0 640 166" role="img" aria-labelledby="c1t" class="chart"><text x="220" y="19.4" class="lab2" text-anchor="end">yondr pouch opener</text><rect x="230" y="4" width="340.0" height="22" rx="3" fill="var(--accent)"/><text x="578.0" y="19.4" class="lab2 num">+1,350%</text><text x="220" y="51.4" class="lab2" text-anchor="end">yondr pouches in schools</text><rect x="230" y="36" width="176.3" height="22" rx="3" fill="var(--accent)"/><text x="414.3" y="51.4" class="lab2 num">+700%</text><text x="220" y="83.4" class="lab2" text-anchor="end">yondr pouch magnet</text><rect x="230" y="68" width="163.7" height="22" rx="3" fill="var(--accent)"/><text x="401.7" y="83.4" class="lab2 num">+650%</text><text x="220" y="115.4" class="lab2" text-anchor="end">what are yondr pouches</text><rect x="230" y="100" width="151.1" height="22" rx="3" fill="var(--accent)"/><text x="389.1" y="115.4" class="lab2 num">+600%</text><text x="220" y="147.4" class="lab2" text-anchor="end">how much is a yondr pouch</text><rect x="230" y="132" width="100.7" height="22" rx="3" fill="var(--accent)"/><text x="338.7" y="147.4" class="lab2 num">+400%</text></svg>
+    <figcaption>Google Trends, 5 años, consulta del 8 oct 2026. Crecimiento de cada búsqueda relacionada. Buena parte viene de escuelas que obligan a usar las bolsas.</figcaption>
+  </figure>
+  <div class="callout col">
+    <h3>Por qué importa</h3>
+    <p>Cuando te encierran el celular, buscas cómo abrirlo. Loomlock no encierra nada: el celular se queda contigo, con cámara, llamadas y mapas, y lo que se pausa son las apps que te sacan del lugar. La regla de Experiences no es un castigo, es una elección que haces con un tap.</p>
+  </div>
+  <p class="small col">Descartamos la búsqueda “phone free” como medida: su consulta principal es “free cell phone” (celulares gratis) y no mide eventos sin celular.</p>
+</section>
+
+<section aria-labelledby="t4">
+  <div class="eyebrow">04 · La historia</div>
+  <h2 id="t4">La biblia de la historia</h2>
+  <div class="bible">
+    <div><b class="k">Protagonista</b><p>Quien llega a la experiencia: 21–35, vive conectado, sale menos y elige mejor. La marca nunca es la protagonista.</p></div>
+    <div><b class="k">Su mundo hoy</b><p>Está en la mesa y en el grupo de chat a la vez. Ve el recital a través de su pantalla. Vuelve a casa con 200 fotos y pocos recuerdos.</p></div>
+    <div><b class="k">Lo que quiere</b><p>Práctico: un buen plan. De fondo: estar presente sin tener que hacer fuerza, y conocer gente de verdad.</p></div>
+    <div><b class="k">El problema</b><p><b>Afuera:</b> apps hechas para no soltarte. <b>Adentro:</b> la sensación de estar en todos lados y en ninguno. <b>De fondo:</b> los mejores momentos no deberían tener notificaciones.</p></div>
+    <div><b class="k">Lo que hace hoy y no alcanza</b><p>Fuerza de voluntad, modo avión, el celular boca abajo, o bolsas con traba que dan ansiedad y ganas de abrirlas.</p></div>
+    <div><b class="k">Las guías</b><p><b>Loomlock:</b> la llave que pausa las apps con un tap y te deja el celular. <b>La marca anfitriona:</b> pone el ritual (una taza, un trago, una fiesta).</p></div>
+    <div><b class="k">El plan</b><p>1. Te registras y recibes la llave. 2. Tap en la puerta. 3. Vives la experiencia. 4. A los 2–3 días, la galería en la app.</p></div>
+    <div><b class="k">Lo que está en juego</b><p>Si nada cambia: más planes vividos a medias. Si cambia: momentos que se recuerdan y gente que vuelve.</p></div>
+    <div><b class="k">Después</b><p>No volviste con contenido. Volviste con una historia, con gente nueva y con ganas de la próxima puerta.</p></div>
+    <div><b class="k">Prueba</b><p>[falta prueba] Datos reales de Loomlock por experiencia (horas de apps en pausa, taps en la puerta, aperturas de la galería) y frases de asistentes con permiso. Nada inventado.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="t5">
+  <div class="eyebrow">05 · Plataforma</div>
+  <h2 id="t5">La idea que ordena todo</h2>
+  <div class="manifesto">
+    <span class="eyebrow">Manifiesto · borrador</span>
+    <p>Hay planes que se viven y planes que se muestran.</p>
+    <p>Nosotros hacemos los primeros.</p>
+    <p>Tu celular entra contigo. Lo que se queda afuera es el feed, los grupos y las notificaciones.</p>
+    <p>Adentro hay una taza, un trago, una canción y alguien al lado.</p>
+    <p>Después, si quieres, lo cuentas.</p>
+    <p class="last lower">live now. post later.</p>
+  </div>
+  <div class="two">
+    <div class="callout"><h3>Línea de plataforma</h3><p><b class="lower">live now. post later.</b> Ya existe en el neón de las activaciones: la elevamos a firma de todo el programa.</p></div>
+    <div class="callout"><h3>Idea de crecimiento</h3><p><b>Una llave, muchas puertas.</b> La misma llave abre cada experiencia. Cada edición es coleccionable y anuncia la siguiente.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="t6">
+  <div class="eyebrow">06 · Cómo se cuenta cada experiencia</div>
+  <h2 id="t6">Cuatro capítulos, siempre los mismos</h2>
+  <p class="col">Una estructura sin villano: presentación, desarrollo, giro y cierre. Se apoya en los seis momentos del plan de producción (registro, confirmación, 24 h antes, puerta, durante, después) y les da un orden de historia.</p>
+  <div class="steps">
+    <div class="step"><span class="k">1 · La invitación</span><div><h3>Algo va a pasar</h3><p>Registro y confirmación. Llega la llave. Se explica la regla en una línea: el celular se queda contigo.</p></div></div>
+    <div class="step"><span class="k">2 · El ritual</span><div><h3>Cómo se entra</h3><p>24 h antes y en la puerta. El tap como ceremonia: el momento más fotografiado lo hace el fotógrafo oficial, no los invitados.</p></div></div>
+    <div class="step ten"><span class="k">3 · El giro</span><div><h3>Fuera del aire</h3><p>Durante la experiencia, la cuenta de Loomlock y la de la marca también se apagan. Un solo post: “CH 0X · fuera del aire. Volvemos después.” Sin cobertura en vivo.</p></div></div>
+    <div class="step"><span class="k">4 · La galería</span><div><h3>Se cuenta</h3><p>2–3 días después, la galería en la app, frases de asistentes y el dato de la noche. Cierra anunciando la próxima puerta.</p></div></div>
+  </div>
+</section>
+
+<section aria-labelledby="t7">
+  <div class="eyebrow">07 · Temporada 01</div>
+  <h2 id="t7">Tres noches, un octubre</h2>
+  <p class="col">La temporada se cuenta como un día completo, de la primera taza a la última canción. Así la serie tiene un arco y se conecta con “build a better day”.</p>
+  <div class="guide" role="group" aria-label="Guía de canales de la temporada 01">
+    <div class="head"><h3>Guía de canales</h3><span>Temporada 01 · Octubre 2026</span></div>
+    <div class="chans">
+      <article class="chan">
+        <div class="num"><span>CH 01</span><span>Lun 26 oct</span></div>
+        <h4>Juan Valdez</h4>
+        <p class="line">“Una taza, una conversación.”</p>
+        <dl>
+          <dt>Momento</dt><dd>La conversación. Formato de cata íntima, idealmente de día.</dd>
+          <dt>Ritual</dt><dd>La cata guiada: aroma, origen, alguien enfrente.</dd>
+          <dt>Tendencia</dt><dd>Coffee raves y salidas de día sin alcohol.</dd>
+          <dt>Locky</dt><dd>Puede aparecer (nivel 0–2).</dd>
+        </dl>
+      </article>
+      <article class="chan">
+        <div class="num"><span>CH 02</span><span>Jue 29 oct</span></div>
+        <h4>Tequila Don Julio</h4>
+        <p class="line">“Lo que no se postea, se cuenta.”</p>
+        <dl>
+          <dt>Momento</dt><dd>El ritual. La noche principal, Locked In.</dd>
+          <dt>Ritual</dt><dd>Un trago que se toma mirando a alguien.</dd>
+          <dt>Tendencia</dt><dd>Clubes sin celular y tequila premium.</dd>
+          <dt>Locky</dt><dd>Nivel 0 (sin mascota). +18.</dd>
+        </dl>
+      </article>
+      <article class="chan">
+        <div class="num"><span>CH 03</span><span>31 oct o 1 nov</span></div>
+        <h4>Smirnoff</h4>
+        <p class="line">“Disfrázate para los que están.”</p>
+        <dl>
+          <dt>Momento</dt><dd>La fiesta. Halloween o víspera de feriado.</dd>
+          <dt>Ritual</dt><dd>El disfraz, hecho para la gente de la sala y no para el feed.</dd>
+          <dt>Tendencia</dt><dd>En Halloween el disfraz suele pensarse para la foto: el contraste es la historia.</dd>
+          <dt>Locky</dt><dd>Nivel 0 (sin mascota). +18.</dd>
+        </dl>
+      </article>
+    </div>
+    <div class="dayline"><span>la conversación</span><span>el ritual</span><span>la fiesta</span></div>
+  </div>
+  <p class="small col">Fechas del plan de octubre. La de Smirnoff (31 oct o 1 nov) sigue sin confirmar.</p>
+</section>
+
+<section aria-labelledby="t8">
+  <div class="eyebrow">08 · Formatos que se repiten</div>
+  <h2 id="t8">El sistema de contenidos</h2>
+  <div class="formats">
+    <div class="fmt"><em>Capítulo 1</em><b>La llave</b><span>Cada edición tiene su diseño y se presenta como invitación. Coleccionable.</span></div>
+    <div class="fmt"><em>Capítulos 1–2</em><b>La regla</b><span>Una línea, siempre igual: el celular se queda contigo.</span></div>
+    <div class="fmt"><em>Capítulo 2</em><b>El tap</b><span>El video corto del tap en la puerta. Lo filma el fotógrafo oficial.</span></div>
+    <div class="fmt"><em>Capítulo 3</em><b>Fuera del aire</b><span>Post y story en negro durante la experiencia. Sin cobertura en vivo.</span></div>
+    <div class="fmt"><em>Capítulo 4</em><b>La galería</b><span>Fotos oficiales en la app a los 2–3 días. Es lo que hace volver.</span></div>
+    <div class="fmt"><em>Capítulo 4</em><b>El dato</b><span>“Esta noche, X horas de apps en pausa.” Solo con datos reales de Loomlock.</span></div>
+  </div>
+</section>
+
+<section aria-labelledby="t9">
+  <div class="eyebrow">09 · Cómo crece</div>
+  <h2 id="t9">Las próximas puertas</h2>
+  <p class="col">Cada nueva marca entra si responde que sí a tres preguntas:</p>
+  <ul class="clean col">
+    <li><b>¿Trae un ritual?</b> Algo que se hace con las manos, la boca o el cuerpo: probar, brindar, bailar, correr, cocinar.</li>
+    <li><b>¿Mejora sin pantalla?</b> Si la experiencia pierde sin el celular, no es para nosotros.</li>
+    <li><b>¿Se cuenta después?</b> Tiene que dejar algo para la galería y para contar.</li>
+  </ul>
+  <p class="col">Categorías que pasan el filtro: cenas compartidas, clubes de running, sesiones de escucha de discos, catas, talleres. Las cenas compartidas y los clubes de running tienen tendencia a favor en las fuentes; el resto son hipótesis a validar.</p>
+</section>
+
+<section aria-labelledby="t10">
+  <div class="eyebrow">10 · Voz</div>
+  <h2 id="t10">Reglas para todas las piezas</h2>
+  <div class="rules">
+    <div><b>Minúsculas, directo, juguetón</b><span>Como el plan de octubre: “tres noches, un octubre”.</span></div>
+    <div><b>Nunca retar</b><span>Nada de “deja el celular”. El celular se queda contigo; las apps descansan.</span></div>
+    <div><b>Sin palabras de bienestar</b><span>Nada de “detox” ni “desconexión”. Hablamos del plan, de la gente y del lugar.</span></div>
+    <div><b>La marca invita, la gente protagoniza</b><span>Logos chicos, como anfitriones.</span></div>
+    <div><b>Locky según la marca</b><span>Nivel 0 con espirituosas, por normas de marketing de alcohol. Nunca más grande que el wordmark.</span></div>
+    <div><b>Pruebas reales</b><span>Datos de Loomlock y frases con permiso. Nunca números ni citas inventadas.</span></div>
+  </div>
+</section>
+
+<section aria-labelledby="t11">
+  <div class="eyebrow">11 · Cómo saber si funciona</div>
+  <h2 id="t11">Medidas propuestas</h2>
+  <div class="tbl">
+    <table style="min-width:600px">
+      <thead><tr><th>Capítulo</th><th>Medida</th><th>De dónde sale</th></tr></thead>
+      <tbody>
+        <tr><td>La invitación</td><td>Registros frente a cupos; descargas de la app antes del evento</td><td>Formulario y tiendas de apps</td></tr>
+        <tr><td>El ritual</td><td>% de asistentes que hace tap en la puerta</td><td>Loomlock</td></tr>
+        <tr><td>Fuera del aire</td><td>Horas de apps en pausa; cuántos se van antes</td><td>Loomlock y puerta</td></tr>
+        <tr><td>La galería</td><td>Aperturas de la galería; menciones orgánicas en los días siguientes</td><td>App y redes</td></tr>
+        <tr><td>La próxima puerta</td><td>Asistentes que vuelven a otra experiencia</td><td>Registro</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section aria-labelledby="t12">
+  <div class="eyebrow">12 · A confirmar</div>
+  <h2 id="t12">Riesgos y preguntas abiertas</h2>
+  <ul class="clean col">
+    <li><b>Qué queda habilitado:</b> el plan dice que cámara, llamadas y mapas siguen funcionando. Confirmarlo y decirlo siempre, sobre todo en eventos con alcohol.</li>
+    <li><b>“Fuera del aire” con las marcas:</b> pedir acuerdo a Juan Valdez, Diageo y cada socio para no publicar en vivo.</li>
+    <li><b>Datos por región:</b> casi toda la evidencia es de Estados Unidos, Reino Unido y Asia. Validar en cada ciudad antes de afirmar que somos los primeros.</li>
+    <li><b>Que no se vuelva pose:</b> la gente rechaza experiencias hechas para redes. La galería llega después y la arma el fotógrafo, no los invitados.</li>
+    <li><b>Una llave o tres:</b> la idea “una llave, muchas puertas” pide una sola llave que se reutiliza, o ediciones que se suman a una colección.</li>
+  </ul>
+</section>
+
+<section class="sources" aria-labelledby="src">
+  <div class="eyebrow">Método y fuentes</div>
+  <p id="src">Skills usadas: <code>trend-spotter</code>, <code>trend-research</code>, <code>trendspyg</code> (Google Trends, 8 oct 2026), <code>storytelling-framework</code> y <code>storytelling</code>. Contexto interno: plan de octubre de Loomlock Experiences y presentación de activaciones.</p>
+  <ol>
+    <li><a href="https://www.eventbrite.com/blog/press/newsroom/the-rise-of-phone-free-experiences/">Eventbrite · Offline by Design</a></li>
+    <li><a href="https://mixmag.net/read/phone-free-club-events-up-by-567-new-data-reveals-news">Mixmag · Phone-free club events up 567%</a></li>
+    <li><a href="https://washingtonian.com/2026/07/15/no-phones-allowed-at-dcs-newest-dance-club/">Washingtonian · No phones allowed at DC’s newest dance club</a></li>
+    <li><a href="https://www.forbes.com/sites/kianbakhtiari/2026/03/29/why-offline-is-the-new-luxury/">Forbes · Why offline is the new luxury</a></li>
+    <li><a href="https://www.cnn.com/2026/01/03/travel/sober-raves-cafe-bakery-parties">CNN · Sober raves in cafés and bakeries</a></li>
+    <li><a href="https://www.baristamagazine.com/when-club-culture-meets-coffee-cafe-raves-are-the-latest-trend/">Barista Magazine · Café raves</a></li>
+    <li><a href="https://www.mensjournal.com/news/run-clubs-strava-year-in-sport-report">Men’s Journal · Strava Year in Sport</a></li>
+    <li><a href="https://www.pedestrian.tv/culture/scape-gen-z-wellbeing-index-loneliness-epidemic/">Pedestrian · Gen Z Wellbeing Index</a></li>
+    <li><a href="https://www.campaignlive.com/article/experiential-marketing-flashy-real-value-brands/1966613">Campaign · Experiential marketing (EventTrack 2026)</a></li>
+    <li><a href="https://backlash.co.uk/backchat-blog/the-backlash-forecast-7-experiential-marketing-trends-shaping-brand-experiences-in-2026">Backlash · Experiential trends 2026</a></li>
+    <li><a href="https://www.vinetur.com/20260715104317/gen-z-now-drinks-at-nearly-the-same-rate-as-older-adults-survey-finds.html">Vinetur · IWSR, Gen Z y alcohol</a></li>
+    <li><a href="https://www.technoairlines.com/blog/basement-nyc-smart-glasses-ban">Techno Airlines · Smart glasses ban</a></li>
+    <li><a href="https://drinks-intel.com/news/diageo-partners-with-brittany-broski-for-smirnoff-ice-campaign-video/">Drinks Intel · Smirnoff Ice Halloween 2026</a></li>
+    <li><a href="https://www.larepublica.co/empresas/juan-valdez-presento-su-primera-campana-de-marca-global-el-origen-del-mejor-sabor-4252961">La República · Juan Valdez, campaña global</a></li>
+    <li><a href="https://www.luxurydaily.com/don-julio-premieres-made-to-be-raised-ahead-of-2026-world-cup/">Luxury Daily · Don Julio “Made to Be Raised”</a></li>
+    <li><a href="https://mwm.ai/apps/loomlock/6755596112">Loomlock · ficha de la app</a></li>
+    <li>Google Trends mundial, 5 años: “yondr” y búsquedas relacionadas; “phone free” (descartada).</li>
+  </ol>
+</section>
+
+</div>

@@ -32,3 +32,5 @@ No instaladas: `refoundai/lenny-skills@brand-storytelling` (ya no existe en su r
 Propuesta creativa para el video "Tap in": [`video-tap-in/CONCEPTO.md`](video-tap-in/CONCEPTO.md).
 
 Análisis de tendencias y narrativa de Locked In: [`video-tap-in/narrativa/`](video-tap-in/narrativa/) (página HTML, datos de Google Trends y script).
+
+Plataforma narrativa de Loomlock Experiences (global): [`loomlock-experiences/narrativa/`](loomlock-experiences/narrativa/).
