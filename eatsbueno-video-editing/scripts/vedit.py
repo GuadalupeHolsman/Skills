@@ -362,11 +362,11 @@ def main(spec_path):
                 im = caption_png(W, H, o["text"], o.get("y", 1290), o.get("size", 66), kw | set(k.lower() for k in o.get("keywords", [])))
             anim = o.get("anim", spec.get("caption_anim", "pop"))
         elif o["type"] == "label":
-            im = label_png(W, H, o.get("kicker"), o.get("title"), o.get("y", 300), title_size=o.get("size", 84))
+            im = label_png(W, H, o.get("kicker"), o.get("title"), o.get("y", 300), title_size=o.get("size", 84), kicker_bg=tuple(spec.get("chip_color", ORANGE)))
             anim = o.get("anim", "drop")
             if auto_sfx and o.get("sfx", True): sfx.append({"name": o.get("sfx_name", "pop"), "start": o["start"], "vol": 0.5})
         elif o["type"] == "title":
-            im = label_png(W, H, o.get("kicker"), o.get("title"), o.get("y", 300), title_size=o.get("size", 96))
+            im = label_png(W, H, o.get("kicker"), o.get("title"), o.get("y", 300), title_size=o.get("size", 96), kicker_bg=tuple(spec.get("chip_color", ORANGE)))
             anim = o.get("anim", "zoom")
             if auto_sfx and o.get("sfx", True): sfx.append({"name": o.get("sfx_name", "pop"), "start": o["start"], "vol": 0.55})
         elif o["type"] == "png":

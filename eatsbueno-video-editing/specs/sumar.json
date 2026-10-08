@@ -2,6 +2,11 @@
  "out": "out/09_SumarNoProhibir_ARealDay.mp4",
  "grade": "warm",
  "caption_style": "clean",
+ "chip_color": [
+  242,
+  128,
+  44
+ ],
  "keywords": [
   "coffee.",
   "takeout.",
@@ -24,7 +29,7 @@
    "eq": "voice"
   },
   {
-   "src": "sumar/vo.ogg",
+   "src": "sumar/vo_sts.mp3",
    "in": 0.55,
    "start": 6.55,
    "dur": 7.55,
@@ -32,7 +37,7 @@
    "vol": 1.0
   },
   {
-   "src": "sumar/vo.ogg",
+   "src": "sumar/vo_sts.mp3",
    "in": 9.6,
    "start": 14.299999999999999,
    "dur": 5.6,
@@ -40,7 +45,7 @@
    "vol": 1.0
   },
   {
-   "src": "sumar/vo.ogg",
+   "src": "sumar/vo_sts.mp3",
    "in": 17.55,
    "start": 20.099999999999998,
    "dur": 4.449999999999999,
@@ -48,7 +53,7 @@
    "vol": 1.0
   },
   {
-   "src": "sumar/vo.ogg",
+   "src": "sumar/vo_sts.mp3",
    "in": 25.25,
    "start": 24.749999999999996,
    "dur": 9.0,
