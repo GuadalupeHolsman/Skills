@@ -40,6 +40,7 @@ section { display: grid; gap: 18px; }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; align-items: start; }
 .piece { display: grid; gap: 10px; min-width: 0; }
+.piece button + button { margin-top: 0; }
 .piece.full { grid-column: 1 / -1; }
 .piece button { all: unset; cursor: zoom-in; display: block; border-radius: 14px; overflow: hidden; background: #1b1b1b; border: 1px solid var(--line); }
 .piece button:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
@@ -76,6 +77,23 @@ dialog button { margin-top: 10px; font: 600 14px var(--body); color: var(--fg); 
         <div class="cap"><h3>Recap con flash</h3><span>Foto de fiesta y un subtítulo: “nadie aquí está revisando el celular.”</span><span class="spec">STORY + FEED</span></div></div><div class="piece"><button data-full="img/djm-m6-aire-story.jpg" aria-label="Ver grande: Fuera del aire"><img src="img/djm-m6-aire-story.jpg" alt="Fuera del aire" loading="lazy"></button>
         <div class="cap"><h3>Fuera del aire</h3><span>Casi nada: una línea, “fuera del aire” y “volvemos después · back later”.</span><span class="spec">STORY + FEED</span></div></div><div class="piece"><button data-full="img/djm-m7-totem.jpg" aria-label="Ver grande: Tótem · T A P  I N"><img src="img/djm-m7-totem.jpg" alt="Tótem · T A P  I N" loading="lazy"></button>
         <div class="cap"><h3>Tótem · T A P  I N</h3><span>Crema, letras separadas, el punto verde azulado y el sello de Loomlock.</span><span class="spec">60 × 180 CM</span></div></div></div>
+  </section>
+
+  <section aria-labelledby="mas">
+    <div class="head"><span class="k">Más alternativas</span><h2 id="mas">Seis direcciones más</h2><p>Cada una toma otra referencia de MATTE y mantiene el sello de Loomlock y la capa global. Story y feed de cada una.</p></div>
+    <div class="grid"><div class="piece"><button data-full="img/djn-n1-salud-stack-story.jpg" aria-label="Ver grande: S A L U D apilado"><img src="img/djn-n1-salud-stack-story.jpg" alt="S A L U D apilado, story" loading="lazy"></button>
+        <button data-full="img/djn-n1-salud-stack-feed.jpg" aria-label="Ver grande: S A L U D apilado feed"><img src="img/djn-n1-salud-stack-feed.jpg" alt="S A L U D apilado, feed" loading="lazy"></button>
+        <div class="cap"><h3>S A L U D apilado</h3><span>SALUD gigante en vertical, foto del brindis en duotono y la info en lista con cuadraditos. “Loomlock, Tequila Don Julio y tu llave presentan”.</span><span class="spec">REFERENCIA MATTE: CMYK MILÁN</span></div></div><div class="piece"><button data-full="img/djn-n2-ventana-story.jpg" aria-label="Ver grande: La llave como ventana"><img src="img/djn-n2-ventana-story.jpg" alt="La llave como ventana, story" loading="lazy"></button>
+        <button data-full="img/djn-n2-ventana-feed.jpg" aria-label="Ver grande: La llave como ventana feed"><img src="img/djn-n2-ventana-feed.jpg" alt="La llave como ventana, feed" loading="lazy"></button>
+        <div class="cap"><h3>La llave como ventana</h3><span>La forma de la llave de Loomlock es la ventana a la noche: “tu llave abre la noche · your key opens the night”.</span><span class="spec">REFERENCIA MATTE: BOTELLA GIGANTE DE KILIAN</span></div></div><div class="piece"><button data-full="img/djn-n3-canales-story.jpg" aria-label="Ver grande: Guía de canales"><img src="img/djn-n3-canales-story.jpg" alt="Guía de canales, story" loading="lazy"></button>
+        <button data-full="img/djn-n3-canales-feed.jpg" aria-label="Ver grande: Guía de canales feed"><img src="img/djn-n3-canales-feed.jpg" alt="Guía de canales, feed" loading="lazy"></button>
+        <div class="cap"><h3>Guía de canales</h3><span>Las noches como canales de una red: CH 02 Bogotá encendido, los demás esperando. “Una red. Muchas ciudades. Una regla.”</span><span class="spec">REFERENCIA MATTE: 8-BALL (WORTHLESS × MATTE)</span></div></div><div class="piece"><button data-full="img/djn-n4-quedarte-story.jpg" aria-label="Ver grande: QUEDARTE."><img src="img/djn-n4-quedarte-story.jpg" alt="QUEDARTE., story" loading="lazy"></button>
+        <button data-full="img/djn-n4-quedarte-feed.jpg" aria-label="Ver grande: QUEDARTE. feed"><img src="img/djn-n4-quedarte-feed.jpg" alt="QUEDARTE., feed" loading="lazy"></button>
+        <div class="cap"><h3>QUEDARTE.</h3><span>Una línea chica y una palabra enorme sobre la mesa de Bikinis: “esta es una noche hecha para quedarte”.</span><span class="spec">REFERENCIA MATTE: MERCURY “MOVE”</span></div></div><div class="piece"><button data-full="img/djn-n5-contactos-story.jpg" aria-label="Ver grande: Hoja de contactos"><img src="img/djn-n5-contactos-story.jpg" alt="Hoja de contactos, story" loading="lazy"></button>
+        <button data-full="img/djn-n5-contactos-feed.jpg" aria-label="Ver grande: Hoja de contactos feed"><img src="img/djn-n5-contactos-feed.jpg" alt="Hoja de contactos, feed" loading="lazy"></button>
+        <div class="cap"><h3>Hoja de contactos</h3><span>Cuatro fotos como rollo revelado: “las únicas fotos de la noche”, para el recap.</span><span class="spec">REFERENCIA MATTE: FOTOS DE EVENTO DE SU INSTAGRAM</span></div></div><div class="piece"><button data-full="img/djn-n6-coordenadas-story.jpg" aria-label="Ver grande: Coordenadas"><img src="img/djn-n6-coordenadas-story.jpg" alt="Coordenadas, story" loading="lazy"></button>
+        <button data-full="img/djn-n6-coordenadas-feed.jpg" aria-label="Ver grande: Coordenadas feed"><img src="img/djn-n6-coordenadas-feed.jpg" alt="Coordenadas, feed" loading="lazy"></button>
+        <div class="cap"><h3>Coordenadas</h3><span>La ubicación es el titular: 4°39′N 74°03′W. Lo global como protagonista.</span><span class="spec">REFERENCIA MATTE: DIRECCIONES NY / CDMX DE MATTE</span></div></div></div>
   </section>
 
   <div class="head"><span class="k">Versión anterior · sistema del sitio</span><p>Las piezas de abajo usan el mismo mundo visual pero con titulares grandes; quedan como alternativa.</p></div>
