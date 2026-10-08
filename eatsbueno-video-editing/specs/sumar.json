@@ -22,7 +22,7 @@
  ],
  "audio": [
   {
-   "src": "sumar/IMG_4238.MOV",
+   "src": "sumar/sts_4238.mp3",
    "in": 1.25,
    "start": 0,
    "dur": 6.35,
@@ -61,7 +61,7 @@
    "vol": 1.0
   },
   {
-   "src": "sumar/IMG_4242.MOV",
+   "src": "sumar/sts_4242.mp3",
    "in": 0.75,
    "start": 33.95,
    "dur": 10.15,
@@ -84,11 +84,64 @@
   {
    "src": "sumar/IMG_3892.MOV",
    "in": 0.0,
-   "dur": 7.75,
-   "speed": 0.516,
+   "dur": 2.89,
+   "speed": 1.0,
    "zoom": [
     1.0,
     1.0
+   ]
+  },
+  {
+   "src": "sumar/IMG_3892.MOV",
+   "in": 1.4,
+   "dur": 0.45,
+   "zoom": [
+    1.8,
+    1.8
+   ],
+   "pan": [
+    0.12,
+    0.95
+   ]
+  },
+  {
+   "src": "sumar/IMG_3892.MOV",
+   "in": 1.9,
+   "dur": 0.39,
+   "zoom": [
+    1.8,
+    1.8
+   ],
+   "pan": [
+    1.0,
+    0.5
+   ]
+  },
+  {
+   "src": "sumar/IMG_3892.MOV",
+   "in": 2.3,
+   "dur": 0.98,
+   "zoom": [
+    1.9,
+    1.9
+   ],
+   "pan": [
+    0.0,
+    0.02
+   ]
+  },
+  {
+   "src": "sumar/IMG_3892.MOV",
+   "in": 0.6,
+   "dur": 3.04,
+   "speed": 1.0,
+   "zoom": [
+    1.12,
+    1.12
+   ],
+   "pan": [
+    0.5,
+    0.5
    ]
   },
   {

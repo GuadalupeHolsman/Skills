@@ -12,6 +12,7 @@ FONTS = os.path.join(HERE, "fonts")
 BRAND = os.path.join(HERE, "brand")
 CREAM = (247, 238, 221)
 ORANGE = (224, 97, 42)
+CHIP = (242, 128, 44)  # label-chip orange: brand orange reads red on video
 GREEN = (43, 94, 82)
 DARK = (24, 44, 39)
 ACCENT = (255, 170, 102)
@@ -101,10 +102,16 @@ def caption_png_clean(W, H, text, y, size=60):
         if cur and d.textlength(t, font=f) > W - 200: lines.append(cur); cur = w
         else: cur = t
     lines.append(cur); lh = int(size * 1.27)
-    sh = Image.new("RGBA", (W, H), (0, 0, 0, 0)); sd = ImageDraw.Draw(sh)
-    for i, l in enumerate(lines):
-        x = (W - d.textlength(l, font=f)) / 2; sd.text((x, y + i * lh + 3), l, font=f, fill=(0, 0, 0, 200))
-    im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(6))); d = ImageDraw.Draw(im)
+    # two shadow layers: a wide soft halo for light backgrounds + a tight one for crisp edges
+    for blur, alpha, off, grow in ((14, 255, 2, 6), (3, 210, 2, 0)):
+        sh = Image.new("RGBA", (W, H), (0, 0, 0, 0)); sd = ImageDraw.Draw(sh)
+        for i, l in enumerate(lines):
+            x = (W - d.textlength(l, font=f)) / 2
+            sd.text((x, y + i * lh + off), l, font=f, fill=(0, 0, 0, alpha), stroke_width=grow, stroke_fill=(0, 0, 0, alpha))
+        sh = sh.filter(ImageFilter.GaussianBlur(blur))
+        if blur > 5: sh.putalpha(sh.getchannel("A").point(lambda v: int(v * 0.62)))
+        im.alpha_composite(sh)
+    d = ImageDraw.Draw(im)
     for i, l in enumerate(lines):
         x = (W - d.textlength(l, font=f)) / 2; d.text((x, y + i * lh), l, font=f, fill=(255, 255, 255))
     return im
@@ -126,7 +133,8 @@ def caption_png(W, H, text, y, size=66, keywords=()):
 def rounded(d, box, r, fill):
     d.rounded_rectangle(box, r, fill=fill)
 
-def label_png(W, H, kicker, title, y=300, title_font="FrauncesItalic700", title_size=84, kicker_bg=ORANGE):
+def label_png(W, H, kicker, title, y=300, title_font="FrauncesItalic700", title_size=84, kicker_bg=None):
+    kicker_bg = kicker_bg or CHIP
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     if kicker:
         kf = font("Manrope800", 40)
@@ -362,11 +370,11 @@ def main(spec_path):
                 im = caption_png(W, H, o["text"], o.get("y", 1290), o.get("size", 66), kw | set(k.lower() for k in o.get("keywords", [])))
             anim = o.get("anim", spec.get("caption_anim", "pop"))
         elif o["type"] == "label":
-            im = label_png(W, H, o.get("kicker"), o.get("title"), o.get("y", 300), title_size=o.get("size", 84), kicker_bg=tuple(spec.get("chip_color", ORANGE)))
+            im = label_png(W, H, o.get("kicker"), o.get("title"), o.get("y", 300), title_size=o.get("size", 84), kicker_bg=tuple(spec.get("chip_color", CHIP)))
             anim = o.get("anim", "drop")
             if auto_sfx and o.get("sfx", True): sfx.append({"name": o.get("sfx_name", "pop"), "start": o["start"], "vol": 0.5})
         elif o["type"] == "title":
-            im = label_png(W, H, o.get("kicker"), o.get("title"), o.get("y", 300), title_size=o.get("size", 96), kicker_bg=tuple(spec.get("chip_color", ORANGE)))
+            im = label_png(W, H, o.get("kicker"), o.get("title"), o.get("y", 300), title_size=o.get("size", 96), kicker_bg=tuple(spec.get("chip_color", CHIP)))
             anim = o.get("anim", "zoom")
             if auto_sfx and o.get("sfx", True): sfx.append({"name": o.get("sfx_name", "pop"), "start": o["start"], "vol": 0.55})
         elif o["type"] == "png":
