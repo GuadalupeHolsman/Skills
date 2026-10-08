@@ -1,0 +1,128 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=1080, height=1920" />
+<title>Locked In — teaser MATTE</title><script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+@font-face { font-family:"Montserrat"; font-weight:500; src:url("assets/fonts/montserrat-500.woff2") format("woff2"); }
+@font-face { font-family:"Montserrat"; font-weight:600; src:url("assets/fonts/montserrat-600.woff2") format("woff2"); }
+@font-face { font-family:"Montserrat"; font-weight:800; src:url("assets/fonts/montserrat-800.woff2") format("woff2"); }
+@font-face { font-family:"Space Mono"; font-weight:400; src:url("assets/fonts/spacemono-400.woff2") format("woff2"); }
+body { margin:0; background:#141414; font-family:"Montserrat",sans-serif; color:#fff; }
+#root { position:relative; width:100%; height:100%; overflow:hidden; background:#141414; }
+.layer { position:absolute; inset:0; opacity:0; }
+.ab { position:absolute; }
+.ph { position:absolute; inset:0; background-size:cover; background-position:center; }
+.t { font-weight:600; font-size:24px; letter-spacing:.06em; text-transform:uppercase; line-height:1.35; }
+.mono { font-family:"Space Mono",monospace; text-transform:uppercase; line-height:1.05; font-size:32px; }
+.sp { display:flex; justify-content:space-between; }
+.it { font-style:italic; font-weight:500; }
+.lt { position:absolute; top:0; font-weight:500; font-size:120px; opacity:0; }
+.ball { position:absolute; width:300px; height:300px; border-radius:50%; box-shadow:inset -18px -22px 40px rgba(0,0,0,.35), inset 14px 16px 30px rgba(255,255,255,.18); opacity:0; }
+.ball b { position:absolute; left:90px; top:90px; width:120px; height:120px; border-radius:50%; background:#f4f1ea; color:#111; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:75px; }
+.flash { position:absolute; inset:0; background:#fff; opacity:0; }
+.grain { position:absolute; inset:0; width:100%; height:100%; mix-blend-mode:overlay; opacity:0; image-rendering:pixelated; }
+.logos { display:flex; align-items:center; gap:14px; }
+</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="10.0">
+
+<!-- A · Loomlock invites you -->
+<div id="sA" class="layer" style="background:#2a0a00">
+  <div class="ph" id="phA" style="background-image:url(assets/stills/warm.jpg);filter:saturate(1.25) contrast(1.08)"></div>
+  <div class="ab sp t" style="left:64px;right:64px;top:130px">
+    <div id="a1"><b style="font-weight:800">LOOMLOCK</b> INVITES YOU</div>
+    <div id="a2" style="text-align:right">THURSDAY, OCTOBER 29TH<br>10PM — LATE</div>
+  </div>
+  <div class="ab" id="a3" style="left:0;right:0;top:900px;text-align:center"><div class="it" style="font-size:84px">locked in</div>
+    <div class="t" style="font-size:22px;margin-top:16px;opacity:.85">a party for people, not phones</div></div>
+</div>
+
+<!-- B · spaced title on brand blue -->
+<div id="sB" class="layer" style="background:#1d29c2">
+  <div class="ab t" style="left:0;right:0;top:130px;text-align:center"><b style="font-weight:800">LOOMLOCK</b> × DON JULIO</div>
+  <div class="ab" id="ttl" style="left:0;right:0;top:700px;height:300px"></div>
+  <div class="ab t" id="b9" style="left:0;right:0;top:1050px;text-align:center;letter-spacing:.3em;opacity:0">INVITE ONLY</div>
+  <div class="ab sp t" id="b10" style="left:120px;right:120px;top:1160px;font-size:22px;opacity:0"><span>THURSDAY</span><span>29.10</span><span>LOCATION TBA</span></div>
+</div>
+
+<!-- C · rack 'em in -->
+<div id="sC" class="layer" style="background:#141414;color:#f4f1ea">
+  <div class="ab mono" style="left:64px;top:130px">LOOMLOCK<br>× DON JULIO</div>
+  <div class="ab mono" style="right:64px;top:130px;text-align:right">INVITE<br>ONLY<br>NIGHT</div>
+  <div id="rack"></div>
+  <div class="ab mono" id="c1" style="left:64px;top:1500px;opacity:0">LOCK<br>’EM<br>IN<br>FOR THE NIGHT</div>
+  <div class="ab mono" id="c2" style="right:64px;top:1570px;text-align:right;opacity:0">OCT<br>29</div>
+</div>
+
+<!-- D · end card -->
+<div id="sD" class="layer" style="background:#fcce21;color:#16120a">
+  <div class="ab" style="left:0;right:0;top:0;height:1180px;overflow:hidden">
+    <div class="ph" id="phD" style="background-image:url(assets/stills/lights.jpg);filter:grayscale(1) contrast(1.35) brightness(1.05);mix-blend-mode:multiply"></div>
+  </div>
+  <div class="ab t" id="d1" style="left:0;right:0;top:1230px;text-align:center;font-size:22px">LOOMLOCK, DON JULIO PRESENT:</div>
+  <div class="ab" id="d2" style="left:0;right:0;top:1290px;text-align:center;font-weight:800;font-size:166px;letter-spacing:-.04em;line-height:1;white-space:nowrap">LOCKED IN</div>
+  <div class="ab sp t" id="d3" style="left:64px;right:64px;top:1560px;font-size:22px"><span>THURSDAY 29TH OCT</span><span>INVITE ONLY</span><span>+18</span></div>
+  <div class="ab sp t" style="left:64px;right:64px;top:1760px;font-size:18px;align-items:center">
+    <div class="logos"><img src="assets/img/loomlock_dark.png" style="height:26px" alt="loomlock" /><span>×</span><img src="assets/img/donjulio_dark.png" style="height:44px" alt="Don Julio" /></div>
+    <span>PLEASE DRINK RESPONSIBLY</span></div>
+</div>
+
+<div class="flash" id="fl"></div>
+<img class="grain" id="gr0" src="assets/img/grain0.png" alt="" /><img class="grain" id="gr1" src="assets/img/grain1.png" alt="" />
+<img class="grain" id="gr2" src="assets/img/grain2.png" alt="" /><img class="grain" id="gr3" src="assets/img/grain3.png" alt="" />
+<audio id="music" src="assets/music_full.wav" data-start="0" data-duration="10.0" data-media-start="7.47" data-volume="1"
+ data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.2,"v":0.9},{"t":9.3,"v":1},{"t":10.0,"v":0}]}]}'></audio>
+</div>
+<script>
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused: true });
+const B = 0.48, DROP = 5.04, END = 7.44;
+const flash = (t, a = .8, d = .16) => { tl.set("#fl", { opacity: a }, t); tl.to("#fl", { opacity: 0, duration: d, ease: "power2.out" }, t); };
+for (let i = 0; i < 4; i++) tl.set("#gr" + i, { opacity: 0 }, 0);
+for (let f = 0, t = 0; t < 10.0; f++, t = f / 12) { tl.set("#gr" + (f % 4), { opacity: .24 }, t); tl.set("#gr" + ((f + 3) % 4), { opacity: 0 }, t); }
+
+// build the spaced title + the rack
+const ttl = document.getElementById("ttl");
+"LOCKED".split("").forEach((c, i) => { const d = document.createElement("div"); d.className = "lt"; d.id = "L" + i; d.textContent = c; d.style.left = (130 + i * 145) + "px"; ttl.appendChild(d); });
+["I", "N"].forEach((c, i) => { const d = document.createElement("div"); d.className = "lt"; d.id = "N" + i; d.textContent = c; d.style.left = (420 + i * 145) + "px"; d.style.top = "150px"; ttl.appendChild(d); });
+const rack = document.getElementById("rack");
+const rows = [["L"], ["O", "C"], ["K", "E", "D"], ["I", "N"]];
+const cols = ["#1d29c2", "#fcce21", "#e83852", "#5713c0", "#d87700", "#0c77b7", "#1d8a4a", "#fcce21"];
+let k = 0;
+rows.forEach((row, r) => row.forEach((ch, i) => {
+  const x = 540 + (i - (row.length - 1) / 2) * 291, y = 560 + r * 258;
+  const d = document.createElement("div"); d.className = "ball"; d.id = "ball" + k;
+  d.style.left = (x - 150) + "px"; d.style.top = (y - 150) + "px";
+  d.style.background = k % 2 ? `linear-gradient(180deg,#f4f1ea 0 22%,${cols[k]} 22% 78%,#f4f1ea 78%)` : cols[k];
+  d.innerHTML = `<b>${ch}</b>`; rack.appendChild(d); k++;
+}));
+
+// A · 0 → 2.4
+tl.set("#sA", { opacity: 1 }, 0);
+tl.fromTo("#phA", { scale: 1.06 }, { scale: 1.2, duration: 2.4, ease: "none" }, 0);
+tl.fromTo("#a1", { opacity: 0 }, { opacity: 1, duration: .25 }, .12);
+tl.fromTo("#a2", { opacity: 0 }, { opacity: 1, duration: .25 }, .6);
+tl.fromTo("#a3", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .6, ease: "power2.out" }, 1.1);
+tl.set("#sA", { opacity: 0 }, 2.4);
+
+// B · 2.4 → 5.04 : one letter per beat-and-a-half
+tl.set("#sB", { opacity: 1 }, 2.4);
+for (let i = 0; i < 6; i++) tl.fromTo("#L" + i, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .18, ease: "power3.out" }, 2.4 + i * .36);
+tl.fromTo(["#N0", "#N1"], { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .18, ease: "power3.out" }, 4.56);
+tl.fromTo("#b9", { opacity: 0 }, { opacity: 1, duration: .2 }, 4.68);
+tl.fromTo("#b10", { opacity: 0 }, { opacity: 1, duration: .2 }, 4.8);
+tl.set("#sB", { opacity: 0 }, DROP);
+
+// C · drop → balls rack up on the half-beat
+tl.set("#sC", { opacity: 1 }, DROP); flash(DROP, .85, .22);
+for (let i = 0; i < 8; i++) tl.fromTo("#ball" + i, { opacity: 0, scale: .2, rotation: -40 }, { opacity: 1, scale: 1, rotation: [-12, 8, -4, 14, -9, 5, -15, 10][i], duration: .26, ease: "back.out(2.2)" }, DROP + i * .24);
+tl.fromTo("#c1", { opacity: 0 }, { opacity: 1, duration: .2 }, DROP + 1.92);
+tl.fromTo("#c2", { opacity: 0 }, { opacity: 1, duration: .2 }, DROP + 2.04);
+tl.to("#rack", { scale: 1.04, duration: .9, ease: "none", transformOrigin: "540px 950px" }, DROP + 1.5);
+tl.set("#sC", { opacity: 0 }, END);
+
+// D · end card
+tl.set("#sD", { opacity: 1 }, END); flash(END, .6, .2);
+tl.fromTo("#phD", { scale: 1.12 }, { scale: 1.0, duration: 2.56, ease: "power1.out" }, END);
+tl.fromTo("#d1", { opacity: 0 }, { opacity: 1, duration: .2 }, END + .1);
+tl.fromTo("#d2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" }, END + .24);
+tl.fromTo("#d3", { opacity: 0 }, { opacity: 1, duration: .25 }, END + .72);
+window.__timelines["main"] = tl;
+</script></body></html>
