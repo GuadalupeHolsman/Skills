@@ -129,14 +129,6 @@
    ],
    "src": "area51/IMG_2681.MOV",
    "in": 0.3
-  },
-  {
-   "outro": true,
-   "dur": 2.6,
-   "trans": {
-    "type": "fade",
-    "d": 0.4
-   }
   }
  ],
  "overlays": [
@@ -299,5 +291,6 @@
    "eq": "voice",
    "fade_out": 0.3
   }
- ]
+ ],
+ "caption_style": "clean"
 }

@@ -128,14 +128,6 @@
     1.0,
     1.0
    ]
-  },
-  {
-   "outro": true,
-   "dur": 2.5,
-   "trans": {
-    "type": "fade",
-    "d": 0.4
-   }
   }
  ],
  "overlays": [
@@ -261,5 +253,6 @@
   "congela",
   "prote\u00edna,",
   "culpa."
- ]
+ ],
+ "caption_style": "clean"
 }
