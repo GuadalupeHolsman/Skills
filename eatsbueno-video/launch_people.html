@@ -551,60 +551,93 @@
   META.whooshes.push(28.4);
 
   // ================= 6 · Scan (28.4 – 34.4) =================
-  // a live camera, not a zoom into a photo: the view drifts in the hand, the frame locks onto the
-  // barcode, and the card's own numbers fly out of the phone to become the giant stats
+  // one continuous POV shot: we're in the supermarket with her, the phone rises into frame, locks onto the
+  // barcode and beeps; the card's numbers count up big on the left while each lights up on the card;
+  // "Log meal" is tapped, and "Done." draws a big check before the scene lifts away
   scene('sc6', 28.4, 35.15);
-  tl.fromTo('#sc6 > .zw', { scale: 0.86, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'ebOut', immediateRender: false }, 28.5);
-  const X6 = 1400, Y6 = 560, S6 = 0.92;
+  tl.fromTo('#sc6 > .zw', { scale: 0.86, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'ebOut', immediateRender: false }, 28.4);
+  META.scans = []; META.success = []; META.pops = [];
+  const X6 = 1400, Y6 = 560, S6 = 0.92, C6 = 1.0;
   const P6 = makePhone($('#ph6wrap'), 'Scanner_Barcode', X6, Y6, 'Scanner_Barcode_Empty');
   const at6 = (fx, fy) => [X6 + (14 + fx * SW - 229) * S6, Y6 + (14 + fy * IH - 479) * S6];
-  // scanning happens centre-stage and big; the phone glides right as the card arrives to make room for the numbers
-  tl.fromTo(P6.ph, { scale: 1.05, rotationY: -14, x: 960 - X6 + 80 }, { scale: 1.05, rotationY: 0, x: 960 - X6, duration: 1.4, ease: 'ebSoft', immediateRender: true }, 28.4);
-  tl.to(P6.ph, { scale: S6, x: 0, duration: 0.9, ease: 'ebSoft' }, 30.4);
-  // handheld camera: the feed drifts inside its rounded viewport, then steadies on the lock
+  // phone rises into her hand-held POV, centre stage, then glides right to make room for the numbers
+  tl.fromTo(P6.ph, { x: 960 - X6, y: 900, scale: C6, rotationX: 14 }, { y: 0, rotationX: 0, duration: 0.75, ease: 'ebOut', immediateRender: true }, 28.95);
+  tl.to(P6.ph, { x: 0, scale: S6, duration: 0.85, ease: 'ebSoft' }, 31.05);
+  META.whooshes.push(29.05);
+  // handheld camera feed, steadies on the lock
   const cam = patch(P6, 0.045, 0.136, 0.955, 0.66, 'border-radius:12px');
   const camImg = cam.firstChild;
-  tl.fromTo(camImg, { x: 7, y: -5, scale: 1.035 }, { x: -6, y: 4, scale: 1.035, duration: 1.0, ease: 'sine.inOut', immediateRender: true }, 28.5);
-  tl.to(camImg, { x: 0, y: 0, scale: 1.0, duration: 0.7, ease: 'ebSoft' }, 29.5);
+  tl.fromTo(camImg, { x: 7, y: -5, scale: 1.035 }, { x: -6, y: 4, scale: 1.035, duration: 0.9, ease: 'sine.inOut', immediateRender: true }, 29.0);
+  tl.to(camImg, { x: 0, y: 0, scale: 1.0, duration: 0.6, ease: 'ebSoft' }, 29.85);
   const box6 = (x0, y0, x1, y1) => ({ left: x0 * SW, top: y0 * IH, width: (x1 - x0) * SW, height: (y1 - y0) * IH });
-  const lock = add(P6, 'border:3px solid #E26023;border-radius:14px;box-shadow:0 0 0 2000px rgba(0,0,0,0);opacity:0;z-index:3');
-  tl.fromTo(lock, { ...box6(0.1, 0.18, 0.9, 0.62), opacity: 0 }, { ...box6(0.04, 0.475, 0.42, 0.6), opacity: 1, boxShadow: '0 0 0 2000px rgba(0,0,0,.28)', duration: 0.7, ease: 'ebPush', immediateRender: false }, 29.3);
+  const lock = add(P6, 'border:3px solid #E26023;border-radius:14px;opacity:0;z-index:3');
+  tl.fromTo(lock, { ...box6(0.1, 0.18, 0.9, 0.62), opacity: 0, boxShadow: '0 0 0 2000px rgba(0,0,0,0)' }, { ...box6(0.04, 0.475, 0.42, 0.6), opacity: 1, boxShadow: '0 0 0 2000px rgba(0,0,0,.3)', duration: 0.6, ease: 'ebPush', immediateRender: false }, 29.75);
   const scanline = add(P6, `left:${0.06 * SW}px;width:${0.34 * SW}px;height:3px;border-radius:3px;background:#E26023;box-shadow:0 0 14px 3px rgba(226,96,35,.75);opacity:0;z-index:4`);
-  tl.set(scanline, { opacity: 1 }, 29.95);
-  tl.fromTo(scanline, { top: 0.49 * IH }, { top: 0.585 * IH, duration: 0.25, ease: 'sine.inOut', yoyo: true, repeat: 1, immediateRender: false }, 29.95);
-  tl.set(scanline, { opacity: 0 }, 30.45);
+  tl.set(scanline, { opacity: 1 }, 30.3);
+  tl.fromTo(scanline, { top: 0.49 * IH }, { top: 0.585 * IH, duration: 0.22, ease: 'sine.inOut', yoyo: true, repeat: 1, immediateRender: false }, 30.3);
+  tl.set(scanline, { opacity: 0 }, 30.75);
+  META.scans.push(30.3);
   const flash = add(P6, `left:0;right:0;top:13%;height:54%;background:#fff;opacity:0;z-index:5`);
-  tl.fromTo(flash, { opacity: 0.85 }, { opacity: 0, duration: 0.4, immediateRender: false }, 30.45);
-  tl.to(lock, { opacity: 0, boxShadow: '0 0 0 2000px rgba(0,0,0,0)', scale: 1.08, duration: 0.35, ease: 'ebIn' }, 30.5);
-  META.beeps.push(30.45);
+  tl.fromTo(flash, { opacity: 0.85 }, { opacity: 0, duration: 0.4, immediateRender: false }, 30.78);
+  tl.to(lock, { opacity: 0, boxShadow: '0 0 0 2000px rgba(0,0,0,0)', scale: 1.08, duration: 0.35, ease: 'ebIn' }, 30.82);
+  META.beeps.push(30.78);
   const card6 = patch(P6, 0, 0.684, 1, 0.85);
-  tl.fromTo(card6, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.55, ease: 'ebPush', immediateRender: true }, 30.6);
-  // the card's numbers lift out of the phone and land huge on the left
+  tl.fromTo(card6, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.5, ease: 'ebPush', immediateRender: true }, 30.92);
+  META.pops.push(30.95);
+  // the numbers: each value lights up on the card as its big twin rolls up and counts on the left
   const STATS = [['100', '', 'kcal', 0.188], ['16', 'g', 'protein', 0.397], ['0', 'g', 'carbs', 0.6], ['4.5', 'g', 'fat', 0.81]];
   const SPOT = [[130, 300], [600, 300], [130, 590], [600, 590]];
+  const statEls = [];
   STATS.forEach(([v, u, k, fx], i) => {
     const s = document.createElement('div'); s.className = 'abs stat';
     s.style.cssText = `left:${SPOT[i][0]}px;top:${SPOT[i][1]}px`;
-    s.innerHTML = `<div class="n" style="transform-origin:0 50%">${v}<i>${u}</i></div><div class="k">${k}</div>`;
-    $('#sc6').appendChild(s);
-    const [px, py] = at6(fx, 0.791), w = (v.length + u.length * 0.5) * 82, t = 31.25 + i * 0.13;
-    const n = s.querySelector('.n'), K = s.querySelector('.k');
-    tl.fromTo(n, { x: px - SPOT[i][0] - w * 0.11 / 2, y: py - SPOT[i][1] - 71, scale: 0.11, opacity: 0 },
-      { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.85, ease: 'ebPush', immediateRender: true }, t);
-    tl.fromTo(K, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, immediateRender: true }, t + 0.55);
-    META.ticks.push(t + 0.6);
+    s.innerHTML = `<div style="overflow:hidden;padding-bottom:.06em"><div class="n"><span class="cnt">0</span><i>${u}</i></div></div><div class="k">${k}</div>`;
+    $('#sc6 > .zw').insertBefore(s, $('#ph6wrap'));
+    statEls.push(s);
+    const t = 31.75 + i * 0.16, n = s.querySelector('.n'), K = s.querySelector('.k'), cnt = s.querySelector('.cnt');
+    tl.fromTo(n, { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: 'ebPush', immediateRender: true }, t);
+    tl.fromTo(K, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, immediateRender: true }, t + 0.25);
+    const o = { v: 0 }, to = parseFloat(v), dec = v.includes('.') ? 1 : 0;
+    tl.fromTo(o, { v: 0 }, { v: to, duration: 0.6, ease: 'ebOut', immediateRender: false, onUpdate: () => cnt.textContent = o.v.toFixed(dec) }, t);
+    tl.call(() => cnt.textContent = (0).toFixed(dec), null, t - 0.01);
+    const hl = add(P6, `${box(fx - 0.085, 0.765, fx + 0.085, 0.815)}border-radius:10px;background:rgba(226,96,35,.18);border:2px solid #E26023;opacity:0;z-index:4`);
+    tl.fromTo(hl, { opacity: 0, scale: 1.25 }, { keyframes: [{ opacity: 1, scale: 1, duration: 0.25, ease: 'ebOut' }, { opacity: 0, duration: 0.45, ease: 'ebSoft', delay: 0.2 }], immediateRender: false }, t - 0.05);
+    META.ticks.push(t); META.pops.push(t);
   });
-  META.whooshes.push(31.1);
-  // log it
+  // log it: tap → ✓ Logged, the phone beats, seeds burst from the button
   finger(P6);
   const logged = add(P6, `${box(0.56, 0.863, 0.957, 0.915)}border-radius:999px;background:#2A5D51;color:#fff;font:700 17px Manrope;display:grid;place-items:center;opacity:0;z-index:4`, '✓&nbsp; Logged');
-  tap(P6, 0.76, 0.889, 32.4);
-  tl.fromTo(logged, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'ebOut', immediateRender: false }, 32.45);
-  lift(P6, 32.65);
+  tap(P6, 0.76, 0.889, 32.75);
+  tl.fromTo(logged, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'ebOut', immediateRender: false }, 32.8);
+  lift(P6, 33.0);
+  tl.to(P6.ph, { scale: S6 * 1.035, duration: 0.14, ease: 'ebOut' }, 32.8);
+  tl.to(P6.ph, { scale: S6, duration: 0.5, ease: 'ebSoft' }, 32.94);
+  { const [bx, by] = at6(0.76, 0.889), host = document.createElement('div');
+    host.style.cssText = `position:absolute;left:${bx}px;top:${by}px;width:0;height:0;z-index:40`;
+    $('#sc6 > .zw').appendChild(host);
+    for (let k = 0; k < 12; k++) {
+      const d = document.createElement('div'), a = k / 12 * Math.PI * 2, r = 120 + (k % 3) * 45, sz = 10 + (k % 4) * 5;
+      d.style.cssText = `position:absolute;left:${-sz / 2}px;top:${-sz / 2}px;width:${sz}px;height:${sz}px;border-radius:50%;background:${['#E26023', '#3B7668', '#F0A26A', '#AFCFC4'][k % 4]};opacity:0`;
+      host.appendChild(d);
+      tl.fromTo(d, { x: 0, y: 0, scale: 0.3, opacity: 1 }, { x: Math.cos(a) * r, y: Math.sin(a) * r, scale: 1, duration: 0.8, ease: 'ebOut', immediateRender: false }, 32.8);
+      tl.to(d, { opacity: 0, scale: 0.3, duration: 0.35, ease: 'ebIn' }, 33.25);
+    }
+  }
+  META.success.push(32.8);
+  // done: the numbers step back and a big check draws itself
+  tl.to(statEls, { opacity: 0, y: -20, duration: 0.35, stagger: 0.04, ease: 'ebIn' }, 33.4);
+  const chk = document.createElement('div'); chk.className = 'abs';
+  chk.style.cssText = 'left:250px;top:330px;width:420px;height:420px';
+  chk.innerHTML = '<svg viewBox="0 0 420 420" width="420" height="420"><circle cx="210" cy="210" r="180" fill="none" stroke="#E26023" stroke-width="22" stroke-linecap="round" stroke-dasharray="1131" stroke-dashoffset="1131" transform="rotate(-90 210 210)"/><path d="M128 214 L188 272 L300 152" fill="none" stroke="#2A5D51" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="300" stroke-dashoffset="300"/></svg>';
+  $('#sc6 > .zw').insertBefore(chk, $('#ph6wrap'));
+  tl.fromTo(chk.querySelector('circle'), { strokeDashoffset: 1131 }, { strokeDashoffset: 0, duration: 0.55, ease: 'ebSoft', immediateRender: true }, 33.5);
+  tl.fromTo(chk.querySelector('path'), { strokeDashoffset: 300 }, { strokeDashoffset: 0, duration: 0.35, ease: 'ebOut', immediateRender: true }, 33.85);
+  tl.fromTo(chk, { scale: 0.85 }, { scale: 1, duration: 0.8, ease: 'ebOut', immediateRender: true }, 33.5);
+  META.success.push(33.85);
   ['Scan it.', 'Log it.', 'Done.'].forEach((w, i) => {
     const sp = document.createElement('span'); sp.textContent = w + ' '; sp.style.cssText = 'display:inline-block;margin-right:18px';
     $('#slam6').appendChild(sp);
-    const t = [29.95, 32.45, 33.2][i];
+    const t = [30.3, 32.8, 33.5][i];
     tl.fromTo(sp, { opacity: 0, scale: 1.6, filter: 'blur(8px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.18, ease: 'power3.out', immediateRender: true }, t);
     META.slams.push(t);
   });
@@ -784,14 +817,12 @@
   show(f2, 8.95, 10.6);
   tl.fromTo(f2.firstChild, { scale: 1.12 }, { scale: 1.0, duration: 1.6, ease: 'ebOut', immediateRender: false }, 8.95);
   tl.to(f2, { opacity: 0.45, duration: 0.4, ease: 'ebSoft' }, 9.9);
-  // 6 · the supermarket shot becomes the phone's camera
+  // 6 · POV in the supermarket for the whole scan: sharp at first, then soft and warm behind the numbers
   const ZW6 = $('#sc6 > .zw');
-  const f6 = foot(ZW6, null, 'supermarket', 28.4, 1.4, { inPt: 0.2, css: 'z-index:30', vcss: 'filter:saturate(.9)' });
-  show(f6, 28.4, 29.62);
-  const SCR = 'inset(72px 735px 31px 734px round 60px)';
-  tl.fromTo(f6, { clipPath: 'inset(0px 0px 0px 0px round 0px)' }, { clipPath: SCR, duration: 0.55, ease: 'ebPush', immediateRender: false }, 28.95);
-  tl.to(f6, { opacity: 0, duration: 0.2, ease: 'ebSoft' }, 29.42);
-  META.whooshes.push(29.0);
+  const f6 = foot(ZW6, ZW6.firstChild, 'supermarket', 28.4, 6.8, { tint: 'background:#F8E6D5;opacity:0', vcss: 'filter:saturate(.95)' });
+  show(f6, 28.4, 35.15);
+  tl.fromTo(f6.firstChild, { scale: 1.0, filter: 'blur(0px) saturate(.95)' }, { scale: 1.06, filter: 'blur(9px) saturate(.8)', duration: 1.2, ease: 'ebSoft', immediateRender: false }, 29.2);
+  tl.fromTo(f6.children[1], { opacity: 0 }, { opacity: 0.8, duration: 1.0, ease: 'ebSoft', immediateRender: false }, 29.6);
   // 7 · each small victory has a person behind it
   const f7a = foot($('#bg7'), $('#bg7').firstChild, 'water', 35.8, 1.7, { inPt: 0.4, vcss: 'filter:saturate(.8) brightness(1.08)' });
   tl.fromTo(f7a, { opacity: 0 }, { opacity: 0.42, duration: 0.5, ease: 'ebSoft', immediateRender: false }, 35.8);
@@ -809,6 +840,8 @@
     tl.fromTo(f.firstChild, { scale: 1.0 }, { scale: 1.12, duration: 0.5, ease: 'none', immediateRender: false }, t);
   });
 
+  META.risers = [10.45, 20.55, 28.4, 40.65];        // tension builds into the big transitions
+  META.water = [35.8]; META.night = [37.4];
   window.DURATION = DUR;
   window.META = META;
   // seek the timeline, then every clip on screen to its matching frame (resolves once all are decoded)

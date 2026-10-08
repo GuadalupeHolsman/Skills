@@ -17,7 +17,7 @@ done <<'LIST'
 12834 1.5 2.0 choice
 11511 1.0 3.0 tired
 46507 3.0 3.0 friends
-49349 2.0 2.5 supermarket
+49349 0.5 7.0 supermarket
 21396 1.0 3.0 water
 42981 1.0 3.0 sleep
 49466 1.0 3.5 highfive
