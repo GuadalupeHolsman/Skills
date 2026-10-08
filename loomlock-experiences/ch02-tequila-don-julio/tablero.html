@@ -1,138 +1,143 @@
 <title>CH 02 Tequila Don Julio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Outfit:wght@400;500;600;700&family=VT323&display=swap">
 <style>
-/* Layout: a dark "channel" board. Pieces grouped by the four chapters; system tokens up top. Single dark look by choice. */
+/* Layout: the Don Julio "world" of the Experiences site — cream paper, black type, teal accent, broadcast chrome. Pieces grouped by chapter. Single light look by choice. */
 :root {
-  --bg: #05071f; --surface: #0d1350; --fg: #eef0ff; --ink-2: #b8bdf0; --ink-3: #7c84c6; --line: #232b78;
-  --navy: #121b95; --ice: #e7e9fb; --sky: #9fd8ff; --amber: #e6a33e; --keyy: #fcee21;
-  --display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
-  --mono: "Space Mono", ui-monospace, Menlo, monospace;
-  color-scheme: dark;
+  --bg: #E9E1D8; --surface: #F3EEE7; --fg: #0B0B0B; --muted: #5E5953; --line: rgba(11,11,11,.16);
+  --teal: #0B5A6A; --teal2: #5FB1C1; --rec: #E5251F;
+  --disp: "League Gothic", "Oswald", Impact, sans-serif;
+  --body: "Outfit", "Helvetica Neue", Arial, sans-serif;
+  --vt: "VT323", ui-monospace, monospace;
+  color-scheme: light;
 }
 * { box-sizing: border-box; }
-body { background: var(--bg); color: var(--fg); font-family: var(--display); font-weight: 500; font-size: 16px; line-height: 1.55; }
-.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; display: grid; gap: 56px; }
-h1, h2, h3 { margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
-h1 { font-size: clamp(40px, 7vw, 72px); font-weight: 800; line-height: .95; text-transform: lowercase; }
-h2 { font-size: clamp(22px, 3.4vw, 30px); font-weight: 800; text-transform: lowercase; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 32px 80px; display: grid; gap: 56px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+h1 { font-family: var(--disp); font-weight: 400; text-transform: uppercase; font-size: clamp(56px, 11vw, 132px); line-height: .88; }
+h2 { font-family: var(--disp); font-weight: 400; text-transform: uppercase; font-size: clamp(34px, 5vw, 52px); line-height: .95; }
 h3 { font-size: 17px; font-weight: 700; }
 p { margin: 0; }
-.mono { font-family: var(--mono); font-size: 12px; text-transform: lowercase; letter-spacing: .04em; color: var(--sky); }
-.lede { color: var(--ink-2); font-size: 18px; max-width: 64ch; }
+.osd { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font-weight: 700; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
+.chn { font-family: var(--vt); font-size: 22px; letter-spacing: .06em; border: 1.5px solid currentColor; border-radius: 6px; padding: 0 8px; line-height: 1.15; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--rec); }
+.lede { color: var(--muted); font-size: 18px; max-width: 64ch; }
 section { display: grid; gap: 18px; }
-.chapter-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; border-top: 1px solid var(--line); padding-top: 18px; }
-.chapter-head p { color: var(--ink-2); max-width: 60ch; }
+.head { display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 18px; }
+.head .k { font-weight: 700; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--teal); }
+.head p { color: var(--muted); max-width: 62ch; }
 
 .tokens { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-.sw { border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
+.sw { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
 .sw div { height: 64px; }
 .sw p { padding: 10px 12px; font-size: 13px; display: grid; gap: 2px; }
-.sw span { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+.sw span { font-family: var(--vt); font-size: 16px; color: var(--muted); }
 .sys { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
-.sys div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; }
-.sys span { color: var(--ink-2); font-size: 14px; }
+.sys div { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: grid; gap: 4px; }
+.sys span { color: var(--muted); font-size: 14px; }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px; align-items: start; }
-.grid.wide { grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; align-items: start; }
 .piece { display: grid; gap: 10px; min-width: 0; }
-.piece button { all: unset; cursor: zoom-in; display: block; border-radius: 10px; overflow: hidden; background: #000; border: 1px solid var(--line); }
-.piece button:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
+.piece.full { grid-column: 1 / -1; }
+.piece button { all: unset; cursor: zoom-in; display: block; border-radius: 14px; overflow: hidden; background: #1b1b1b; border: 1px solid var(--line); }
+.piece button:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
 .piece img { display: block; width: 100%; height: auto; }
-.piece .cap { display: grid; gap: 3px; }
-.piece .cap span { font-size: 14px; color: var(--ink-2); }
-.spec { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+.cap { display: grid; gap: 3px; }
+.cap span { font-size: 14px; color: var(--muted); }
+.spec { font-family: var(--vt); font-size: 16px; color: var(--teal); }
 
-.todo { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--amber); border-radius: 10px; padding: 18px 20px; display: grid; gap: 8px; }
-.todo ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; color: var(--ink-2); }
-.todo b { color: var(--fg); }
+.note { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--teal); border-radius: 14px; padding: 18px 20px; display: grid; gap: 8px; }
+.note ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; color: var(--muted); }
+.note b { color: var(--fg); }
 
 dialog { border: 0; padding: 0; background: transparent; max-width: 94vw; max-height: 94vh; }
-dialog::backdrop { background: rgba(2, 3, 15, .9); }
-dialog img { max-width: 94vw; max-height: 88vh; display: block; border-radius: 8px; }
-dialog button { margin-top: 10px; font: 600 14px var(--display); color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 99px; padding: 8px 16px; cursor: pointer; }
+dialog::backdrop { background: rgba(11, 11, 11, .9); }
+dialog img { max-width: 94vw; max-height: 86vh; display: block; border-radius: 8px; }
+dialog button { margin-top: 10px; font: 600 14px var(--body); color: var(--fg); background: var(--bg); border: 0; border-radius: 99px; padding: 8px 16px; cursor: pointer; }
 </style>
 
 <div class="wrap">
-  <header style="display:grid;gap:16px">
-    <span class="mono">loomlock experiences · ch 02 · jueves 29.10</span>
-    <h1>tequila don julio:<br>elementos gráficos</h1>
-    <p class="lede">Todo lo que se diseña para la noche, ordenado según los cuatro capítulos de la plataforma: la invitación, el ritual, fuera del aire y se cuenta. Toca cualquier pieza para verla grande.</p>
+  <header style="display:grid;gap:18px">
+    <div class="osd"><span class="chn">CH 02</span><span class="dot" aria-hidden="true"></span><span>Fiesta · Bogotá · 29.10 · 70 cupos</span></div>
+    <h1>Tequila Don Julio:<br>elementos gráficos</h1>
+    <p class="lede">Las piezas de la noche en Resto Bar Bikinis, con el mismo mundo visual que tiene Don Julio en el sitio de Loomlock Experiences: papel crema, negro, verde azulado y la estética de canal de TV. Ordenadas por capítulo. Toca una pieza para verla grande.</p>
   </header>
 
   <section aria-labelledby="sys">
-    <div class="chapter-head"><span class="mono">sistema</span><h2 id="sys">reglas de la activación</h2></div>
+    <div class="head"><span class="k">Sistema</span><h2 id="sys">El mundo Don Julio</h2></div>
     <div class="tokens">
-      <div class="sw"><div style="background:var(--navy)"></div><p>Navy Loomlock<span>#121B95 · base</span></p></div>
-      <div class="sw"><div style="background:#05071f"></div><p>Noche<span>#05071F · fuera del aire</span></p></div>
-      <div class="sw"><div style="background:var(--ice)"></div><p>Blanco hielo<span>#E7E9FB · papel</span></p></div>
-      <div class="sw"><div style="background:var(--sky)"></div><p>Celeste<span>#9FD8FF · frases</span></p></div>
-      <div class="sw"><div style="background:var(--amber)"></div><p>Ámbar CH 02<span>#E6A33E · acento de esta noche</span></p></div>
-      <div class="sw"><div style="background:var(--keyy)"></div><p>Amarillo llave<span>#FCEE21 · solo en la llave</span></p></div>
+      <div class="sw"><div style="background:#E9E1D8"></div><p>Crema<span>#E9E1D8 · fondo</span></p></div>
+      <div class="sw"><div style="background:#0B0B0B"></div><p>Negro<span>#0B0B0B · texto y noche</span></p></div>
+      <div class="sw"><div style="background:#0B5A6A"></div><p>Verde azulado<span>#0B5A6A · acento</span></p></div>
+      <div class="sw"><div style="background:#5FB1C1"></div><p>Agua<span>#5FB1C1 · acento sobre negro</span></p></div>
+      <div class="sw"><div style="background:#FF3B3B"></div><p>Rec<span>#FF3B3B · solo el punto en vivo</span></p></div>
     </div>
     <div class="sys">
-      <div><h3>Tipografía</h3><span>Montserrat 800 para frases, 600 para texto. Space Mono, chica, para datos y la etiqueta “ch 02”.</span></div>
-      <div><h3>Voz</h3><span>Minúsculas, directo. La regla siempre igual: “el celular se queda contigo”.</span></div>
-      <div><h3>Marcas</h3><span>loomlock × Tequila Don Julio, chico, como anfitriones. Sin Locky (nivel 0, por ser alcohol). +18 en todo.</span></div>
-      <div><h3>Un solo acento</h3><span>Navy + blanco + ámbar, según la regla “un acento por activación”. El ámbar marca lo que se toca: el punto de tap y la barra.</span></div>
+      <div><h3>Tipografía</h3><span>League Gothic en mayúsculas para titulares. Outfit para texto. VT323 para el canal (CH 02), como en el sitio.</span></div>
+      <div><h3>Frases del sitio</h3><span>“Salud por la gente que tienes al frente.” “Un tequila se toma despacio.” “Sin feed.” “Las mejores historias de fiesta nunca se subieron.”</span></div>
+      <div><h3>Marcas</h3><span>loomlock × logo oficial de Tequila Don Julio (el del sitio). Sin Locky en piezas de alcohol.</span></div>
+      <div><h3>Legal Colombia</h3><span>“Disfruta con moderación. Prohibido el expendio de bebidas alcohólicas a menores de edad.” Va en toda pieza con alcohol.</span></div>
     </div>
   </section>
 
   <section aria-labelledby="c1">
-    <div class="chapter-head"><span class="mono">capítulo 1 · la invitación</span><h2 id="c1">algo va a pasar</h2><p>Llega la llave y se explica la regla en una línea.</p></div>
+    <div class="head"><span class="k">Capítulo 1 · La invitación</span><h2 id="c1">Algo va a pasar</h2><p>Llega la llave y se presenta la noche.</p></div>
     <div class="grid">
-      <div class="piece" style="grid-column:1/-1"><button data-full="img/ch02-1-llave.jpg" aria-label="Ver grande: la llave"><img src="img/ch02-1-llave.jpg" alt="Llave Loomlock edición CH 02, frente azul con la llave amarilla y dorso blanco con live now. post later." loading="lazy"></button>
-        <div class="cap"><h3>La llave · edición CH 02</h3><span>Frente: la llave de Loomlock con la etiqueta CH 02 · Tequila Don Julio · 29.10. Dorso: live now. post later. y “tap en la puerta”. Es la invitación y se queda como colección.</span><span class="spec">tarjeta nfc 85 × 54 mm · frente y dorso</span></div></div>
-      <div class="piece"><button data-full="img/ch02-2-invitacion-story.jpg" aria-label="Ver grande: invitación story"><img src="img/ch02-2-invitacion-story.jpg" alt="Invitación en formato story: esta es tu invitación, también pausa tus apps" loading="lazy"></button>
-        <div class="cap"><h3>Invitación · story</h3><span>“esta es tu invitación. también pausa tus apps.”</span><span class="spec">1080 × 1920</span></div></div>
-      <div class="piece"><button data-full="img/ch02-2-invitacion-feed.jpg" aria-label="Ver grande: invitación feed"><img src="img/ch02-2-invitacion-feed.jpg" alt="Invitación en formato feed" loading="lazy"></button>
-        <div class="cap"><h3>Invitación · feed</h3><span>Mismo mensaje para el co-post con la marca.</span><span class="spec">1080 × 1350</span></div></div>
-      <div class="piece"><button data-full="img/ch02-3-regla-feed.jpg" aria-label="Ver grande: la regla"><img src="img/ch02-3-regla-feed.jpg" alt="Post de texto: una regla, el celular se queda contigo" loading="lazy"></button>
-        <div class="cap"><h3>La regla · post de texto</h3><span>La tarjeta de texto del plan: “una regla: el celular se queda contigo.”</span><span class="spec">1080 × 1350</span></div></div>
+      <div class="piece full"><button data-full="img/dj-01-llave.jpg" aria-label="Ver grande: la llave"><img src="img/dj-01-llave.jpg" alt="Llave Loomlock edición CH 02: frente azul y dorso crema con Salud por la gente que tienes al frente" loading="lazy"></button>
+        <div class="cap"><h3>La llave · edición CH 02</h3><span>Frente: la llave de Loomlock con “CH 02 · Tequila Don Julio · 29.10”. Dorso crema: “Salud por la gente que tienes al frente.”</span><span class="spec">TARJETA NFC 85 × 54 MM</span></div></div>
+      <div class="piece"><button data-full="img/dj-02-invitacion-story.jpg" aria-label="Ver grande: invitación story"><img src="img/dj-02-invitacion-story.jpg" alt="Invitación story con la botella de Don Julio Blanco y el titular Salud por la gente que tienes al frente" loading="lazy"></button>
+        <div class="cap"><h3>Invitación · story</h3><span>Foto de la botella con cócteles, barra de canal “CH 02 · en vivo” y la frase del sitio.</span><span class="spec">1080 × 1920</span></div></div>
+      <div class="piece"><button data-full="img/dj-02-invitacion-feed.jpg" aria-label="Ver grande: invitación feed"><img src="img/dj-02-invitacion-feed.jpg" alt="Invitación feed" loading="lazy"></button>
+        <div class="cap"><h3>Invitación · feed</h3><span>Para el co-post con la marca.</span><span class="spec">1080 × 1350</span></div></div>
+      <div class="piece"><button data-full="img/dj-03-regla-feed.jpg" aria-label="Ver grande: la regla"><img src="img/dj-03-regla-feed.jpg" alt="Post de texto: El celular se queda contigo" loading="lazy"></button>
+        <div class="cap"><h3>La regla · post de texto</h3><span>“El celular se queda contigo. Las apps, en pausa. Tú eliges cuáles en el tótem.”</span><span class="spec">1080 × 1350</span></div></div>
     </div>
   </section>
 
   <section aria-labelledby="c2">
-    <div class="chapter-head"><span class="mono">capítulo 2 · el ritual</span><h2 id="c2">cómo se entra y qué se toma</h2><p>El tap en la puerta como ceremonia y la barra como ritual.</p></div>
+    <div class="head"><span class="k">Capítulo 2 · El ritual</span><h2 id="c2">Cómo se entra y qué se toma</h2><p>El tap en la puerta y la barra.</p></div>
     <div class="grid">
-      <div class="piece"><button data-full="img/ch02-4-totem.jpg" aria-label="Ver grande: tótem"><img src="img/ch02-4-totem.jpg" alt="Tótem de entrada: tap in, punto ámbar para acercar la llave" loading="lazy"></button>
-        <div class="cap"><h3>Tótem de entrada</h3><span>“tap in.” El punto ámbar es donde se acerca la llave o el celular. Es el momento más fotografiado: lo cubre el fotógrafo oficial.</span><span class="spec">60 × 180 cm · reutilizable</span></div></div>
-      <div class="piece"><button data-full="img/ch02-7-carta-barra.jpg" aria-label="Ver grande: carta de la barra"><img src="img/ch02-7-carta-barra.jpg" alt="Carta de la barra: Tequila Don Julio Blanco con tres cócteles a completar" loading="lazy"></button>
-        <div class="cap"><h3>Carta de la barra</h3><span>Tequila Don Julio Blanco con cócteles. Nombres e ingredientes a completar con la marca.</span><span class="spec">A5 · 148 × 210 mm</span></div></div>
-      <div class="piece"><button data-full="img/ch02-6-posavasos.jpg" aria-label="Ver grande: posavasos"><img src="img/ch02-6-posavasos.jpg" alt="Posavasos de dos caras: live now. post later. y un trago se toma mirando a alguien" loading="lazy"></button>
-        <div class="cap"><h3>Posavasos · dos caras</h3><span>Cara A: live now. post later. Cara B: “un trago se toma mirando a alguien.”</span><span class="spec">Ø 10 cm · cartón prensado</span></div></div>
-      <div class="piece"><button data-full="img/ch02-8-photocall.jpg" aria-label="Ver grande: photocall"><img src="img/ch02-8-photocall.jpg" alt="Photocall con logos loomlock por Tequila Don Julio y live now. post later." loading="lazy"></button>
-        <div class="cap"><h3>Photocall</h3><span>Repetición de logos y la frase. Solo fotografía el fotógrafo oficial; las fotos van a la galería.</span><span class="spec">3 × 2 m</span></div></div>
+      <div class="piece"><button data-full="img/dj-04-totem.jpg" aria-label="Ver grande: tótem"><img src="img/dj-04-totem.jpg" alt="Tótem de entrada: Tap in, punto verde azulado para acercar la llave" loading="lazy"></button>
+        <div class="cap"><h3>Tótem de entrada</h3><span>“Tap in.” Punto verde azulado para acercar la llave. “Tú eliges qué apps se pausan.”</span><span class="spec">60 × 180 CM · REUTILIZABLE</span></div></div>
+      <div class="piece"><button data-full="img/dj-07-carta-barra.jpg" aria-label="Ver grande: carta"><img src="img/dj-07-carta-barra.jpg" alt="Carta de la barra con foto de un tequila con limón y tres cócteles a completar" loading="lazy"></button>
+        <div class="cap"><h3>Carta de la barra</h3><span>Don Julio Blanco y tres cócteles a completar con la marca y Bikinis.</span><span class="spec">A5 · 148 × 210 MM</span></div></div>
+      <div class="piece"><button data-full="img/dj-06-posavasos.jpg" aria-label="Ver grande: posavasos"><img src="img/dj-06-posavasos.jpg" alt="Posavasos: Un tequila se toma despacio y Live now, post later" loading="lazy"></button>
+        <div class="cap"><h3>Posavasos · dos caras</h3><span>Crema: “Un tequila se toma despacio.” Negra: “Live now, post later.” con el legal.</span><span class="spec">Ø 10 CM</span></div></div>
+      <div class="piece"><button data-full="img/dj-08-photocall.jpg" aria-label="Ver grande: photocall"><img src="img/dj-08-photocall.jpg" alt="Photocall crema con logos y Live now, post later" loading="lazy"></button>
+        <div class="cap"><h3>Photocall</h3><span>Repetición de logos y la frase. Solo fotografía el fotógrafo oficial.</span><span class="spec">3 × 2 M</span></div></div>
+      <div class="piece full"><button data-full="img/dj-09-banner-barra.jpg" aria-label="Ver grande: banner de barra"><img src="img/dj-09-banner-barra.jpg" alt="Banner negro tipo ticker: Sin feed, Un tequila se toma despacio" loading="lazy"></button>
+        <div class="cap"><h3>Banner de barra · ticker</h3><span>La cinta negra del sitio llevada a la barra: “Sin feed · Un tequila se toma despacio · Live now, post later · Salud por la gente que tienes al frente”.</span><span class="spec">300 × 50 CM</span></div></div>
     </div>
   </section>
 
   <section aria-labelledby="c3">
-    <div class="chapter-head"><span class="mono">capítulo 3 · el giro</span><h2 id="c3">fuera del aire</h2><p>Durante la noche, las cuentas de Loomlock y de la marca también se apagan. Es lo único que se publica.</p></div>
+    <div class="head"><span class="k">Capítulo 3 · El giro</span><h2 id="c3">Fuera del aire</h2><p>Durante la noche, las cuentas de Loomlock y de Don Julio se apagan como un televisor. Es lo único que se publica.</p></div>
     <div class="grid">
-      <div class="piece"><button data-full="img/ch02-5-fuera-del-aire-feed.jpg" aria-label="Ver grande: fuera del aire feed"><img src="img/ch02-5-fuera-del-aire-feed.jpg" alt="Post negro: fuera del aire, volvemos después" loading="lazy"></button>
-        <div class="cap"><h3>Fuera del aire · feed</h3><span>Se publica al abrir la puerta.</span><span class="spec">1080 × 1350</span></div></div>
-      <div class="piece"><button data-full="img/ch02-5-fuera-del-aire-story.jpg" aria-label="Ver grande: fuera del aire story"><img src="img/ch02-5-fuera-del-aire-story.jpg" alt="Story negra: fuera del aire" loading="lazy"></button>
-        <div class="cap"><h3>Fuera del aire · story</h3><span>La única story de la noche, en las dos cuentas.</span><span class="spec">1080 × 1920</span></div></div>
+      <div class="piece"><button data-full="img/dj-05-fuera-del-aire-feed.jpg" aria-label="Ver grande: fuera del aire feed"><img src="img/dj-05-fuera-del-aire-feed.jpg" alt="Post negro: Fuera del aire. Volvemos después." loading="lazy"></button>
+        <div class="cap"><h3>Fuera del aire · feed</h3><span>“CH 02 · sin señal.” La línea blanca de un televisor que se apaga.</span><span class="spec">1080 × 1350</span></div></div>
+      <div class="piece"><button data-full="img/dj-05-fuera-del-aire-story.jpg" aria-label="Ver grande: fuera del aire story"><img src="img/dj-05-fuera-del-aire-story.jpg" alt="Story negra: Fuera del aire" loading="lazy"></button>
+        <div class="cap"><h3>Fuera del aire · story</h3><span>La única story de la noche.</span><span class="spec">1080 × 1920</span></div></div>
     </div>
   </section>
 
   <section aria-labelledby="c4">
-    <div class="chapter-head"><span class="mono">capítulo 4 · se cuenta</span><h2 id="c4">la galería</h2><p>2–3 días después: las fotos en la app, una frase real y el dato de la noche.</p></div>
+    <div class="head"><span class="k">Capítulo 4 · Se cuenta</span><h2 id="c4">Tus fotos llegaron</h2><p>Días después, la galería en la app, una frase real y el dato de la noche.</p></div>
     <div class="grid">
-      <div class="piece"><button data-full="img/ch02-9-galeria-feed.jpg" aria-label="Ver grande: galería"><img src="img/ch02-9-galeria-feed.jpg" alt="Plantilla de recap: foto con flash, frase de un invitado y horas de apps en pausa" loading="lazy"></button>
-        <div class="cap"><h3>Recap · plantilla</h3><span>Foto oficial con flash, frase de alguien que estuvo y “[x] horas de apps en pausa”. Se llena con datos reales.</span><span class="spec">1080 × 1350 · plantilla</span></div></div>
+      <div class="piece"><button data-full="img/dj-10-galeria-feed.jpg" aria-label="Ver grande: galería"><img src="img/dj-10-galeria-feed.jpg" alt="Plantilla de recap con foto de un brindis, frase y horas de apps en pausa" loading="lazy"></button>
+        <div class="cap"><h3>Recap · plantilla</h3><span>“Tus fotos llegaron”, como en el sitio. Frase de alguien que estuvo y “[X] horas de apps en pausa”.</span><span class="spec">1080 × 1350 · PLANTILLA</span></div></div>
     </div>
   </section>
 
-  <section class="todo" aria-labelledby="todo">
-    <h2 id="todo" style="font-size:20px">antes de producir</h2>
+  <section class="note" aria-labelledby="todo">
+    <h2 id="todo" style="font-size:34px">Antes de producir</h2>
     <ul>
-      <li><b>Logo de Tequila Don Julio:</b> el que usamos es un recorte de baja resolución. Pedir el archivo oficial a la marca.</li>
-      <li><b>Cámara, llamadas y mapas:</b> la regla y la invitación dicen que siguen funcionando. Confirmarlo con producto antes de imprimir.</li>
-      <li><b>Cócteles:</b> nombres e ingredientes de la carta, con la marca.</li>
+      <li><b>Fotos para imprimir:</b> las del sitio están a 600–1.200 px. Sirven para redes; para carta y tótem hacen falta los originales en alta.</li>
+      <li><b>Locky en la entrada:</b> el sitio dice “Locky te recibe en la entrada”, pero la regla de marca dice nivel 0 con alcohol. En estas piezas Locky no aparece; conviene alinear el sitio.</li>
+      <li><b>Cócteles y hora:</b> nombres de la carta y hora de la fiesta (en el sitio figura “por confirmar”).</li>
       <li><b>“Fuera del aire”:</b> acordar con Diageo que su cuenta tampoco publica durante la noche.</li>
-      <li><b>Fotos de la galería:</b> la plantilla usa una foto de muestra; va con las fotos del fotógrafo oficial.</li>
+      <li><b>Qué queda habilitado:</b> confirmar cámara, llamadas y mapas con la llave puesta.</li>
     </ul>
   </section>
 </div>
