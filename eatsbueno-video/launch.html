@@ -79,7 +79,8 @@
   <!-- 1 · Diet noise -->
   <section class="scene" id="sc1" style="background:radial-gradient(120% 120% at 50% 50%,#2a2522 0%,#151312 100%)">
     <div class="abs" id="chaos" style="inset:0;perspective:1800px"></div>
-    <div class="abs cooper" id="exhaust" style="left:0;right:0;top:470px;text-align:center;font-size:110px;color:var(--cream);opacity:0"><i style="font-weight:300">Exhausting,</i> <b style="font-weight:700">right?</b></div>
+    <div class="abs cooper" id="exhaust" style="left:0;right:0;top:470px;text-align:center;font-size:110px;color:var(--cream);opacity:0"></div>
+    <div class="abs" id="leaks" style="inset:0;pointer-events:none;mix-blend-mode:screen"></div>
     <div class="abs" id="petals" style="left:960px;top:540px;width:0;height:0;z-index:30"></div>
   </section>
 
@@ -96,10 +97,12 @@
 
   <!-- 3 · Phone hero -->
   <section class="scene" id="sc3" style="background:radial-gradient(90% 90% at 50% 55%,#FBEBDD 0%,#F6E3D2 45%,#EFD3BE 100%)">
+    <div class="abs zw" style="inset:0">
     <div class="blob" style="width:1000px;height:1000px;left:460px;top:80px;background:radial-gradient(circle,rgba(242,140,70,.55),transparent 65%)"></div>
     <div class="abs cooper" id="meet" style="left:0;right:0;top:40px;text-align:center;font-size:150px;line-height:1;color:var(--deep);font-weight:700;letter-spacing:-.02em">Meet <i style="font-weight:300">EatsBueno.</i></div>
     <div class="abs" id="ph3wrap" style="inset:0"></div>
     <div class="abs" id="sub3" style="left:0;right:0;top:215px;text-align:center;font:600 28px Manrope;color:#6b5a4d;letter-spacing:.02em">Your AI nutrition coach · No diets · No guilt</div>
+    </div>
   </section>
 
   <!-- 4 · Built around you -->
@@ -118,8 +121,10 @@
 
   <!-- 6 · Scan -->
   <section class="scene" id="sc6" style="background:radial-gradient(100% 100% at 70% 50%,#FCEFE2 0%,#F8E2CF 60%,#F1D0B5 100%)">
+    <div class="abs zw" style="inset:0">
     <div class="abs" id="slam6" style="left:130px;top:120px;font:700 78px Cooper;color:var(--deep);white-space:nowrap"></div>
     <div class="abs" id="ph6wrap" style="inset:0"></div>
+    </div>
   </section>
 
   <!-- 7 · Habits -->
@@ -149,6 +154,8 @@
     <div class="abs" id="seedsC" style="left:960px;top:330px;width:0;height:0"></div>
     <div class="abs flower" id="fl8" style="left:820px;top:190px;width:280px;height:280px;color:var(--cream)"></div>
     <div class="abs wordmark" id="wm8" style="left:610px;top:500px;width:700px"></div>
+    <div class="abs wordmark" id="wm8s" style="left:610px;top:500px;width:700px;background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.95) 50%,transparent 58%);background-size:300% 100%;background-position:100% 0;opacity:0"></div>
+    <div class="abs" id="sig8" style="left:0;right:0;bottom:56px;display:flex;align-items:center;justify-content:center;gap:22px;font:700 15px Manrope;letter-spacing:.24em;text-transform:uppercase;color:rgba(250,240,223,.6)"><i style="width:80px;height:1px;background:rgba(250,240,223,.4)"></i>EatsBueno · Your AI nutrition coach<i style="width:80px;height:1px;background:rgba(250,240,223,.4)"></i></div>
     <div class="abs cooper" id="tag8" style="left:0;right:0;top:680px;text-align:center;font-size:60px;color:var(--cream)"><i style="font-weight:300">A healthier life, your way.</i></div>
     <div class="abs" id="cta8" style="left:0;right:0;top:815px;text-align:center"><span style="display:inline-block;padding:20px 46px;border-radius:999px;border:2px solid rgba(250,240,223,.75);font:700 24px Manrope;letter-spacing:.22em;text-transform:uppercase;color:var(--cream)">No diets · No guilt · Just good</span></div>
   </section>
@@ -336,8 +343,32 @@
   tl.to(WEL[WEL.length - 1], { opacity: 0, filter: 'blur(16px)', duration: 0.5, ease: 'ebSoft' }, 4.65);
   tl.to(NB.slice().reverse(), { x: 420, opacity: 0, duration: 0.4, stagger: 0.035, ease: 'ebIn' }, 4.7);
   tl.to(L, { x: 960 - 1340, y: 30, scale: 0.62, rotationY: 0, opacity: 0.32, filter: 'blur(5px)', duration: 1.0, ease: 'ebSoft' }, 4.75);
-  tl.set('#exhaust', { opacity: 1 }, 4.95);
-  reveal($('#exhaust'), 4.95, 0.12);
+  // typed into the silence: one character at a time, an orange caret, a chromatic ghost on each new glyph,
+  // light leaks sweeping past; the only sound is the keys
+  tl.set('#exhaust', { opacity: 1 }, 4.9);
+  const EX = [['Exhausting,', 'italic', 300], [' ', 'normal', 300], ['right?', 'normal', 700]], exEl = $('#exhaust'), CH = [];
+  EX.forEach(([txt, st, wt]) => Array.from(txt).forEach((c) => {
+    const sp = document.createElement('span'); sp.textContent = c;
+    sp.style.cssText = `font-style:${st};font-weight:${wt};opacity:0;white-space:pre`;
+    exEl.appendChild(sp); CH.push(sp);
+  }));
+  const exT = schedule('Exhausting, right?', 4.95, 24);
+  CH.forEach((sp, i) => {
+    tl.set(sp, { opacity: 1 }, exT[i]);
+    tl.fromTo(sp, { textShadow: '7px 0 0 rgba(226,96,35,.9), -7px 0 0 rgba(175,207,196,.9)' }, { textShadow: '0px 0 0 rgba(226,96,35,0), 0px 0 0 rgba(175,207,196,0)', duration: 0.22, ease: 'ebOut', immediateRender: false }, exT[i]);
+    tl.set(sp, { boxShadow: '6px 0 0 0 #E26023' }, exT[i]);                       // the caret rides the newest glyph
+    if (i < CH.length - 1) tl.set(sp, { boxShadow: '6px 0 0 0 rgba(0,0,0,0)' }, exT[i + 1]);
+    META.keys.push(exT[i]);
+  });
+  const last = CH[CH.length - 1], tEnd = exT[exT.length - 1];
+  tl.to(last, { boxShadow: '6px 0 0 0 rgba(226,96,35,0)', duration: 0.01, repeat: 3, yoyo: true, repeatDelay: 0.09 }, tEnd + 0.1);
+  [[-18, 380, '#E26023', 4.95], [12, 600, '#FAF0DF', 5.15], [-8, 520, '#F0A26A', 5.35]].forEach(([rot, y, col, t]) => {
+    const lk = document.createElement('div');
+    lk.style.cssText = `position:absolute;left:-600px;top:${y}px;width:900px;height:${110 + y / 10}px;transform:rotate(${rot}deg);filter:blur(28px);opacity:0;background:linear-gradient(90deg,transparent,${col},transparent)`;
+    $('#leaks').appendChild(lk);
+    tl.fromTo(lk, { x: 0, opacity: 0 }, { x: 2600, duration: 0.9, ease: 'ebSoft', immediateRender: false }, t);
+    tl.fromTo(lk, { opacity: 0 }, { keyframes: [{ opacity: 0.45, duration: 0.3 }, { opacity: 0, duration: 0.6 }], immediateRender: false }, t);
+  });
   tl.to('#exhaust', { scale: 0.6, opacity: 0, filter: 'blur(10px)', duration: 0.45, ease: 'ebIn' }, 5.75);
   tl.to(L, { scale: 0.3, opacity: 0, duration: 0.45, ease: 'ebIn' }, 5.75);
   // the flower opens: eight petals grow out of the centre and flood the frame with brand orange
@@ -381,7 +412,7 @@
 
   // ================= 3 · Phone hero (10.5 – 14.4) =================
   scene('sc3', 10.45, 14.45);
-  tl.fromTo('#sc3', { scale: 1.12, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'ebOut', immediateRender: false }, 10.55);
+  tl.fromTo('#sc3 > .zw', { scale: 0.86, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'ebOut', immediateRender: false }, 10.55);
   const P3 = makePhone($('#ph3wrap'), 'Welcome', 960, 680);
   gsap.set(P3.ph, { scale: 0.8 });
   finger(P3);
@@ -391,6 +422,7 @@
   glareSweep(P3, 11.75);
   tl.set('#meet', { opacity: 1 }, 0);
   reveal($('#meet'), 11.55, 0.12);
+  tl.fromTo('#ph3wrap', { scale: 1 }, { scale: 1.05, duration: 1.7, ease: 'ebSoft', transformOrigin: '960px 680px', immediateRender: true }, 11.7);   // camera arrives on the hero
   tl.fromTo('#sub3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, immediateRender: true }, 12.2);
   tap(P3, 0.5, 0.815, 13.25);
   lift(P3, 13.4);
@@ -410,7 +442,7 @@
   const P4c = makePhone(W4, 'Onboarding_Step7', 2160, 650, 'Onboarding_Step7_Empty');
   [P4a, P4b, P4c].forEach((P, i) => gsap.set(P.ph, { scale: 0.86, z: i === 0 ? 0 : -220, rotationY: i === 0 ? 0 : -14 }));
   // world starts matched to the hero phone (center 960,680 · scale .8), then opens up
-  tl.fromTo(W4, { scale: 0.8 / 0.86, y: 30, transformOrigin: '960px 650px' }, { scale: 1, y: 0, duration: 0.9, ease: 'ebSoft', immediateRender: true }, 14.35);
+  tl.fromTo(W4, { scale: 0.84 / 0.86, y: 30, transformOrigin: '960px 650px' }, { scale: 1, y: 0, duration: 0.9, ease: 'ebSoft', immediateRender: true }, 14.35);
   tl.fromTo([P4b.ph, P4c.ph], { x: 700 }, { x: 0, duration: 0.9, stagger: 0.08, ease: 'ebOut', immediateRender: true }, 14.35);
   finger(P4a); finger(P4c);
   reveal($('#h4'), 14.6, 0.1);
@@ -522,7 +554,7 @@
   // a live camera, not a zoom into a photo: the view drifts in the hand, the frame locks onto the
   // barcode, and the card's own numbers fly out of the phone to become the giant stats
   scene('sc6', 28.4, 35.15);
-  tl.fromTo('#sc6', { scale: 1.12, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'ebOut', immediateRender: false }, 28.5);
+  tl.fromTo('#sc6 > .zw', { scale: 0.86, filter: 'blur(12px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'ebOut', immediateRender: false }, 28.5);
   const X6 = 1400, Y6 = 560, S6 = 0.92;
   const P6 = makePhone($('#ph6wrap'), 'Scanner_Barcode', X6, Y6, 'Scanner_Barcode_Empty');
   const at6 = (fx, fy) => [X6 + (14 + fx * SW - 229) * S6, Y6 + (14 + fy * IH - 479) * S6];
@@ -712,6 +744,12 @@
   reveal($('#tag8'), 44.8, 0.08);
   tl.fromTo('#cta8', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.8, immediateRender: true }, 45.6);
   tl.to('#fl8', { rotation: 22, duration: 3.5, ease: 'ebSoft' }, 44.6);
+  tl.fromTo(['#fl8', '#wm8'], { filter: 'drop-shadow(0 0 0px rgba(250,240,223,0))' }, { filter: 'drop-shadow(0 0 26px rgba(250,240,223,.55))', duration: 0.7, ease: 'ebOut', immediateRender: true }, 44.85);
+  tl.to(['#fl8', '#wm8'], { filter: 'drop-shadow(0 0 12px rgba(250,240,223,.25))', duration: 1.2, ease: 'ebSoft' }, 45.55);
+  tl.set('#wm8s', { opacity: 1 }, 44.9);
+  tl.fromTo('#wm8s', { backgroundPosition: '100% 0' }, { backgroundPosition: '0% 0', duration: 0.7, ease: 'ebSoft', immediateRender: false }, 44.9);
+  tl.set('#wm8s', { opacity: 0 }, 45.65);
+  tl.fromTo('#sig8', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.8, immediateRender: true }, 46.2);
   tl.set({}, {}, DUR);
 
   window.DURATION = DUR;

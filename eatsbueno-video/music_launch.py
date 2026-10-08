@@ -237,6 +237,9 @@ for lg in META["logo"]:
 # hard silence window (the "Exhausting, right?" beat)
 a, b = int(SIL0 * SR), int((SIL1 - 0.95) * SR)
 mix[a:b] *= 0.0
+for kp in META["keys"]:            # ...except the keys typing "Exhausting, right?"
+    if SIL0 <= kp < SIL1 - 0.95:
+        add(click(3000 + rng.integers(-300, 300), 0.035), kp, pan=float(rng.uniform(-0.15, 0.15)), gain=0.16)
 
 # master
 fade = np.ones(N)
