@@ -20,6 +20,7 @@ def page(body, bg="var(--bg)", w=W, h=H):
     return f'''<!doctype html><html lang="en"><head><meta charset="UTF-8"><style>{CSS}{EXTRA}
 html,body{{width:{w}px;height:{h}px}}</style></head><body>
 <div id="root" style="width:{w}px;height:{h}px;background:{bg}">{body}
+<div class="crtov"><div class="scanl"></div><div class="vigc"></div></div>
 <img class="grain" src="assets/img/grain0.png" style="opacity:.16" alt=""></div></body></html>'''
 
 def shot(name, html, w=W, h=H, url=None):
@@ -93,8 +94,19 @@ def s5_invite():
             '<div class="b y" style="font-size:130px;line-height:1.05">post later.</div></div>'
             f'<div class="sub" style="top:720px">{lockup(44, 76)}'
             '<div style="margin-top:26px;font-size:34px"><span class="b">Thu 29 Oct</span> <span class="i">· Bogotá · 18+</span></div>'
-            '<div style="margin-top:10px;font-size:40px"><span class="b y">Invite only.</span></div></div>')
+            '<div style="margin-top:10px;font-size:40px"><span class="b y">Invite only.</span></div></div>'
+            '<div class="sub" style="top:1010px"><div class="mono" style="font-size:20px;letter-spacing:.2em;color:rgba(244,242,238,.75)">CH 02 BOGOTÁ &nbsp;→&nbsp; CH 03 ▮▮▮▮▮▮</div>'
+            '<div style="margin-top:12px;font-size:36px"><span class="i">Next city,</span> <span class="b">yours?</span></div></div>')
     shot("ps5-invite", page(html + corners() + legal(), "var(--blue)"))
+
+def s6_next():
+    html = ('<div class="ab grid" style="inset:0"></div>'
+            '<div class="ab mono" style="left:0;right:0;top:250px;text-align:center;font-size:24px;letter-spacing:.2em;line-height:2">CH 01 &nbsp;·&nbsp; CH 02 BOGOTÁ &nbsp;·&nbsp; CH 03 ▮▮▮▮▮▮</div>'
+            '<div class="ab" style="left:0;right:0;top:400px;text-align:center"><div class="i" style="font-size:100px;line-height:1.05">One rule,</div>'
+            '<div class="b" style="font-size:118px;line-height:1.05">every city.</div></div>'
+            '<div class="ab" style="left:0;right:0;top:730px;text-align:center"><div class="i" style="font-size:64px">Next city:</div>'
+            '<div class="b y" style="font-size:150px;line-height:1">yours?</div></div>')
+    shot("ps6-next-city", page(html + corners() + legal(), "var(--blue)"))
 
 def stories():
     for name, reel, t in (("pst1-redacted", "p1-redacted", 12.6), ("pst2-time-is-form", "p2-time-is-form", 11.0), ("pst3-focus", "p3-focus", 13.2)):
@@ -109,4 +121,4 @@ if __name__ == "__main__":
         shutil.copy(CAMP / "img" / f, OUT / "assets" / "img")
     for f in ["grain0.png", "grain2.png"]:
         shutil.copy(SP / "hf7" / "assets" / "img" / f, OUT / "assets" / "img")
-    s1_redacted(); s2_columns(); s3_focus(); s4_big02(); s5_invite(); stories()
+    s1_redacted(); s2_columns(); s3_focus(); s4_big02(); s5_invite(); s6_next(); stories()

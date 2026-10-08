@@ -17,6 +17,10 @@ EXTRA = """
 .col{position:absolute;top:0;height:100%;overflow:hidden}
 .strip{position:absolute;left:0;right:0;top:0;writing-mode:vertical-rl;white-space:nowrap;font-weight:900;letter-spacing:-.02em;line-height:.84}
 .row{position:absolute;left:0;right:0;text-align:center;font-weight:900;letter-spacing:-.03em;white-space:nowrap}
+.crtov{position:absolute;inset:0;pointer-events:none;z-index:60}
+.crtov .scanl{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.30) 0 2px,rgba(0,0,0,0) 2px 5px);mix-blend-mode:multiply}
+.crtov .roll{position:absolute;left:0;right:0;top:-300px;height:280px;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.08),rgba(255,255,255,0))}
+.crtov .vigc{position:absolute;inset:0;border-radius:64px;box-shadow:inset 0 0 240px 70px rgba(0,0,0,.72),inset 0 0 0 16px #040406;background:radial-gradient(70% 40% at 28% 14%,rgba(255,255,255,.08),rgba(255,255,255,0) 60%)}
 """
 
 def corners(color="var(--ink)", sub="rgba(244,242,238,.6)"):
@@ -40,13 +44,18 @@ def endcard(eid, bg="var(--blue)", big=("Live now,", "post later."), extra=""):
     <div style="margin-top:26px;font-size:32px"><span class="b">Thu 29 Oct</span> <span class="i">· Bogotá · 18+</span></div>
     <div style="margin-top:8px;font-size:30px"><span class="b y">Invite only.</span></div>
   </div>
+  <div class="sub" id="{eid}d" style="top:1450px">
+    <div class="mono" style="font-size:22px;letter-spacing:.2em;color:rgba(244,242,238,.75)">CH 02 BOGOTÁ &nbsp;→&nbsp; CH 03 ▮▮▮▮▮▮</div>
+    <div style="margin-top:14px;font-size:40px"><span class="i">Next city,</span> <span class="b">yours?</span></div>
+  </div>
 </div>'''
 
 def endjs(eid, t0):
     return (f'tl.set("#{eid}",{{opacity:1}},{t0:.2f});'
             f'tl.fromTo("#{eid}a",{{opacity:0,y:30}},{{opacity:1,y:0,duration:.35,ease:"power3.out"}},{t0+.1:.2f});'
             f'tl.fromTo("#{eid}b",{{opacity:0,scale:1.3}},{{opacity:1,scale:1,duration:.35,ease:"expo.out"}},{t0+B:.2f});'
-            f'tl.fromTo("#{eid}c",{{opacity:0}},{{opacity:1,duration:.4}},{t0+B*3:.2f});')
+            f'tl.fromTo("#{eid}c",{{opacity:0}},{{opacity:1,duration:.4}},{t0+B*3:.2f});'
+            f'tl.fromTo("#{eid}d",{{opacity:0,y:20}},{{opacity:1,y:0,duration:.4,ease:"power3.out"}},{t0+B*5:.2f});')
 
 def project(name, title, body, js, music, bg="var(--bg)"):
     html = f'''<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width={W}, height={H}" />
@@ -54,15 +63,15 @@ def project(name, title, body, js, music, bg="var(--bg)"):
 <style>{CSS}{EXTRA}</style></head><body>
 <div id="root" data-composition-id="main" data-start="0" data-width="{W}" data-height="{H}" data-duration="{DUR}" style="width:{W}px;height:{H}px;background:{bg}">
 {body}
+<div class="crtov"><div class="scanl"></div><div class="roll" id="roll"></div><div class="vigc"></div></div>
 <img class="grain" id="gr0" src="assets/img/grain0.png" alt=""><img class="grain" id="gr1" src="assets/img/grain1.png" alt="">
 <img class="grain" id="gr2" src="assets/img/grain2.png" alt=""><img class="grain" id="gr3" src="assets/img/grain3.png" alt="">
-<audio id="music" src="assets/{music}" data-start="0" data-duration="{DUR}" data-media-start="0" data-volume="1"
- data-automation='{{"version":1,"lanes":[{{"target":"volume","points":[{{"t":0,"v":0}},{{"t":0.2,"v":0.95}},{{"t":{DUR-1.2:.2f},"v":1}},{{"t":{DUR},"v":0}}]}}]}}'></audio>
 </div>
 <script>
 window.__timelines = window.__timelines || {{}};
 const tl = gsap.timeline({{ paused: true }});
 for (let i = 0; i < 4; i++) tl.set("#gr" + i, {{ opacity: 0 }}, 0);
+tl.fromTo("#roll", {{ y: 0 }}, {{ y: 2500, duration: 4.32, repeat: 3, ease: "none" }}, 0);
 for (let f = 0, t = 0; t < {DUR}; f++, t = f / 12) {{ tl.set("#gr" + (f % 4), {{ opacity: .18 }}, t); tl.set("#gr" + ((f + 3) % 4), {{ opacity: 0 }}, t); }}
 {js}
 window.__timelines["main"] = tl;
