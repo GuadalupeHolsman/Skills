@@ -157,8 +157,34 @@ TITLES, WORDS = M('titles'), M('words')
 near = lambda t, pts, w: any(abs(t - p) < w for p in pts)
 for t in TITLES:                                  # titles get their own signature hit instead of a swoosh
     place(kit['title'], t - 0.05, 0.55, ducks=0.4)
-for t in WORDS:
-    place(kit['word'], t - 0.12, 0.6, ducks=0.5)
+# JUST / EATS / BUENO: a designed hit with a real transient (synth sub-kick + the impact's attack + the slam's snap),
+# not a swell -- each word must be felt exactly on its frame
+def _sub(dur, f0, f1, k_f, k_a):
+    tt = np.arange(int(dur * SR)) / SR
+    ph = 2 * np.pi * np.cumsum(f1 + (f0 - f1) * np.exp(-tt * k_f)) / SR
+    return (np.sin(ph) * np.exp(-tt * k_a)).astype(np.float32)
+def _head(sig, dur):
+    h = sig[:int(dur * SR)].copy(); f = int(0.08 * SR)
+    h[-f:] *= np.linspace(1, 0, f)[:, None]
+    return h
+_rng = np.random.default_rng(7)
+_click = (_rng.standard_normal(int(0.03 * SR)) * np.exp(-np.arange(int(0.03 * SR)) / SR * 160)).astype(np.float32)
+def _st(m): return np.stack([m, m], 1)
+punch = _st(_sub(0.55, 160, 46, 30, 6.5)) * 0.9
+punch[:len(_click)] += _st(_click) * 0.35
+punch[:int(0.5 * SR)] += _head(kit['impact'], 0.5)[:int(0.5 * SR)] * 0.7
+punch[:len(kit['slam'])] += kit['slam'][:len(punch)] * 0.6
+for k, t in enumerate(M('punch') or WORDS):
+    place(punch, t - 0.005, 0.62 + 0.06 * k, ducks=0.6)
+# the brand lands: a long sub drop under the flower's shockwave
+boom = _st(_sub(2.2, 90, 32, 5, 2.2)) * 0.9
+boom[:len(kit['impact'])] += kit['impact'] * 0.8
+for t in M('boom'):
+    place(boom, t - 0.01, 0.6, ducks=0.5)
+# white flash between BUENO and the brand: a short reversed whoosh sucking into it
+rev = kit['whoosh'][::-1].copy()
+for t in M('flash'):
+    place(rev, t - len(rev) / SR + 0.03, 0.4)
 for t in M('slams'):
     if not near(t, WORDS, 0.1):
         place(kit['slam'] if t < SIL0 else kit['impact'], t, 0.55, ducks=0.35)
@@ -190,7 +216,10 @@ for t in M('night'):
     place(kit['night'], t, 0.35)
 for t in M('logo'):
     place(kit['logo'], t, 0.45, ducks=0.25)
-mix = mus * 0.8 * duck[:, None] + sfx
+fin = np.ones(N, dtype=np.float32)              # the finale carries the end card: lift the music after the words
+a0, a1 = int((G1 + 1.6) * SR), int((G1 + 2.4) * SR)
+fin[a0:a1] = np.linspace(1, 1.45, a1 - a0); fin[a1:] = 1.45
+mix = mus * 0.8 * (duck * fin)[:, None] + sfx
 a, b = int(SIL0 * SR), int((SIL1 - 0.95) * SR)
 mix[a:b] = 0                                   # the silence beat ...
 for t in M('keys'):
