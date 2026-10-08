@@ -476,6 +476,171 @@ PIECES.update({
     "post-9-key-unlock": post_keyunlock, "post-10-grid-unlock": post_gridunlock,
 })
 
+# ================================================================ ROUND 4 — five different directions
+KEYG = '<svg viewBox="0 0 100 100" style="width:{s}px;height:{s}px"><g transform="rotate(-35 50 50)"><path d="M8 50A20 20 0 1 1 48 50A20 20 0 1 1 8 50ZM17 50A7 7 0 1 0 31 50A7 7 0 1 0 17 50ZM44 44H90V56H44ZM70 56H78V68H70ZM82 56H90V72H82Z" fill="{c}"/></g></svg>'
+
+def plain(w, h, body, bg, extra_css=""):
+    return f"""<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="assets/brand.css">
+<style>html,body{{width:{w}px;height:{h}px}} .art{{width:{w}px;height:{h}px;background:{bg}}} {extra_css}</style></head>
+<body><div class="art">{body}<div class="grain" style="opacity:.14"></div></div></body></html>"""
+
+# ---- D1 BLACKOUT
+def d1_flyer():
+    W, H = 1080, 1920
+    b = f"""<div class="meta" style="position:absolute;left:0;right:0;top:110px;text-align:center;font-size:20px;color:rgba(255,255,255,.75)">Loomlock × Don Julio</div>
+    <div style="position:absolute;left:0;right:0;top:470px;display:flex;justify-content:center">{KEYG.format(s=90, c="#fcce21")}</div>
+    <div style="position:absolute;left:330px;top:600px;width:420px;height:560px;overflow:hidden;outline:2px solid #fcce21;outline-offset:14px">
+      <img src="assets/stills/bg_crowd.jpg" style="width:100%;height:100%;object-fit:cover;object-position:60% 55%;filter:grayscale(1) contrast(1.4) brightness(.9)"></div>
+    <div class="meta" style="position:absolute;left:0;right:0;top:1250px;text-align:center;font-size:30px;font-weight:800;letter-spacing:.5em">Unlock the party</div>
+    <div class="meta" style="position:absolute;left:0;right:0;top:1310px;text-align:center;font-size:18px;color:rgba(255,255,255,.55);letter-spacing:.4em">Your phone stays at the door</div>
+    <div style="position:absolute;left:96px;right:96px;top:1640px;display:flex;justify-content:space-between;align-items:flex-end;font-weight:600;font-size:18px;letter-spacing:.3em;text-transform:uppercase;line-height:1.9;color:rgba(255,255,255,.8)">
+      <div>Thursday<br><span style="color:#fcce21">29.10</span></div><div style="text-align:center">Invite only<br>Venue sent to the list</div><div style="text-align:right">+18<br>Drink responsibly</div></div>"""
+    return W, H, plain(W, H, b, "#000")
+
+def d1_post():
+    W, H = 1080, 1350
+    b = f"""<div style="position:absolute;left:0;right:0;top:470px;display:flex;justify-content:center">{padlock(110, True)}</div>
+    <div class="meta" style="position:absolute;left:0;right:0;top:700px;text-align:center;font-size:28px;font-weight:800;letter-spacing:.48em">Unlock the party</div>
+    <div class="meta" style="position:absolute;left:0;right:0;top:760px;text-align:center;font-size:17px;color:rgba(255,255,255,.55);letter-spacing:.4em">29.10 · Invite only</div>
+    <div class="meta" style="position:absolute;left:0;right:0;top:1250px;text-align:center;font-size:15px;color:rgba(255,255,255,.45)">Loomlock × Don Julio · +18</div>"""
+    return W, H, plain(W, H, b, "#000")
+
+# ---- D2 SCREEN TIME
+def st_card(left, top, w):
+    bars = [6, 4, 8, 5, 7, 9, 0]
+    days = ["M", "T", "W", "T", "F", "S", "T"]
+    bh = "".join(f'<div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:58px;height:{max(b*22,6)}px;border-radius:8px;background:{"#fcce21" if b == 0 else "rgba(255,255,255,.35)"}"></div><span style="font-weight:700;font-size:20px;color:{"#fcce21" if i == 6 else "rgba(255,255,255,.6)"}">{d}</span></div>' for i, (b, d) in enumerate(zip(bars, days)))
+    rows = [("Dancing", "5h 12m", "#fcce21", 1.0), ("Talking", "3h 40m", "#9fd8ff", 0.72), ("Laughing", "2h 05m", "#ff97d5", 0.44), ("Social media", "0m · locked", "#6e6f75", 0.02)]
+    rr = "".join(f'<div style="display:flex;align-items:center;gap:22px;padding:16px 0;border-top:1px solid rgba(255,255,255,.15)"><i style="width:44px;height:44px;border-radius:12px;background:{c};display:block"></i><div style="flex:1"><div style="font-weight:700;font-size:28px">{n}</div><div style="margin-top:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.12)"><div style="width:{f*100:.0f}%;height:8px;border-radius:4px;background:{c}"></div></div></div><div style="font-weight:600;font-size:26px;color:rgba(255,255,255,.8)">{v}</div></div>' for n, v, c, f in rows)
+    return f"""<div style="position:absolute;left:{left}px;top:{top}px;width:{w}px;border-radius:44px;background:rgba(20,24,70,.72);border:1px solid rgba(255,255,255,.18);padding:44px 48px;box-shadow:0 40px 90px rgba(0,0,0,.5)">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:22px;letter-spacing:.14em;color:rgba(255,255,255,.7)"><span>SCREEN TIME</span><span>THU 29.10</span></div>
+      <div style="margin-top:18px;font-weight:800;font-size:150px;letter-spacing:-.05em;line-height:1">0h <span style="color:#fcce21">00m</span></div>
+      <div style="font-weight:600;font-size:24px;color:rgba(255,255,255,.65)">100% less than your daily average</div>
+      <div style="margin-top:34px;height:240px;display:flex;align-items:flex-end;justify-content:space-between">{bh}</div>
+      <div style="margin-top:28px;font-weight:700;font-size:20px;letter-spacing:.14em;color:rgba(255,255,255,.6)">MOST USED</div>
+      {rr}
+    </div>"""
+
+def d2_flyer():
+    W, H = 1080, 1920
+    b = f"""<img src="assets/stills/bg_crowd.jpg" style="position:absolute;inset:0;width:{W}px;height:{H}px;object-fit:cover;filter:grayscale(1) blur(14px) brightness(.9)">
+    <div style="position:absolute;inset:0;background:#1d29c2;mix-blend-mode:multiply"></div><div style="position:absolute;inset:0;background:rgba(5,7,31,.35)"></div>
+    <div class="big" style="position:absolute;left:68px;top:110px;font-size:120px;line-height:.9">YOUR BEST<br>SCREEN TIME<br><span class="y">YET.</span></div>
+    {st_card(68, 520, 944)}
+    <div style="position:absolute;left:68px;right:68px;top:1720px;display:flex;justify-content:space-between;align-items:center">{logos(32, 24, 14, 52)}<span class="meta" style="font-size:18px">Invite only · +18</span></div>"""
+    return W, H, plain(W, H, b, "#05071f")
+
+def d2_post():
+    W, H = 1080, 1350
+    notes = [("SCREEN TIME", "Weekly report", "Your screen time was down 100% on Thursday."), ("LOOMLOCK", "now", "Party unlocked. Your apps are resting until 04:00."), ("SCREEN TIME", "04:01", "Welcome back. You missed nothing online.")]
+    nn = "".join(f'<div style="margin-top:22px;border-radius:34px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22);padding:26px 30px"><div style="display:flex;justify-content:space-between;font-weight:700;font-size:20px;letter-spacing:.12em;color:rgba(255,255,255,.75)"><span>{a}</span><span style="letter-spacing:0">{b}</span></div><div style="margin-top:10px;font-weight:700;font-size:32px;line-height:1.22">{c}</div></div>' for a, b, c in notes)
+    b = f"""<img src="assets/stills/bg_crowd.jpg" style="position:absolute;inset:0;width:{W}px;height:{H}px;object-fit:cover;filter:grayscale(1) blur(12px)">
+    <div style="position:absolute;inset:0;background:#1d29c2;mix-blend-mode:multiply"></div><div style="position:absolute;inset:0;background:rgba(5,7,31,.3)"></div>
+    <div style="position:absolute;left:0;right:0;top:110px;text-align:center;font-weight:600;font-size:26px">Thursday, 29 October</div>
+    <div style="position:absolute;left:0;right:0;top:140px;text-align:center;font-weight:500;font-size:190px;letter-spacing:-.04em;line-height:1">0h 00m</div>
+    <div style="position:absolute;left:80px;right:80px;top:420px">{nn}</div>
+    <div class="foot" style="top:1290px;font-size:16px;color:#fff"><span>Loomlock × Don Julio</span><span>+18</span></div>"""
+    return W, H, plain(W, H, b, "#05071f")
+
+# ---- D3 ACCESS PASS
+def badge(left, top, scale=1.0, rot=0):
+    strap = "".join('<span style="margin:0 22px">LOOMLOCK × DON JULIO</span>' for _ in range(6))
+    return f"""<div style="position:absolute;left:{left}px;top:{top}px;transform:rotate({rot}deg) scale({scale});transform-origin:50% 0">
+      <div style="position:absolute;left:225px;top:-700px;width:110px;height:760px;background:#fcce21;overflow:hidden;display:flex;align-items:center;justify-content:center"><div style="transform:rotate(90deg);white-space:nowrap;font-weight:900;font-size:30px;letter-spacing:.12em;color:#05071f">{strap}</div></div>
+      <div style="position:absolute;left:250px;top:40px;width:60px;height:70px;border-radius:12px;background:linear-gradient(#e8ebf5,#8a90b0)"></div>
+      <div style="position:relative;top:96px;width:560px;height:820px;border-radius:40px;background:linear-gradient(160deg,#2b34c9,#121b95 60%,#070d66);box-shadow:0 50px 100px rgba(0,0,0,.6),inset 0 0 0 3px rgba(252,238,33,.55);overflow:hidden">
+        <div style="position:absolute;left:230px;top:30px;width:100px;height:22px;border-radius:11px;background:#05071f"></div>
+        <img src="assets/img/loomlock_white.png" style="position:absolute;left:48px;top:90px;height:46px">
+        <div class="cond" style="position:absolute;left:44px;top:180px;font-size:170px;color:#fff">ALL</div>
+        <div class="cond" style="position:absolute;left:44px;top:322px;font-size:150px;color:#fff">ACCESS</div>
+        <div style="position:absolute;left:48px;top:500px;font-weight:800;font-size:30px;letter-spacing:.16em;color:#fcce21">EXCEPT YOUR APPS</div>
+        <div style="position:absolute;left:48px;right:48px;top:570px;height:2px;background:rgba(255,255,255,.4)"></div>
+        <div style="position:absolute;left:48px;top:600px;font-weight:700;font-size:24px;letter-spacing:.14em;line-height:1.6">THU · 29.10<br>INVITE ONLY</div>
+        <div style="position:absolute;right:44px;top:590px;color:#fcce21">{KEYG.format(s=150, c="#fcce21")}</div>
+        <div style="position:absolute;left:0;right:0;bottom:0;height:90px;background:#fcce21;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:30px;letter-spacing:.3em;color:#05071f">UNLOCK THE PARTY</div>
+      </div></div>"""
+
+def d3_flyer():
+    W, H = 1080, 1920
+    b = f"""<img src="assets/stills/bg_crowd.jpg" style="position:absolute;inset:0;width:{W}px;height:{H}px;object-fit:cover;filter:grayscale(1) contrast(1.2) brightness(.55)">
+    <div style="position:absolute;inset:0;background:#1d29c2;mix-blend-mode:multiply;opacity:.8"></div>
+    {badge(260, 240, 1.22, -3)}
+    <div class="meta" style="position:absolute;left:68px;top:1640px;font-size:22px">Lanyard at the door · Phone locked till 04:00</div>
+    <div style="position:absolute;left:68px;right:68px;top:1720px;display:flex;justify-content:space-between;align-items:center">{logos(32, 24, 14, 52)}<span class="meta" style="font-size:18px">+18 · Drink responsibly</span></div>"""
+    return W, H, plain(W, H, b, "#05071f")
+
+def d3_post():
+    W, H = 1080, 1350
+    band = " · ".join(["UNLOCK THE PARTY", "29.10", "INVITE ONLY"] * 4)
+    b = f"""<div style="position:absolute;left:-200px;top:520px;width:1480px;height:230px;background:#fcce21;transform:rotate(-12deg);box-shadow:0 30px 60px rgba(0,0,0,.5);display:flex;align-items:center;overflow:hidden">
+      <div style="white-space:nowrap;font-weight:900;font-size:62px;letter-spacing:.04em;color:#05071f">{band}</div></div>
+    <div style="position:absolute;left:-200px;top:540px;width:1480px;height:12px;background:rgba(5,7,31,.18);transform:rotate(-12deg)"></div>
+    {card(560, 820, 8, 0.9)}
+    <div class="big" style="position:absolute;left:64px;top:96px;font-size:110px">WEAR THE<br><span class="y">WRISTBAND.</span><br>LOCK THE PHONE.</div>
+    <div class="foot" style="top:1290px;font-size:16px"><span>Loomlock × Don Julio</span><span>+18</span></div>"""
+    return W, H, page(W, H, b)
+
+# ---- D4 FLASH
+def print_photo(src, left, top, w, h, rot, pos="50% 50%", cap=""):
+    return f"""<div style="position:absolute;left:{left}px;top:{top}px;width:{w+36}px;padding:18px 18px 70px;background:#f3f2ec;transform:rotate({rot}deg);box-shadow:0 30px 60px rgba(0,0,0,.55)">
+      <div style="width:{w}px;height:{h}px;overflow:hidden"><img src="{src}" style="width:100%;height:100%;object-fit:cover;object-position:{pos};filter:contrast(1.35) saturate(1.35) brightness(1.15)"></div>
+      <div style="position:absolute;left:22px;bottom:18px;font-weight:700;font-size:24px;letter-spacing:.04em;color:#14163a">{cap}</div>
+      <div style="position:absolute;left:{w/2-60:.0f}px;top:-18px;width:140px;height:40px;background:rgba(252,206,33,.85);transform:rotate(-4deg)"></div></div>"""
+
+def d4_flyer():
+    W, H = 1080, 1920
+    b = f"""<div style="position:absolute;inset:0;background:radial-gradient(70% 50% at 50% 45%,#2a1508,#0a0604 70%)"></div>
+    {print_photo("assets/stills/face.jpg", 110, 360, 520, 600, -6, "50% 40%", "29.10 · 23:41")}
+    {print_photo("assets/stills/warm.jpg", 520, 620, 420, 500, 7, "50% 50%", "don’t post this")}
+    {print_photo("assets/stills/lights.jpg", 160, 1060, 460, 380, 3, "50% 30%", "you had to be there")}
+    <div class="big" style="position:absolute;left:68px;top:110px;font-size:96px;line-height:.92">THE ONLY PHOTOS<br><span class="y">YOU’LL GET.</span></div>
+    <div style="position:absolute;left:68px;top:1600px;font-weight:700;font-size:34px;line-height:1.3">Phones lock at the door.<br><span class="y">Unlock the party.</span></div>
+    <div style="position:absolute;left:68px;right:68px;top:1760px;display:flex;justify-content:space-between;align-items:center">{logos(30, 22, 14, 48)}<span class="meta" style="font-size:18px">Thu 29.10 · Invite only · +18</span></div>"""
+    return W, H, plain(W, H, b, "#0a0604")
+
+def d4_post():
+    W, H = 1080, 1350
+    b = f"""<div style="position:absolute;inset:0;background:radial-gradient(70% 50% at 50% 45%,#2a1508,#0a0604 70%)"></div>
+    {print_photo("assets/stills/face.jpg", 170, 170, 700, 760, -3, "50% 40%", "the only photo of the night")}
+    <div style="position:absolute;left:68px;top:1110px;font-weight:800;font-size:54px;line-height:1.1">No photos after this one.<br><span class="y">Unlock the party · 29.10</span></div>
+    <div class="foot" style="top:1290px;font-size:16px"><span>Loomlock × Don Julio</span><span>+18</span></div>"""
+    return W, H, plain(W, H, b, "#0a0604")
+
+# ---- D5 YELLOW POSTER
+def d5_flyer():
+    W, H = 1080, 1920
+    N = "#121b95"
+    b = f"""<div style="position:absolute;left:64px;right:64px;top:70px;display:flex;justify-content:space-between;font-weight:800;font-size:22px;letter-spacing:.24em;color:{N}"><span>LOOMLOCK × DON JULIO</span><span>29.10</span></div>
+    <div style="position:absolute;left:64px;right:64px;top:118px;height:4px;background:{N}"></div>
+    <div class="big" style="position:absolute;left:52px;top:170px;font-size:330px;color:{N};line-height:.84">UN<br>LOCK</div>
+    <div class="big" style="position:absolute;left:52px;top:740px;font-size:250px;color:#fff;-webkit-text-stroke:0;line-height:.84;text-shadow:none">THE</div>
+    <div class="big" style="position:absolute;left:52px;top:960px;font-size:262px;color:{N};line-height:.84">PARTY.</div>
+    <div style="position:absolute;left:770px;top:720px;color:{N}">{KEYG.format(s=190, c=N)}</div>
+    <div style="position:absolute;left:64px;right:64px;top:1260px;height:4px;background:{N}"></div>
+    <div style="position:absolute;left:64px;top:1300px;display:grid;grid-template-columns:1fr 1fr;gap:40px 60px;width:952px;font-weight:700;font-size:28px;letter-spacing:.06em;line-height:1.3;color:{N};text-transform:uppercase">
+      <div><b style="font-weight:900">01</b><br>Your phone comes in. Its apps don’t.</div><div><b style="font-weight:900">02</b><br>One tap at the door locks it till 04:00.</div>
+      <div><b style="font-weight:900">03</b><br>No photos. No feed. No proof.</div><div><b style="font-weight:900">04</b><br>Thursday 29.10. Invite only.</div></div>
+    <div style="position:absolute;left:64px;right:64px;top:1740px;height:4px;background:{N}"></div>
+    <div style="position:absolute;left:64px;right:64px;top:1770px;display:flex;justify-content:space-between;font-weight:800;font-size:20px;letter-spacing:.2em;color:{N}"><span>VENUE SENT TO THE LIST</span><span>+18 · DRINK RESPONSIBLY</span></div>"""
+    return W, H, plain(W, H, b, "#fcce21", ".grain{mix-blend-mode:multiply;opacity:.08!important}")
+
+def d5_post():
+    W, H = 1080, 1350
+    N = "#121b95"
+    b = f"""<div class="big" style="position:absolute;left:52px;top:90px;font-size:250px;color:{N};line-height:.84">LOCK<br><span style="color:#fff">THE</span><br>PHONE.</div>
+    <div style="position:absolute;left:64px;right:64px;top:750px;height:4px;background:{N}"></div>
+    <div class="big" style="position:absolute;left:52px;top:800px;font-size:178px;color:{N};line-height:.84">UNLOCK<br>THE PARTY.</div>
+    <div style="position:absolute;left:64px;right:64px;top:1270px;display:flex;justify-content:space-between;font-weight:800;font-size:20px;letter-spacing:.2em;color:{N}"><span>LOOMLOCK × DON JULIO · 29.10</span><span>+18</span></div>"""
+    return W, H, plain(W, H, b, "#fcce21", ".grain{mix-blend-mode:multiply;opacity:.08!important}")
+
+PIECES.update({
+    "d1-blackout-flyer": d1_flyer, "d1-blackout-post": d1_post,
+    "d2-screentime-flyer": d2_flyer, "d2-screentime-post": d2_post,
+    "d3-pass-flyer": d3_flyer, "d3-pass-post": d3_post,
+    "d4-flash-flyer": d4_flyer, "d4-flash-post": d4_post,
+    "d5-yellow-flyer": d5_flyer, "d5-yellow-post": d5_post,
+})
+
 def export(name, scale=1):
     W, H, html = PIECES[name]()
     f = ROOT / f"{name}.html"
