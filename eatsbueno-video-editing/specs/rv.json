@@ -1,5 +1,5 @@
 {
- "out": "out/07_HeladoProteico_RedVelvet.mp4",
+ "out": "out/07_ProteinIceCream_RedVelvet.mp4",
  "grade": "warm",
  "auto_sfx": false,
  "sfx": [],
@@ -39,8 +39,8 @@
   {
    "src": "redvelvet/IMG_0274.MOV",
    "in": 2.4,
-   "dur": 1.238,
-   "speed": 2.423,
+   "dur": 1.305,
+   "speed": 2.299,
    "zoom": [
     1.0,
     1.0
@@ -51,8 +51,8 @@
   {
    "src": "redvelvet/IMG_0274.MOV",
    "in": 13.5,
-   "dur": 1.651,
-   "speed": 5.451,
+   "dur": 1.741,
+   "speed": 5.169,
    "zoom": [
     1.0,
     1.0
@@ -63,8 +63,8 @@
   {
    "src": "redvelvet/IMG_0275.MOV",
    "in": 1.6,
-   "dur": 1.396,
-   "speed": 2.864,
+   "dur": 1.196,
+   "speed": 3.343,
    "zoom": [
     1.0,
     1.0
@@ -75,8 +75,8 @@
   {
    "src": "redvelvet/IMG_0275.MOV",
    "in": 16.5,
-   "dur": 1.885,
-   "speed": 4.244,
+   "dur": 1.615,
+   "speed": 4.954,
    "zoom": [
     1.0,
     1.0
@@ -87,8 +87,8 @@
   {
    "src": "redvelvet/IMG_0276.MOV",
    "in": 7.0,
-   "dur": 1.157,
-   "speed": 2.593,
+   "dur": 1.383,
+   "speed": 2.169,
    "zoom": [
     1.0,
     1.0
@@ -99,8 +99,8 @@
   {
    "src": "redvelvet/IMG_0276.MOV",
    "in": 27.0,
-   "dur": 1.653,
-   "speed": 9.075,
+   "dur": 1.976,
+   "speed": 7.592,
    "zoom": [
     1.0,
     1.0
@@ -111,8 +111,8 @@
   {
    "src": "redvelvet/IMG_0277.MOV",
    "in": 21.5,
-   "dur": 2.079,
-   "speed": 4.81,
+   "dur": 1.687,
+   "speed": 5.928,
    "zoom": [
     1.0,
     1.0
@@ -123,8 +123,8 @@
   {
    "src": "redvelvet/IMG_0277.MOV",
    "in": 37.0,
-   "dur": 1.687,
-   "speed": 1.778,
+   "dur": 1.609,
+   "speed": 1.864,
    "zoom": [
     1.0,
     1.0
@@ -135,8 +135,8 @@
   {
    "src": "redvelvet/IMG_0277.MOV",
    "in": 82.0,
-   "dur": 2.967,
-   "speed": 2.865,
+   "dur": 2.706,
+   "speed": 3.141,
    "zoom": [
     1.0,
     1.0
@@ -171,8 +171,8 @@
   {
    "src": "redvelvet/IMG_0279.MOV",
    "in": 3.0,
-   "dur": 1.799,
-   "speed": 22.794,
+   "dur": 1.681,
+   "speed": 24.394,
    "zoom": [
     1.0,
     1.0
@@ -183,8 +183,8 @@
   {
    "src": "redvelvet/IMG_0280.MOV",
    "in": 12.0,
-   "dur": 1.795,
-   "speed": 21.169,
+   "dur": 1.678,
+   "speed": 22.645,
    "zoom": [
     1.0,
     1.0
@@ -195,8 +195,8 @@
   {
    "src": "redvelvet/IMG_0281.MOV",
    "in": 5.5,
-   "dur": 1.406,
-   "speed": 4.267,
+   "dur": 1.442,
+   "speed": 4.16,
    "zoom": [
     1.0,
     1.0
@@ -207,8 +207,8 @@
   {
    "src": "redvelvet/IMG_0282.MOV",
    "in": 8.5,
-   "dur": 1.64,
-   "speed": 4.268,
+   "dur": 1.682,
+   "speed": 4.161,
    "zoom": [
     1.0,
     1.0
@@ -219,8 +219,8 @@
   {
    "src": "redvelvet/IMG_0310.MOV",
    "in": 0.0,
-   "dur": 1.325,
-   "speed": 4.528,
+   "dur": 1.255,
+   "speed": 4.781,
    "zoom": [
     1.0,
     1.0
@@ -231,8 +231,8 @@
   {
    "src": "redvelvet/IMG_0311.MOV",
    "in": 0.5,
-   "dur": 1.642,
-   "speed": 3.471,
+   "dur": 1.555,
+   "speed": 3.665,
    "zoom": [
     1.0,
     1.0
@@ -243,8 +243,8 @@
   {
    "src": "redvelvet/IMG_0313.MOV",
    "in": 1.5,
-   "dur": 1.849,
-   "speed": 1.622,
+   "dur": 1.903,
+   "speed": 1.576,
    "zoom": [
     1.0,
     1.0
@@ -255,8 +255,8 @@
   {
    "src": "redvelvet/IMG_0313.MOV",
    "in": 5.0,
-   "dur": 3.522,
-   "speed": 5.678,
+   "dur": 3.625,
+   "speed": 5.517,
    "zoom": [
     1.0,
     1.0
@@ -267,8 +267,8 @@
   {
    "src": "redvelvet/IMG_0314.MOV",
    "in": 0.0,
-   "dur": 2.079,
-   "speed": 3.03,
+   "dur": 2.001,
+   "speed": 3.148,
    "zoom": [
     1.0,
     1.0
@@ -300,7 +300,7 @@
  "overlays": [
   {
    "type": "title",
-   "kicker": "Helado proteico",
+   "kicker": "Protein ice cream",
    "title": "Red Velvet",
    "start": 0.1,
    "end": 4.091,
@@ -310,128 +310,128 @@
   },
   {
    "type": "label",
-   "kicker": "Paso 1 · La base",
+   "kicker": "Step 1 · The base",
    "start": 4.141,
-   "end": 25.243,
+   "end": 24.747,
    "y": 200
   },
   {
    "type": "label",
-   "kicker": "Paso 2 · Mezcla",
-   "start": 25.293,
-   "end": 28.838,
+   "kicker": "Step 2 · Mix",
+   "start": 24.797,
+   "end": 28.106,
    "y": 200
   },
   {
    "type": "label",
-   "kicker": "Paso 3 · Congela",
-   "start": 28.888,
-   "end": 31.883,
+   "kicker": "Step 3 · Freeze",
+   "start": 28.156,
+   "end": 31.23,
    "y": 200
   },
   {
    "type": "label",
-   "kicker": "Paso 4 · Ninja Creami",
-   "start": 31.933,
-   "end": 34.851,
+   "kicker": "Step 4 · Ninja Creami",
+   "start": 31.28,
+   "end": 34.041,
    "y": 200
   },
   {
    "type": "label",
-   "kicker": "Paso 5 · Mix-in",
-   "start": 34.901,
-   "end": 42.3,
+   "kicker": "Step 5 · Mix-in",
+   "start": 34.091,
+   "end": 41.569,
    "y": 200
   },
   {
    "type": "caption",
-   "text": "Helado proteico red velvet. Te enseño cómo lo hago.",
+   "text": "Red velvet protein ice cream. Let me show you how I make it.",
    "start": 0.05,
    "end": 4.091
   },
   {
    "type": "caption",
-   "text": "Empiezo con yogur griego Fage cero por ciento.",
+   "text": "I start with Fage 0% Greek yogurt.",
    "start": 4.141,
    "end": 7.607
   },
   {
    "type": "caption",
-   "text": "Le agrego leche Fairlife sin grasa.",
+   "text": "Then I add Fairlife fat-free milk.",
    "start": 7.657,
-   "end": 10.496
+   "end": 10.652
   },
   {
    "type": "caption",
-   "text": "La mezcla de pudín red velvet de Sprinkles.",
-   "start": 10.546,
-   "end": 13.776
+   "text": "Sprinkles red velvet pudding mix.",
+   "start": 10.702,
+   "end": 13.463
   },
   {
    "type": "caption",
-   "text": "Un scoop de proteína ISO cien.",
-   "start": 13.826,
-   "end": 16.587
+   "text": "One scoop of ISO100 protein.",
+   "start": 13.513,
+   "end": 16.822
   },
   {
    "type": "caption",
-   "text": "Endulzante con alulosa,",
-   "start": 16.637,
-   "end": 18.666
+   "text": "Allulose sweetener,",
+   "start": 16.872,
+   "end": 18.509
   },
   {
    "type": "caption",
-   "text": "una pizca de sal,",
-   "start": 18.716,
-   "end": 20.353
+   "text": "a pinch of salt,",
+   "start": 18.559,
+   "end": 20.118
   },
   {
    "type": "caption",
-   "text": "un octavo de cucharadita de goma xantana,",
-   "start": 20.403,
-   "end": 23.321
+   "text": "1/8 tsp of xanthan gum,",
+   "start": 20.168,
+   "end": 22.824
   },
   {
    "type": "caption",
-   "text": "y un toque de vainilla.",
-   "start": 23.371,
-   "end": 25.243
+   "text": "and a splash of vanilla.",
+   "start": 22.874,
+   "end": 24.747
   },
   {
    "type": "caption",
-   "text": "Mezclo todo y lo licúo hasta que quede suave.",
-   "start": 25.293,
-   "end": 28.838
+   "text": "I mix everything and blend it until smooth.",
+   "start": 24.797,
+   "end": 28.106
   },
   {
    "type": "caption",
-   "text": "Lo tapo y lo congelo toda la noche.",
-   "start": 28.888,
-   "end": 31.883
+   "text": "Lid on, and into the freezer overnight.",
+   "start": 28.156,
+   "end": 31.23
   },
   {
    "type": "caption",
-   "text": "Al día siguiente, a la Ninja Creami.",
-   "start": 31.933,
-   "end": 34.851
+   "text": "The next day, into the Ninja Creami.",
+   "start": 31.28,
+   "end": 34.041
   },
   {
    "type": "caption",
-   "text": "Para el mix-in, galletas Voortman sin azúcar: hago un hueco y las agrego.",
-   "start": 34.901,
-   "end": 40.221
+   "text": "For the mix-in, Voortman zero sugar cookies: I make a well and add them.",
+   "start": 34.091,
+   "end": 39.568
   },
   {
    "type": "caption",
-   "text": "Uso la función mix-in,",
-   "start": 40.271,
-   "end": 42.3
+   "text": "I use the mix-in function,",
+   "start": 39.618,
+   "end": 41.569
   },
   {
    "type": "caption",
-   "text": "y listo: cremoso, alto en proteína y sin culpa.",
-   "start": 42.35,
-   "end": 47.904
+   "text": "and that's it: creamy, high in protein, and guilt-free.",
+   "start": 41.619,
+   "end": 47.173
   }
  ],
  "keywords": [
@@ -457,7 +457,7 @@
  "caption_style": "clean",
  "audio": [
   {
-   "src": "vo4/rv_00.mp3",
+   "src": "vo5/rv_00.mp3",
    "in": 0,
    "start": 0.0,
    "dur": 3.971,
@@ -466,7 +466,7 @@
    "eq": "voice"
   },
   {
-   "src": "vo4/rv_01.mp3",
+   "src": "vo5/rv_01.mp3",
    "in": 0,
    "start": 4.091,
    "dur": 3.396,
@@ -475,117 +475,117 @@
    "eq": "voice"
   },
   {
-   "src": "vo4/rv_02.mp3",
+   "src": "vo5/rv_02.mp3",
    "in": 0,
    "start": 7.607,
-   "dur": 2.769,
-   "fade_in": 0.01,
-   "fade_out": 0.05,
-   "eq": "voice"
-  },
-  {
-   "src": "vo4/rv_03.mp3",
-   "in": 0,
-   "start": 10.496,
-   "dur": 3.161,
-   "fade_in": 0.01,
-   "fade_out": 0.05,
-   "eq": "voice"
-  },
-  {
-   "src": "vo4/rv_04.mp3",
-   "in": 0,
-   "start": 13.776,
-   "dur": 2.691,
-   "fade_in": 0.01,
-   "fade_out": 0.05,
-   "eq": "voice"
-  },
-  {
-   "src": "vo4/rv_05.mp3",
-   "in": 0,
-   "start": 16.587,
-   "dur": 1.959,
-   "fade_in": 0.01,
-   "fade_out": 0.05,
-   "eq": "voice"
-  },
-  {
-   "src": "vo4/rv_06.mp3",
-   "in": 0,
-   "start": 18.666,
-   "dur": 1.567,
-   "fade_in": 0.01,
-   "fade_out": 0.05,
-   "eq": "voice"
-  },
-  {
-   "src": "vo4/rv_07.mp3",
-   "in": 0,
-   "start": 20.353,
-   "dur": 2.847,
-   "fade_in": 0.01,
-   "fade_out": 0.05,
-   "eq": "voice"
-  },
-  {
-   "src": "vo4/rv_08.mp3",
-   "in": 0,
-   "start": 23.321,
-   "dur": 1.802,
-   "fade_in": 0.01,
-   "fade_out": 0.05,
-   "eq": "voice"
-  },
-  {
-   "src": "vo4/rv_09.mp3",
-   "in": 0,
-   "start": 25.243,
-   "dur": 3.474,
-   "fade_in": 0.01,
-   "fade_out": 0.05,
-   "eq": "voice"
-  },
-  {
-   "src": "vo4/rv_10.mp3",
-   "in": 0,
-   "start": 28.838,
    "dur": 2.926,
    "fade_in": 0.01,
    "fade_out": 0.05,
    "eq": "voice"
   },
   {
-   "src": "vo4/rv_11.mp3",
+   "src": "vo5/rv_03.mp3",
    "in": 0,
-   "start": 31.883,
-   "dur": 2.847,
+   "start": 10.652,
+   "dur": 2.691,
    "fade_in": 0.01,
    "fade_out": 0.05,
    "eq": "voice"
   },
   {
-   "src": "vo4/rv_12.mp3",
+   "src": "vo5/rv_04.mp3",
    "in": 0,
-   "start": 34.851,
-   "dur": 5.251,
+   "start": 13.463,
+   "dur": 3.239,
    "fade_in": 0.01,
    "fade_out": 0.05,
    "eq": "voice"
   },
   {
-   "src": "vo4/rv_13.mp3",
+   "src": "vo5/rv_05.mp3",
    "in": 0,
-   "start": 40.221,
-   "dur": 1.959,
+   "start": 16.822,
+   "dur": 1.567,
    "fade_in": 0.01,
    "fade_out": 0.05,
    "eq": "voice"
   },
   {
-   "src": "vo4/rv_14.mp3",
+   "src": "vo5/rv_06.mp3",
    "in": 0,
-   "start": 42.3,
+   "start": 18.509,
+   "dur": 1.489,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo5/rv_07.mp3",
+   "in": 0,
+   "start": 20.118,
+   "dur": 2.586,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo5/rv_08.mp3",
+   "in": 0,
+   "start": 22.824,
+   "dur": 1.802,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo5/rv_09.mp3",
+   "in": 0,
+   "start": 24.747,
+   "dur": 3.239,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo5/rv_10.mp3",
+   "in": 0,
+   "start": 28.106,
+   "dur": 3.004,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo5/rv_11.mp3",
+   "in": 0,
+   "start": 31.23,
+   "dur": 2.691,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo5/rv_12.mp3",
+   "in": 0,
+   "start": 34.041,
+   "dur": 5.407,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo5/rv_13.mp3",
+   "in": 0,
+   "start": 39.568,
+   "dur": 1.881,
+   "fade_in": 0.01,
+   "fade_out": 0.05,
+   "eq": "voice"
+  },
+  {
+   "src": "vo5/rv_14.mp3",
+   "in": 0,
+   "start": 41.569,
    "dur": 4.284,
    "fade_in": 0.01,
    "fade_out": 0.05,
