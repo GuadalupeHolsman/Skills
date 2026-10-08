@@ -44,6 +44,7 @@ section{display:flex;flex-direction:column;gap:22px;scroll-margin-top:70px}
 .cap{display:flex;flex-direction:column;gap:2px}
 .cap b{font-size:15px}
 .cap span{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.cap .n{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--yel)}
 .cap .m{margin:0;font-size:13px;color:var(--muted);line-height:1.4}
 .next{background:var(--blue);border-radius:20px;padding:clamp(24px,5vw,48px);gap:16px}
 .next .eyebrow{color:var(--yel)}
@@ -82,7 +83,6 @@ dialog button{position:absolute;top:8px;right:8px;font-family:var(--mono);backgr
     <a class="chip" href="#reels">Reels · 7</a>
     <a class="chip" href="#posts">Posts · 11</a>
     <a class="chip" href="#stories">Stories · 3</a>
-    <a class="chip" href="#plan">Cómo publicamos</a>
     <a class="chip" href="#next">Próximas ciudades</a>
   </nav>
 
@@ -90,7 +90,7 @@ dialog button{position:absolute;top:8px;right:8px;font-family:var(--mono);backgr
     <div class="head">
       <span class="eyebrow">Reels</span>
       <h2 id="reels-h">Todos los reels</h2>
-      <p>Cuatro reels con la TV y tres de tipografía a pantalla completa, todos con textura de pantalla y sin sonido. Cada uno cierra invitando a la próxima ciudad.</p>
+      <p>En el orden en que se publican: primero se abre la serie y el canal, después la noche y la invitación, y al final los próximos canales. Todos sin sonido y con textura de pantalla.</p>
     </div>
     <div class="grid reels" id="reel-grid"></div>
   </section>
@@ -99,7 +99,7 @@ dialog button{position:absolute;top:8px;right:8px;font-family:var(--mono);backgr
     <div class="head">
       <span class="eyebrow">Posts · 4:5</span>
       <h2 id="posts-h">Todos los posts</h2>
-      <p>Tocá uno para verlo grande.</p>
+      <p>En orden de publicación. Tocá uno para verlo grande.</p>
     </div>
     <div class="grid posts" id="post-grid"></div>
   </section>
@@ -108,22 +108,9 @@ dialog button{position:absolute;top:8px;right:8px;font-family:var(--mono);backgr
     <div class="head">
       <span class="eyebrow">Stories · 9:16</span>
       <h2 id="stories-h">Stories</h2>
-      <p>El último cuadro de cada reel de tipografía, para publicar el mismo día que el reel.</p>
+      <p>El último cuadro de cada reel de tipografía; sale el mismo día que su reel.</p>
     </div>
     <div class="grid stories" id="story-grid"></div>
-  </section>
-
-  <section id="plan" aria-labelledby="plan-h">
-    <div class="head">
-      <span class="eyebrow">Cómo publicamos</span>
-      <h2 id="plan-h">Cuatro momentos, una historia</h2>
-    </div>
-    <div class="plan">
-      <div class="step"><span class="d">14.10</span><strong>El anuncio</strong><p>Manifiesto, reel Focus y post CH 02. Se abre el canal.</p></div>
-      <div class="step"><span class="d">15–27.10</span><strong>La invitación</strong><p>Reel Don Julio, Redacted y Time is form; posts y stories con invite only.</p></div>
-      <div class="step"><span class="d">29.10</span><strong>La noche</strong><p>Las cuentas no publican. Una sola story: Live now, post later.</p></div>
-      <div class="step"><span class="d">1.11</span><strong>Post later</strong><p>Las fotos de la noche, recién ahora. Cierra el canal y anuncia el próximo.</p></div>
-    </div>
   </section>
 
   <section id="next" aria-labelledby="next-h" class="next">
@@ -140,32 +127,33 @@ dialog button{position:absolute;top:8px;right:8px;font-family:var(--mono);backgr
 
 <script>
 const REELS = [
-  ["sel-dj","Don Julio","Thursday, 7 pm. → A party worth remembering."],
-  ["sel-buch","Buchanan's","Medellín, unlocked → The best view isn't on your feed."],
-  ["sel-cine","Cinemark","Saturday, morning → Two hours. One screen."],
-  ["sel-mani","Manifiesto","Everyone's busy → Some things are worth being there for."],
-  ["p1-redacted","Redacted","Un texto que se tacha hasta dejar el mensaje."],
-  ["p2-time-is-form","Time is form","Columnas de letra rotada: fecha, regla, noche."],
-  ["p3-focus","Focus","De borroso a nítido, cierra en el canal 02."]
+  ["sel-mani","Manifiesto","Abre la serie: Everyone's busy → Some things are worth being there for."],
+  ["p3-focus","Focus","Abre el canal: de borroso a nítido, termina en 02."],
+  ["sel-dj","Don Julio","La noche: Thursday, 7 pm. → A party worth remembering."],
+  ["p1-redacted","Redacted","La invitación: un texto que se tacha hasta dejar el mensaje."],
+  ["p2-time-is-form","Time is form","La regla: phone in, apps off, just here."],
+  ["sel-buch","Buchanan's","Próximo canal: Medellín, unlocked."],
+  ["sel-cine","Cinemark","Próximo canal: Two hours. One screen."]
 ];
 const POSTS = [
-  ["eq-logout","LOG out."],["eq-offline","Three hours OFFLINE."],["eq-channel12","Channel 12"],
-  ["eq-infinite","Resolution: infinite."],["eq-nosignal","No signal. Best night ever."],
+  ["ps4-ch02","CH 02"],["eq-logout","LOG out."],["eq-offline","Three hours OFFLINE."],
   ["ps1-redacted","Redacted"],["ps2-time-is-form","La regla"],["ps3-focus","Music, loud."],
-  ["ps4-ch02","CH 02"],["ps5-invite","Live now, post later. Invite only."],["ps6-next-city","Next city: yours?"]
+  ["ps5-invite","Live now, post later. Invite only."],["eq-nosignal","No signal. Best night ever."],
+  ["eq-infinite","Resolution: infinite."],["ps6-next-city","Next city: yours?"],["eq-channel12","Channel 12"]
 ];
-const STORIES = [["pst1-redacted","Redacted"],["pst2-time-is-form","Time is form"],["pst3-focus","Focus"]];
+const STORIES = [["pst3-focus","Focus"],["pst1-redacted","Redacted"],["pst2-time-is-form","Time is form"]];
 
+const n2 = (i) => String(i + 1).padStart(2, "0");
 const el = (h) => { const t = document.createElement("template"); t.innerHTML = h.trim(); return t.content.firstChild; };
 const rg = document.getElementById("reel-grid");
-REELS.forEach(([f, t, m]) => rg.appendChild(el(
-  `<div class="card"><video controls muted playsinline preload="none" poster="v/${f}.jpg" src="v/${f}.mp4" aria-label="${t}"></video><div class="cap"><b>${t}</b><p class="m">${m}</p></div></div>`)));
+REELS.forEach(([f, t, m], i) => rg.appendChild(el(
+  `<div class="card"><video controls muted playsinline preload="none" poster="v/${f}.jpg" src="v/${f}.mp4" aria-label="${t}"></video><div class="cap"><span class="n">${n2(i)}</span><b>${t}</b><p class="m">${m}</p></div></div>`)));
 const pg = document.getElementById("post-grid");
-POSTS.forEach(([f, t]) => pg.appendChild(el(
-  `<div class="card"><button class="thumb" type="button" data-src="img/${f}.jpg" aria-label="Ver grande: ${t}"><img src="img/${f}.jpg" alt="${t}" loading="lazy"></button><div class="cap"><b>${t}</b></div></div>`)));
+POSTS.forEach(([f, t], i) => pg.appendChild(el(
+  `<div class="card"><button class="thumb" type="button" data-src="img/${f}.jpg" aria-label="Ver grande: ${t}"><img src="img/${f}.jpg" alt="${t}" loading="lazy"></button><div class="cap"><span class="n">${n2(i)}</span><b>${t}</b></div></div>`)));
 const sg = document.getElementById("story-grid");
-STORIES.forEach(([f, t]) => sg.appendChild(el(
-  `<div class="card"><button class="thumb" type="button" data-src="img/${f}.jpg" aria-label="Ver grande: story ${t}"><img src="img/${f}.jpg" alt="Story ${t}" loading="lazy"></button><div class="cap"><b>${t}</b></div></div>`)));
+STORIES.forEach(([f, t], i) => sg.appendChild(el(
+  `<div class="card"><button class="thumb" type="button" data-src="img/${f}.jpg" aria-label="Ver grande: story ${t}"><img src="img/${f}.jpg" alt="Story ${t}" loading="lazy"></button><div class="cap"><span class="n">${n2(i)}</span><b>${t}</b></div></div>`)));
 
 // one video at a time
 document.addEventListener("play", (e) => { document.querySelectorAll("video").forEach(v => { if (v !== e.target) v.pause(); }); }, true);
