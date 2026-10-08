@@ -318,6 +318,164 @@ def invite_feed():
 
 PIECES.update({"invite-only-story": invite_story, "invite-only-story-sin-boton": lambda: invite_story(False), "invite-only-feed": invite_feed})
 
+# ---------------------------------------------------------------- shared bits for round 3
+def padlock(size, open_=False, color="#fcce21", hole="#05071f"):
+    sh = 'transform="rotate(-28 90 70) translate(0,-16)"' if open_ else ""
+    return f"""<svg viewBox="0 0 120 150" style="width:{size}px;height:{size*1.25:.0f}px;overflow:visible"><path d="M30 70 V42 a30 30 0 0 1 60 0 V70" {sh} fill="none" stroke="{color}" stroke-width="14" stroke-linecap="round"/><rect x="14" y="66" width="92" height="74" rx="16" fill="{color}"/><circle cx="60" cy="98" r="9" fill="{hole}"/><rect x="56" y="98" width="8" height="20" rx="3" fill="{hole}"/></svg>"""
+
+def card_custom(left, top, rot, scale, label, sub):
+    k = KEY.replace("<b>Experience</b><span>29.10 · Invite only</span>", f"<b>{label}</b><span>{sub}</span>")
+    return f'<div class="kc" style="left:{left}px;top:{top}px;transform:rotate({rot}deg) scale({scale})">{k}</div>'
+
+def wrule(top, left=68, width=944, op=.45):
+    return f'<div style="position:absolute;left:{left}px;top:{top}px;width:{width}px;height:2px;background:#fff;opacity:{op}"></div>'
+
+def wlabel(top, html, size=32, left=68, ls=".08em", weight=700, color="#fff", extra=""):
+    return f'<div style="position:absolute;left:{left}px;top:{top}px;font-weight:{weight};font-size:{size}px;line-height:1.24;letter-spacing:{ls};text-transform:uppercase;color:{color};{extra}">{html}</div>'
+
+def info_stack(top, left=68, size=32):
+    """the reference's left stack, in campaign type"""
+    return f"""{wrule(top, left, 110, .7)}
+    {wlabel(top+26, "Thursday", size+6, left, ".42em")}
+    <div class="big y" style="position:absolute;left:{left-8}px;top:{top+72}px;font-size:230px">29</div>
+    {wlabel(top+282, "October", size+12, left, ".1em", 800)}
+    {wlabel(top+352, "Your phone comes in<br>Its apps don’t<br>No photos · No feed", size, left, color="var(--ice)")}
+    {wrule(top+490, left, 110, .7)}
+    {wlabel(top+512, "Guestlist and invite only", size, left)}
+    {wrule(top+568, left, 110, .7)}
+    {wlabel(top+590, "Door policy applies", size, left)}
+    {wrule(top+646, left, 110, .7)}
+    {wlabel(top+668, "Venue: sent to the list", size, left)}"""
+
+def topbar(top=62):
+    return f"""<div style="position:absolute;left:68px;right:68px;top:{top}px;display:flex;justify-content:space-between;align-items:center">{logos(34, 26, 16, 56)}<span class="meta" style="font-size:20px">Present</span></div>
+    {wrule(top+84)}"""
+
+def bottombar(top):
+    return f"""{wrule(top)}
+    {wlabel(top+26, "+18 · Drink responsibly", 24, ls=".14em", color="rgba(255,255,255,.75)")}
+    {wlabel(top+26, "Tap in at the door", 24, left=0, ls=".14em", color="var(--yellow)").replace("left:0px", "right:68px")}"""
+
+# ---------------------------------------------------------------- INVITE ONLY, campaign look (3 versions)
+def invite_grid():
+    W, H = 1080, 1920
+    b = f"""{grid(W, H, 2, 3, on=(), dim=0.55)}
+    {topbar()}
+    {diff("INVITE", 52, 196, 268)}
+    {diff("ONLY<span style='color:#fcce21'>.</span>", 52, 430, 268)}
+    {info_stack(760)}
+    {card(520, 1470, -9, 0.82)}
+    {bottombar(1790)}"""
+    return W, H, page(W, H, b)
+
+def invite_key():
+    W, H = 1080, 1920
+    b = f"""<div class="big outline" style="position:absolute;left:-40px;top:900px;font-size:430px">KEY</div>
+    {topbar()}
+    <div class="big" style="position:absolute;left:52px;top:196px;font-size:268px">INVITE</div>
+    <div class="big" style="position:absolute;left:52px;top:430px;font-size:268px">ONLY<span class="y">.</span></div>
+    {info_stack(760)}
+    {rings(770, 1600, [170, 250, 330], 0.35)}
+    {card(530, 1450, -10, 0.9)}
+    {bottombar(1790)}"""
+    return W, H, page(W, H, b)
+
+def invite_crowd():
+    W, H = 1080, 1920
+    b = f"""<img src="assets/stills/bg_crowd.jpg" style="position:absolute;left:0;top:0;width:{W}px;height:{H}px;object-fit:cover;object-position:62% 50%;filter:grayscale(1) contrast(1.25) brightness(1.1)">
+    <div style="position:absolute;inset:0;background:#1d29c2;mix-blend-mode:multiply"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,31,.85) 0%,rgba(5,7,31,.45) 55%,rgba(5,7,31,.1) 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,31,.5) 0%,rgba(5,7,31,0) 25%,rgba(5,7,31,0) 70%,rgba(5,7,31,.85) 100%)"></div>
+    {topbar()}
+    <div class="big" style="position:absolute;left:52px;top:196px;font-size:268px">INVITE</div>
+    <div class="big" style="position:absolute;left:52px;top:430px;font-size:268px">ONLY<span class="y">.</span></div>
+    {info_stack(760)}
+    <div style="position:absolute;left:720px;top:1040px;text-align:center">{padlock(150, True)}<div class="meta y" style="margin-top:22px;font-size:22px;font-weight:800">Unlock<br>the party</div></div>
+    {bottombar(1790)}"""
+    return W, H, page(W, H, b)
+
+# ---------------------------------------------------------------- UNLOCK THE PARTY posts (5)
+def post_passcode():
+    W, H = 1080, 1350
+    keys = [("1", ""), ("2", "ABC"), ("3", "DEF"), ("4", "GHI"), ("5", "JKL"), ("6", "MNO"), ("7", "PQRS"), ("8", "TUV"), ("9", "WXYZ"), ("", ""), ("0", ""), ("", "")]
+    hit = {"2", "9", "1", "0"}
+    pad = []
+    for i, (n, l) in enumerate(keys):
+        if not n:
+            pad.append('<div></div>'); continue
+        on = n in hit
+        st = "background:#fcce21;color:#05071f;box-shadow:0 0 50px rgba(252,206,33,.6)" if on else "background:rgba(255,255,255,.12);color:#fff"
+        pad.append(f'<div style="width:150px;height:150px;border-radius:50%;{st};display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font-weight:500;font-size:62px;line-height:1">{n}</span><span style="font-weight:700;font-size:15px;letter-spacing:.2em;opacity:.8">{l}</span></div>')
+    b = f"""<div class="meta" style="position:absolute;left:0;right:0;top:70px;text-align:center;font-size:22px;color:var(--ice)">Enter passcode</div>
+    <div style="position:absolute;left:0;right:0;top:120px;display:flex;justify-content:center;gap:34px">{''.join('<i style="width:30px;height:30px;border-radius:50%;background:#fcce21;display:block"></i>' for _ in range(4))}</div>
+    <div class="big" style="position:absolute;left:0;right:0;top:196px;text-align:center;font-size:100px">THE CODE IS <span class="y">29.10</span></div>
+    <div style="position:absolute;left:180px;top:370px;display:grid;grid-template-columns:repeat(3,150px);gap:36px 90px">{''.join(pad)}</div>
+    <div class="big y" style="position:absolute;left:0;right:0;top:1170px;text-align:center;font-size:92px">UNLOCK THE PARTY.</div>
+    <div class="foot" style="top:1296px;font-size:16px"><span>Loomlock × Don Julio · Invite only</span><span>+18</span></div>"""
+    return W, H, page(W, H, b)
+
+def post_slide():
+    W, H = 1080, 1350
+    phone = f"""<div style="position:absolute;left:290px;top:270px;width:500px;height:1000px;border-radius:72px;border:6px solid rgba(255,255,255,.92);background:#03041a;box-shadow:0 60px 120px rgba(0,0,0,.7),0 0 90px rgba(29,41,194,.45)">
+      <div style="position:absolute;inset:14px;border-radius:58px;overflow:hidden">
+        <img src="assets/stills/bg_crowd.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.2)">
+        <div style="position:absolute;inset:0;background:#1d29c2;mix-blend-mode:multiply"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,31,.55),rgba(5,7,31,.1) 40%,rgba(5,7,31,.75))"></div>
+        <div style="position:absolute;left:50%;top:22px;width:110px;height:30px;margin-left:-55px;border-radius:15px;background:#000"></div>
+        <div style="position:absolute;left:0;right:0;top:110px;text-align:center;font-weight:600;font-size:22px">Thursday, 29 October</div>
+        <div style="position:absolute;left:0;right:0;top:140px;text-align:center;font-weight:500;font-size:140px;letter-spacing:-.04em;line-height:1">23:00</div>
+        <div style="position:absolute;left:0;right:0;top:420px;display:flex;justify-content:center">{padlock(90, True)}</div>
+        <div style="position:absolute;left:26px;right:26px;bottom:70px;height:110px;border-radius:55px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;padding:0 10px">
+          <div style="width:90px;height:90px;border-radius:50%;background:#fcce21;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:44px;color:#05071f">→</div>
+          <div style="flex:1;text-align:center;font-weight:700;font-size:21px;letter-spacing:.04em;white-space:nowrap;background:linear-gradient(90deg,rgba(255,255,255,.5),#fff,rgba(255,255,255,.5));-webkit-background-clip:text;color:transparent">slide to unlock the party</div>
+        </div>
+      </div>
+    </div>"""
+    b = f"""<div class="big" style="position:absolute;left:64px;top:84px;font-size:88px;line-height:.9">SLIDE TO<br><span class="y">UNLOCK THE PARTY.</span></div>
+    {phone}
+    <div class="foot" style="top:1296px;font-size:16px"><span>Loomlock × Don Julio · 29.10</span><span>+18</span></div>"""
+    return W, H, page(W, H, b)
+
+def post_split():
+    W, H = 1080, 1350
+    b = f"""<div style="position:absolute;left:0;top:0;width:{W}px;height:660px;background:radial-gradient(80% 90% at 50% 40%,#0d1150,#03041a)"></div>
+    <div style="position:absolute;left:0;top:665px;width:{W}px;height:685px;overflow:hidden">{grid(W, 685, 3, 2, on=(1, 3), dim=0)}</div>
+    <div style="position:absolute;left:0;top:656px;width:{W}px;height:10px;background:#fcce21"></div>
+    <div style="position:absolute;left:64px;top:150px">{padlock(120, False, "#ffffff", "#03041a")}</div>
+    <div class="big" style="position:absolute;left:220px;top:160px;font-size:128px;line-height:.86;white-space:nowrap">LOCK YOUR<br>PHONE.</div>
+    <div class="meta" style="position:absolute;left:226px;top:420px;font-size:22px;color:var(--ice)">At the door · one tap</div>
+    {diff("UNLOCK THE", 64, 800, 130, "white-space:nowrap")}
+    {diff("PARTY.", 64, 920, 130, "color:#fcce21;mix-blend-mode:normal;text-shadow:0 10px 40px rgba(0,0,0,.6)")}
+    <div style="position:absolute;left:640px;top:925px">{padlock(96, True)}</div>
+    <div class="foot" style="top:1296px;font-size:16px;color:#fff"><span>Loomlock × Don Julio · 29.10</span><span>+18</span></div>"""
+    return W, H, page(W, H, b)
+
+def post_keyunlock():
+    W, H = 1080, 1350
+    b = f"""<div class="big outline" style="position:absolute;left:-30px;top:430px;font-size:330px;-webkit-text-stroke:2px rgba(192,200,255,.12)">UNLOCK</div>
+    <div class="big" style="position:absolute;left:64px;top:96px;font-size:118px">YOUR KEY<br>TO THE <span class="y">PARTY.</span></div>
+    {rings(560, 720, [300, 420, 540], 0.3)}
+    {card_custom(300, 560, -10, 1.55, "Unlock", "The party · 29.10")}
+    <div style="position:absolute;left:64px;top:1070px;font-weight:700;font-size:46px;line-height:1.15">One tap locks your phone.<br><span class="y">The night opens.</span></div>
+    <div class="foot" style="top:1262px;font-size:17px"><span>Invite only · Tap in at the door</span><span>+18</span></div>"""
+    return W, H, page(W, H, b)
+
+def post_gridunlock():
+    W, H = 1080, 1350
+    b = f"""{grid(W, H, 2, 3, on=(3,), dim=0.1)}
+    <div style="position:absolute;left:0;right:0;top:250px;display:flex;justify-content:center">{padlock(150, True)}</div>
+    {diff("UNLOCK", 0, 500, 206, "left:0;right:0;text-align:center")}
+    {diff("THE PARTY.", 0, 720, 156, "left:0;right:0;text-align:center;color:#fcce21;mix-blend-mode:normal;text-shadow:0 10px 40px rgba(0,0,0,.6)")}
+    <div class="meta" style="position:absolute;left:0;right:0;top:920px;text-align:center;font-size:24px">29.10 · Invite only</div>
+    <div class="foot" style="top:1296px;font-size:16px;color:#fff"><span>Loomlock × Don Julio</span><span>+18</span></div>"""
+    return W, H, page(W, H, b)
+
+PIECES.update({
+    "invite-only-v2-grid": invite_grid, "invite-only-v3-key": invite_key, "invite-only-v4-crowd": invite_crowd,
+    "post-6-passcode": post_passcode, "post-7-slide-to-unlock": post_slide, "post-8-lock-unlock": post_split,
+    "post-9-key-unlock": post_keyunlock, "post-10-grid-unlock": post_gridunlock,
+})
+
 def export(name, scale=1):
     W, H, html = PIECES[name]()
     f = ROOT / f"{name}.html"

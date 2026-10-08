@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Loomlock × Don Julio — Locked In</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Montserrat"; font-weight: 500; src: url("assets/fonts/montserrat-500.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 600; src: url("assets/fonts/montserrat-600.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 700; src: url("assets/fonts/montserrat-700.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 800; src: url("assets/fonts/montserrat-800.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 900; src: url("assets/fonts/montserrat-900.woff2") format("woff2"); }
+      :root { --ink: #05071f; --night: #0b1060; --core: #1d29c2; --peri: #878ee5; --ice: #c0c8ff; --yellow: #fcce21; }
+      body { margin: 0; background: var(--ink); font-family: "Montserrat", sans-serif; color: #fff; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ink); }
+      .layer { position: absolute; inset: 0; }
+      .full { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .meta { font-weight: 600; font-size: 28px; letter-spacing: 0.32em; text-transform: uppercase; }
+      .big { font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.86; white-space: nowrap; }
+
+      /* hook */
+      .hw { position: absolute; left: 0; right: 0; text-align: center; color: #fff; opacity: 0; text-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+
+      /* tile grid */
+      .tile { position: absolute; width: 540px; height: 640px; overflow: hidden; }
+      .crop { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 0 0; }
+      .crop video { position: absolute; inset: 0; width: 100%; height: 100%; filter: contrast(1.15) saturate(1.2); }
+      .tint { position: absolute; inset: 0; background: var(--core); mix-blend-mode: color; }
+      .gridline-v { position: absolute; left: 538px; top: 0; width: 4px; height: 1920px; background: var(--ink); }
+      .gridline-h { position: absolute; left: 0; width: 1080px; height: 4px; background: var(--ink); }
+
+      /* date slam */
+      #date { position: absolute; left: 0; right: 0; top: 700px; text-align: center; }
+      #date .d { font-size: 300px; color: var(--yellow); }
+      #date .m { margin-top: 40px; }
+
+      /* the tap (designed) */
+      #tap .glow { position: absolute; left: 140px; top: 260px; width: 800px; height: 1200px; border-radius: 50%; background: radial-gradient(closest-side, rgba(29,41,194,0.55), rgba(29,41,194,0)); }
+      #tap .rule { position: absolute; left: 0; right: 0; top: 200px; text-align: center; color: var(--ice); }
+      #tap .cap { position: absolute; left: 0; right: 0; top: 1500px; text-align: center; font-size: 150px; opacity: 0; }
+      #phone { position: absolute; left: 300px; top: 330px; width: 480px; height: 980px; border-radius: 70px; border: 5px solid rgba(255,255,255,0.92); box-sizing: border-box; background: #03041a; box-shadow: 0 50px 120px rgba(0,0,0,0.7), 0 0 80px rgba(29,41,194,0.35); }
+      #phone .scr { position: absolute; inset: 14px; border-radius: 56px; overflow: hidden; background: linear-gradient(180deg, #0d1150 0%, #05071f 100%); }
+      #phone .sbar { position: absolute; left: 40px; right: 40px; top: 26px; display: flex; justify-content: space-between; font-weight: 700; font-size: 22px; color: rgba(255,255,255,0.85); }
+      #phone .sbar .dots { font-size: 12px; letter-spacing: 0.2em; }
+      #nstack { position: absolute; left: 22px; right: 22px; top: 96px; }
+      .nrow { display: flex; align-items: center; gap: 18px; height: 96px; margin-bottom: 14px; padding: 0 22px; border-radius: 26px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.16); box-sizing: border-box; }
+      .nrow i { width: 44px; height: 44px; border-radius: 13px; flex: 0 0 44px; display: block; }
+      .nrow b { display: block; font-weight: 700; font-size: 22px; color: #fff; }
+      .nrow span { display: block; font-weight: 500; font-size: 20px; color: rgba(255,255,255,0.7); white-space: nowrap; }
+      #lockscr { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(80% 60% at 50% 45%, #2a37d6 0%, #1d29c2 45%, #0e1676 100%); opacity: 0; }
+      #lockscr img { width: 150px; }
+      #lockscr .l1 { margin-top: 44px; font-weight: 800; font-size: 40px; letter-spacing: 0.3em; }
+      #lockscr .l2 { margin-top: 14px; font-weight: 600; font-size: 20px; letter-spacing: 0.3em; color: var(--ice); }
+      .ring { position: absolute; left: 640px; top: 460px; width: 160px; height: 160px; border-radius: 50%; border: 6px solid var(--yellow); box-sizing: border-box; opacity: 0; }
+      /* Loomlock key card — same build as the Key Tiers film (480x300 there, x0.833 here), Season skin */
+      #ekey { position: absolute; left: 530px; top: 426px; width: 400px; height: 250px; border-radius: 25px; overflow: hidden; color: #fcee21; box-shadow: 0 30px 70px rgba(4,6,40,0.6), inset 0 0 0 2.5px rgba(252,238,33,0.55); opacity: 0; }
+      #ekey .kc-face { position: absolute; inset: 0; background: radial-gradient(80% 90% at 20% 10%, rgba(143,211,244,0.35), rgba(143,211,244,0) 60%), radial-gradient(70% 80% at 90% 90%, rgba(255,143,177,0.35), rgba(255,143,177,0) 60%), linear-gradient(135deg, #2b34c9 0%, #121b95 60%, #070d66 100%); }
+      #ekey .kc-nfc { position: absolute; left: 25px; top: 25px; width: 38px; height: 38px; }
+      #ekey .kc-key { position: absolute; left: 208px; top: 23px; width: 175px; height: 175px; }
+      #ekey .kc-lab { position: absolute; left: 28px; bottom: 25px; }
+      #ekey .kc-lab b { display: block; font-weight: 900; font-size: 25px; line-height: 1; letter-spacing: 0.1em; text-transform: uppercase; }
+      #ekey .kc-lab span { display: block; margin-top: 8px; font-weight: 700; font-size: 17.5px; line-height: 1; opacity: 0.8; }
+      #ekey .kc-mark { position: absolute; right: 25px; bottom: 23px; width: 22px; height: auto; opacity: 0.75; }
+      #ekey .kc-shine { position: absolute; inset: 0; overflow: hidden; }
+      #ekey .kc-shine i { position: absolute; top: -34px; left: 0; width: 125px; height: 334px; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.6), rgba(255,255,255,0)); }
+
+      /* words over the grid */
+      .gw { position: absolute; left: 0; right: 0; text-align: center; color: #fff; mix-blend-mode: difference; opacity: 0; }
+      .gw.nodiff { mix-blend-mode: normal; text-shadow: 0 10px 50px rgba(0,0,0,.6); }
+      .y { color: var(--yellow); }
+      .leak { position: absolute; border-radius: 50%; mix-blend-mode: screen; opacity: 0; pointer-events: none; }
+
+      /* tagline */
+      #tag { position: absolute; left: 0; right: 0; top: 600px; text-align: center; }
+      #tag .a { font-size: 150px; opacity: 0; line-height: .9; }
+      #tag .b { font-size: 150px; color: var(--yellow); margin-top: 40px; opacity: 0; line-height: .9; }
+
+      /* end card */
+      #end { background: radial-gradient(90% 60% at 50% 40%, #121b95 0%, #0b1060 45%, #05071f 100%); }
+      #end .logos { position: absolute; left: 100px; right: 100px; top: 300px; display: flex; align-items: center; justify-content: space-between; }
+      #end .logos .ll { width: 420px; }
+      #end .logos .x { font-weight: 500; font-size: 52px; color: rgba(255,255,255,0.7); }
+      #end .logos .dj { width: 250px; }
+      #end .d { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font-size: 300px; color: var(--yellow); }
+      #end .m1 { position: absolute; left: 0; right: 0; top: 960px; text-align: center; }
+      #end .door { position: absolute; left: 50%; top: 1060px; transform: translateX(-50%); border: 3px solid var(--yellow); color: var(--yellow); border-radius: 60px; padding: 22px 48px; font-weight: 700; font-size: 28px; letter-spacing: 0.2em; white-space: nowrap; }
+      #end .resp { position: absolute; left: 0; right: 0; top: 1700px; text-align: center; font-size: 22px; color: rgba(255,255,255,0.55); }
+
+      /* chrome */
+      .foot { position: absolute; left: 64px; right: 64px; top: 1800px; display: flex; justify-content: space-between; font-weight: 600; font-size: 22px; letter-spacing: 0.3em; color: rgba(255,255,255,0.78); text-shadow: 0 1px 6px rgba(0,0,0,0.6); }
+      .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+      .inv { position: absolute; inset: 0; background: #fff; mix-blend-mode: difference; opacity: 0; }
+      .rgb { position: absolute; left: 0; right: 0; text-align: center; mix-blend-mode: screen; opacity: 0; pointer-events: none; }
+      .grain { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: overlay; opacity: 0; image-rendering: pixelated; }
+      .vignette { position: absolute; inset: 0; background: radial-gradient(120% 85% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="14.69">
+      <div id="shake" class="layer">
+
+      <!-- 0 – 1.44  HOOK: LEAVE YOUR PHONE AT THE DOOR. (footage through the letters) -->
+      <!-- 1.44 – 2.88  date over a dim grid -->
+      <div id="gridA" class="layer" style="opacity:0">
+<!--TILES_A-->
+        <div class="gridline-v"></div><div class="gridline-h" style="top:638px"></div><div class="gridline-h" style="top:1278px"></div>
+      </div>
+      <div id="dimA" class="layer" style="background:rgba(5,7,31,0.72);opacity:0"></div>
+      <div id="date" style="opacity:0"><div class="big d" id="dd">29.10</div><div class="meta m" id="dm">Invite only · Thursday</div></div>
+
+      <div id="hook" class="layer">
+        <div class="hw big" id="w0" style="font-size:300px;top:790px">LEAVE</div>
+        <div class="hw big" id="w1" style="font-size:330px;top:790px">YOUR</div>
+        <div class="hw big" id="w2" style="font-size:290px;top:810px">PHONE</div>
+        <div class="hw big" id="w3" style="font-size:250px;top:830px">AT THE</div>
+        <div class="hw big" id="w4" style="font-size:300px;top:800px;color:#fcce21">DOOR.</div>
+      </div>
+
+      <!-- 2.88 – 5.09  the tap (original product moment, framed) -->
+      <div id="tap" class="layer clip" data-start="2.88" data-duration="2.21" data-track-index="1">
+        <div class="glow" id="tglow"></div>
+        <div class="meta rule" id="rule">One rule</div>
+        <div id="phone">
+          <div class="scr">
+            <div class="sbar"><span>23:41</span><span class="dots">● ● ●</span></div>
+            <div id="nstack">
+              <div class="nrow" id="nr0"><i style="background:#ff6cd2"></i><div><b>Group chat</b><span>12 new messages</span></div></div>
+              <div class="nrow" id="nr1"><i style="background:#61baf7"></i><div><b>Feed</b><span>You were tagged</span></div></div>
+              <div class="nrow" id="nr2"><i style="background:#ff931e"></i><div><b>Live</b><span>Someone you follow is live</span></div></div>
+              <div class="nrow" id="nr3"><i style="background:#68ee8f"></i><div><b>Stories</b><span>3 new stories</span></div></div>
+              <div class="nrow" id="nr4"><i style="background:#a881e4"></i><div><b>Mail</b><span>Re: Re: urgent</span></div></div>
+              <div class="nrow" id="nr5"><i style="background:#e83852"></i><div><b>Feed</b><span>47 new likes</span></div></div>
+              <div class="nrow" id="nr6"><i style="background:#ff6cd2"></i><div><b>Group chat</b><span>“where are you??”</span></div></div>
+              <div class="nrow" id="nr7"><i style="background:#61baf7"></i><div><b>Reminder</b><span>Don’t miss this</span></div></div>
+            </div>
+            <div id="lockscr"><img id="lmark" src="assets/img/loomlock_mark_white.png" alt="" /><div class="l1" id="ll1">LOCKED IN</div><div class="l2" id="ll2">UNTIL 04:00</div></div>
+          </div>
+        </div>
+        <div class="ring" id="rg0"></div><div class="ring" id="rg1"></div><div class="ring" id="rg2"></div>
+        <div id="ekey" class="kc-season">
+          <div class="kc-face"></div>
+          <svg class="kc-nfc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 8.5a5 5 0 0 1 0 7M9.5 6a9 9 0 0 1 0 12M13 3.5a13 13 0 0 1 0 17"/></svg>
+          <svg class="kc-key" viewBox="0 0 100 100"><g transform="rotate(-35 50 50)"><path d="M8 50A20 20 0 1 1 48 50A20 20 0 1 1 8 50ZM17 50A7 7 0 1 0 31 50A7 7 0 1 0 17 50ZM44 44H90V56H44ZM70 56H78V68H70ZM82 56H90V72H82Z" fill="currentColor"/></g></svg>
+          <div class="kc-lab"><b>Experience</b><span>29.10 · Invite only</span></div>
+          <img class="kc-mark" src="assets/img/loomlock_mark_white.png" alt="" />
+          <div class="kc-shine"><i id="sheen"></i></div>
+        </div>
+        <div class="big cap" id="cap1" style="color:#fcce21">TAP IN.</div>
+        <div class="big cap" id="cap2" style="font-size:118px">PHONE <span class="y">LOCKED.</span></div>
+      </div>
+
+      <!-- 5.09 – 10.08  the night: six screens, cut on the beat -->
+      <div id="gridB" class="layer" style="opacity:0">
+<!--TILES_B-->
+        <div class="gridline-v"></div><div class="gridline-h" style="top:638px"></div><div class="gridline-h" style="top:1278px"></div>
+      </div>
+      <div class="gw big" id="g0" style="top:820px;font-size:156px">NO PHOTOS.</div>
+      <div class="gw big" id="g1" style="top:800px;font-size:196px">NO FEED.</div>
+      <div class="gw big" id="g2" style="top:740px;font-size:300px">JUST</div>
+      <div class="gw big" id="g3" style="top:780px;font-size:188px">TONIGHT.</div>
+      <div class="gw big" id="g4" style="top:760px;font-size:300px">PARTY</div>
+      <div class="gw big y nodiff" id="g5" style="top:790px;font-size:166px">UNLOCKED.</div>
+      <div class="gw big" id="g6" style="top:760px;font-size:250px">DANCE.</div>
+      <div class="gw big" id="g7" style="top:760px;font-size:300px">TALK.</div>
+      <div class="gw big" id="g8" style="top:790px;font-size:196px">BE HERE.</div>
+      <div class="gw big" id="g9" style="top:790px;font-size:166px">UNPOSTED.</div>
+      <svg id="padlock" viewBox="0 0 120 150" style="position:absolute;left:470px;top:520px;width:140px;height:175px;opacity:0;overflow:visible">
+        <path id="shackle" d="M30 70 V42 a30 30 0 0 1 60 0 V70" fill="none" stroke="#fcce21" stroke-width="14" stroke-linecap="round"/>
+        <rect x="14" y="66" width="92" height="74" rx="16" fill="#fcce21"/><circle cx="60" cy="98" r="9" fill="#05071f"/><rect x="56" y="98" width="8" height="20" rx="3" fill="#05071f"/>
+      </svg>
+
+      <!-- 10.08 – 11.52  tagline -->
+      <div id="tag"><div class="big a" id="ta">LOCK YOUR<br>PHONE.</div><div class="big b" id="tb">UNLOCK THE<br>PARTY.</div></div>
+
+      <!-- 11.52 – 14.69  end card -->
+      <div id="end" class="layer" style="opacity:0">
+        <div class="logos" id="elogos"><img class="ll" src="assets/img/loomlock_white.png" alt="loomlock" /><span class="x">×</span><img class="dj" src="assets/img/donjulio_white.png" alt="Don Julio" /></div>
+        <div class="big d" id="ed">29.10</div>
+        <div class="meta m1" id="em">Thursday · Invite only</div>
+        <div class="door" id="edoor">UNLOCK THE PARTY · TAP IN AT THE DOOR</div>
+        <div class="meta resp">Please drink responsibly</div>
+      </div>
+
+      <!-- finishing -->
+      <div id="lkw" class="leak" style="left:-400px;top:-300px;width:1900px;height:2500px;border-radius:0;background:rgba(255,150,40,.5)"></div>
+      <div id="lk1" class="leak" style="left:-1300px;top:200px;width:2400px;height:2400px;background:radial-gradient(closest-side,rgba(255,206,33,.95),rgba(255,120,60,.5) 45%,rgba(255,120,60,0) 75%)"></div>
+      <div id="lk2" class="leak" style="left:-1000px;top:-900px;width:2200px;height:2200px;background:radial-gradient(closest-side,rgba(255,111,210,.8),rgba(255,111,210,0) 70%)"></div>
+      <div class="flash" id="fl"></div>
+      <div class="vignette"></div>
+      <img class="grain" id="gr0" src="assets/img/grain0.png" alt="" />
+      <img class="grain" id="gr1" src="assets/img/grain1.png" alt="" />
+      <img class="grain" id="gr2" src="assets/img/grain2.png" alt="" />
+      <img class="grain" id="gr3" src="assets/img/grain3.png" alt="" />
+      <div class="foot"><span>LOOMLOCK × DON JULIO</span><span>+18</span></div>
+
+      </div>
+      <div class="inv" id="inv"></div>
+
+      <audio id="music" src="assets/music_full.wav" data-start="0" data-duration="14.69" data-media-start="5.31" data-volume="1"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.9},{"t":14.2,"v":1},{"t":14.69,"v":0}]}]}'></audio>
+      <audio id="fx-tap" src="assets/sfx/tap.wav" data-start="3.25" data-volume="0.9"></audio>
+      <audio id="fx-wh1" src="assets/sfx/whoosh_long.wav" data-start="2.05" data-volume="0.55"></audio>
+      <audio id="fx-lock" src="assets/sfx/lock.wav" data-start="4.2" data-volume="0.7"></audio>
+      <audio id="fx-wh2" src="assets/sfx/whoosh_long.wav" data-start="6.35" data-volume="0.6"></audio>
+      <audio id="fx-unlock" src="assets/sfx/unlock.wav" data-start="7.44" data-volume="0.75"></audio>
+      <audio id="fx-imp1" src="assets/sfx/impact.wav" data-start="10.08" data-volume="0.6"></audio>
+      <audio id="fx-unlock2" src="assets/sfx/unlock.wav" data-start="10.56" data-volume="0.6"></audio>
+    </div>
+
+    <script>
+      const IMPACT = 0; // 0 = calm, 1 = medium, 2 = full impact
+      const LV = IMPACT === 2
+        ? { slam: 2.6, dur: 0.13, dx: 34, rgbOp: 0.95, rgbDur: 0.22, amp: 1, invWords: true, invKey: true, zoom: 3.4 }
+        : { slam: 1.7, dur: 0.16, dx: 16, rgbOp: 0.6, rgbDur: 0.16, amp: 0.45, invWords: false, invKey: true, zoom: 2.2 };
+      // impact mode: RGB-split copies of every big word (built before the timeline, deterministic)
+      if (IMPACT) {
+        document.querySelectorAll(".hw, .gw").forEach((el) => {
+          ["#ff2a6d", "#2af6ff"].forEach((c, k) => {
+            const d = el.cloneNode(true);
+            d.id = el.id + (k ? "c" : "m");
+            d.className = el.className.replace(/\b(hw|gw)\b/, "") + " rgb";
+            d.style.color = c;
+            el.parentNode.insertBefore(d, el);
+          });
+        });
+      }
+      const tl = gsap.timeline({ paused: true });
+      const B = 0.48;
+      const flash = (t, a = 0.85, d = 0.14) => { tl.set("#fl", { opacity: a }, t); tl.to("#fl", { opacity: 0, duration: d, ease: "power2.out" }, t); };
+      // ---- impact helpers (only used when IMPACT is on)
+      let shk = 0;
+      const shake = (t, amp = 22) => {
+        const pts = [[1, -0.6], [-0.8, 0.9], [0.6, -0.4], [-0.3, 0.3], [0, 0]];
+        pts.forEach(([x, y], k) => tl.to("#shake", { x: x * amp * LV.amp * (1 - k * 0.18), y: y * amp * LV.amp * (1 - k * 0.18), duration: 0.03, ease: "none" }, t + k * 0.03));
+      };
+      const invert = (t, frames = 2) => { if (!LV.invKey) return; tl.set("#inv", { opacity: 1 }, t); tl.set("#inv", { opacity: 0 }, t + frames / 30); };
+      const rgb = (id, t, from) => {
+        [["m", -LV.dx], ["c", LV.dx]].forEach(([k, dx]) => {
+          const el = "#" + id + k;
+          tl.set(el, { opacity: LV.rgbOp, x: dx, scale: from }, t);
+          tl.to(el, { x: 0, scale: 1, opacity: 0, duration: LV.rgbDur, ease: "expo.out" }, t);
+        });
+      };
+      // one word in: slam (+ split, shake, invert in IMPACT mode); out: cut or zoom-through
+      const wordIn = (s, t, soft, k) => {
+        tl.set(s, { opacity: 1 }, t);
+        if (!IMPACT) { tl.fromTo(s, { scale: soft }, { scale: 1, duration: 0.22, ease: "power3.out" }, t); return; }
+        tl.fromTo(s, { scale: LV.slam }, { scale: 1, duration: LV.dur, ease: "expo.out" }, t);
+        rgb(s.slice(1), t, LV.slam);
+        shake(t, k % 2 ? 26 : 18);
+        if (LV.invWords && k % 2 === 0) invert(t);
+      };
+      // distinct entrances per word (kinetic-beat-slam: same grid, different motion)
+      const ENTER = {
+        slam:  (s, t) => tl.fromTo(s, { scale: 1.45, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: "power4.out" }, t),
+        snapL: (s, t) => tl.fromTo(s, { x: -420, skewX: 18, opacity: 0 }, { x: 0, skewX: 0, opacity: 1, duration: 0.22, ease: "expo.out" }, t),
+        snapR: (s, t) => tl.fromTo(s, { x: 420, skewX: -18, opacity: 0 }, { x: 0, skewX: 0, opacity: 1, duration: 0.22, ease: "expo.out" }, t),
+        rise:  (s, t) => tl.fromTo(s, { y: 160, rotation: 5, opacity: 0 }, { y: 0, rotation: 0, opacity: 1, duration: 0.26, ease: "back.out(1.7)" }, t),
+        drop:  (s, t) => tl.fromTo(s, { y: -160, scale: 1.1, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.22, ease: "power3.out" }, t),
+        zoom:  (s, t) => tl.fromTo(s, { scale: 0.55, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.24, ease: "back.out(2)" }, t),
+      };
+      const wordOut = (s, t) => {
+        if (!IMPACT) { tl.set(s, { opacity: 0 }, t); return; }
+        tl.to(s, { scale: LV.zoom, opacity: 0, duration: 0.08, ease: "power2.in" }, t - 0.06);
+      };
+
+      // grain: cycle four frames at ~15 fps for the whole film
+      for (let i = 0; i < 4; i++) tl.set("#gr" + i, { opacity: 0 }, 0);
+      for (let f = 0, t = 0; t < 14.69; f++, t = f / 15) {
+        tl.set("#gr" + (f % 4), { opacity: 0.22 }, t);
+        tl.set("#gr" + ((f + 3) % 4), { opacity: 0 }, t);
+      }
+
+      // ---- HOOK: one word per half-beat
+      tl.set(["#gridA", "#dimA"], { opacity: 1 }, 0);
+      tl.set("#dimA", { backgroundColor: "rgba(5,7,31,0.5)" }, 0);
+      tl.set("#dimA", { backgroundColor: "rgba(5,7,31,0.72)" }, 1.44);
+      const hw = [["#w0", 0.0], ["#w1", 0.24], ["#w2", 0.48], ["#w3", 0.96], ["#w4", 1.2]];
+      const HK = ["slam", "snapL", "rise", "snapR", "zoom"];
+      hw.forEach(([s, t], i) => {
+        if (IMPACT) wordIn(s, t, 1.08, i); else { tl.set(s, { opacity: 1 }, t); ENTER[HK[i]](s, t); }
+        if (i < hw.length - 1) wordOut(s, hw[i + 1][1]);
+        else if (IMPACT) tl.to(s, { scale: LV.zoom, opacity: 0, duration: 0.1, ease: "power2.in" }, 1.38);
+      });
+      flash(0.0, 0.6, 0.18); flash(0.48, 0.35); flash(0.96, 0.35);
+
+      tl.set("#hook", { opacity: 0 }, 1.44);
+
+      // ---- DATE over dim grid
+      tl.set("#date", { opacity: 1 }, 1.44);
+      flash(1.44, 0.9, 0.2);
+      tl.fromTo("#dd", { scale: IMPACT ? LV.slam : 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: IMPACT ? LV.dur : 0.3, ease: IMPACT ? "expo.out" : "power4.out" }, 1.44);
+      if (IMPACT) { shake(1.44, 28); invert(1.44, 2); }
+      tl.fromTo("#dm", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 1.68);
+      tl.to("#dd", { scale: 1.04, duration: 1.2, ease: "none" }, 1.74);
+      tl.set(["#gridA", "#dimA", "#date"], { opacity: 0 }, 2.88);
+
+      // ---- TAP (designed): phone overflowing, key taps, everything goes quiet
+      tl.fromTo("#phone", { y: 60, opacity: 0, rotationY: -18, transformPerspective: 1600 }, { y: 0, opacity: 1, rotationY: 0, duration: 0.4, ease: "power3.out" }, 2.88);
+      tl.fromTo("#rule", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.95);
+      tl.fromTo("#nstack", { y: 0 }, { y: -260, duration: 0.45, ease: "none" }, 2.88);
+      tl.set("#ekey", { opacity: 1, x: 560, y: 900, rotation: 28 }, 2.88);
+      tl.to("#ekey", { x: 0, y: 0, rotation: -10, duration: 0.3, ease: "power3.in" }, 2.95);
+      tl.set("#sheen", { x: -220, skewX: -18 }, 0);
+      tl.to("#sheen", { x: 520, duration: 0.6, ease: "power2.inOut" }, 3.18);
+      tl.to("#ekey", { scale: 0.95, duration: 0.05, yoyo: true, repeat: 1 }, 3.25);
+      // contact
+      tl.set("#tglow", { opacity: 1 }, 0);
+      ["#rg0", "#rg1", "#rg2"].forEach((r, i) => {
+        tl.set(r, { opacity: 0.95, scale: 0.3 }, 3.25 + i * 0.09);
+        tl.to(r, { opacity: 0, scale: 3.2, duration: 0.6, ease: "power2.out" }, 3.25 + i * 0.09);
+      });
+      tl.to("#phone", { x: -10, duration: 0.04 }, 3.25);
+      tl.to("#phone", { x: 0, duration: 0.25, ease: "elastic.out(1, 0.3)" }, 3.29);
+      for (let i = 0; i < 8; i++) tl.to("#nr" + i, { opacity: 0, x: i % 2 ? 80 : -80, scaleY: 0.4, duration: 0.18, ease: "power2.in" }, 3.3 + i * 0.03);
+      tl.to("#nstack", { y: -260, duration: 0.01 }, 3.33);
+      tl.to("#lockscr", { opacity: 1, duration: 0.25 }, 3.55);
+      tl.fromTo("#lmark", { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)" }, 3.6);
+      tl.fromTo("#ll1", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.3 }, 3.78);
+      tl.fromTo("#ll2", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.95);
+      tl.to("#ekey", { x: 110, y: 650, rotation: 9, scale: 0.9, duration: 0.5, ease: "power3.inOut" }, 3.45);
+      tl.to("#ekey", { y: 630, duration: 1.1, ease: "sine.inOut" }, 3.95);
+      tl.set("#cap1", { opacity: 1 }, 3.25); flash(3.25, 0.15, 0.12);
+      tl.fromTo("#cap1", { scale: 1.2 }, { scale: 1, duration: 0.25, ease: "power4.out" }, 3.25);
+      tl.set("#cap1", { opacity: 0 }, 4.2);
+      tl.set("#cap2", { opacity: 1 }, 4.2);
+      tl.fromTo("#cap2", { scale: 1.2 }, { scale: 1, duration: 0.25, ease: "power4.out" }, 4.2);
+      tl.to("#phone", { scale: 1.04, duration: 0.9, ease: "none" }, 4.2);
+
+      // ---- THE NIGHT: grid builds tile by tile, then words on the beat
+      tl.set("#gridB", { opacity: 1 }, 5.09);
+      for (let i = 0; i < 6; i++) {
+        tl.set("#gb" + i, { opacity: 0 }, 0);
+        tl.set("#gb" + i, { opacity: 1 }, 5.09 + i * 0.24);
+      }
+      flash(5.09, 0.7);
+      const gw = [["#g0", 5.57], ["#g1", 6.05], ["#g2", 6.53], ["#g3", 6.77], ["#g4", 7.2], ["#g5", 7.44], ["#g6", 7.92], ["#g7", 8.4], ["#g8", 8.88], ["#g9", 9.36]];
+      const GK = ["snapL", "snapR", "drop", "rise", "slam", "zoom", "rise", "snapL", "snapR", "slam"];
+      gw.forEach(([s, t], i) => {
+        if (IMPACT) wordIn(s, t, 1.12, i); else { tl.set(s, { opacity: 1 }, t); ENTER[GK[i]](s, t); }
+        const end = i === 4 ? 7.92 : (i < gw.length - 1 ? gw[i + 1][1] : 10.0);
+        wordOut(s, end);
+      });
+
+      // PARTY / UNLOCKED: the word steps up, the padlock opens above it
+      tl.to("#g4", { y: -150, duration: 0.2, ease: "power3.out" }, 7.44);
+      tl.set("#g5", { y: 60 }, 0);
+      tl.set("#padlock", { opacity: 0, scale: 0.6, y: 0 }, 0);
+      tl.to("#padlock", { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2)" }, 7.2);
+      tl.to("#padlock", { y: -150, duration: 0.2, ease: "power3.out" }, 7.44);
+      tl.set("#shackle", { y: 0, rotation: 0 }, 0);
+      tl.to("#shackle", { y: -16, rotation: -28, svgOrigin: "90 70", duration: 0.22, ease: "back.out(2.5)" }, 7.44);
+      tl.to("#padlock", { opacity: 0, duration: 0.12 }, 7.9);
+      // camera: slow push on the grid + a pulse on every kick of the drop
+      tl.fromTo("#gridB", { scale: 1 }, { scale: 1.09, duration: 4.99, ease: "none" }, 5.09);
+      for (let k = 0; k < 12; k++) {
+        const t = 7.2 + k * B;
+        tl.to("#shake", { scale: 1.022, duration: 0.04, ease: "none" }, t);
+        tl.to("#shake", { scale: 1, duration: 0.3, ease: "power2.out" }, t + 0.04);
+      }
+      // light leaks at the big turns
+      ["#lkw", "#lk1", "#lk2"].forEach((l) => tl.set(l, { opacity: 0, x: 0 }, 0));
+      const leak = (T, a = 1) => {
+        tl.to("#lkw", { opacity: 0.32 * a, duration: 0.25, ease: "power1.in" }, T);
+        tl.to("#lk1", { opacity: 0.85 * a, x: 900, duration: 0.6, ease: "sine.inOut" }, T + 0.05);
+        tl.to("#lk2", { opacity: 0.7 * a, x: 700, y: 300, duration: 0.7, ease: "sine.inOut" }, T + 0.1);
+        tl.to("#lkw", { opacity: 0, duration: 0.4, ease: "power2.out" }, T + 0.45);
+        tl.to("#lk1", { opacity: 0, x: 1500, duration: 0.4, ease: "power1.out" }, T + 0.6);
+        tl.to("#lk2", { opacity: 0, x: 1200, y: 500, duration: 0.4, ease: "power1.out" }, T + 0.75);
+        tl.set(["#lk1", "#lk2"], { x: 0, y: 0 }, T + 1.2);
+      };
+      leak(2.62); leak(7.05); leak(10.4, 0.7);
+      // build-up strobe before the drop
+      [6.53, 6.65, 6.77, 6.89, 7.01, 7.10].forEach((t) => flash(t, 0.35, 0.08));
+      flash(7.2, 1, 0.3);
+      if (IMPACT === 1) { invert(7.2, 2); shake(7.2, 24); }
+      // on the drop: one screen at a time bursts into full colour, the rest stay blue
+      for (let k = 0; k < 12; k++) {
+        const t = 7.2 + k * 0.24;
+        const on = [0, 3, 5, 1, 4, 2][k % 6];
+        for (let i = 0; i < 6; i++) tl.set("#gbt" + i, { opacity: i === on ? 0 : 1 }, t);
+      }
+      tl.set(["#gbt0", "#gbt1", "#gbt2", "#gbt3", "#gbt4", "#gbt5"], { opacity: 0 }, 9.6);
+      [9.6, 9.72, 9.84].forEach((t) => flash(t, 0.4, 0.08));
+      tl.set("#gridB", { opacity: 0 }, 10.08);
+
+      // ---- TAGLINE
+      flash(10.08, 0.8, 0.2);
+      tl.set("#ta", { opacity: 1 }, 10.08);
+      tl.fromTo("#ta", { scale: IMPACT ? LV.slam + 0.2 : 1, x: IMPACT ? 0 : -380, skewX: IMPACT ? 0 : 14 }, { scale: 1, x: 0, skewX: 0, duration: IMPACT ? LV.dur : 0.26, ease: IMPACT ? "expo.out" : "expo.out" }, 10.08);
+      tl.set("#tb", { opacity: 1 }, 10.56);
+      tl.fromTo("#tb", { scale: IMPACT ? LV.slam + 0.2 : 1.35 }, { scale: 1, duration: IMPACT ? LV.dur : 0.2, ease: IMPACT ? "expo.out" : "power4.out" }, 10.56);
+      if (IMPACT) { shake(10.08, 30); invert(10.08, IMPACT === 2 ? 3 : 2); shake(10.56, 34); if (IMPACT === 2) { invert(10.56, 2); invert(10.7, 1); } tl.to("#ta", { scale: 1.06, duration: 0.9, ease: "none" }, 10.2); }
+      tl.set(["#ta", "#tb"], { opacity: 0 }, 11.52);
+
+      // ---- END CARD
+      tl.set("#end", { opacity: 1 }, 11.52);
+      flash(11.52, 0.6, 0.25);
+      tl.fromTo("#elogos", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 11.52);
+      tl.fromTo("#ed", { opacity: 0, scale: IMPACT ? LV.slam : 1.2 }, { opacity: 1, scale: 1, duration: IMPACT ? LV.dur + 0.02 : 0.35, ease: IMPACT ? "expo.out" : "power4.out" }, 11.76);
+      if (IMPACT) { shake(11.76, 26); invert(11.76, 2); }
+      tl.fromTo("#em", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 12.0);
+      tl.fromTo("#edoor", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 12.48);
+      tl.to("#edoor", { opacity: 0.45, duration: 0.24, yoyo: true, repeat: 3, ease: "steps(1)" }, 13.2);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

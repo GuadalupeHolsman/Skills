@@ -21,6 +21,18 @@ Sistema visual: Montserrat 900/800/600, azul noche → `#1D29C2`, amarillo `#FCC
 | Post 4 (carrusel 3) | `instagram/post-4-door-policy-1of3.png` … `3of3` | Carrusel panorámico: una soga de club cruza las tres slides; 01 / 02 / 03 |
 | Post 5 (tríptico de perfil) | `instagram/post-5-triptych-1of3.png` … `3of3` | Tres posts que juntos en la grilla del perfil dicen LOCKED / IN. / 29.10. Publicar en orden inverso (3of3, 2of3, 1of3) para que queden bien |
 
+## Ronda 3 — UNLOCK THE PARTY
+
+| Pieza | Archivo | Idea |
+|---|---|---|
+| Video principal v2 | `../locked-in/locked-in-v2-unlock-the-party.mp4` | Giro PHONE LOCKED → PARTY UNLOCKED (candado que se abre), entradas distintas por palabra, push de cámara + pulso en cada kick, light leaks, diseño de sonido, cierre LOCK YOUR PHONE. UNLOCK THE PARTY. |
+| INVITE ONLY v2 / v3 / v4 | `flyer/invite-only-v2-grid.png`, `-v3-key.png`, `-v4-crowd.png` | El layout de la referencia con la estética de la campaña: grilla del reel / key card / público en duotono azul con candado abierto |
+| Post 6 | `instagram/post-6-passcode.png` | Pantalla de código: THE CODE IS 29.10, teclas 2-9-1-0 en amarillo |
+| Post 7 | `instagram/post-7-slide-to-unlock.png` | “slide to unlock the party” en la pantalla de bloqueo |
+| Post 8 | `instagram/post-8-lock-unlock.png` | Mitad oscura LOCK YOUR PHONE. / mitad fiesta UNLOCK THE PARTY. |
+| Post 9 | `instagram/post-9-key-unlock.png` | Key card con la etiqueta UNLOCK · The party |
+| Post 10 | `instagram/post-10-grid-unlock.png` | Grilla del reel con UNLOCK THE PARTY. y candado abierto |
+
 ## Captions sugeridos (Instagram)
 
 **Teaser**
