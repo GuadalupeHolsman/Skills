@@ -613,6 +613,12 @@
       "skillPath": "skills/social/SKILL.md",
       "computedHash": "7eeedd17a4d59d75281ecd7ff6cb6e2992b1095459550e8d97ef1cae522ea389"
     },
+    "social-media-trends-research": {
+      "source": "drshailesh88/integrated_content_os",
+      "sourceType": "github",
+      "skillPath": "skills/cardiology/social-media-trends-research/SKILL.md",
+      "computedHash": "281ccb70325481022b45e880da19d353a37e31926dfdcc5942be5a92186ad379"
+    },
     "storytelling-framework": {
       "source": "realjaymes/marketingagentskills",
       "sourceType": "github",
@@ -624,6 +630,24 @@
       "sourceType": "github",
       "skillPath": "skills/talking-head-recut/SKILL.md",
       "computedHash": "991315e8803089b6b0d008026c9b42c2c83f6ea95c44b26956cd6ff6197f5305"
+    },
+    "trend-research": {
+      "source": "gtmagents/gtm-agents",
+      "sourceType": "github",
+      "skillPath": "plugins/social-media/skills/trend-research/SKILL.md",
+      "computedHash": "4102953f94bdcd1f1099ff3814d47f5212c5b225b6bed90716c3110e912b7d3b"
+    },
+    "trend-spotter": {
+      "source": "aaron-he-zhu/aaron-marketing-skills",
+      "sourceType": "github",
+      "skillPath": "influencer/scout/trend-spotter/SKILL.md",
+      "computedHash": "b1ddd8ddc4a7e47de460d648295b37f97b517054d799e490f5a8898e289bdcf7"
+    },
+    "trendspyg": {
+      "source": "aahl/skills",
+      "sourceType": "github",
+      "skillPath": "skills/trendspyg/SKILL.md",
+      "computedHash": "004f4bd0c09694056eebe4ac52c44affc95a0729b024d4879014fed57f7909ca"
     },
     "ugc-ad-scripts": {
       "source": "mbfinotti/advertising-skills",

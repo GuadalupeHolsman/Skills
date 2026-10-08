@@ -18,6 +18,13 @@ Están en `.claude/skills/` (Claude Code las carga solas al abrir este repo). `s
 | [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills) | `ad-creative`, `video`, `social`, `copywriting`, `marketing-psychology`, `events`, `co-marketing`, `influencer-marketing`, `launch`, `marketing-ideas`, `product-marketing` | Concepto, copy, lanzamiento de eventos y co-branding |
 | [mbfinotti/advertising-skills](https://github.com/mbfinotti/advertising-skills) | `ad-creative-brief`, `ad-hook-analyzer`, `ad-copy-variants`, `ad-creative-test-plan`, `ad-format-fit`, `ugc-ad-scripts`, `ad-swipe-file` | Brief creativo, análisis del gancho, plan de test A/B |
 | [realjaymes/marketingagentskills](https://github.com/realjaymes/marketingagentskills) | `storytelling-framework`, `copy-anatomy` | Estructura narrativa y análisis de copy |
+| [aaron-he-zhu/aaron-marketing-skills](https://github.com/aaron-he-zhu/aaron-marketing-skills) | `trend-spotter` | Tendencias relevantes para la marca, puntuadas por afinidad, con decisión go/skip y calendario cultural |
+| [gtmagents/gtm-agents](https://github.com/gtmagents/gtm-agents) | `trend-research` | *Culture listening*: momentos culturales, audios, memes y creadores para refrescar la dirección creativa |
+| [drshailesh88/integrated_content_os](https://github.com/drshailesh88/integrated_content_os) | `social-media-trends-research` | Datos reales sin API keys: Google Trends (pytrends) y Reddit |
+| [aahl/skills](https://github.com/aahl/skills) | `trendspyg` | Google Trends: búsquedas en alza, interés en el tiempo y por región |
+
+## Enfoque: storytelling y narrativa
+El trabajo de la campaña es **contar una historia**, no solo hacer piezas lindas. Por eso las skills de tendencias se usan para encontrar **la tensión cultural** que cuenta la narrativa (ej. la fatiga de pantallas, el "estar presente") y no para copiar formatos virales. Skills narrativas del repo: `storytelling-framework` (estructura), `copy-anatomy` (copy), `hyperframes-creative` (beats y narración en video), `ai-video-storyboard` (plano a plano), `viral-hooks` (el primer segundo).
 
 No instaladas: `normalize-loudness` (gooseworks-ai; el repo no es accesible, lo cubren `claude-video-audio` y `audio-edit`) y las skills de AIEV que dependen de su panel o son específicas de TikTok en vietnamita.
 
