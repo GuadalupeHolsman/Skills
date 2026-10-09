@@ -114,11 +114,12 @@ mus = np.zeros((N, 2), dtype=np.float32)
 # G0; one 4-bar phrase repeats at the scan -> victories seam so the resolve lands on the logo.
 GROOVE_SRC = 16.0
 RA = float(META.get('repeatAt', 34.4))   # picture time where one 4-bar phrase repeats (a beat-aligned scene seam)
+RL = float(META.get('repeatLen', 8.0))   # how far the phrase jumps back (grows when the picture gains whole bars)
 SEGS = [(0.0, SIL0, 0.0),
         (SIL1 - 0.95, G0, GROOVE_SRC - (G0 - (SIL1 - 0.95))),
         (G0, RA, GROOVE_SRC),
-        (RA, RA + 8.0, GROOVE_SRC + (RA - G0) - 8.0),
-        (RA + 8.0, DUR, GROOVE_SRC + (RA + 8.0 - G0) - 8.0)]
+        (RA, RA + 8.0, GROOVE_SRC + (RA - G0) - RL),
+        (RA + 8.0, DUR, GROOVE_SRC + (RA + 8.0 - G0) - RL)]
 XF = int(0.02 * SR)
 for p0, p1, src in SEGS:
     a, b, s0 = int(p0 * SR), int(p1 * SR), int(src * SR)
