@@ -129,52 +129,33 @@
   {
    "src": "burningman/IMG_0793_2.mov",
    "in": 3.0,
-   "dur": 1.4,
+   "dur": 1.8,
    "zoom": [
     1.0,
     1.06
    ]
-  },
-  {
-   "outro": true,
-   "dur": 2.6,
-   "trans": {
-    "type": "fade",
-    "d": 0.4
-   }
   }
  ],
  "overlays": [
   {
-   "type": "label",
-   "kicker": "Burning Man edition",
+   "type": "headline",
+   "text": "What I ate at\n*Burning Man*",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
    "start": 0.0,
-   "end": 5.0,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Real life menu",
-   "start": 5.0,
-   "end": 10.25,
-   "y": 200
-  },
-  {
-   "type": "caption",
-   "text": "This is what balance",
-   "start": 0.0,
-   "end": 1.3
-  },
-  {
-   "type": "caption",
-   "text": "actually looked like",
-   "start": 1.3,
-   "end": 2.5
+   "end": 3.2,
+   "y": 960,
+   "size": 156,
+   "anim": "pop"
   },
   {
    "type": "caption",
    "text": "this weekend,",
-   "start": 2.5,
+   "start": 3.2,
    "end": 3.65
   },
   {
@@ -284,8 +265,19 @@
    "in": 0,
    "start": 0.0,
    "dur": 19.3,
-   "eq": "voice",
+   "eq": "voice_bright",
    "fade_out": 0.3
   }
- ]
+ ],
+ "caption_style": "clean",
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.025
 }

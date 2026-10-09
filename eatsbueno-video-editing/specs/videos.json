@@ -142,67 +142,24 @@
  ],
  "overlays": [
   {
-   "type": "title",
-   "kicker": "EatsBueno",
-   "title": "Log any meal. Anywhere.",
+   "type": "headline",
+   "text": "Log any meal.\n*Anywhere.*",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
    "start": 0.0,
-   "end": 2.6,
-   "y": 720,
-   "size": 100
-  },
-  {
-   "type": "label",
-   "kicker": "At home",
-   "start": 7.8,
-   "end": 11.0,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Mexican",
-   "start": 12.6,
-   "end": 13.35,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Colombian",
-   "start": 13.35,
-   "end": 14.3,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Thai",
-   "start": 14.3,
-   "end": 14.85,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Japanese",
-   "start": 14.85,
-   "end": 15.9,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Comfort food",
-   "start": 15.9,
-   "end": 16.9,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Pizza night",
-   "start": 16.9,
-   "end": 17.9,
-   "y": 200
+   "end": 3.2,
+   "y": 960,
+   "size": 156,
+   "anim": "pop"
   },
   {
    "type": "caption",
    "text": "Snap your meal, and EatsBueno breaks it down:",
-   "start": 2.6,
+   "start": 3.2,
    "end": 5.5
   },
   {
@@ -307,9 +264,19 @@
    "in": 0,
    "start": 0,
    "dur": 24.7,
-   "eq": "voice",
+   "eq": "voice_bright",
    "fade_out": 0.3
   }
  ],
- "caption_style": "clean"
+ "caption_style": "clean",
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.025
 }

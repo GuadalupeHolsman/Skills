@@ -131,53 +131,24 @@
  ],
  "overlays": [
   {
-   "type": "title",
-   "kicker": "Protein ice cream",
-   "title": "Dark Chocolate & Oreo",
-   "start": 0.1,
-   "end": 2.967,
-   "y": 260,
-   "size": 104,
-   "sfx": false
-  },
-  {
-   "type": "label",
-   "kicker": "Step 1 · The mix-in",
-   "start": 3.017,
-   "end": 6.091,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Step 2 · The base",
-   "start": 6.141,
-   "end": 8.98,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Step 3 · Ninja Creami",
-   "start": 9.03,
-   "end": 10.903,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Step 4 · Mix-in",
-   "start": 10.953,
-   "end": 18.838,
-   "y": 200
-  },
-  {
-   "type": "caption",
-   "text": "Dark chocolate Oreo protein ice cream.",
-   "start": 0.05,
-   "end": 2.967
+   "type": "headline",
+   "text": "*Oreo*\nprotein\nice cream",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
+   "start": 0.0,
+   "end": 3.2,
+   "y": 960,
+   "size": 156,
+   "anim": "pop"
   },
   {
    "type": "caption",
    "text": "For the mix-in, I'm using Oreo Thins.",
-   "start": 3.017,
+   "start": 3.2,
    "end": 6.091
   },
   {
@@ -246,7 +217,7 @@
    "dur": 2.847,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/dk_01.mp3",
@@ -255,7 +226,7 @@
    "dur": 3.004,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/dk_02.mp3",
@@ -264,7 +235,7 @@
    "dur": 2.769,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/dk_03.mp3",
@@ -273,7 +244,7 @@
    "dur": 1.802,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/dk_04.mp3",
@@ -282,7 +253,7 @@
    "dur": 3.318,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/dk_05.mp3",
@@ -291,7 +262,7 @@
    "dur": 1.489,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/dk_06.mp3",
@@ -300,7 +271,7 @@
    "dur": 2.769,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/dk_07.mp3",
@@ -309,7 +280,17 @@
    "dur": 3.161,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   }
- ]
+ ],
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.025
 }

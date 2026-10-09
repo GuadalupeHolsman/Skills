@@ -129,41 +129,33 @@
   {
    "src": "burningman/f33c3980.mov",
    "in": 0.0,
-   "dur": 1.4,
+   "dur": 1.8,
    "zoom": [
     1.0,
     1.06
    ]
-  },
-  {
-   "outro": true,
-   "dur": 2.6,
-   "trans": {
-    "type": "fade",
-    "d": 0.4
-   }
   }
  ],
  "overlays": [
   {
-   "type": "title",
-   "kicker": "Burning Man",
-   "title": "the experience",
+   "type": "headline",
+   "text": "Burning Man:\nthe *experience*",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
    "start": 0.0,
-   "end": 1.9,
-   "y": 760,
-   "size": 110
-  },
-  {
-   "type": "caption",
-   "text": "We left everything behind",
-   "start": 0.5,
-   "end": 2.08
+   "end": 3.2,
+   "y": 960,
+   "size": 156,
+   "anim": "pop"
   },
   {
    "type": "caption",
    "text": "for a week in the desert",
-   "start": 2.08,
+   "start": 3.2,
    "end": 3.85
   },
   {
@@ -273,8 +265,19 @@
    "in": 0,
    "start": 0.5,
    "dur": 23.0,
-   "eq": "voice",
+   "eq": "voice_bright",
    "fade_out": 0.3
   }
- ]
+ ],
+ "caption_style": "clean",
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.025
 }

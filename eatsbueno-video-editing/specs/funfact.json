@@ -84,39 +84,29 @@
    "start": 0,
    "dur": 19.1,
    "fade_out": 0.4,
-   "eq": "voice"
+   "eq": "voice_bright"
   }
  ],
  "overlays": [
   {
-   "type": "label",
-   "kicker": "What I eat in a day",
+   "type": "headline",
+   "text": "I don’t live\non *salads*",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
    "start": 0.0,
-   "end": 6.95,
-   "y": 200
-  },
-  {
-   "type": "caption",
-   "text": "Fun fact:",
-   "start": 0.16,
-   "end": 1.4
-  },
-  {
-   "type": "caption",
-   "text": "working in nutrition",
-   "start": 1.4,
-   "end": 2.46
-  },
-  {
-   "type": "caption",
-   "text": "doesn't mean",
-   "start": 2.46,
-   "end": 3.08
+   "end": 3.2,
+   "y": 960,
+   "size": 156,
+   "anim": "pop"
   },
   {
    "type": "caption",
    "text": "I live on salads.",
-   "start": 3.08,
+   "start": 3.2,
    "end": 4.3
   },
   {
@@ -130,13 +120,6 @@
    "text": "actually ate today",
    "start": 5.4,
    "end": 6.95
-  },
-  {
-   "type": "label",
-   "kicker": "Breakfast",
-   "start": 6.95,
-   "end": 9.65,
-   "y": 200
   },
   {
    "type": "caption",
@@ -157,24 +140,10 @@
    "end": 9.65
   },
   {
-   "type": "label",
-   "kicker": "Lunch",
-   "start": 9.65,
-   "end": 11.15,
-   "y": 200
-  },
-  {
    "type": "caption",
    "text": "beef raviolis for lunch,",
    "start": 9.65,
    "end": 11.15
-  },
-  {
-   "type": "label",
-   "kicker": "Snack",
-   "start": 11.15,
-   "end": 13.9,
-   "y": 200
   },
   {
    "type": "caption",
@@ -193,13 +162,6 @@
    "text": "for snack",
    "start": 12.96,
    "end": 13.7
-  },
-  {
-   "type": "label",
-   "kicker": "Dinner",
-   "start": 13.9,
-   "end": 16.65,
-   "y": 200
   },
   {
    "type": "caption",
@@ -228,5 +190,15 @@
  ],
  "sfx": [],
  "auto_sfx": false,
- "caption_style": "clean"
+ "caption_style": "clean",
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.025
 }

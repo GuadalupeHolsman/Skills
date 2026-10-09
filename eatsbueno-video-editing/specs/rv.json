@@ -299,54 +299,24 @@
  ],
  "overlays": [
   {
-   "type": "title",
-   "kicker": "Protein ice cream",
-   "title": "Red Velvet",
-   "start": 0.1,
-   "end": 4.091,
-   "y": 260,
-   "size": 104,
-   "sfx": false
-  },
-  {
-   "type": "label",
-   "kicker": "Step 1 · The base",
-   "start": 4.141,
-   "end": 24.747,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Step 2 · Mix",
-   "start": 24.797,
-   "end": 28.106,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Step 3 · Freeze",
-   "start": 28.156,
-   "end": 31.23,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Step 4 · Ninja Creami",
-   "start": 31.28,
-   "end": 34.041,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Step 5 · Mix-in",
-   "start": 34.091,
-   "end": 41.569,
-   "y": 200
+   "type": "headline",
+   "text": "Protein\nice cream:\n*red velvet*",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
+   "start": 0.0,
+   "end": 3.2,
+   "y": 960,
+   "size": 156,
+   "anim": "pop"
   },
   {
    "type": "caption",
    "text": "Red velvet protein ice cream. Let me show you how I make it.",
-   "start": 0.05,
+   "start": 3.2,
    "end": 4.091
   },
   {
@@ -463,7 +433,7 @@
    "dur": 3.971,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_01.mp3",
@@ -472,7 +442,7 @@
    "dur": 3.396,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_02.mp3",
@@ -481,7 +451,7 @@
    "dur": 2.926,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_03.mp3",
@@ -490,7 +460,7 @@
    "dur": 2.691,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_04.mp3",
@@ -499,7 +469,7 @@
    "dur": 3.239,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_05.mp3",
@@ -508,7 +478,7 @@
    "dur": 1.567,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_06.mp3",
@@ -517,7 +487,7 @@
    "dur": 1.489,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_07.mp3",
@@ -526,7 +496,7 @@
    "dur": 2.586,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_08.mp3",
@@ -535,7 +505,7 @@
    "dur": 1.802,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_09.mp3",
@@ -544,7 +514,7 @@
    "dur": 3.239,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_10.mp3",
@@ -553,7 +523,7 @@
    "dur": 3.004,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_11.mp3",
@@ -562,7 +532,7 @@
    "dur": 2.691,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_12.mp3",
@@ -571,7 +541,7 @@
    "dur": 5.407,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_13.mp3",
@@ -580,7 +550,7 @@
    "dur": 1.881,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
    "src": "vo5/rv_14.mp3",
@@ -589,7 +559,17 @@
    "dur": 4.284,
    "fade_in": 0.01,
    "fade_out": 0.05,
-   "eq": "voice"
+   "eq": "voice_bright"
   }
- ]
+ ],
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.025
 }

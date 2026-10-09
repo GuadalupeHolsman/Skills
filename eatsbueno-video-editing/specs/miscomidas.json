@@ -61,126 +61,87 @@
    "image": "miscomidas/cards/6AD15472.jpg"
   },
   {
-   "dur": 3.25,
+   "dur": 3.65,
    "zoom": [
     1.0,
     1.04
    ],
    "image": "miscomidas/cards/2FDBC50E.jpg"
-  },
-  {
-   "outro": true,
-   "dur": 2.6,
-   "trans": {
-    "type": "fade",
-    "d": 0.4
-   }
   }
  ],
  "overlays": [
   {
-   "type": "title",
-   "kicker": "Comer bien fuera de casa",
-   "title": "Mis comidas cuando ando en la calle",
+   "type": "headline",
+   "text": "Mis comidas\nen la *calle*",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
    "start": 0.0,
-   "end": 2.65,
-   "y": 180,
-   "size": 100
-  },
-  {
-   "type": "label",
-   "kicker": "Desayuno",
-   "start": 2.65,
-   "end": 9.85,
-   "y": 150
-  },
-  {
-   "type": "label",
-   "kicker": "Almuerzo",
-   "start": 9.85,
-   "end": 15.95,
-   "y": 150
-  },
-  {
-   "type": "label",
-   "kicker": "Para llevar",
-   "start": 15.95,
-   "end": 20.45,
-   "y": 150
+   "end": 3.2,
+   "y": 960,
+   "size": 156,
+   "anim": "pop"
   },
   {
    "type": "caption",
-   "text": "Desayuno: huevos pochados, salchichas y caf\u00e9\u2026",
-   "start": 2.65,
-   "end": 6.85,
-   "y": 1640,
-   "size": 58
+   "text": "Desayuno: huevos pochados, salchichas y café…",
+   "start": 3.2,
+   "end": 6.85
   },
   {
    "type": "caption",
-   "text": "o un revuelto de vegetales con muffin ingl\u00e9s.",
+   "text": "o un revuelto de vegetales con muffin inglés.",
    "start": 6.85,
-   "end": 9.85,
-   "y": 1640,
-   "size": 58
+   "end": 9.85
   },
   {
    "type": "caption",
    "text": "Almuerzo: sashimi con ensalada de algas.",
    "start": 9.85,
-   "end": 13.3,
-   "y": 1640,
-   "size": 58
+   "end": 13.3
   },
   {
    "type": "caption",
-   "text": "Prote\u00edna y vegetales, sin complicarme.",
+   "text": "Proteína y vegetales, sin complicarme.",
    "start": 13.3,
-   "end": 15.95,
-   "y": 1640,
-   "size": 58
+   "end": 15.95
   },
   {
    "type": "caption",
-   "text": "\u00bfComida r\u00e1pida? Tambi\u00e9n se puede:",
+   "text": "¿Comida rápida? También se puede:",
    "start": 15.95,
-   "end": 18.3,
-   "y": 1640,
-   "size": 58
+   "end": 18.3
   },
   {
    "type": "caption",
    "text": "pollo a la parrilla con vegetales.",
    "start": 18.3,
-   "end": 20.45,
-   "y": 1640,
-   "size": 58
+   "end": 20.45
   },
   {
    "type": "caption",
-   "text": "Comer fuera tambi\u00e9n puede ser bueno.",
+   "text": "Comer fuera también puede ser bueno.",
    "start": 20.45,
-   "end": 22.7,
-   "y": 1640,
-   "size": 58
+   "end": 22.7
   },
   {
    "type": "caption",
    "text": "Sin culpa.",
    "start": 22.7,
-   "end": 23.7,
-   "y": 1640,
-   "size": 58
+   "end": 23.7
   }
  ],
  "keywords": [
-  "caf\u00e9\u2026",
+  "café…",
   "vegetales",
   "sashimi",
   "algas.",
-  "prote\u00edna",
+  "proteína",
   "vegetales,",
-  "r\u00e1pida?",
+  "rápida?",
   "pollo",
   "parrilla",
   "bueno.",
@@ -192,8 +153,19 @@
    "in": 0,
    "start": 0,
    "dur": 23.7,
-   "eq": "voice",
+   "eq": "voice_bright",
    "fade_out": 0.3
   }
- ]
+ ],
+ "caption_style": "clean",
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.025
 }

@@ -158,6 +158,9 @@ def headline_png(W, H, text, y, size=96, track=0.04, color=(255, 255, 255), acce
         lines.append(runs)
     probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
     def width(runs): l = "".join(t for t, _ in runs); return sum(probe.textlength(c, font=f) for c in l) + sp * (len(l) - 1)
+    widest = max(width(r) for r in lines)
+    if widest > W - 170:  # auto-fit long lines inside the side safe zone
+        size = int(size * (W - 170) / widest); f = font("Manrope800", size); lh = int(size * 1.08); sp = size * track
     if center: y = y - (lh * len(lines)) / 2
     def draw(dr, dy, fill=None, grow=0):
         for i, runs in enumerate(lines):
@@ -457,6 +460,7 @@ def main(spec_path):
         fc.append(f"[{last}][o{k}]overlay=x='{xe}':y='{ye}':eof_action=pass:format=gbrp:enable='between(t,{max(0, s - 0.05):.3f},{e:.3f})'[v{k}]"); last = f"v{k}"
     n_in = 1 + len(ovs)
     # ---- audio: dialogue/VO parts, music/ambience, sfx
+    gs = float(spec.get("global_speed", 1.0))  # speed up the whole edit (video + audio) for a livelier pace
     amix = []; m = 0
     for a in audio_parts:
         inputs += ["-i", a["src"]]; idx = n_in + m
@@ -478,17 +482,21 @@ def main(spec_path):
         chain += f",aformat=channel_layouts=stereo:sample_rates=48000,adelay={int(max(0, s_['start']) * 1000)}:all=1[a{m}]"
         fc.append(chain); amix.append(f"[a{m}]"); m += 1
     if amix:
-        fc.append(f"{''.join(amix)}amix=inputs={len(amix)}:normalize=0:dropout_transition=0,"
-                  f"loudnorm=I={spec.get('lufs', -14)}:TP=-1.5:LRA=11,alimiter=limit=0.89,apad,atrim=duration={total:.3f}[aout]")
+        post = ""
+        if gs != 1.0: post += f"atempo={gs},"
+        if spec.get("voice_pitch"): post += f"rubberband=pitch={spec['voice_pitch']}:formant=preserved,"
+        fc.append(f"{''.join(amix)}amix=inputs={len(amix)}:normalize=0:dropout_transition=0,{post}"
+                  f"loudnorm=I={spec.get('lufs', -14)}:TP=-1.5:LRA=11,alimiter=limit=0.89,apad,atrim=duration={total / gs:.3f}[aout]")
     else:
-        fc.append(f"anullsrc=r=48000:cl=stereo,atrim=duration={total:.3f}[aout]")
-    fc.append(f"[{last}]scale=out_color_matrix=bt709:out_range=tv,format=yuv420p[vout]")
+        fc.append(f"anullsrc=r=48000:cl=stereo,atrim=duration={total / gs:.3f}[aout]")
+    speedv = f"setpts=PTS/{gs},fps={FPS}," if gs != 1.0 else ""
+    fc.append(f"[{last}]{speedv}scale=out_color_matrix=bt709:out_range=tv,format=yuv420p[vout]")
     out = spec["out"]
     fcp = os.path.join(work, "fc.txt"); open(fcp, "w").write(";\n".join(fc))
     run(["ffmpeg", "-y", "-v", "error"] + inputs + ["-filter_complex_script", fcp, "-map", "[vout]", "-map", "[aout]",
          *SDR_TAGS, "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-profile:v", "high", "-pix_fmt", "yuv420p",
-         "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "-t", f"{total:.3f}", out])
-    print("wrote", out, f"{total:.2f}s", f"{len(ovs)} overlays", f"{len(sfx)} sfx")
+         "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "-t", f"{total / gs:.3f}", out])
+    print("wrote", out, f"{total / gs:.2f}s", f"{len(ovs)} overlays", f"{len(sfx)} sfx")
 
 if __name__ == "__main__":
     main(sys.argv[1])
