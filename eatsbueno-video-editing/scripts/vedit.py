@@ -110,7 +110,7 @@ def caption_png_clean(W, H, text, y, size=60):
     lines, cur = [], ""
     for w in text.split():
         t = (cur + " " + w).strip()
-        if cur and d.textlength(t, font=f) > W - 200: lines.append(cur); cur = w
+        if cur and d.textlength(t, font=f) > W - 150: lines.append(cur); cur = w
         else: cur = t
     lines.append(cur); lh = int(size * 1.27)
     # two shadow layers: a wide soft halo for light backgrounds + a tight one for crisp edges
@@ -423,7 +423,7 @@ def main(spec_path):
     for j, o in enumerate(spec.get("overlays", [])):
         if o["type"] == "caption":
             if spec.get("caption_style") == "clean":
-                im = caption_png_clean(W, H, o["text"], o.get("y", 1300), o.get("size", 60))
+                im = caption_png_clean(W, H, o["text"], o.get("y", spec.get("caption_y", 1300)), o.get("size", spec.get("caption_size", 60)))
             else:
                 im = caption_png(W, H, o["text"], o.get("y", 1290), o.get("size", 66), kw | set(k.lower() for k in o.get("keywords", [])))
             anim = o.get("anim", spec.get("caption_anim", "pop"))
@@ -447,13 +447,14 @@ def main(spec_path):
         ovs.append((p, o["start"], o["end"], anim, x, y))
     audio_parts += spec.get("audio", [])
 
-    inputs = ["-i", vcat]; fc = []; last = "0:v"
+    # composite in RGB so overlay colours stay exact, then convert once with the BT.709 matrix
+    inputs = ["-i", vcat]; fc = ["[0:v]scale=in_color_matrix=bt709:in_range=tv,format=gbrp[base]"]; last = "base"
     for k, (p, s, e, anim, x, y) in enumerate(ovs):
         inputs += ["-loop", "1", "-framerate", str(FPS), "-t", f"{total:.3f}", "-i", p]
         w, h = Image.open(p).size
         chain, xe, ye = anim_chain(k + 1, s, e, anim, w, h, x, y)
-        fc.append(chain + f",scale=out_color_matrix=bt709:out_range=tv,format=yuva420p[o{k}]")
-        fc.append(f"[{last}][o{k}]overlay=x='{xe}':y='{ye}':eof_action=pass:enable='between(t,{max(0, s - 0.05):.3f},{e:.3f})'[v{k}]"); last = f"v{k}"
+        fc.append(chain + f"[o{k}]")
+        fc.append(f"[{last}][o{k}]overlay=x='{xe}':y='{ye}':eof_action=pass:format=gbrp:enable='between(t,{max(0, s - 0.05):.3f},{e:.3f})'[v{k}]"); last = f"v{k}"
     n_in = 1 + len(ovs)
     # ---- audio: dialogue/VO parts, music/ambience, sfx
     amix = []; m = 0
@@ -481,7 +482,7 @@ def main(spec_path):
                   f"loudnorm=I={spec.get('lufs', -14)}:TP=-1.5:LRA=11,alimiter=limit=0.89,apad,atrim=duration={total:.3f}[aout]")
     else:
         fc.append(f"anullsrc=r=48000:cl=stereo,atrim=duration={total:.3f}[aout]")
-    fc.append(f"[{last}]null[vout]")
+    fc.append(f"[{last}]scale=out_color_matrix=bt709:out_range=tv,format=yuv420p[vout]")
     out = spec["out"]
     fcp = os.path.join(work, "fc.txt"); open(fcp, "w").write(";\n".join(fc))
     run(["ffmpeg", "-y", "-v", "error"] + inputs + ["-filter_complex_script", fcp, "-map", "[vout]", "-map", "[aout]",

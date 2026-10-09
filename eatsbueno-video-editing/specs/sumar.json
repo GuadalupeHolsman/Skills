@@ -2,6 +2,8 @@
  "out": "out/09_SumarNoProhibir_ARealDay.mp4",
  "grade": "warm",
  "caption_style": "clean",
+ "caption_size": 76,
+ "caption_y": 1270,
  "chip_color": [
   226,
   96,
@@ -243,7 +245,7 @@
    "start": 0.0,
    "end": 3.2,
    "y": 960,
-   "size": 150,
+   "size": 156,
    "anim": "pop"
   },
   {
