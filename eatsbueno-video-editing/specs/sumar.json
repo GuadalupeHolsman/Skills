@@ -3,10 +3,11 @@
  "grade": "warm",
  "caption_style": "clean",
  "chip_color": [
-  242,
-  128,
-  44
+  226,
+  96,
+  35
  ],
+ "watermark": false,
  "keywords": [
   "coffee.",
   "takeout.",
