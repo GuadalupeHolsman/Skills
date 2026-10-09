@@ -23,8 +23,6 @@
   .abs { position: absolute; }
   .cooper { font-family: Cooper, serif; }
   .grain { position: absolute; inset: 0; pointer-events: none; opacity: .10; mix-blend-mode: overlay; z-index: 60; }
-  .pillC { position:absolute; display:flex; align-items:center; gap:12px; height:68px; padding:0 30px 0 16px; border-radius:999px; background:rgba(255,255,255,.72); font:600 22px Manrope; color:#2A5D51; white-space:nowrap; box-shadow:0 6px 16px -8px rgba(90,50,20,.25); }
-  .pillC b { font-size:34px; } .pillC i { font-style:normal; color:#B0805E; font-weight:500; font-size:18px; letter-spacing:.06em; text-transform:uppercase; }
   .blob { position: absolute; border-radius: 50%; filter: blur(90px); }
   .flower svg { width: 100%; height: 100%; display: block; overflow: visible; }
   .wordmark { -webkit-mask: var(--wm) center / contain no-repeat; mask: var(--wm) center / contain no-repeat; background: var(--cream); aspect-ratio: 1174 / 194; }
@@ -116,10 +114,11 @@
   </section>
 
   <!-- 4b · Your food, your culture -->
-  <section class="scene" id="scC" style="background:radial-gradient(90% 90% at 50% 40%,#FFF4E8 0%,#F8E6D4 55%,#F0D5BD 100%)">
-    <div class="abs" id="rowsC" style="left:0;right:0;top:700px;height:330px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)"></div>
-    <div class="abs cooper" id="hC" style="left:0;right:0;top:64px;text-align:center;font-size:96px;color:var(--deep);font-weight:700">Your food. <i style="font-weight:300;color:var(--orange)">Your culture.</i></div>
-    <div class="abs" id="cardC" style="left:560px;top:268px;width:800px;height:360px;border-radius:44px;background:#fff;box-shadow:0 40px 80px -30px rgba(90,50,20,.35),0 2px 0 rgba(0,0,0,.03);overflow:hidden"></div>
+  <section class="scene" id="scC" style="background:radial-gradient(90% 100% at 50% 40%,#2F6357 0%,#214A41 55%,#163630 100%)">
+    <div class="abs" id="camC" style="left:0;top:0;width:1920px;height:1080px;transform-origin:0 0"></div>
+    <div class="abs" id="pinC" style="left:930px;top:356px;width:60px;height:64px;z-index:4"></div>
+    <div class="abs cooper" id="hC" style="left:0;right:0;top:52px;text-align:center;font-size:92px;color:var(--cream);font-weight:700;z-index:5">Your food. <i style="font-weight:300;color:#F0A26A">Your culture.</i></div>
+    <div class="abs" id="cardC" style="left:590px;top:690px;width:740px;height:290px;border-radius:40px;background:#fff;box-shadow:0 40px 80px -30px rgba(0,0,0,.5);overflow:hidden;z-index:5"></div>
   </section>
 
   <!-- 5 · Coach -->
@@ -178,6 +177,7 @@
 <script src="assets/flower.js"></script>
 <script src="assets/wordmark.js"></script>
 <script src="assets/bands.js"></script>
+<script src="assets/worldmap.js"></script>
 <script>
 (() => {
   // ================= setup =================
@@ -862,9 +862,9 @@
 
 
   // 4b · Your food, your culture (final times; its own 6 s beat between onboarding and the coach).
-  // One card, one meal slot, five kitchens: the same balanced lunch re-cooked for Angie. Each kitchen floods the
-  // world with its own colour from the card outwards and says "enjoy your meal" its own way; at the end all
-  // five kitchens open out around the card at once.
+  // A dot-matrix world. The camera flies country to country; at each stop a pin drops, the country lights up in
+  // brand orange, "enjoy your meal" appears in its own words and Angie's lunch card re-cooks itself for that
+  // kitchen. At the end the camera pulls back to the whole planet: five kitchens lit, joined by arcs.
   const buildCulture = (T, D) => {
     scene('scC', T, T + D + 0.65);
     tl.to('#sc4', { x: -1920, filter: 'blur(18px)', duration: 0.6, ease: 'ebSoft' }, T);
@@ -872,106 +872,128 @@
     tl.fromTo('#scC', { x: 1920, filter: 'blur(18px)' }, { x: 0, filter: 'blur(0px)', duration: 0.6, ease: 'ebSoft', immediateRender: false }, T);
     tl.to('#scC', { x: -1920, filter: 'blur(18px)', duration: 0.6, ease: 'ebSoft' }, T + D);
     META.whooshes.push(T + 0.05);
-    const SC = $('#scC');
+    const SC = $('#scC'), CAM = $('#camC'), NS = 'http://www.w3.org/2000/svg';
     const MEALS = [
-      ['🌮', '#FDE7D3', 'Fish tacos, charred corn', 'Mexican', [38, 42, 20], '#F2C3A0', '¡Buen provecho!'],
-      ['🍛', '#FBEBC8', 'Dal + brown rice + raita', 'Indian', [30, 52, 18], '#F4D58C', 'Shubh bhojan!'],
-      ['🍱', '#E3F0E6', 'Salmon teishoku + miso', 'Japanese', [36, 44, 20], '#BFDCCB', 'Itadakimasu!'],
-      ['🍝', '#FBE0D8', 'Pasta e fagioli + greens', 'Italian', [24, 56, 20], '#F1B9A8', 'Buon appetito!'],
-      ['🥩', '#F6E6D3', 'Baked milanesa + salad', 'Argentine', [40, 35, 25], '#CFE0EE', '¡A comer, Angie!'],
+      ['🌮', '#FDE7D3', 'Fish tacos, charred corn', 'Mexican', [38, 42, 20], 'Mexico', '¡Buen provecho!'],
+      ['🍛', '#FBEBC8', 'Dal + brown rice + raita', 'Indian', [30, 52, 18], 'India', 'Shubh bhojan!'],
+      ['🍱', '#E3F0E6', 'Salmon teishoku + miso', 'Japanese', [36, 44, 20], 'Japan', 'Itadakimasu!'],
+      ['🍝', '#FBE0D8', 'Pasta e fagioli + greens', 'Italian', [24, 56, 20], 'Italy', 'Buon appetito!'],
+      ['🥩', '#F6E6D3', 'Baked milanesa + salad', 'Argentine', [40, 35, 25], 'Argentina', '¡A comer, Angie!'],
     ];
-    // colour floods: one layer per kitchen, opening as a circle from the card
-    const floods = MEALS.map((m) => {
-      const f = document.createElement('div'); f.className = 'abs';
-      f.style.cssText = `inset:0;background:radial-gradient(80% 80% at 50% 45%,#FFF7EE 0%,${m[5]} 100%)`;
-      SC.insertBefore(f, $('#rowsC'));
-      return f;
-    });
-    const tS = [T + 0.55, T + 1.45, T + 2.35, T + 3.25, T + 4.15];
-    floods.forEach((f, i) => tl.fromTo(f, { clipPath: 'circle(0% at 50% 41%)' }, { clipPath: 'circle(120% at 50% 41%)', duration: 0.75, ease: 'ebSoft', immediateRender: true }, tS[i] - 0.05));
-    reveal($('#hC'), T + 0.35, 0.09);
-    META.titles.push(T + 0.4);
-    // a world of food drifting underneath, three rows in alternating directions
-    const DISH = [['🌮', 'Tacos de pescado', 'México'], ['🍛', 'Dal tadka', 'India'], ['🍚', 'Bibimbap', 'Korea'], ['🥟', 'Empanadas', 'Argentina'],
-      ['🫓', 'Arepas', 'Venezuela'], ['🍲', 'Phở', 'Vietnam'], ['🥙', 'Shawarma', 'Lebanon'], ['🍱', 'Bento', 'Japan'], ['🥘', 'Paella', 'España'],
-      ['🍝', 'Pasta e fagioli', 'Italia'], ['🫔', 'Tamales', 'Guatemala'], ['🥗', 'Tabbouleh', 'Syria'], ['🍜', 'Ramen', 'Japan'], ['🧆', 'Falafel', 'Egypt'], ['🍗', 'Jollof rice', 'Nigeria']];
-    const rows = $('#rowsC');
-    rows.style.top = '770px';
-    [0, 1, 2].forEach((r) => {
-      const row = document.createElement('div');
-      row.style.cssText = `position:absolute;left:0;top:${r * 98}px;height:68px;width:7000px`;
-      let x = 0;
-      for (let k = 0; k < 16; k++) {
-        const [e, n, c] = DISH[(k * 2 + r * 5) % DISH.length];
-        const p = document.createElement('div'); p.className = 'pillC';
-        p.style.left = x + 'px';
-        p.innerHTML = `<b>${e}</b>${n}<i>· ${c}</i>`;
-        row.appendChild(p);
-        x += 60 + 22 * (n.length + c.length) * 0.62 + 120;
+    // the map: base 1800 px wide, placed so the whole world sits centred under the headline
+    const OX = 60, OY = 210, Wm = WORLD.w, Hm = WORLD.h;
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('width', 1920); svg.setAttribute('height', 1080); svg.style.cssText = 'position:absolute;left:0;top:0;overflow:visible';
+    CAM.appendChild(svg);
+    const base = document.createElementNS(NS, 'g'); svg.appendChild(base);
+    const lit = MEALS.map(() => { const g = document.createElementNS(NS, 'g'); g.setAttribute('opacity', 0); svg.appendChild(g); return g; });
+    const cen = MEALS.map(() => [0, 0, 0]);
+    WORLD.dots.forEach(([x, y, k]) => {
+      const c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', OX + x); c.setAttribute('cy', OY + y); c.setAttribute('r', 3.1);
+      c.setAttribute('fill', 'rgba(250,240,223,.24)');
+      base.appendChild(c);
+      if (k >= 0) {
+        const l = c.cloneNode(); l.setAttribute('fill', '#F7B27E'); l.setAttribute('r', k === 2 || k === 3 ? 4.6 : 3.8); lit[k].appendChild(l);
+        cen[k][0] += OX + x; cen[k][1] += OY + y; cen[k][2]++;
       }
-      rows.appendChild(row);
-      const dir = r % 2 ? 1 : -1;
-      tl.fromTo(row, { x: dir < 0 ? -200 : -2000 }, { x: dir < 0 ? -2000 : -200, duration: D + 0.8, ease: 'none', immediateRender: true }, T);
-      tl.fromTo(row, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: 'ebOut', immediateRender: true }, T + 0.5 + r * 0.08);
     });
-    // "enjoy your meal", in the kitchen's own words, rolling under the card
+    const C = cen.map(([x, y, n]) => [x / n, y / n]);
+    C[2][0] += 4; C[3][1] -= 6;                 // nudge the small ones onto their main islands / boot
+    lit.forEach((g) => { g.style.filter = 'drop-shadow(0 0 6px rgba(240,162,106,.9))'; });
+    // camera: put a point of the map on screen point (FX, FY) at zoom Z
+    const FX = 960, FY = 420;
+    const camTo = (k, t, Z = 2.3, dur = 0.75) => tl.to(CAM, { x: FX - C[k][0] * Z, y: FY - C[k][1] * Z, scale: Z, duration: dur, ease: 'ebSoft' }, t);
+    tl.set(CAM, { x: 0, y: -40, scale: 1 }, 0);
+    tl.fromTo(svg, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'ebSoft', immediateRender: true }, T + 0.15);
+    reveal($('#hC'), T + 0.3, 0.09);
+    META.titles.push(T + 0.35);
+    // the pin that drops at every stop
+    const pin = $('#pinC');
+    pin.innerHTML = '<svg viewBox="0 0 60 64" width="60" height="64" style="overflow:visible;transform:scale(1.3);transform-origin:50% 100%"><ellipse cx="30" cy="62" rx="12" ry="4" fill="rgba(0,0,0,.35)"/><path d="M30 60 C30 60 8 38 8 22 A22 22 0 0 1 52 22 C52 38 30 60 30 60Z" fill="#E26023" stroke="#FAF0DF" stroke-width="3"/><circle cx="30" cy="22" r="8" fill="#FAF0DF"/></svg>';
+    const pulse = document.createElement('div'); pulse.className = 'abs';
+    pulse.style.cssText = `left:${FX - 60}px;top:${FY - 60}px;width:120px;height:120px;border-radius:50%;border:3px solid rgba(240,162,106,.9);opacity:0;z-index:3`;
+    SC.appendChild(pulse);
+    tl.set(pin, { opacity: 0 }, 0);
+    // greeting above the pin
     const GR = document.createElement('div'); GR.className = 'abs';
-    GR.style.cssText = 'left:0;right:0;top:648px;height:84px;overflow:hidden;text-align:center;font:italic 300 62px/1.25 Cooper;color:#B4532A';
+    GR.style.cssText = `left:0;right:0;top:${FY - 192}px;height:76px;overflow:hidden;text-align:center;font:italic 300 54px/1.3 Cooper;color:var(--cream);z-index:5`;
     SC.appendChild(GR);
     const grs = MEALS.map((m) => { const g = document.createElement('div'); g.textContent = m[6]; g.style.cssText = 'position:absolute;left:0;right:0;top:0'; GR.appendChild(g); tl.set(g, { yPercent: 140 }, 0); return g; });
-    const fin = document.createElement('div'); fin.textContent = 'Every kitchen fits your goals.'; fin.style.cssText = 'position:absolute;left:0;right:0;top:0;color:#2A5D51;font-style:normal;font-weight:700;font-size:54px'; GR.appendChild(fin);
-    tl.set(fin, { yPercent: 140 }, 0);
     // the card: one meal slot that keeps re-cooking itself
     const card = $('#cardC');
     const slots = MEALS.map(([e, bg, name, cult, mac]) => {
       const m = document.createElement('div');
-      m.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;gap:44px;padding:0 56px';
-      m.innerHTML = `<div class="em" style="flex:0 0 220px;height:220px;border-radius:50%;background:${bg};display:grid;place-items:center;font-size:120px">${e}</div>` +
-        `<div style="flex:1;min-width:0"><div style="font:700 17px Manrope;letter-spacing:.22em;text-transform:uppercase;color:#B0805E">Angie's lunch · ${cult}</div>` +
-        `<div style="font:700 50px/1.08 Cooper;color:#1E3F37;margin:12px 0 22px">${name}</div>` +
-        `<div class="bars" style="display:flex;height:12px;border-radius:6px;overflow:hidden;gap:4px">` +
+      m.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;gap:38px;padding:0 46px';
+      m.innerHTML = `<div class="em" style="flex:0 0 184px;height:184px;border-radius:50%;background:${bg};display:grid;place-items:center;font-size:100px">${e}</div>` +
+        `<div style="flex:1;min-width:0"><div style="font:700 15px Manrope;letter-spacing:.22em;text-transform:uppercase;color:#B0805E">Angie's lunch · ${cult}</div>` +
+        `<div style="font:700 44px/1.08 Cooper;color:#1E3F37;margin:10px 0 18px">${name}</div>` +
+        `<div class="bars" style="display:flex;height:11px;border-radius:6px;overflow:hidden;gap:4px">` +
         `<i style="flex:${mac[0]};background:#3B7668"></i><i style="flex:${mac[1]};background:#F0A26A"></i><i style="flex:${mac[2]};background:#AFCFC4"></i></div>` +
-        `<div style="display:flex;justify-content:space-between;margin-top:14px;font:600 16px Manrope;color:#6a7a75"><span>Protein ${mac[0]}%</span><span>Carbs ${mac[1]}%</span><span>Fat ${mac[2]}%</span>` +
+        `<div style="display:flex;justify-content:space-between;margin-top:12px;font:600 14px Manrope;color:#6a7a75"><span>Protein ${mac[0]}%</span><span>Carbs ${mac[1]}%</span><span>Fat ${mac[2]}%</span>` +
         `<span class="ok" style="color:#2A5D51;font-weight:800">✓ Fits your goals</span></div></div>`;
       card.appendChild(m);
       tl.set(m, { yPercent: 100, opacity: 0 }, 0);
       return m;
     });
-    tl.fromTo(card, { y: 80, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'ebOut', immediateRender: true }, T + 0.5);
-    slots.forEach((m, i) => {
-      const em = m.querySelector('.em'), bars = m.querySelector('.bars'), ok = m.querySelector('.ok');
-      tl.fromTo(m, { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.42, ease: 'ebPush', immediateRender: false }, tS[i]);
-      tl.fromTo(em, { scale: 0.5, rotation: -25 }, { scale: 1, rotation: 0, duration: 0.55, ease: 'ebOut', immediateRender: false }, tS[i] + 0.05);
-      tl.fromTo(bars, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.5, ease: 'ebSoft', immediateRender: false }, tS[i] + 0.2);
-      tl.fromTo(ok, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.3, ease: 'ebOut', immediateRender: false }, tS[i] + 0.5);
-      tl.fromTo(grs[i], { yPercent: 140 }, { yPercent: 0, duration: 0.45, ease: 'ebPush', immediateRender: false }, tS[i] + 0.08);
-      if (i < slots.length - 1) {
-        tl.to(m, { yPercent: -100, opacity: 0, duration: 0.42, ease: 'ebPush' }, tS[i + 1]);
-        tl.to(grs[i], { yPercent: -140, duration: 0.45, ease: 'ebPush' }, tS[i + 1] + 0.08);
+    tl.fromTo(card, { y: 120, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'ebOut', immediateRender: true }, T + 0.55);
+    const tS = [T + 0.75, T + 1.6, T + 2.45, T + 3.3, T + 4.15];
+    MEALS.forEach((mm, i) => {
+      const t = tS[i];
+      camTo(i, t - 0.5, i === 2 || i === 3 ? 3.4 : 2.3, i ? 0.62 : 0.8);
+      META.whooshes.push(t - 0.3);
+      // pin drops, ring pulses, country lights
+      tl.fromTo(pin, { y: -70, opacity: 0, scale: 0.8 }, { y: 0, opacity: 1, scale: 1, duration: 0.35, ease: 'ebOut', immediateRender: false }, t);
+      tl.to(pin, { keyframes: [{ scaleY: 0.85, duration: 0.07 }, { scaleY: 1, duration: 0.2 }], transformOrigin: '50% 100%' }, t + 0.35);
+      if (i < MEALS.length - 1) tl.to(pin, { y: -40, opacity: 0, duration: 0.25, ease: 'ebIn' }, tS[i + 1] - 0.5);
+      tl.fromTo(pulse, { scale: 0.3, opacity: 1 }, { scale: 2.2, opacity: 0, duration: 0.7, ease: 'ebOut', immediateRender: false }, t + 0.32);
+      tl.fromTo(lit[i], { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'ebSoft', immediateRender: false }, t - 0.12);
+      META.pops.push(t + 0.33);
+      // the card re-cooks, the greeting rolls
+      const m = slots[i], em = m.querySelector('.em'), bars = m.querySelector('.bars'), ok = m.querySelector('.ok');
+      tl.fromTo(m, { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.42, ease: 'ebPush', immediateRender: false }, t + 0.05);
+      tl.fromTo(em, { scale: 0.5, rotation: -25 }, { scale: 1, rotation: 0, duration: 0.55, ease: 'ebOut', immediateRender: false }, t + 0.1);
+      tl.fromTo(bars, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.5, ease: 'ebSoft', immediateRender: false }, t + 0.25);
+      tl.fromTo(ok, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.3, ease: 'ebOut', immediateRender: false }, t + 0.5);
+      tl.fromTo(grs[i], { yPercent: 140 }, { yPercent: 0, duration: 0.45, ease: 'ebPush', immediateRender: false }, t + 0.15);
+      if (i < MEALS.length - 1) {
+        tl.to(m, { yPercent: -100, opacity: 0, duration: 0.42, ease: 'ebPush' }, tS[i + 1] + 0.05);
+        tl.to(grs[i], { yPercent: -140, duration: 0.4, ease: 'ebPush' }, tS[i + 1] - 0.45);
       }
-      if (i) tl.fromTo(card, { scale: 1 }, { keyframes: [{ scale: 1.02, duration: 0.1 }, { scale: 1, duration: 0.3 }], immediateRender: false }, tS[i]);
-      META.pops.push(tS[i]); META.ticks.push(tS[i] + 0.5);
+      META.ticks.push(t + 0.5);
     });
-    tl.fromTo(card, { rotation: -1.2 }, { rotation: 0.6, duration: 4.4, ease: 'sine.inOut', immediateRender: false }, T + 0.5);
-    // finale: every kitchen opens out around the card at once
+    // finale: the camera pulls back to the whole planet; five kitchens lit, joined by arcs, one line
     const tF = T + 4.95;
-    tl.to(card, { rotation: 0, scale: 0.92, duration: 0.5, ease: 'ebSoft' }, tF);
-    const SIDE = [[0, 250], [1, 470], [2, 1450], [3, 1670]];
-    SIDE.forEach(([mi, cx], k) => {
-      const [e, bg, , cult] = MEALS[mi];
-      const d = document.createElement('div'); d.className = 'abs';
-      d.style.cssText = `left:${cx - 90}px;top:358px;width:180px;text-align:center;z-index:3;opacity:0`;
-      d.innerHTML = `<div style="width:180px;height:180px;border-radius:50%;background:${bg};display:grid;place-items:center;font-size:96px;box-shadow:0 24px 40px -20px rgba(90,50,20,.4);border:5px solid #fff">${e}</div>` +
-        `<div style="margin-top:14px;font:700 15px Manrope;letter-spacing:.2em;text-transform:uppercase;color:#7A5A44">${cult}</div>`;
-      SC.appendChild(d);
-      const fromX = 960 - cx;
-      tl.fromTo(d, { x: fromX * 0.85, scale: 0.3, opacity: 0 }, { x: 0, scale: 1, opacity: 1, duration: 0.6, ease: 'ebOut', immediateRender: false }, tF + 0.05 + k * 0.06);
-      tl.fromTo(d.firstChild, { rotation: k < 2 ? -30 : 30 }, { rotation: 0, duration: 0.8, ease: 'ebOut', immediateRender: false }, tF + 0.05 + k * 0.06);
-      META.pops.push(tF + 0.1 + k * 0.06);
+    tl.to(CAM, { x: 960 - (OX + Wm / 2) * 0.92, y: 455 - (OY + Hm / 2) * 0.92, scale: 0.92, duration: 0.8, ease: 'ebSoft' }, tF);
+    tl.to(pin, { y: -40, opacity: 0, duration: 0.25, ease: 'ebIn' }, tF);
+    tl.to(grs[4], { yPercent: -140, duration: 0.4, ease: 'ebPush' }, tF);
+    META.whooshes.push(tF + 0.1);
+    const ORDER = [4, 0, 3, 1, 2];                  // Angie's Argentina → Mexico → Italy → India → Japan
+    ORDER.slice(1).forEach((k, j) => {
+      const [x0, y0] = C[ORDER[j]], [x1, y1] = C[k];
+      const mx = (x0 + x1) / 2, my = Math.min(y0, y1) - Math.hypot(x1 - x0, y1 - y0) * 0.28;
+      const arc = document.createElementNS(NS, 'path');
+      arc.setAttribute('d', `M${x0},${y0} Q${mx},${my} ${x1},${y1}`);
+      arc.setAttribute('fill', 'none'); arc.setAttribute('stroke', '#FAF0DF'); arc.setAttribute('stroke-width', 2.4); arc.setAttribute('stroke-linecap', 'round');
+      svg.appendChild(arc);
+      const L = arc.getTotalLength(); arc.setAttribute('stroke-dasharray', L);
+      tl.fromTo(arc, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.45, ease: 'ebSoft', immediateRender: true }, tF + 0.45 + j * 0.12);
     });
-    tl.to(grs[grs.length - 1], { yPercent: -140, duration: 0.45, ease: 'ebPush' }, tF + 0.1);
-    tl.fromTo(fin, { yPercent: 140 }, { yPercent: 0, duration: 0.5, ease: 'ebPush', immediateRender: false }, tF + 0.18);
-    META.success.push(tF + 0.25);
+    MEALS.forEach((mm, k) => {
+      const g = document.createElementNS(NS, 'g');
+      g.innerHTML = `<circle cx="${C[k][0]}" cy="${C[k][1]}" r="9" fill="#E26023" stroke="#FAF0DF" stroke-width="3"/>` +
+        `<text x="${C[k][0]}" y="${C[k][1] - 20}" text-anchor="middle" style="font:800 19px Manrope;letter-spacing:.16em;text-transform:uppercase" fill="#FAF0DF">${mm[5]}</text>`;
+      svg.appendChild(g);
+      g.style.transformBox = 'fill-box'; g.style.transformOrigin = 'center';
+      tl.fromTo(g, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'ebOut', immediateRender: true }, tF + 0.4 + k * 0.06);
+    });
+    const fin = document.createElement('div'); fin.textContent = 'Every kitchen fits your goals.';
+    fin.style.cssText = 'position:absolute;left:0;right:0;top:0;font:700 66px/1.3 Cooper;font-style:normal;color:var(--cream)';
+    GR.appendChild(fin); tl.set(fin, { yPercent: 140 }, 0);
+    tl.fromTo(fin, { yPercent: 140 }, { yPercent: 0, duration: 0.5, ease: 'ebPush', immediateRender: false }, tF + 0.3);
+    tl.to('#hC', { opacity: 0, y: -30, duration: 0.35, ease: 'ebIn' }, tF);
+    tl.to(GR, { y: -(FY - 192 - 62), height: 100, duration: 0.6, ease: 'ebSoft' }, tF);
+    META.success.push(tF + 0.5);
   };
 
   // 6 · Scan, rebuilt at FINAL times (scene 32.7 – 40.45, lifts away at 39.7). One locked, symmetric frame:
