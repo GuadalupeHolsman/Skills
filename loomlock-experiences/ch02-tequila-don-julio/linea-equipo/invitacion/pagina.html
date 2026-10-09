@@ -23,7 +23,7 @@ header{display:flex;flex-direction:column;gap:18px}
 section{display:flex;flex-direction:column;gap:22px}
 .head{display:flex;flex-direction:column;gap:8px}
 .head p{margin:0;color:var(--muted);max-width:62ch}
-.reels{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.reels{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
 .card{display:flex;flex-direction:column;gap:10px;min-width:0}
 .card video{width:100%;max-width:100%;aspect-ratio:9/16;object-fit:cover;display:block;border-radius:12px;background:#000;border:1px solid var(--line)}
 .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.45}
@@ -50,22 +50,23 @@ dialog button{position:absolute;top:8px;right:8px;font-family:var(--mono);backgr
   <header>
     <div>
       <span class="eyebrow">Loomlock Experiences · CH 02 · Tequila Don Julio</span>
-      <h1><span class="i">You're</span><br>invited.</h1>
+      <h1><span class="i">Channel 2</span><br>Invite only.</h1>
     </div>
     <p class="tag"><span class="i">Live now,</span> <span class="b y">post later.</span></p>
-    <p class="meta">Thu 29 Oct · Bogotá · 18+ · Invite only</p>
+    <p class="meta">loomlock × Don Julio · Thu 29 Oct · Bogotá</p>
   </header>
 
   <section aria-labelledby="reels-h">
     <div class="head">
       <span class="eyebrow">Reel de invitación · 15 s · 9:16</span>
-      <h2 id="reels-h">Tres versiones</h2>
-      <p>La misma invitación contada de tres maneras: con la tipografía a pantalla completa, con la TV del equipo y con un zapping de canales que termina en CH 02. Las tres van sin sonido.</p>
+      <h2 id="reels-h">El original y tres versiones</h2>
+      <p>Primero el reel del equipo, que marca el copy: Channel 2, Music loud, Tequila neat, Dance like nobody's recording, Feed off e Invite only. Después tres versiones con ese mismo texto: tipografía a pantalla completa, la TV y un zapping de canales. Las versiones van sin sonido.</p>
     </div>
     <div class="reels">
-      <div class="card"><span class="n">01 · Tipografía</span><video controls playsinline preload="none" poster="v/i1-tipografia.jpg" src="v/i1-tipografia.mp4" aria-label="Reel de invitación, versión tipografía"></video><h3>Una palabra por golpe</h3><p>La TV se prende con “You're invited.”, sigue una palabra por beat (Thursday, 29.10, Phone: in, Apps: off, Tequila neat) y en el drop entra el 02 gigante.</p></div>
-      <div class="card"><span class="n">02 · La pantalla</span><video controls playsinline preload="none" poster="v/i2-pantalla.jpg" src="v/i2-pantalla.mp4" aria-label="Reel de invitación, versión con la TV del equipo"></video><h3>La TV del equipo</h3><p>Pantalla curva, interfaz LIVE y frases en dos tiempos: Thursday, 7 pm · Feed, off · Tequila, neat · Music, loud · Invite only. Cierra en el azul con cuadrícula.</p></div>
-      <div class="card"><span class="n">03 · Zapping</span><video controls playsinline preload="none" poster="v/i3-zapping.jpg" src="v/i3-zapping.mp4" aria-label="Reel de invitación, versión zapping"></video><h3>Too many channels</h3><p>Diez canales de ruido (feed, stories, ads, for you) cambian a cada golpe hasta que el drop cae en CH 02: “One channel worth it.”</p></div>
+      <div class="card"><span class="n">00 · Equipo</span><video controls muted playsinline preload="none" poster="v/i0-equipo.jpg" src="v/i0-equipo.mp4" aria-label="Reel de invitación del equipo"></video><h3>El original</h3><p>Video de la fiesta dentro de la TV, con rayos de luz: Channel 2, las cuatro frases y el cierre azul Channel 2 · Invite only. Tiene sonido; activalo desde el reproductor.</p></div>
+      <div class="card"><span class="n">01 · Tipografía</span><video controls muted playsinline preload="none" poster="v/i1-tipografia.jpg" src="v/i1-tipografia.mp4" aria-label="Reel de invitación, versión tipografía"></video><h3>Una palabra por golpe</h3><p>Se prende la TV con Channel 2, una palabra por beat (Music, loud · Tequila, neat · Dance like nobody's recording · Feed, off) y en el drop entra un 2 gigante.</p></div>
+      <div class="card"><span class="n">02 · La pantalla</span><video controls muted playsinline preload="none" poster="v/i2-pantalla.jpg" src="v/i2-pantalla.mp4" aria-label="Reel de invitación, versión con la TV"></video><h3>La TV con tipografía adentro</h3><p>La misma estructura del original, pero adentro de la TV va la tipografía animada en vez de video: el 2, LOUD borroso, el tachado de Tequila, NO REC y el feed tapado.</p></div>
+      <div class="card"><span class="n">03 · Zapping</span><video controls muted playsinline preload="none" poster="v/i3-zapping.jpg" src="v/i3-zapping.mp4" aria-label="Reel de invitación, versión zapping"></video><h3>Too many channels</h3><p>Diez canales de ruido hasta que el drop cae en Channel 2, con las tres frases de la noche, Feed off y el cierre Invite only.</p></div>
     </div>
   </section>
 
@@ -85,9 +86,9 @@ dialog button{position:absolute;top:8px;right:8px;font-family:var(--mono);backgr
 
 <script>
 const FLYERS = [
-  ["01 · Tipografía", "El 02 gigante", "You're invited, el 02 amarillo y la franja Phone: in · Apps: off · Feed: off.", "flyer-story", "flyer-feed"],
-  ["02 · La pantalla", "La TV del equipo", "El cierre azul dentro de la TV curva: A party worth remembering. Not recording.", "flyer-tv-story", "flyer-tv-post"],
-  ["03 · Redacted", "Solo queda la invitación", "Una carta tachada donde se lee You're invited, la fecha, Bogotá, Invite only y Live now, post later.", "flyer-red-story", "flyer-red-post"]
+  ["01 · Tipografía", "El 2 gigante", "Channel, un 2 amarillo enorme, Invite only y la franja Phone: in · Apps: off · Feed: off.", "flyer-ch2-story", "flyer-ch2-post"],
+  ["02 · La pantalla", "La TV del equipo", "loomlock × Don Julio arriba y, dentro de la TV, el cierre azul del reel: Channel 2 · Invite only.", "flyer-ch2-tv-story", "flyer-ch2-tv-post"],
+  ["03 · Redacted", "Solo queda la invitación", "Una carta tachada donde se lee Channel 2, la fecha, Bogotá, Invite only y Live now, post later.", "flyer-ch2-red-story", "flyer-ch2-red-post"]
 ];
 const box = document.getElementById("flyers");
 FLYERS.forEach(([n, t, d, s, p]) => {

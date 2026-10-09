@@ -25,16 +25,24 @@ def build():
         body += (f'<div class="ab" id="z{i}" style="inset:0;background:{bg};opacity:0">{noise.format(n=i % 4, o=.28)}{osd(c)}'
                  f'<div class="ab" style="left:0;right:0;top:820px;text-align:center;font-size:{230 if len(w) < 7 else 180}px;font-weight:900;letter-spacing:-.02em;'
                  f'color:rgba(244,242,238,.9);text-shadow:6px 0 rgba(255,40,80,.45),-6px 0 rgba(40,200,255,.45)">{w}</div></div>')
-    body += f'''<div class="ab grid" id="ch02" style="inset:0;opacity:0">{osd("CH 02")}
-  <div class="ab" style="left:0;right:0;top:700px;text-align:center"><div class="i" id="o1" style="font-size:130px">One channel</div><div class="b y" id="o2" style="font-size:190px;font-weight:900;line-height:1">worth it.</div></div>
-  <div class="ab mono" style="left:0;right:0;top:1130px;text-align:center;font-size:26px;letter-spacing:.2em">LOOMLOCK EXPERIENCES · TEQUILA DON JULIO</div>
+    body += f'''<div class="ab grid" id="ch02" style="inset:0;opacity:0">{osd("CHANNEL 2")}
+  <div class="ab" style="left:0;right:0;top:560px;text-align:center;display:flex;flex-direction:column;gap:46px">
+    <div id="o1"><span class="i" style="font-size:96px">Music,</span>&nbsp;<span class="b" style="font-size:110px">loud.</span></div>
+    <div id="o2"><span class="i" style="font-size:96px">Tequila,</span>&nbsp;<span class="b y" style="font-size:110px">neat.</span></div>
+    <div id="o3"><div class="i" style="font-size:96px">Dance like</div><div class="b y" style="font-size:82px">nobody's recording.</div></div>
+  </div>
+  <div class="ab mono" style="left:0;right:0;top:1320px;text-align:center;font-size:26px;letter-spacing:.2em">LOOMLOCK × DON JULIO</div>
 </div>
 <div class="ab" id="pk" style="inset:0;background:var(--bg);opacity:0">
-  <div class="ab" style="left:0;right:0;top:700px;text-align:center"><div class="i" style="font-size:110px">Your phone stays</div><div class="b" style="font-size:150px;font-weight:900;line-height:1.05">in your pocket.</div>
-  <div style="margin-top:40px;font-size:52px"><span class="i">The apps take</span> <span class="b y">the night off.</span></div></div>
+  <div class="ab" style="left:0;right:0;top:640px;text-align:center"><div class="i" style="font-size:150px">Feed,</div><div class="b y" style="font-size:300px;font-weight:900;line-height:1">off.</div>
+  <div style="margin-top:50px;font-size:44px"><span class="b">Your phone stays</span> <span class="i">in your pocket.</span></div>
+  <div style="font-size:44px"><span class="i">The apps take</span> <span class="b y">the night off.</span></div></div>
 </div>'''
-    body += P.endcard("end", big=("You're", "invited."))
-    body += P.corners() + P.legal()
+    body += (P.endcard("end", big=("Channel 2", "Invite only."))
+             .replace('<span class="b y">Invite only.</span>', '<span class="i">Live now,</span> <span class="b y">post later.</span>')
+             .replace('<span class="i">· Bogotá · 18+</span>', '<span class="i">· Bogotá</span>')
+             .replace("CH 02 BOGOTÁ &nbsp;→&nbsp; CH 03", "CHANNEL 2 BOGOTÁ &nbsp;→&nbsp; CHANNEL 3"))
+    body += P.corners().replace("CH 02<br>", "CHANNEL 2<br>") + P.legal()
     body += (f'<audio id="music" src="assets/garage_long.wav" data-start="0" data-duration="{DUR}" data-media-start="0" data-volume="1" '
              f'data-automation=\'{{"version":1,"lanes":[{{"target":"volume","points":[{{"t":0,"v":0}},{{"t":0.15,"v":0.95}},{{"t":{DUR-1:.2f},"v":1}},{{"t":{DUR},"v":0}}]}}]}}\'></audio>')
     body += '<div class="ab" id="fl" style="inset:0;background:#fff;opacity:0;z-index:55"></div>'
@@ -48,7 +56,7 @@ def build():
         js += f'tl.set("#fl",{{opacity:.25}},{t:.2f});tl.set("#fl",{{opacity:0}},{t + 1/15:.3f});'
         t += B
     js += 'tl.set("#fl",{opacity:.95},7.2);tl.to("#fl",{opacity:0,duration:.25},7.22);tl.set("#ch02",{opacity:1},7.2);'
-    js += 'tl.fromTo("#o1",{opacity:0,y:30},{opacity:1,y:0,duration:.3},7.4);tl.fromTo("#o2",{opacity:0,scale:1.3},{opacity:1,scale:1,duration:.3,ease:"expo.out"},7.88);'
+    js += 'tl.fromTo("#o1",{opacity:0,y:30},{opacity:1,y:0,duration:.3},7.3);tl.fromTo("#o2",{opacity:0,y:30},{opacity:1,y:0,duration:.3},8.02);tl.fromTo("#o3",{opacity:0,scale:1.2},{opacity:1,scale:1,duration:.3,ease:"expo.out"},8.74);'
     js += 'tl.set("#ch02",{opacity:0},9.6);tl.set("#pk",{opacity:1},9.6);tl.fromTo("#pk > div",{y:40,opacity:0},{y:0,opacity:1,duration:.35,ease:"power3.out"},9.62);'
     js += 'tl.set("#pk",{opacity:0},12.0);'
     js += P.endjs("end", 12.0)
