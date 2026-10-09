@@ -116,6 +116,24 @@ def caption_png_clean(W, H, text, y, size=60):
         x = (W - d.textlength(l, font=f)) / 2; d.text((x, y + i * lh), l, font=f, fill=(255, 255, 255))
     return im
 
+def headline_box_png(W, H, text, y, size=72, fg=CREAM, bg=GREEN, track=0.02, padx=26, pady=12, radius=18, gap=8):
+    """Native-style hook title: one rounded box per line (TikTok/IG text-background look)."""
+    f = font("Manrope800", size); lines = text.upper().split("\n"); sp = size * track
+    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    def width(l): return sum(probe.textlength(c, font=f) for c in l) + sp * (len(l) - 1)
+    asc, desc = f.getmetrics(); cap = f.getbbox("H")[3] - f.getbbox("H")[1]; bh = cap + 2 * pady + 14
+    im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); sh = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im); sd = ImageDraw.Draw(sh); yy = y
+    for l in lines:
+        w = width(l); x0 = (W - w) / 2 - padx; x1 = (W + w) / 2 + padx
+        sd.rounded_rectangle((x0, yy + 6, x1, yy + bh + 6), radius, fill=(0, 0, 0, 90))
+        d.rounded_rectangle((x0, yy, x1, yy + bh), radius, fill=bg + (255,))
+        x = (W - w) / 2; ty = yy + (bh - cap) / 2 - f.getbbox("H")[1]
+        for c in l: d.text((x, ty), c, font=f, fill=fg); x += probe.textlength(c, font=f) + sp
+        yy += bh + gap
+    sh = sh.filter(ImageFilter.GaussianBlur(10)); sh.alpha_composite(im)
+    return sh
+
 def headline_png(W, H, text, y, size=96, track=0.04, color=(255, 255, 255)):
     """Opening headline: Manrope ExtraBold, uppercase, tracked, with the clean-caption shadow."""
     f = font("Manrope800", size); lines = text.upper().split("\n"); lh = int(size * 1.12); sp = size * track
@@ -395,7 +413,10 @@ def main(spec_path):
             anim = o.get("anim", "zoom")
             if auto_sfx and o.get("sfx", True): sfx.append({"name": o.get("sfx_name", "pop"), "start": o["start"], "vol": 0.55})
         elif o["type"] == "headline":
-            im = headline_png(W, H, o["text"], o.get("y", 300), o.get("size", 96))
+            if o.get("box"):
+                im = headline_box_png(W, H, o["text"], o.get("y", 300), o.get("size", 72), fg=tuple(o.get("fg", CREAM)), bg=tuple(o.get("bg", GREEN)))
+            else:
+                im = headline_png(W, H, o["text"], o.get("y", 300), o.get("size", 96))
             anim = o.get("anim", "rise")
         elif o["type"] == "png":
             im = Image.open(o["path"]).convert("RGBA"); anim = o.get("anim", "pop")

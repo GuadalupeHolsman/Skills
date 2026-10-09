@@ -219,11 +219,13 @@
  "overlays": [
   {
    "type": "headline",
-   "text": "A real day\nbetween meetings",
+   "text": "What I eat\nbetween meetings",
+   "box": true,
    "start": 0.0,
-   "end": 6.35,
-   "y": 240,
-   "size": 84
+   "end": 3.45,
+   "y": 300,
+   "size": 74,
+   "anim": "pop"
   },
   {
    "type": "caption",
