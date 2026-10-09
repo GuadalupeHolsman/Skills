@@ -23,50 +23,54 @@
  ],
  "audio": [
   {
-   "src": "sumar/sts_4238.mp3",
+   "src": "sumar/x_4238.mp3",
    "in": 1.25,
    "start": 0,
    "dur": 6.35,
-   "eq": "voice"
+   "eq": "voice_bright"
   },
   {
-   "src": "sumar/vo_sts.mp3",
+   "src": "sumar/vo_x.mp3",
    "in": 0.55,
    "start": 6.55,
-   "dur": 7.55,
-   "eq": "voice",
+   "dur": 7.123,
+   "speed": 1.06,
+   "eq": "voice_bright",
    "vol": 1.0
   },
   {
-   "src": "sumar/vo_sts.mp3",
+   "src": "sumar/vo_x.mp3",
    "in": 9.6,
-   "start": 14.299999999999999,
-   "dur": 5.6,
-   "eq": "voice",
+   "start": 13.872641509433961,
+   "dur": 5.283,
+   "speed": 1.06,
+   "eq": "voice_bright",
    "vol": 1.0
   },
   {
-   "src": "sumar/vo_sts.mp3",
+   "src": "sumar/vo_x.mp3",
    "in": 17.55,
-   "start": 20.099999999999998,
-   "dur": 4.449999999999999,
-   "eq": "voice",
+   "start": 19.35566037735849,
+   "dur": 4.198,
+   "speed": 1.06,
+   "eq": "voice_bright",
    "vol": 1.0
   },
   {
-   "src": "sumar/vo_sts.mp3",
+   "src": "sumar/vo_x.mp3",
    "in": 25.25,
-   "start": 24.749999999999996,
-   "dur": 9.0,
-   "eq": "voice",
+   "start": 23.75377358490566,
+   "dur": 8.491,
+   "speed": 1.06,
+   "eq": "voice_bright",
    "vol": 1.0
   },
   {
-   "src": "sumar/sts_4242.mp3",
+   "src": "sumar/x_4242.mp3",
    "in": 0.75,
-   "start": 33.95,
+   "start": 32.444,
    "dur": 10.15,
-   "eq": "voice",
+   "eq": "voice_bright",
    "fade_out": 0.4
   }
  ],
@@ -85,7 +89,7 @@
   {
    "src": "sumar/IMG_3892.MOV",
    "in": 0.0,
-   "dur": 2.89,
+   "dur": 2.738,
    "speed": 1.0,
    "zoom": [
     1.0,
@@ -108,7 +112,7 @@
   {
    "src": "sumar/IMG_3892.MOV",
    "in": 1.9,
-   "dur": 0.39,
+   "dur": 0.342,
    "zoom": [
     1.8,
     1.8
@@ -121,7 +125,7 @@
   {
    "src": "sumar/IMG_3892.MOV",
    "in": 2.3,
-   "dur": 0.98,
+   "dur": 0.925,
    "zoom": [
     1.9,
     1.9
@@ -134,7 +138,7 @@
   {
    "src": "sumar/IMG_3892.MOV",
    "in": 0.6,
-   "dur": 3.04,
+   "dur": 2.868,
    "speed": 1.0,
    "zoom": [
     1.12,
@@ -156,7 +160,7 @@
   },
   {
    "image": "sumar/IMG_3909_p.jpg",
-   "dur": 3.2,
+   "dur": 2.883,
    "zoom": [
     1.0,
     1.04
@@ -174,7 +178,7 @@
   {
    "src": "sumar/IMG_3913.MOV",
    "in": 0.3,
-   "dur": 2.65,
+   "dur": 2.398,
    "zoom": [
     1.0,
     1.0
@@ -200,7 +204,7 @@
   },
   {
    "image": "sumar/IMG_3923_p.jpg",
-   "dur": 2.2,
+   "dur": 1.691,
    "zoom": [
     1.0,
     1.04
@@ -247,206 +251,206 @@
   {
    "type": "caption",
    "text": "Breakfast at my desk",
-   "start": 6.61,
-   "end": 7.78
+   "start": 6.604,
+   "end": 7.709
   },
   {
    "type": "caption",
    "text": "before the first call.",
-   "start": 7.75,
-   "end": 9.22
+   "start": 7.679,
+   "end": 9.068
   },
   {
    "type": "caption",
    "text": "Egg, fruit,",
-   "start": 9.19,
-   "end": 10.06
+   "start": 9.038,
+   "end": 9.86
   },
   {
    "type": "caption",
    "text": "and my coffee.",
-   "start": 10.03,
-   "end": 11.04
+   "start": 9.83,
+   "end": 10.785
   },
   {
    "type": "caption",
    "text": "Not fancy,",
-   "start": 11.01,
-   "end": 11.8
+   "start": 10.755,
+   "end": 11.502
   },
   {
    "type": "caption",
    "text": "just something",
-   "start": 11.77,
-   "end": 12.58
+   "start": 11.472,
+   "end": 12.238
   },
   {
    "type": "caption",
    "text": "that keeps me going.",
-   "start": 12.55,
-   "end": 14.42
+   "start": 12.208,
+   "end": 13.985
   },
   {
    "type": "caption",
    "text": "Lunch is takeout.",
-   "start": 14.39,
-   "end": 15.92
+   "start": 13.955,
+   "end": 15.4
   },
   {
    "type": "caption",
    "text": "I pick what I'm craving",
-   "start": 15.89,
-   "end": 17.16
+   "start": 15.37,
+   "end": 16.57
   },
   {
    "type": "caption",
    "text": "and there's a chance",
-   "start": 17.13,
-   "end": 18.06
+   "start": 16.54,
+   "end": 17.419
   },
   {
    "type": "caption",
    "text": "to add more greens,",
-   "start": 18.03,
-   "end": 19.08
+   "start": 17.389,
+   "end": 18.381
   },
   {
    "type": "caption",
    "text": "I take it.",
-   "start": 19.05,
-   "end": 20.23
+   "start": 18.351,
+   "end": 19.477
   },
   {
    "type": "caption",
    "text": "Afternoon snack",
-   "start": 20.2,
-   "end": 21.09
+   "start": 19.447,
+   "end": 20.288
   },
   {
    "type": "caption",
    "text": "between meetings.",
-   "start": 21.06,
-   "end": 22.35
+   "start": 20.258,
+   "end": 21.477
   },
   {
    "type": "caption",
    "text": "Literally a ziploc",
-   "start": 22.32,
-   "end": 23.69
+   "start": 21.447,
+   "end": 22.741
   },
   {
    "type": "caption",
    "text": "on my desk.",
-   "start": 23.66,
-   "end": 24.38
+   "start": 22.711,
+   "end": 23.404
   },
   {
    "type": "caption",
    "text": "And dinner?",
-   "start": 24.35,
-   "end": 26.06
+   "start": 23.374,
+   "end": 24.988
   },
   {
    "type": "caption",
    "text": "Chick-fil-A.",
-   "start": 26.03,
-   "end": 27.06
+   "start": 24.958,
+   "end": 25.932
   },
   {
    "type": "caption",
    "text": "Yes, a Chick-fil-A",
-   "start": 27.03,
-   "end": 28.5
+   "start": 25.902,
+   "end": 27.29
   },
   {
    "type": "caption",
    "text": "sandwich.",
-   "start": 28.47,
-   "end": 29.5
+   "start": 27.26,
+   "end": 28.234
   },
   {
    "type": "caption",
    "text": "I just added",
-   "start": 29.47,
-   "end": 30.18
+   "start": 28.204,
+   "end": 28.875
   },
   {
    "type": "caption",
    "text": "a side of kale salad.",
-   "start": 30.15,
-   "end": 31.82
+   "start": 28.845,
+   "end": 30.422
   },
   {
    "type": "caption",
    "text": "That is the",
-   "start": 31.79,
-   "end": 32.86
+   "start": 30.392,
+   "end": 31.404
   },
   {
    "type": "caption",
    "text": "whole trick.",
-   "start": 32.83,
-   "end": 33.86
+   "start": 31.374,
+   "end": 32.354
   },
   {
    "type": "caption",
    "text": "So,",
-   "start": 33.83,
-   "end": 34.66
+   "start": 32.324,
+   "end": 33.154
   },
   {
    "type": "caption",
    "text": "you don't need",
-   "start": 34.63,
-   "end": 35.1
+   "start": 33.124,
+   "end": 33.594
   },
   {
    "type": "caption",
    "text": "a perfect day.",
-   "start": 35.07,
-   "end": 36.06
+   "start": 33.564,
+   "end": 34.554
   },
   {
    "type": "caption",
    "text": "Next time you eat",
-   "start": 36.03,
-   "end": 37.02
+   "start": 34.524,
+   "end": 35.514
   },
   {
    "type": "caption",
    "text": "something that you love,",
-   "start": 36.99,
-   "end": 38.4
+   "start": 35.484,
+   "end": 36.894
   },
   {
    "type": "caption",
    "text": "just add",
-   "start": 38.37,
-   "end": 38.74
+   "start": 36.864,
+   "end": 37.234
   },
   {
    "type": "caption",
    "text": "one thing to it.",
-   "start": 38.71,
-   "end": 40.42
+   "start": 37.204,
+   "end": 38.914
   },
   {
    "type": "caption",
    "text": "Send this to a friend",
-   "start": 40.39,
-   "end": 41.42
+   "start": 38.884,
+   "end": 39.914
   },
   {
    "type": "caption",
    "text": "who thinks eating well",
-   "start": 41.39,
-   "end": 42.62
+   "start": 39.884,
+   "end": 41.114
   },
   {
    "type": "caption",
    "text": "means salads only.",
-   "start": 42.59,
-   "end": 44.22
+   "start": 41.084,
+   "end": 42.714
   }
  ]
 }

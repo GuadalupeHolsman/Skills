@@ -451,6 +451,8 @@ def main(spec_path):
         chain = f"[{idx}:a:0]atrim=start={a['in']:.3f}:duration={a['dur'] * spd:.3f},asetpts=PTS-STARTPTS"
         if spd != 1.0: chain += f",atempo={spd}"
         if a.get("eq") == "voice": chain += ",highpass=f=90,acompressor=threshold=-20dB:ratio=3:attack=5:release=120:makeup=3"
+        if a.get("eq") == "voice_bright":  # same as voice + presence/air lift for a livelier read
+            chain += ",highpass=f=90,equalizer=f=220:t=q:w=1:g=-1.5,equalizer=f=3200:t=q:w=1.2:g=2.5,highshelf=f=8000:g=2,acompressor=threshold=-20dB:ratio=3:attack=5:release=120:makeup=3"
         fi, fo = a.get("fade_in", 0.04), a.get("fade_out", 0.06)
         chain += f",afade=t=in:d={fi},afade=t=out:st={max(0, a['dur'] - fo):.3f}:d={fo},volume={a.get('vol', 1.0)}"
         chain += f",aformat=channel_layouts=stereo:sample_rates=48000,adelay={int(a['start'] * 1000)}:all=1[a{m}]"
