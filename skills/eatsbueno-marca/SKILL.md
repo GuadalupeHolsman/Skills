@@ -16,12 +16,14 @@ description: Voz, tono y estilo visual de EatsBueno y su podcast JustBueno. Usal
 
 | Quién | Dónde | Rol |
 | --- | --- | --- |
-| Angie | Houston, EE. UU. (colombiana) | Líder: aprueba cada reel |
+| Angie | Houston, EE. UU. (colombiana) | Líder y cara de los reels individuales |
 | Lupe | Argentina | Social media: manda consignas, edita y publica |
 | Ana | Mendoza, Argentina | Graba |
 | Germán | Ecuador | Graba |
 | Isa | Barranquilla, Colombia | Graba |
 | Juanca | Colombia | Graba |
+
+Los reels individuales los graba Angie, salvo que el reel sea de un país en particular (ej. merienda argentina): ahí lo graba alguien de ese país. Los reels en grupo los graban todos.
 
 4 países: en los reels en grupo, el gancho puede ser "Mismo [momento], 4 países". En octubre, Argentina está 2 horas adelantada respecto del resto: las consignas usan hora local.
 
