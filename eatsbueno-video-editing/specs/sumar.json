@@ -218,39 +218,12 @@
  ],
  "overlays": [
   {
-   "type": "label",
-   "kicker": "Add, don't restrict",
+   "type": "headline",
+   "text": "Add,\nDon’t restrict",
    "start": 0.0,
    "end": 6.35,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Breakfast",
-   "start": 6.35,
-   "end": 14.3,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Lunch",
-   "start": 14.1,
-   "end": 20.1,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Snack",
-   "start": 19.9,
-   "end": 24.75,
-   "y": 200
-  },
-  {
-   "type": "label",
-   "kicker": "Dinner",
-   "start": 24.55,
-   "end": 33.95,
-   "y": 200
+   "y": 230,
+   "size": 104
   },
   {
    "type": "caption",

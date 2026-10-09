@@ -116,6 +116,23 @@ def caption_png_clean(W, H, text, y, size=60):
         x = (W - d.textlength(l, font=f)) / 2; d.text((x, y + i * lh), l, font=f, fill=(255, 255, 255))
     return im
 
+def headline_png(W, H, text, y, size=96, track=0.04, color=(255, 255, 255)):
+    """Opening headline: Manrope ExtraBold, uppercase, tracked, with the clean-caption shadow."""
+    f = font("Manrope800", size); lines = text.upper().split("\n"); lh = int(size * 1.12); sp = size * track
+    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    def width(l): return sum(probe.textlength(c, font=f) for c in l) + sp * (len(l) - 1)
+    def draw(dr, dy, fill, grow=0):
+        for i, l in enumerate(lines):
+            x = (W - width(l)) / 2
+            for c in l:
+                dr.text((x, y + i * lh + dy), c, font=f, fill=fill, stroke_width=grow, stroke_fill=fill); x += probe.textlength(c, font=f) + sp
+    im = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    for blur, alpha, off, grow, k in ((16, 255, 3, 8, 0.6), (3, 200, 3, 0, 1.0)):
+        sh = Image.new("RGBA", (W, H), (0, 0, 0, 0)); draw(ImageDraw.Draw(sh), off, (0, 0, 0, alpha), grow)
+        sh = sh.filter(ImageFilter.GaussianBlur(blur)); sh.putalpha(sh.getchannel("A").point(lambda v: int(v * k))); im.alpha_composite(sh)
+    draw(ImageDraw.Draw(im), 0, color + (255,))
+    return im
+
 def caption_png(W, H, text, y, size=66, keywords=()):
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     f = font("Manrope800", size); d = ImageDraw.Draw(im)
@@ -377,6 +394,9 @@ def main(spec_path):
             im = label_png(W, H, o.get("kicker"), o.get("title"), o.get("y", 300), title_size=o.get("size", 96), kicker_bg=tuple(spec.get("chip_color", CHIP)))
             anim = o.get("anim", "zoom")
             if auto_sfx and o.get("sfx", True): sfx.append({"name": o.get("sfx_name", "pop"), "start": o["start"], "vol": 0.55})
+        elif o["type"] == "headline":
+            im = headline_png(W, H, o["text"], o.get("y", 300), o.get("size", 96))
+            anim = o.get("anim", "rise")
         elif o["type"] == "png":
             im = Image.open(o["path"]).convert("RGBA"); anim = o.get("anim", "pop")
         im, (x, y) = crop_png(im); p = os.path.join(work, f"ov{j:03d}.png"); im.save(p)
