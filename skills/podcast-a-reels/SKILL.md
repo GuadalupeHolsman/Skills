@@ -34,7 +34,7 @@ Descartar fragmentos que suenen a consejo médico o que puedan leerse como juici
 
 ## Edición
 
-- Recorte vertical 9:16 del plano doble de la Osmo Pocket 3: seguir a quien habla.
+- Recorte vertical 9:16 del video del episodio: seguir a quien habla. Si se grabó a distancia, usar pantalla dividida arriba/abajo.
 - Subtítulos grandes (DM Sans negrita, crema sobre bordó o con borde), palabra a palabra si se puede.
 - Sin intro. Logo pequeño solo al final.
 - El clip principal se publica el martes junto con el episodio.

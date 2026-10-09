@@ -11,7 +11,7 @@ Antes de empezar, cargá la skill `eatsbueno-marca`.
 
 1. Período (ej. 4 semanas desde una fecha).
 2. Episodios nuevos de JustBueno en ese período y sus temas.
-3. Quiénes del equipo graban y si alguno no quiere salir en cámara.
+3. Quiénes del equipo graban, en qué ciudad está cada uno y si alguno no quiere salir en cámara.
 4. Fechas especiales (Día de la Madre, fiestas, lanzamientos de la app).
 
 ## Reglas de Instagram (verificar en la app, cambian seguido)
@@ -27,15 +27,17 @@ Antes de empezar, cargá la skill `eatsbueno-marca`.
 ## Cómo armar el banco
 
 - 12–16 ideas, al menos 3 por pilar.
-- Mezcla de formatos: clip del podcast, calle/preguntas, POV sin hablar, receta/ASMR, sketch, detrás de escena, texto en pantalla, mito o no.
-- Una idea fija por semana: "El mejor minuto del episodio" (sale el martes con el episodio).
-- Todo tiene que poder grabarse con el kit del podcast: DJI Osmo Pocket 3, Samson Q2U, Zoom H5, panel LED.
+- **El equipo está en ciudades distintas**: cada idea tiene que poder grabarla una sola persona, con su celular, sin ayuda. Nada de sketches grupales ni rodajes en el mismo lugar.
+- Formatos que funcionan a distancia: receta paso a paso, "lo que como en un día en [ciudad]", el plato típico de mi ciudad, la receta de mi abuela, POV sin hablar, antes/después con sobras, súper o feria del barrio, a cámara (mito o no, frases), responder comentarios.
+- Aprovechar las ciudades distintas: series que rotan de ciudad cada semana y reels colaborativos donde cada uno manda 5 s del mismo momento (ej. su desayuno) y una persona los une.
+- Ideas fijas por semana: "El mejor minuto del episodio" (martes, lo arma quien edita) y una serie con otra ciudad cada semana.
+- Una sola persona edita todo: los demás mandan el material crudo.
 - Marcar 5 ideas como prioritarias (★) y escribir su guion con la skill `guion-reel`.
 
 ## Salida
 
-Tabla con columnas: `# | Idea | Pilar | Gancho (primeros 3 s) | Formato | Duración | Quien graba` (dejar "Quien graba" vacía para que el equipo la complete).
+Tabla con columnas: `# | Idea | Pilar | Gancho (primeros 3 s) | Formato | Duración | Quien graba (ciudad)` (dejar la última columna vacía para que el equipo la complete).
 
-Después, un calendario: filas = semanas, columnas = días de publicación (martes = clip del episodio + 3 días más). Cerrar con 1–2 ideas de reserva.
+Después, un calendario: filas = semanas, columnas = días de publicación (martes = clip del episodio + 3 días más). Indicar el plazo para mandar el material crudo y cerrar con las ideas de reserva.
 
 Si el pedido es para compartir con el equipo, entregarlo como documento compartible, no solo en el chat.

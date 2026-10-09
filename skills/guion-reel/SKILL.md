@@ -1,6 +1,6 @@
 ---
 name: guion-reel
-description: Convierte una idea de reel de EatsBueno en un guion toma por toma para grabar con el celular o la Osmo Pocket 3, con texto en pantalla, caption y checklist de rodaje. Usala cuando pidan el guion, la lista de tomas o el "cómo lo grabamos" de un reel.
+description: Convierte una idea de reel de EatsBueno en un guion toma por toma que una persona puede grabar sola con su celular, con texto en pantalla, caption y checklist de rodaje. Usala cuando pidan el guion, la lista de tomas o el "cómo lo grabamos" de un reel.
 ---
 
 # Guion de reel
@@ -22,7 +22,9 @@ Notas de rodaje: <luz, audio, permisos, props>
 
 ## Reglas
 
+- El equipo está en ciudades distintas: el guion lo graba una sola persona, con su celular, sin nadie que sostenga la cámara.
 - Máximo 3–5 tomas para 15–45 s. Cada toma con rango de segundos.
+- Si hace falta hablar mientras se cocina, mejor voz en off grabada aparte.
 - El gancho funciona sin sonido (texto o imagen fuerte).
 - Texto en pantalla: máximo 7 palabras por placa, en la zona segura.
 - Pedir 2 tomas de cada plano y 3 versiones del gancho.
@@ -31,9 +33,10 @@ Notas de rodaje: <luz, audio, permisos, props>
 
 ## Checklist de rodaje (copiar al final)
 
-- [ ] Osmo Pocket 3 en vertical, 4K 30 fps
-- [ ] Audio: Samson Q2U (al Zoom H5 en entrevistas), cerca de la boca
-- [ ] Panel LED a 45°, luz cálida (3200–4000 K)
-- [ ] 5 s de plano limpio al principio y al final
-- [ ] 10 s de sonido ambiente
-- [ ] Archivos nombrados `R<número>_toma<n>.mp4`
+- [ ] Celular en vertical, 4K o 1080p a 30 fps, lente limpio
+- [ ] Luz de ventana de frente o de costado, nunca detrás
+- [ ] Celular apoyado (estante, vaso, trípode) para planos fijos y cenitales
+- [ ] Voz en off aparte, celular cerca de la boca, en un lugar callado
+- [ ] 2 s de plano quieto al principio y al final de cada toma
+- [ ] Material crudo a la carpeta compartida: `R<número>_<ciudad>_toma<n>.mp4`
+- [ ] Quien edita suma subtítulos y colores de marca
