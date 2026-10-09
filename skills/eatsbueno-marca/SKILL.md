@@ -12,6 +12,19 @@ description: Voz, tono y estilo visual de EatsBueno y su podcast JustBueno. Usal
 - Formato del podcast: dos voces fijas + un invitado, 30–40 minutos, audio y video. Nuevo episodio los martes.
 - Lema: "Conversaciones reales sobre bienestar, sin sermón."
 
+## Equipo que graba
+
+| Quién | Dónde | Rol |
+| --- | --- | --- |
+| Angie | Houston, EE. UU. (colombiana) | Líder: aprueba cada reel |
+| Lupe | Argentina | Social media: manda consignas, edita y publica |
+| Ana | Mendoza, Argentina | Graba |
+| Germán | Ecuador | Graba |
+| Isa | Barranquilla, Colombia | Graba |
+| Juanca | Colombia | Graba |
+
+4 países: en los reels en grupo, el gancho puede ser "Mismo [momento], 4 países". En octubre, Argentina está 2 horas adelantada respecto del resto: las consignas usan hora local.
+
 ## Reglas de voz
 
 - Sin dietas, sin reglas, sin culpa. Un paso chico a la vez.
