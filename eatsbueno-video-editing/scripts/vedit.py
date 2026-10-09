@@ -450,6 +450,7 @@ def main(spec_path):
         spd = a.get("speed", 1.0)
         chain = f"[{idx}:a:0]atrim=start={a['in']:.3f}:duration={a['dur'] * spd:.3f},asetpts=PTS-STARTPTS"
         if spd != 1.0: chain += f",atempo={spd}"
+        if a.get("pitch"): chain += f",rubberband=pitch={a['pitch']}:formant=preserved"
         if a.get("eq") == "voice": chain += ",highpass=f=90,acompressor=threshold=-20dB:ratio=3:attack=5:release=120:makeup=3"
         if a.get("eq") == "voice_bright":  # same as voice + presence/air lift for a livelier read
             chain += ",highpass=f=90,equalizer=f=220:t=q:w=1:g=-1.5,equalizer=f=3200:t=q:w=1.2:g=2.5,highshelf=f=8000:g=2,acompressor=threshold=-20dB:ratio=3:attack=5:release=120:makeup=3"
