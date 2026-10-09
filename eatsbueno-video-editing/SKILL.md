@@ -73,3 +73,7 @@ Titles use **Cooper BT** (Cooper Lt BT Bold / Italic). It is a commercial font, 
 ## Voiceovers (ElevenLabs)
 
 `scripts/tts_elevenlabs.py` generates voiceovers with the cloned **Angie** voice (`eleven_v4`, stability 0.5, similarity 0.75, speed 1.0). It reads the key from the `ELEVENLABS_API_KEY` environment variable. Never commit the key (this repo is public).
+
+## Color (HDR iPhone footage)
+
+iPhone clips are often HLG HDR (`color_transfer=arib-std-b67`). `vedit.py` tone-maps them to SDR BT.709 (zscale + hable), converts text overlays and photos with the BT.709 matrix, and tags every output as BT.709. Without this, the reel inherits the HDR flag and phones render brand orange as red.

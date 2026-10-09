@@ -49,6 +49,17 @@ def probe(src):
     has_audio = any(s["codec_type"] == "audio" for s in out["streams"])
     return w, h, float(out["format"].get("duration", 0) or 0), has_audio
 
+HDR_TRC = ("arib-std-b67", "smpte2084")
+SDR_TAGS = ["-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-color_range", "tv"]
+
+def hdr_prefix(src):
+    """iPhone HLG/PQ clips: tone-map to SDR BT.709 so the reel is not flagged HDR (which shifts brand colours)."""
+    out = json.loads(run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=color_transfer", "-of", "json", src]))
+    trc = (out.get("streams") or [{}])[0].get("color_transfer", "")
+    if trc not in HDR_TRC: return ""
+    return (f"zscale=tin={trc}:min=bt2020nc:pin=bt2020:rin=tv:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,"
+            "tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p,")
+
 # ---------------------------------------------------------------- text art
 def text_layer(W, H, items):
     """items: list of dicts {text, font, size, fill, stroke, stroke_fill, xy:(cx, y) center-x, shadow}"""
@@ -264,7 +275,7 @@ def seg_filter(sw, sh, W, H, dur, zoom, fps, grade, pan=None, shake=None):
     f = [f"fps={fps}", f"scale=w='{sw_e}':h='{sh_e}':eval=frame:flags=bicubic",
          f"crop={W}:{H}:'{cx}':'{cy}'", "setsar=1"]
     if grade: f.append(grade)
-    f.append("format=yuv420p")
+    f.append("scale=out_color_matrix=bt709:out_range=tv,format=yuv420p")
     return ",".join(f)
 
 GRADES = {
@@ -334,7 +345,7 @@ def main(spec_path):
             p = os.path.join(work, f"bg{i}.png"); gradient_bg(W, H, palette=c.get("palette", "orange")).convert("RGB").save(p)
             vf = seg_filter(W, H, W, H, rdur, c.get("zoom", [1.0, 1.04]), FPS, "", None)
             run_cached(["ffmpeg", "-y", "-v", "error", "-loop", "1", "-framerate", str(FPS), "-t", f"{rdur:.3f}", "-i", p,
-                 "-vf", vf, "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "17", "-r", str(FPS), out], out)
+                 "-vf", vf, "-an", *SDR_TAGS, "-c:v", "libx264", "-preset", "medium", "-crf", "17", "-r", str(FPS), out], out)
             if c.get("outro"):
                 logo = Image.open(os.path.join(BRAND, "logo_cream.png")).convert("RGBA")
                 lw = 560; logo = logo.resize((lw, int(lw * logo.size[1] / logo.size[0])), Image.LANCZOS)
@@ -362,7 +373,7 @@ def main(spec_path):
             im_ = Image.open(c["image"]); sw, sh = im_.size
             vf = seg_filter(sw, sh, W, H, rdur, c.get("zoom", [1.0, 1.06]), FPS, grade, c.get("pan"))
             run_cached(["ffmpeg", "-y", "-v", "error", "-loop", "1", "-framerate", str(FPS), "-t", f"{rdur:.3f}", "-i", c["image"],
-                 "-vf", vf, "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "17", "-r", str(FPS), out], out)
+                 "-vf", vf, "-an", *SDR_TAGS, "-c:v", "libx264", "-preset", "medium", "-crf", "17", "-r", str(FPS), out], out)
         else:
             sw, sh, sdur, has_a = probe(c["src"])
             spd = c.get("speed", 1.0)
@@ -370,8 +381,9 @@ def main(spec_path):
             cin = min(c["in"], max(0, sdur - need - 0.05)) if c["in"] + need > sdur else c["in"]
             vf = seg_filter(sw, sh, W, H, rdur, c.get("zoom", [1.0, 1.0]), FPS, grade, c.get("pan"), c.get("shake"))
             if spd != 1.0: vf = f"setpts=PTS/{spd}," + vf
+            vf = hdr_prefix(c["src"]) + vf
             run_cached(["ffmpeg", "-y", "-v", "error", "-ss", f"{cin:.3f}", "-t", f"{need:.3f}", "-i", c["src"],
-                 "-vf", vf + ",tpad=stop_mode=clone:stop_duration=2", "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "17",
+                 "-vf", vf + ",tpad=stop_mode=clone:stop_duration=2", "-an", *SDR_TAGS, "-c:v", "libx264", "-preset", "medium", "-crf", "17",
                  "-r", str(FPS), "-t", f"{rdur:.3f}", out], out)
             if c.get("audio") and has_a:
                 audio_parts.append({"src": c["src"], "in": cin, "start": t, "dur": dur, "vol": c.get("vol", 1.0), "speed": spd})
@@ -397,7 +409,7 @@ def main(spec_path):
                 fc.append(f"[{last}]trim=duration={starts[i]:.3f},setpts=PTS-STARTPTS[t{i}];[{i}:v]setpts=PTS-STARTPTS[s{i}];[t{i}][s{i}]concat=n=2:v=1:a=0[x{i}]")
             last = f"x{i}"
         run_cached(["ffmpeg", "-y", "-v", "error"] + inputs + ["-filter_complex", ";".join(fc), "-map", f"[{last}]",
-             "-c:v", "libx264", "-preset", "medium", "-crf", "16", "-r", str(FPS), "-t", f"{total:.3f}", vcat], vcat)
+             *SDR_TAGS, "-c:v", "libx264", "-preset", "medium", "-crf", "16", "-r", str(FPS), "-t", f"{total:.3f}", vcat], vcat)
     else:
         lst = os.path.join(work, "list.txt"); open(lst, "w").write("".join(f"file '{s}'\n" for s, _ in segs))
         run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", vcat])
@@ -440,7 +452,7 @@ def main(spec_path):
         inputs += ["-loop", "1", "-framerate", str(FPS), "-t", f"{total:.3f}", "-i", p]
         w, h = Image.open(p).size
         chain, xe, ye = anim_chain(k + 1, s, e, anim, w, h, x, y)
-        fc.append(chain + f"[o{k}]")
+        fc.append(chain + f",scale=out_color_matrix=bt709:out_range=tv,format=yuva420p[o{k}]")
         fc.append(f"[{last}][o{k}]overlay=x='{xe}':y='{ye}':eof_action=pass:enable='between(t,{max(0, s - 0.05):.3f},{e:.3f})'[v{k}]"); last = f"v{k}"
     n_in = 1 + len(ovs)
     # ---- audio: dialogue/VO parts, music/ambience, sfx
@@ -473,7 +485,7 @@ def main(spec_path):
     out = spec["out"]
     fcp = os.path.join(work, "fc.txt"); open(fcp, "w").write(";\n".join(fc))
     run(["ffmpeg", "-y", "-v", "error"] + inputs + ["-filter_complex_script", fcp, "-map", "[vout]", "-map", "[aout]",
-         "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-profile:v", "high", "-pix_fmt", "yuv420p",
+         *SDR_TAGS, "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-profile:v", "high", "-pix_fmt", "yuv420p",
          "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "-t", f"{total:.3f}", out])
     print("wrote", out, f"{total:.2f}s", f"{len(ovs)} overlays", f"{len(sfx)} sfx")
 
