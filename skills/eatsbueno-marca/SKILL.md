@@ -46,8 +46,14 @@ Los reels individuales los graba Angie, salvo que el reel sea de un país en par
 
 ## Estilo visual
 
-- Colores: bordó `#3B2027` (fondo), crema `#F2EDE3` (texto), naranja `#E8651A` (acento), durazno `#F2A66A` (secundario).
-- Tipografías: **Caprasimo** para títulos y portadas, **DM Sans** para subtítulos y textos, **Newsreader itálica** para citas.
+Fuente: Brandbook EatsBueno (Corporate Identity Manual).
+
+- Paleta oficial ("Chromatic Expression"): naranja `#E26023`, verde `#3B7668`, crema `#FAF0DF`, negro `#1E1E1E`, menta `#AFCFC4`, salvia clara `#EAECDE`, blanco cálido `#F9F4F2`. No usar colores fuera de la paleta.
+- Fondos característicos: degradados granulados naranja/durazno/rosa, verde profundo o crema, con el logo o el texto en crema.
+- Logo: "**Eats**" en negrita + "*Bueno*" en cursiva, tipografía **Cooper BT** (serif humanista de remates suaves). Versiones: vertical (isotipo arriba), horizontal (isotipo a la izquierda), solo isotipo, sello circular.
+- Isotipo: flor/sol de 8 pétalos en forma de gota que giran alrededor de un centro, cada uno con un punto adentro. Los "puntos" sueltos se pueden usar como patrón decorativo.
+- No se permite: deformar el logo, cambiar sus colores, agregarle sombras, degradados o contornos, rotarlo, o no respetar el margen de seguridad.
+- Textos de apoyo: serif de lectura para frases (tono editorial) y sans geométrica limpia (tipo Manrope) para cuerpo y subtítulos.
 - Luz cálida y natural; comida real, sin estilismo perfecto.
 
 ## Checklist antes de entregar

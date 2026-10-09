@@ -20,7 +20,7 @@ Antes de empezar, cargá la skill `eatsbueno-marca`.
 - 15–45 s para alcance; hasta 90 s para clips de podcast.
 - Gancho en los primeros 1–3 s: frase, imagen o sonido fuerte. Sin intro ni logo al inicio.
 - Subtítulos siempre. Texto fuera de la zona de botones (abajo ~25%, arriba ~12%, lateral derecho).
-- Portada pensada para la grilla del perfil (3:4): título centrado en Caprasimo.
+- Portada pensada para la grilla del perfil (3:4): título centrado en la serif de marca (Cooper), sobre crema, naranja o verde de la paleta.
 - Caption: primera línea = gancho, 3–5 hashtags específicos, llamada a escuchar el episodio.
 - Usar "Reels de prueba" para testear dos ganchos del mismo video.
 
