@@ -24,6 +24,19 @@ Antes de empezar, cargá la skill `eatsbueno-marca`.
 - Caption: primera línea = gancho, 3–5 hashtags específicos, llamada a escuchar el episodio.
 - Usar "Reels de prueba" para testear dos ganchos del mismo video.
 
+## Formato preferido: "Mismo momento, distintas ciudades"
+
+Es el formato que eligió el equipo. Usalo por defecto para todo el banco:
+
+- Cada persona graba lo mismo (su desayuno, su heladera, el plato de su ciudad, una frase a cámara), en su ciudad, en 5–7 s.
+- Todos con el mismo plano (cenital, frontal o selfie), vertical, con luz de ventana y en la misma franja horaria.
+- Quien edita une los clips: 1,5–3 s por ciudad, el nombre de la ciudad en pantalla, 15–25 s en total.
+- Gancho: "Mismo [momento], [n] ciudades". Cierre: una frase de marca + "¿Y en tu ciudad?".
+- Cada idea se escribe como **consigna para el grupo**: qué graba cada uno, el plano y el texto final.
+- Mínimo 3 ciudades para publicar.
+
+Proponer otros formatos solo si lo piden.
+
 ## Cómo armar el banco
 
 - 12–16 ideas, al menos 3 por pilar.

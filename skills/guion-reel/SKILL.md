@@ -7,7 +7,16 @@ description: Convierte una idea de reel de EatsBueno en un guion toma por toma q
 
 Antes de empezar, cargá la skill `eatsbueno-marca`.
 
-## Formato del guion
+## Formato por defecto: "Mismo momento, distintas ciudades"
+
+Para este formato el guion tiene dos partes:
+
+1. **Consigna para el grupo** (lista para pegar en el chat): qué grabar, plano, duración (7 s, 2 tomas), día y franja horaria, cómo nombrar el archivo (`R<número>_<ciudad>.mp4`).
+2. **Guía para quien edita**: orden de las ciudades (la más linda primero), texto del gancho, 1,5–3 s por ciudad, nombre de la ciudad abajo a la izquierda, texto final y caption.
+
+Para otros formatos, usá la plantilla de abajo.
+
+## Formato del guion (otros formatos)
 
 ```
 ### <número>. <título> (<duración> s)
