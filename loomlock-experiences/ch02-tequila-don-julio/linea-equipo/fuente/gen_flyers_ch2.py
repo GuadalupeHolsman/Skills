@@ -49,11 +49,11 @@ def tv():
     SC.shot("flyer-ch2-tv-post", 1080, 1350, fix(SC.page(1080, 1350, ("loomlock", "b", 66), ("× Don Julio", "i", 58), inv(880, 820), "", (100, 330, 880, 820), foot)))
 
 # 3 · redacted
-TXT = ("Dear guest, this is not another post for your feed. Channel 2. Thursday, 29 October. Bogotá. "
+TXT = ("Dear guest, this is not another post for your feed. Channel 2. Thursday, 29 October, 8 pm. Bogotá, Resto Bar Bikinis. "
        "Bring your phone, it stays in your pocket. At the door you tap the key and the apps go quiet until you leave. "
        "Tequila Don Julio, music loud, people in front of you. Invite only. Eighteen and over. "
        "Nothing gets posted tonight. Live now, post later.")
-KEEP = ["Channel", "2.", "Thursday,", "29", "October.", "Bogotá.", "Invite", "only.", "Live", "now,", "post", "later."]
+KEEP = ["Channel", "2.", "Thursday,", "29", "October,", "8", "pm.", "Bogotá,", "Resto", "Bar", "Bikinis.", "Invite", "only.", "Live", "now,", "post", "later."]
 
 def para():
     out = ""
@@ -75,6 +75,5 @@ def red(name, W, H, top, fs, foot_top):
     S.shot(name, S.page(html, "#E7E5E0", W, H), W, H)
 
 if __name__ == "__main__":
-    big2(); tv()
     red("flyer-ch2-red-story", 1080, 1920, 230, 62, 1600)
     red("flyer-ch2-red-post", 1080, 1350, 160, 44, 1110)
