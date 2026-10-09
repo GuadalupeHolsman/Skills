@@ -219,36 +219,23 @@
  "overlays": [
   {
    "type": "headline",
-   "text": "What I eat\nbetween meetings",
-   "box": true,
+   "text": "What I eat\nbetween\n*meetings*",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
    "start": 0.0,
-   "end": 3.45,
-   "y": 300,
-   "size": 74,
+   "end": 3.4,
+   "y": 960,
+   "size": 150,
    "anim": "pop"
   },
   {
    "type": "caption",
-   "text": "A real day",
-   "start": 0.15,
-   "end": 0.95
-  },
-  {
-   "type": "caption",
-   "text": "between meetings,",
-   "start": 0.92,
-   "end": 2.09
-  },
-  {
-   "type": "caption",
-   "text": "takeout included,",
-   "start": 2.06,
-   "end": 3.37
-  },
-  {
-   "type": "caption",
    "text": "not perfect meals,",
-   "start": 3.34,
+   "start": 3.4,
    "end": 4.87
   },
   {

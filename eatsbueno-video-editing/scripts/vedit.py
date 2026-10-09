@@ -134,21 +134,32 @@ def headline_box_png(W, H, text, y, size=72, fg=CREAM, bg=GREEN, track=0.02, pad
     sh = sh.filter(ImageFilter.GaussianBlur(10)); sh.alpha_composite(im)
     return sh
 
-def headline_png(W, H, text, y, size=96, track=0.04, color=(255, 255, 255)):
-    """Opening headline: Manrope ExtraBold, uppercase, tracked, with the clean-caption shadow."""
-    f = font("Manrope800", size); lines = text.upper().split("\n"); lh = int(size * 1.12); sp = size * track
+def headline_png(W, H, text, y, size=96, track=0.04, color=(255, 255, 255), accent=None, center=False):
+    """Hook headline: Manrope ExtraBold, uppercase, tracked, shadow only. *word* is drawn in the accent colour.
+    center=True centres the whole block vertically on y."""
+    f = font("Manrope800", size); lh = int(size * 1.08); sp = size * track
+    acc = tuple(accent) if accent else CHIP
+    lines = []
+    for raw in text.upper().split("\n"):
+        runs = []
+        for k, part in enumerate(raw.split("*")):
+            if part: runs.append((part, k % 2 == 1))
+        lines.append(runs)
     probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
-    def width(l): return sum(probe.textlength(c, font=f) for c in l) + sp * (len(l) - 1)
-    def draw(dr, dy, fill, grow=0):
-        for i, l in enumerate(lines):
-            x = (W - width(l)) / 2
-            for c in l:
-                dr.text((x, y + i * lh + dy), c, font=f, fill=fill, stroke_width=grow, stroke_fill=fill); x += probe.textlength(c, font=f) + sp
+    def width(runs): l = "".join(t for t, _ in runs); return sum(probe.textlength(c, font=f) for c in l) + sp * (len(l) - 1)
+    if center: y = y - (lh * len(lines)) / 2
+    def draw(dr, dy, fill=None, grow=0):
+        for i, runs in enumerate(lines):
+            x = (W - width(runs)) / 2
+            for t, hi in runs:
+                col = fill or ((acc if hi else color) + (255,))
+                for c in t:
+                    dr.text((x, y + i * lh + dy), c, font=f, fill=col, stroke_width=grow, stroke_fill=col); x += probe.textlength(c, font=f) + sp
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    for blur, alpha, off, grow, k in ((16, 255, 3, 8, 0.6), (3, 200, 3, 0, 1.0)):
+    for blur, alpha, off, grow, k in ((18, 255, 4, 10, 0.55), (3, 190, 3, 0, 1.0)):
         sh = Image.new("RGBA", (W, H), (0, 0, 0, 0)); draw(ImageDraw.Draw(sh), off, (0, 0, 0, alpha), grow)
         sh = sh.filter(ImageFilter.GaussianBlur(blur)); sh.putalpha(sh.getchannel("A").point(lambda v: int(v * k))); im.alpha_composite(sh)
-    draw(ImageDraw.Draw(im), 0, color + (255,))
+    draw(ImageDraw.Draw(im), 0)
     return im
 
 def caption_png(W, H, text, y, size=66, keywords=()):
@@ -416,7 +427,7 @@ def main(spec_path):
             if o.get("box"):
                 im = headline_box_png(W, H, o["text"], o.get("y", 300), o.get("size", 72), fg=tuple(o.get("fg", CREAM)), bg=tuple(o.get("bg", GREEN)))
             else:
-                im = headline_png(W, H, o["text"], o.get("y", 300), o.get("size", 96))
+                im = headline_png(W, H, o["text"], o.get("y", 300), o.get("size", 96), accent=o.get("accent") or spec.get("chip_color"), center=o.get("center", False))
             anim = o.get("anim", "rise")
         elif o["type"] == "png":
             im = Image.open(o["path"]).convert("RGBA"); anim = o.get("anim", "pop")
