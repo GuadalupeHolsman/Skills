@@ -725,20 +725,32 @@
   // ================= 8 · Outro (41.2 – 48) =================
   scene('sc8', 41.2, 48.1);
   META.hits.push(41.25);
-  ['JUST', 'EATS', 'BUENO'].forEach((w, i) => {
-    const el = document.createElement('div');
-    el.className = 'abs cooper';
-    el.textContent = w;
-    el.style.cssText = `left:0;right:0;top:330px;text-align:center;font-size:360px;line-height:1;font-weight:900;color:var(--cream);letter-spacing:-.02em;opacity:0`;
-    $('#streaks').appendChild(el);
-    const t = 41.3 + i * 0.5;
-    tl.fromTo(el, { scale: 0.35, opacity: 0, filter: 'blur(6px)' }, { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 0.22, ease: 'ebOut', immediateRender: true }, t);
-    tl.to(el, { scale: 7, opacity: 0, filter: 'blur(24px)', duration: 0.3, ease: 'ebIn' }, t + 0.24);    // streaks past the lens
-    META.whooshes.push(t + 0.25); META.slams.push(t);
+  // JUST · EATS · BUENO: three panels of real life drop in one by one (alternating up/down), each word lands in
+  // its own panel and stays, so the line is read as one sentence; then the panels close into a circle on the
+  // flower's centre and the brand blooms out of it
+  const PAN8 = document.createElement('div'); PAN8.className = 'abs'; PAN8.id = 'pan8';
+  PAN8.style.cssText = 'inset:0;z-index:2';
+  $('#streaks').appendChild(PAN8);
+  const panels8 = ['JUST', 'EATS', 'BUENO'].map((w, i) => {
+    const pn = document.createElement('div');
+    pn.style.cssText = `position:absolute;top:0;bottom:0;left:${i * 640 + (i ? 4 : 0)}px;width:${640 - (i === 1 ? 8 : 4)}px;overflow:hidden;background:#C9541D`;
+    PAN8.appendChild(pn);
+    const wd = document.createElement('div');
+    wd.style.cssText = 'position:absolute;left:44px;right:20px;bottom:54px;overflow:hidden;padding-bottom:.04em;z-index:3';
+    wd.innerHTML = `<div class="cooper" style="font-size:146px;line-height:1;font-weight:900;color:var(--cream);letter-spacing:-.01em;${i === 2 ? 'font-style:italic;font-weight:700' : ''}">${w}</div>`;
+    pn.appendChild(wd);
+    const t = 41.2 + i * 0.5;
+    tl.fromTo(pn, { yPercent: i % 2 ? 100 : -100 }, { yPercent: 0, duration: 0.45, ease: 'ebPush', immediateRender: true }, t);
+    tl.fromTo(wd.firstChild, { yPercent: 105 }, { yPercent: 0, duration: 0.4, ease: 'ebOut', immediateRender: true }, t + 0.2);
+    META.whooshes.push(t + 0.05);
+    return pn;
   });
+  // the three panels close into one circle on the flower's centre
+  tl.fromTo(PAN8, { clipPath: 'circle(120% at 50% 50%)' }, { clipPath: 'circle(0% at 50% 30.5%)', duration: 0.5, ease: 'ebIn', immediateRender: false }, 42.95);
+  tl.to(PAN8.querySelectorAll('.cooper'), { scale: 0.85, duration: 0.5, ease: 'ebIn' }, 42.95);
   const seedsC = seedRing($('#seedsC'), 280);
   tl.fromTo(seedsC, { x: (i) => Math.cos(i * Math.PI / 4) * 1100, y: (i) => Math.sin(i * Math.PI / 4) * 1100, opacity: 0, scale: 1 },
-    { x: 0, y: 0, opacity: 1, duration: 0.7, stagger: 0.03, ease: 'ebOut', immediateRender: true }, 42.75);
+    { x: 0, y: 0, opacity: 1, duration: 0.55, stagger: 0.025, ease: 'ebOut', immediateRender: true }, 43.0);
   tl.fromTo('#fl8', { scale: 0, rotation: -140 }, { scale: 1, rotation: 0, duration: 1.1, ease: 'ebOut', immediateRender: true }, 43.35);
   tl.to(seedsC, { scale: 0, duration: 0.4, ease: 'ebIn' }, 43.45);
   META.logo.push(43.4);
@@ -763,16 +775,11 @@
     tl.fromTo(r, { scale: 0.2, opacity: 1 }, { scale: 2.6, opacity: 0, duration: dur, ease: 'ebOut', immediateRender: false }, t);
     return r;
   };
-  [41.3, 41.8, 42.3].forEach((t, i) => {
+  [41.4, 41.9, 42.4].forEach((t, i) => {
     META.punch.push(t);
     tl.fromTo('#sc8', { x: 0, y: 0 }, { keyframes: [{ x: 14 - i * 4, y: -10, duration: 0.04 }, { x: -9, y: 7, duration: 0.05 }, { x: 4, y: -3, duration: 0.05 }, { x: 0, y: 0, duration: 0.08 }], ease: 'none', immediateRender: false }, t);
-    ring8(t + 0.02, 520, 'rgba(250,240,223,.55)', 0.5, 5, 510);
   });
-  const flash8 = document.createElement('div'); flash8.className = 'abs';
-  flash8.style.cssText = 'inset:0;background:#FFF6EA;opacity:0;z-index:30';
-  $('#sc8').appendChild(flash8);
-  tl.fromTo(flash8, { opacity: 0 }, { keyframes: [{ opacity: 0.95, duration: 0.06 }, { opacity: 0, duration: 0.45, ease: 'ebSoft' }], immediateRender: false }, 42.56);
-  META.flash = [42.56];
+  META.flash = [43.4];
   // light that drifts behind everything
   const blobs8 = document.querySelectorAll('#sc8 > .blob');
   tl.fromTo(blobs8[0], { x: -120, y: 40 }, { x: 260, y: -60, duration: 6.9, ease: 'sine.inOut', immediateRender: true }, 41.2);
@@ -805,13 +812,13 @@
 
   // ================= real people (stock footage, assets/footage — fetched by tools/fetch_footage.sh) =================
   const VIDS = [];
-  const foot = (parent, before, name, t0, dur, { inPt = 0, css = '', tint = '', vcss = '' } = {}) => {
+  const foot = (parent, before, name, t0, dur, { inPt = 0, css = '', tint = '', vcss = '', rate = 1 } = {}) => {
     const box = document.createElement('div');
     box.style.cssText = `position:absolute;inset:0;overflow:hidden;opacity:0;${css}`;
     box.innerHTML = `<video muted playsinline preload="auto" src="assets/footage/${name}.webm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;${vcss}"></video>` +
       (tint ? `<div style="position:absolute;inset:0;${tint}"></div>` : '');
     parent.insertBefore(box, before || null);
-    VIDS.push({ v: box.querySelector('video'), t0, dur, inPt });
+    VIDS.push({ v: box.querySelector('video'), t0, dur, inPt, rate });
     return box;
   };
   const show = (el, t0, t1, fade = 0) => {
@@ -845,15 +852,19 @@
   tl.to(f7c, { opacity: 0, duration: 0.4, ease: 'ebSoft' }, 40.7);
   // 8 · JUST / EATS / BUENO, each word slammed over a burst of real life
   const S8 = $('#sc8');
-  [['salad', 41.3], ['laugh', 41.8], ['friends', 42.3]].forEach(([n, t], i) => {
-    const f = foot(S8, $('#streaks'), n, t, 0.5, { inPt: i === 2 ? 1.6 : 0, tint: ORANGE, vcss: 'filter:grayscale(1) contrast(1.15) brightness(1.15)' });
-    show(f, t, t + 0.5);
-    tl.fromTo(f.firstChild, { scale: 1.0 }, { scale: 1.12, duration: 0.5, ease: 'none', immediateRender: false }, t);
+  // each panel holds its own person; slowed a touch so a 1.5 s clip spans the whole hold
+  [['salad', 0, 0.62], ['laugh', 0, 0.62], ['friends', 1.2, 0.75]].forEach(([n, inPt, rate], i) => {
+    const t = 41.2 + i * 0.5, dur = 43.5 - t;
+    const f = foot(panels8[i], panels8[i].firstChild, n, t, dur, { inPt, rate, tint: 'background:#E26023;mix-blend-mode:multiply;opacity:.72', vcss: 'filter:grayscale(1) contrast(1.12) brightness(1.12)' });
+    show(f, t, 43.5);
+    tl.fromTo(f.firstChild, { scale: 1.18 }, { scale: 1.04, duration: dur, ease: 'ebSoft', immediateRender: false }, t);
   });
 
 
-  // 4b · Your food, your culture (final times; inserted as its own beat between onboarding and the coach).
-  // One card, one meal slot, five kitchens: the same balanced lunch, re-cooked for whoever Angie is.
+  // 4b · Your food, your culture (final times; its own 6 s beat between onboarding and the coach).
+  // One card, one meal slot, five kitchens: the same balanced lunch re-cooked for Angie. Each kitchen floods the
+  // world with its own colour from the card outwards and says "enjoy your meal" its own way; at the end all
+  // five kitchens open out around the card at once.
   const buildCulture = (T, D) => {
     scene('scC', T, T + D + 0.65);
     tl.to('#sc4', { x: -1920, filter: 'blur(18px)', duration: 0.6, ease: 'ebSoft' }, T);
@@ -861,6 +872,23 @@
     tl.fromTo('#scC', { x: 1920, filter: 'blur(18px)' }, { x: 0, filter: 'blur(0px)', duration: 0.6, ease: 'ebSoft', immediateRender: false }, T);
     tl.to('#scC', { x: -1920, filter: 'blur(18px)', duration: 0.6, ease: 'ebSoft' }, T + D);
     META.whooshes.push(T + 0.05);
+    const SC = $('#scC');
+    const MEALS = [
+      ['🌮', '#FDE7D3', 'Fish tacos, charred corn', 'Mexican', [38, 42, 20], '#F2C3A0', '¡Buen provecho!'],
+      ['🍛', '#FBEBC8', 'Dal + brown rice + raita', 'Indian', [30, 52, 18], '#F4D58C', 'Shubh bhojan!'],
+      ['🍱', '#E3F0E6', 'Salmon teishoku + miso', 'Japanese', [36, 44, 20], '#BFDCCB', 'Itadakimasu!'],
+      ['🍝', '#FBE0D8', 'Pasta e fagioli + greens', 'Italian', [24, 56, 20], '#F1B9A8', 'Buon appetito!'],
+      ['🥩', '#F6E6D3', 'Baked milanesa + salad', 'Argentine', [40, 35, 25], '#CFE0EE', '¡A comer, Angie!'],
+    ];
+    // colour floods: one layer per kitchen, opening as a circle from the card
+    const floods = MEALS.map((m) => {
+      const f = document.createElement('div'); f.className = 'abs';
+      f.style.cssText = `inset:0;background:radial-gradient(80% 80% at 50% 45%,#FFF7EE 0%,${m[5]} 100%)`;
+      SC.insertBefore(f, $('#rowsC'));
+      return f;
+    });
+    const tS = [T + 0.55, T + 1.45, T + 2.35, T + 3.25, T + 4.15];
+    floods.forEach((f, i) => tl.fromTo(f, { clipPath: 'circle(0% at 50% 41%)' }, { clipPath: 'circle(120% at 50% 41%)', duration: 0.75, ease: 'ebSoft', immediateRender: true }, tS[i] - 0.05));
     reveal($('#hC'), T + 0.35, 0.09);
     META.titles.push(T + 0.4);
     // a world of food drifting underneath, three rows in alternating directions
@@ -868,11 +896,12 @@
       ['🫓', 'Arepas', 'Venezuela'], ['🍲', 'Phở', 'Vietnam'], ['🥙', 'Shawarma', 'Lebanon'], ['🍱', 'Bento', 'Japan'], ['🥘', 'Paella', 'España'],
       ['🍝', 'Pasta e fagioli', 'Italia'], ['🫔', 'Tamales', 'Guatemala'], ['🥗', 'Tabbouleh', 'Syria'], ['🍜', 'Ramen', 'Japan'], ['🧆', 'Falafel', 'Egypt'], ['🍗', 'Jollof rice', 'Nigeria']];
     const rows = $('#rowsC');
+    rows.style.top = '770px';
     [0, 1, 2].forEach((r) => {
       const row = document.createElement('div');
-      row.style.cssText = `position:absolute;left:0;top:${r * 105}px;height:68px;width:6000px`;
+      row.style.cssText = `position:absolute;left:0;top:${r * 98}px;height:68px;width:7000px`;
       let x = 0;
-      for (let k = 0; k < 14; k++) {
+      for (let k = 0; k < 16; k++) {
         const [e, n, c] = DISH[(k * 2 + r * 5) % DISH.length];
         const p = document.createElement('div'); p.className = 'pillC';
         p.style.left = x + 'px';
@@ -882,42 +911,67 @@
       }
       rows.appendChild(row);
       const dir = r % 2 ? 1 : -1;
-      tl.fromTo(row, { x: dir < 0 ? -200 : -1500 }, { x: dir < 0 ? -1500 : -200, duration: D + 0.8, ease: 'none', immediateRender: true }, T);
+      tl.fromTo(row, { x: dir < 0 ? -200 : -2000 }, { x: dir < 0 ? -2000 : -200, duration: D + 0.8, ease: 'none', immediateRender: true }, T);
       tl.fromTo(row, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: 'ebOut', immediateRender: true }, T + 0.5 + r * 0.08);
     });
+    // "enjoy your meal", in the kitchen's own words, rolling under the card
+    const GR = document.createElement('div'); GR.className = 'abs';
+    GR.style.cssText = 'left:0;right:0;top:648px;height:84px;overflow:hidden;text-align:center;font:italic 300 62px/1.25 Cooper;color:#B4532A';
+    SC.appendChild(GR);
+    const grs = MEALS.map((m) => { const g = document.createElement('div'); g.textContent = m[6]; g.style.cssText = 'position:absolute;left:0;right:0;top:0'; GR.appendChild(g); tl.set(g, { yPercent: 140 }, 0); return g; });
+    const fin = document.createElement('div'); fin.textContent = 'Every kitchen fits your goals.'; fin.style.cssText = 'position:absolute;left:0;right:0;top:0;color:#2A5D51;font-style:normal;font-weight:700;font-size:54px'; GR.appendChild(fin);
+    tl.set(fin, { yPercent: 140 }, 0);
     // the card: one meal slot that keeps re-cooking itself
     const card = $('#cardC');
-    const MEALS = [
-      ['🌮', '#FDE7D3', 'Fish tacos, charred corn', 'Mexican', [38, 42, 20]],
-      ['🍛', '#FBEBC8', 'Dal + brown rice + raita', 'Indian', [30, 52, 18]],
-      ['🍚', '#E3F0E6', 'Bibimbap, extra veggies', 'Korean', [32, 48, 20]],
-      ['🥩', '#F6E0D8', 'Baked milanesa + salad', 'Argentine', [40, 35, 25]],
-      ['🫓', '#FFF1CF', 'Chicken & avocado arepa', 'Venezuelan', [34, 44, 22]],
-    ];
     const slots = MEALS.map(([e, bg, name, cult, mac]) => {
       const m = document.createElement('div');
       m.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;gap:44px;padding:0 56px';
       m.innerHTML = `<div class="em" style="flex:0 0 220px;height:220px;border-radius:50%;background:${bg};display:grid;place-items:center;font-size:120px">${e}</div>` +
         `<div style="flex:1;min-width:0"><div style="font:700 17px Manrope;letter-spacing:.22em;text-transform:uppercase;color:#B0805E">Angie's lunch · ${cult}</div>` +
         `<div style="font:700 50px/1.08 Cooper;color:#1E3F37;margin:12px 0 22px">${name}</div>` +
-        `<div style="display:flex;height:12px;border-radius:6px;overflow:hidden;gap:4px">` +
+        `<div class="bars" style="display:flex;height:12px;border-radius:6px;overflow:hidden;gap:4px">` +
         `<i style="flex:${mac[0]};background:#3B7668"></i><i style="flex:${mac[1]};background:#F0A26A"></i><i style="flex:${mac[2]};background:#AFCFC4"></i></div>` +
         `<div style="display:flex;justify-content:space-between;margin-top:14px;font:600 16px Manrope;color:#6a7a75"><span>Protein ${mac[0]}%</span><span>Carbs ${mac[1]}%</span><span>Fat ${mac[2]}%</span>` +
-        `<span style="color:#2A5D51;font-weight:800">✓ Fits your goals</span></div></div>`;
+        `<span class="ok" style="color:#2A5D51;font-weight:800">✓ Fits your goals</span></div></div>`;
       card.appendChild(m);
       tl.set(m, { yPercent: 100, opacity: 0 }, 0);
       return m;
     });
     tl.fromTo(card, { y: 80, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'ebOut', immediateRender: true }, T + 0.5);
-    const tS = [T + 0.6, T + 1.3, T + 1.95, T + 2.6, T + 3.25];
     slots.forEach((m, i) => {
-      const em = m.querySelector('.em');
+      const em = m.querySelector('.em'), bars = m.querySelector('.bars'), ok = m.querySelector('.ok');
       tl.fromTo(m, { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.42, ease: 'ebPush', immediateRender: false }, tS[i]);
-      tl.fromTo(em, { scale: 0.5, rotation: -25 }, { scale: 1, rotation: 0, duration: 0.5, ease: 'ebOut', immediateRender: false }, tS[i] + 0.05);
-      if (i < slots.length - 1) tl.to(m, { yPercent: -100, opacity: 0, duration: 0.42, ease: 'ebPush' }, tS[i + 1]);
-      if (i) { tl.fromTo(card, { scale: 1 }, { keyframes: [{ scale: 1.015, duration: 0.1 }, { scale: 1, duration: 0.3 }], immediateRender: false }, tS[i]); META.pops.push(tS[i]); }
+      tl.fromTo(em, { scale: 0.5, rotation: -25 }, { scale: 1, rotation: 0, duration: 0.55, ease: 'ebOut', immediateRender: false }, tS[i] + 0.05);
+      tl.fromTo(bars, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.5, ease: 'ebSoft', immediateRender: false }, tS[i] + 0.2);
+      tl.fromTo(ok, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.3, ease: 'ebOut', immediateRender: false }, tS[i] + 0.5);
+      tl.fromTo(grs[i], { yPercent: 140 }, { yPercent: 0, duration: 0.45, ease: 'ebPush', immediateRender: false }, tS[i] + 0.08);
+      if (i < slots.length - 1) {
+        tl.to(m, { yPercent: -100, opacity: 0, duration: 0.42, ease: 'ebPush' }, tS[i + 1]);
+        tl.to(grs[i], { yPercent: -140, duration: 0.45, ease: 'ebPush' }, tS[i + 1] + 0.08);
+      }
+      if (i) tl.fromTo(card, { scale: 1 }, { keyframes: [{ scale: 1.02, duration: 0.1 }, { scale: 1, duration: 0.3 }], immediateRender: false }, tS[i]);
+      META.pops.push(tS[i]); META.ticks.push(tS[i] + 0.5);
     });
-    tl.fromTo(card, { rotation: -1.2 }, { rotation: 0.8, duration: D, ease: 'sine.inOut', immediateRender: false }, T + 0.5);
+    tl.fromTo(card, { rotation: -1.2 }, { rotation: 0.6, duration: 4.4, ease: 'sine.inOut', immediateRender: false }, T + 0.5);
+    // finale: every kitchen opens out around the card at once
+    const tF = T + 4.95;
+    tl.to(card, { rotation: 0, scale: 0.92, duration: 0.5, ease: 'ebSoft' }, tF);
+    const SIDE = [[0, 250], [1, 470], [2, 1450], [3, 1670]];
+    SIDE.forEach(([mi, cx], k) => {
+      const [e, bg, , cult] = MEALS[mi];
+      const d = document.createElement('div'); d.className = 'abs';
+      d.style.cssText = `left:${cx - 90}px;top:358px;width:180px;text-align:center;z-index:3;opacity:0`;
+      d.innerHTML = `<div style="width:180px;height:180px;border-radius:50%;background:${bg};display:grid;place-items:center;font-size:96px;box-shadow:0 24px 40px -20px rgba(90,50,20,.4);border:5px solid #fff">${e}</div>` +
+        `<div style="margin-top:14px;font:700 15px Manrope;letter-spacing:.2em;text-transform:uppercase;color:#7A5A44">${cult}</div>`;
+      SC.appendChild(d);
+      const fromX = 960 - cx;
+      tl.fromTo(d, { x: fromX * 0.85, scale: 0.3, opacity: 0 }, { x: 0, scale: 1, opacity: 1, duration: 0.6, ease: 'ebOut', immediateRender: false }, tF + 0.05 + k * 0.06);
+      tl.fromTo(d.firstChild, { rotation: k < 2 ? -30 : 30 }, { rotation: 0, duration: 0.8, ease: 'ebOut', immediateRender: false }, tF + 0.05 + k * 0.06);
+      META.pops.push(tF + 0.1 + k * 0.06);
+    });
+    tl.to(grs[grs.length - 1], { yPercent: -140, duration: 0.45, ease: 'ebPush' }, tF + 0.1);
+    tl.fromTo(fin, { yPercent: 140 }, { yPercent: 0, duration: 0.5, ease: 'ebPush', immediateRender: false }, tF + 0.18);
+    META.success.push(tF + 0.25);
   };
 
   // 6 · Scan, rebuilt at FINAL times (scene 32.7 – 40.45, lifts away at 39.7). One locked, symmetric frame:
@@ -1087,7 +1141,7 @@
   META.risers = [10.45, 20.55, 28.4, 40.65];        // tension builds into the big transitions
   META.night = [37.4];
   META.titles = [7.95, 8.95, 9.95, 11.55, 14.6, 21.0, 34.85, 44.0];   // headline moments
-  META.words = [41.3, 41.8, 42.3];                                             // JUST / EATS / BUENO
+  META.words = [41.4, 41.9, 42.4];                                             // JUST / EATS / BUENO
   // ---- insert time where the eye needs it (original times; later gaps first):
   //      question hold 2.0 s · "Forget strict diets." 1.0 s · "Just eat good." 0.8 s · wordmark 0.5 s · meal picker 1.0 s
   const GAPS = [[32.6, 1.0], [10.4, 0.5], [9.9, 0.8], [8.55, 1.0], [6.45, 2.0]];
@@ -1102,8 +1156,8 @@
   buildSc1();
   buildSc6();
   META.titles.push(34.0);
-  // a new beat after onboarding: your food, your culture (4 s = two bars, so the groove stays on the grid)
-  { const CF = MAP(20.55), CD = 4.0;
+  // a new beat after onboarding: your food, your culture (6 s = three bars, so the groove stays on the grid)
+  { const CF = MAP(20.55), CD = 6.0;
     tl.shiftChildren(CD, false, CF);
     Object.keys(META).forEach((k) => { if (Array.isArray(META[k]) && k !== 'silence') META[k] = META[k].map((t) => (t >= CF ? t + CD : t)); });
     VIDS.forEach((c) => { if (c.t0 >= CF) c.t0 += CD; else if (c.t0 + c.dur > CF) c.dur += CD; });
@@ -1115,8 +1169,8 @@
   // seek the timeline, then every clip on screen to its matching frame (resolves once all are decoded)
   window.__seek = (t) => {
     tl.seek(t, false);
-    return Promise.all(VIDS.filter((c) => t >= c.t0 - 0.05 && t <= c.t0 + c.dur + 0.05).map(({ v, t0, dur, inPt }) => new Promise((res) => {
-      const want = Math.min(Math.max(0, inPt + t - t0), Math.max(0, (v.duration || 99) - 0.04));
+    return Promise.all(VIDS.filter((c) => t >= c.t0 - 0.05 && t <= c.t0 + c.dur + 0.05).map(({ v, t0, dur, inPt, rate = 1 }) => new Promise((res) => {
+      const want = Math.min(Math.max(0, inPt + (t - t0) * rate), Math.max(0, (v.duration || 99) - 0.04));
       if (Math.abs(v.currentTime - want) < 1e-3 && v.readyState >= 2) return res();
       v.addEventListener('seeked', () => res(), { once: true });
       v.currentTime = want;
