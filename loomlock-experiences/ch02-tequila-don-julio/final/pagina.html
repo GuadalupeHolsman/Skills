@@ -110,8 +110,14 @@ dialog button{position:absolute;top:8px;right:8px;font-family:var(--mono);backgr
 .go{align-self:flex-start;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#0B0B0B;background:var(--yel);border-radius:999px;padding:10px 18px;text-decoration:none}
 .go:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 @media (max-width:760px){.site{grid-template-columns:1fr}}
+.lang{position:fixed;top:10px;right:10px;z-index:20;display:flex;border:1px solid var(--line);border-radius:999px;background:rgba(8,8,11,.92);backdrop-filter:blur(8px);padding:3px}
+.lang button{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted);background:none;border:0;border-radius:999px;padding:6px 12px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--yel);color:#0B0B0B}
+nav.jump{padding-right:110px}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
 </style>
+
+<div class="lang" role="group" aria-label="Idioma / Language"><button type="button" data-l="es" aria-pressed="true">ES</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
 
 <div class="wrap">
   <header>
@@ -385,4 +391,145 @@ document.addEventListener("click", (e) => {
 });
 document.getElementById("lb-x").addEventListener("click", () => lb.close());
 lb.addEventListener("click", (e) => { if (e.target === lb) lb.close(); });
+// language switch ES / EN (legal line stays in Spanish)
+const EN = {
+"La regla": "The rule",
+"El formato": "The format",
+"Dos registros": "Two registers",
+"El celular entra con vos. En la puerta tocás la llave Loomlock y las apps se pausan hasta que te vas.": "Your phone comes in with you. At the door you tap the Loomlock key and your apps pause until you leave.",
+"Cada noche es un canal: una marca y una ciudad, la misma regla. Solo con invitación.": "Each night is a channel: one brand, one city, the same rule. Invite only.",
+"La pantalla (TV con la noche adentro) y la tipografía (la letra es la imagen). Misma letra, colores y frases.": "<b>The screen</b> (a TV with the night inside) and <b>the type</b> (the lettering is the image). Same font, colors and lines.",
+"Concepto": "Concept",
+"Piezas CH 02": "CH 02 pieces",
+"El concepto": "The concept",
+"Mismo gesto, otra escala.": "<span class=\"i\">Same gesture,</span> a different scale.",
+"Loomlock es la llave que pausa tus apps. Experiences habla de otra cosa: de volver a conectar con la vida, no con el teléfono, sin dejar de tenerlo. Lo hace en una noche compartida, con un lugar, una marca y gente que eligió estar ahí.": "Loomlock is the key that pauses your apps. Experiences is about something else: reconnecting with life, not with the phone, without giving it up. It happens on a shared night, with a venue, a brand and people who chose to be there.",
+"En qué se diferencia": "How it's different",
+"El producto": "The product",
+"La app y la llave. Tocás la llave y las apps que elegiste se pausan; volvés a tocar y se abren.": "The app and the key. Tap the key and the apps you picked pause; tap again and they open.",
+"Cuándo": "When",
+"Con quién": "With whom",
+"Quién decide": "Who decides",
+"Qué te llevás": "What you take home",
+"Cómo se comunica": "How it talks",
+"Todos los días: trabajo, estudio, cena, dormir.": "Every day: work, study, dinner, sleep.",
+"Solo vos. Es un hábito personal.": "Just you. It's a personal habit.",
+"Vos, cuando querés.": "You, whenever you want.",
+"Más foco y menos scroll en tu día.": "More focus and less scrolling in your day.",
+"Producto y beneficio: cómo funciona la llave y para qué sirve.": "Product and benefit: how the key works and what it's for.",
+"La plataforma de eventos": "The events platform",
+"Noches solo con invitación donde todos activan la llave en la puerta. El celular entra con vos y las apps descansan hasta que te vas.": "Invite-only nights where everyone activates the key at the door. Your phone comes in with you and your apps rest until you leave.",
+"Una noche con fecha: cada experiencia es un canal.": "One night with a date: each experience is a channel.",
+"Toda la sala a la vez. La regla es de todos.": "The whole room at once. The rule belongs to everyone.",
+"La noche: una regla, cupos limitados, invite only.": "The night: one rule, limited spots, invite only.",
+"La noche vivida y, días después, la galería del fotógrafo en la app.": "The night itself and, days later, the photographer's gallery in the app.",
+"Como un canal de TV, para un público adulto: series, episodios, invitación y misterio. Locky solo en la entrada. Live now, post later.": "Like a TV channel, for an adult audience: series, episodes, invitation and mystery. Locky only at the door. <b>Live now, post later.</b>",
+"Para quién · el tono": "Who it's for · the tone",
+"Un público más adulto": "A more adult audience",
+"No se trata de soltar el celular. Se trata de volver a la vida sin soltarlo.": "It's not about putting the phone down. <b>It's about getting back to life without letting it go.</b>",
+"La nostalgia del canal.": "Channel nostalgia.",
+"El zapping, la grilla, el “sin señal”, esperar el capítulo de la semana. Es un código que reconoce quien creció con la tele de canales, y le habla a un público adulto sin tener que explicar nada.": "Channel surfing, the TV guide, the “no signal” screen, waiting all week for the next episode. Anyone who grew up with channel TV recognizes the code, so it speaks to an adult audience without explaining a thing.",
+"Locky se queda en la puerta.": "Locky stays at the door.",
+"La mascota es del producto y del día a día. En Experiences aparece solo en el tótem de la entrada, como un guiño. La comunicación es adulta: tipografía, pantalla y la marca aliada.": "The mascot belongs to the product and to everyday use. In Experiences it only shows up on the totem at the entrance, as a wink. The communication is grown-up: type, screen and the partner brand.",
+"La necesidad, no la culpa.": "The need, not the guilt.",
+"No decimos que el celular es malo. Hablamos de lo que se extraña: una conversación entera, una canción sin grabarla, la noche que se cuenta al otro día. El celular sigue en el bolsillo y las llamadas siguen activas.": "We don't say the phone is bad. We talk about what people miss: a whole conversation, a song you don't record, the night you tell everyone about the next day. The phone stays in your pocket and calls stay on.",
+"Lo que vende.": "What sells it.",
+"Un plan para adultos que vale la salida: marcas premium, lugares elegidos, cupos limitados e invitación. Es lo que hace que una marca quiera su propio canal.": "A grown-up plan worth going out for: premium brands, hand-picked venues, limited spots and an invitation. That's what makes a brand want its own channel.",
+"Por qué existe": "Why it exists",
+"Lo que suma Experiences": "What Experiences adds",
+"Loomlock te pide que dejes el celular. Experiences te da una razón para hacerlo.": "Loomlock asks you to put the phone down. <b>Experiences gives you a reason to.</b>",
+"El producto se prueba en vivo.": "The product is tried live.",
+"Cada invitado activa su llave en la entrada. Es la mejor demo posible: una sala que funciona sin pantallas.": "Every guest activates their key at the door. It's the best demo there is: a room that works without screens.",
+"Lo que no se postea, se cuenta.": "What isn't posted gets told.",
+"Nadie sube la noche mientras pasa. Afuera solo queda la curiosidad, y eso alimenta la próxima invitación.": "Nobody posts the night while it's happening. Outside there's only curiosity, and that feeds the next invitation.",
+"Las marcas ponen el momento.": "Brands bring the moment.",
+"Tequila, cine, asado, rooftop: cada aliado arma su noche y comparte una idea, estar presente.": "Tequila, cinema, barbecue, rooftop: each partner builds its own night around one shared idea, being present.",
+"Viaja de ciudad en ciudad.": "It travels city to city.",
+"La regla es siempre la misma; lo que cambia es la marca y la ciudad. Por eso cada pieza cierra con “Next city: yours?”.": "The rule never changes; the brand and the city do. That's why every piece ends with “Next city: yours?”.",
+"Cómo se vive una noche": "How a night works",
+"Antes, durante, después": "Before, during, after",
+"Llegás": "You arrive",
+"Activás": "You activate",
+"Vivís": "You live it",
+"Recibís": "You get it",
+"Te inscribís, recibís tu lugar y en la puerta te recibe Locky en el tótem. Es el único lugar donde aparece.": "You sign up, get your spot, and Locky greets you at the totem by the door. It's the only place it appears.",
+"Tocás la llave y elegís qué apps se pausan. Las llamadas y los contactos de emergencia siguen activos.": "You tap the key and <strong>choose which apps pause</strong>. Calls and emergency contacts stay on.",
+"La noche entera con el celular en el bolsillo. El fotógrafo es la única cámara.": "The whole night with your phone <strong>in your pocket</strong>. The photographer is the only camera.",
+"Días después, la galería llega a la app. Ahí sí: post later.": "Days later, <strong>the gallery lands in the app</strong>. Now you can: post later.",
+"La página · loomlock experiences · Colombia 2026": "The site · loomlock experiences · Colombia 2026",
+"La página de Experiences": "The Experiences site",
+"Es la casa de la serie: donde se ve qué canal sigue, cómo funciona la regla y dónde inscribirse. Está armada como un televisor: la prendés y sintonizás las noches.": "It's the home of the series: where you see which channel is next, how the rule works and where to sign up. It's built like a TV set: you turn it on and tune into the nights.",
+"● En vivo": "<b>●</b> Live",
+"La pantallapuede esperar.": "<span class=\"i\">The screen</span><br><span class=\"b\">can wait.</span>",
+"Cuatro noches, una regla: el celular se queda contigo.": "Four nights, one rule: your phone stays with you.",
+"Encender": "Turn on",
+"29 oct": "Oct 29",
+"12 nov": "Nov 12",
+"21 nov": "Nov 21",
+"27 nov": "Nov 27",
+"Fiesta70 cupos": "Party<br>70 spots",
+"Asado40 cupos": "Barbecue<br>40 spots",
+"Película100 sillas": "Movie<br>100 seats",
+"Rooftop70 cupos": "Rooftop<br>70 spots",
+"Medellín · Jardín Patio Bonito": "Medellín · Patio Bonito Garden",
+"Medellín · Función de la mañana": "Medellín · Morning screening",
+"Encender. La página arranca como una tele apagada. Al prenderla sintoniza y aparece “Live now, post later.”": "<b>Turn on.</b> The site opens as a TV that's switched off. Turn it on, it tunes in and “Live now, post later.” appears.",
+"La guía de canales. Cada experiencia es un canal: fecha, ciudad, formato y cupos. Pasás el cursor para sintonizar y hacés clic para cambiar de canal.": "<b>The channel guide.</b> Each experience is a channel: date, city, format and spots. Hover to tune in, click to change the channel.",
+"Cada noche en actos. Antes, durante y después: la llegada, la llave, la noche y la galería.": "<b>Each night in acts.</b> Before, during and after: arrival, the key, the night and the gallery.",
+"Tú eliges qué pausar. Un simulador donde tocás las apps (Instagram, TikTok, el grupo del trabajo) y ves cuáles se pausan.": "<b>You choose what pauses.</b> A simulator where you tap apps (Instagram, TikTok, the work group chat) and see which ones pause.",
+"Inscripción. Un formulario corto que abre WhatsApp con el registro listo. Solo +18.": "<b>Sign-up.</b> A short form that opens WhatsApp with your registration ready. 18+ only.",
+"La galería. Dice “Sin señal” hasta después del evento; ahí aparecen las fotos de la noche.": "<b>The gallery.</b> It reads “No signal” until after the event; then the night's photos appear.",
+"Abrir la página ↗": "Open the site ↗",
+"Dónde entra CH 02": "Where CH 02 fits",
+"Don Julio, el próximo canal al aire.": "<span class=\"i\">Don Julio,</span> the next channel on air.",
+"Todo lo que está en Piezas CH 02 (la invitación, los reels, los posts y las stories) lleva a la página: ahí se inscriben, ahí ven el próximo canal y ahí, días después, llegan las fotos.": "Everything in <b>CH 02 pieces</b> (the invitation, reels, posts and stories) leads to the site: that's where people sign up, see the next channel and, days later, get their photos.",
+"Invitación": "Invitation",
+"Próximas ciudades": "Next cities",
+"Invitación · Thu 29 Oct · 8 pm · Bikinis Resto Bar · Bogotá": "Invitation · Thu 29 Oct · 8 pm · Bikinis Resto Bar · Bogotá",
+"La invitación": "The invitation",
+"El reel con “Ghost Dance” de Brunello y Vargas, tres posts y una story. Invite only.": "The reel with “Ghost Dance” by Brunello &amp; Vargas, three posts and one story. Invite only.",
+"Todos los reels": "All reels",
+"En el orden en que se publican: primero se abre la serie y el canal, después la noche y la invitación, y al final los próximos canales. Todos sin sonido y con textura de pantalla.": "In publishing order: first the series and the channel open, then the night and the invitation, and last the next channels. All silent, with a screen texture.",
+"Todos los posts": "All posts",
+"En orden de publicación. Tocá uno para verlo grande.": "In publishing order. Tap one to see it full size.",
+"El último cuadro de cada reel de tipografía; sale el mismo día que su reel.": "The last frame of each type reel; it goes out the same day as its reel.",
+"Bogotá es el canal 02. Cada pieza cierra con la misma pregunta, Next city: yours?, para que la serie se lea como algo que viaja: misma regla, otra marca, otra ciudad.": "Bogotá is channel 02. Every piece ends with the same question, <b class=\"y\">Next city: yours?</b>, so the series reads as something that travels: same rule, another brand, another city.",
+"Manifiesto": "Manifesto",
+"Abre la serie: Everyone's busy → Some things are worth being there for.": "Opens the series: Everyone's busy → Some things are worth being there for.",
+"Abre el canal: de borroso a nítido, termina en 02.": "Opens the channel: from blurry to sharp, landing on 02.",
+"La noche: Thursday, 7 pm. → A party worth remembering.": "The night: Thursday, 7 pm. → A party worth remembering.",
+"La invitación: un texto que se tacha hasta dejar el mensaje.": "The invitation: a text that gets redacted until only the message is left.",
+"La regla: phone in, apps off, just here.": "The rule: phone in, apps off, just here.",
+"Próximo canal: Medellín, unlocked.": "Next channel: Medellín, unlocked.",
+"Próximo canal: Two hours. One screen.": "Next channel: Two hours. One screen.",
+"Cerrar": "Close"
+};
+const ENA = {"Vistas": "Views", "Secciones": "Sections", "Vista ilustrativa de la página de Loomlock Experiences": "Illustrative view of the Loomlock Experiences site", "Pieza ampliada": "Enlarged piece", "Reel de invitación con Ghost Dance": "Invitation reel with Ghost Dance", "Manifiesto": "Manifesto"};
+const orig = new Map(), origA = new Map();
+const k = (s) => s.replace(/\s+/g, " ").trim();
+function setLang(l) {
+  if (l === "en") {
+    document.querySelectorAll(".wrap *, dialog *").forEach(e => {
+      if (!e.isConnected || orig.has(e)) return;
+      const c = e.children;
+      if (c.length === 1 && k(c[0].textContent) === k(e.textContent)) return;
+      const t = EN[k(e.textContent)];
+      if (t !== undefined) { orig.set(e, e.innerHTML); e.innerHTML = t; }
+    });
+    document.querySelectorAll("[aria-label]").forEach(e => {
+      const a = e.getAttribute("aria-label"), t = ENA[a] ?? (a.startsWith("Ver grande: ") ? "View large: " + a.slice(12) : undefined);
+      if (t !== undefined) { origA.set(e, a); e.setAttribute("aria-label", t); }
+    });
+  } else {
+    orig.forEach((h, e) => { if (e.isConnected) e.innerHTML = h; }); orig.clear();
+    origA.forEach((a, e) => e.setAttribute("aria-label", a)); origA.clear();
+  }
+  document.documentElement.lang = l;
+  document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.l === l));
+  try { localStorage.setItem("lang", l); } catch {}
+}
+document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => { if (b.getAttribute("aria-pressed") !== "true") setLang(b.dataset.l); }));
+let start = "es";
+try { start = new URLSearchParams(location.search).get("lang") || localStorage.getItem("lang") || "es"; } catch {}
+if (start === "en") setLang("en");
 </script>
