@@ -62,6 +62,54 @@ dialog{border:0;padding:0;background:transparent;max-width:min(92vw,720px)}
 dialog::backdrop{background:rgba(0,0,0,.85)}
 dialog img{display:block;max-height:88vh;width:auto;max-width:100%;border-radius:12px}
 dialog button{position:absolute;top:8px;right:8px;font-family:var(--mono);background:#0B0B0B;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:-36px}
+.tab{font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:none;border:0;border-bottom:3px solid transparent;padding:12px 16px;cursor:pointer;margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--yel)}
+.tab:hover{color:var(--ink)}
+.tab:focus-visible{outline:2px solid var(--yel);outline-offset:2px}
+.panel{display:flex;flex-direction:column;gap:72px}
+.panel[hidden]{display:none}
+.lede{font-size:clamp(20px,2.6vw,26px);line-height:1.4;margin:0;max-width:44ch;text-wrap:pretty}
+.vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.vcol{border:1px solid var(--line);border-radius:18px;padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:14px;min-width:0}
+.vcol.x{background:var(--blue);border-color:var(--blue)}
+.vcol h3{font-size:clamp(24px,3vw,32px);margin:0;line-height:1.1}
+.vcol .lead{margin:0;font-size:17px}
+.vcol dl{margin:0;display:grid;gap:12px}
+.vcol dt{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.vcol.x dt{color:var(--yel)}
+.vcol dd{margin:2px 0 0}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.why .step p{color:var(--ink)}
+.why .step span{color:var(--muted)}
+.big{font-size:clamp(28px,4vw,44px);font-weight:300;font-style:italic;line-height:1.15;margin:0;max-width:26ch;text-wrap:balance}
+.big b{font-style:normal;font-weight:800;color:var(--yel)}
+.site{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:start}
+.browser{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#000;min-width:0}
+.bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--panel);border-bottom:1px solid var(--line)}
+.bar i{width:9px;height:9px;border-radius:50%;background:var(--line);display:block}
+.bar span{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scr{position:relative;padding:clamp(20px,4vw,36px);display:flex;flex-direction:column;gap:14px;background:radial-gradient(120% 90% at 50% 40%,#16163a 0%,#08080B 70%)}
+.scr::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px)}
+.scr .live{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;display:flex;justify-content:space-between;gap:8px}
+.scr .live b{color:#ff4d4d;font-weight:700}
+.scr .h{font-size:clamp(26px,4vw,40px);line-height:1.05;margin:0}
+.scr .on{align-self:flex-start;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;background:var(--yel);color:#0B0B0B;border-radius:999px;padding:7px 16px}
+.guide{display:grid;gap:8px;margin-top:6px}
+.ch{display:grid;grid-template-columns:62px minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:rgba(18,18,24,.8);font-size:14px}
+.ch .d{font-family:var(--mono);font-size:12px;color:var(--yel)}
+.ch small{display:block;color:var(--muted);font-size:12px}
+.ch .c{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;text-align:right}
+.ch.now{border-color:var(--yel)}
+.feat{display:flex;flex-direction:column;gap:14px;min-width:0}
+.feat ol{margin:0;padding:0;list-style:none;display:grid;gap:12px;counter-reset:f}
+.feat li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;counter-increment:f}
+.feat li::before{content:counter(f,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--yel);padding-top:3px}
+.feat li p{margin:0;color:var(--muted)}
+.feat li b{color:var(--ink)}
+.go{align-self:flex-start;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#0B0B0B;background:var(--yel);border-radius:999px;padding:10px 18px;text-decoration:none}
+.go:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+@media (max-width:760px){.site{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
 </style>
 
@@ -79,6 +127,124 @@ dialog button{position:absolute;top:8px;right:8px;font-family:var(--mono);backgr
     </div>
   </header>
 
+  <div class="tabs" role="tablist" aria-label="Vistas">
+    <button class="tab" role="tab" id="t-concepto" aria-controls="concepto" aria-selected="true" type="button">Concepto</button>
+    <button class="tab" role="tab" id="t-piezas" aria-controls="piezas" aria-selected="false" type="button" tabindex="-1">Piezas CH 02</button>
+  </div>
+
+  <div class="panel" id="concepto" role="tabpanel" aria-labelledby="t-concepto">
+    <section aria-labelledby="c1-h">
+      <div class="head">
+        <span class="eyebrow">El concepto</span>
+        <h2 id="c1-h"><span class="i">Mismo gesto,</span> otra escala.</h2>
+      </div>
+      <p class="lede">Loomlock es la llave que pausa tus apps. Experiences convierte ese gesto en una noche compartida: un lugar, una marca y una sala llena de gente que eligió estar ahí sin mirar el celular.</p>
+    </section>
+
+    <section aria-labelledby="c2-h">
+      <div class="head">
+        <span class="eyebrow">Loomlock vs Loomlock Experiences</span>
+        <h2 id="c2-h">En qué se diferencia</h2>
+      </div>
+      <div class="vs">
+        <div class="vcol">
+          <span class="eyebrow">El producto</span>
+          <h3>Loomlock</h3>
+          <p class="lead">La app y la llave. Tocás la llave y las apps que elegiste se pausan; volvés a tocar y se abren.</p>
+          <dl>
+            <div><dt>Cuándo</dt><dd>Todos los días: trabajo, estudio, cena, dormir.</dd></div>
+            <div><dt>Con quién</dt><dd>Solo vos. Es un hábito personal.</dd></div>
+            <div><dt>Quién decide</dt><dd>Vos, cuando querés.</dd></div>
+            <div><dt>Qué te llevás</dt><dd>Más foco y menos scroll en tu día.</dd></div>
+            <div><dt>Cómo se comunica</dt><dd>Producto y beneficio: cómo funciona la llave y para qué sirve.</dd></div>
+          </dl>
+        </div>
+        <div class="vcol x">
+          <span class="eyebrow">La plataforma de eventos</span>
+          <h3>Loomlock Experiences</h3>
+          <p class="lead">Noches solo con invitación donde todos activan la llave en la puerta. El celular entra con vos y las apps descansan hasta que te vas.</p>
+          <dl>
+            <div><dt>Cuándo</dt><dd>Una noche con fecha: cada experiencia es un canal.</dd></div>
+            <div><dt>Con quién</dt><dd>Toda la sala a la vez. La regla es de todos.</dd></div>
+            <div><dt>Quién decide</dt><dd>La noche: una regla, cupos limitados, invite only.</dd></div>
+            <div><dt>Qué te llevás</dt><dd>La noche vivida y, días después, la galería del fotógrafo en la app.</dd></div>
+            <div><dt>Cómo se comunica</dt><dd>Como un canal de TV: series, episodios, invitación y misterio. <b>Live now, post later.</b></dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="c3-h">
+      <div class="head">
+        <span class="eyebrow">Por qué existe</span>
+        <h2 id="c3-h">Lo que suma Experiences</h2>
+      </div>
+      <p class="big">Loomlock te pide que dejes el celular. <b>Experiences te da una razón para hacerlo.</b></p>
+      <div class="why">
+        <div class="step"><span class="d">01</span><p><b>El producto se prueba en vivo.</b></p><span>Cada invitado activa su llave en la entrada. Es la mejor demo posible: una sala que funciona sin pantallas.</span></div>
+        <div class="step"><span class="d">02</span><p><b>Lo que no se postea, se cuenta.</b></p><span>Nadie sube la noche mientras pasa. Afuera solo queda la curiosidad, y eso alimenta la próxima invitación.</span></div>
+        <div class="step"><span class="d">03</span><p><b>Las marcas ponen el momento.</b></p><span>Tequila, cine, asado, rooftop: cada aliado arma su noche y comparte una idea, estar presente.</span></div>
+        <div class="step"><span class="d">04</span><p><b>Viaja de ciudad en ciudad.</b></p><span>La regla es siempre la misma; lo que cambia es la marca y la ciudad. Por eso cada pieza cierra con “Next city: yours?”.</span></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="c4-h">
+      <div class="head">
+        <span class="eyebrow">Cómo se vive una noche</span>
+        <h2 id="c4-h">Antes, durante, después</h2>
+      </div>
+      <div class="plan">
+        <div class="step"><span class="d">Llegás</span><p>Te inscribís, recibís tu lugar y en la puerta está el tótem.</p></div>
+        <div class="step"><span class="d">Activás</span><p>Tocás la llave y <strong>elegís qué apps se pausan</strong>. Las llamadas y los contactos de emergencia siguen activos.</p></div>
+        <div class="step"><span class="d">Vivís</span><p>La noche entera con el celular <strong>en el bolsillo</strong>. El fotógrafo es la única cámara.</p></div>
+        <div class="step"><span class="d">Recibís</span><p>Días después, <strong>la galería llega a la app</strong>. Ahí sí: post later.</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="c5-h">
+      <div class="head">
+        <span class="eyebrow">La página · loomlock experiences · Colombia 2026</span>
+        <h2 id="c5-h">La página de Experiences</h2>
+        <p>Es la casa de la serie: donde se ve qué canal sigue, cómo funciona la regla y dónde inscribirse. Está armada como un televisor: la prendés y sintonizás las noches.</p>
+      </div>
+      <div class="site">
+        <div class="browser" aria-label="Vista ilustrativa de la página de Loomlock Experiences">
+          <div class="bar"><i></i><i></i><i></i><span>loomlock experiences · Colombia 2026</span></div>
+          <div class="scr">
+            <div class="live"><span>CH 00 · Tuning</span><span><b>●</b> En vivo</span></div>
+            <p class="h"><span class="i">La pantalla</span><br><span class="b">puede esperar.</span></p>
+            <p style="margin:0;color:var(--muted);font-size:14px">Cuatro noches, una regla: el celular se queda contigo.</p>
+            <span class="on">Encender</span>
+            <div class="guide">
+              <div class="ch now"><span class="d">29 oct</span><span><b>Don Julio</b><small>Bogotá · Resto Bar Bikinis</small></span><span class="c">Fiesta<br>70 cupos</span></div>
+              <div class="ch"><span class="d">12 nov</span><span><b>Quokka</b><small>Medellín · Jardín Patio Bonito</small></span><span class="c">Asado<br>40 cupos</span></div>
+              <div class="ch"><span class="d">21 nov</span><span><b>Cinemark</b><small>Medellín · Función de la mañana</small></span><span class="c">Película<br>100 sillas</span></div>
+              <div class="ch"><span class="d">27 nov</span><span><b>Buchanan's Pineapple</b><small>Medellín · Rooftop La Deriva</small></span><span class="c">Rooftop<br>70 cupos</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="feat">
+          <ol>
+            <li><p><b>Encender.</b> La página arranca como una tele apagada. Al prenderla sintoniza y aparece “Live now, post later.”</p></li>
+            <li><p><b>La guía de canales.</b> Cada experiencia es un canal: fecha, ciudad, formato y cupos. Pasás el cursor para sintonizar y hacés clic para cambiar de canal.</p></li>
+            <li><p><b>Cada noche en actos.</b> Antes, durante y después: la llegada, la llave, la noche y la galería.</p></li>
+            <li><p><b>Tú eliges qué pausar.</b> Un simulador donde tocás las apps (Instagram, TikTok, el grupo del trabajo) y ves cuáles se pausan.</p></li>
+            <li><p><b>Inscripción.</b> Un formulario corto que abre WhatsApp con el registro listo. Solo +18.</p></li>
+            <li><p><b>La galería.</b> Dice “Sin señal” hasta después del evento; ahí aparecen las fotos de la noche.</p></li>
+          </ol>
+          <a class="go" href="https://claude.ai/artifact/T5kDp1o1Q9e2dtkDyGRQh9" target="_blank" rel="noopener">Abrir la página ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="c6-h" class="next">
+      <span class="eyebrow">Dónde entra CH 02</span>
+      <h2 id="c6-h"><span class="i">Don Julio,</span> el próximo canal al aire.</h2>
+      <p>Todo lo que está en <b>Piezas CH 02</b> (la invitación, los reels, los posts y las stories) lleva a la página: ahí se inscriben, ahí ven el próximo canal y ahí, días después, llegan las fotos.</p>
+    </section>
+  </div>
+
+  <div class="panel" id="piezas" role="tabpanel" aria-labelledby="t-piezas" hidden>
   <nav class="jump" aria-label="Secciones">
     <a class="chip" href="#invitacion">Invitación</a>
     <a class="chip" href="#reels">Reels · 7</a>
@@ -138,6 +304,8 @@ dialog button{position:absolute;top:8px;right:8px;font-family:var(--mono);backgr
     <p>Bogotá es el canal 02. Cada pieza cierra con la misma pregunta, <b class="y">Next city: yours?</b>, para que la serie se lea como algo que viaja: misma regla, otra marca, otra ciudad.</p>
   </section>
 
+  </div>
+
   <footer>El exceso de alcohol es perjudicial para la salud. Prohíbase el expendio de bebidas embriagantes a menores de edad.</footer>
 </div>
 
@@ -172,6 +340,23 @@ POSTS.forEach(([f, t], i) => pg.appendChild(el(
 const sg = document.getElementById("story-grid");
 STORIES.forEach(([f, t], i) => sg.appendChild(el(
   `<div class="card"><button class="thumb" type="button" data-src="img/${f}.jpg" aria-label="Ver grande: story ${t}"><img src="img/${f}.jpg" alt="Story ${t}" loading="lazy"></button><div class="cap"><span class="n">${n2(i)}</span><b>${t}</b></div></div>`)));
+
+// tabs: Concepto / Piezas
+const tabs = [...document.querySelectorAll(".tab")];
+function show(id, focus) {
+  tabs.forEach(b => { const on = b.getAttribute("aria-controls") === id; b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1; document.getElementById(b.getAttribute("aria-controls")).hidden = !on; if (on && focus) b.focus(); });
+}
+tabs.forEach((b, i) => {
+  b.addEventListener("click", () => { show(b.getAttribute("aria-controls")); try { history.replaceState(null, "", "#" + b.getAttribute("aria-controls")); } catch {} });
+  b.addEventListener("keydown", (e) => { if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return; const n = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length]; show(n.getAttribute("aria-controls"), true); });
+});
+function fromHash() {
+  const h = location.hash.slice(1); if (!h) return;
+  const t = document.getElementById(h); if (!t) return;
+  show(t.closest("#piezas") ? "piezas" : "concepto");
+  if (h !== "piezas" && h !== "concepto") t.scrollIntoView();
+}
+fromHash(); window.addEventListener("hashchange", fromHash);
 
 // one video at a time
 document.addEventListener("play", (e) => { document.querySelectorAll("video").forEach(v => { if (v !== e.target) v.pause(); }); }, true);
