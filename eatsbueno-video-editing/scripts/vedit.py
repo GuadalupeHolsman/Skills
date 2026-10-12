@@ -468,6 +468,8 @@ def main(spec_path):
         ovs.append((p, 0, outro_start, "none", x, y))
     kw = set(k.lower().strip(".,!?") for k in spec.get("keywords", []))
     for j, o in enumerate(spec.get("overlays", [])):
+        if o["type"] == "mgvid":   # pre-rendered motion graphic with alpha (mov/png codec)
+            ovs.append((o["path"], o["start"], o["end"], "video", o.get("x", 0), o.get("y", 0))); continue
         if o["type"] == "caption":
             if spec.get("caption_style") == "clean":
                 im = caption_png_clean(W, H, o["text"], o.get("y", spec.get("caption_y", 1300)), o.get("size", spec.get("caption_size", 60)))
@@ -501,10 +503,14 @@ def main(spec_path):
     # composite in RGB so overlay colours stay exact, then convert once with the BT.709 matrix
     inputs = ["-i", vcat]; fc = ["[0:v]scale=in_color_matrix=bt709:in_range=tv,format=gbrp[base]"]; last = "base"
     for k, (p, s, e, anim, x, y) in enumerate(ovs):
-        inputs += ["-loop", "1", "-framerate", str(FPS), "-t", f"{total:.3f}", "-i", p]
-        w, h = Image.open(p).size
-        chain, xe, ye = anim_chain(k + 1, s, e, anim, w, h, x, y)
-        fc.append(chain + f"[o{k}]")
+        if anim == "video":
+            inputs += ["-i", p]
+            fc.append(f"[{k + 1}:v]fps={FPS},format=rgba,setpts=PTS-STARTPTS+{s:.3f}/TB[o{k}]"); xe, ye = x, y
+        else:
+            inputs += ["-loop", "1", "-framerate", str(FPS), "-t", f"{total:.3f}", "-i", p]
+            w, h = Image.open(p).size
+            chain, xe, ye = anim_chain(k + 1, s, e, anim, w, h, x, y)
+            fc.append(chain + f"[o{k}]")
         fc.append(f"[{last}][o{k}]overlay=x='{xe}':y='{ye}':eof_action=pass:format=gbrp:enable='between(t,{max(0, s - 0.05):.3f},{e:.3f})'[v{k}]"); last = f"v{k}"
     n_in = 1 + len(ovs)
     # ---- audio: dialogue/VO parts, music/ambience, sfx
