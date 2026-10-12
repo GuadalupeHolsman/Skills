@@ -4,7 +4,7 @@ exec(open('build_viral.py').read().split('# --- 10,000 steps')[0])   # reuse hel
 TXH = json.load(open('vo_happy/transcript.json'))
 def hwords(n):
     out = []
-    for s in TXH[f"vo_happy/{n}.wav"]["segs"]:
+    for s in TX[f"avatar/{n}.mp4"]["segs"]:   # original avatar voice
         for w in s["w"]:
             t = w[2]
             if out and not t.startswith(" ") and out[-1][2] and (t[:1] in ",-." or t[:1].isdigit() or out[-1][2][-1:] == "-"):
@@ -22,15 +22,21 @@ def build2(name, src, out, head, shots, cites, callouts, fix=None):
     caps = captions(hwords(name))
     for c in caps:
         for a, b in (fix or []): c["text"] = c["text"].replace(a, b)
+    m = []
+    for c in caps:   # a lone trailing word ("meter.") joins the previous caption
+        if m and len(c["text"].split()) == 1 and not m[-1]["text"].rstrip().endswith((".", ",", "?", "!")):
+            m[-1] = dict(m[-1], text=m[-1]["text"] + " " + c["text"], end=c["end"])
+        else: m.append(c)
+    caps = m
     HL = 3.0
-    caps = [dict(c, start=max(c["start"], HL)) for c in caps if c["end"] > HL + 0.3]
+    caps = [dict(c, start=max(c["start"], HL)) for c in caps if c["end"] > HL + 0.6]
     ovs = [{"type": "headline", "text": head, "center": True, "accent": [226, 96, 35], "start": 0.0, "end": HL, "y": 960, "size": 150, "anim": "pop"}] + caps
     ovs += [{"type": "cite", "text": tx, "start": round(a, 3), "end": round(b, 3)} for a, b, tx in cites]
     ovs += [dict({"type": "callout", "text": tx, "start": round(a, 3), "end": round(b, 3), "y": y, "size": 84}, **({"bg": bg} if bg else {})) for a, b, tx, y, bg in callouts]
     spec = {"out": out, "grade": "natural", "caption_style": "clean", "caption_size": 76, "caption_y": 1270, "watermark": False,
-            "chip_color": [226, 96, 35], "global_speed": 1.06, "voice_pitch": 1.0, "auto_sfx": False, "sfx": [],
+            "chip_color": [226, 96, 35], "global_speed": 1.06, "voice_pitch": 1.025, "auto_sfx": False, "sfx": [],
             "clips": clips, "overlays": ovs,
-            "audio": [{"src": f"vo_happy/{name}.wav", "in": 0, "start": 0, "dur": round(end, 3), "eq": "voice_bright", "fade_out": 0.25}]}
+            "audio": [{"src": src, "in": 0, "start": 0, "dur": round(end, 3), "eq": "voice_bright", "fade_out": 0.25}]}
     json.dump(spec, open(name + "_v2.json", "w"), indent=1, ensure_ascii=False)
     print(name, round(end, 2), len(clips), "clips", len(caps), "caps")
 GREEN = [43, 94, 82]
@@ -51,7 +57,7 @@ build2("av9", s, "out/10_Avatar_10000StepsWasAnAd.mp4", "10,000 steps\nwas an *a
      (at(H, "fewer"), at(H, "so") - 0.1, "Benefits start\nbelow 10,000", 470, GREEN),
      (at(H, "add"), at(H, "walk") - 0.1, "+1,000 steps", 470, None),
      (at(H, "walk"), at(H, "send") - 0.1, "Walk + talk", 470, None)],
-    fix=[("MAMPO-K,", "Manpo-kei,"), ("Mampoke", "Manpo-kei"), ("10,000 step meter", "10,000-step meter")])
+    fix=[("MAMPO-K,", "Manpo-kei,"), ("Mampoke,", "Manpo-kei,"), ("Mampoke", "Manpo-kei"), ("10,000 step meter.", "10,000-step meter."), ("10,000 step meter", "10,000-step meter")])
 # --- walk after eating
 s = "avatar/av10.mp4"; W = words(s); H = hwords("av10")
 build2("av10", s, "out/11_Avatar_Walk2MinAfterEating.mp4", "Walk *2 minutes*\nafter eating", [
@@ -67,7 +73,7 @@ build2("av10", s, "out/11_Avatar_Walk2MinAfterEating.mp4", "Walk *2 minutes*\naf
      (at(H, "light"), at(H, "helps") - 0.1, "2–5 min walk", 470, None),
      (at(H, "helps"), at(H, "you") - 0.1, "Lower sugar spike", 470, GREEN),
      (at(H, "today"), at(H, "tag") - 0.1, "After lunch:\n1 lap", 470, None)],
-    fix=[("two to five minutes", "2–5 minutes")])
+    fix=[("two to five minutes", "2–5 minutes"), ("2-5", "2–5")])
 # --- salad (B)
 s = "avatar/av12.mp4"; W = words(s); H = hwords("av12")
 build2("av12", s, "out/13_Avatar_FatFreeSalad_B.mp4", "Your salad\nneeds *fat*", [

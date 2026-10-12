@@ -11,7 +11,7 @@
   35
  ],
  "global_speed": 1.06,
- "voice_pitch": 1.0,
+ "voice_pitch": 1.025,
  "auto_sfx": false,
  "sfx": [],
  "clips": [
@@ -128,130 +128,124 @@
   {
    "type": "caption",
    "text": "Some vitamins and antioxidants",
-   "start": 3.13,
-   "end": 4.62
+   "start": 3.0,
+   "end": 4.46
   },
   {
    "type": "caption",
    "text": "in vegetables,",
-   "start": 4.59,
-   "end": 5.54
+   "start": 4.43,
+   "end": 5.62
   },
   {
    "type": "caption",
    "text": "like the ones in",
-   "start": 5.51,
-   "end": 6.38
+   "start": 5.59,
+   "end": 6.34
   },
   {
    "type": "caption",
    "text": "tomatoes and carrots,",
-   "start": 6.35,
-   "end": 8.0
+   "start": 6.31,
+   "end": 7.9
   },
   {
    "type": "caption",
    "text": "need a little fat",
-   "start": 7.97,
-   "end": 8.78
+   "start": 7.87,
+   "end": 8.54
   },
   {
    "type": "caption",
    "text": "to be absorbed.",
-   "start": 8.75,
-   "end": 9.92
+   "start": 8.51,
+   "end": 9.82
   },
   {
    "type": "caption",
    "text": "In one study,",
-   "start": 9.89,
-   "end": 11.22
+   "start": 9.79,
+   "end": 10.92
   },
   {
    "type": "caption",
    "text": "adding avocado to a",
-   "start": 11.19,
-   "end": 12.3
+   "start": 10.89,
+   "end": 11.9
   },
   {
    "type": "caption",
    "text": "salad greatly increased how",
-   "start": 12.27,
-   "end": 14.1
+   "start": 11.87,
+   "end": 13.76
   },
   {
    "type": "caption",
    "text": "much of those antioxidants",
-   "start": 14.07,
-   "end": 15.42
+   "start": 13.73,
+   "end": 14.94
   },
   {
    "type": "caption",
    "text": "people absorbed.",
-   "start": 15.39,
-   "end": 16.54
+   "start": 14.91,
+   "end": 16.46
   },
   {
    "type": "caption",
    "text": "So today,",
-   "start": 16.51,
-   "end": 17.34
+   "start": 16.45,
+   "end": 17.3
   },
   {
    "type": "caption",
    "text": "add avocado,",
-   "start": 17.31,
-   "end": 18.38
+   "start": 17.27,
+   "end": 18.22
   },
   {
    "type": "caption",
    "text": "olive oil,",
-   "start": 18.35,
-   "end": 19.08
+   "start": 18.19,
+   "end": 19.04
   },
   {
    "type": "caption",
-   "text": "or seeds to your",
-   "start": 19.05,
-   "end": 20.2
-  },
-  {
-   "type": "caption",
-   "text": "salad.",
-   "start": 20.17,
-   "end": 20.78
+   "text": "or seeds to your salad.",
+   "start": 19.01,
+   "end": 20.66
   },
   {
    "type": "caption",
    "text": "Save this for your",
-   "start": 20.75,
-   "end": 21.44
+   "start": 20.63,
+   "end": 21.36
   },
   {
    "type": "caption",
    "text": "next salad.",
-   "start": 21.41,
-   "end": 22.24
+   "start": 21.33,
+   "end": 22.18
   },
   {
    "type": "cite",
    "text": "Unlu et al. · Journal of Nutrition 2005",
-   "start": 9.79,
-   "end": 16.36
+   "start": 9.69,
+   "end": 16.3
   },
   {
    "type": "callout",
    "text": "Tomatoes · Carrots",
-   "start": 6.4,
-   "end": 7.92,
+   "start": 6.36,
+   "end": 7.82,
    "y": 470,
    "size": 84
   },
   {
    "type": "callout",
    "text": "+ a little fat",
-   "start": 8.12,
-   "end": 9.74,
+   "start": 8.02,
+   "end": 9.64,
    "y": 1060,
    "size": 84,
    "bg": [
@@ -263,8 +257,8 @@
   {
    "type": "callout",
    "text": "More antioxidants\nabsorbed",
-   "start": 12.64,
-   "end": 16.46,
+   "start": 12.28,
+   "end": 16.4,
    "y": 470,
    "size": 84,
    "bg": [
@@ -276,15 +270,15 @@
   {
    "type": "callout",
    "text": "Avocado · Olive oil · Seeds",
-   "start": 17.44,
-   "end": 20.7,
+   "start": 17.42,
+   "end": 20.58,
    "y": 470,
    "size": 84
   }
  ],
  "audio": [
   {
-   "src": "vo_happy/av12.wav",
+   "src": "avatar/av12.mp4",
    "in": 0,
    "start": 0,
    "dur": 22.35,

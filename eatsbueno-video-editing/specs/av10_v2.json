@@ -11,7 +11,7 @@
   35
  ],
  "global_speed": 1.06,
- "voice_pitch": 1.0,
+ "voice_pitch": 1.025,
  "auto_sfx": false,
  "sfx": [],
  "clips": [
@@ -110,116 +110,98 @@
   {
    "type": "caption",
    "text": "A review of several",
-   "start": 3.01,
-   "end": 3.84
+   "start": 3.0,
+   "end": 3.7
   },
   {
    "type": "caption",
    "text": "studies found that a",
-   "start": 3.81,
-   "end": 5.2
+   "start": 3.67,
+   "end": 4.84
   },
   {
    "type": "caption",
    "text": "light walk of just",
-   "start": 5.17,
-   "end": 6.26
+   "start": 4.81,
+   "end": 5.84
   },
   {
    "type": "caption",
-   "text": "2–5 minutes",
-   "start": 6.23,
-   "end": 7.2
+   "text": "2–5 minutes after a",
+   "start": 5.81,
+   "end": 7.3
   },
   {
    "type": "caption",
-   "text": "after a meal already",
-   "start": 7.17,
-   "end": 8.46
+   "text": "meal already helps your",
+   "start": 7.27,
+   "end": 8.76
   },
   {
    "type": "caption",
-   "text": "helps your body handle",
-   "start": 8.43,
-   "end": 9.96
+   "text": "body handle the sugar",
+   "start": 8.73,
+   "end": 9.86
   },
   {
    "type": "caption",
-   "text": "the sugar from that",
-   "start": 9.93,
-   "end": 10.92
+   "text": "from that meal.",
+   "start": 9.83,
+   "end": 11.18
   },
   {
    "type": "caption",
-   "text": "meal.",
-   "start": 10.89,
-   "end": 11.36
-  },
-  {
-   "type": "caption",
-   "text": "You don't need a",
-   "start": 11.33,
-   "end": 11.88
-  },
-  {
-   "type": "caption",
-   "text": "workout,",
-   "start": 11.85,
-   "end": 12.62
+   "text": "You don't need a workout,",
+   "start": 11.21,
+   "end": 12.48
   },
   {
    "type": "caption",
    "text": "just walk.",
-   "start": 12.59,
-   "end": 13.54
+   "start": 12.45,
+   "end": 13.44
   },
   {
    "type": "caption",
    "text": "Today,",
-   "start": 13.51,
-   "end": 14.1
+   "start": 13.41,
+   "end": 14.16
   },
   {
    "type": "caption",
    "text": "after lunch,",
-   "start": 14.07,
-   "end": 15.14
+   "start": 14.13,
+   "end": 15.12
   },
   {
    "type": "caption",
    "text": "take a lap around",
-   "start": 15.11,
-   "end": 15.84
+   "start": 15.09,
+   "end": 15.82
   },
   {
    "type": "caption",
-   "text": "the office or the",
-   "start": 15.81,
-   "end": 16.78
-  },
-  {
-   "type": "caption",
-   "text": "block.",
-   "start": 16.75,
-   "end": 17.62
+   "text": "the office or the block.",
+   "start": 15.79,
+   "end": 17.52
   },
   {
    "type": "caption",
    "text": "Tag your walking buddy.",
-   "start": 17.59,
-   "end": 18.86
+   "start": 17.49,
+   "end": 18.7
   },
   {
    "type": "cite",
    "text": "Buffey et al. · Sports Medicine 2022",
-   "start": 5.22,
-   "end": 11.18
+   "start": 4.86,
+   "end": 11.06
   },
   {
    "type": "callout",
    "text": "7 studies reviewed",
-   "start": 2.86,
-   "end": 5.12,
+   "start": 2.76,
+   "end": 4.76,
    "y": 470,
    "size": 84,
    "bg": [
@@ -231,16 +213,16 @@
   {
    "type": "callout",
    "text": "2–5 min walk",
-   "start": 5.22,
-   "end": 8.38,
+   "start": 4.86,
+   "end": 8.16,
    "y": 470,
    "size": 84
   },
   {
    "type": "callout",
    "text": "Lower sugar spike",
-   "start": 8.48,
-   "end": 11.28,
+   "start": 8.26,
+   "end": 11.16,
    "y": 470,
    "size": 84,
    "bg": [
@@ -252,15 +234,15 @@
   {
    "type": "callout",
    "text": "After lunch:\n1 lap",
-   "start": 13.56,
-   "end": 17.54,
+   "start": 13.46,
+   "end": 17.44,
    "y": 470,
    "size": 84
   }
  ],
  "audio": [
   {
-   "src": "vo_happy/av10.wav",
+   "src": "avatar/av10.mp4",
    "in": 0,
    "start": 0,
    "dur": 18.87,
