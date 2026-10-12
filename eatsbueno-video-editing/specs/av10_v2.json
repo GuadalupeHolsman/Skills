@@ -1,0 +1,271 @@
+{
+ "out": "out/11_Avatar_Walk2MinAfterEating.mp4",
+ "grade": "natural",
+ "caption_style": "clean",
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.0,
+ "auto_sfx": false,
+ "sfx": [],
+ "clips": [
+  {
+   "src": "avatar/av10.mp4",
+   "in": 0.0,
+   "dur": 2.78,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "pan": [
+    0.5,
+    0.36
+   ]
+  },
+  {
+   "src": "broll/lunch.mp4",
+   "in": 2.0,
+   "dur": 1.98,
+   "zoom": [
+    1.0,
+    1.04
+   ]
+  },
+  {
+   "src": "broll/glucose.mp4",
+   "in": 0.5,
+   "dur": 3.4,
+   "zoom": [
+    1.0,
+    1.04
+   ]
+  },
+  {
+   "src": "broll/citywalk.mp4",
+   "in": 0.0,
+   "dur": 3.0,
+   "zoom": [
+    1.0,
+    1.04
+   ]
+  },
+  {
+   "src": "avatar/av10.mp4",
+   "in": 11.16,
+   "dur": 2.2,
+   "zoom": [
+    1.2,
+    1.28
+   ],
+   "pan": [
+    0.5,
+    0.36
+   ]
+  },
+  {
+   "src": "broll/friendswalk.mp4",
+   "in": 4.0,
+   "dur": 4.08,
+   "zoom": [
+    1.0,
+    1.04
+   ]
+  },
+  {
+   "src": "avatar/av10.mp4",
+   "in": 17.44,
+   "dur": 1.43,
+   "zoom": [
+    1.06,
+    1.14
+   ],
+   "pan": [
+    0.5,
+    0.36
+   ]
+  }
+ ],
+ "overlays": [
+  {
+   "type": "headline",
+   "text": "Walk *2 minutes*\nafter eating",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
+   "start": 0.0,
+   "end": 3.0,
+   "y": 960,
+   "size": 150,
+   "anim": "pop"
+  },
+  {
+   "type": "caption",
+   "text": "A review of several",
+   "start": 3.01,
+   "end": 3.84
+  },
+  {
+   "type": "caption",
+   "text": "studies found that a",
+   "start": 3.81,
+   "end": 5.2
+  },
+  {
+   "type": "caption",
+   "text": "light walk of just",
+   "start": 5.17,
+   "end": 6.26
+  },
+  {
+   "type": "caption",
+   "text": "2–5 minutes",
+   "start": 6.23,
+   "end": 7.2
+  },
+  {
+   "type": "caption",
+   "text": "after a meal already",
+   "start": 7.17,
+   "end": 8.46
+  },
+  {
+   "type": "caption",
+   "text": "helps your body handle",
+   "start": 8.43,
+   "end": 9.96
+  },
+  {
+   "type": "caption",
+   "text": "the sugar from that",
+   "start": 9.93,
+   "end": 10.92
+  },
+  {
+   "type": "caption",
+   "text": "meal.",
+   "start": 10.89,
+   "end": 11.36
+  },
+  {
+   "type": "caption",
+   "text": "You don't need a",
+   "start": 11.33,
+   "end": 11.88
+  },
+  {
+   "type": "caption",
+   "text": "workout,",
+   "start": 11.85,
+   "end": 12.62
+  },
+  {
+   "type": "caption",
+   "text": "just walk.",
+   "start": 12.59,
+   "end": 13.54
+  },
+  {
+   "type": "caption",
+   "text": "Today,",
+   "start": 13.51,
+   "end": 14.1
+  },
+  {
+   "type": "caption",
+   "text": "after lunch,",
+   "start": 14.07,
+   "end": 15.14
+  },
+  {
+   "type": "caption",
+   "text": "take a lap around",
+   "start": 15.11,
+   "end": 15.84
+  },
+  {
+   "type": "caption",
+   "text": "the office or the",
+   "start": 15.81,
+   "end": 16.78
+  },
+  {
+   "type": "caption",
+   "text": "block.",
+   "start": 16.75,
+   "end": 17.62
+  },
+  {
+   "type": "caption",
+   "text": "Tag your walking buddy.",
+   "start": 17.59,
+   "end": 18.86
+  },
+  {
+   "type": "cite",
+   "text": "Buffey et al. · Sports Medicine 2022",
+   "start": 5.22,
+   "end": 11.18
+  },
+  {
+   "type": "callout",
+   "text": "7 studies reviewed",
+   "start": 2.86,
+   "end": 5.12,
+   "y": 470,
+   "size": 84,
+   "bg": [
+    43,
+    94,
+    82
+   ]
+  },
+  {
+   "type": "callout",
+   "text": "2–5 min walk",
+   "start": 5.22,
+   "end": 8.38,
+   "y": 470,
+   "size": 84
+  },
+  {
+   "type": "callout",
+   "text": "Lower sugar spike",
+   "start": 8.48,
+   "end": 11.28,
+   "y": 470,
+   "size": 84,
+   "bg": [
+    43,
+    94,
+    82
+   ]
+  },
+  {
+   "type": "callout",
+   "text": "After lunch:\n1 lap",
+   "start": 13.56,
+   "end": 17.54,
+   "y": 470,
+   "size": 84
+  }
+ ],
+ "audio": [
+  {
+   "src": "vo_happy/av10.wav",
+   "in": 0,
+   "start": 0,
+   "dur": 18.87,
+   "eq": "voice_bright",
+   "fade_out": 0.25
+  }
+ ]
+}

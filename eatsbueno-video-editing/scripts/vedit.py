@@ -202,6 +202,22 @@ def cite_png(W, H, text, y=1590, size=34):
     d.text(((W - tw) / 2, y + pady - 4), text, font=f, fill=CREAM)
     return im
 
+def callout_png(W, H, text, y=520, size=70, bg=None, fg=None):
+    """Bold info sticker (e.g. '+1,000 steps'): Manrope ExtraBold on a brand-colour rounded card, slight tilt."""
+    bg = tuple(bg) if bg else (226, 96, 35); fg = tuple(fg) if fg else CREAM
+    f = font("Manrope800", size); probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    lines = text.split("\n"); lh = int(size * 1.15); tw = max(probe.textlength(l, font=f) for l in lines)
+    padx, pady = 40, 26; bw, bh = int(tw + 2 * padx), int(lh * len(lines) + 2 * pady - (lh - size))
+    card = Image.new("RGBA", (bw + 40, bh + 40), (0, 0, 0, 0)); d = ImageDraw.Draw(card)
+    sh = Image.new("RGBA", card.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle((20, 28, 20 + bw, 28 + bh), 30, fill=(0, 0, 0, 120))
+    card.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
+    d.rounded_rectangle((20, 20, 20 + bw, 20 + bh), 30, fill=bg + (255,))
+    for i, l in enumerate(lines):
+        d.text((20 + (bw - probe.textlength(l, font=f)) / 2, 20 + pady + i * lh - size * 0.12), l, font=f, fill=fg)
+    card = card.rotate(-3, resample=Image.BICUBIC, expand=True)
+    im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); im.alpha_composite(card, ((W - card.width) // 2, int(y)))
+    return im
+
 def caption_png(W, H, text, y, size=66, keywords=()):
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     f = font("Manrope800", size); d = ImageDraw.Draw(im)
@@ -474,6 +490,8 @@ def main(spec_path):
             anim = o.get("anim", "rise")
         elif o["type"] == "cite":
             im = cite_png(W, H, o["text"], o.get("y", 1590)); anim = o.get("anim", "fade")
+        elif o["type"] == "callout":
+            im = callout_png(W, H, o["text"], o.get("y", 520), o.get("size", 70), o.get("bg"), o.get("fg")); anim = o.get("anim", "pop")
         elif o["type"] == "png":
             im = Image.open(o["path"]).convert("RGBA"); anim = o.get("anim", "pop")
         im, (x, y) = crop_png(im); p = os.path.join(work, f"ov{j:03d}.png"); im.save(p)

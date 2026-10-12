@@ -1,0 +1,293 @@
+{
+ "out": "out/10_Avatar_10000StepsWasAnAd.mp4",
+ "grade": "natural",
+ "caption_style": "clean",
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.0,
+ "auto_sfx": false,
+ "sfx": [],
+ "clips": [
+  {
+   "src": "avatar/av9.mp4",
+   "in": 0.0,
+   "dur": 3.5,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "pan": [
+    0.5,
+    0.36
+   ]
+  },
+  {
+   "image": "avatar/manpokei_card.jpg",
+   "dur": 4.78,
+   "zoom": [
+    1.0,
+    1.05
+   ]
+  },
+  {
+   "src": "broll/stairs.mp4",
+   "in": 5.0,
+   "dur": 2.28,
+   "zoom": [
+    1.0,
+    1.04
+   ]
+  },
+  {
+   "src": "avatar/av9.mp4",
+   "in": 10.56,
+   "dur": 2.76,
+   "zoom": [
+    1.2,
+    1.28
+   ],
+   "pan": [
+    0.5,
+    0.36
+   ]
+  },
+  {
+   "src": "broll/scientist.mp4",
+   "in": 1.0,
+   "dur": 4.06,
+   "zoom": [
+    1.0,
+    1.04
+   ]
+  },
+  {
+   "src": "broll/jpstreet.mp4",
+   "in": 3.5,
+   "dur": 3.7,
+   "zoom": [
+    1.0,
+    1.04
+   ]
+  },
+  {
+   "src": "broll/phonewalk2.mp4",
+   "in": 1.0,
+   "dur": 1.12,
+   "zoom": [
+    1.0,
+    1.04
+   ]
+  },
+  {
+   "src": "avatar/av9.mp4",
+   "in": 22.2,
+   "dur": 3.73,
+   "zoom": [
+    1.06,
+    1.14
+   ],
+   "pan": [
+    0.5,
+    0.36
+   ]
+  }
+ ],
+ "overlays": [
+  {
+   "type": "headline",
+   "text": "10,000 steps\nwas an *ad*",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
+   "start": 0.0,
+   "end": 3.0,
+   "y": 960,
+   "size": 150,
+   "anim": "pop"
+  },
+  {
+   "type": "caption",
+   "text": "In 1965,",
+   "start": 3.67,
+   "end": 5.06
+  },
+  {
+   "type": "caption",
+   "text": "a pedometer in Japan",
+   "start": 5.03,
+   "end": 6.08
+  },
+  {
+   "type": "caption",
+   "text": "was sold under the",
+   "start": 6.05,
+   "end": 7.06
+  },
+  {
+   "type": "caption",
+   "text": "name Manpo-kei,",
+   "start": 7.03,
+   "end": 8.4
+  },
+  {
+   "type": "caption",
+   "text": "which means 10,000-step meter.",
+   "start": 8.37,
+   "end": 10.68
+  },
+  {
+   "type": "caption",
+   "text": "It was a brand",
+   "start": 10.65,
+   "end": 11.3
+  },
+  {
+   "type": "caption",
+   "text": "name,",
+   "start": 11.27,
+   "end": 11.8
+  },
+  {
+   "type": "caption",
+   "text": "not a scientific rule.",
+   "start": 11.77,
+   "end": 13.5
+  },
+  {
+   "type": "caption",
+   "text": "Recent studies show the",
+   "start": 13.47,
+   "end": 14.7
+  },
+  {
+   "type": "caption",
+   "text": "benefits start with fewer",
+   "start": 14.67,
+   "end": 15.98
+  },
+  {
+   "type": "caption",
+   "text": "steps than you think.",
+   "start": 15.95,
+   "end": 17.6
+  },
+  {
+   "type": "caption",
+   "text": "So today,",
+   "start": 17.57,
+   "end": 18.52
+  },
+  {
+   "type": "caption",
+   "text": "just add 1,000 more",
+   "start": 18.49,
+   "end": 20.1
+  },
+  {
+   "type": "caption",
+   "text": "steps than usual.",
+   "start": 20.07,
+   "end": 21.28
+  },
+  {
+   "type": "caption",
+   "text": "Walk while you're on",
+   "start": 21.25,
+   "end": 21.84
+  },
+  {
+   "type": "caption",
+   "text": "the phone.",
+   "start": 21.81,
+   "end": 22.4
+  },
+  {
+   "type": "caption",
+   "text": "Send this to someone",
+   "start": 22.37,
+   "end": 23.38
+  },
+  {
+   "type": "caption",
+   "text": "stressing about 10,000 steps.",
+   "start": 23.35,
+   "end": 25.64
+  },
+  {
+   "type": "cite",
+   "text": "Paluch et al. · Lancet Public Health 2022",
+   "start": 13.52,
+   "end": 17.47
+  },
+  {
+   "type": "callout",
+   "text": "10,000 = marketing",
+   "start": 8.42,
+   "end": 10.6,
+   "y": 470,
+   "size": 84
+  },
+  {
+   "type": "callout",
+   "text": "Not a science rule",
+   "start": 10.9,
+   "end": 13.42,
+   "y": 1060,
+   "size": 84,
+   "bg": [
+    43,
+    94,
+    82
+   ]
+  },
+  {
+   "type": "callout",
+   "text": "Benefits start\nbelow 10,000",
+   "start": 15.68,
+   "end": 17.52,
+   "y": 470,
+   "size": 84,
+   "bg": [
+    43,
+    94,
+    82
+   ]
+  },
+  {
+   "type": "callout",
+   "text": "+1,000 steps",
+   "start": 18.72,
+   "end": 21.2,
+   "y": 470,
+   "size": 84
+  },
+  {
+   "type": "callout",
+   "text": "Walk + talk",
+   "start": 21.3,
+   "end": 22.32,
+   "y": 470,
+   "size": 84
+  }
+ ],
+ "audio": [
+  {
+   "src": "vo_happy/av9.wav",
+   "in": 0,
+   "start": 0,
+   "dur": 25.93,
+   "eq": "voice_bright",
+   "fade_out": 0.25
+  }
+ ]
+}
