@@ -29,7 +29,9 @@ def build(name, src, out, head, shots, cites, t0=0.0, t1=None, fix=None):
     for i, (t, kind, arg) in enumerate(shots):
         nxt = shots[i + 1][0] if i + 1 < len(shots) else end
         d = round(nxt - t, 3)
-        if kind == "face": clips.append({"src": src, "in": round(t, 3), "dur": d, "zoom": [arg, arg], "pan": [0.5, 0.42]})
+        if kind == "face":
+            z = arg if isinstance(arg, list) else [arg, arg]
+            clips.append({"src": src, "in": round(t, 3), "dur": d, "zoom": z, "pan": [0.5, 0.38]})
         elif kind == "card": clips.append(dict(arg, card=True, dur=d, zoom=[1.0, 1.0]))
         else: clips.append({"src": B + kind + ".mp4", "in": arg, "dur": d, "zoom": [1.0, 1.0]})
     caps = captions(W)
@@ -53,10 +55,10 @@ s = "avatar/av9.mp4"; W = words(s)
 build("av9", s, "out/10_Avatar_10000StepsWasAnAd.mp4", "10,000 steps\nwas an *ad*", [
     (0.0, "face", 1.0),
     (at(W, "in") - 0.1, "card", {"palette": "green", "kicker": "1965 · Japan", "title": "Manpo-kei\n“10,000-step meter”"}),
-    (at(W, "which") - 0.1, "tokyo", 6.0),
+    (at(W, "which") - 0.1, "stairs", 5.0),
     (at(W, "it") - 0.1, "face", 1.18),
     (at(W, "recent") - 0.1, "scientist", 1.0),
-    (at(W, "so") - 0.1, "stairs", 3.0),
+    (at(W, "so") - 0.1, "jpstreet", 3.5),
     (at(W, "walk") - 0.1, "phonewalk2", 1.0),
     (at(W, "send") - 0.1, "face", 1.1)],
     [(at(W, "recent"), at(W, "so") - 0.15, "Paluch et al. · Lancet Public Health 2022")],
@@ -73,7 +75,7 @@ build("av10", s, "out/11_Avatar_Walk2MinAfterEating.mp4", "Walk *2 minutes*\naft
     (at(W, "tag") - 0.1, "face", 1.08)],
     [(at(W, "light"), at(W, "you") - 0.2, "Buffey et al. · Sports Medicine 2022")])
 # --- salad x3
-for n, out in (("av11", "12_Avatar_FatFreeSalad_A.mp4"), ("av12", "13_Avatar_FatFreeSalad_B.mp4"), ("av13", "14_Avatar_FatFreeSalad_C.mp4")):
+for n, out in (("av12", "13_Avatar_FatFreeSalad_B.mp4"),):
     s = f"avatar/{n}.mp4"; W = words(s)
     build(n, s, "out/" + out, "Your salad\nneeds *fat*", [
         (0.0, "face", 1.0),
@@ -81,7 +83,7 @@ for n, out in (("av11", "12_Avatar_FatFreeSalad_A.mp4"), ("av12", "13_Avatar_Fat
         (at(W, "like") - 0.1, "carrot", 2.0),
         (at(W, "need") - 0.1, "face", 1.18),
         (at(W, "one") - 0.35, "avocado", 1.0),
-        (at(W, "greatly") - 0.1, "avosalad", 3.0),
+        (at(W, "greatly") - 0.1, "saladprep", 8.0),
         (at(W, "so") - 0.1, "oliveoil", 4.0),
         (at(W, "or") - 0.1, "saladbowl", 1.0),
         (at(W, "save") - 0.1, "face", 1.08)],
@@ -89,11 +91,14 @@ for n, out in (("av11", "12_Avatar_FatFreeSalad_A.mp4"), ("av12", "13_Avatar_Fat
 # --- real take (WhatsApp)
 s = "up2/v1747.mp4"; W = words(s); t0 = 1.75
 build("take1747", s, "out/15_InvestInYourself.mp4", "*Invest*\nin yourself", [
-    (t0, "face", 1.0),
-    (at(W, "rush") - 0.3, "cityrush", 2.0),
-    (at(W, "true") - 0.1, "face", 1.12),
-    (at(W, "protecting") - 0.1, "face", 1.0),
-    (at(W, "when") - 0.1, "face", 1.15),
+    (t0, "face", [1.0, 1.06]),
+    (at(W, "rush") - 0.3, "exhausted", 2.0),
+    (at(W, "true") - 0.1, "face", [1.15, 1.2]),
+    (at(W, "creating") - 0.1, "sunwalk", 8.0),
+    (at(W, "protecting") - 0.1, "stretch", 3.0),
+    (at(W, "when") - 0.1, "face", [1.25, 1.25]),
+    (at(W, "everything") - 0.1, "face", [1.0, 1.06]),
     (at(W, "breath") - 0.35, "breath", 2.0),
-    (at(W, "invest") - 0.15, "face", 1.12)],
+    (at(W, "invest") - 0.15, "face", [1.15, 1.22]),
+    (at(W, "you", 1, at(W, "invest") + 0.5) - 0.1, "face", [1.0, 1.0])],
     [], t0=t0, fix=[("well -being", "well-being")])
