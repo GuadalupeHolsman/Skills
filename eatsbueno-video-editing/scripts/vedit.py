@@ -60,16 +60,20 @@ def hdr_prefix(src):
     return (f"zscale=tin={trc}:min=bt2020nc:pin=bt2020:rin=tv:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,"
             "tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p,")
 
-def stabilized(src, start, length, work):
+def stabilized(src, start, length, work, mode="tripod"):
     """Tripod-lock a source window with vid.stab (camera held still; only the subject moves). Cached."""
-    key = hashlib.md5(f"{os.path.abspath(src)}|{start:.3f}|{length:.3f}|v1".encode()).hexdigest()[:12]
+    key = hashlib.md5(f"{os.path.abspath(src)}|{start:.3f}|{length:.3f}|{mode}|v1".encode()).hexdigest()[:12]
     out = os.path.join(work, f"stab_{key}.mp4"); trf = os.path.join(work, f"stab_{key}.trf")
     if os.path.exists(out): return out
     seg = os.path.join(work, f"stab_{key}_src.mp4")
     run(["ffmpeg", "-y", "-v", "error", "-ss", f"{start:.3f}", "-t", f"{length + 0.1:.3f}", "-i", src, "-an",
          "-c:v", "libx264", "-preset", "fast", "-crf", "12", seg])
-    run(["ffmpeg", "-y", "-v", "error", "-i", seg, "-vf", f"vidstabdetect=shakiness=8:accuracy=15:tripod=1:result={trf}", "-f", "null", "-"])
-    run(["ffmpeg", "-y", "-v", "error", "-i", seg, "-vf", f"vidstabtransform=input={trf}:tripod=1:optzoom=1:interpol=bicubic",
+    if mode == "smooth":  # gentle path smoothing: never locks onto hands moving through the frame
+        det, tr = "shakiness=5:accuracy=15:stepsize=6:mincontrast=0.3", "smoothing=45:optzoom=1:interpol=bicubic"
+    else:
+        det, tr = "shakiness=8:accuracy=15:tripod=1", "tripod=1:optzoom=1:interpol=bicubic"
+    run(["ffmpeg", "-y", "-v", "error", "-i", seg, "-vf", f"vidstabdetect={det}:result={trf}", "-f", "null", "-"])
+    run(["ffmpeg", "-y", "-v", "error", "-i", seg, "-vf", f"vidstabtransform=input={trf}:{tr}",
          "-an", "-c:v", "libx264", "-preset", "fast", "-crf", "12", out])
     return out
 
@@ -399,7 +403,7 @@ def main(spec_path):
             if spd != 1.0: vf = f"setpts=PTS/{spd}," + vf
             vf = hdr_prefix(c["src"]) + vf
             src_in, src_ss = c["src"], cin
-            if c.get("stabilize"): src_in, src_ss = stabilized(c["src"], cin, need, work), 0.0
+            if c.get("stabilize"): src_in, src_ss = stabilized(c["src"], cin, need, work, "smooth" if c["stabilize"] == "smooth" else "tripod"), 0.0
             run_cached(["ffmpeg", "-y", "-v", "error", "-ss", f"{src_ss:.3f}", "-t", f"{need:.3f}", "-i", src_in,
                  "-vf", vf + ",tpad=stop_mode=clone:stop_duration=2", "-an", *SDR_TAGS, "-c:v", "libx264", "-preset", "medium", "-crf", "17",
                  "-r", str(FPS), "-t", f"{rdur:.3f}", out], out)

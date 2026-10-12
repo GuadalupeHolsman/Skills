@@ -13,16 +13,12 @@
    ]
   },
   {
-   "src": "redvelvet/IMG_0273.MOV",
-   "in": 4.5,
+   "image": "redvelvet/freeze/f01.png",
    "dur": 1.5,
-   "speed": 1.0,
    "zoom": [
     1.0,
     1.0
-   ],
-   "audio": false,
-   "stabilize": true
+   ]
   },
   {
    "src": "redvelvet/IMG_0273.MOV",
@@ -33,8 +29,7 @@
     1.0,
     1.0
    ],
-   "audio": false,
-   "stabilize": true
+   "audio": false
   },
   {
    "src": "redvelvet/IMG_0274.MOV",
@@ -45,8 +40,7 @@
     1.0,
     1.0
    ],
-   "audio": false,
-   "stabilize": true
+   "audio": false
   },
   {
    "src": "redvelvet/IMG_0274.MOV",
@@ -57,20 +51,15 @@
     1.0,
     1.0
    ],
-   "audio": false,
-   "stabilize": true
+   "audio": false
   },
   {
-   "src": "redvelvet/IMG_0275.MOV",
-   "in": 2.1,
+   "image": "redvelvet/freeze/f05.png",
    "dur": 1.2,
-   "speed": 1.0,
    "zoom": [
     1.0,
     1.0
-   ],
-   "audio": false,
-   "stabilize": true
+   ]
   },
   {
    "src": "redvelvet/IMG_0275.MOV",
@@ -81,20 +70,15 @@
     1.0,
     1.0
    ],
-   "audio": false,
-   "stabilize": true
+   "audio": false
   },
   {
-   "src": "redvelvet/IMG_0276.MOV",
-   "in": 6.5,
+   "image": "redvelvet/freeze/f07.png",
    "dur": 1.4,
-   "speed": 1.0,
    "zoom": [
     1.0,
     1.0
-   ],
-   "audio": false,
-   "stabilize": true
+   ]
   },
   {
    "src": "redvelvet/IMG_0276.MOV",
@@ -105,20 +89,15 @@
     1.0,
     1.0
    ],
-   "audio": false,
-   "stabilize": true
+   "audio": false
   },
   {
-   "src": "redvelvet/IMG_0277.MOV",
-   "in": 2.6,
+   "image": "redvelvet/freeze/f09.png",
    "dur": 0.8,
-   "speed": 1.0,
    "zoom": [
     1.0,
     1.0
-   ],
-   "audio": false,
-   "stabilize": true
+   ]
   },
   {
    "src": "redvelvet/IMG_0277.MOV",
@@ -129,20 +108,15 @@
     1.0,
     1.0
    ],
-   "audio": false,
-   "stabilize": true
+   "audio": false
   },
   {
-   "src": "redvelvet/IMG_0277.MOV",
-   "in": 38.2,
+   "image": "redvelvet/freeze/f11.png",
    "dur": 0.75,
-   "speed": 1.0,
    "zoom": [
     1.0,
     1.0
-   ],
-   "audio": false,
-   "stabilize": true
+   ]
   },
   {
    "src": "redvelvet/IMG_0277.MOV",
@@ -153,8 +127,7 @@
     1.0,
     1.0
    ],
-   "audio": false,
-   "stabilize": true
+   "audio": false
   },
   {
    "src": "redvelvet/IMG_0277.MOV",
@@ -166,7 +139,7 @@
     1.0
    ],
    "audio": false,
-   "stabilize": true
+   "stabilize": "smooth"
   },
   {
    "src": "redvelvet/IMG_0277.MOV",
@@ -178,19 +151,15 @@
     1.0
    ],
    "audio": false,
-   "stabilize": true
+   "stabilize": "smooth"
   },
   {
-   "src": "redvelvet/IMG_0278.MOV",
-   "in": 6.2,
+   "image": "redvelvet/freeze/f15.png",
    "dur": 0.8,
-   "speed": 1.0,
    "zoom": [
     1.0,
     1.0
-   ],
-   "audio": false,
-   "stabilize": true
+   ]
   },
   {
    "src": "redvelvet/IMG_0278.MOV",
@@ -201,8 +170,7 @@
     1.0,
     1.0
    ],
-   "audio": false,
-   "stabilize": true
+   "audio": false
   },
   {
    "src": "redvelvet/IMG_0279.MOV",
@@ -213,8 +181,7 @@
     1.0,
     1.0
    ],
-   "audio": false,
-   "stabilize": true
+   "audio": false
   },
   {
    "src": "redvelvet/IMG_0280.MOV",
@@ -225,44 +192,31 @@
     1.0,
     1.0
    ],
-   "audio": false,
-   "stabilize": true
+   "audio": false
   },
   {
-   "src": "redvelvet/IMG_0281.MOV",
-   "in": 6.2,
+   "image": "redvelvet/freeze/f19.png",
    "dur": 1.5,
-   "speed": 1.6,
    "zoom": [
     1.0,
     1.0
-   ],
-   "audio": false,
-   "stabilize": true
+   ]
   },
   {
-   "src": "redvelvet/IMG_0282.MOV",
-   "in": 9.5,
+   "image": "redvelvet/freeze/f20.png",
    "dur": 1.624,
-   "speed": 1.6,
    "zoom": [
     1.0,
     1.0
-   ],
-   "audio": false,
-   "stabilize": true
+   ]
   },
   {
-   "src": "redvelvet/IMG_0310.MOV",
-   "in": 1.0,
+   "image": "redvelvet/freeze/f21.png",
    "dur": 1.2,
-   "speed": 1.6,
    "zoom": [
     1.0,
     1.0
-   ],
-   "audio": false,
-   "stabilize": true
+   ]
   },
   {
    "src": "redvelvet/IMG_0311.MOV",
@@ -274,19 +228,15 @@
     1.0
    ],
    "audio": false,
-   "stabilize": true
+   "stabilize": "smooth"
   },
   {
-   "src": "redvelvet/IMG_0313.MOV",
-   "in": 1.0,
+   "image": "redvelvet/freeze/f23.png",
    "dur": 1.6,
-   "speed": 1.0,
    "zoom": [
     1.0,
     1.0
-   ],
-   "audio": false,
-   "stabilize": true
+   ]
   },
   {
    "src": "redvelvet/IMG_0313.MOV",
@@ -298,7 +248,7 @@
     1.0
    ],
    "audio": false,
-   "stabilize": true
+   "stabilize": "smooth"
   },
   {
    "src": "redvelvet/IMG_0313.MOV",
@@ -309,20 +259,15 @@
     1.0,
     1.0
    ],
-   "audio": false,
-   "stabilize": true
+   "audio": false
   },
   {
-   "src": "redvelvet/IMG_0314.MOV",
-   "in": 0.6,
+   "image": "redvelvet/freeze/f26.png",
    "dur": 2.001,
-   "speed": 1.0,
    "zoom": [
     1.0,
     1.0
-   ],
-   "audio": false,
-   "stabilize": true
+   ]
   },
   {
    "src": "redvelvet/IMG_0316.MOV",
@@ -334,7 +279,7 @@
     1.0
    ],
    "audio": false,
-   "stabilize": true
+   "stabilize": "smooth"
   },
   {
    "image": "redvelvet/IMG_0317.jpg",
