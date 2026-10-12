@@ -91,14 +91,17 @@ for n, out in (("av12", "13_Avatar_FatFreeSalad_B.mp4"),):
 # --- real take (WhatsApp)
 s = "up2/v1747.mp4"; W = words(s); t0 = 1.75
 build("take1747", s, "out/15_InvestInYourself.mp4", "*Invest*\nin yourself", [
-    (t0, "face", [1.0, 1.06]),
+    (t0, "face", [1.0, 1.0]),
+    (at(W, "it's", 1) - 0.08, "face", [1.22, 1.22]),
     (at(W, "rush") - 0.3, "exhausted", 2.0),
-    (at(W, "true") - 0.1, "face", [1.15, 1.2]),
+    (at(W, "true") - 0.1, "face", [1.0, 1.0]),
+    (at(W, "it's", 1, at(W, "true")) - 0.08, "face", [1.28, 1.28]),
     (at(W, "creating") - 0.1, "sunwalk", 8.0),
     (at(W, "protecting") - 0.1, "stretch", 3.0),
-    (at(W, "when") - 0.1, "face", [1.25, 1.25]),
-    (at(W, "everything") - 0.1, "face", [1.0, 1.06]),
+    (at(W, "when") - 0.1, "face", [1.3, 1.3]),
+    (at(W, "everything") - 0.1, "face", [1.0, 1.0]),
+    (at(W, "falls") - 0.08, "face", [1.2, 1.2]),
     (at(W, "breath") - 0.35, "breath", 2.0),
-    (at(W, "invest") - 0.15, "face", [1.15, 1.22]),
+    (at(W, "invest") - 0.15, "face", [1.25, 1.25]),
     (at(W, "you", 1, at(W, "invest") + 0.5) - 0.1, "face", [1.0, 1.0])],
     [], t0=t0, fix=[("well -being", "well-being")])
