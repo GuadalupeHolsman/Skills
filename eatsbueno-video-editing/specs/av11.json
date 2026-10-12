@@ -1,0 +1,253 @@
+{
+ "out": "out/12_Avatar_FatFreeSalad_A.mp4",
+ "grade": "natural",
+ "caption_style": "clean",
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.025,
+ "auto_sfx": false,
+ "sfx": [],
+ "clips": [
+  {
+   "src": "avatar/av11.mp4",
+   "in": 0.0,
+   "dur": 2.9,
+   "zoom": [
+    1.0,
+    1.0
+   ],
+   "pan": [
+    0.5,
+    0.42
+   ]
+  },
+  {
+   "src": "broll/tomato.mp4",
+   "in": 1.0,
+   "dur": 2.64,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "broll/carrot.mp4",
+   "in": 2.0,
+   "dur": 2.28,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "avatar/av11.mp4",
+   "in": 7.82,
+   "dur": 1.77,
+   "zoom": [
+    1.18,
+    1.18
+   ],
+   "pan": [
+    0.5,
+    0.42
+   ]
+  },
+  {
+   "src": "broll/avocado.mp4",
+   "in": 1.0,
+   "dur": 2.59,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "broll/avosalad.mp4",
+   "in": 3.0,
+   "dur": 4.22,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "broll/oliveoil.mp4",
+   "in": 4.0,
+   "dur": 2.56,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "broll/saladbowl.mp4",
+   "in": 1.0,
+   "dur": 1.62,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "avatar/av11.mp4",
+   "in": 20.58,
+   "dur": 1.67,
+   "zoom": [
+    1.08,
+    1.08
+   ],
+   "pan": [
+    0.5,
+    0.42
+   ]
+  }
+ ],
+ "overlays": [
+  {
+   "type": "headline",
+   "text": "Your salad\nneeds *fat*",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
+   "start": 0.0,
+   "end": 3.0,
+   "y": 960,
+   "size": 150,
+   "anim": "pop"
+  },
+  {
+   "type": "caption",
+   "text": "Some vitamins and antioxidants",
+   "start": 3.0,
+   "end": 4.46
+  },
+  {
+   "type": "caption",
+   "text": "in vegetables,",
+   "start": 4.43,
+   "end": 5.62
+  },
+  {
+   "type": "caption",
+   "text": "like the ones in",
+   "start": 5.59,
+   "end": 6.34
+  },
+  {
+   "type": "caption",
+   "text": "tomatoes and carrots,",
+   "start": 6.31,
+   "end": 7.9
+  },
+  {
+   "type": "caption",
+   "text": "need a little fat",
+   "start": 7.87,
+   "end": 8.54
+  },
+  {
+   "type": "caption",
+   "text": "to be absorbed.",
+   "start": 8.51,
+   "end": 9.82
+  },
+  {
+   "type": "caption",
+   "text": "In one study,",
+   "start": 9.79,
+   "end": 10.92
+  },
+  {
+   "type": "caption",
+   "text": "adding avocado to a",
+   "start": 10.89,
+   "end": 11.9
+  },
+  {
+   "type": "caption",
+   "text": "salad greatly increased how",
+   "start": 11.87,
+   "end": 13.76
+  },
+  {
+   "type": "caption",
+   "text": "much of those antioxidants",
+   "start": 13.73,
+   "end": 14.94
+  },
+  {
+   "type": "caption",
+   "text": "people absorbed.",
+   "start": 14.91,
+   "end": 16.46
+  },
+  {
+   "type": "caption",
+   "text": "So today,",
+   "start": 16.45,
+   "end": 17.3
+  },
+  {
+   "type": "caption",
+   "text": "add avocado,",
+   "start": 17.27,
+   "end": 18.22
+  },
+  {
+   "type": "caption",
+   "text": "olive oil,",
+   "start": 18.19,
+   "end": 19.04
+  },
+  {
+   "type": "caption",
+   "text": "or seeds to your",
+   "start": 19.01,
+   "end": 19.84
+  },
+  {
+   "type": "caption",
+   "text": "salad.",
+   "start": 19.81,
+   "end": 20.66
+  },
+  {
+   "type": "caption",
+   "text": "Save this for your",
+   "start": 20.63,
+   "end": 21.36
+  },
+  {
+   "type": "caption",
+   "text": "next salad.",
+   "start": 21.33,
+   "end": 22.18
+  },
+  {
+   "type": "cite",
+   "text": "Unlu et al. · Journal of Nutrition 2005",
+   "start": 9.69,
+   "end": 16.3
+  }
+ ],
+ "audio": [
+  {
+   "src": "avatar/av11.mp4",
+   "in": 0.0,
+   "start": 0,
+   "dur": 22.25,
+   "eq": "voice_bright",
+   "fade_out": 0.25
+  }
+ ]
+}

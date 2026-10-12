@@ -1,0 +1,264 @@
+{
+ "out": "out/10_Avatar_10000StepsWasAnAd.mp4",
+ "grade": "natural",
+ "caption_style": "clean",
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.025,
+ "auto_sfx": false,
+ "sfx": [],
+ "clips": [
+  {
+   "src": "avatar/av9.mp4",
+   "in": 0.0,
+   "dur": 3.5,
+   "zoom": [
+    1.0,
+    1.0
+   ],
+   "pan": [
+    0.5,
+    0.42
+   ]
+  },
+  {
+   "palette": "green",
+   "kicker": "1965 · Japan",
+   "title": "Manpo-kei\n“10,000-step meter”",
+   "card": true,
+   "dur": 4.78,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "broll/tokyo.mp4",
+   "in": 6.0,
+   "dur": 2.28,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "avatar/av9.mp4",
+   "in": 10.56,
+   "dur": 2.76,
+   "zoom": [
+    1.18,
+    1.18
+   ],
+   "pan": [
+    0.5,
+    0.42
+   ]
+  },
+  {
+   "src": "broll/scientist.mp4",
+   "in": 1.0,
+   "dur": 4.06,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "broll/stairs.mp4",
+   "in": 3.0,
+   "dur": 3.7,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "broll/phonewalk2.mp4",
+   "in": 1.0,
+   "dur": 1.12,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "avatar/av9.mp4",
+   "in": 22.2,
+   "dur": 3.63,
+   "zoom": [
+    1.1,
+    1.1
+   ],
+   "pan": [
+    0.5,
+    0.42
+   ]
+  }
+ ],
+ "overlays": [
+  {
+   "type": "headline",
+   "text": "10,000 steps\nwas an *ad*",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
+   "start": 0.0,
+   "end": 3.0,
+   "y": 960,
+   "size": 150,
+   "anim": "pop"
+  },
+  {
+   "type": "caption",
+   "text": "an ad?",
+   "start": 3.0,
+   "end": 3.36
+  },
+  {
+   "type": "caption",
+   "text": "In 1965,",
+   "start": 3.55,
+   "end": 4.9
+  },
+  {
+   "type": "caption",
+   "text": "a pedometer in Japan",
+   "start": 4.87,
+   "end": 5.88
+  },
+  {
+   "type": "caption",
+   "text": "was sold under the",
+   "start": 5.85,
+   "end": 6.92
+  },
+  {
+   "type": "caption",
+   "text": "name Manpo-kei,",
+   "start": 6.89,
+   "end": 8.36
+  },
+  {
+   "type": "caption",
+   "text": "which means 10 ,000",
+   "start": 8.33,
+   "end": 9.66
+  },
+  {
+   "type": "caption",
+   "text": "step meter.",
+   "start": 9.63,
+   "end": 10.64
+  },
+  {
+   "type": "caption",
+   "text": "It was a brand",
+   "start": 10.61,
+   "end": 11.22
+  },
+  {
+   "type": "caption",
+   "text": "name,",
+   "start": 11.19,
+   "end": 11.76
+  },
+  {
+   "type": "caption",
+   "text": "not a scientific rule.",
+   "start": 11.73,
+   "end": 13.4
+  },
+  {
+   "type": "caption",
+   "text": "Recent studies show the",
+   "start": 13.37,
+   "end": 14.48
+  },
+  {
+   "type": "caption",
+   "text": "benefits start with fewer",
+   "start": 14.45,
+   "end": 15.78
+  },
+  {
+   "type": "caption",
+   "text": "steps than you think.",
+   "start": 15.75,
+   "end": 17.46
+  },
+  {
+   "type": "caption",
+   "text": "So today,",
+   "start": 17.43,
+   "end": 18.3
+  },
+  {
+   "type": "caption",
+   "text": "just add 1 ,000",
+   "start": 18.27,
+   "end": 19.44
+  },
+  {
+   "type": "caption",
+   "text": "more steps than usual.",
+   "start": 19.41,
+   "end": 21.16
+  },
+  {
+   "type": "caption",
+   "text": "Walk while you're on",
+   "start": 21.13,
+   "end": 21.84
+  },
+  {
+   "type": "caption",
+   "text": "the phone.",
+   "start": 21.81,
+   "end": 22.28
+  },
+  {
+   "type": "caption",
+   "text": "Send this to someone",
+   "start": 22.25,
+   "end": 23.68
+  },
+  {
+   "type": "caption",
+   "text": "stressing about 10 ,000",
+   "start": 23.65,
+   "end": 25.1
+  },
+  {
+   "type": "caption",
+   "text": "steps.",
+   "start": 25.07,
+   "end": 25.76
+  },
+  {
+   "type": "cite",
+   "text": "Paluch et al. · Lancet Public Health 2022",
+   "start": 13.42,
+   "end": 17.33
+  }
+ ],
+ "audio": [
+  {
+   "src": "avatar/av9.mp4",
+   "in": 0.0,
+   "start": 0,
+   "dur": 25.83,
+   "eq": "voice_bright",
+   "fade_out": 0.25
+  }
+ ]
+}

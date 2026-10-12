@@ -1,0 +1,261 @@
+{
+ "out": "out/15_InvestInYourself.mp4",
+ "grade": "natural",
+ "caption_style": "clean",
+ "caption_size": 76,
+ "caption_y": 1270,
+ "watermark": false,
+ "chip_color": [
+  226,
+  96,
+  35
+ ],
+ "global_speed": 1.06,
+ "voice_pitch": 1.025,
+ "auto_sfx": false,
+ "sfx": [],
+ "clips": [
+  {
+   "src": "up2/v1747.mp4",
+   "in": 1.75,
+   "dur": 3.57,
+   "zoom": [
+    1.0,
+    1.0
+   ],
+   "pan": [
+    0.5,
+    0.42
+   ]
+  },
+  {
+   "src": "broll/cityrush.mp4",
+   "in": 2.0,
+   "dur": 3.7,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "up2/v1747.mp4",
+   "in": 9.02,
+   "dur": 4.98,
+   "zoom": [
+    1.12,
+    1.12
+   ],
+   "pan": [
+    0.5,
+    0.42
+   ]
+  },
+  {
+   "src": "up2/v1747.mp4",
+   "in": 14.0,
+   "dur": 3.62,
+   "zoom": [
+    1.0,
+    1.0
+   ],
+   "pan": [
+    0.5,
+    0.42
+   ]
+  },
+  {
+   "src": "up2/v1747.mp4",
+   "in": 17.62,
+   "dur": 4.83,
+   "zoom": [
+    1.15,
+    1.15
+   ],
+   "pan": [
+    0.5,
+    0.42
+   ]
+  },
+  {
+   "src": "broll/breath.mp4",
+   "in": 2.0,
+   "dur": 2.78,
+   "zoom": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "src": "up2/v1747.mp4",
+   "in": 25.23,
+   "dur": 2.8,
+   "zoom": [
+    1.12,
+    1.12
+   ],
+   "pan": [
+    0.5,
+    0.42
+   ]
+  }
+ ],
+ "overlays": [
+  {
+   "type": "headline",
+   "text": "*Invest*\nin yourself",
+   "center": true,
+   "accent": [
+    226,
+    96,
+    35
+   ],
+   "start": 0.0,
+   "end": 3.0,
+   "y": 960,
+   "size": 150,
+   "anim": "pop"
+  },
+  {
+   "type": "caption",
+   "text": "caught up into the",
+   "start": 3.0,
+   "end": 3.8499999999999996
+  },
+  {
+   "type": "caption",
+   "text": "rush and forget what",
+   "start": 3.8200000000000003,
+   "end": 4.97
+  },
+  {
+   "type": "caption",
+   "text": "truly matters,",
+   "start": 4.94,
+   "end": 6.01
+  },
+  {
+   "type": "caption",
+   "text": "our well-being.",
+   "start": 5.98,
+   "end": 7.35
+  },
+  {
+   "type": "caption",
+   "text": "True success isn't just",
+   "start": 7.32,
+   "end": 8.71
+  },
+  {
+   "type": "caption",
+   "text": "about output,",
+   "start": 8.68,
+   "end": 9.65
+  },
+  {
+   "type": "caption",
+   "text": "it's about creating sustainable",
+   "start": 9.62,
+   "end": 11.45
+  },
+  {
+   "type": "caption",
+   "text": "habits,",
+   "start": 11.42,
+   "end": 12.33
+  },
+  {
+   "type": "caption",
+   "text": "protecting our energy and",
+   "start": 12.3,
+   "end": 13.91
+  },
+  {
+   "type": "caption",
+   "text": "taking a moment to",
+   "start": 13.88,
+   "end": 14.969999999999999
+  },
+  {
+   "type": "caption",
+   "text": "reset.",
+   "start": 14.940000000000001,
+   "end": 15.829999999999998
+  },
+  {
+   "type": "caption",
+   "text": "When we prioritize our",
+   "start": 15.920000000000002,
+   "end": 17.09
+  },
+  {
+   "type": "caption",
+   "text": "health,",
+   "start": 17.06,
+   "end": 17.77
+  },
+  {
+   "type": "caption",
+   "text": "everything else falls into",
+   "start": 17.74,
+   "end": 19.07
+  },
+  {
+   "type": "caption",
+   "text": "place.",
+   "start": 19.04,
+   "end": 19.95
+  },
+  {
+   "type": "caption",
+   "text": "So,",
+   "start": 19.92,
+   "end": 20.59
+  },
+  {
+   "type": "caption",
+   "text": "take a deep breath",
+   "start": 20.56,
+   "end": 21.27
+  },
+  {
+   "type": "caption",
+   "text": "today,",
+   "start": 21.24,
+   "end": 22.01
+  },
+  {
+   "type": "caption",
+   "text": "slow down for a",
+   "start": 21.98,
+   "end": 23.19
+  },
+  {
+   "type": "caption",
+   "text": "minute and invest in",
+   "start": 23.16,
+   "end": 24.19
+  },
+  {
+   "type": "caption",
+   "text": "yourself.",
+   "start": 24.16,
+   "end": 24.79
+  },
+  {
+   "type": "caption",
+   "text": "You have got this.",
+   "start": 24.76,
+   "end": 26.21
+  }
+ ],
+ "audio": [
+  {
+   "src": "up2/v1747.mp4",
+   "in": 1.75,
+   "start": 0,
+   "dur": 26.28,
+   "eq": "voice_bright",
+   "fade_out": 0.25
+  }
+ ]
+}

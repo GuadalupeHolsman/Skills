@@ -193,6 +193,15 @@ def headline_png(W, H, text, y, size=96, track=0.04, color=(255, 255, 255), acce
     draw(ImageDraw.Draw(im), 0)
     return im
 
+def cite_png(W, H, text, y=1590, size=34):
+    """Small source tag for health claims, e.g. 'Buffey et al. · Sports Medicine 2022'."""
+    f = font("Manrope700", size); probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    tw = probe.textlength(text, font=f); padx, pady = 26, 14; h = size + 2 * pady
+    im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    x0 = (W - tw) / 2 - padx; d.rounded_rectangle((x0, y, x0 + tw + 2 * padx, y + h), h / 2, fill=DARK + (200,))
+    d.text(((W - tw) / 2, y + pady - 4), text, font=f, fill=CREAM)
+    return im
+
 def caption_png(W, H, text, y, size=66, keywords=()):
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     f = font("Manrope800", size); d = ImageDraw.Draw(im)
@@ -463,6 +472,8 @@ def main(spec_path):
             else:
                 im = headline_png(W, H, o["text"], o.get("y", 300), o.get("size", 96), accent=o.get("accent") or spec.get("chip_color"), center=o.get("center", False))
             anim = o.get("anim", "rise")
+        elif o["type"] == "cite":
+            im = cite_png(W, H, o["text"], o.get("y", 1590)); anim = o.get("anim", "fade")
         elif o["type"] == "png":
             im = Image.open(o["path"]).convert("RGBA"); anim = o.get("anim", "pop")
         im, (x, y) = crop_png(im); p = os.path.join(work, f"ov{j:03d}.png"); im.save(p)
