@@ -57,7 +57,7 @@
 
   const markers = {
     cine: { t: ROUNDS[0].tap, sync: 'av' }, gym: { t: ROUNDS[1].tap, sync: 'av' },
-    scratch: { t: ev.scratch, sync: 'a' }, dormir: { t: ROUNDS[2].tap, sync: 'av' },
+    scratch: ev.scratch, dormir: { t: ROUNDS[2].tap, sync: 'av' },
     logo: { t: ev.logo, sync: 'av' }, cta: ev.cta,
   };
   const SCORE = { FPS, FORMAT, STYLE, W, H, SAFE, DURATION, clock, T, BEAT, BAR, S, m, chords, chordAt, ROUNDS, ev, hook, modeBars, lullaby, squats, zzz, popcorn, captions, markers };
