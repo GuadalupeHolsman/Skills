@@ -1,0 +1,9 @@
+{"composition_plan":{
+ "positive_global_styles":["playful quirky electronic pop","pixar-like whimsical","bouncy","glossy modern production","120 bpm","instrumental","4/4"],
+ "negative_global_styles":["vocals","lyrics","dark","aggressive","lo-fi"],
+ "sections":[
+  {"section_name":"Tease","positive_local_styles":["sneaky pizzicato and marimba plucks","finger snaps","curious and cheeky","building anticipation","small riser at the end"],"negative_local_styles":["drop","big drums"],"duration_ms":4000,"lines":[]},
+  {"section_name":"Bounce","positive_local_styles":["explosive happy drop on beat one","bouncy kick and claps","funky slap bass","bright synth brass hits","euphoric and fun"],"negative_local_styles":["slow intro"],"duration_ms":8000,"lines":[]},
+  {"section_name":"Lullaby","positive_local_styles":["sudden soft lullaby","music box and celesta","dreamy pad","no drums","sleepy"],"negative_local_styles":["drums","bass"],"duration_ms":4000,"lines":[]},
+  {"section_name":"Button","positive_local_styles":["cute confident ending chord on beat one","sparkle","ring out"],"negative_local_styles":["build"],"duration_ms":3000,"lines":[]}
+ ]},"respect_sections_durations":true}

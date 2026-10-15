@@ -1,0 +1,9 @@
+{"composition_plan":{
+ "positive_global_styles":["cinematic electronic","modern trailer","punchy","glossy production","120 bpm","instrumental","4/4"],
+ "negative_global_styles":["vocals","lyrics","acoustic guitar","lo-fi","jazz"],
+ "sections":[
+  {"section_name":"Build","positive_local_styles":["tense glitchy build","ticking hi-hats","nervous arpeggiated synth plucks like notifications","rising riser","sidechained pulse","gets denser every bar"],"negative_local_styles":["drop","calm"],"duration_ms":6000,"lines":[]},
+  {"section_name":"Drop","positive_local_styles":["massive impact on the first beat","huge cinematic electronic drop","heavy sub bass","big punchy drums","bright brass-like synth stabs","euphoric"],"negative_local_styles":["quiet intro","fade in"],"duration_ms":8000,"lines":[]},
+  {"section_name":"Dream","positive_local_styles":["sudden soft dreamy pad","no drums","music box twinkles","calm night"],"negative_local_styles":["drums","bass"],"duration_ms":3000,"lines":[]},
+  {"section_name":"Outro","positive_local_styles":["confident logo stinger on beat one","warm full chord","resolve and ring out"],"negative_local_styles":["build"],"duration_ms":3000,"lines":[]}
+ ]},"respect_sections_durations":true}
