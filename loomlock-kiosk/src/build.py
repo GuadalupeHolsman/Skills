@@ -32,9 +32,8 @@ def locky():
 
     body = re.sub(r'class="(\w)"', to_style, body)
     # eyes get pupils + a blink
-    body = body.replace('<g id="i">', '<g class="blink">').replace('<g id="k">', '<g class="blink">')
-    pupils = '<circle cx="651" cy="505" r="17" fill="#0b0d26"/><circle cx="439" cy="505" r="17" fill="#0b0d26"/>'
-    body = body.replace('<g id="m">', pupils + '<g id="m">')
+    body = re.sub(r'<g id="i">(.*?)</g>', r'<g class="blink">\1<circle class="pupil" cx="651" cy="505" r="19" fill="#0b0d26"/></g>', body, flags=re.S)
+    body = re.sub(r'<g id="k">(.*?)</g>', r'<g class="blink">\1<circle class="pupil" cx="439" cy="505" r="19" fill="#0b0d26"/></g>', body, flags=re.S)
     return re.sub(r'\s(id)="[a-z]"', "", body)
 
 
@@ -43,7 +42,7 @@ def logo():
 
 
 tpl = (ROOT / "src/kiosk.template.html").read_text(encoding="utf-8")
-page = tpl.replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky())
+page = tpl.replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky())
 
 (ROOT / "artifact.html").write_text(page, encoding="utf-8")
 head, body = page.split("</style>", 1)
