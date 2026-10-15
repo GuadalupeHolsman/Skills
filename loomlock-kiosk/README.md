@@ -3,13 +3,13 @@
 Experiencia interactiva vertical (9:16) de ~1 minuto para la pantalla táctil de los eventos Loomlock.
 Explica qué es Loomlock, la tarjeta NFC, cómo activarla y cómo se vive la noche (bloqueo en el tótem de Locky → momento presente → desbloqueo).
 
-## Pantallas
-0. Inicio: Locky gigante que sigue el dedo con la mirada, cintas con texto en movimiento; se toca en cualquier lado para empezar
-1. ¿Qué es Loomlock? — celular de demo: elegís apps y las "bloqueás" (sello ¡PAUSA! + lluvia de candados); llamadas, música y mapas quedan siempre disponibles
-2. Tu tarjeta — tarjeta holográfica que se inclina con el dedo y se da vuelta al tocarla; chip NFC, sin batería, edición limitada
-3. Cómo activarla — 4 pasos; se arrastra la tarjeta hasta el celular (o se toca) y se bloquea
-4. Tu experiencia hoy — llegada / durante / salida
-5. Preguntas rápidas + cierre ("Andá al tótem de Locky") + teaser Loomlock 30
+## Pantallas (canales)
+0. **Portada:** tele de tubo; al tocarla cambia de canal con estática (Locky aparece solo en el canal de inicio)
+1. **CH 01 · Qué es:** le llegan notificaciones al celular de demo; eliges apps y las pausas (sello FUERA DEL AIRE, las notificaciones se tachan)
+2. **CH 02 · Tu llave:** llave holográfica que se inclina, se da vuelta y cambia de edición (CH 01, 02, 03)
+3. **CH 03 · El tap:** arrastras la llave al celular para pausar y otra vez para volver al aire
+4. **CH 04 · Tu noche:** deslizas la hora (21:00 → +2 días) y se encienden los momentos: ritual, fuera del aire, salida, galería
+5. **CH 05 · Mito o verdad:** 4 preguntas rápidas con puntaje, teaser de Loomlock 30 y cierre
 
 Botón ES/EN arriba a la derecha. Si nadie toca la pantalla por 60 s, vuelve sola al inicio.
 
@@ -26,7 +26,7 @@ Usa la dirección de arte de **Prime Time · loomlock experiences**: cada pantal
 En `src/kiosk.template.html`, dentro de `CONFIG`:
 - `evento`: nombre del evento que aparece en la portada (ej. `"Locktober × Tequila Don Julio"`)
 - `canal`: canal de la temporada que se ve en la TV y en la llave (ej. `"CH 02"`)
-- `locky`: `false` para eventos de marcas de alcohol (Don Julio, Smirnoff): saca a Locky de todas las pantallas, según la regla de nivel 0
+- `locky`: Locky solo aparece en la tele de la portada. `false` lo saca del todo (usar con marcas de alcohol, como Don Julio o Smirnoff, por la regla de nivel 0)
 - `idleSegundos`: segundos sin uso antes de volver al inicio
 - `idioma`: idioma inicial (`"es"` o `"en"`)
 

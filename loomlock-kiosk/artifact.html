@@ -150,7 +150,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .tv-screen .locky-live{position:absolute;left:50%;bottom:-80px;width:380px;height:484px;margin-left:-190px;overflow:visible;animation:peek 3.2s ease-in-out infinite;filter:drop-shadow(10px 10px 0 rgba(11,11,16,.6))}
 .locky-live .pupil{transition:transform .25s ease-out}
 .blink{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
-.tv-screen .nolk{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.tv-screen .nolk{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px}
 .tv-screen .nolk b{display:block;font-family:var(--font-mono);font-size:130px;color:var(--yellow);text-shadow:6px 6px 0 var(--screen);line-height:1}
 .tv-screen .nolk span{font-family:var(--font-mono);font-size:28px;letter-spacing:4px;color:var(--text);text-transform:uppercase}
 .tv-osd{position:absolute;left:36px;top:26px;z-index:2;font-family:var(--font-mono);font-size:26px;color:var(--yellow);letter-spacing:2px;text-shadow:3px 3px 0 var(--screen)}
@@ -159,6 +159,14 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .tv-strip .knobs i{width:40px;height:40px;border-radius:50%;background:var(--gray);border:5px solid var(--screen);position:relative}
 .tv-strip .knobs i::after{content:"";position:absolute;left:50%;top:3px;width:5px;height:14px;margin-left:-2.5px;background:var(--screen);border-radius:3px}
 .tv-strip .knobs i:last-child{animation:knob 4s ease-in-out infinite}
+.zap-hint{position:absolute;left:50%;top:868px;transform:translateX(-50%);z-index:4;display:inline-flex;align-items:center;gap:14px;font-family:var(--font-mono);font-weight:700;font-size:24px;letter-spacing:1px;text-transform:uppercase;background:var(--screen);color:var(--yellow);border-radius:99px;padding:12px 26px 12px 14px;white-space:nowrap}
+.zap-hint i{width:34px;height:34px;border-radius:50%;background:var(--yellow);position:relative;flex:none}
+.zap-hint i::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:4px solid var(--yellow);animation:ping 1.5s ease-out infinite}
+.tv{cursor:pointer}
+.tv-static{position:absolute;inset:0;width:100%;height:100%;z-index:3;opacity:0;image-rendering:pixelated;pointer-events:none;transition:opacity .2s}
+.tv-screen.zap .tv-static{opacity:1;transition:none}
+.tv-screen #tv-line{display:block;margin-top:14px;max-width:560px;font-family:var(--font-display);font-weight:800;font-style:italic;font-size:40px;letter-spacing:0;text-transform:none;color:var(--text);line-height:1.1}
+.tv-screen .nolk b{font-size:120px}
 .bubble{
   position:absolute;left:40px;top:180px;z-index:3;background:var(--paper);color:var(--ink);border:5px solid var(--screen);border-radius:40px;
   padding:20px 32px;font-weight:800;font-style:italic;font-size:36px;box-shadow:8px 8px 0 var(--screen);
@@ -235,6 +243,16 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .rumble{animation:rumble .5s}
 @keyframes rumble{0%,100%{translate:0 0;rotate:0deg}20%{translate:-12px 4px;rotate:-1.5deg}40%{translate:10px -5px;rotate:1.5deg}60%{translate:-6px 3px}80%{translate:4px -2px}}
 
+.notifs{position:absolute;left:18px;right:18px;top:92px;z-index:6;display:flex;flex-direction:column;gap:10px;pointer-events:auto}
+.notif{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.96);border:3px solid var(--screen);border-radius:22px;padding:10px 14px;box-shadow:4px 4px 0 var(--screen);font-size:19px;font-weight:700;line-height:1.15;color:var(--ink);text-align:left;animation:nIn .45s cubic-bezier(.3,1.5,.5,1) both;position:relative;overflow:hidden}
+.notif b{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;color:var(--text);font-style:italic;font-weight:800;font-size:20px;border:3px solid var(--screen)}
+.notif small{display:block;font-family:var(--font-mono);font-size:14px;font-weight:400;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.notif.bye{animation:nOut .35s ease forwards}
+.notif.cut::after{content:"";position:absolute;inset:0;background:var(--screen);transform-origin:left;animation:redact .35s cubic-bezier(.7,0,.2,1) forwards}
+@keyframes nIn{from{transform:translateY(-40px) scale(.9);opacity:0}}
+@keyframes nOut{to{transform:translateX(120%);opacity:0}}
+@keyframes redact{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
 /* ---------- CH 02 · the key (card) ---------- */
 .card-area{flex:1;display:grid;place-items:center;perspective:2200px;min-height:0}
 .nfc-card{
@@ -245,19 +263,33 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .nfc-card.tilting{transition:transform .08s linear}
 .nfc-card.flipped{--flip:180deg}
 .face{position:absolute;inset:0;border-radius:44px;border:6px solid var(--screen);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;box-shadow:18px 18px 0 var(--screen);text-align:left}
-.face.front{background:repeating-linear-gradient(0deg, rgba(11,11,16,.12) 0 2px, transparent 2px 6px), linear-gradient(135deg, #3843dc, var(--blue-deep))}
+.face.front{--c1:#3843dc;--c2:var(--blue-deep);--bar:var(--yellow);--fg:var(--text);background:repeating-linear-gradient(0deg, rgba(11,11,16,.12) 0 2px, transparent 2px 6px), linear-gradient(135deg, var(--c1), var(--c2));color:var(--fg)}
+.ed-1 .face.front{--c1:#f6f2ea;--c2:#d9d4c8;--bar:var(--blue);--fg:var(--ink)}
+.ed-1 .face.front .bar{color:var(--text)}
+.ed-1 .face.front .wm{color:var(--muted)}
+.ed-1 .face.front .serial,.ed-1 .face.front .big-ch{color:var(--blue)}
+.ed-3 .face.front{--c1:#24242e;--c2:var(--screen);--bar:var(--yellow);--fg:var(--text)}
+.nfc-card.spin{animation:edSpin .8s cubic-bezier(.3,1.2,.4,1)}
+@keyframes edSpin{from{rotate:y -360deg}to{rotate:y 0deg}}
+.editions{display:flex;align-items:center;justify-content:center;gap:16px}
+.ed-label{font-family:var(--font-mono);font-size:24px;letter-spacing:2px;text-transform:uppercase;color:var(--soft);margin-right:6px}
+.ed-sw{display:inline-flex;align-items:center;gap:12px;font-family:var(--font-mono);font-weight:700;font-size:26px;letter-spacing:1px;background:rgba(11,11,16,.3);color:var(--text);border:4px solid rgba(237,234,227,.45);border-radius:99px;padding:12px 24px 12px 12px;transition:transform .2s}
+.ed-sw i{width:44px;height:44px;border-radius:50%;border:4px solid var(--screen);background:linear-gradient(135deg,#3843dc,var(--blue-deep))}
+.ed-sw[data-ed="1"] i{background:linear-gradient(135deg,#f6f2ea,#d9d4c8)}
+.ed-sw[data-ed="3"] i{background:linear-gradient(135deg,#24242e,var(--screen))}
+.ed-sw.on{background:var(--yellow);color:var(--ink);border-color:var(--screen);box-shadow:6px 6px 0 var(--screen);transform:translateY(-4px)}
 .face .holo{
   position:absolute;inset:-40%;pointer-events:none;mix-blend-mode:overlay;opacity:.75;
   background:conic-gradient(from var(--ha,0deg) at var(--hx,50%) var(--hy,50%), #ffe680, #9fd8ff, #ff9ad5, #b6ffcf, #ffe680);
 }
 .face .shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,.45) var(--sh,45%), transparent 62%)}
 .face.front .wm{position:absolute;top:44px;left:50px;font-family:var(--font-mono);font-size:30px;letter-spacing:1px;color:var(--soft);text-transform:lowercase}
-.face.front .bar{position:absolute;left:0;right:0;bottom:120px;height:72px;background:var(--yellow);border-block:5px solid var(--screen);display:flex;align-items:center;padding-left:50px;font-weight:800;font-style:italic;text-transform:uppercase;font-size:38px;color:var(--ink);letter-spacing:1px}
+.face.front .bar{position:absolute;left:0;right:0;bottom:120px;height:72px;background:var(--bar);border-block:5px solid var(--screen);display:flex;align-items:center;padding-left:50px;font-weight:800;font-style:italic;text-transform:uppercase;font-size:38px;color:var(--ink);letter-spacing:1px}
 .face.front .ed{position:absolute;bottom:46px;left:50px;font-family:var(--font-mono);font-size:24px;letter-spacing:3px;text-transform:uppercase}
 .face.front .serial{position:absolute;bottom:42px;right:50px;font-family:var(--font-mono);font-weight:700;font-size:30px;font-variant-numeric:tabular-nums;color:var(--yellow)}
 .face.front .lk{position:absolute;right:40px;top:28px;height:290px;width:auto;aspect-ratio:620/790}
 .face.front .big-ch{position:absolute;right:46px;top:40px;font-family:var(--font-mono);font-weight:700;font-size:150px;line-height:1;color:var(--yellow);text-shadow:7px 7px 0 var(--screen)}
-.face.front .waves{position:absolute;left:50px;top:150px;width:100px;height:100px;color:var(--text)}
+.face.front .waves{position:absolute;left:50px;top:150px;width:100px;height:100px;color:var(--fg)}
 .face.back{background:var(--paper);color:var(--ink);transform:rotateY(180deg);padding:60px 64px;display:flex;flex-direction:column;justify-content:center;gap:22px}
 .face.back h3{font-family:var(--font-display);margin:0;font-size:60px;font-weight:200;text-transform:uppercase;letter-spacing:1px;line-height:1}
 .face.back h3 b{font-weight:800;font-style:italic;color:var(--blue)}
@@ -311,8 +343,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .reset-link{background:var(--paper);color:var(--ink);border:4px solid var(--screen);border-radius:99px;font-family:var(--font-mono);font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:26px;padding:16px 36px;box-shadow:6px 6px 0 var(--screen)}
 
 /* ---------- CH 04 · the night ---------- */
-.moments{flex:1;position:relative;display:flex;flex-direction:column;justify-content:center;gap:22px;padding-left:140px}
-.moments::before{content:"";position:absolute;left:58px;top:30px;bottom:30px;border-left:8px dashed rgba(237,234,227,.45)}
+.moments{flex:1;position:relative;display:flex;flex-direction:column;justify-content:center;gap:20px}
 .walker{position:absolute;left:0;top:0;width:124px;height:158px;z-index:2;transition:transform .8s cubic-bezier(.4,1.4,.5,1);filter:drop-shadow(6px 6px 0 var(--screen));overflow:visible}
 .walker-dot{position:absolute;left:30px;top:0;width:64px;height:64px;border-radius:50%;background:var(--yellow);border:6px solid var(--screen);z-index:2;transition:transform .8s cubic-bezier(.4,1.4,.5,1);box-shadow:0 0 0 10px rgba(252,206,33,.25)}
 .moment{
@@ -326,11 +357,45 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .moment h3{font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;margin:0;font-size:46px;line-height:1;letter-spacing:.5px}
 .moment p{margin:0;font-size:27px;color:var(--muted);font-weight:500}
 .moment .more{grid-column:2;max-height:0;overflow:hidden;transition:max-height .5s ease;color:var(--ink);font-weight:700;font-size:25px}
-.moment.on{background:var(--yellow);transform:translateX(-14px) scale(1.02)}
+.moment.on{background:var(--yellow);transform:scale(1.03)}
+.dial{display:flex;flex-direction:column;gap:12px;padding:0 10px}
+.dial-times{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:24px;letter-spacing:1px;color:var(--soft)}
+.dial-track{position:relative;height:30px;border-radius:99px;background:rgba(11,11,16,.45);border:4px solid var(--screen);touch-action:none;margin:30px 0 10px}
+.dial-track::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg, transparent 0 calc(33.333% - 3px), rgba(237,234,227,.5) calc(33.333% - 3px) 33.333%)}
+.dial-fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:99px;background:var(--yellow)}
+.dial-thumb{position:absolute;top:50%;left:0;width:150px;height:84px;margin:-42px 0 0 -75px;border-radius:99px;background:var(--yellow);border:5px solid var(--screen);box-shadow:6px 6px 0 var(--screen);font-family:var(--font-mono);font-weight:700;font-size:30px;color:var(--ink);touch-action:none;cursor:grab}
+.dial.anim .dial-thumb{transition:left .45s cubic-bezier(.3,1.4,.5,1)}
+.dial.anim .dial-fill{transition:width .45s cubic-bezier(.3,1.4,.5,1)}
+.dial-hint{align-self:center;font-family:var(--font-mono);font-size:22px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow)}
 .moment.on .ico{background:var(--screen);transform:rotate(-10deg) scale(1.08)}
 .moment.on .when{color:var(--ink)}
 .moment.on p{color:var(--ink)}
 .moment.on .more{max-height:5em;margin-top:6px}
+
+/* ---------- CH 05 · myth or fact + close ---------- */
+.quiz{position:relative;background:var(--paper);color:var(--ink);border:5px solid var(--screen);border-radius:40px;box-shadow:12px 12px 0 var(--screen);padding:34px 40px 40px;display:flex;flex-direction:column;gap:26px;min-height:560px}
+.qz-top{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:24px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);font-weight:700}
+.qz-q{margin:0;font-size:58px;font-weight:800;font-style:italic;text-transform:uppercase;line-height:1.02;letter-spacing:.5px;text-wrap:balance}
+.qz-q.in{animation:focusIn .6s cubic-bezier(.2,.8,.2,1) both}
+.qz-btns{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:auto}
+.qz-b{height:130px;border-radius:30px;border:5px solid var(--screen);font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:50px;box-shadow:8px 8px 0 var(--screen);transition:transform .12s, box-shadow .12s}
+.qz-b:active{transform:translate(8px,8px);box-shadow:0 0 0 var(--screen)}
+.qz-b[data-a="0"]{background:var(--screen);color:var(--yellow)}
+.qz-b[data-a="1"]{background:var(--yellow);color:var(--ink)}
+.qz-res{display:flex;flex-direction:column;gap:14px;margin-top:auto}
+.qz-verdict{font-family:var(--font-mono);font-weight:700;font-size:30px;letter-spacing:2px;text-transform:uppercase}
+.qz-verdict.ok{color:var(--ok)}
+.qz-verdict.no{color:#c2402f}
+.qz-a{position:relative;margin:0;font-size:32px;font-weight:500;line-height:1.3;color:var(--ink)}
+.qz-a::after{content:"";position:absolute;inset:-4px -6px;background:var(--screen);transform-origin:right;animation:unredact .7s cubic-bezier(.7,0,.2,1) .15s forwards}
+@keyframes unredact{to{transform:scaleX(0)}}
+.qz-next{align-self:flex-end;font-family:var(--font-mono);font-weight:700;font-size:28px;letter-spacing:1px;text-transform:uppercase;background:var(--blue);color:var(--text);border:4px solid var(--screen);border-radius:99px;padding:18px 34px;box-shadow:6px 6px 0 var(--screen)}
+.qz-stamp{position:absolute;right:36px;bottom:150px;font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:64px;padding:8px 28px;border:6px solid var(--screen);background:var(--yellow);color:var(--ink);box-shadow:8px 8px 0 var(--screen);opacity:0;transform:rotate(8deg) scale(2.4);pointer-events:none}
+.qz-stamp.go{animation:qstamp .5s cubic-bezier(.2,1.5,.4,1) forwards}
+.qz-stamp.myth{background:var(--screen);color:var(--yellow)}
+@keyframes qstamp{to{opacity:1;transform:rotate(8deg) scale(1)}}
+.qz-final{font-size:110px;font-weight:200;line-height:1;text-transform:uppercase}
+.qz-final b{font-weight:800;font-style:italic;color:var(--blue)}
 
 /* ---------- CH 05 · questions (redacted) + close ---------- */
 #s5{gap:26px}
@@ -368,7 +433,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .lang{display:flex;border:3px solid rgba(237,234,227,.5);border-radius:99px;padding:5px;gap:4px;background:rgba(11,11,16,.25)}
 .lang button{min-width:84px;min-height:64px;border:0;border-radius:99px;background:transparent;color:var(--text);font-family:var(--font-mono);font-weight:700;font-size:24px;letter-spacing:2px}
 .lang button[aria-pressed="true"]{background:var(--yellow);color:var(--ink)}
-.lang-float{position:absolute;right:56px;top:150px;z-index:31}
+.lang-float{position:absolute;left:56px;top:150px;z-index:31}
 
 .idle{position:absolute;left:50%;bottom:250px;z-index:50;transform:translate(-50%,200%);opacity:0;background:var(--screen);color:var(--yellow);border-radius:99px;padding:20px 38px;font-family:var(--font-mono);font-size:26px;letter-spacing:1px;transition:transform .4s, opacity .4s;white-space:nowrap}
 .idle.show{transform:translate(-50%,0);opacity:1}
@@ -428,18 +493,19 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       <div class="tape t1"><div class="run" data-tape="s0.tape1"></div></div>
       <div class="tape t2"><div class="run" data-tape="s0.tape2"></div></div>
     </div>
-    <div class="tv" aria-hidden="true">
+    <div class="tv" id="tv" role="button" aria-label="Cambiar de canal">
       <div class="ant"><i></i><i></i></div>
       <div class="tv-body">
-        <div class="tv-screen">
+        <div class="tv-screen" id="tv-screen">
           <span class="tv-osd" id="tv-osd">CH 02</span>
-          <svg class="locky-live lk-only" id="locky-live" viewBox="200 120 620 790"><g><path style="stroke:#000;stroke-width:6px;stroke-miterlimit:10;fill:#fff" d="M740.61,579.84l10.51,60.38,2.48,14.24,6.79,39.02c12.16,6.54,21.21,18.52,23.35,33.23,3.59,24.67-13.5,47.59-38.17,51.18-24.67,3.59-47.59-13.5-51.18-38.17-2.14-14.72,3.11-28.77,12.9-38.51l-4.51-38.41-1.86-15.82-7.08-60.33c-2.36-16.2,44.42-23.01,46.78-6.81Z"/></g><g><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#878ee5" d="M578.99,697.48v134.69h22.77c11.33,0,20.52,9.19,20.52,20.52h0c0,11.33-9.19,20.52-20.52,20.52h-61.9c-11.33,0-20.52-9.19-20.52-20.52v-155.21h59.64Z"/></g><g><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#878ee5" d="M467.18,704.11v134.69h22.77c11.33,0,20.52,9.19,20.52,20.52h0c0,11.33-9.19,20.52-20.52,20.52h-61.9c-11.33,0-20.52-9.19-20.52-20.52v-155.21h59.64Z"/></g><g><g><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#9fd8ff" d="M498.16,144.77h0c-83.37,0-150.96,67.59-150.96,150.96v54.08h83.22v-54.44c0-37.42,30.33-67.75,67.75-67.75h0c37.41,0,67.75,30.33,67.75,67.75v54.44h83.22v-54.08c0-83.37-67.59-150.96-150.96-150.96Z"/><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round" d="M377.95,758.06l-86.2-5.43c-16.65.11-30.2-13.35-30.2-30l-2.26-343.96c0-14.99,11.07-27.68,25.92-29.72l90.48-12.43,2.26,421.53Z"/><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#3f49cc" d="M715.4,749.57l-337.45,8.49c-16.86.42-30.75-13.13-30.75-29.99v-361.54c0-16.57,13.43-30,30-30h337.45c16.57,0,30,13.43,30,30v353.05c0,16.27-12.98,29.58-29.25,29.99Z"/></g></g><g class="blink"><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#fff" d="M693.74,501.9c.79,54.21-84.36,54.21-83.56,0-.79-54.21,84.36-54.21,83.56,0Z"/><circle class="pupil" cx="651" cy="505" r="19" fill="#0b0d26"/></g><g class="blink"><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#fff" d="M481.67,501.9c.79,54.21-84.36,54.21-83.56,0-.79-54.21,84.36-54.21,83.56,0Z"/><circle class="pupil" cx="439" cy="505" r="19" fill="#0b0d26"/></g><g><path style="fill:none;stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round" d="M570.81,501.9c.47,32.3-50.27,32.3-49.79,0"/></g><g><path style="stroke:#000;stroke-width:6px;stroke-miterlimit:10;fill:#fff" d="M284.21,591.45s-5.99,34.42-10.51,60.38-9.27,53.26-9.27,53.26c-12.16,6.54-21.21,18.52-23.35,33.23-3.59,24.67,13.5,47.59,38.17,51.18,24.67,3.59,47.59-13.5,51.18-38.17,2.14-14.72-3.11-28.77-12.9-38.51,0,0,3.56-30.3,6.37-54.23,2.81-23.94,7.08-60.33,7.08-60.33,2.36-16.2-44.42-23.01-46.78-6.81Z"/></g></svg>
-          <div class="nolk nolk-only"><div><b id="tv-ch">CH 02</b><span data-t="s0.tvline">en vivo · solo aquí</span></div></div>
+          <svg class="locky-live" id="locky-live" viewBox="200 120 620 790"><g><path style="stroke:#000;stroke-width:6px;stroke-miterlimit:10;fill:#fff" d="M740.61,579.84l10.51,60.38,2.48,14.24,6.79,39.02c12.16,6.54,21.21,18.52,23.35,33.23,3.59,24.67-13.5,47.59-38.17,51.18-24.67,3.59-47.59-13.5-51.18-38.17-2.14-14.72,3.11-28.77,12.9-38.51l-4.51-38.41-1.86-15.82-7.08-60.33c-2.36-16.2,44.42-23.01,46.78-6.81Z"/></g><g><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#878ee5" d="M578.99,697.48v134.69h22.77c11.33,0,20.52,9.19,20.52,20.52h0c0,11.33-9.19,20.52-20.52,20.52h-61.9c-11.33,0-20.52-9.19-20.52-20.52v-155.21h59.64Z"/></g><g><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#878ee5" d="M467.18,704.11v134.69h22.77c11.33,0,20.52,9.19,20.52,20.52h0c0,11.33-9.19,20.52-20.52,20.52h-61.9c-11.33,0-20.52-9.19-20.52-20.52v-155.21h59.64Z"/></g><g><g><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#9fd8ff" d="M498.16,144.77h0c-83.37,0-150.96,67.59-150.96,150.96v54.08h83.22v-54.44c0-37.42,30.33-67.75,67.75-67.75h0c37.41,0,67.75,30.33,67.75,67.75v54.44h83.22v-54.08c0-83.37-67.59-150.96-150.96-150.96Z"/><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round" d="M377.95,758.06l-86.2-5.43c-16.65.11-30.2-13.35-30.2-30l-2.26-343.96c0-14.99,11.07-27.68,25.92-29.72l90.48-12.43,2.26,421.53Z"/><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#3f49cc" d="M715.4,749.57l-337.45,8.49c-16.86.42-30.75-13.13-30.75-29.99v-361.54c0-16.57,13.43-30,30-30h337.45c16.57,0,30,13.43,30,30v353.05c0,16.27-12.98,29.58-29.25,29.99Z"/></g></g><g class="blink"><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#fff" d="M693.74,501.9c.79,54.21-84.36,54.21-83.56,0-.79-54.21,84.36-54.21,83.56,0Z"/><circle class="pupil" cx="651" cy="505" r="19" fill="#0b0d26"/></g><g class="blink"><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#fff" d="M481.67,501.9c.79,54.21-84.36,54.21-83.56,0-.79-54.21,84.36-54.21,83.56,0Z"/><circle class="pupil" cx="439" cy="505" r="19" fill="#0b0d26"/></g><g><path style="fill:none;stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round" d="M570.81,501.9c.47,32.3-50.27,32.3-49.79,0"/></g><g><path style="stroke:#000;stroke-width:6px;stroke-miterlimit:10;fill:#fff" d="M284.21,591.45s-5.99,34.42-10.51,60.38-9.27,53.26-9.27,53.26c-12.16,6.54-21.21,18.52-23.35,33.23-3.59,24.67,13.5,47.59,38.17,51.18,24.67,3.59,47.59-13.5,51.18-38.17,2.14-14.72-3.11-28.77-12.9-38.51,0,0,3.56-30.3,6.37-54.23,2.81-23.94,7.08-60.33,7.08-60.33,2.36-16.2-44.42-23.01-46.78-6.81Z"/></g></svg>
+          <div class="nolk" id="tv-text"><div><b id="tv-ch">CH 02</b><span id="tv-line"></span></div></div>
+          <canvas class="tv-static" id="tv-static" width="120" height="80"></canvas>
         </div>
         <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div>
       </div>
     </div>
-    <div class="bubble lk-only" data-t="s0.bubble">¡Hola! Soy Locky</div>
+    <div class="zap-hint" id="zap-hint"><i></i><span data-t="s0.zap">Toca la tele · cambia de canal</span></div>
     <div class="head">
       <span class="kicker focus" data-t="s0.kicker">Una serie que solo se ve en persona</span>
       <h1 class="focus d1"><b>Prime</b> <em>Time</em></h1>
@@ -465,6 +531,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
         <div class="screen-in">
           <div class="clock" data-clock>21:30</div>
           <div class="status" id="status1" data-t="s1.status">Toca las apps para elegir</div>
+          <div class="notifs" id="notifs"></div>
           <div class="apps" id="apps1"></div>
           <div class="lock-banner"><svg><use href="#lock-y"/></svg><span data-t="s1.banner">Fuera del aire. Volvemos después.</span></div>
         </div>
@@ -486,8 +553,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
           <div class="holo"></div>
           <span class="wm">loomlock experiences</span>
           <svg class="waves"><use href="#waves"/></svg>
-          <svg class="lk lk-only" viewBox="0 0 620 790"><use href="#locky"/></svg>
-          <span class="big-ch nolk-only" data-ch>CH 02</span>
+          <span class="big-ch" id="card-ch">CH 02</span>
           <div class="bar"><span data-t="s2.bar">live now, post later.</span></div>
           <span class="ed" data-t="s2.edition">Edición limitada</span>
           <span class="serial">Nº 0042 / 0200</span>
@@ -500,7 +566,12 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
         </div>
       </button>
     </div>
-    <div class="hint"><i></i><span data-t="s2.hint">Mueve y toca la llave</span></div>
+    <div class="editions" id="editions" role="group">
+      <span class="ed-label" data-t="s2.pick">Elige tu edición</span>
+      <button class="ed-sw on" data-ed="2"><i></i>CH 02</button>
+      <button class="ed-sw" data-ed="1"><i></i>CH 01</button>
+      <button class="ed-sw" data-ed="3"><i></i>CH 03</button>
+    </div>
     <ul class="facts">
       <li><b data-t="s2.f1t">Chip NFC</b><span data-t="s2.f1">El mismo del pago sin contacto.</span></li>
       <li><b data-t="s2.f2t">Sin batería</b><span data-t="s2.f2">Funciona apenas la acercas.</span></li>
@@ -524,8 +595,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     <div class="drag-zone" id="zone3">
       <button class="drag-card" id="drag-card" aria-label="Llave Loomlock: toca o arrastra hasta el celular">
         <svg class="waves"><use href="#waves"/></svg>
-        <svg class="lk-mini lk-only" viewBox="0 0 620 790"><use href="#locky"/></svg>
-        <span class="mini-ch nolk-only" data-ch>CH 02</span>
+        <span class="mini-ch" data-ch>CH 02</span>
         <span class="stripe"></span>
       </button>
       <svg class="down-arrow"><use href="#arrow-d"/></svg>
@@ -553,8 +623,6 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       <h2 class="focus" data-t="s4.title">Así se vive <em>la noche.</em></h2>
     </div>
     <div class="moments" id="moments">
-      <svg class="walker lk-only" id="walker" viewBox="0 0 620 790" aria-hidden="true"><use href="#locky"/></svg>
-      <span class="walker-dot nolk-only" id="walker-dot" aria-hidden="true"></span>
       <button class="moment on" data-i="0">
         <span class="ico"><svg><use href="#totem"/></svg></span>
         <span class="when" data-t="s4.w1">En la puerta</span>
@@ -584,7 +652,11 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
         <span class="more" data-t="s4.m4">Las toma nuestro fotógrafo. Tú solo vives la noche.</span>
       </button>
     </div>
-    <div class="hint"><i></i><span data-t="s4.hint">Toca cada momento</span></div>
+    <div class="dial">
+      <div class="dial-times"><span>21:00</span><span>22:00</span><span>01:30</span><span data-t="s4.later">+2 días</span></div>
+      <div class="dial-track" id="dial"><div class="dial-fill" id="dial-fill"></div><button class="dial-thumb" id="dial-thumb" aria-label="Hora"><span id="dial-time">21:00</span></button></div>
+      <span class="dial-hint" data-t="s4.hint">Arrastra la hora · recorre la noche</span>
+    </div>
   </section>
 
   <!-- CH 05 · Preguntas + cierre -->
@@ -593,11 +665,12 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       <span class="kicker" data-t="s5.kicker">CH 05 · Antes de entrar</span>
       <h2 class="focus" data-t="s5.title">¿Listo? <em>Ve al tótem.</em></h2>
     </div>
-    <div class="faq" id="faq">
-      <button class="q"><span class="qt" data-t="s5.q1">¿Se bloquea todo mi celular?</span><span class="qa" data-t="s5.a1">No. Solo las apps que eliges. Llamadas, cámara y mapas siguen funcionando.</span></button>
-      <button class="q"><span class="qt" data-t="s5.q2">¿Y si tengo una emergencia?</span><span class="qa" data-t="s5.a2">Las llamadas nunca se pausan. Siempre puedes llamar y contestar.</span></button>
-      <button class="q"><span class="qt" data-t="s5.q3">¿Me quedo con la llave?</span><span class="qa" data-t="s5.a3">Sí, es tuya y es coleccionable. Úsala en casa o donde quieras.</span></button>
-      <button class="q"><span class="qt" data-t="s5.q4">¿La llave necesita internet?</span><span class="qa" data-t="s5.a4">No. Funciona por cercanía, como el pago sin contacto.</span></button>
+    <div class="quiz" id="quiz">
+      <div class="qz-top"><span id="qz-n">1 / 4</span><span data-t="s5.quizname">Mito o verdad</span><span id="qz-score">0 ✓</span></div>
+      <p class="qz-q" id="qz-q"></p>
+      <div class="qz-btns" id="qz-btns"><button class="qz-b" data-a="0" data-t="s5.myth">Mito</button><button class="qz-b" data-a="1" data-t="s5.fact">Verdad</button></div>
+      <div class="qz-res" id="qz-res" hidden><span class="qz-verdict" id="qz-verdict"></span><p class="qz-a" id="qz-a"></p><button class="qz-next" id="qz-next"></button></div>
+      <div class="qz-stamp" id="qz-stamp"></div>
     </div>
     <div class="teaser">
       <div class="num">30<small>min</small></div>
@@ -607,7 +680,6 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       </div>
     </div>
     <div class="close-row">
-      <svg class="wave-locky lk-only" viewBox="0 0 620 790" aria-hidden="true"><use href="#locky"/></svg>
       <button class="big-btn" id="restart"><span data-t="s5.restart">¡Vamos!</span><svg><use href="#arrow"/></svg></button>
     </div>
     <div class="sign"><b>live now</b>, post later.</div>
@@ -647,7 +719,8 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   const T = {
     es: {
       "s0.tape1":"el celular se queda contigo · apps en pausa · solo aquí","s0.tape2":"shots, not screenshots · live now, post later",
-      "s0.bubble":"¡Hola! Soy Locky","s0.tvline":"en vivo · solo aquí",
+      "s0.bubble":"¡Hola! Soy Locky","s0.tvline":"en vivo · solo aquí","s0.zap":"Toca la tele · cambia de canal",
+      "s0.z1":"Una taza, una conversación.","s0.z2":"Lo que no se postea, se cuenta.","s0.z3":"Disfrázate para los que están.",
       "s0.kicker":"Una serie que solo se ve en persona",
       "s0.cta":"Toca para empezar","s0.time":"≈ 1 minuto","s0.steps":"5 canales",
       "s1.kicker":"CH 01 · Qué es loomlock","s1.name":"Qué es",
@@ -665,13 +738,13 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s2.f4t":"Coleccionable","s2.f4":"Cada edición abre una puerta nueva.",
       "s2.edition":"Edición limitada","s2.backt":"Adentro hay <b>un chip NFC.</b>",
       "s2.back":"Acércala a la parte de atrás de tu celular, cerca de la cámara. La app hace el resto.",
-      "s2.hint":"Mueve y toca la llave",
+      "s2.hint":"Mueve y toca la llave","s2.pick":"Elige tu edición",
       "s3.kicker":"CH 03 · Cómo activarla","s3.name":"El tap","s3.title":"Un tap <em>y estás adentro.</em>",
       "s3.st1":"Descarga la app Loomlock","s3.st2":"Elige qué apps pausar",
       "s3.st3":"Acerca la llave al celular","s3.st4":"Para volver, otro tap",
-      "s3.hint":"Arrastra la llave hasta el celular","s3.again":"Probar otra vez",
-      "s3.status":"Esperando tu llave…","s3.statusOk":"Llave detectada ✓","s3.banner":"Fuera del aire. Disfruta la noche.",
-      "s4.kicker":"CH 04 · Tu noche","s4.name":"Tu noche","s4.title":"Así se vive <em>la noche.</em>","s4.hint":"Toca cada momento",
+      "s3.hint":"Arrastra la llave hasta el celular","s3.hint2":"Ahora otra vez: vuelve al aire","s3.again":"Probar otra vez",
+      "s3.status":"Esperando tu llave…","s3.statusOk":"Llave detectada ✓","s3.statusBack":"De vuelta al aire ✓","s3.banner":"Fuera del aire. Disfruta la noche.",
+      "s4.kicker":"CH 04 · Tu noche","s4.name":"Tu noche","s4.title":"Así se vive <em>la noche.</em>","s4.hint":"Arrastra la hora · recorre la noche","s4.later":"+2 días",
       "s4.w1":"En la puerta","s4.t1":"El ritual","s4.p1":"Haz tap en el tótem al entrar.",
       "s4.m1":"Tus apps quedan en pausa. El celular sigue contigo.",
       "s4.w2":"Adentro","s4.t2":"Fuera del aire","s4.p2":"Brinda, baila, conversa. Sin scroll.",
@@ -683,7 +756,12 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s5.kicker":"CH 05 · Antes de entrar","s5.name":"Antes de entrar","s5.title":"¿Listo? <em>Ve al tótem.</em>",
       "s5.soon":"Próximamente",
       "s5.teaser":"<b>Loomlock 30:</b> media hora al día con tus apps en pausa. Suma sesiones y gana coleccionables.",
-      "s5.restart":"¡Vamos!",
+      "s5.restart":"¡Vamos!","s5.quizname":"Mito o verdad","s5.myth":"Mito","s5.fact":"Verdad","s5.right":"Bien","s5.wrong":"Casi",
+      "s5.nextq":"Siguiente →","s5.see":"Ver resultado →","s5.again":"Jugar otra vez","s5.ready":"Ya estás listo para entrar.",
+      "quiz":[{q:"Loomlock bloquea todo tu celular.",a:0,x:"Solo pausa las apps que eliges. Llamadas, cámara y mapas siguen funcionando."},
+        {q:"Con las apps en pausa puedes recibir llamadas.",a:1,x:"Las llamadas nunca se pausan."},
+        {q:"La llave necesita batería.",a:0,x:"Funciona por cercanía, como el pago sin contacto. Sin batería ni carga."},
+        {q:"La llave es tuya y es coleccionable.",a:1,x:"Te la llevas a casa. Cada edición abre una puerta nueva."}],
       "s5.q1":"¿Se bloquea todo mi celular?","s5.a1":"No. Solo las apps que eliges. Llamadas, cámara y mapas siguen funcionando.",
       "s5.q2":"¿Y si tengo una emergencia?","s5.a2":"Las llamadas nunca se pausan. Siempre puedes llamar y contestar.",
       "s5.q3":"¿Me quedo con la llave?","s5.a3":"Sí, es tuya y es coleccionable. Úsala en casa o donde quieras.",
@@ -694,7 +772,8 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     },
     en: {
       "s0.tape1":"phone in · apps off · just here","s0.tape2":"shots, not screenshots · live now, post later",
-      "s0.bubble":"Hi! I'm Locky","s0.tvline":"live · in person only",
+      "s0.bubble":"Hi! I'm Locky","s0.tvline":"live · in person only","s0.zap":"Tap the TV · change channel",
+      "s0.z1":"One cup, one conversation.","s0.z2":"Shots, not screenshots.","s0.z3":"Dress up for the people in the room.",
       "s0.kicker":"A series you can only watch in person",
       "s0.cta":"Tap to start","s0.time":"≈ 1 minute","s0.steps":"5 channels",
       "s1.kicker":"CH 01 · What is loomlock","s1.name":"What is it",
@@ -712,13 +791,13 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s2.f4t":"Collectible","s2.f4":"Every edition opens a new door.",
       "s2.edition":"Limited edition","s2.backt":"There's <b>an NFC chip inside.</b>",
       "s2.back":"Hold it to the back of your phone, near the camera. The app does the rest.",
-      "s2.hint":"Move and tap the key",
+      "s2.hint":"Move and tap the key","s2.pick":"Pick your edition",
       "s3.kicker":"CH 03 · How to activate it","s3.name":"The tap","s3.title":"One tap <em>and you're in.</em>",
       "s3.st1":"Get the Loomlock app","s3.st2":"Choose apps to pause",
       "s3.st3":"Tap the key to your phone","s3.st4":"To come back, tap again",
-      "s3.hint":"Drag the key onto the phone","s3.again":"Try again",
-      "s3.status":"Waiting for your key…","s3.statusOk":"Key detected ✓","s3.banner":"Off air. Enjoy the night.",
-      "s4.kicker":"CH 04 · Your night","s4.name":"Your night","s4.title":"This is <em>the night.</em>","s4.hint":"Tap each moment",
+      "s3.hint":"Drag the key onto the phone","s3.hint2":"Again: go back on air","s3.again":"Try again",
+      "s3.status":"Waiting for your key…","s3.statusOk":"Key detected ✓","s3.statusBack":"Back on air ✓","s3.banner":"Off air. Enjoy the night.",
+      "s4.kicker":"CH 04 · Your night","s4.name":"Your night","s4.title":"This is <em>the night.</em>","s4.hint":"Drag the time · walk the night","s4.later":"+2 days",
       "s4.w1":"At the door","s4.t1":"The ritual","s4.p1":"Tap the totem on your way in.",
       "s4.m1":"Your apps go on pause. Your phone stays with you.",
       "s4.w2":"Inside","s4.t2":"Off air","s4.p2":"Toast, dance, talk. No scrolling.",
@@ -730,7 +809,12 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s5.kicker":"CH 05 · Before you go in","s5.name":"Before you go in","s5.title":"Ready? <em>Head to the totem.</em>",
       "s5.soon":"Coming soon",
       "s5.teaser":"<b>Loomlock 30:</b> half an hour a day with your apps on pause. Stack sessions, earn collectibles.",
-      "s5.restart":"Let's go!",
+      "s5.restart":"Let's go!","s5.quizname":"Myth or fact","s5.myth":"Myth","s5.fact":"Fact","s5.right":"Nice","s5.wrong":"Close",
+      "s5.nextq":"Next →","s5.see":"See result →","s5.again":"Play again","s5.ready":"You're ready to go in.",
+      "quiz":[{q:"Loomlock locks your whole phone.",a:0,x:"It only pauses the apps you choose. Calls, camera and maps keep working."},
+        {q:"With apps on pause you can still get calls.",a:1,x:"Calls are never paused."},
+        {q:"The key needs a battery.",a:0,x:"It works by proximity, like contactless payment. No battery, no charging."},
+        {q:"The key is yours and it's collectible.",a:1,x:"You take it home. Every edition opens a new door."}],
       "s5.q1":"Does it lock my whole phone?","s5.a1":"No. Only the apps you choose. Calls, camera and maps keep working.",
       "s5.q2":"What if there's an emergency?","s5.a2":"Calls are never paused. You can always call and answer.",
       "s5.q3":"Do I keep the key?","s5.a3":"Yes, it's yours and it's collectible. Use it at home or anywhere.",
@@ -761,8 +845,9 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   const s9 = $("#s9");
   const t = (k, v={}) => (T[lang][k] ?? T.es[k] ?? k).replace(/\{(\w+)\}/g, (_, x) => v[x]);
   if (!CONFIG.locky) s9.classList.add("no-locky");
+  const ZAP = [null, {ch:"CH 01", k:"z1"}, {ch:"CH 02", k:"z2"}, {ch:"CH 03", k:"z3"}];
   $$("[data-ch]").forEach(e => e.textContent = CONFIG.canal);
-  $("#tv-osd").textContent = CONFIG.canal; $("#tv-ch").textContent = CONFIG.canal;
+  $("#tv-osd").textContent = CONFIG.canal;
 
   /* ---------- fit 1080×1920 into any screen ---------- */
   let K = 1;
@@ -783,6 +868,28 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     if (!reduce) requestAnimationFrame(drawNoise);
   }
   requestAnimationFrame(drawNoise);
+  /* the TV on CH 00: tap to zap channels (Locky only shows up on the home channel) */
+  const tvScreen = $("#tv-screen"), tvSt = $("#tv-static"), tvx = tvSt.getContext("2d"), tvImg = tvx.createImageData(120, 80);
+  let zapI = 0, zapping = false;
+  function drawTvStatic(){
+    const d = tvImg.data; for (let i = 0; i < d.length; i += 4){ const v = Math.random()*255|0; d[i] = d[i+1] = d[i+2] = v; d[i+3] = 255 }
+    tvx.putImageData(tvImg, 0, 0); if (zapping) requestAnimationFrame(drawTvStatic);
+  }
+  function renderTv(){
+    const z = ZAP[zapI], home = !z;
+    $("#tv-osd").textContent = home ? CONFIG.canal : z.ch;
+    $("#locky-live").style.display = home && CONFIG.locky ? "" : "none";
+    $("#tv-text").style.display = home && CONFIG.locky ? "none" : "";
+    $("#tv-ch").textContent = home ? CONFIG.canal : z.ch;
+    $("#tv-line").textContent = t(home ? "s0.tvline" : "s0." + z.k);
+  }
+  function zap(){
+    zapI = (zapI + 1) % ZAP.length;
+    zapping = true; tvScreen.classList.add("zap"); drawTvStatic();
+    $$(".tv-strip .knobs i")[0].style.transform = `rotate(${zapI*90}deg)`;
+    setTimeout(() => { renderTv(); tvScreen.classList.remove("zap"); zapping = false }, reduce ? 0 : 280);
+  }
+  $("#tv").addEventListener("click", e => { e.stopPropagation(); zap(); $("#zap-hint").style.opacity = 0 });
   function staticBurst(ms=260){ if (reduce) return; nz.classList.add("burst"); setTimeout(() => nz.classList.remove("burst"), ms) }
   function powerOn(){ if (reduce) return; const p = $("#poweron"); p.classList.remove("go"); void p.offsetWidth; p.classList.add("go") }
 
@@ -830,7 +937,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     $$("[data-tape]").forEach(el => { el.innerHTML = `<span>${t(el.dataset.tape)}</span>`.repeat(6) });
     $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
     $$(".app-tile").forEach(b => { b.querySelector(".nm").textContent = T[lang].apps[b.dataset.id] });
-    refresh1(); refresh3(); updateNav();
+    refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz();
   }
 
   /* ---------- channel changes ---------- */
@@ -916,11 +1023,27 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     btn.querySelector("use").setAttribute("href", locked1 ? "#unlock-d" : "#lock");
     btn.classList.toggle("is-on", locked1);
   }
+  const NOTE = {
+    es:[["ig","12 nuevos likes en tu foto"],["tt","Tienes 8 videos nuevos"],["x","Tendencia en tu ciudad"],["yt","Nuevo en vivo ahora"],["ig","@ana te mencionó"],["fb","3 personas comentaron"],["gm","¡Tu vida se recargó!"]],
+    en:[["ig","12 new likes on your photo"],["tt","8 new videos for you"],["x","Trending in your city"],["yt","New live stream now"],["ig","@ana mentioned you"],["fb","3 people commented"],["gm","Your lives are full!"]]
+  };
+  let noteI = 0;
+  setInterval(() => {
+    if (cur !== 1 || locked1) return;
+    const box = $("#notifs"), live = box.querySelectorAll(".notif:not(.bye)");
+    if (live.length >= 2){ const old = live[0]; old.classList.add("bye"); setTimeout(() => old.remove(), 350) }
+    const [id, msg] = NOTE[lang][noteI++ % NOTE[lang].length], app = APPS.find(a => a.id === id);
+    const n = document.createElement("button"); n.className = "notif";
+    n.innerHTML = `<b style="background:${app.c}">${app.ab}</b><span><small>${T[lang].apps[id]}</small>${msg}</span>`;
+    n.onclick = e => { e.stopPropagation(); n.classList.add("bye"); setTimeout(() => n.remove(), 350) };
+    box.appendChild(n);
+  }, 1700);
+  function silenceNotifs(){ $$("#notifs .notif").forEach((n, i) => { setTimeout(() => n.classList.add("cut"), i*90); setTimeout(() => n.remove(), 700 + i*90) }) }
   $("#try-lock").onclick = () => {
     if (!locked1 && !$$("#apps1 .app-tile.sel").length){ flashStatus(t("s1.none")); return }
     locked1 = !locked1; phone1.classList.toggle("is-locked", locked1); refresh1();
     const st = $("#stamp1"); st.classList.remove("go");
-    if (locked1){ void st.offsetWidth; st.classList.add("go"); rumble(phone1); staticBurst(160); const c = centerOf(phone1); burst(c.x, c.y - 150, 60) }
+    if (locked1){ silenceNotifs(); void st.offsetWidth; st.classList.add("go"); rumble(phone1); staticBurst(160); const c = centerOf(phone1); burst(c.x, c.y - 150, 60) }
   };
 
   /* ---------- CH 02: holo key ---------- */
@@ -946,18 +1069,29 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     card.classList.toggle("flipped");
     const c = centerOf(card); burst(c.x, c.y, 30, .7);
   });
+  const SERIAL = {1:"Nº 0118 / 0200", 2:"Nº 0042 / 0200", 3:"Nº 0007 / 0200"};
+  $("#editions").addEventListener("click", e => {
+    const b = e.target.closest(".ed-sw"); if (!b) return;
+    $$(".ed-sw").forEach(x => x.classList.toggle("on", x === b));
+    const ed = b.dataset.ed;
+    card.classList.remove("ed-1","ed-2","ed-3","flipped","spin"); void card.offsetWidth; card.classList.add("ed-" + ed, "spin");
+    $("#card-ch").textContent = "CH 0" + ed; card.querySelector(".serial").textContent = SERIAL[ed];
+    const c = centerOf(card); burst(c.x, c.y, 50, .9);
+  });
   let sh = 0;
   setInterval(() => { if (cur === 2 && !tiltStart){ sh += .5; const px = .5 + Math.sin(sh)*.5; card.style.setProperty("--ha", px*240 + "deg"); card.style.setProperty("--sh", (20 + px*60) + "%") } }, 120);
 
   /* ---------- CH 03: drag the key onto the phone ---------- */
   const zone = $("#zone3"), dcard = $("#drag-card"), phone3 = $("#phone3");
-  let done3 = false, drag = null, back3, hit3;
+  let phase3 = 0, done3 = false, drag = null, back3, hit3;   // 0: lock next · 1: unlock next · 2: finished
   function refresh3(){
-    $("#status3").textContent = done3 ? t("s3.statusOk") : t("s3.status");
+    $("#status3").textContent = t(["s3.status","s3.statusOk","s3.statusBack"][phase3]);
     const li = $$("#steps li");
-    li[2].className = done3 ? "ok" : "now";
-    li[3].className = done3 ? "now" : "";
-    $("#hint3").hidden = done3; $("#reset3").hidden = !done3;
+    li[2].className = phase3 ? "ok" : "now";
+    li[3].className = phase3 === 2 ? "ok" : (phase3 === 1 ? "now" : "");
+    $("#hint3").hidden = phase3 === 2; $("#reset3").hidden = phase3 !== 2;
+    $("#hint3 span").textContent = t(phase3 === 1 ? "s3.hint2" : "s3.hint");
+    done3 = phase3 === 2;
   }
   function overPhone(){
     const a = dcard.getBoundingClientRect(), p = phone3.getBoundingClientRect();
@@ -965,24 +1099,27 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     return cx > p.left && cx < p.right && cy > p.top - a.height*.3 && cy < p.bottom;
   }
   function lock3(){
-    done3 = true; zone.classList.remove("hover");
+    if (phase3 === 2) return;
+    zone.classList.remove("hover");
     const a = dcard.getBoundingClientRect(), p = phone3.getBoundingClientRect();
     const m = dcard.style.transform.match(/translate\(([-\d.]+)px, ([-\d.]+)px\)/);
     const bx0 = m ? +m[1] : 0, by0 = m ? +m[2] : 0;
     const dx = ((p.left + p.width/2) - (a.left + a.width/2))/K + bx0;
     const dy = ((p.top + p.height*.3) - (a.top + a.height/2))/K + by0;
     dcard.style.transform = `translate(${dx}px, ${dy}px) rotate(-6deg) scale(.92)`;
+    const unlocking = phase3 === 1;
     clearTimeout(hit3); clearTimeout(back3);
     hit3 = setTimeout(() => {
-      zone.classList.add("done"); refresh3(); rumble(phone3); staticBurst(160);
-      const c = centerOf(phone3); burst(c.x, c.y - 120, 90, 1.1);
+      zone.classList.toggle("done", !unlocking); zone.classList.toggle("back", unlocking);
+      phase3 = unlocking ? 2 : 1; refresh3(); rumble(phone3); staticBurst(160);
+      const c = centerOf(phone3); burst(c.x, c.y - 120, unlocking ? 50 : 90, 1.1);
     }, 300);
-    back3 = setTimeout(() => { if (done3){ dcard.style.transform = ""; dcard.classList.add("used") } }, 1600);
+    back3 = setTimeout(() => { dcard.style.transform = ""; dcard.classList.toggle("used", phase3 === 2) }, 1500);
   }
-  function reset3(){ clearTimeout(back3); clearTimeout(hit3); done3 = false; zone.classList.remove("done", "hover"); dcard.classList.remove("used"); dcard.style.transform = ""; refresh3() }
+  function reset3(){ clearTimeout(back3); clearTimeout(hit3); phase3 = 0; zone.classList.remove("done", "hover", "back"); dcard.classList.remove("used"); dcard.style.transform = ""; refresh3() }
   $("#reset3").onclick = reset3;
   dcard.addEventListener("pointerdown", e => {
-    if (done3) return;
+    if (done3 || dcard.style.transform) return;
     dcard.setPointerCapture(e.pointerId);
     drag = {x:e.clientX, y:e.clientY, moved:false};
     dcard.classList.add("dragging");
@@ -1006,21 +1143,66 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   dcard.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && !done3){ e.preventDefault(); lock3() } });
 
   /* ---------- CH 04: the night ---------- */
-  const markers = [$("#walker"), $("#walker-dot")];
+  const TIMES = ["21:00","22:00","01:30"], dial = $("#dial"), thumb = $("#dial-thumb"), dialBox = dial.parentElement;
   const activeMoment = () => $$(".moment").findIndex(m => m.classList.contains("on"));
-  function placeWalker(i){
-    const m = $$(".moment")[i]; if (!m) return;
-    markers[0].style.transform = `translate(0px, ${m.offsetTop + m.offsetHeight/2 - 79}px)`;
-    markers[1].style.transform = `translate(0px, ${m.offsetTop + m.offsetHeight/2 - 32}px)`;
+  function setMoment(i, fromDial){
+    const ms = $$(".moment"); if (!ms[i] || (i === activeMoment() && fromDial)) return;
+    ms.forEach((o, k) => o.classList.toggle("on", k === i));
+    const c = centerOf(ms[i].querySelector(".ico")); burst(c.x, c.y, 20, .5);
   }
-  $$(".moment").forEach((m, i) => m.addEventListener("click", () => {
-    $$(".moment").forEach(o => o.classList.toggle("on", o === m));
-    setTimeout(() => placeWalker(i), 60);
-    const c = centerOf(m.querySelector(".ico")); burst(c.x, c.y, 24, .6);
-  }));
+  function setDial(f, anim){
+    f = Math.max(0, Math.min(1, f));
+    dialBox.classList.toggle("anim", !!anim);
+    thumb.style.left = f*100 + "%"; $("#dial-fill").style.width = f*100 + "%";
+    const i = Math.round(f*3);
+    $("#dial-time").textContent = i < 3 ? TIMES[i] : t("s4.later");
+    return i;
+  }
+  function placeWalker(i){ setDial(i/3, true) }
+  let dialDrag = false;
+  const dialAt = e => { const r = dial.getBoundingClientRect(); return (e.clientX - r.left)/r.width };
+  dial.addEventListener("pointerdown", e => { dialDrag = true; dial.setPointerCapture(e.pointerId); setMoment(setDial(dialAt(e), false), true) });
+  dial.addEventListener("pointermove", e => { if (dialDrag) setMoment(setDial(dialAt(e), false), true) });
+  const dialEnd = e => { if (!dialDrag) return; dialDrag = false; placeWalker(Math.round(Math.max(0, Math.min(1, dialAt(e)))*3)) };
+  dial.addEventListener("pointerup", dialEnd); dial.addEventListener("pointercancel", dialEnd);
+  $$(".moment").forEach((m, i) => m.addEventListener("click", () => { setMoment(i); placeWalker(i) }));
 
-  /* ---------- CH 05: redacted answers ---------- */
-  $$(".q").forEach(q => q.addEventListener("click", () => q.classList.toggle("open")));
+  /* ---------- CH 05: myth or fact ---------- */
+  let qi = 0, qScore = 0, qAnswered = false;
+  function renderQuiz(){
+    const Q = T[lang].quiz, done = qi >= Q.length;
+    $("#qz-n").textContent = done ? `${Q.length} / ${Q.length}` : `${qi + 1} / ${Q.length}`;
+    $("#qz-score").textContent = qScore + " ✓";
+    $("#qz-btns").hidden = done || qAnswered;
+    if (done){
+      $("#qz-q").innerHTML = `<span class="qz-final"><b>${qScore}/${Q.length}</b></span><br>${t("s5.ready")}`;
+      $("#qz-res").hidden = false; $("#qz-verdict").textContent = ""; $("#qz-a").textContent = ""; $("#qz-a").style.display = "none";
+      $("#qz-next").textContent = t("s5.again");
+    } else {
+      $("#qz-q").textContent = Q[qi].q;
+      $("#qz-a").style.display = "";
+      $("#qz-next").textContent = qi === Q.length - 1 ? t("s5.see") : t("s5.nextq");
+      if (!qAnswered) $("#qz-res").hidden = true;
+    }
+  }
+  $("#qz-btns").addEventListener("click", e => {
+    const b = e.target.closest(".qz-b"); if (!b || qAnswered) return;
+    const Q = T[lang].quiz[qi], right = +b.dataset.a === Q.a;
+    qAnswered = true; if (right) qScore++;
+    const v = $("#qz-verdict"); v.className = "qz-verdict " + (right ? "ok" : "no");
+    v.textContent = (right ? "✓ " : "✗ ") + t(right ? "s5.right" : "s5.wrong") + " · " + t(Q.a ? "s5.fact" : "s5.myth");
+    const a = $("#qz-a"); a.textContent = Q.x; a.style.animation = "none"; void a.offsetWidth; a.style.animation = "";
+    const st = $("#qz-stamp"); st.textContent = t(Q.a ? "s5.fact" : "s5.myth") + "!"; st.className = "qz-stamp" + (Q.a ? "" : " myth"); void st.offsetWidth; st.classList.add("go");
+    $("#qz-res").hidden = false; renderQuiz();
+    const c = centerOf(b); if (right) burst(c.x, c.y, 40, .8); else rumble($("#quiz"));
+  });
+  $("#qz-next").addEventListener("click", () => {
+    if (qi >= T[lang].quiz.length){ qi = 0; qScore = 0 } else qi++;
+    qAnswered = false; $("#qz-stamp").className = "qz-stamp";
+    const q = $("#qz-q"); q.classList.remove("in"); void q.offsetWidth; q.classList.add("in");
+    renderQuiz();
+    if (qi >= T[lang].quiz.length){ const c = centerOf(q); burst(c.x, c.y, 110, 1.2) }
+  });
 
   /* ---------- reset + idle ---------- */
   function resetAll(){
@@ -1028,8 +1210,10 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     buildApps($("#apps1"), true);
     card.classList.remove("flipped");
     reset3();
-    $$(".moment").forEach((m, i) => m.classList.toggle("on", i === 0));
-    $$(".q").forEach(q => q.classList.remove("open"));
+    $$(".moment").forEach((m, i) => m.classList.toggle("on", i === 0)); placeWalker(0);
+    qi = 0; qScore = 0; qAnswered = false; $("#qz-stamp").className = "qz-stamp";
+    card.classList.remove("ed-1","ed-3"); $$(".ed-sw").forEach(x => x.classList.toggle("on", x.dataset.ed === "2")); $("#card-ch").textContent = "CH 02"; card.querySelector(".serial").textContent = SERIAL[2];
+    zapI = 0; $("#zap-hint").style.opacity = ""; $("#notifs").innerHTML = "";
     go(0); applyLang(); hideIdle(); powerOn();
   }
   let idleAt = Date.now();
