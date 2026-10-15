@@ -19,9 +19,14 @@ Botón ES/EN arriba a la derecha. Si nadie toca la pantalla por 60 s, vuelve sol
 - Diseñada en vertical 9:16 (1080×1920). En cualquier otra pantalla se escala sola y deja bandas a los costados.
 - Las tipografías vienen de Google Fonts; sin internet usa tipografías de respaldo y todo sigue funcionando.
 
+## Estética
+Usa la dirección de arte de **Prime Time · loomlock experiences**: cada pantalla es un canal de TV (CH 01 a CH 05), azul canal `#2F3AD0`, amarillo señal `#FCCE21`, negro pantalla y papel; Montserrat fina en mayúsculas con énfasis en itálica gruesa, rótulos en Space Mono; grano, líneas de TV, estática al cambiar de canal y respuestas "tachadas" que se destapan. Firma: *live now, post later.*
+
 ## Ajustes rápidos
 En `src/kiosk.template.html`, dentro de `CONFIG`:
-- `evento`: nombre del evento que aparece en la portada (ej. `"Locktober × Don Julio"`)
+- `evento`: nombre del evento que aparece en la portada (ej. `"Locktober × Tequila Don Julio"`)
+- `canal`: canal de la temporada que se ve en la TV y en la llave (ej. `"CH 02"`)
+- `locky`: `false` para eventos de marcas de alcohol (Don Julio, Smirnoff): saca a Locky de todas las pantallas, según la regla de nivel 0
 - `idleSegundos`: segundos sin uso antes de volver al inicio
 - `idioma`: idioma inicial (`"es"` o `"en"`)
 
