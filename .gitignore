@@ -1,3 +1,4 @@
 # Circulito / Loomlock films: keep sources + final videos, skip render intermediates
 circulito-*/out/*
 !circulito-*/out/circulito-*.mp4
+loomlock-*/out/*

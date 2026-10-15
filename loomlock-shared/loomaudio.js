@@ -37,11 +37,12 @@ function clack(seed = 3) {
 }
 // the Loomlock padlock: a metallic two-stage "cli-CLACK"
 function lockClick() {
+  // one decisive CLACK at t=0 (so it lands on the beat), a small rattle after
   const out = buf(0.5), w = rng(77), bp = new SVF(), bp2 = new SVF();
   const hit = (i0, f, g, dec) => { for (let i = 0; i < out.length - i0; i++) { const t = i / SR; const n = w(); out[i0 + i] += (bp.bp(n, f, 6) * 0.8 + Math.sin(2 * Math.PI * f * 1.51 * t) * 0.25) * g * Math.exp(-t / dec); } };
-  hit(0, 3200, 0.5, 0.012);
-  hit(Math.round(0.055 * SR), 2100, 1, 0.05);
-  for (let i = Math.round(0.055 * SR), k = 0; i < out.length; i++, k++) { const t = k / SR; out[i] += bp2.bp(w(), 5200, 12) * 0.35 * Math.exp(-t / 0.16); }
+  hit(0, 2100, 1, 0.05);
+  hit(Math.round(0.035 * SR), 3200, 0.25, 0.012);
+  for (let i = 0; i < out.length; i++) { const t = i / SR; out[i] += bp2.bp(w(), 5200, 12) * 0.3 * Math.exp(-t / 0.16) * Math.min(1, t / 0.004); }
   return norm(out, 0.9);
 }
 // tape rewind: chirpy squeal rising
@@ -138,4 +139,43 @@ function bed(clock, bars, plan, { drums, bass, keys, pad, verb }, opts = {}) {
   return { kicks };
 }
 
-module.exports = { buzz, key, tick, clack, lockClick, rewind, stretch, deflate, giggle, dong, bed, norm, buf };
+// ---------- minimal electronic bed (adult, understated) ----------
+// F minor: Fm9 Dbmaj7 Abmaj7 Eb(add9), one chord per bar.
+// plan(bar) -> 'off' | 'keys' | 'build' | 'drive' | 'calm'
+const PROG2 = [[41, [56, 60, 63, 67]], [37, [56, 60, 65, 68]], [44, [55, 60, 63, 67]], [39, [55, 58, 63, 65]]];
+function minimal(clock, bars, plan, { drums, bass, keys, pad, verb }) {
+  const { T, BEAT } = clock;
+  const kicks = [];
+  const K = I.kick({ punch: 0.45, tail: 0.6 }), HC = [I.hat(false, 21), I.hat(false, 22)], HO = I.hat(true, 23), RIM = I.rim(1, 3);
+  for (let b = 0; b < bars; b++) {
+    const mode = plan(b);
+    if (mode === 'off') continue;
+    const [root, chord] = PROG2[b % 4];
+    // e-piano: a held chord on 1, a short echo on the "and" of 2
+    for (const [beat, dur, g] of [[0, BEAT * 1.6, 0.16], [1.5, BEAT * 0.5, 0.09]]) {
+      if (mode === 'drive' && beat === 1.5) continue;
+      for (const n of chord) { const x = I.epiano(n, dur, { index: 0.9, decay: 1.2 }); keys.addMono(x, T(b, beat), g, (n % 5 - 2) * 0.15); verb.addMono(x, T(b, beat), g * 0.5); }
+    }
+    // airy pad under everything but keys-only bars
+    if (mode !== 'keys') for (const n of chord.slice(0, 3)) { const { L, R } = I.padNote(n - 12, T(b + 1) - T(b), { cutoff: 700, attack: 0.3, release: 0.4 }); pad.addStereo(L, R, T(b), 0.05); }
+    if (mode === 'keys') continue;
+    // sub bass
+    for (const [beat, d] of [[0, 1.4], [2.5, 1.2]]) bass.addMono(I.bass(root, BEAT * d, { bright: 0.08, sub: 1 }), T(b, beat), 0.55);
+    for (let s = 0; s < 16; s++) {
+      const t = T(b, s / 4);
+      if ((mode === 'build' || mode === 'drive') && s % 4 === 0) { drums.addMono(K, t, 0.8); kicks.push(t); }
+      if ((mode === 'build' || mode === 'drive') && (s === 4 || s === 12)) drums.addMono(RIM, t, 0.35, 0.15);
+      if (s % 4 === 2) drums.addMono(mode === 'drive' ? HO : HC[0], t, mode === 'calm' ? 0.12 : 0.16, 0.3);
+      else if (mode === 'drive' && s % 2 === 1) drums.addMono(HC[s % 4 === 1 ? 0 : 1], t, 0.07 + 0.03 * (s % 4 === 3), -0.25);
+    }
+  }
+  return { kicks };
+}
+// a soft modern notification chime (two sine partials)
+function chime(midi = 84, len = 0.35) {
+  const out = buf(len), f = 440 * Math.pow(2, (midi - 69) / 12);
+  for (let i = 0; i < out.length; i++) { const t = i / SR; out[i] = (Math.sin(2 * Math.PI * f * t) + 0.35 * Math.sin(2 * Math.PI * f * 2.01 * t)) * Math.exp(-t / 0.09) * Math.min(1, t / 0.002); }
+  return norm(out, 0.6);
+}
+
+module.exports = { buzz, key, tick, clack, lockClick, rewind, stretch, deflate, giggle, dong, bed, norm, buf, minimal, chime };
