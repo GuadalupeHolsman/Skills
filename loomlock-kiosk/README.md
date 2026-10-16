@@ -7,7 +7,7 @@ Explica qué es Loomlock, la tarjeta NFC, cómo activarla y cómo se vive la noc
 Todo pasa en el **CH 02 · Tequila Don Julio**. Locky no aparece dibujado (nivel 0 con marcas de alcohol); solo se nombra el tótem de Locky. Cada pantalla explica una sola idea.
 
 0. **Portada:** tele de tubo en el CH 02 (al tocarla cambia la frase), "Tonight, with Tequila Don Julio" y aviso +18
-1. **01 · What it is:** esquema "Paused" (redes) vs "Always on" (llamadas, cámara, mapas)
+1. **01 · What it is:** "Tap your key. Apps pause." Animación en loop: la key toca el celular y recién ahí se pausan las redes; llamadas, cámara y mapas siguen igual
 2. **02 · Your key:** la key del CH 02, que se inclina y se da vuelta (chip NFC)
 3. **03 · In the app:** en la app de Loomlock eliges qué apps se pausan y tocas Save. Aviso: "la pausa empieza con un tap: tótem o key"
 4. **04 · The tap:** arranca con el tótem de Locky (arrastras el celular al tótem); la otra opción es tu key. Se pausan justo las apps elegidas en el paso 03. Tap para pausar y tap para volver

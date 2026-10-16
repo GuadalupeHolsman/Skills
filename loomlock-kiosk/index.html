@@ -478,16 +478,39 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .nt-ico .mp-totem{color:var(--yellow)}
 
 /* ---------- step-by-step pieces ---------- */
-.split{flex:1;display:grid;grid-template-rows:1fr 1fr;gap:26px;min-height:0}
+.split{flex:1;display:grid;grid-template-rows:1fr 1fr;gap:22px;min-height:0}
+/* 01 · cause -> effect: the key taps the phone, then the apps lock (one 4.8s loop) */
+.cause{position:relative;height:250px;display:flex;align-items:center;justify-content:center}
+.cz-key{position:relative;z-index:2;width:250px;height:158px;border-radius:24px;border:6px solid var(--screen);background:repeating-linear-gradient(0deg, rgba(11,11,16,.12) 0 2px, transparent 2px 6px),linear-gradient(135deg,#3843dc,var(--blue-deep));box-shadow:10px 10px 0 var(--screen);color:var(--text);animation:czKey 4.8s var(--e-std) infinite}
+.cz-key svg{position:absolute;left:18px;top:18px;width:54px;height:54px}
+.cz-key b{position:absolute;right:16px;top:14px;font-family:var(--font-mono);font-weight:700;font-size:40px;color:var(--yellow);text-shadow:3px 3px 0 var(--screen)}
+.cz-key i{position:absolute;left:0;right:0;bottom:24px;height:30px;background:var(--yellow);border-block:4px solid var(--screen)}
+.cz-waves{position:relative;width:150px;height:150px;flex:none}
+.cz-waves i{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:6px solid var(--yellow);opacity:0;animation:czWave 4.8s ease-out infinite}
+.cz-waves i:nth-child(2){animation-delay:.12s}
+.cz-waves i:nth-child(3){animation-delay:.24s}
+.cz-phone{position:relative;width:132px;height:240px;border-radius:30px;background:var(--paper);border:8px solid var(--screen);box-shadow:10px 10px 0 rgba(11,11,16,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;animation:czPhone 4.8s var(--e-std) infinite}
+.cz-notch{position:absolute;top:8px;width:46px;height:12px;border-radius:99px;background:var(--screen)}
+.cz-lock{width:66px;height:66px;border-radius:50%;background:var(--screen);display:grid;place-items:center;animation:czLock 4.8s var(--e-spring) infinite}
+.cz-lock svg{width:40px;height:40px}
+.cz-lbl{font-family:var(--font-mono);font-weight:700;font-size:20px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);animation:czLock 4.8s var(--e-spring) infinite}
+@keyframes czKey{0%,12%{transform:translateX(-40px) rotate(-6deg)}34%,52%{transform:translateX(150px) rotate(4deg)}72%,100%{transform:translateX(-40px) rotate(-6deg)}}
+@keyframes czWave{0%,34%{opacity:0;transform:translateX(70px) scale(.3)}38%{opacity:1}60%,100%{opacity:0;transform:translateX(70px) scale(2.6)}}
+@keyframes czPhone{0%,34%{transform:none}38%{transform:translateX(10px) rotate(3deg)}44%,100%{transform:none}}
+@keyframes czLock{0%,35%{transform:scale(0);opacity:0}42%,88%{transform:scale(1);opacity:1}96%,100%{transform:scale(0);opacity:0}}
+.split .pi{animation:czTile 4.8s var(--e-std) infinite}
+.split .pi::after{animation:czLock 4.8s var(--e-spring) infinite!important}
+@keyframes czTile{0%,36%{filter:none}44%,88%{filter:grayscale(1) brightness(.55)}96%,100%{filter:none}}
 .pane{border:5px solid var(--screen);border-radius:40px;box-shadow:10px 10px 0 var(--screen);padding:30px 36px;display:flex;flex-direction:column;justify-content:center;gap:24px}
 .pane.off{background:var(--screen);color:var(--yellow)}
 .pane.on{background:var(--paper);color:var(--ok)}
+.pane-k .pk-when{margin-left:auto;font-size:22px;letter-spacing:2px;opacity:.8}
 .pane-k{display:flex;align-items:center;gap:16px;font-family:var(--font-mono);font-weight:700;font-size:32px;letter-spacing:3px;text-transform:uppercase}
 .pane-k svg{width:48px;height:48px}
 .okdot{width:48px;height:48px;border-radius:50%;background:var(--ok);color:var(--paper);display:grid;place-items:center;font-size:30px}
 .pane-icons{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
 .pane-icons.ess{grid-template-columns:repeat(3,1fr)}
-.pi{position:relative;aspect-ratio:1;border-radius:30%;border:4px solid var(--soft);display:grid;place-items:center;font-weight:800;font-style:italic;font-size:46px;color:var(--text);filter:grayscale(1) brightness(.55)}
+.pi{position:relative;aspect-ratio:1;border-radius:30%;border:4px solid var(--soft);display:grid;place-items:center;font-weight:800;font-style:italic;font-size:46px;color:var(--text)}
 .pi::after{content:"";position:absolute;inset:22%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4.5' y='10.5' width='15' height='11' rx='3' fill='%23FCCE21' stroke='%230B0B10' stroke-width='1.4'/%3E%3Cpath d='M8 10.5V8a4 4 0 0 1 8 0v2.5' fill='none' stroke='%23FCCE21' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat;filter:none}
 .screen.active .pi::after{animation:lockPop .5s cubic-bezier(.3,1.7,.5,1) var(--d) both}
 @keyframes lockPop{from{transform:scale(0) rotate(-40deg);opacity:0}}
@@ -717,17 +740,22 @@ h2 .w{display:inline-block}
   <section class="screen" id="s1" data-name="n1" aria-label="Qué es Loomlock">
     <div class="head">
       <span class="kicker" data-t="k1">01 · Qué es</span>
-      <h2 class="focus" data-t="q1.title">Pausa apps. <em>No tu celular.</em></h2>
+      <h2 class="focus" data-t="q1.title">Un tap con tu key. <em>Apps en pausa.</em></h2>
+    </div>
+    <div class="cause" aria-hidden="true">
+      <div class="cz-key"><svg><use href="#waves"/></svg><b data-ch>CH 02</b><i></i></div>
+      <div class="cz-waves"><i></i><i></i><i></i></div>
+      <div class="cz-phone"><span class="cz-notch"></span><span class="cz-lock"><svg><use href="#lock-y"/></svg></span><span class="cz-lbl" data-t="q1.tapped">Tap</span></div>
     </div>
     <div class="split">
       <div class="pane off">
-        <span class="pane-k"><svg><use href="#lock-y"/></svg><span data-t="q1.off">En pausa</span></span>
+        <span class="pane-k"><svg><use href="#lock-y"/></svg><span data-t="q1.off">En pausa</span><span class="pk-when" data-t="q1.after">después del tap</span></span>
         <div class="pane-icons">
           <span class="pi" style="--d:.2s;background:#2F3AD0">Ig</span><span class="pi" style="--d:.35s;background:#16161C">Tk</span><span class="pi" style="--d:.5s;background:#1E269C">Yt</span><span class="pi" style="--d:.65s;background:#4a54e0">X</span>
         </div>
       </div>
       <div class="pane on">
-        <span class="pane-k"><span class="okdot">✓</span><span data-t="q1.on">Siempre funcionan</span></span>
+        <span class="pane-k"><span class="okdot">✓</span><span data-t="q1.on">Siempre funcionan</span><span class="pk-when" data-t="q1.always">igual que siempre</span></span>
         <div class="pane-icons ess">
           <span class="pe"><b>☎</b><span data-t="q1.e1">Llamadas</span></span><span class="pe"><b>◉</b><span data-t="q1.e2">Cámara</span></span><span class="pe"><b>◎</b><span data-t="q1.e3">Mapas</span></span>
         </div>
@@ -908,7 +936,7 @@ h2 .w{display:inline-block}
       "osd.off":"FUERA DEL AIRE","osd.on":"AL AIRE",
       "k1":"01 · Qué es","k2":"03 · En la app","k3":"02 · Tu key","k4":"04 · Antes de llegar","k5":"04 · El tap","k6":"05 · Tu noche","k7":"06 · Mito o verdad",
       "n1":"Qué es","n2":"En la app","n3":"Tu key","n4":"Antes de llegar","n5":"El tap","n6":"Tu noche","n7":"Mito o verdad",
-      "q1.title":"Pausa apps. <em>No tu celular.</em>","q1.off":"En pausa","q1.on":"Siempre funcionan","q1.e1":"Llamadas","q1.e2":"Cámara","q1.e3":"Mapas","q1.tap":"Tú eliges cuáles · con un tap",
+      "q1.title":"Un tap con tu key. <em>Apps en pausa.</em>","q1.tapped":"Tap","q1.after":"después del tap","q1.always":"igual que siempre","q1.off":"En pausa","q1.on":"Siempre funcionan","q1.e1":"Llamadas","q1.e2":"Cámara","q1.e3":"Mapas","q1.tap":"Tu celular sigue contigo · o usa el tótem de Locky",
       "t2":"Elige qué <em>se pausa.</em>","f1":"App","f2":"Elige","f3":"Tap",
       "i1":"Abre la app y toca las que te distraen","i2":"Ahora toca Guardar","i3":"Listo. La pausa empieza con el tap.","s1.btnN":"Guardar {n}",
       "t3":"Esta es <em>tu key.</em>","c1":"Chip NFC","c2":"Sin batería","c3":"Es tuya",
@@ -974,7 +1002,7 @@ h2 .w{display:inline-block}
       "osd.off":"OFF AIR","osd.on":"ON AIR",
       "k1":"01 · What it is","k2":"03 · In the app","k3":"02 · Your key","k4":"04 · Before you arrive","k5":"04 · The tap","k6":"05 · Your night","k7":"06 · Myth or fact",
       "n1":"What it is","n2":"In the app","n3":"Your key","n4":"Before you arrive","n5":"The tap","n6":"Your night","n7":"Myth or fact",
-      "q1.title":"Pause apps. <em>Not your phone.</em>","q1.off":"Paused","q1.on":"Always on","q1.e1":"Calls","q1.e2":"Camera","q1.e3":"Maps","q1.tap":"You choose which · one tap",
+      "q1.title":"Tap your key. <em>Apps pause.</em>","q1.tapped":"Tap","q1.after":"after the tap","q1.always":"as always","q1.off":"Paused","q1.on":"Always on","q1.e1":"Calls","q1.e2":"Camera","q1.e3":"Maps","q1.tap":"Your phone stays with you · or use Locky’s totem",
       "t2":"Pick what <em>gets paused.</em>","f1":"App","f2":"Pick","f3":"Tap",
       "i1":"Open the app and tap the ones that distract you","i2":"Now tap Save","i3":"Done. The pause starts with the tap.","s1.btnN":"Save {n}",
       "t3":"This is <em>your key.</em>","c1":"NFC chip","c2":"No battery","c3":"It's yours",
