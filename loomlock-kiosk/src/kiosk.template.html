@@ -67,16 +67,17 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 
 /* ---------- mono rails ---------- */
 .top{position:absolute;top:0;left:0;right:0;height:130px;z-index:30;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 56px;font-family:var(--font-mono);font-size:26px;letter-spacing:1px;color:var(--soft)}
-.top .mid{text-align:center;text-transform:lowercase}
+.top .mid{text-align:center;text-transform:lowercase;transition:opacity .2s}
+.osd-on .top .mid{opacity:0}
 .top .ch{justify-self:end;display:flex;align-items:center;gap:14px}
 .top .ch b{color:var(--yellow);font-weight:700}
 .rec{width:18px;height:18px;border-radius:50%;background:#ff4d4d;box-shadow:0 0 14px #ff4d4d;animation:blinkDot 1.4s steps(2) infinite}
 .top .ch.off .rec{background:var(--gray);box-shadow:none;animation:none}
 
 /* ---------- on-screen display ---------- */
-.osd{position:absolute;bottom:250px;right:64px;z-index:45;pointer-events:none;text-align:right;font-family:var(--font-mono);color:var(--yellow);text-shadow:4px 4px 0 var(--screen);opacity:0}
-.osd b{display:block;font-size:110px;line-height:1;font-weight:700;letter-spacing:-2px}
-.osd span{font-size:30px;letter-spacing:4px;text-transform:uppercase}
+.osd{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:45;pointer-events:none;text-align:center;white-space:nowrap;font-family:var(--font-mono);color:var(--yellow);text-shadow:4px 4px 0 var(--screen);opacity:0}
+.osd b{display:block;font-size:64px;line-height:1;font-weight:700;letter-spacing:-1px}
+.osd span{font-size:22px;letter-spacing:4px;text-transform:uppercase;background:var(--screen);padding:2px 12px}
 .osd.show{animation:osd 1.6s steps(1) forwards}
 @keyframes osd{0%{opacity:1}12%{opacity:.4}18%{opacity:1}85%{opacity:1}100%{opacity:0}}
 
@@ -186,6 +187,8 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .start-btn .tap{width:72px;height:72px;border-radius:50%;background:var(--blue);border:5px solid var(--screen);position:relative;flex:none}
 .start-btn .tap::after,.start-btn .tap::before{content:"";position:absolute;inset:-12px;border-radius:50%;border:5px solid var(--blue);animation:ping 1.6s ease-out infinite}
 .start-btn .tap::before{animation-delay:.8s}
+.host{font-family:var(--font-mono);font-size:28px;letter-spacing:3px;text-transform:uppercase;color:var(--text);background:var(--screen);padding:8px 22px;border-radius:99px}
+.legal{position:relative;z-index:3;margin:0;text-align:center;font-family:var(--font-mono);font-size:20px;letter-spacing:1px;color:var(--soft)}
 .meta-row{position:relative;z-index:3;display:flex;justify-content:center;flex-wrap:wrap;gap:14px;font-family:var(--font-mono);font-size:24px;letter-spacing:1px;text-transform:uppercase}
 .meta-row span{border:3px solid rgba(237,234,227,.55);border-radius:99px;padding:8px 22px;background:rgba(11,11,16,.25)}
 .meta-row .event{background:var(--yellow);color:var(--ink);border-color:var(--screen)}
@@ -330,9 +333,32 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .drag-card .waves{position:absolute;left:22px;top:22px;width:62px;height:62px}
 .drag-card::after{content:"";position:absolute;inset:-18px;border-radius:40px;border:5px dashed var(--yellow);animation:pulse 1.4s ease-in-out infinite;pointer-events:none}
 .done .drag-card::after,.drag-card.dragging::after{display:none}
-.down-arrow{position:absolute;top:50%;left:calc(50% - 223px);margin-top:-36px;width:48px;height:72px;color:var(--yellow);rotate:-90deg;animation:dip 1.2s ease-in-out infinite;z-index:1}
+.down-arrow{position:absolute;top:50%;left:calc(50% - 74px);margin-top:-36px;width:48px;height:72px;color:var(--yellow);rotate:-90deg;animation:dip 1.2s ease-in-out infinite;z-index:1}
 .done .down-arrow{opacity:0}
-#phone3{width:430px;height:800px}
+#phone3{width:400px;height:740px}
+#phone3 .clock{font-size:76px}
+#phone3 .screen-in{padding-top:84px}
+.mode-pick{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.mp-ask{width:100%;text-align:center;font-family:var(--font-mono);font-size:24px;letter-spacing:3px;text-transform:uppercase;color:var(--yellow)}
+.mp{display:inline-flex;align-items:center;gap:14px;min-height:96px;padding:0 30px 0 20px;border-radius:99px;border:4px solid rgba(237,234,227,.5);background:rgba(11,11,16,.3);color:var(--text);font-weight:800;font-style:italic;text-transform:uppercase;font-size:30px;letter-spacing:.5px;transition:transform .2s, background .2s}
+.mp svg{width:52px;height:52px;flex:none}
+.mp-totem{width:30px;height:56px;border-radius:14px 14px 6px 6px;background:var(--screen);border:4px solid currentColor;flex:none;position:relative}
+.mp-totem::after{content:"";position:absolute;left:50%;top:6px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--yellow)}
+.mp.on{background:var(--yellow);color:var(--ink);border-color:var(--screen);box-shadow:7px 7px 0 var(--screen);transform:translateY(-4px)}
+.totem{display:none;width:250px;height:560px;flex:none;position:relative;background:linear-gradient(180deg,#26262f,var(--screen));border:6px solid var(--screen);border-radius:70px 70px 26px 26px;box-shadow:14px 14px 0 rgba(11,11,16,.55);flex-direction:column;align-items:center;padding-top:40px;gap:28px}
+.totem::after{content:"";position:absolute;left:30px;right:30px;bottom:-30px;height:24px;border-radius:12px;background:var(--screen)}
+.totem-top{width:170px;height:170px;border-radius:50%;background:var(--yellow);border:6px solid var(--screen);display:grid;place-items:center;box-shadow:0 0 0 14px rgba(252,206,33,.18), 0 0 60px rgba(252,206,33,.45);animation:breathe 2.4s ease-in-out infinite}
+.totem-top svg{width:92px;height:92px;color:var(--ink)}
+.totem-name{font-family:var(--font-mono);font-weight:700;font-size:26px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow);text-align:center;max-width:200px;line-height:1.25}
+.totem-ch{font-family:var(--font-mono);font-weight:700;font-size:60px;color:var(--text);text-shadow:4px 4px 0 var(--blue)}
+.totem .target-ring,.totem .shock{top:131px}
+.totem .target-ring{width:300px;height:300px;margin:-150px 0 0 -150px}
+.mode-totem .totem{display:flex}
+.mode-totem .drag-card{display:none}
+.mode-totem #phone3{touch-action:none;cursor:grab;transition:transform .55s cubic-bezier(.3,1.4,.5,1)}
+#phone3.dragging{transition:none;cursor:grabbing}
+.mode-totem .down-arrow{left:calc(50% - 99px);rotate:90deg}
+.mode-totem #phone3 .target-ring{display:none}
 .target-ring{position:absolute;left:50%;top:32%;width:420px;height:420px;margin:-210px 0 0 -210px;border-radius:50%;border:8px dashed var(--yellow);opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
 .drag-zone.hover .target-ring{opacity:1;animation:spin 6s linear infinite}
 .shock{position:absolute;left:50%;top:32%;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;border:10px solid var(--yellow);opacity:0;pointer-events:none;z-index:9}
@@ -484,7 +510,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   <header class="top">
     <span>loomlock experiences</span>
     <span class="mid">prime time</span>
-    <span class="ch off" id="ch-label"><i class="rec"></i><b id="ch-num">CH 00</b></span>
+    <span class="ch" id="ch-label"><i class="rec"></i><b id="ch-num">CH 02</b></span>
   </header>
 
   <!-- CH 00 · Attract -->
@@ -498,7 +524,6 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       <div class="tv-body">
         <div class="tv-screen" id="tv-screen">
           <span class="tv-osd" id="tv-osd">CH 02</span>
-          <svg class="locky-live" id="locky-live" viewBox="200 120 620 790">{{LOCKY_LIVE}}</svg>
           <div class="nolk" id="tv-text"><div><b id="tv-ch">CH 02</b><span id="tv-line"></span></div></div>
           <canvas class="tv-static" id="tv-static" width="120" height="80"></canvas>
         </div>
@@ -510,19 +535,21 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       <span class="kicker focus" data-t="s0.kicker">Una serie que solo se ve en persona</span>
       <h1 class="focus d1"><b>Prime</b> <em>Time</em></h1>
       <span class="tagline focus d2"><b>live now</b>, post later.</span>
+      <span class="host focus d2" id="host"></span>
     </div>
     <button class="start-btn" id="start"><span class="tap"></span><span data-t="s0.cta">Toca para empezar</span></button>
     <div class="meta-row">
       <span class="event" id="event-tag" hidden></span>
       <span data-t="s0.time">≈ 1 minuto</span>
-      <span data-t="s0.steps">5 canales</span>
+      <span data-t="s0.steps">5 pasos</span>
     </div>
+    <p class="legal" id="legal" data-t="s0.legal" hidden>Evento para mayores de 18 · Disfruta con responsabilidad.</p>
   </section>
 
   <!-- CH 01 · Qué es -->
   <section class="screen" id="s1" aria-label="Qué es Loomlock">
     <div class="head">
-      <span class="kicker" data-t="s1.kicker">CH 01 · Qué es loomlock</span>
+      <span class="kicker" data-t="s1.kicker">01 · Qué es loomlock</span>
       <h2 class="focus" data-t="s1.title">El celular <em>se queda contigo.</em></h2>
       <p class="lead focus d1" data-t="s1.lead">Loomlock pausa solo las apps que tú eliges, con un tap. <b>Llamadas, cámara y mapas siguen funcionando.</b></p>
     </div>
@@ -544,7 +571,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   <!-- CH 02 · Tu llave -->
   <section class="screen" id="s2" aria-label="Tu llave">
     <div class="head">
-      <span class="kicker" data-t="s2.kicker">CH 02 · Tu llave</span>
+      <span class="kicker" data-t="s2.kicker">02 · Tu llave</span>
       <h2 class="focus" data-t="s2.title">Una llave, <em>muchas puertas.</em></h2>
     </div>
     <div class="card-area" id="card-area">
@@ -568,7 +595,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     </div>
     <div class="editions" id="editions" role="group">
       <span class="ed-label" data-t="s2.pick">Elige tu edición</span>
-      <button class="ed-sw on" data-ed="2"><i></i>CH 02</button>
+      <button class="ed-sw on" data-ed="2"><i></i>CH 02 ★</button>
       <button class="ed-sw" data-ed="1"><i></i>CH 01</button>
       <button class="ed-sw" data-ed="3"><i></i>CH 03</button>
     </div>
@@ -583,7 +610,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   <!-- CH 03 · El tap -->
   <section class="screen" id="s3" aria-label="Cómo activar la llave">
     <div class="head">
-      <span class="kicker" data-t="s3.kicker">CH 03 · Cómo activarla</span>
+      <span class="kicker" data-t="s3.kicker">03 · Cómo activarla</span>
       <h2 class="focus" data-t="s3.title">Un tap <em>y estás adentro.</em></h2>
     </div>
     <ol class="steps" id="steps">
@@ -592,7 +619,19 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       <li class="now" data-t="s3.st3">Acerca la llave al celular</li>
       <li data-t="s3.st4">Para volver, otro tap</li>
     </ol>
+    <div class="mode-pick" id="mode-pick" role="group">
+      <span class="mp-ask" data-t="s3.ask">¿Tienes tu llave?</span>
+      <button class="mp on" data-mode="card"><svg><use href="#waves"/></svg><span data-t="s3.optCard">Sí, tengo mi llave</span></button>
+      <button class="mp" data-mode="totem"><i class="mp-totem"></i><span data-t="s3.optTotem">Uso el tótem de Locky</span></button>
+    </div>
     <div class="drag-zone" id="zone3">
+      <div class="totem" id="totem3" aria-label="Tótem de Locky">
+        <div class="totem-top"><svg><use href="#waves"/></svg></div>
+        <span class="totem-name" id="totem-name">tótem de Locky</span>
+        <span class="totem-ch" data-ch>CH 02</span>
+        <div class="target-ring"></div>
+        <div class="shock"></div><div class="shock s2"></div><div class="shock s3"></div>
+      </div>
       <button class="drag-card" id="drag-card" aria-label="Llave Loomlock: toca o arrastra hasta el celular">
         <svg class="waves"><use href="#waves"/></svg>
         <span class="mini-ch" data-ch>CH 02</span>
@@ -619,7 +658,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   <!-- CH 04 · La noche -->
   <section class="screen" id="s4" aria-label="Tu noche">
     <div class="head">
-      <span class="kicker" data-t="s4.kicker">CH 04 · Tu noche</span>
+      <span class="kicker" data-t="s4.kicker">04 · Tu noche</span>
       <h2 class="focus" data-t="s4.title">Así se vive <em>la noche.</em></h2>
     </div>
     <div class="moments" id="moments">
@@ -627,7 +666,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
         <span class="ico"><svg><use href="#totem"/></svg></span>
         <span class="when" data-t="s4.w1">En la puerta</span>
         <h3 data-t="s4.t1">El ritual</h3>
-        <p data-t="s4.p1">Haz tap en el tótem al entrar.</p>
+        <p data-t="s4.p1">Tap con tu llave o en el tótem de Locky.</p>
         <span class="more" data-t="s4.m1">Tus apps quedan en pausa. El celular sigue contigo.</span>
       </button>
       <button class="moment" data-i="1">
@@ -662,7 +701,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   <!-- CH 05 · Preguntas + cierre -->
   <section class="screen" id="s5" aria-label="Preguntas rápidas">
     <div class="head">
-      <span class="kicker" data-t="s5.kicker">CH 05 · Antes de entrar</span>
+      <span class="kicker" data-t="s5.kicker">05 · Antes de entrar</span>
       <h2 class="focus" data-t="s5.title">¿Listo? <em>Ve al tótem.</em></h2>
     </div>
     <div class="quiz" id="quiz">
@@ -709,9 +748,10 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 (() => {
   /* ===== Ajustes del evento ===== */
   const CONFIG = {
-    evento: "",          // ej: "Locktober × Tequila Don Julio" — aparece en la portada. Vacío = no se muestra.
-    canal: "CH 02",      // canal de la temporada que se muestra en la TV y en la llave
-    locky: true,         // false = sin mascota (nivel 0, para marcas de alcohol como Don Julio o Smirnoff)
+    evento: "Locktober · Jue 29 oct",  // etiqueta del evento en la portada. Vacío = no se muestra.
+    canal: "CH 02",                    // canal de la temporada: está en la tele, la llave, el tótem y el aviso de cada pantalla
+    anfitrion: "Tequila Don Julio",    // marca anfitriona del canal (va chica, como anfitriona)
+    aviso18: true,                     // muestra "Evento para mayores de 18" en la portada (marcas de alcohol)
     idleSegundos: 60,    // sin toques por este tiempo → vuelve al inicio
     idioma: "es"
   };
@@ -719,18 +759,19 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   const T = {
     es: {
       "s0.tape1":"el celular se queda contigo · apps en pausa · solo aquí","s0.tape2":"shots, not screenshots · live now, post later",
-      "s0.bubble":"¡Hola! Soy Locky","s0.tvline":"en vivo · solo aquí","s0.zap":"Toca la tele · cambia de canal",
-      "s0.z1":"Una taza, una conversación.","s0.z2":"Lo que no se postea, se cuenta.","s0.z3":"Disfrázate para los que están.",
+      "s0.bubble":"¡Hola! Soy Locky","s0.tvline":"en vivo · solo aquí","s0.zap":"Toca la tele",
+      "s0.z1":"Lo que no se postea, se cuenta.","s0.z2":"Shots, not screenshots.","s0.z3":"Un trago que se toma mirando a alguien.",
+      "s0.legal":"Evento para mayores de 18 · Disfruta con responsabilidad.","s0.host":"Esta noche, con {h}",
       "s0.kicker":"Una serie que solo se ve en persona",
-      "s0.cta":"Toca para empezar","s0.time":"≈ 1 minuto","s0.steps":"5 canales",
-      "s1.kicker":"CH 01 · Qué es loomlock","s1.name":"Qué es",
+      "s0.cta":"Toca para empezar","s0.time":"≈ 1 minuto","s0.steps":"5 pasos",
+      "s1.kicker":"01 · Qué es loomlock","s1.name":"Qué es",
       "s1.title":"El celular <em>se queda contigo.</em>",
       "s1.lead":"Loomlock pausa solo las apps que tú eliges, con un tap. <b>Llamadas, cámara y mapas siguen funcionando.</b>",
       "s1.btn":"Pausar apps","s1.btnOff":"Volver al aire","s1.stamp":"Fuera del aire",
       "s1.status":"Toca las apps para elegir","s1.statusN":"{n} apps elegidas","s1.statusL":"{n} apps fuera del aire",
       "s1.ess":"Esta siempre funciona","s1.none":"Elige al menos una app",
       "s1.banner":"Fuera del aire. Volvemos después.",
-      "s2.kicker":"CH 02 · Tu llave","s2.name":"Tu llave","s2.title":"Una llave, <em>muchas puertas.</em>",
+      "s2.kicker":"02 · Tu llave","s2.name":"Tu llave","s2.title":"Una llave, <em>muchas puertas.</em>",
       "s2.bar":"live now, post later.",
       "s2.f1t":"Chip NFC","s2.f1":"El mismo del pago sin contacto.",
       "s2.f2t":"Sin batería","s2.f2":"Funciona apenas la acercas.",
@@ -739,21 +780,22 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s2.edition":"Edición limitada","s2.backt":"Adentro hay <b>un chip NFC.</b>",
       "s2.back":"Acércala a la parte de atrás de tu celular, cerca de la cámara. La app hace el resto.",
       "s2.hint":"Mueve y toca la llave","s2.pick":"Elige tu edición",
-      "s3.kicker":"CH 03 · Cómo activarla","s3.name":"El tap","s3.title":"Un tap <em>y estás adentro.</em>",
+      "s3.kicker":"03 · Cómo activarla","s3.name":"El tap","s3.title":"Un tap <em>y estás adentro.</em>",
       "s3.st1":"Descarga la app Loomlock","s3.st2":"Elige qué apps pausar",
       "s3.st3":"Acerca la llave al celular","s3.st4":"Para volver, otro tap",
-      "s3.hint":"Arrastra la llave hasta el celular","s3.hint2":"Ahora otra vez: vuelve al aire","s3.again":"Probar otra vez",
+      "s3.hint":"Arrastra la llave hasta el celular","s3.hint2":"Ahora otra vez: vuelve al aire","s3.ask":"¿Tienes tu llave?","s3.optCard":"Sí, tengo mi llave","s3.optTotem":"Uso el tótem de Locky",
+      "s3.st3t":"Acerca tu celular al tótem","s3.hintT":"Arrastra el celular hasta el tótem","s3.statusT":"Acércalo al tótem…","s3.totem":"tótem de Locky","s3.again":"Probar otra vez",
       "s3.status":"Esperando tu llave…","s3.statusOk":"Llave detectada ✓","s3.statusBack":"De vuelta al aire ✓","s3.banner":"Fuera del aire. Disfruta la noche.",
-      "s4.kicker":"CH 04 · Tu noche","s4.name":"Tu noche","s4.title":"Así se vive <em>la noche.</em>","s4.hint":"Arrastra la hora · recorre la noche","s4.later":"+2 días",
-      "s4.w1":"En la puerta","s4.t1":"El ritual","s4.p1":"Haz tap en el tótem al entrar.",
+      "s4.kicker":"04 · Tu noche","s4.name":"Tu noche","s4.title":"Así se vive <em>la noche.</em>","s4.hint":"Arrastra la hora · recorre la noche","s4.later":"+2 días",
+      "s4.w1":"En la puerta","s4.t1":"El ritual","s4.p1":"Tap con tu llave o en el tótem de Locky.",
       "s4.m1":"Tus apps quedan en pausa. El celular sigue contigo.",
       "s4.w2":"Adentro","s4.t2":"Fuera del aire","s4.p2":"Brinda, baila, conversa. Sin scroll.",
       "s4.m2":"Sin notificaciones que te saquen del momento.",
-      "s4.w3":"Al salir","s4.t3":"De vuelta al aire","s4.p3":"Otro tap en el tótem y tus apps regresan.",
+      "s4.w3":"Al salir","s4.t3":"De vuelta al aire","s4.p3":"Otro tap, con la llave o en el tótem, y tus apps regresan.",
       "s4.m3":"La llave te la llevas a casa.",
       "s4.w4":"Después","s4.t4":"La galería","s4.p4":"En 2 o 3 días, las fotos llegan a la app.",
       "s4.m4":"Las toma nuestro fotógrafo. Tú solo vives la noche.",
-      "s5.kicker":"CH 05 · Antes de entrar","s5.name":"Antes de entrar","s5.title":"¿Listo? <em>Ve al tótem.</em>",
+      "s5.kicker":"05 · Antes de entrar","s5.name":"Antes de entrar","s5.title":"¿Listo? <em>Ve al tótem.</em>",
       "s5.soon":"Próximamente",
       "s5.teaser":"<b>Loomlock 30:</b> media hora al día con tus apps en pausa. Suma sesiones y gana coleccionables.",
       "s5.restart":"¡Vamos!","s5.quizname":"Mito o verdad","s5.myth":"Mito","s5.fact":"Verdad","s5.right":"Bien","s5.wrong":"Casi",
@@ -761,6 +803,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "quiz":[{q:"Loomlock bloquea todo tu celular.",a:0,x:"Solo pausa las apps que eliges. Llamadas, cámara y mapas siguen funcionando."},
         {q:"Con las apps en pausa puedes recibir llamadas.",a:1,x:"Las llamadas nunca se pausan."},
         {q:"La llave necesita batería.",a:0,x:"Funciona por cercanía, como el pago sin contacto. Sin batería ni carga."},
+        {q:"Si no tienes llave, igual puedes entrar.",a:1,x:"Acerca tu celular al tótem de Locky y listo."},
         {q:"La llave es tuya y es coleccionable.",a:1,x:"Te la llevas a casa. Cada edición abre una puerta nueva."}],
       "s5.q1":"¿Se bloquea todo mi celular?","s5.a1":"No. Solo las apps que eliges. Llamadas, cámara y mapas siguen funcionando.",
       "s5.q2":"¿Y si tengo una emergencia?","s5.a2":"Las llamadas nunca se pausan. Siempre puedes llamar y contestar.",
@@ -772,18 +815,19 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     },
     en: {
       "s0.tape1":"phone in · apps off · just here","s0.tape2":"shots, not screenshots · live now, post later",
-      "s0.bubble":"Hi! I'm Locky","s0.tvline":"live · in person only","s0.zap":"Tap the TV · change channel",
-      "s0.z1":"One cup, one conversation.","s0.z2":"Shots, not screenshots.","s0.z3":"Dress up for the people in the room.",
+      "s0.bubble":"Hi! I'm Locky","s0.tvline":"live · in person only","s0.zap":"Tap the TV",
+      "s0.z1":"What isn't posted gets told.","s0.z2":"Shots, not screenshots.","s0.z3":"A drink you share looking at someone.",
+      "s0.legal":"18+ event · Enjoy responsibly.","s0.host":"Tonight, with {h}",
       "s0.kicker":"A series you can only watch in person",
-      "s0.cta":"Tap to start","s0.time":"≈ 1 minute","s0.steps":"5 channels",
-      "s1.kicker":"CH 01 · What is loomlock","s1.name":"What is it",
+      "s0.cta":"Tap to start","s0.time":"≈ 1 minute","s0.steps":"5 steps",
+      "s1.kicker":"01 · What is loomlock","s1.name":"What is it",
       "s1.title":"Your phone <em>stays with you.</em>",
       "s1.lead":"Loomlock pauses only the apps you choose, with one tap. <b>Calls, camera and maps keep working.</b>",
       "s1.btn":"Pause apps","s1.btnOff":"Back on air","s1.stamp":"Off air",
       "s1.status":"Tap apps to choose","s1.statusN":"{n} apps chosen","s1.statusL":"{n} apps off air",
       "s1.ess":"This one always works","s1.none":"Choose at least one app",
       "s1.banner":"Off air. Back later.",
-      "s2.kicker":"CH 02 · Your key","s2.name":"Your key","s2.title":"One key, <em>many doors.</em>",
+      "s2.kicker":"02 · Your key","s2.name":"Your key","s2.title":"One key, <em>many doors.</em>",
       "s2.bar":"live now, post later.",
       "s2.f1t":"NFC chip","s2.f1":"Same as contactless payment.",
       "s2.f2t":"No battery","s2.f2":"Works the moment it touches.",
@@ -792,21 +836,22 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s2.edition":"Limited edition","s2.backt":"There's <b>an NFC chip inside.</b>",
       "s2.back":"Hold it to the back of your phone, near the camera. The app does the rest.",
       "s2.hint":"Move and tap the key","s2.pick":"Pick your edition",
-      "s3.kicker":"CH 03 · How to activate it","s3.name":"The tap","s3.title":"One tap <em>and you're in.</em>",
+      "s3.kicker":"03 · How to activate it","s3.name":"The tap","s3.title":"One tap <em>and you're in.</em>",
       "s3.st1":"Get the Loomlock app","s3.st2":"Choose apps to pause",
       "s3.st3":"Tap the key to your phone","s3.st4":"To come back, tap again",
-      "s3.hint":"Drag the key onto the phone","s3.hint2":"Again: go back on air","s3.again":"Try again",
+      "s3.hint":"Drag the key onto the phone","s3.hint2":"Again: go back on air","s3.ask":"Got your key?","s3.optCard":"Yes, I have my key","s3.optTotem":"I'll use Locky's totem",
+      "s3.st3t":"Hold your phone to the totem","s3.hintT":"Drag the phone onto the totem","s3.statusT":"Hold it to the totem…","s3.totem":"Locky's totem","s3.again":"Try again",
       "s3.status":"Waiting for your key…","s3.statusOk":"Key detected ✓","s3.statusBack":"Back on air ✓","s3.banner":"Off air. Enjoy the night.",
-      "s4.kicker":"CH 04 · Your night","s4.name":"Your night","s4.title":"This is <em>the night.</em>","s4.hint":"Drag the time · walk the night","s4.later":"+2 days",
-      "s4.w1":"At the door","s4.t1":"The ritual","s4.p1":"Tap the totem on your way in.",
+      "s4.kicker":"04 · Your night","s4.name":"Your night","s4.title":"This is <em>the night.</em>","s4.hint":"Drag the time · walk the night","s4.later":"+2 days",
+      "s4.w1":"At the door","s4.t1":"The ritual","s4.p1":"Tap your key or Locky's totem.",
       "s4.m1":"Your apps go on pause. Your phone stays with you.",
       "s4.w2":"Inside","s4.t2":"Off air","s4.p2":"Toast, dance, talk. No scrolling.",
       "s4.m2":"No notifications pulling you out.",
-      "s4.w3":"On your way out","s4.t3":"Back on air","s4.p3":"Tap the totem again and your apps return.",
+      "s4.w3":"On your way out","s4.t3":"Back on air","s4.p3":"Tap again, key or totem, and your apps return.",
       "s4.m3":"The key is yours to take home.",
       "s4.w4":"After","s4.t4":"The gallery","s4.p4":"In 2 or 3 days, the photos land in the app.",
       "s4.m4":"Our photographer takes them. You just live the night.",
-      "s5.kicker":"CH 05 · Before you go in","s5.name":"Before you go in","s5.title":"Ready? <em>Head to the totem.</em>",
+      "s5.kicker":"05 · Before you go in","s5.name":"Before you go in","s5.title":"Ready? <em>Head to the totem.</em>",
       "s5.soon":"Coming soon",
       "s5.teaser":"<b>Loomlock 30:</b> half an hour a day with your apps on pause. Stack sessions, earn collectibles.",
       "s5.restart":"Let's go!","s5.quizname":"Myth or fact","s5.myth":"Myth","s5.fact":"Fact","s5.right":"Nice","s5.wrong":"Close",
@@ -814,6 +859,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "quiz":[{q:"Loomlock locks your whole phone.",a:0,x:"It only pauses the apps you choose. Calls, camera and maps keep working."},
         {q:"With apps on pause you can still get calls.",a:1,x:"Calls are never paused."},
         {q:"The key needs a battery.",a:0,x:"It works by proximity, like contactless payment. No battery, no charging."},
+        {q:"No key? You can still get in.",a:1,x:"Hold your phone to Locky's totem and you're set."},
         {q:"The key is yours and it's collectible.",a:1,x:"You take it home. Every edition opens a new door."}],
       "s5.q1":"Does it lock my whole phone?","s5.a1":"No. Only the apps you choose. Calls, camera and maps keep working.",
       "s5.q2":"What if there's an emergency?","s5.a2":"Calls are never paused. You can always call and answer.",
@@ -845,7 +891,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   const s9 = $("#s9");
   const t = (k, v={}) => (T[lang][k] ?? T.es[k] ?? k).replace(/\{(\w+)\}/g, (_, x) => v[x]);
   if (!CONFIG.locky) s9.classList.add("no-locky");
-  const ZAP = [null, {ch:"CH 01", k:"z1"}, {ch:"CH 02", k:"z2"}, {ch:"CH 03", k:"z3"}];
+  const ZAP = [null, {k:"z1"}, {k:"z2"}, {k:"z3"}];   // every zap stays on this night's channel
   $$("[data-ch]").forEach(e => e.textContent = CONFIG.canal);
   $("#tv-osd").textContent = CONFIG.canal;
 
@@ -877,10 +923,8 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   }
   function renderTv(){
     const z = ZAP[zapI], home = !z;
-    $("#tv-osd").textContent = home ? CONFIG.canal : z.ch;
-    $("#locky-live").style.display = home && CONFIG.locky ? "" : "none";
-    $("#tv-text").style.display = home && CONFIG.locky ? "none" : "";
-    $("#tv-ch").textContent = home ? CONFIG.canal : z.ch;
+    $("#tv-osd").textContent = CONFIG.canal + " · " + (zapI + 1) + "/" + ZAP.length;
+    $("#tv-ch").textContent = CONFIG.canal;
     $("#tv-line").textContent = t(home ? "s0.tvline" : "s0." + z.k);
   }
   function zap(){
@@ -937,10 +981,13 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     $$("[data-tape]").forEach(el => { el.innerHTML = `<span>${t(el.dataset.tape)}</span>`.repeat(6) });
     $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
     $$(".app-tile").forEach(b => { b.querySelector(".nm").textContent = T[lang].apps[b.dataset.id] });
+    $("#host").textContent = t("s0.host", {h:CONFIG.anfitrion}); $("#host").hidden = !CONFIG.anfitrion;
+    $("#totem-name").textContent = t("s3.totem");
     refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz();
   }
 
   /* ---------- channel changes ---------- */
+  let osdT;
   function go(i){
     if (i === cur || i < 0 || i > N) return;
     screens[cur].classList.remove("active");
@@ -952,16 +999,16 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     }, reduce ? 0 : 180);
     updateNav(); placeLang();
     if (cur > 0){
-      $("#osd-num").textContent = "CH 0" + cur; $("#osd-name").textContent = t(`s${cur}.name`);
+      $("#osd-num").textContent = CONFIG.canal; $("#osd-name").textContent = `0${cur} · ` + t(`s${cur}.name`);
       const o = $("#osd"); o.classList.remove("show"); void o.offsetWidth; o.classList.add("show");
+      s9.classList.add("osd-on"); clearTimeout(osdT); osdT = setTimeout(() => s9.classList.remove("osd-on"), 1600);
     }
   }
   function updateNav(){
     $("#nav").hidden = cur === 0;
     $("#back").disabled = cur <= 1;
     $("#next").querySelector("span").textContent = cur === N ? t("nav.end") : t("nav.next");
-    $("#ch-num").textContent = "CH 0" + cur;
-    $("#ch-label").classList.toggle("off", cur === 0);
+    $("#ch-num").textContent = CONFIG.canal;
   }
   $("#s0").addEventListener("click", () => go(1));
   $("#back").onclick = () => go(cur - 1);
@@ -974,19 +1021,6 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     burst(c.x, c.y, 140, 1.3); burst(540, 700, 80, 1);
     setTimeout(() => { finishing = false; resetAll() }, 1500);
   }
-
-  /* ---------- Locky looks at your finger ---------- */
-  const live = $("#locky-live"), pupils = $$("#locky-live .pupil");
-  function lookAt(p){
-    if (cur !== 0 || !CONFIG.locky) return;
-    const c = centerOf(live);
-    const dx = p.x - c.x, dy = p.y - (c.y - 60), d = Math.hypot(dx, dy) || 1, m = Math.min(1, d/400) * 17;
-    pupils.forEach(el => el.style.transform = `translate(${dx/d*m}px, ${dy/d*m}px)`);
-  }
-  s9.addEventListener("pointermove", e => lookAt(local(e.clientX, e.clientY)));
-  s9.addEventListener("pointerdown", e => lookAt(local(e.clientX, e.clientY)));
-  let wander = 0;
-  setInterval(() => { if (cur === 0){ wander += 1.3; lookAt({x:540 + Math.cos(wander)*500, y:600 + Math.sin(wander*.7)*400}) } }, 2200);
 
   /* ---------- clock ---------- */
   function tick(){ const d = new Date(); const s = d.toLocaleTimeString("es", {hour:"2-digit", minute:"2-digit", hour12:false}); $$("[data-clock]").forEach(c => c.textContent = s) }
@@ -1090,57 +1124,82 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     li[2].className = phase3 ? "ok" : "now";
     li[3].className = phase3 === 2 ? "ok" : (phase3 === 1 ? "now" : "");
     $("#hint3").hidden = phase3 === 2; $("#reset3").hidden = phase3 !== 2;
-    $("#hint3 span").textContent = t(phase3 === 1 ? "s3.hint2" : "s3.hint");
+    const T3 = mode3 === "totem";
+    $("#hint3 span").textContent = t(phase3 === 1 ? "s3.hint2" : (T3 ? "s3.hintT" : "s3.hint"));
+    li[2].textContent = t(T3 ? "s3.st3t" : "s3.st3");
+    if (!phase3) $("#status3").textContent = t(T3 ? "s3.statusT" : "s3.status");
     done3 = phase3 === 2;
   }
+  const totem = $("#totem3");
+  let mode3 = "card";
+  const mover = () => mode3 === "card" ? dcard : phone3;
+  const target = () => mode3 === "card" ? phone3 : totem;
   function overPhone(){
-    const a = dcard.getBoundingClientRect(), p = phone3.getBoundingClientRect();
-    const cx = a.left + a.width/2, cy = a.top + a.height/2;
-    return cx > p.left && cx < p.right && cy > p.top - a.height*.3 && cy < p.bottom;
+    const a = mover().getBoundingClientRect(), p = target().getBoundingClientRect();
+    const cx = mode3 === "card" ? a.left + a.width/2 : a.left + a.width*.25, cy = a.top + a.height/2;
+    const pad = mode3 === "card" ? 0 : 60;
+    return cx > p.left - pad && cx < p.right + pad && cy > p.top - a.height*.3 && cy < p.bottom + pad;
   }
   function lock3(){
     if (phase3 === 2) return;
     zone.classList.remove("hover");
-    const a = dcard.getBoundingClientRect(), p = phone3.getBoundingClientRect();
-    const m = dcard.style.transform.match(/translate\(([-\d.]+)px, ([-\d.]+)px\)/);
+    const mv = mover(), a = mv.getBoundingClientRect(), p = target().getBoundingClientRect();
+    const m = mv.style.transform.match(/translate\(([-\d.]+)px, ([-\d.]+)px\)/);
     const bx0 = m ? +m[1] : 0, by0 = m ? +m[2] : 0;
-    const dx = ((p.left + p.width/2) - (a.left + a.width/2))/K + bx0;
-    const dy = ((p.top + p.height*.3) - (a.top + a.height/2))/K + by0;
-    dcard.style.transform = `translate(${dx}px, ${dy}px) rotate(-6deg) scale(.92)`;
+    if (mode3 === "card"){
+      const dx = ((p.left + p.width/2) - (a.left + a.width/2))/K + bx0;
+      const dy = ((p.top + p.height*.3) - (a.top + a.height/2))/K + by0;
+      mv.style.transform = `translate(${dx}px, ${dy}px) rotate(-6deg) scale(.92)`;
+    } else {
+      const dx = ((p.left + p.width*.55) - a.left)/K + bx0;
+      const dy = ((p.top + p.height*.12) - (a.top + a.height*.18))/K + by0;
+      mv.style.transform = `translate(${dx}px, ${dy}px) rotate(5deg) scale(.94)`;
+    }
     const unlocking = phase3 === 1;
     clearTimeout(hit3); clearTimeout(back3);
     hit3 = setTimeout(() => {
       zone.classList.toggle("done", !unlocking); zone.classList.toggle("back", unlocking);
       phase3 = unlocking ? 2 : 1; refresh3(); rumble(phone3); staticBurst(160);
-      const c = centerOf(phone3); burst(c.x, c.y - 120, unlocking ? 50 : 90, 1.1);
+      const c = mode3 === "card" ? centerOf(phone3) : centerOf($(".totem-top")); burst(c.x, c.y - (mode3 === "card" ? 120 : 0), unlocking ? 50 : 90, 1.1);
     }, 300);
-    back3 = setTimeout(() => { dcard.style.transform = ""; dcard.classList.toggle("used", phase3 === 2) }, 1500);
+    back3 = setTimeout(() => { mv.style.transform = ""; dcard.classList.toggle("used", phase3 === 2 && mode3 === "card") }, 1500);
   }
-  function reset3(){ clearTimeout(back3); clearTimeout(hit3); phase3 = 0; zone.classList.remove("done", "hover", "back"); dcard.classList.remove("used"); dcard.style.transform = ""; refresh3() }
-  $("#reset3").onclick = reset3;
-  dcard.addEventListener("pointerdown", e => {
-    if (done3 || dcard.style.transform) return;
-    dcard.setPointerCapture(e.pointerId);
-    drag = {x:e.clientX, y:e.clientY, moved:false};
-    dcard.classList.add("dragging");
+  function reset3(){ clearTimeout(back3); clearTimeout(hit3); phase3 = 0; zone.classList.remove("done", "hover", "back"); dcard.classList.remove("used"); dcard.style.transform = ""; phone3.style.transform = ""; refresh3() }
+  $("#mode-pick").addEventListener("click", e => {
+    const b = e.target.closest(".mp"); if (!b || b.dataset.mode === mode3) return;
+    mode3 = b.dataset.mode;
+    $$(".mp").forEach(x => x.classList.toggle("on", x === b));
+    zone.classList.toggle("mode-totem", mode3 === "totem");
+    staticBurst(140); reset3();
   });
-  dcard.addEventListener("pointermove", e => {
-    if (!drag) return;
+  $("#reset3").onclick = reset3;
+  function startDrag(e){
+    const mv = e.currentTarget;
+    if (mv !== mover() || done3 || mv.style.transform) return;
+    mv.setPointerCapture(e.pointerId);
+    drag = {x:e.clientX, y:e.clientY, moved:false, el:mv};
+    mv.classList.add("dragging");
+  }
+  function moveDrag(e){
+    if (!drag || e.currentTarget !== drag.el) return;
     const dx = (e.clientX - drag.x)/K, dy = (e.clientY - drag.y)/K;
     if (Math.abs(dx) + Math.abs(dy) > 10) drag.moved = true;
-    dcard.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx/22}deg)`;
+    drag.el.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx/(drag.el === dcard ? 22 : 60)}deg)`;
     zone.classList.toggle("hover", overPhone());
-  });
-  const endDrag = () => {
+  }
+  function endDrag(){
     if (!drag) return;
-    dcard.classList.remove("dragging");
+    const el = drag.el; el.classList.remove("dragging");
     const wasTap = !drag.moved; drag = null;
     if (wasTap || overPhone()) lock3();
-    else { dcard.style.transform = ""; zone.classList.remove("hover") }
-  };
-  dcard.addEventListener("pointerup", endDrag);
-  dcard.addEventListener("pointercancel", endDrag);
+    else { el.style.transform = ""; zone.classList.remove("hover") }
+  }
+  [dcard, phone3].forEach(el => {
+    el.addEventListener("pointerdown", startDrag); el.addEventListener("pointermove", moveDrag);
+    el.addEventListener("pointerup", endDrag); el.addEventListener("pointercancel", endDrag);
+  });
   dcard.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && !done3){ e.preventDefault(); lock3() } });
+  totem.addEventListener("click", () => { if (mode3 === "totem" && !done3 && !phone3.style.transform) lock3() });
 
   /* ---------- CH 04: the night ---------- */
   const TIMES = ["21:00","22:00","01:30"], dial = $("#dial"), thumb = $("#dial-thumb"), dialBox = dial.parentElement;
@@ -1213,7 +1272,8 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     $$(".moment").forEach((m, i) => m.classList.toggle("on", i === 0)); placeWalker(0);
     qi = 0; qScore = 0; qAnswered = false; $("#qz-stamp").className = "qz-stamp";
     card.classList.remove("ed-1","ed-3"); $$(".ed-sw").forEach(x => x.classList.toggle("on", x.dataset.ed === "2")); $("#card-ch").textContent = "CH 02"; card.querySelector(".serial").textContent = SERIAL[2];
-    zapI = 0; $("#zap-hint").style.opacity = ""; $("#notifs").innerHTML = "";
+    zapI = 0; $("#zap-hint").style.opacity = "";
+    mode3 = "card"; zone.classList.remove("mode-totem"); $$(".mp").forEach(x => x.classList.toggle("on", x.dataset.mode === "card")); $("#notifs").innerHTML = "";
     go(0); applyLang(); hideIdle(); powerOn();
   }
   let idleAt = Date.now();
@@ -1231,6 +1291,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   addEventListener("gesturestart", e => e.preventDefault());
 
   if (CONFIG.evento){ const e = $("#event-tag"); e.textContent = CONFIG.evento; e.hidden = false }
+  $("#legal").hidden = !CONFIG.aviso18;
   applyLang(); powerOn();
 })();
 </script>
