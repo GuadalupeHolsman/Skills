@@ -1,11 +1,12 @@
-// LOOM — shared flat/editorial look for the Loomlock films: crisp shapes, Inter type, app UI. Pure functions.
+// LOOM — shared look for the loomlock films: brand blue, Lexend type, the real mark, app UI. Pure functions.
 (function () {
   const U = globalThis.U;
   const { clamp, lerp, ease } = U;
-  const FONT = 'Inter, system-ui, sans-serif';
+  const FONT = 'Lexend, Inter, system-ui, sans-serif';
   const C = {
-    ink: '#111114', paper: '#F2EEE8', mute: '#8A8790', line: 'rgba(17,17,20,0.08)',
-    violet: '#5B4BDB', violetDeep: '#2A2170', violetLight: '#B9B1FF', red: '#FF4D4F', white: '#FFFFFF',
+    // loomlock brand (sampled from the App Store screenshots): blue gradient, lavender cards, white
+    ink: '#151A4A', paper: '#F4F5FF', mute: '#7D82A8', line: 'rgba(21,26,74,0.08)',
+    violet: '#3E48CB', violetDeep: '#202787', violetLight: '#ECEDFF', red: '#FF4D4F', white: '#FFFFFF',
   };
 
   const font = (size, weight = 700) => `${weight} ${size}px ${FONT}`;
@@ -21,7 +22,7 @@
   }
   const mix = (a, b, u) => { const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); const A = p(a), B = p(b); return `rgb(${A.map((v, i) => Math.round(lerp(v, B[i], u))).join(',')})`; };
   // background through the day: warm morning -> bright noon -> amber -> dusk -> night
-  const DAY = [[9, '#F2EEE8', '#E9E1D5'], [13, '#EAF0F4', '#D7E4EC'], [17, '#F6D9B8', '#EDB98A'], [19.5, '#C9707A', '#5B3D6E'], [21.5, '#1B1A33', '#0E0D1C'], [24, '#0B0A16', '#06050D']];
+  const DAY = [[9, '#F4F5FF', '#E4E6FB'], [13, '#EAF0F4', '#D7E4EC'], [17, '#F6D9B8', '#EDB98A'], [19.5, '#C9707A', '#5B3D6E'], [21.5, '#1B1A33', '#0E0D1C'], [24, '#0B0A16', '#06050D']];
   function dayColors(h) {
     let i = 0; while (i < DAY.length - 2 && h >= DAY[i + 1][0]) i++;
     const a = DAY[i], b = DAY[i + 1], u = clamp((h - a[0]) / (b[0] - a[0]));
@@ -87,37 +88,76 @@
     ctx.restore();
   }
 
-  // phone lock screen when Loomlock is on
-  function lockScreen(ctx, w, h, t, t0, { line = 'Modo foco activo' } = {}) {
-    const g = ctx.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#3A2EA8'); g.addColorStop(1, '#17123F');
-    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
-    const u = clamp((t - t0) / 0.25);
-    lock(ctx, w / 2, h * 0.42, 0.9 + 0.1 * ease.outBack(u, 3), t >= t0 + 0.08 ? 1 : 0, { lw: 9 });
-    text(ctx, 'Loomlock', w / 2, h * 0.42 + 150, { size: 40, weight: 800, color: '#fff', align: 'center', alpha: u });
-    text(ctx, line, w / 2, h * 0.42 + 196, { size: 22, weight: 500, color: C.violetLight, align: 'center', alpha: u });
+  // brand assets, loaded once in Studio.film init
+  let LOGO = null;
+  async function loadBrand(Studio) {
+    await Studio.loadFont('Lexend', 'assets/Lexend.woff2', '100 900');
+    LOGO = await Studio.loadImage('assets/loomlock-logo.png');
+  }
+  // the loomlock mark (white, transparent PNG cropped from the brand's own artwork)
+  function logo(ctx, x, y, size, { alpha = 1 } = {}) {
+    if (!LOGO) return;
+    ctx.save(); ctx.globalAlpha *= alpha; ctx.drawImage(LOGO, x - size / 2, y - size / 2, size, size); ctx.restore();
+  }
+  function brandBg(ctx, x, y, w, h) { const g = ctx.createLinearGradient(0, y, 0, y + h); g.addColorStop(0, C.violet); g.addColorStop(1, C.violetDeep); ctx.fillStyle = g; ctx.fillRect(x, y, w, h); }
+  // the loomlock NFC key (the blue card from the brand's photos), centred at x,y
+  function key(ctx, x, y, w, { rot = 0, alpha = 1 } = {}) {
+    const h = w * 0.63;
+    ctx.save(); ctx.globalAlpha *= alpha; ctx.translate(x, y); ctx.rotate(rot);
+    ctx.shadowColor = 'rgba(10,12,60,0.35)'; ctx.shadowBlur = 50; ctx.shadowOffsetY = 20;
+    const g = ctx.createLinearGradient(-w / 2, -h / 2, w / 2, h / 2); g.addColorStop(0, '#4A55E0'); g.addColorStop(1, '#2A31A6');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(-w / 2, -h / 2, w, h, w * 0.06); ctx.fill();
+    ctx.shadowColor = 'transparent';
+    logo(ctx, -w * 0.2, 0, w * 0.2);
+    text(ctx, 'loomlock', -w * 0.08, w * 0.035, { size: w * 0.09, weight: 500, color: '#fff' });
+    // the NFC glyph
+    ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = w * 0.012; ctx.lineCap = 'round';
+    for (let k = 1; k <= 3; k++) { ctx.beginPath(); ctx.arc(w * 0.38, h * 0.3, k * w * 0.025, -Math.PI * 0.8, -Math.PI * 0.2); ctx.stroke(); }
+    ctx.restore();
+  }
+  // NFC tap: rings spreading from the point of contact
+  function nfc(ctx, x, y, t, t0, { color = C.violet } = {}) {
+    for (let k = 0; k < 3; k++) {
+      const u = (t - t0 - k * 0.12) / 0.7;
+      if (u < 0 || u > 1) continue;
+      ctx.save(); ctx.globalAlpha = 0.7 * (1 - u); ctx.strokeStyle = color; ctx.lineWidth = 10 * (1 - u) + 2;
+      ctx.beginPath(); ctx.arc(x, y, 40 + 420 * ease.outCubic(u), 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+    }
+  }
+  // where the key is during a tap: slides in, touches the phone at tTap, slides out
+  function keyTap(t, tTap, from, to) {
+    const a = clamp((t - (tTap - 0.45)) / 0.45), b = clamp((t - (tTap + 0.35)) / 0.4);
+    if (a <= 0 || b >= 1) return null;
+    const p = b > 0 ? lerp(1, 0, ease.inCubic(b)) : ease.outCubic(a);
+    return { x: lerp(from[0], to[0], p), y: lerp(from[1], to[1], p), rot: lerp(0.35, -0.08, p) };
   }
 
-  // end card: near-black, line lock that clicks shut at tClick, wordmark, tagline
+  // phone screen once a loomlock session is on
+  function lockScreen(ctx, w, h, t, t0, { line = 'Sesión activa · Focus' } = {}) {
+    brandBg(ctx, 0, 0, w, h);
+    const u = clamp((t - t0) / 0.3);
+    const s = 0.85 + 0.15 * ease.outBack(u, 2.5);
+    logo(ctx, w / 2, h * 0.4, 150 * s, { alpha: u });
+    text(ctx, 'loomlock', w / 2, h * 0.4 + 140, { size: 40, weight: 600, color: '#fff', align: 'center', alpha: u });
+    text(ctx, line, w / 2, h * 0.4 + 186, { size: 21, weight: 400, color: C.violetLight, align: 'center', alpha: u });
+  }
+
+  // end card: brand gradient, the mark lands at tClick, lowercase wordmark, tagline
   function endCard(ctx, t, t0, tClick, W, H, { tagline = '', sub = '' } = {}) {
     const u = clamp((t - t0) / 0.4);
     if (u <= 0) return;
     ctx.save();
-    ctx.fillStyle = C.ink; ctx.globalAlpha = ease.outCubic(u); ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1;
-    const glow = ctx.createRadialGradient(W / 2, H * 0.42, 0, W / 2, H * 0.42, 700);
-    glow.addColorStop(0, `rgba(91,75,219,${0.35 * u})`); glow.addColorStop(1, 'rgba(91,75,219,0)');
-    ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
-    const a = clamp((t - t0 - 0.2) / 0.4);
-    const shut = clamp((t - tClick + 0.12) / 0.12);
-    const kick = t >= tClick ? U.springKick(t, tClick, 5, 8) * 0.08 : 0;
-    lock(ctx, W / 2, H * 0.42 - 40, 1.6 * (1 + kick), shut, { color: '#fff', lw: 9 });
-    ctx.globalAlpha = a;
+    ctx.globalAlpha = ease.outCubic(u); brandBg(ctx, 0, 0, W, H); ctx.globalAlpha = 1;
+    const k = clamp((t - tClick + 0.25) / 0.25);
+    const kick = t >= tClick ? U.springKick(t, tClick, 5, 8) * 0.1 : 0;
+    logo(ctx, W / 2, H * 0.4 + 40 * (1 - ease.outCubic(k)), 300 * (0.8 + 0.2 * k) * (1 + kick), { alpha: k });
     const w2 = clamp((t - tClick) / 0.35);
-    text(ctx, 'Loomlock', W / 2, H * 0.42 + 250 + 20 * (1 - ease.outCubic(w2)), { size: 128, weight: 800, color: '#fff', align: 'center', alpha: w2, spacing: -4 });
+    text(ctx, 'loomlock', W / 2, H * 0.4 + 280 + 20 * (1 - ease.outCubic(w2)), { size: 128, weight: 600, color: '#fff', align: 'center', alpha: w2, spacing: -3 });
     const tg = clamp((t - tClick - 0.45) / 0.4);
-    if (tagline) text(ctx, tagline, W / 2, H * 0.42 + 340, { size: 44, weight: 500, color: C.violetLight, align: 'center', alpha: tg });
-    if (sub) text(ctx, sub, W / 2, H * 0.42 + 400, { size: 34, weight: 500, color: C.mute, align: 'center', alpha: tg });
+    if (tagline) text(ctx, tagline, W / 2, H * 0.4 + 370, { size: 46, weight: 500, color: '#fff', align: 'center', alpha: tg });
+    if (sub) text(ctx, sub, W / 2, H * 0.4 + 430, { size: 34, weight: 400, color: C.violetLight, align: 'center', alpha: tg * 0.85 });
     ctx.restore();
   }
 
-  globalThis.Loom = { C, FONT, font, text, rr, mix, dayColors, bg, roll, banner, feed, lock, lockScreen, endCard };
+  globalThis.Loom = { C, FONT, font, text, rr, mix, dayColors, bg, roll, banner, feed, lock, lockScreen, endCard, loadBrand, logo, brandBg, key, nfc, keyTap };
 })();

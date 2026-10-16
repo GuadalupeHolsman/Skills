@@ -43,7 +43,7 @@
 
   Studio.film({
     draw(ctx, t) {
-      L.bg(ctx, W, H, '#F2EEE8', '#E6DFD4');
+      L.bg(ctx, W, H, '#F4F5FF', '#E4E6FB');
       // headline
       if (t < ev.blast) L.text(ctx, '09:30 · Modo foco.', W / 2, 330, { size: 52, weight: 700, align: 'center', alpha: clamp((t - T(0, 0.5)) / 0.4) });
       else {
@@ -60,13 +60,10 @@
         L.rr(ctx, W - 250, 150, 190, 74, 37, L.C.red, { shadow: 0.6 });
         L.text(ctx, `${count}`, W - 155, 203, { size: 46, weight: 800, color: '#fff', align: 'center' });
       }
-      // the tap + lock badge
-      if (t >= ev.lock && t < ev.blast + 0.2) {
-        const u = clamp((t - ev.lock) / 0.25);
-        ctx.save(); ctx.globalAlpha = 0.35 * (1 - u); ctx.fillStyle = L.C.violet; ctx.beginPath(); ctx.arc(W / 2, 900, 60 + 260 * u, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-        const p = ease.outBack(clamp((t - ev.lock) / 0.3), 2.5);
-        if (t >= ev.lock) { ctx.save(); ctx.translate(W / 2, 900); ctx.scale(p, p); L.rr(ctx, -140, -140, 280, 280, 70, L.C.violet, { shadow: 1.2 }); L.lock(ctx, 0, 10, 1.1, t >= ev.lock + 0.06 ? 1 : 0, { lw: 11 }); ctx.restore(); }
-      }
+      // the loomlock key taps through the pile
+      const k = L.keyTap(t, ev.lock, [W + 340, 1650], [560, 930]);
+      if (k && t < ev.blast) L.key(ctx, k.x, k.y, 520, { rot: k.rot });
+      L.nfc(ctx, 540, 900, t, ev.lock);
       // a flash on the lock
       if (t >= ev.lock && t < ev.lock + 0.4) { ctx.fillStyle = `rgba(255,255,255,${0.75 * Math.exp(-(t - ev.lock) * 12)})`; ctx.fillRect(0, 0, W, H); }
       // shockwave + flash on the blast
@@ -79,12 +76,13 @@
       if (t >= T(7, 2)) {
         const u = ease.outBack(clamp((t - T(7, 2)) / 0.35), 1.6);
         const y = lerp(H + 50, 1470, u);
-        L.rr(ctx, 110, y, 860, 96, 48, L.C.ink, { shadow: 1 });
-        L.lock(ctx, 175, y + 46, 0.36, 1, { lw: 10 });
-        L.text(ctx, `Loomlock · ${notifs.length} notificaciones en pausa`, 225, y + 60, { size: 33, weight: 600, color: '#fff' });
+        L.rr(ctx, 110, y, 860, 96, 48, L.C.violet, { shadow: 1 });
+        L.logo(ctx, 172, y + 48, 58);
+        L.text(ctx, `loomlock · ${notifs.length} notificaciones bloqueadas`, 218, y + 60, { size: 32, weight: 500, color: '#fff' });
       }
-      L.endCard(ctx, t, ev.end, ev.click, W, H, { tagline: 'Que las notificaciones esperen.', sub: 'Vos, enfocate.' });
+      L.endCard(ctx, t, ev.end, ev.click, W, H, { tagline: 'Que las notificaciones esperen.', sub: 'Tocá la llave. Enfocate.' });
     },
+    init: () => L.loadBrand(Studio),
     post: { paper: 0, vignette: 0.12, grain: 0.015 },
     fadeOut: 0.5,
   });

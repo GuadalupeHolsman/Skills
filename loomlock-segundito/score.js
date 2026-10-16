@@ -47,7 +47,7 @@
   const subtitles = [
     { t: T(0, 0.5), end: ev.one, text: 'Hoy sí. Modo foco.' },
     { t: ev.one, end: ev.dive, text: 'Solo un segundito.' },
-    { t: T(8, 1), end: ev.end, text: 'Con Loomlock, un segundito es un segundito.' },
+    { t: T(8, 1), end: ev.end, text: 'Con loomlock, un segundito es un segundito.' },
   ];
 
   const SCORE = { FPS, FORMAT, W, H, SAFE, WIDE, STYLE, DURATION, clock, T, BEAT, m, ev, steps, stepAt, swipes, markers, subtitles };

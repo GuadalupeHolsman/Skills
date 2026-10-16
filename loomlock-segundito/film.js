@@ -26,12 +26,12 @@
       L.text(ctx, t < ev.one ? 'Hoy sí. Modo foco.' : 'Solo un segundito.', W / 2, 760, { size: 50, weight: 500, color: '#4A4750', align: 'center', alpha: a });
     } else {
       const a = clamp((t - S.T(8, 1)) / 0.4), b = clamp((t - S.T(8, 2)) / 0.4);
-      L.text(ctx, 'Con Loomlock,', W / 2, 760, { size: 50, weight: 500, color: '#4A4750', align: 'center', alpha: a });
+      L.text(ctx, 'Con loomlock,', W / 2, 760, { size: 50, weight: 500, color: '#4A4750', align: 'center', alpha: a });
       L.text(ctx, 'un segundito es un segundito.', W / 2, 826, { size: 50, weight: 700, color: L.C.ink, align: 'center', alpha: b });
     }
     const buzz = t >= ev.wake && t < ev.wake + 0.35 ? Math.sin(t * 90) * 7 : 0;
     const screen = (c, w, h) => {
-      if (after) return L.lockScreen(c, w, h, t, ev.morning, { line: 'Modo foco activo' });
+      if (after) return L.lockScreen(c, w, h, t, ev.morning, { line: 'Sesión activa · Focus' });
       c.fillStyle = '#050507'; c.fillRect(0, 0, w, h);
       if (t >= ev.wake) {
         const u = clamp((t - ev.wake) / 0.3);
@@ -57,7 +57,7 @@
     ctx.save(); ctx.translate(W / 2, 1180); ctx.scale(z, z); ctx.translate(-W / 2, -1180);
     const frozen = t >= ev.stop ? ev.stop : t;
     const screen = (c, w, h) => {
-      if (t >= ev.lock) return L.lockScreen(c, w, h, t, ev.lock, { line: 'Modo foco activo' });
+      if (t >= ev.lock) return L.lockScreen(c, w, h, t, ev.lock, { line: 'Sesión activa · Focus' });
       L.feed(c, w, h, scrollAt(frozen));
     };
     screen.dark = true;
@@ -70,6 +70,10 @@
       ctx.save(); ctx.globalAlpha = 0.5 * (1 - u); ctx.fillStyle = '#fff';
       ctx.beginPath(); ctx.arc(640, lerp(1560, 1200, ease.outCubic(u)), 46, 0, Math.PI * 2); ctx.fill(); ctx.restore();
     }
+    // the loomlock key taps the phone
+    const k = L.keyTap(t, ev.lock, [W + 320, 1700], [700, 1330]);
+    if (k) L.key(ctx, k.x, k.y, 460, { rot: k.rot });
+    L.nfc(ctx, 640, 1240, t, ev.lock, { color: '#FFFFFF' });
     // stop: a hard white flash
     const f = t >= ev.stop ? 0.6 * Math.exp(-(t - ev.stop) * 12) : 0;
     if (f > 0.01) { ctx.fillStyle = `rgba(255,255,255,${f})`; ctx.fillRect(0, 0, W, H); }
@@ -78,8 +82,9 @@
   Studio.film({
     draw(ctx, t) {
       if (t < ev.dive || t >= ev.morning) wide(ctx, t); else close(ctx, t);
-      L.endCard(ctx, t, ev.end, ev.click, W, H, { tagline: 'Bloqueá distracciones.', sub: 'Recuperá tu día.' });
+      L.endCard(ctx, t, ev.end, ev.click, W, H, { tagline: 'Tocá la llave.', sub: 'Recuperá tu día.' });
     },
+    init: () => L.loadBrand(Studio),
     post: { paper: 0, vignette: 0.12, grain: 0.015 },
     fadeOut: 0.5,
   });
