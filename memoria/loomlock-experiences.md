@@ -64,8 +64,8 @@ _Última actualización: 16 oct 2026. Fuente: artifact "Prime Time Programación
 
 ## Ch.4 Quokka: material y propuesta de publicación (16 oct 2026)
 **Material en Drive** (carpeta "Quokka", de yellowbrah@loomlock.com, subida el 16 oct):
-- 9 piezas QUOKKA_COLLAB (posters con QR "Scan me!"): "Deep focus", "Take a break", "Disconnect to connect", entre otras. Texto: "Lock distracting apps. You choose which apps, you choose for how long. loomlock doesn't store any data." Ojo: dicen "Loomlock" con mayúscula.
-- Subcarpeta "NFC Keys": 9 diseños de las llaves NFC para los asistentes.
+- 8 piezas QUOKKA_COLLAB (posters con QR "Scan me!"): "Deep focus", "Take a break", "Disconnect to connect", entre otras. Texto: "Lock distracting apps. You choose which apps, you choose for how long. loomlock doesn't store any data." Ojo: dicen "Loomlock" con mayúscula.
+- Subcarpeta "NFC Keys": 10 diseños de las llaves NFC para los asistentes.
 
 **Calendario de loomlock para Quokka** (ya en Prime Time):
 - 7 nov, 7 pm: carrusel "Networking used to mean / talking to the person next to you." · story "Disconnect to connect."
