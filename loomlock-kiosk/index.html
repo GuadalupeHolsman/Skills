@@ -463,6 +463,20 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .sign{font-size:40px;font-weight:200;font-style:italic;color:var(--yellow);text-align:center;text-shadow:3px 3px 0 var(--screen)}
 .sign b{font-weight:800}
 
+/* ---------- in-app picker ---------- */
+.app-bar{display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px 0 6px;border-bottom:3px solid rgba(11,11,16,.12)}
+.ab-logo{font-family:var(--font-mono);font-weight:700;font-size:30px;color:var(--blue);letter-spacing:1px}
+.ab-t{font-weight:800;font-style:italic;text-transform:uppercase;font-size:26px;color:var(--ink)}
+.saved-banner{position:absolute;left:24px;right:24px;bottom:28px;background:var(--ok);color:#fff;border:4px solid var(--screen);border-radius:30px;padding:18px 20px;font-family:var(--font-mono);font-weight:700;font-size:22px;letter-spacing:1px;text-transform:uppercase;display:flex;gap:14px;align-items:center;transform:translateY(180%);transition:transform .55s var(--e-spring)}
+.saved-banner span:first-child{width:40px;height:40px;border-radius:50%;background:#fff;color:var(--ok);display:grid;place-items:center;font-size:24px;flex:none}
+.is-saved .saved-banner{transform:none}
+.stage-area{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px}
+.next-tip{display:flex;align-items:center;gap:18px;font-weight:800;font-style:italic;text-transform:uppercase;font-size:30px;color:var(--ink);background:var(--yellow);border:5px solid var(--screen);border-radius:99px;padding:14px 30px 14px 16px;box-shadow:8px 8px 0 var(--screen);opacity:0;transform:translateY(30px) scale(.9);transition:opacity .4s var(--e-in), transform .5s var(--e-spring)}
+.next-tip.on{opacity:1;transform:none}
+.nt-ico{display:flex;align-items:center;gap:6px;background:var(--screen);border-radius:99px;padding:8px 14px;color:var(--yellow)}
+.nt-ico svg{width:40px;height:40px}
+.nt-ico .mp-totem{color:var(--yellow)}
+
 /* ---------- step-by-step pieces ---------- */
 .split{flex:1;display:grid;grid-template-rows:1fr 1fr;gap:26px;min-height:0}
 .pane{border:5px solid var(--screen);border-radius:40px;box-shadow:10px 10px 0 var(--screen);padding:30px 36px;display:flex;flex-direction:column;justify-content:center;gap:24px}
@@ -489,7 +503,8 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .fp.ok b{background:var(--ok);font-size:0}
 .fp.ok b::after{content:"✓";font-size:26px}
 .fa{width:34px;height:4px;background:rgba(237,234,227,.5);border-radius:2px}
-.instr{margin:0;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:46px;line-height:1.05;color:var(--yellow);text-shadow:4px 4px 0 var(--screen);min-height:2.1em;display:grid;place-items:center}
+#phone1{height:740px}
+.instr{margin:0;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:38px;line-height:1.08;color:var(--yellow);text-shadow:4px 4px 0 var(--screen);min-height:2.1em;display:grid;place-items:center}
 .instr.in{animation:focusIn .5s cubic-bezier(.2,.8,.2,1) both}
 .big-btn[disabled]{opacity:.45;box-shadow:none}
 .chips{display:flex;justify-content:center;gap:14px}
@@ -693,7 +708,7 @@ h2 .w{display:inline-block}
     <div class="meta-row">
       <span class="event" id="event-tag" hidden></span>
       <span data-t="s0.time">≈ 1 minuto</span>
-      <span data-t="s0.steps">7 pasos</span>
+      <span data-t="s0.steps">6 pasos</span>
     </div>
     <p class="legal" id="legal" data-t="s0.legal" hidden>Evento para mayores de 18 · Disfruta con responsabilidad.</p>
   </section>
@@ -719,29 +734,6 @@ h2 .w{display:inline-block}
       </div>
     </div>
     <p class="oneliner" data-t="q1.tap">Tú eliges cuáles · con un tap</p>
-  </section>
-
-  <!-- 02 · Pruébalo -->
-  <section class="screen" id="s2" data-name="n2" aria-label="Pruébalo">
-    <div class="head">
-      <span class="kicker" data-t="k2">02 · Pruébalo</span>
-      <h2 class="focus" data-t="t2">Pruébalo <em>aquí.</em></h2>
-    </div>
-    <div class="flow" id="flow1"><span class="fp now"><b>1</b><span data-t="f1">Elige</span></span><i class="fa"></i><span class="fp"><b>2</b><span data-t="f2">Pausa</span></span><i class="fa"></i><span class="fp"><b>3</b><span data-t="f3">Listo</span></span></div>
-    <p class="instr" id="instr1"></p>
-    <div class="stage-area">
-      <div class="phone" id="phone1">
-        <div class="screen-in">
-          <div class="clock" data-clock>21:30</div>
-          <div class="status" id="status1"></div>
-          <div class="notifs" id="notifs"></div>
-          <div class="apps" id="apps1"></div>
-          <div class="lock-banner"><svg><use href="#lock-y"/></svg><span data-t="s1.banner">Fuera del aire. Volvemos después.</span></div>
-        </div>
-        <div class="stamp" id="stamp1" data-t="s1.stamp">Fuera del aire</div>
-      </div>
-    </div>
-    <button class="big-btn" id="try-lock"><svg><use href="#lock"/></svg><span>Pausar</span></button>
   </section>
 
   <!-- 03 · Tu key -->
@@ -773,20 +765,26 @@ h2 .w{display:inline-block}
     <div class="hint"><i></i><span data-t="s2.hint">Muévela · tócala · cambia la edición</span></div>
   </section>
 
-  <!-- 04 · Antes de llegar -->
-  <section class="screen" id="s4" data-name="n4" aria-label="Antes de llegar">
+  <!-- 02 · Pruébalo -->
+  <section class="screen" id="s2" data-name="n2" aria-label="Elige tus apps">
     <div class="head">
-      <span class="kicker" data-t="k4">04 · Antes de llegar</span>
-      <h2 class="focus" data-t="t4">Dos pasos <em>antes.</em></h2>
+      <span class="kicker" data-t="k2">03 · En la app</span>
+      <h2 class="focus" data-t="t2">Elige qué <em>se pausa.</em></h2>
     </div>
-    <div class="prep" id="prep">
-      <button class="pstep" data-i="0"><span class="pn">1</span><span class="pt"><b data-t="p1">Descarga la app</b><small data-t="p1s">Busca Loomlock en tu tienda</small></span><span class="pc">✓</span></button>
-      <i class="pline"></i>
-      <button class="pstep" data-i="1"><span class="pn">2</span><span class="pt"><b data-t="p2">Elige tus apps</b><small data-t="p2s">Las que quieres pausar esta noche</small></span><span class="pc">✓</span></button>
-      <i class="pline"></i>
-      <div class="pready" id="pready"><span data-t="p3">¡Listo para el tap!</span></div>
+    <div class="flow" id="flow1"><span class="fp ok"><b>1</b><span data-t="f1">App</span></span><i class="fa on"></i><span class="fp now"><b>2</b><span data-t="f2">Elige</span></span><i class="fa"></i><span class="fp"><b>3</b><span data-t="f3">Tap</span></span></div>
+    <p class="instr" id="instr1"></p>
+    <div class="stage-area">
+      <div class="phone" id="phone1">
+        <div class="screen-in">
+          <div class="app-bar"><span class="ab-logo">loomlock</span><span class="ab-t" data-t="s1.appbar">Apps a pausar</span></div>
+          <div class="status" id="status1"></div>
+          <div class="apps" id="apps1"></div>
+          <div class="saved-banner"><span>✓</span><span id="saved-txt"></span></div>
+        </div>
+      </div>
+      <div class="next-tip" id="next-tip"><span class="nt-ico"><i class="mp-totem"></i><svg><use href="#waves"/></svg></span><span data-t="s1.tip">La pausa empieza con un tap: tótem o key</span></div>
     </div>
-    <div class="hint"><i></i><span data-t="p.hint">Toca cada paso</span></div>
+    <button class="big-btn" id="try-lock"><span>Guardar</span></button>
   </section>
 
   <!-- 05 · El tap -->
@@ -906,12 +904,13 @@ h2 .w{display:inline-block}
 
   const T = {
     es: {
+      "s1.saved":"Guardado ✓","s1.savedN":"{n} apps listas para pausar","s1.status0":"Ninguna elegida","s1.appbar":"Apps a pausar","s1.tip":"La pausa empieza con un tap: tótem o key",
       "osd.off":"FUERA DEL AIRE","osd.on":"AL AIRE",
-      "k1":"01 · Qué es","k2":"02 · Pruébalo","k3":"03 · Tu key","k4":"04 · Antes de llegar","k5":"05 · El tap","k6":"06 · Tu noche","k7":"07 · Mito o verdad",
-      "n1":"Qué es","n2":"Pruébalo","n3":"Tu key","n4":"Antes de llegar","n5":"El tap","n6":"Tu noche","n7":"Mito o verdad",
+      "k1":"01 · Qué es","k2":"03 · En la app","k3":"02 · Tu key","k4":"04 · Antes de llegar","k5":"04 · El tap","k6":"05 · Tu noche","k7":"06 · Mito o verdad",
+      "n1":"Qué es","n2":"En la app","n3":"Tu key","n4":"Antes de llegar","n5":"El tap","n6":"Tu noche","n7":"Mito o verdad",
       "q1.title":"Pausa apps. <em>No tu celular.</em>","q1.off":"En pausa","q1.on":"Siempre funcionan","q1.e1":"Llamadas","q1.e2":"Cámara","q1.e3":"Mapas","q1.tap":"Tú eliges cuáles · con un tap",
-      "t2":"Pruébalo <em>aquí.</em>","f1":"Elige","f2":"Pausa","f3":"Listo",
-      "i1":"Toca las apps que te distraen","i2":"Ahora toca Pausar","i3":"Listo. Ya no te interrumpen.","s1.btnN":"Pausar {n}",
+      "t2":"Elige qué <em>se pausa.</em>","f1":"App","f2":"Elige","f3":"Tap",
+      "i1":"Abre la app y toca las que te distraen","i2":"Ahora toca Guardar","i3":"Listo. La pausa empieza con el tap.","s1.btnN":"Guardar {n}",
       "t3":"Esta es <em>tu key.</em>","c1":"Chip NFC","c2":"Sin batería","c3":"Es tuya",
       "t4":"Dos pasos <em>antes.</em>","p1":"Descarga la app","p1s":"Busca Loomlock en tu tienda","p2":"Elige tus apps","p2s":"Las que quieres pausar esta noche","p3":"¡Listo para el tap!","p.hint":"Toca cada paso",
       "t5":"Un tap <em>y entras.</em>","tf1":"Tap: pausa","tf2":"Tap: vuelves",
@@ -921,11 +920,11 @@ h2 .w{display:inline-block}
       "s0.z1":"Lo que no se postea, se cuenta.","s0.z2":"Shots, not screenshots.","s0.z3":"Un trago que se toma mirando a alguien.",
       "s0.legal":"Evento para mayores de 18 · Disfruta con responsabilidad.","s0.host":"Esta noche, con {h}",
       "s0.kicker":"Una serie que solo se ve en persona",
-      "s0.cta":"Toca para empezar","s0.time":"≈ 1 minuto","s0.steps":"7 pasos",
+      "s0.cta":"Toca para empezar","s0.time":"≈ 1 minuto","s0.steps":"6 pasos",
       "s1.kicker":"01 · Qué es loomlock","s1.name":"Qué es",
       "s1.title":"El celular <em>se queda contigo.</em>",
       "s1.lead":"Loomlock pausa solo las apps que tú eliges, con un tap. <b>Llamadas, cámara y mapas siguen funcionando.</b>",
-      "s1.btn":"Pausar","s1.btnOff":"Volver al aire","s1.stamp":"Fuera del aire",
+      "s1.btn":"Guardar","s1.btnOff":"Volver al aire","s1.stamp":"Fuera del aire",
       "s1.status":"Toca las apps para elegir","s1.statusN":"{n} apps elegidas","s1.statusL":"{n} en pausa · llamadas OK",
       "s1.ess":"Esta siempre funciona","s1.none":"Elige al menos una app",
       "s1.banner":"Fuera del aire. Volvemos después.",
@@ -971,12 +970,13 @@ h2 .w{display:inline-block}
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",cam:"Cámara",mp:"Mapas"}
     },
     en: {
+      "s1.saved":"Saved ✓","s1.savedN":"{n} apps ready to pause","s1.status0":"None picked","s1.appbar":"Apps to pause","s1.tip":"The pause starts with a tap: totem or key",
       "osd.off":"OFF AIR","osd.on":"ON AIR",
-      "k1":"01 · What it is","k2":"02 · Try it","k3":"03 · Your key","k4":"04 · Before you arrive","k5":"05 · The tap","k6":"06 · Your night","k7":"07 · Myth or fact",
-      "n1":"What it is","n2":"Try it","n3":"Your key","n4":"Before you arrive","n5":"The tap","n6":"Your night","n7":"Myth or fact",
+      "k1":"01 · What it is","k2":"03 · In the app","k3":"02 · Your key","k4":"04 · Before you arrive","k5":"04 · The tap","k6":"05 · Your night","k7":"06 · Myth or fact",
+      "n1":"What it is","n2":"In the app","n3":"Your key","n4":"Before you arrive","n5":"The tap","n6":"Your night","n7":"Myth or fact",
       "q1.title":"Pause apps. <em>Not your phone.</em>","q1.off":"Paused","q1.on":"Always on","q1.e1":"Calls","q1.e2":"Camera","q1.e3":"Maps","q1.tap":"You choose which · one tap",
-      "t2":"Try it <em>here.</em>","f1":"Pick","f2":"Pause","f3":"Done",
-      "i1":"Tap the apps that distract you","i2":"Now tap Pause","i3":"Done. No more interruptions.","s1.btnN":"Pause {n}",
+      "t2":"Pick what <em>gets paused.</em>","f1":"App","f2":"Pick","f3":"Tap",
+      "i1":"Open the app and tap the ones that distract you","i2":"Now tap Save","i3":"Done. The pause starts with the tap.","s1.btnN":"Save {n}",
       "t3":"This is <em>your key.</em>","c1":"NFC chip","c2":"No battery","c3":"It's yours",
       "t4":"Two steps <em>before.</em>","p1":"Get the app","p1s":"Search Loomlock in your store","p2":"Pick your apps","p2s":"The ones to pause tonight","p3":"Ready for the tap!","p.hint":"Tap each step",
       "t5":"One tap <em>and you're in.</em>","tf1":"Tap: pause","tf2":"Tap: back",
@@ -986,11 +986,11 @@ h2 .w{display:inline-block}
       "s0.z1":"What isn't posted gets told.","s0.z2":"Shots, not screenshots.","s0.z3":"A drink you share looking at someone.",
       "s0.legal":"18+ event · Enjoy responsibly.","s0.host":"Tonight, with {h}",
       "s0.kicker":"A series you can only watch in person",
-      "s0.cta":"Tap to start","s0.time":"≈ 1 minute","s0.steps":"7 steps",
+      "s0.cta":"Tap to start","s0.time":"≈ 1 minute","s0.steps":"6 steps",
       "s1.kicker":"01 · What is loomlock","s1.name":"What is it",
       "s1.title":"Your phone <em>stays with you.</em>",
       "s1.lead":"Loomlock pauses only the apps you choose, with one tap. <b>Calls, camera and maps keep working.</b>",
-      "s1.btn":"Pause","s1.btnOff":"Back on air","s1.stamp":"Off air",
+      "s1.btn":"Save","s1.btnOff":"Back on air","s1.stamp":"Off air",
       "s1.status":"Tap apps to choose","s1.statusN":"{n} apps chosen","s1.statusL":"{n} paused · calls OK",
       "s1.ess":"This one always works","s1.none":"Choose at least one app",
       "s1.banner":"Off air. Back later.",
@@ -1169,6 +1169,7 @@ h2 .w{display:inline-block}
     cur = i;
     staticBurst(); clearReady(); armReady();
     [...screens[cur].children].forEach((c, k) => c.style.setProperty("--n", k));
+    if (screens[cur].contains(phone3) && !phase3) syncApps3();
     setTimeout(() => {
       screens[cur].classList.add("active");
       if (screens[cur].contains(dial)) setTimeout(() => placeWalker(activeMoment()), 60);
@@ -1214,53 +1215,46 @@ h2 .w{display:inline-block}
   }
   buildApps($("#apps1"), true); buildApps($("#apps3"), false);
   const phone1 = $("#phone1");
-  let locked1 = false;
   $("#apps1").addEventListener("click", e => {
     const b = e.target.closest(".app-tile"); if (!b) return;
     if (b.classList.contains("ess")){ b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); flashStatus(t("s1.ess")); return }
-    if (locked1) return;
-    b.classList.toggle("sel"); refresh1();
+    b.classList.toggle("sel");
+    if (saved1){ saved1 = false; phone1.classList.remove("is-saved"); $("#next-tip").classList.remove("on") }
+    refresh1();
   });
   let flashT;
   function flashStatus(msg){ $("#status1").textContent = msg; clearTimeout(flashT); flashT = setTimeout(refresh1, 1600) }
   let lastSub = 0, lastCount = 0;
   function refresh1(){
-    const n = $$("#apps1 .app-tile.sel").length, sub = locked1 ? 2 : (n ? 1 : 0);
-    $("#status1").textContent = locked1 ? t("s1.statusL", {n}) : (n ? t("s1.statusN", {n}) : "");
+    const n = $$("#apps1 .app-tile.sel").length, sub = saved1 ? 2 : 1;
+    $("#status1").textContent = n ? t("s1.statusN", {n}) : t("s1.status0");
     $$("#flow1 .fp").forEach((f, i) => f.className = "fp" + (i < sub ? " ok" : (i === sub ? " now" : "")));
     $$("#flow1 .fa").forEach((f, i) => f.classList.toggle("on", i < sub));
-    const btn0 = $("#try-lock"); if (n !== lastCount){ btn0.classList.remove("bump"); void btn0.offsetWidth; btn0.classList.add("bump"); lastCount = n }
-    if (locked1) markReady();
-    const ins = $("#instr1"); ins.textContent = t("i" + (sub + 1));
-    if (sub !== lastSub){ ins.classList.remove("in"); void ins.offsetWidth; ins.classList.add("in"); lastSub = sub }
     const btn = $("#try-lock");
-    btn.querySelector("span").textContent = locked1 ? t("s1.btnOff") : (n ? t("s1.btnN", {n}) : t("s1.btn"));
-    btn.querySelector("use").setAttribute("href", locked1 ? "#unlock-d" : "#lock");
-    btn.classList.toggle("is-on", locked1);
-    btn.disabled = !locked1 && !n;
+    if (n !== lastCount){ btn.classList.remove("bump"); void btn.offsetWidth; btn.classList.add("bump"); lastCount = n }
+    const ins = $("#instr1"), key = saved1 ? "i3" : (n ? "i2" : "i1"); ins.textContent = t(key);
+    if (key !== lastSub){ ins.classList.remove("in"); void ins.offsetWidth; ins.classList.add("in"); lastSub = key }
+    btn.querySelector("span").textContent = saved1 ? t("s1.saved") : (n ? t("s1.btnN", {n}) : t("s1.btn"));
+    btn.classList.toggle("is-on", saved1);
+    btn.disabled = !n;
+    $("#saved-txt").textContent = t("s1.savedN", {n});
   }
-  const NOTE = {
-    es:[["ig","12 nuevos likes en tu foto"],["tt","Tienes 8 videos nuevos"],["x","Tendencia en tu ciudad"],["yt","Nuevo en vivo ahora"],["ig","@ana te mencionó"],["fb","3 personas comentaron"],["gm","¡Tu vida se recargó!"]],
-    en:[["ig","12 new likes on your photo"],["tt","8 new videos for you"],["x","Trending in your city"],["yt","New live stream now"],["ig","@ana mentioned you"],["fb","3 people commented"],["gm","Your lives are full!"]]
-  };
-  let noteI = 0;
-  setInterval(() => {
-    if (!screens[cur].contains(phone1) || locked1) return;
-    const box = $("#notifs"), live = box.querySelectorAll(".notif:not(.bye)");
-    if (live.length >= 2){ const old = live[0]; old.classList.add("bye"); setTimeout(() => old.remove(), 350) }
-    const [id, msg] = NOTE[lang][noteI++ % NOTE[lang].length], app = APPS.find(a => a.id === id);
-    const n = document.createElement("button"); n.className = "notif";
-    n.innerHTML = `<b style="background:${app.c}">${app.ab}</b><span><small>${T[lang].apps[id]}</small>${msg}</span>`;
-    n.onclick = e => { e.stopPropagation(); n.classList.add("bye"); setTimeout(() => n.remove(), 350) };
-    box.appendChild(n);
-  }, 1700);
-  function silenceNotifs(){ $$("#notifs .notif").forEach((n, i) => { setTimeout(() => n.classList.add("cut"), i*90); setTimeout(() => n.remove(), 700 + i*90) }) }
-  $("#try-lock").onclick = () => {
-    if (!locked1 && !$$("#apps1 .app-tile.sel").length){ flashStatus(t("s1.none")); return }
-    locked1 = !locked1; phone1.classList.toggle("is-locked", locked1); refresh1();
-    const st = $("#stamp1"); st.classList.remove("go");
-    if (locked1){ flashOsd(t("osd.off"), "", true); silenceNotifs(); void st.offsetWidth; st.classList.add("go"); rumble(phone1); staticBurst(160); const c = centerOf(phone1); burst(c.x, c.y - 150, 60) }
-  };
+
+  let saved1 = false;
+  function save1(){
+    const n = $$("#apps1 .app-tile.sel").length;
+    if (!n){ flashStatus(t("s1.none")); return }
+    saved1 = true; phone1.classList.add("is-saved"); syncApps3(); refresh1();
+    $("#next-tip").classList.add("on"); markReady(); vib(15);
+    const c = centerOf(phone1); burst(c.x, c.y + 200, 45, .9);
+  }
+  $("#try-lock").onclick = save1;
+  /* the tap screen pauses exactly the apps picked here */
+  function syncApps3(){
+    let ids = $$("#apps1 .app-tile.sel").map(b => b.dataset.id);
+    if (!ids.length) ids = ["ig", "tt", "yt"];
+    $$("#apps3 .app-tile").forEach(b => b.classList.toggle("sel", ids.includes(b.dataset.id)));
+  }
 
   /* ---------- CH 02: holo key ---------- */
   const card = $("#card"), area = $("#card-area");
@@ -1447,14 +1441,14 @@ h2 .w{display:inline-block}
 
   /* ---------- reset + idle ---------- */
   function resetAll(){
-    locked1 = false; phone1.classList.remove("is-locked");
-    buildApps($("#apps1"), true);
+    saved1 = false; phone1.classList.remove("is-saved"); $("#next-tip").classList.remove("on");
+    buildApps($("#apps1"), true); syncApps3();
     card.classList.remove("flipped");
     reset3();
     $$(".moment").forEach((m, i) => m.classList.toggle("on", i === 0)); placeWalker(0);
     qi = 0; qScore = 0; qAnswered = false; $("#qz-stamp").className = "qz-stamp";
-    zapI = 0; $("#zap-hint").style.opacity = ""; $$(".pstep").forEach(x => x.classList.remove("ok")); $("#pready").classList.remove("on");
-    mode3 = "totem"; zone.classList.add("mode-totem"); $$(".mp").forEach(x => x.classList.toggle("on", x.dataset.mode === "totem")); $("#notifs").innerHTML = "";
+    zapI = 0; $("#zap-hint").style.opacity = "";
+    mode3 = "totem"; zone.classList.add("mode-totem"); $$(".mp").forEach(x => x.classList.toggle("on", x.dataset.mode === "totem"));
     go(0); applyLang(); hideIdle(); powerOn();
   }
   let idleAt = Date.now();

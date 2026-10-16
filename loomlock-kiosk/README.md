@@ -6,14 +6,13 @@ Explica qué es Loomlock, la tarjeta NFC, cómo activarla y cómo se vive la noc
 ## Pantallas
 Todo pasa en el **CH 02 · Tequila Don Julio**. Locky no aparece dibujado (nivel 0 con marcas de alcohol); solo se nombra el tótem de Locky. Cada pantalla explica una sola idea.
 
-0. **Portada:** tele de tubo en el CH 02 (al tocarla cambia la frase), "Esta noche, con Tequila Don Julio" y aviso +18
-1. **01 · Qué es:** esquema "En pausa" (redes) vs "Siempre funcionan" (llamadas, cámara, mapas)
-2. **02 · Pruébalo:** demo guiada en 3 pasos: Elige → Pausa → Listo
-3. **03 · Your key:** la key del CH 02, que se inclina con el dedo y se da vuelta para ver el dorso (chip NFC)
-4. **04 · Antes de llegar:** dos pasos para tocar (descarga la app, elige tus apps)
-5. **05 · The tap:** arranca con el tótem de Locky (arrastras el celular al tótem); la otra opción es tu key (arrastras la key al celular). Tap para pausar y tap para volver
-6. **06 · Tu noche:** deslizas la hora y se encienden los 4 momentos
-7. **07 · Mito o verdad:** 5 preguntas rápidas con puntaje y cierre "Ve al tótem"
+0. **Portada:** tele de tubo en el CH 02 (al tocarla cambia la frase), "Tonight, with Tequila Don Julio" y aviso +18
+1. **01 · What it is:** esquema "Paused" (redes) vs "Always on" (llamadas, cámara, mapas)
+2. **02 · Your key:** la key del CH 02, que se inclina y se da vuelta (chip NFC)
+3. **03 · In the app:** en la app de Loomlock eliges qué apps se pausan y tocas Save. Aviso: "la pausa empieza con un tap: tótem o key"
+4. **04 · The tap:** arranca con el tótem de Locky (arrastras el celular al tótem); la otra opción es tu key. Se pausan justo las apps elegidas en el paso 03. Tap para pausar y tap para volver
+5. **05 · Your night:** deslizas la hora y se encienden los 4 momentos
+6. **06 · Myth or fact:** 5 preguntas rápidas con puntaje y cierre "Head to the totem"
 
 ## Estética
 Usa la dirección de arte de **Prime Time · loomlock experiences**: cada pantalla es un canal de TV (CH 01 a CH 05), azul canal `#2F3AD0`, amarillo señal `#FCCE21`, negro pantalla y papel; Montserrat fina en mayúsculas con énfasis en itálica gruesa, rótulos en Space Mono; grano, líneas de TV, estática al cambiar de canal y respuestas "tachadas" que se destapan. Firma: *live now, post later.*
