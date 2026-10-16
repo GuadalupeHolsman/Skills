@@ -18,6 +18,15 @@ Todo pasa en el **CH 02 · Tequila Don Julio**. Locky no aparece dibujado (nivel
 ## Estética
 Usa la dirección de arte de **Prime Time · loomlock experiences**: cada pantalla es un canal de TV (CH 01 a CH 05), azul canal `#2F3AD0`, amarillo señal `#FCCE21`, negro pantalla y papel; Montserrat fina en mayúsculas con énfasis en itálica gruesa, rótulos en Space Mono; grano, líneas de TV, estática al cambiar de canal y respuestas "tachadas" que se destapan. Firma: *live now, post later.*
 
+## Motion
+- Cambio de canal tipo TV de tubo: la pantalla se apaga a una línea, pasa estática y la siguiente se enciende
+- Los bloques entran escalonados desde el lado hacia donde vas (adelante o atrás); los títulos caen palabra por palabra y el rótulo se escribe solo
+- Cada toque deja una onda amarilla; en pantallas Android también vibra
+- Ambiente: barrido de luz, barra que rueda dentro de la tele y glitch del título PRIME TIME
+- Cuando terminas lo que propone cada pantalla, el botón Next empieza a latir (o a los 9 s)
+- Micro-animaciones: apps que se apagan una por una, aviso OFF AIR / ON AIR, key que entra volando, checks que saltan, momentos en cascada, preguntas que giran
+- Con "reducir movimiento" activado en el sistema, todo se apaga
+
 ## Ajustes rápidos
 En `src/kiosk.template.html`, dentro de `CONFIG`:
 - `evento`: etiqueta opcional en la portada (hoy vacía)
