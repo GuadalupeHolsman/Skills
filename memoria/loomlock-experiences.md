@@ -61,3 +61,22 @@ _Última actualización: 16 oct 2026. Fuente: artifact "Prime Time Programación
 - Breaking News: pub14 del Feed 24 repite el concepto del poster de TV ya publicado.
 - La carta "Setting a daily screen time limit." no tiene fecha.
 - Reel "Feed, off / One rule" cierra con "Loomlock experiences." (mayúscula); reels de experiences y Buchanan's dicen "Sign up via WhatsApp" → corregir.
+
+## Ch.4 Quokka: material y propuesta de publicación (16 oct 2026)
+**Material en Drive** (carpeta "Quokka", de yellowbrah@loomlock.com, subida el 16 oct):
+- 9 piezas QUOKKA_COLLAB (posters con QR "Scan me!"): "Deep focus", "Take a break", "Disconnect to connect", entre otras. Texto: "Lock distracting apps. You choose which apps, you choose for how long. loomlock doesn't store any data." Ojo: dicen "Loomlock" con mayúscula.
+- Subcarpeta "NFC Keys": 9 diseños de las llaves NFC para los asistentes.
+
+**Calendario de loomlock para Quokka** (ya en Prime Time):
+- 7 nov, 7 pm: carrusel "Networking used to mean / talking to the person next to you." · story "Disconnect to connect."
+- 8 nov, 12:30: "Channel 04 · Grill on. Feed off." · 7 pm: "Deep focus." · story "Good habits last longer."
+- 9 nov, 12:30: carrusel "The asado is on. / The group chat is not." · 7 pm: "Take a break." · story recordatorio.
+- 10 nov, 12:30: "Better habits, brighter days." · story "Deep focus."
+- 11 nov: story de cuenta regresiva "Disconnect to connect."
+- 12 nov: evento. Stories antes y al día siguiente, por llenar.
+- 28 nov, 7 pm: recap de Quokka, por llenar.
+
+**Propuesta (sin aprobar todavía):**
+- Collab posts de Instagram (en los dos feeds): "Channel 04 · Grill on. Feed off." (8 nov), el carrusel "The asado is on." (9 nov) y el recap.
+- Quokka por su cuenta: reposta en stories, invita a su comunidad, sube una story el día del evento antes de empezar (nada en vivo) y su propio recap.
+- Adelantar el recap de Quokka al 13 o 14 nov (el 28 queda 16 días después del evento).
