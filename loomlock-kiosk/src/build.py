@@ -42,12 +42,20 @@ def logo():
 
 
 tpl = (ROOT / "src/kiosk.template.html").read_text(encoding="utf-8")
-page = tpl.replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky())
+import base64
+
+
+def data_uri(path):
+    return "data:image/png;base64," + base64.b64encode((ROOT / path).read_bytes()).decode()
+
+
+page = (tpl.replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky())
+        .replace("{{KEY_FRONT}}", data_uri("assets/key-front.png")).replace("{{KEY_BACK}}", data_uri("assets/key-back.png")))
 
 (ROOT / "artifact.html").write_text(page, encoding="utf-8")
 head, body = page.split("</style>", 1)
 full = (
-    '<!doctype html>\n<html lang="es">\n<head>\n<meta charset="utf-8">\n'
+    '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
     '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">\n'
     + head + "</style>\n</head>\n<body>" + body + "\n</body>\n</html>\n"
 )

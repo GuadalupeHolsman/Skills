@@ -266,6 +266,10 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .nfc-card.tilting{transition:transform .08s linear}
 .nfc-card.flipped{--flip:180deg}
 .face{position:absolute;inset:0;border-radius:44px;border:6px solid var(--screen);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;box-shadow:18px 18px 0 var(--screen);text-align:left}
+.face.real{background:var(--screen);padding:0}
+.face.real img{display:block;width:100%;height:100%;object-fit:cover}
+.face.back.real{transform:rotateY(180deg);padding:0;background:var(--screen);display:block}
+.real-cap{margin:0;text-align:center;font-family:var(--font-mono);font-weight:700;font-size:26px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow)}
 .face.front{--c1:#3843dc;--c2:var(--blue-deep);--bar:var(--yellow);--fg:var(--text);background:repeating-linear-gradient(0deg, rgba(11,11,16,.12) 0 2px, transparent 2px 6px), linear-gradient(135deg, var(--c1), var(--c2));color:var(--fg)}
 .ed-1 .face.front{--c1:#f6f2ea;--c2:#d9d4c8;--bar:var(--blue);--fg:var(--ink)}
 .ed-1 .face.front .bar{color:var(--text)}
@@ -638,37 +642,20 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     <button class="big-btn" id="try-lock"><svg><use href="#lock"/></svg><span>Pausar</span></button>
   </section>
 
-  <!-- 03 · Tu llave -->
-  <section class="screen" id="s3" data-name="n3" aria-label="Tu llave">
+  <!-- 03 · Tu key -->
+  <section class="screen" id="s3" data-name="n3" aria-label="Tu key">
     <div class="head">
-      <span class="kicker" data-t="k3">03 · Tu llave</span>
-      <h2 class="focus" data-t="t3">Esta es <em>tu llave.</em></h2>
+      <span class="kicker" data-t="k3">03 · Tu key</span>
+      <h2 class="focus" data-t="t3">Esta es <em>tu key.</em></h2>
     </div>
     <div class="card-area" id="card-area">
-      <button class="nfc-card" id="card" aria-label="Dar vuelta la llave">
-        <div class="face front">
-          <div class="holo"></div>
-          <span class="wm">loomlock experiences</span>
-          <svg class="waves"><use href="#waves"/></svg>
-          <span class="big-ch" id="card-ch">CH 02</span>
-          <div class="bar"><span data-t="s2.bar">live now, post later.</span></div>
-          <span class="ed" data-t="s2.edition">Edición limitada</span>
-          <span class="serial">Nº 0042 / 0200</span>
-          <div class="shine"></div>
-        </div>
-        <div class="face back">
-          <div class="chip-ic"></div>
-          <h3 data-t="s2.backt">Adentro hay <b>un chip NFC.</b></h3>
-          <p data-t="s2.back">Se acerca al celular. La app hace el resto.</p>
-        </div>
+      <button class="nfc-card" id="card" aria-label="Dar vuelta la key">
+        <div class="face front real"><img src="{{KEY_FRONT}}" alt="Loomlock key, Cine Colombia edition, front"><div class="shine"></div></div>
+        <div class="face back real"><img src="{{KEY_BACK}}" alt="Loomlock key, Cine Colombia edition, back"><div class="shine"></div></div>
       </button>
     </div>
     <div class="chips"><span data-t="c1">Chip NFC</span><span data-t="c2">Sin batería</span><span data-t="c3">Es tuya</span></div>
-    <div class="editions" id="editions" role="group">
-      <button class="ed-sw on" data-ed="2"><i></i>CH 02 ★</button>
-      <button class="ed-sw" data-ed="1"><i></i>CH 01</button>
-      <button class="ed-sw" data-ed="3"><i></i>CH 03</button>
-    </div>
+    <p class="real-cap" data-t="key.cap">Key real · edición Cine Colombia</p>
     <div class="hint"><i></i><span data-t="s2.hint">Muévela · tócala · cambia la edición</span></div>
   </section>
 
@@ -689,18 +676,18 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   </section>
 
   <!-- 05 · El tap -->
-  <section class="screen" id="s5" data-name="n5" aria-label="Cómo activar la llave">
+  <section class="screen" id="s5" data-name="n5" aria-label="Cómo activar la key">
     <div class="head">
       <span class="kicker" data-t="k5">05 · El tap</span>
       <h2 class="focus" data-t="t5">Un tap <em>y entras.</em></h2>
     </div>
     <div class="mode-pick" id="mode-pick" role="group">
-      <span class="mp-ask" data-t="s3.ask">¿Tienes tu llave?</span>
-      <button class="mp on" data-mode="card"><svg><use href="#waves"/></svg><span data-t="s3.optCard">Sí, tengo mi llave</span></button>
-      <button class="mp" data-mode="totem"><i class="mp-totem"></i><span data-t="s3.optTotem">Uso el tótem de Locky</span></button>
+      <span class="mp-ask" data-t="s3.ask">¿Cómo quieres hacer tap?</span>
+      <button class="mp on" data-mode="totem"><i class="mp-totem"></i><span data-t="s3.optTotem">Uso el tótem de Locky</span></button>
+      <button class="mp" data-mode="card"><svg><use href="#waves"/></svg><span data-t="s3.optCard">Tengo mi key</span></button>
     </div>
     <div class="flow" id="flow3"><span class="fp now"><b>1</b><span data-t="tf1">Tap: pausa</span></span><i class="fa"></i><span class="fp"><b>2</b><span data-t="tf2">Tap: vuelves</span></span></div>
-    <div class="drag-zone" id="zone3">
+    <div class="drag-zone mode-totem" id="zone3">
       <div class="totem" id="totem3" aria-label="Tótem de Locky">
         <div class="totem-top"><svg><use href="#waves"/></svg></div>
         <span class="totem-name" id="totem-name">tótem de Locky</span>
@@ -708,7 +695,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
         <div class="target-ring"></div>
         <div class="shock"></div><div class="shock s2"></div><div class="shock s3"></div>
       </div>
-      <button class="drag-card" id="drag-card" aria-label="Llave Loomlock: toca o arrastra hasta el celular">
+      <button class="drag-card" id="drag-card" aria-label="Key Loomlock: toca o arrastra hasta el celular">
         <svg class="waves"><use href="#waves"/></svg>
         <span class="mini-ch" data-ch>CH 02</span>
         <span class="stripe"></span>
@@ -717,7 +704,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       <div class="phone" id="phone3">
         <div class="screen-in">
           <div class="clock" data-clock>21:30</div>
-          <div class="status" id="status3" data-t="s3.status">Esperando tu llave…</div>
+          <div class="status" id="status3" data-t="s3.status">Esperando tu key…</div>
           <div class="apps" id="apps3"></div>
           <div class="lock-banner"><svg><use href="#lock-y"/></svg><span data-t="s3.banner">Fuera del aire. Disfruta la noche.</span></div>
         </div>
@@ -726,7 +713,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       </div>
     </div>
     <div class="again-row">
-      <div class="hint" id="hint3"><i></i><span data-t="s3.hint">Arrastra la llave hasta el celular</span></div>
+      <div class="hint" id="hint3"><i></i><span data-t="s3.hint">Arrastra la key hasta el celular</span></div>
       <button class="reset-link" id="reset3" hidden data-t="s3.again">Probar otra vez</button>
     </div>
   </section>
@@ -738,7 +725,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       <h2 class="focus" data-t="s4.title">Así se vive <em>la noche.</em></h2>
     </div>
     <div class="moments" id="moments">
-      <button class="moment on" data-i="0"><span class="ico"><svg><use href="#totem"/></svg></span><span class="when" data-t="s4.w1">En la puerta</span><h3 data-t="s4.t1">Tap</h3><p data-t="s4.p1">Llave o tótem</p></button>
+      <button class="moment on" data-i="0"><span class="ico"><svg><use href="#totem"/></svg></span><span class="when" data-t="s4.w1">En la puerta</span><h3 data-t="s4.t1">Tap</h3><p data-t="s4.p1">Key o tótem</p></button>
       <button class="moment" data-i="1"><span class="ico"><svg><use href="#glass"/></svg></span><span class="when" data-t="s4.w2">Adentro</span><h3 data-t="s4.t2">Fuera del aire</h3><p data-t="s4.p2">Brinda, baila, conversa</p></button>
       <button class="moment" data-i="2"><span class="ico"><svg><use href="#unlock"/></svg></span><span class="when" data-t="s4.w3">Al salir</span><h3 data-t="s4.t3">Otro tap</h3><p data-t="s4.p3">Tus apps vuelven</p></button>
       <button class="moment" data-i="3"><span class="ico"><svg><use href="#photo"/></svg></span><span class="when" data-t="s4.w4">Después</span><h3 data-t="s4.t4">La galería</h3><p data-t="s4.p4">Tus fotos, en la app</p></button>
@@ -795,21 +782,21 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   /* ===== Ajustes del evento ===== */
   const CONFIG = {
     evento: "",                        // etiqueta opcional en la portada (vacío = no se muestra)
-    canal: "CH 02",                    // canal de la temporada: está en la tele, la llave, el tótem y el aviso de cada pantalla
+    canal: "CH 02",                    // canal de la temporada: está en la tele, la key, el tótem y el aviso de cada pantalla
     anfitrion: "Tequila Don Julio",    // marca anfitriona del canal (va chica, como anfitriona)
     aviso18: true,                     // muestra "Evento para mayores de 18" en la portada (marcas de alcohol)
     idleSegundos: 60,    // sin toques por este tiempo → vuelve al inicio
-    idioma: "es"
+    idioma: "en"
   };
 
   const T = {
     es: {
-      "k1":"01 · Qué es","k2":"02 · Pruébalo","k3":"03 · Tu llave","k4":"04 · Antes de llegar","k5":"05 · El tap","k6":"06 · Tu noche","k7":"07 · Mito o verdad",
-      "n1":"Qué es","n2":"Pruébalo","n3":"Tu llave","n4":"Antes de llegar","n5":"El tap","n6":"Tu noche","n7":"Mito o verdad",
+      "k1":"01 · Qué es","k2":"02 · Pruébalo","k3":"03 · Tu key","k4":"04 · Antes de llegar","k5":"05 · El tap","k6":"06 · Tu noche","k7":"07 · Mito o verdad",
+      "n1":"Qué es","n2":"Pruébalo","n3":"Tu key","n4":"Antes de llegar","n5":"El tap","n6":"Tu noche","n7":"Mito o verdad",
       "q1.title":"Pausa apps. <em>No tu celular.</em>","q1.off":"En pausa","q1.on":"Siempre funcionan","q1.e1":"Llamadas","q1.e2":"Cámara","q1.e3":"Mapas","q1.tap":"Tú eliges cuáles · con un tap",
       "t2":"Pruébalo <em>aquí.</em>","f1":"Elige","f2":"Pausa","f3":"Listo",
       "i1":"Toca las apps que te distraen","i2":"Ahora toca Pausar","i3":"Listo. Ya no te interrumpen.","s1.btnN":"Pausar {n}",
-      "t3":"Esta es <em>tu llave.</em>","c1":"Chip NFC","c2":"Sin batería","c3":"Es tuya",
+      "t3":"Esta es <em>tu key.</em>","c1":"Chip NFC","c2":"Sin batería","c3":"Es tuya",
       "t4":"Dos pasos <em>antes.</em>","p1":"Descarga la app","p1s":"Busca Loomlock en tu tienda","p2":"Elige tus apps","p2s":"Las que quieres pausar esta noche","p3":"¡Listo para el tap!","p.hint":"Toca cada paso",
       "t5":"Un tap <em>y entras.</em>","tf1":"Tap: pausa","tf2":"Tap: vuelves",
       "t7":"¿Mito <em>o verdad?</em>",
@@ -826,7 +813,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s1.status":"Toca las apps para elegir","s1.statusN":"{n} apps elegidas","s1.statusL":"{n} en pausa · llamadas OK",
       "s1.ess":"Esta siempre funciona","s1.none":"Elige al menos una app",
       "s1.banner":"Fuera del aire. Volvemos después.",
-      "s2.kicker":"02 · Tu llave","s2.name":"Tu llave","s2.title":"Una llave, <em>muchas puertas.</em>",
+      "s2.kicker":"02 · Tu key","s2.name":"Tu key","s2.title":"Una key, <em>muchas puertas.</em>",
       "s2.bar":"live now, post later.",
       "s2.f1t":"Chip NFC","s2.f1":"El mismo del pago sin contacto.",
       "s2.f2t":"Sin batería","s2.f2":"Funciona apenas la acercas.",
@@ -834,20 +821,20 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s2.f4t":"Coleccionable","s2.f4":"Cada edición abre una puerta nueva.",
       "s2.edition":"Edición limitada","s2.backt":"Adentro hay <b>un chip NFC.</b>",
       "s2.back":"Se acerca al celular. La app hace el resto.",
-      "s2.hint":"Muévela · tócala · cambia la edición","s2.pick":"Elige tu edición",
+      "s2.hint":"Muévela · tócala para ver el dorso","key.cap":"Key real · edición Cine Colombia","s2.pick":"Elige tu edición",
       "s3.kicker":"03 · Cómo activarla","s3.name":"El tap","s3.title":"Un tap <em>y estás adentro.</em>",
       "s3.st1":"Descarga la app Loomlock","s3.st2":"Elige qué apps pausar",
-      "s3.st3":"Acerca la llave al celular","s3.st4":"Para volver, otro tap",
-      "s3.hint":"Arrastra la llave hasta el celular","s3.hint2":"Ahora otra vez: vuelve al aire","s3.ask":"¿Tienes tu llave?","s3.optCard":"Sí, tengo mi llave","s3.optTotem":"Uso el tótem de Locky",
+      "s3.st3":"Acerca la key al celular","s3.st4":"Para volver, otro tap",
+      "s3.hint":"Arrastra la key hasta el celular","s3.hint2":"Ahora otra vez: vuelve al aire","s3.ask":"¿Cómo quieres hacer tap?","s3.optCard":"Tengo mi key","s3.optTotem":"Uso el tótem de Locky",
       "s3.st3t":"Acerca tu celular al tótem","s3.hintT":"Arrastra el celular hasta el tótem","s3.statusT":"Acércalo al tótem…","s3.totem":"tótem de Locky","s3.again":"Probar otra vez",
-      "s3.status":"Esperando tu llave…","s3.statusOk":"Llave detectada ✓","s3.statusBack":"De vuelta al aire ✓","s3.banner":"Fuera del aire. Disfruta la noche.",
+      "s3.status":"Esperando tu key…","s3.statusOk":"Key detectada ✓","s3.statusBack":"De vuelta al aire ✓","s3.banner":"Fuera del aire. Disfruta la noche.",
       "s4.kicker":"04 · Tu noche","s4.name":"Tu noche","s4.title":"Así se vive <em>la noche.</em>","s4.hint":"Arrastra la hora","s4.later":"+2 días",
-      "s4.w1":"En la puerta","s4.t1":"Tap","s4.p1":"Llave o tótem",
+      "s4.w1":"En la puerta","s4.t1":"Tap","s4.p1":"Key o tótem",
       "s4.m1":"Tus apps quedan en pausa. El celular sigue contigo.",
       "s4.w2":"Adentro","s4.t2":"Fuera del aire","s4.p2":"Brinda, baila, conversa",
       "s4.m2":"Sin notificaciones que te saquen del momento.",
       "s4.w3":"Al salir","s4.t3":"Otro tap","s4.p3":"Tus apps vuelven",
-      "s4.m3":"La llave te la llevas a casa.",
+      "s4.m3":"La key te la llevas a casa.",
       "s4.w4":"Después","s4.t4":"La galería","s4.p4":"Tus fotos, en la app",
       "s4.m4":"Las toma nuestro fotógrafo. Tú solo vives la noche.",
       "s5.kicker":"05 · Antes de entrar","s5.name":"Antes de entrar","s5.title":"¿Listo? <em>Ve al tótem.</em>",
@@ -856,13 +843,13 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s5.nextq":"Siguiente →","s5.see":"Ver resultado →","s5.again":"Jugar otra vez","s5.ready":"Ya estás listo para entrar.",
       "quiz":[{q:"Loomlock bloquea todo tu celular.",a:0,x:"Solo pausa las apps que eliges. Llamadas, cámara y mapas siguen funcionando."},
         {q:"Con las apps en pausa puedes recibir llamadas.",a:1,x:"Las llamadas nunca se pausan."},
-        {q:"La llave necesita batería.",a:0,x:"Funciona por cercanía, como el pago sin contacto. Sin batería ni carga."},
-        {q:"Si no tienes llave, igual puedes entrar.",a:1,x:"Acerca tu celular al tótem de Locky y listo."},
-        {q:"La llave es tuya y es coleccionable.",a:1,x:"Te la llevas a casa. Cada edición abre una puerta nueva."}],
+        {q:"La key necesita batería.",a:0,x:"Funciona por cercanía, como el pago sin contacto. Sin batería ni carga."},
+        {q:"Si no tienes key, igual puedes entrar.",a:1,x:"Acerca tu celular al tótem de Locky y listo."},
+        {q:"La key es tuya y es coleccionable.",a:1,x:"Te la llevas a casa. Cada edición abre una puerta nueva."}],
       "s5.q1":"¿Se bloquea todo mi celular?","s5.a1":"No. Solo las apps que eliges. Llamadas, cámara y mapas siguen funcionando.",
       "s5.q2":"¿Y si tengo una emergencia?","s5.a2":"Las llamadas nunca se pausan. Siempre puedes llamar y contestar.",
-      "s5.q3":"¿Me quedo con la llave?","s5.a3":"Sí, es tuya y es coleccionable. Úsala en casa o donde quieras.",
-      "s5.q4":"¿La llave necesita internet?","s5.a4":"No. Funciona por cercanía, como el pago sin contacto.",
+      "s5.q3":"¿Me quedo con la key?","s5.a3":"Sí, es tuya y es coleccionable. Úsala en casa o donde quieras.",
+      "s5.q4":"¿La key necesita internet?","s5.a4":"No. Funciona por cercanía, como el pago sin contacto.",
       "nav.back":"Atrás","nav.next":"Siguiente","nav.end":"Listo",
       "idle":"¿Sigues ahí? Volvemos al inicio en {s} s",
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",cam:"Cámara",mp:"Mapas"}
@@ -898,11 +885,11 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s2.f4t":"Collectible","s2.f4":"Every edition opens a new door.",
       "s2.edition":"Limited edition","s2.backt":"There's <b>an NFC chip inside.</b>",
       "s2.back":"Hold it to your phone. The app does the rest.",
-      "s2.hint":"Move it · tap it · switch edition","s2.pick":"Pick your edition",
+      "s2.hint":"Move it · tap it to see the back","key.cap":"Real key · Cine Colombia edition","s2.pick":"Pick your edition",
       "s3.kicker":"03 · How to activate it","s3.name":"The tap","s3.title":"One tap <em>and you're in.</em>",
       "s3.st1":"Get the Loomlock app","s3.st2":"Choose apps to pause",
       "s3.st3":"Tap the key to your phone","s3.st4":"To come back, tap again",
-      "s3.hint":"Drag the key onto the phone","s3.hint2":"Again: go back on air","s3.ask":"Got your key?","s3.optCard":"Yes, I have my key","s3.optTotem":"I'll use Locky's totem",
+      "s3.hint":"Drag the key onto the phone","s3.hint2":"Again: go back on air","s3.ask":"How do you want to tap?","s3.optCard":"I have my key","s3.optTotem":"Locky's totem",
       "s3.st3t":"Hold your phone to the totem","s3.hintT":"Drag the phone onto the totem","s3.statusT":"Hold it to the totem…","s3.totem":"Locky's totem","s3.again":"Try again",
       "s3.status":"Waiting for your key…","s3.statusOk":"Key detected ✓","s3.statusBack":"Back on air ✓","s3.banner":"Off air. Enjoy the night.",
       "s4.kicker":"04 · Your night","s4.name":"Your night","s4.title":"This is <em>the night.</em>","s4.hint":"Drag the time","s4.later":"+2 days",
@@ -1170,15 +1157,6 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     card.classList.toggle("flipped");
     const c = centerOf(card); burst(c.x, c.y, 30, .7);
   });
-  const SERIAL = {1:"Nº 0118 / 0200", 2:"Nº 0042 / 0200", 3:"Nº 0007 / 0200"};
-  $("#editions").addEventListener("click", e => {
-    const b = e.target.closest(".ed-sw"); if (!b) return;
-    $$(".ed-sw").forEach(x => x.classList.toggle("on", x === b));
-    const ed = b.dataset.ed;
-    card.classList.remove("ed-1","ed-2","ed-3","flipped","spin"); void card.offsetWidth; card.classList.add("ed-" + ed, "spin");
-    $("#card-ch").textContent = "CH 0" + ed; card.querySelector(".serial").textContent = SERIAL[ed];
-    const c = centerOf(card); burst(c.x, c.y, 50, .9);
-  });
   let sh = 0;
   setInterval(() => { if (screens[cur].contains(card) && !tiltStart){ sh += .5; const px = .5 + Math.sin(sh)*.5; card.style.setProperty("--ha", px*240 + "deg"); card.style.setProperty("--sh", (20 + px*60) + "%") } }, 120);
 
@@ -1195,7 +1173,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     done3 = phase3 === 2;
   }
   const totem = $("#totem3");
-  let mode3 = "card";
+  let mode3 = "totem";
   const mover = () => mode3 === "card" ? dcard : phone3;
   const target = () => mode3 === "card" ? phone3 : totem;
   function overPhone(){
@@ -1342,9 +1320,8 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     reset3();
     $$(".moment").forEach((m, i) => m.classList.toggle("on", i === 0)); placeWalker(0);
     qi = 0; qScore = 0; qAnswered = false; $("#qz-stamp").className = "qz-stamp";
-    card.classList.remove("ed-1","ed-3"); $$(".ed-sw").forEach(x => x.classList.toggle("on", x.dataset.ed === "2")); $("#card-ch").textContent = "CH 02"; card.querySelector(".serial").textContent = SERIAL[2];
     zapI = 0; $("#zap-hint").style.opacity = ""; $$(".pstep").forEach(x => x.classList.remove("ok")); $("#pready").classList.remove("on");
-    mode3 = "card"; zone.classList.remove("mode-totem"); $$(".mp").forEach(x => x.classList.toggle("on", x.dataset.mode === "card")); $("#notifs").innerHTML = "";
+    mode3 = "totem"; zone.classList.add("mode-totem"); $$(".mp").forEach(x => x.classList.toggle("on", x.dataset.mode === "totem")); $("#notifs").innerHTML = "";
     go(0); applyLang(); hideIdle(); powerOn();
   }
   let idleAt = Date.now();
