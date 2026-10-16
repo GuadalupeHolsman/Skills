@@ -139,7 +139,7 @@
   }
 
   // phone screen once a loomlock session is on
-  function lockScreen(ctx, w, h, t, t0, { line = 'Sesión activa · Focus' } = {}) {
+  function lockScreen(ctx, w, h, t, t0, { line = 'Session on · Focus' } = {}) {
     brandBg(ctx, 0, 0, w, h);
     const u = clamp((t - t0) / 0.3);
     const s = 0.85 + 0.15 * ease.outBack(u, 2.5);
@@ -209,14 +209,14 @@
       ctx.fillStyle = `hsla(${(hue + k * 70) % 360},90%,${70 - k * 8}%,0.55)`; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
     }
     // big caption text in the video
-    const caps = ['no vas a creer lo que pasó', 'POV: es lunes', '3 trucos que nadie te cuenta', 'esperá al final', 'parte 2', 'ok pero esto…', 'rutina de mañana', 'storytime'];
+    const caps = ['you won’t believe this', 'POV: it’s Monday', '3 tricks nobody tells you', 'wait for the end', 'part 2', 'ok but this…', 'morning routine', 'storytime'];
     text(ctx, caps[Math.floor(U.hash(i, 6) * caps.length)], w / 2, h * 0.42, { size: 30, weight: 700, color: '#fff', align: 'center' });
     // right rail
-    const likes = ['12,4 k', '873', '45,1 k', '2,3 k', '128 k', '9.871'];
+    const likes = ['12.4K', '873', '45.1K', '2.3K', '128K', '9,871'];
     for (let k = 0; k < 3; k++) { const y = h * 0.58 + k * 78; ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.beginPath(); ctx.arc(w - 40, y, 18, 0, Math.PI * 2); ctx.fill(); text(ctx, k === 0 ? likes[Math.floor(U.hash(i, 7) * likes.length)] : `${Math.floor(U.hash(i, 8 + k) * 900 + 10)}`, w - 40, y + 38, { size: 14, weight: 600, color: '#fff', align: 'center' }); }
     // handle + progress
     ctx.fillStyle = `hsl(${hue2},60%,75%)`; ctx.beginPath(); ctx.arc(34, h - 150, 17, 0, Math.PI * 2); ctx.fill();
-    text(ctx, `@${['juli.ok', 'facu_mp', 'tips.diarios', 'la.posta', 'memes.ar', 'cami_r'][Math.floor(U.hash(i, 10) * 6)]}`, 60, h - 144, { size: 18, weight: 700, color: '#fff' });
+    text(ctx, `@${['juli.ok', 'mike_mp', 'daily.tips', 'the.real.one', 'memes.daily', 'cami_r'][Math.floor(U.hash(i, 10) * 6)]}`, 60, h - 144, { size: 18, weight: 700, color: '#fff' });
     rr(ctx, 20, h - 118, 250, 10, 5, 'rgba(255,255,255,0.6)'); rr(ctx, 20, h - 98, 170, 10, 5, 'rgba(255,255,255,0.4)');
     rr(ctx, 0, h - 60, w, 4, 0, 'rgba(255,255,255,0.3)'); rr(ctx, 0, h - 60, w * ((t * 0.4 + U.hash(i, 11)) % 1), 4, 0, '#fff');
     text(ctx, app, 24, 120, { size: 22, weight: 700, color: '#fff' });
@@ -226,8 +226,8 @@
   const APPS = [
     { name: 'Instagram', c0: '#F58529', c1: '#DD2A7B' }, { name: 'TikTok', c0: '#111111', c1: '#333333' },
     { name: 'YouTube', c0: '#FF3B30', c1: '#C4161C' }, { name: 'X', c0: '#000000', c1: '#222222' },
-    { name: 'Mail', c0: '#3B82F6', c1: '#1D4ED8' }, { name: 'Notas', c0: '#FCD34D', c1: '#F59E0B' },
-    { name: 'Mapas', c0: '#34D399', c1: '#059669' }, { name: 'Fotos', c0: '#F472B6', c1: '#A78BFA' },
+    { name: 'Mail', c0: '#3B82F6', c1: '#1D4ED8' }, { name: 'Notes', c0: '#FCD34D', c1: '#F59E0B' },
+    { name: 'Maps', c0: '#34D399', c1: '#059669' }, { name: 'Photos', c0: '#F472B6', c1: '#A78BFA' },
   ];
   const appPos = (k) => [60 + (k % 4) * 98, 540 + Math.floor(k / 4) * 120]; // low on the screen, where the thumb lives
   function homeScreen(ctx, w, h, t, { locked = 0, tap = -1, shake = 0 } = {}) {
@@ -250,5 +250,5 @@
     if (line) text(ctx, line, w / 2, 262, { size: 20, weight: 400, color: 'rgba(255,255,255,0.7)', align: 'center' });
   }
 
-  globalThis.Loom = { C, FONT, font, text, rr, mix, dayColors, bg, roll, banner, feed, lock, lockScreen, endCard, loadBrand, logo, brandBg, key, nfc, keyTap, handBack, handFront, reel, homeScreen, appPos, APPS, lockPhone };
+  globalThis.Loom = { C, FONT, font, text, rr, mix, dayColors, bg, roll, banner, feed, lock, lockScreen, endCard, loadBrand, logo, brandBg, key, nfc, keyTap, handBack, handFront, reel, homeScreen, appPos, APPS, lockPhone, img: (k) => (k === "pattern" ? PATTERN : k === "logo" ? LOGO : ART[k]) };
 })();
