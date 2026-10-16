@@ -650,12 +650,24 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
     </div>
     <div class="card-area" id="card-area">
       <button class="nfc-card" id="card" aria-label="Dar vuelta la key">
-        <div class="face front real"><img src="{{KEY_FRONT}}" alt="Loomlock key, Cine Colombia edition, front"><div class="shine"></div></div>
-        <div class="face back real"><img src="{{KEY_BACK}}" alt="Loomlock key, Cine Colombia edition, back"><div class="shine"></div></div>
+        <div class="face front">
+          <div class="holo"></div>
+          <span class="wm">loomlock experiences</span>
+          <svg class="waves"><use href="#waves"/></svg>
+          <span class="big-ch" id="card-ch">CH 02</span>
+          <div class="bar"><span data-t="s2.bar">live now, post later.</span></div>
+          <span class="ed" data-t="s2.edition">Edición limitada</span>
+          <span class="serial">Nº 0042 / 0200</span>
+          <div class="shine"></div>
+        </div>
+        <div class="face back">
+          <div class="chip-ic"></div>
+          <h3 data-t="s2.backt">Adentro hay <b>un chip NFC.</b></h3>
+          <p data-t="s2.back">Se acerca al celular. La app hace el resto.</p>
+        </div>
       </button>
     </div>
     <div class="chips"><span data-t="c1">Chip NFC</span><span data-t="c2">Sin batería</span><span data-t="c3">Es tuya</span></div>
-    <p class="real-cap" data-t="key.cap">Key real · edición Cine Colombia</p>
     <div class="hint"><i></i><span data-t="s2.hint">Muévela · tócala · cambia la edición</span></div>
   </section>
 
@@ -821,7 +833,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s2.f4t":"Coleccionable","s2.f4":"Cada edición abre una puerta nueva.",
       "s2.edition":"Edición limitada","s2.backt":"Adentro hay <b>un chip NFC.</b>",
       "s2.back":"Se acerca al celular. La app hace el resto.",
-      "s2.hint":"Muévela · tócala para ver el dorso","key.cap":"Key real · edición Cine Colombia","s2.pick":"Elige tu edición",
+      "s2.hint":"Muévela · tócala para ver el dorso","s2.pick":"Elige tu edición",
       "s3.kicker":"03 · Cómo activarla","s3.name":"El tap","s3.title":"Un tap <em>y estás adentro.</em>",
       "s3.st1":"Descarga la app Loomlock","s3.st2":"Elige qué apps pausar",
       "s3.st3":"Acerca la key al celular","s3.st4":"Para volver, otro tap",
@@ -885,7 +897,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
       "s2.f4t":"Collectible","s2.f4":"Every edition opens a new door.",
       "s2.edition":"Limited edition","s2.backt":"There's <b>an NFC chip inside.</b>",
       "s2.back":"Hold it to your phone. The app does the rest.",
-      "s2.hint":"Move it · tap it to see the back","key.cap":"Real key · Cine Colombia edition","s2.pick":"Pick your edition",
+      "s2.hint":"Move it · tap it to see the back","s2.pick":"Pick your edition",
       "s3.kicker":"03 · How to activate it","s3.name":"The tap","s3.title":"One tap <em>and you're in.</em>",
       "s3.st1":"Get the Loomlock app","s3.st2":"Choose apps to pause",
       "s3.st3":"Tap the key to your phone","s3.st4":"To come back, tap again",

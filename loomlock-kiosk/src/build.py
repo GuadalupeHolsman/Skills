@@ -49,8 +49,7 @@ def data_uri(path):
     return "data:image/png;base64," + base64.b64encode((ROOT / path).read_bytes()).decode()
 
 
-page = (tpl.replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky())
-        .replace("{{KEY_FRONT}}", data_uri("assets/key-front.png")).replace("{{KEY_BACK}}", data_uri("assets/key-back.png")))
+page = (tpl.replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky()))
 
 (ROOT / "artifact.html").write_text(page, encoding="utf-8")
 head, body = page.split("</style>", 1)

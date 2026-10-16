@@ -9,7 +9,7 @@ Todo pasa en el **CH 02 · Tequila Don Julio**. Locky no aparece dibujado (nivel
 0. **Portada:** tele de tubo en el CH 02 (al tocarla cambia la frase), "Esta noche, con Tequila Don Julio" y aviso +18
 1. **01 · Qué es:** esquema "En pausa" (redes) vs "Siempre funcionan" (llamadas, cámara, mapas)
 2. **02 · Pruébalo:** demo guiada en 3 pasos: Elige → Pausa → Listo
-3. **03 · Your key:** la key real (edición Cine Colombia) que se inclina y se da vuelta para ver el dorso
+3. **03 · Your key:** la key del CH 02, que se inclina con el dedo y se da vuelta para ver el dorso (chip NFC)
 4. **04 · Antes de llegar:** dos pasos para tocar (descarga la app, elige tus apps)
 5. **05 · The tap:** arranca con el tótem de Locky (arrastras el celular al tótem); la otra opción es tu key (arrastras la key al celular). Tap para pausar y tap para volver
 6. **06 · Tu noche:** deslizas la hora y se encienden los 4 momentos
