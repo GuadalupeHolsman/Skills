@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>loomlock 3d</title>
+<style>html, body { margin: 0; background: #111; } canvas { display: block; width: 100vw; height: auto; }</style>
+<script type="importmap">{ "imports": { "three": "./node_modules/three/build/three.module.js", "three/addons/": "./node_modules/three/examples/jsm/" } }</script>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script src="engine/util.js"></script>
+<script src="engine/music.js"></script>
+<script src="beats.js"></script>
+<script src="score.js"></script>
+<script src="engine/video/gfx.js"></script>
+<script src="engine/video/chars.js"></script>
+<script src="engine/video/ui.js"></script>
+<script src="engine/video/shots.js"></script>
+<script src="engine/subs.js"></script>
+<script src="engine/video/data.js"></script>
+<script>window.THREE_READY = new Promise((r) => { window.__threeReady = r; });</script>
+<script type="module">
+  import * as THREE from 'three';
+  import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+  import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+  import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+  import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+  import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+  import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+  window.__threeReady({ THREE, EffectComposer, RenderPass, UnrealBloomPass, OutputPass, RoundedBoxGeometry, RoomEnvironment });
+</script>
+<script src="engine/video/boot.js"></script>
+<script src="loom.js"></script>
+<script src="brand.js"></script>
+<script src="film.js"></script>
+</body>
+</html>
