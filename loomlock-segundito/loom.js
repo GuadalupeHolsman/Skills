@@ -89,10 +89,13 @@
   }
 
   // brand assets, loaded once in Studio.film init
-  let LOGO = null;
+  let LOGO = null, PATTERN = null;
+  const ART = {};
   async function loadBrand(Studio) {
     await Studio.loadFont('Lexend', 'assets/Lexend.woff2', '100 900');
     LOGO = await Studio.loadImage('assets/loomlock-logo.png');
+    PATTERN = await Studio.loadImage('assets/pattern.webp');
+    for (const k of ['dragon', 'ship', 'planet', 'landscape', 'mascot']) ART[k] = await Studio.loadImage(`assets/key-${k}.webp`);
   }
   // the loomlock mark (white, transparent PNG cropped from the brand's own artwork)
   function logo(ctx, x, y, size, { alpha = 1 } = {}) {
@@ -100,19 +103,22 @@
     ctx.save(); ctx.globalAlpha *= alpha; ctx.drawImage(LOGO, x - size / 2, y - size / 2, size, size); ctx.restore();
   }
   function brandBg(ctx, x, y, w, h) { const g = ctx.createLinearGradient(0, y, 0, y + h); g.addColorStop(0, C.violet); g.addColorStop(1, C.violetDeep); ctx.fillStyle = g; ctx.fillRect(x, y, w, h); }
-  // the loomlock NFC key (the blue card from the brand's photos), centred at x,y
-  function key(ctx, x, y, w, { rot = 0, alpha = 1 } = {}) {
-    const h = w * 0.63;
+  // a loomlock key: the brand's real illustrated NFC card (art from loomlock.com), centred at x,y
+  function key(ctx, x, y, w, { rot = 0, alpha = 1, art = 'dragon', t = 0 } = {}) {
+    const h = w * 505 / 800, r = w * 0.055;
     ctx.save(); ctx.globalAlpha *= alpha; ctx.translate(x, y); ctx.rotate(rot);
-    ctx.shadowColor = 'rgba(10,12,60,0.35)'; ctx.shadowBlur = 50; ctx.shadowOffsetY = 20;
-    const g = ctx.createLinearGradient(-w / 2, -h / 2, w / 2, h / 2); g.addColorStop(0, '#4A55E0'); g.addColorStop(1, '#2A31A6');
-    ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(-w / 2, -h / 2, w, h, w * 0.06); ctx.fill();
+    ctx.shadowColor = 'rgba(10,12,60,0.35)'; ctx.shadowBlur = 50; ctx.shadowOffsetY = 22;
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.roundRect(-w / 2, -h / 2, w, h, r); ctx.fill();
     ctx.shadowColor = 'transparent';
-    logo(ctx, -w * 0.2, 0, w * 0.2);
-    text(ctx, 'loomlock', -w * 0.08, w * 0.035, { size: w * 0.09, weight: 500, color: '#fff' });
-    // the NFC glyph
-    ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = w * 0.012; ctx.lineCap = 'round';
-    for (let k = 1; k <= 3; k++) { ctx.beginPath(); ctx.arc(w * 0.38, h * 0.3, k * w * 0.025, -Math.PI * 0.8, -Math.PI * 0.2); ctx.stroke(); }
+    ctx.save(); ctx.beginPath(); ctx.roundRect(-w / 2, -h / 2, w, h, r); ctx.clip();
+    if (ART[art]) ctx.drawImage(ART[art], -w / 2, -h / 2, w, h);
+    // a glossy sheen that slides across as the card moves
+    const sx = -w + ((t * 0.9) % 1) * w * 3;
+    const g = ctx.createLinearGradient(sx - w * 0.3, -h / 2, sx + w * 0.3, h / 2);
+    g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.5, 'rgba(255,255,255,0.28)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g; ctx.fillRect(-w / 2, -h / 2, w, h);
+    ctx.restore();
+    ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = w * 0.012; ctx.beginPath(); ctx.roundRect(-w / 2, -h / 2, w, h, r); ctx.stroke();
     ctx.restore();
   }
   // NFC tap: rings spreading from the point of contact
@@ -125,8 +131,8 @@
     }
   }
   // where the key is during a tap: slides in, touches the phone at tTap, slides out
-  function keyTap(t, tTap, from, to) {
-    const a = clamp((t - (tTap - 0.45)) / 0.45), b = clamp((t - (tTap + 0.35)) / 0.4);
+  function keyTap(t, tTap, from, to, hold = 0.35) {
+    const a = clamp((t - (tTap - 0.45)) / 0.45), b = clamp((t - (tTap + hold)) / 0.4);
     if (a <= 0 || b >= 1) return null;
     const p = b > 0 ? lerp(1, 0, ease.inCubic(b)) : ease.outCubic(a);
     return { x: lerp(from[0], to[0], p), y: lerp(from[1], to[1], p), rot: lerp(0.35, -0.08, p) };
@@ -147,7 +153,15 @@
     const u = clamp((t - t0) / 0.4);
     if (u <= 0) return;
     ctx.save();
-    ctx.globalAlpha = ease.outCubic(u); brandBg(ctx, 0, 0, W, H); ctx.globalAlpha = 1;
+    ctx.globalAlpha = ease.outCubic(u); brandBg(ctx, 0, 0, W, H);
+    if (PATTERN) { // the brand's illustrated pattern, slowly drifting, under a blue veil
+      const pw = H * 800 / 505, dx = -((t - t0) * 25) % pw;
+      ctx.globalAlpha = 0.35 * ease.outCubic(u);
+      for (let x = dx; x < W; x += pw) ctx.drawImage(PATTERN, x, 0, pw, H);
+    }
+    ctx.globalAlpha = 1;
+    const veil = ctx.createRadialGradient(W / 2, H * 0.45, 100, W / 2, H * 0.45, 900); veil.addColorStop(0, 'rgba(32,39,135,0.92)'); veil.addColorStop(1, 'rgba(32,39,135,0.55)');
+    ctx.fillStyle = veil; ctx.fillRect(0, 0, W, H);
     const k = clamp((t - tClick + 0.25) / 0.25);
     const kick = t >= tClick ? U.springKick(t, tClick, 5, 8) * 0.1 : 0;
     logo(ctx, W / 2, H * 0.4 + 40 * (1 - ease.outCubic(k)), 300 * (0.8 + 0.2 * k) * (1 + kick), { alpha: k });
@@ -159,5 +173,82 @@
     ctx.restore();
   }
 
-  globalThis.Loom = { C, FONT, font, text, rr, mix, dayColors, bg, roll, banner, feed, lock, lockScreen, endCard, loadBrand, logo, brandBg, key, nfc, keyTap };
+  // a stylised hand holding a phone (phone centre cx,cy, height ph); thumb = [x,y] in frame coords or null
+  const SKIN = '#E7B08F', SKIN_D = '#C98E6E';
+  function handBack(ctx, cx, cy, ph) {
+    const pw = ph * 0.47;
+    ctx.save(); ctx.fillStyle = SKIN;
+    ctx.beginPath(); ctx.ellipse(cx - pw * 0.05, cy + ph * 0.5, pw * 0.62, ph * 0.3, -0.15, 0, Math.PI * 2); ctx.fill();
+    ctx.fillRect(cx - pw * 0.55, cy + ph * 0.5, pw * 1.05, ph * 0.6);
+    ctx.restore();
+  }
+  function handFront(ctx, cx, cy, ph, thumb) {
+    const pw = ph * 0.47;
+    ctx.save(); ctx.fillStyle = SKIN; ctx.strokeStyle = SKIN_D; ctx.lineWidth = 2;
+    // four fingertips wrapping the right edge
+    for (let k = 0; k < 4; k++) { const y = cy + ph * (0.06 + k * 0.085); ctx.beginPath(); ctx.roundRect(cx + pw * 0.45, y, pw * 0.12, ph * 0.07, ph * 0.035); ctx.fill(); ctx.stroke(); }
+    // thumb from the base of the palm to the tip
+    if (thumb) {
+      const bx = cx - pw * 0.42, by = cy + ph * 0.46, tw = pw * 0.17;
+      const ang = Math.atan2(thumb[1] - by, thumb[0] - bx), len = Math.hypot(thumb[0] - bx, thumb[1] - by);
+      ctx.translate(bx, by); ctx.rotate(ang);
+      ctx.beginPath(); ctx.roundRect(-tw * 0.3, -tw / 2, len + tw * 0.3, tw, tw / 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,0.35)'; ctx.beginPath(); ctx.ellipse(len - tw * 0.35, 0, tw * 0.22, tw * 0.3, 0, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  // a full-screen vertical video post (reels style), seeded by i; w = 412
+  function reel(ctx, w, h, i, t, { app = 'reels' } = {}) {
+    const hue = Math.floor(U.hash(i, 3) * 360), hue2 = (hue + 60 + U.hash(i, 4) * 120) % 360;
+    const g = ctx.createLinearGradient(0, 0, w, h); g.addColorStop(0, `hsl(${hue},75%,58%)`); g.addColorStop(1, `hsl(${hue2},70%,32%)`);
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    // moving content: blobs bouncing
+    for (let k = 0; k < 3; k++) {
+      const r = 70 + U.hash(i, k) * 90, x = w * (0.2 + 0.6 * U.hash(i, k + 5)) + Math.sin(t * (1.5 + k) + k) * 40, y = h * (0.25 + 0.4 * U.hash(i, k + 9)) + Math.cos(t * (1.2 + k)) * 50;
+      ctx.fillStyle = `hsla(${(hue + k * 70) % 360},90%,${70 - k * 8}%,0.55)`; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
+    // big caption text in the video
+    const caps = ['no vas a creer lo que pasó', 'POV: es lunes', '3 trucos que nadie te cuenta', 'esperá al final', 'parte 2', 'ok pero esto…', 'rutina de mañana', 'storytime'];
+    text(ctx, caps[Math.floor(U.hash(i, 6) * caps.length)], w / 2, h * 0.42, { size: 30, weight: 700, color: '#fff', align: 'center' });
+    // right rail
+    const likes = ['12,4 k', '873', '45,1 k', '2,3 k', '128 k', '9.871'];
+    for (let k = 0; k < 3; k++) { const y = h * 0.58 + k * 78; ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.beginPath(); ctx.arc(w - 40, y, 18, 0, Math.PI * 2); ctx.fill(); text(ctx, k === 0 ? likes[Math.floor(U.hash(i, 7) * likes.length)] : `${Math.floor(U.hash(i, 8 + k) * 900 + 10)}`, w - 40, y + 38, { size: 14, weight: 600, color: '#fff', align: 'center' }); }
+    // handle + progress
+    ctx.fillStyle = `hsl(${hue2},60%,75%)`; ctx.beginPath(); ctx.arc(34, h - 150, 17, 0, Math.PI * 2); ctx.fill();
+    text(ctx, `@${['juli.ok', 'facu_mp', 'tips.diarios', 'la.posta', 'memes.ar', 'cami_r'][Math.floor(U.hash(i, 10) * 6)]}`, 60, h - 144, { size: 18, weight: 700, color: '#fff' });
+    rr(ctx, 20, h - 118, 250, 10, 5, 'rgba(255,255,255,0.6)'); rr(ctx, 20, h - 98, 170, 10, 5, 'rgba(255,255,255,0.4)');
+    rr(ctx, 0, h - 60, w, 4, 0, 'rgba(255,255,255,0.3)'); rr(ctx, 0, h - 60, w * ((t * 0.4 + U.hash(i, 11)) % 1), 4, 0, '#fff');
+    text(ctx, app, 24, 120, { size: 22, weight: 700, color: '#fff' });
+  }
+
+  // home screen with app icons; locked = true greys them out with a padlock
+  const APPS = [
+    { name: 'Instagram', c0: '#F58529', c1: '#DD2A7B' }, { name: 'TikTok', c0: '#111111', c1: '#333333' },
+    { name: 'YouTube', c0: '#FF3B30', c1: '#C4161C' }, { name: 'X', c0: '#000000', c1: '#222222' },
+    { name: 'Mail', c0: '#3B82F6', c1: '#1D4ED8' }, { name: 'Notas', c0: '#FCD34D', c1: '#F59E0B' },
+    { name: 'Mapas', c0: '#34D399', c1: '#059669' }, { name: 'Fotos', c0: '#F472B6', c1: '#A78BFA' },
+  ];
+  const appPos = (k) => [60 + (k % 4) * 98, 540 + Math.floor(k / 4) * 120]; // low on the screen, where the thumb lives
+  function homeScreen(ctx, w, h, t, { locked = 0, tap = -1, shake = 0 } = {}) {
+    const g = ctx.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#2A2F6E'); g.addColorStop(1, '#14173D'); ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    APPS.forEach((a, k) => {
+      const [x, y] = appPos(k), dist = k < 4 ? locked : 0;
+      ctx.save(); if (k === tap && shake) ctx.translate(Math.sin(t * 80) * 6 * shake, 0);
+      const gg = ctx.createLinearGradient(x - 32, y - 32, x + 32, y + 32); gg.addColorStop(0, a.c0); gg.addColorStop(1, a.c1);
+      ctx.fillStyle = gg; ctx.beginPath(); ctx.roundRect(x - 32, y - 32, 64, 64, 16); ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.beginPath(); ctx.arc(x, y, 12, 0, Math.PI * 2); ctx.fill();
+      if (dist > 0) { ctx.fillStyle = `rgba(20,24,70,${0.7 * dist})`; ctx.beginPath(); ctx.roundRect(x - 32, y - 32, 64, 64, 16); ctx.fill(); lock(ctx, x, y - 4, 0.3 * dist, 1, { lw: 9 }); }
+      text(ctx, a.name, x, y + 52, { size: 14, weight: 500, color: '#fff', align: 'center' });
+      ctx.restore();
+    });
+  }
+  // a phone lock screen: big time, a line under it
+  function lockPhone(ctx, w, h, time, line) {
+    const g = ctx.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#2A2F6E'); g.addColorStop(1, '#14173D'); ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    text(ctx, time, w / 2, 210, { size: 96, weight: 600, color: '#fff', align: 'center' });
+    if (line) text(ctx, line, w / 2, 262, { size: 20, weight: 400, color: 'rgba(255,255,255,0.7)', align: 'center' });
+  }
+
+  globalThis.Loom = { C, FONT, font, text, rr, mix, dayColors, bg, roll, banner, feed, lock, lockScreen, endCard, loadBrand, logo, brandBg, key, nfc, keyTap, handBack, handFront, reel, homeScreen, appPos, APPS, lockPhone };
 })();

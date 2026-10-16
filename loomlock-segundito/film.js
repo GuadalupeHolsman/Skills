@@ -41,6 +41,7 @@
     };
     screen.dark = true;
     UI.phone(ctx, W / 2 + buzz, 1260, 720, screen, t, { time: after ? '9:00' : '9:01', sketch: false, shadow: true, dark: true });
+    if (after) L.key(ctx, 800, 1560, 420, { rot: 0.18, art: 'ship', t });
   }
 
   // close-up: the feed, the clock running away
@@ -54,28 +55,31 @@
     if (t >= ev.stop && t < ev.rewind) L.text(ctx, 'batería 2%', W / 2, 500, { size: 40, weight: 600, color: L.C.red, align: 'center', alpha: clamp((t - ev.stop) / 0.2) });
     if (t >= ev.rewind) L.text(ctx, 'rebobinando…', W / 2, 500, { size: 38, weight: 600, color: night ? '#B9B1FF' : L.C.violet, align: 'center', spacing: 4 });
     const z = 1 + 0.06 * clamp((t - ev.dive) / (ev.stop - ev.dive));
-    ctx.save(); ctx.translate(W / 2, 1180); ctx.scale(z, z); ctx.translate(-W / 2, -1180);
+    const PH = 1120, PCY = 1200;
+    ctx.save(); ctx.translate(W / 2, PCY); ctx.scale(z, z); ctx.translate(-W / 2, -PCY);
     const frozen = t >= ev.stop ? ev.stop : t;
+    // the feed: full-screen videos sliding up one per swipe
+    const page = scrollAt(frozen) / 560, idx = Math.floor(page), frac = page - idx;
+    const APP = ['Instagram', 'TikTok'];
     const screen = (c, w, h) => {
       if (t >= ev.lock) return L.lockScreen(c, w, h, t, ev.lock, { line: 'Sesión activa · Focus' });
-      L.feed(c, w, h, scrollAt(frozen));
+      c.save(); c.translate(0, -frac * h); L.reel(c, w, h, idx, t, { app: APP[Math.floor(idx / 6) % 2] }); c.translate(0, h); L.reel(c, w, h, idx + 1, t, { app: APP[Math.floor((idx + 1) / 6) % 2] }); c.restore();
     };
     screen.dark = true;
-    UI.phone(ctx, W / 2, 1180, 1180, screen, t, { time: steps[stepAt(t)].v.replace(/^0/, ''), sketch: false, dark: true });
-    ctx.restore();
-    // the thumb: a soft swipe mark on every swipe
+    // the thumb flicks up on every swipe
     const last = [...swipes].reverse().find((ts) => ts <= t && t < ev.stop);
-    if (last !== undefined && t - last < 0.22) {
-      const u = (t - last) / 0.22;
-      ctx.save(); ctx.globalAlpha = 0.5 * (1 - u); ctx.fillStyle = '#fff';
-      ctx.beginPath(); ctx.arc(640, lerp(1560, 1200, ease.outCubic(u)), 46, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-    }
+    const u = last !== undefined ? clamp((t - last) / 0.22) : 1;
+    const thumb = [W / 2 + 70, lerp(PCY + 330, PCY + 60, Math.sin(Math.PI * u))];
+    L.handBack(ctx, W / 2, PCY, PH);
+    UI.phone(ctx, W / 2, PCY, PH, screen, t, { time: steps[stepAt(t)].v.replace(/^0/, ''), sketch: false, dark: true });
+    L.handFront(ctx, W / 2, PCY, PH, t < ev.lock ? thumb : [W / 2 + 140, PCY + 380]);
+    ctx.restore();
     // the loomlock key taps the phone
-    const k = L.keyTap(t, ev.lock, [W + 320, 1700], [700, 1330]);
-    if (k) L.key(ctx, k.x, k.y, 460, { rot: k.rot });
-    L.nfc(ctx, 640, 1240, t, ev.lock, { color: '#FFFFFF' });
+    const k = L.keyTap(t, ev.lock, [W + 420, 1800], [600, 1400], 0.8);
+    if (k) L.key(ctx, k.x, k.y, 640, { rot: k.rot, art: 'ship', t });
+    L.nfc(ctx, W / 2, PCY - 80, t, ev.lock, { color: '#FFFFFF' });
     // stop: a hard white flash
-    const f = t >= ev.stop ? 0.6 * Math.exp(-(t - ev.stop) * 12) : 0;
+    const f = Math.max(t >= ev.stop ? 0.6 * Math.exp(-(t - ev.stop) * 12) : 0, t >= ev.lock ? 0.8 * Math.exp(-(t - ev.lock) * 12) : 0);
     if (f > 0.01) { ctx.fillStyle = `rgba(255,255,255,${f})`; ctx.fillRect(0, 0, W, H); }
   }
 
