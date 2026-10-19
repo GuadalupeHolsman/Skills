@@ -58,6 +58,13 @@ node song.js && node engine/render.js video && node engine/render.js mux && node
 - Falta: correr `anim/generate.sh` con una clave que ande, cargar los cuadros en `film.js`,
   renderizar y verificar.
 
+## Actualización: rig vectorial (19 oct 2026)
+- Lupe pasó `BASIC_LOCKY.svg` (Drive, id `1jjJMNyK7LN-N3q-gKID0HMfmpc54BRXE`), guardado en `assets/`.
+- `film.js` ahora dibuja a Locky con los paths oficiales de ese SVG, cada parte rotando en su
+  articulación: caminar con el celular, caer gritando, triste y festejar. No usa Gemini.
+- `locky-lava.mp4` re-renderizado y verificado (sincronía ✓, -13,9 LUFS).
+- Las placas de `anim/` siguen listas para la vía con Gemini si algún día anda la clave.
+
 ## Notas
 - Siempre responder en español rioplatense.
 - La memoria de Notion no tenía nada sobre Locky ni Loomlock. Se puede guardar si Lupe quiere.
