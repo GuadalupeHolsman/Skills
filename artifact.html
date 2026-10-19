@@ -1,0 +1,1726 @@
+<title>Loomlock Kiosk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,500;0,700;0,800;1,200;1,800&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: fixed 1080×1920 (9:16) kiosk canvas scaled to fit any screen.
+   loomlock experiences · Prime Time look: every screen is a TV channel (CH 01…05).
+   Channel-blue ground with grain, scanlines and vignette; Space Mono rails; Montserrat 200
+   uppercase with 800-italic yellow emphasis. Interactive objects keep Locky's ink outline
+   and hard offset shadows. Channel changes cut through static with an on-screen display. */
+:root{
+  --blue:#2F3AD0;        /* channel blue */
+  --blue-deep:#1E269C;
+  --yellow:#FCCE21;      /* signal yellow: what matters */
+  --screen:#0B0B10;      /* screen black: outlines + shadows */
+  --ink:#16161C;
+  --paper:#EFEBE3;
+  --gray:#A3A1AD;
+  --text:#EDEAE3;
+  --soft:#D9D7E0;
+  --sky:#9fd8ff;         /* Locky's shackle */
+  --lilac:#878ee5;       /* Locky's legs */
+  --ok:#1d8a5a;          /* semantic: always works */
+  --muted:#5d5b66;
+  --font-display:"Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:"Space Mono", "Courier New", ui-monospace, monospace;
+  /* motion tokens */
+  --e-std:cubic-bezier(.2,0,0,1);
+  --e-in:cubic-bezier(0,0,.2,1);
+  --e-out:cubic-bezier(.4,0,1,1);
+  --e-spring:cubic-bezier(.3,1.6,.5,1);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{
+  margin:0;overflow:hidden;background:var(--screen);color:var(--text);font-family:var(--font-display);line-height:1.35;
+  -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:none;
+}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:5px solid var(--yellow);outline-offset:5px}
+.no-locky .lk-only{display:none!important}
+.nolk-only{display:none!important}
+.no-locky .nolk-only{display:revert!important}
+
+/* ---------- the 9:16 canvas ---------- */
+.vp{
+  position:fixed;inset:0;overflow:hidden;
+  padding-left:max(0px, env(safe-area-inset-left, 0px));padding-right:max(0px, env(safe-area-inset-right, 0px));
+  background:radial-gradient(100% 70% at 50% 40%, #15183a, var(--screen));
+}
+.s9{
+  position:absolute;left:50%;top:50%;width:1080px;height:1920px;margin:-960px 0 0 -540px;
+  transform:scale(var(--k, .4));transform-origin:center;overflow:hidden;
+  background:radial-gradient(120% 70% at 50% 30%, #3843dc, var(--blue) 55%, var(--blue-deep));
+}
+/* screen texture: grain + scanlines + vignette */
+#noise{position:absolute;inset:0;width:100%;height:100%;z-index:35;pointer-events:none;opacity:.09;image-rendering:pixelated;transition:opacity .25s}
+#noise.burst{opacity:.95;transition:none}
+.scan{position:absolute;inset:0;z-index:36;pointer-events:none;background:repeating-linear-gradient(0deg, rgba(11,11,16,.16) 0 2px, transparent 2px 5px);mix-blend-mode:multiply}
+.vignette{position:absolute;inset:0;z-index:36;pointer-events:none;background:radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(11,11,16,.55) 100%)}
+.flicker{animation:flicker 6s infinite}
+#fx{position:absolute;inset:0;width:100%;height:100%;z-index:40;pointer-events:none}
+.poweron{position:absolute;inset:0;z-index:60;pointer-events:none;background:var(--screen);opacity:0}
+.poweron i{position:absolute;left:0;right:0;top:50%;height:6px;margin-top:-3px;background:#fff;box-shadow:0 0 60px 20px rgba(255,255,255,.7);transform:scaleX(0)}
+.poweron.go{animation:pwBg 1.1s ease forwards}
+.poweron.go i{animation:pwLine 1.1s cubic-bezier(.6,0,.2,1) forwards}
+@keyframes pwBg{0%,45%{opacity:1}100%{opacity:0}}
+@keyframes pwLine{0%{transform:scaleX(0) scaleY(1);opacity:1}30%{transform:scaleX(1) scaleY(1)}60%{transform:scaleX(1) scaleY(260);opacity:.9}100%{transform:scaleX(1) scaleY(320);opacity:0}}
+
+/* ---------- mono rails ---------- */
+.top{position:absolute;top:0;left:0;right:0;height:130px;z-index:30;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 56px;font-family:var(--font-mono);font-size:26px;letter-spacing:1px;color:var(--soft)}
+.top .mid{text-align:center;text-transform:lowercase;transition:opacity .2s}
+.osd-on .top .mid{opacity:0}
+.top .ch{justify-self:end;display:flex;align-items:center;gap:14px}
+.top .ch b{color:var(--yellow);font-weight:700}
+.rec{width:18px;height:18px;border-radius:50%;background:#ff4d4d;box-shadow:0 0 14px #ff4d4d;animation:blinkDot 1.4s steps(2) infinite}
+.top .ch.off .rec{background:var(--gray);box-shadow:none;animation:none}
+
+/* ---------- on-screen display ---------- */
+.osd{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:45;pointer-events:none;text-align:center;white-space:nowrap;font-family:var(--font-mono);color:var(--yellow);text-shadow:4px 4px 0 var(--screen);opacity:0}
+.osd b{display:block;font-size:64px;line-height:1;font-weight:700;letter-spacing:-1px}
+.osd span{font-size:22px;letter-spacing:4px;text-transform:uppercase;background:var(--screen);padding:2px 12px}
+.osd.show{animation:osd 1.6s steps(1) forwards}
+@keyframes osd{0%{opacity:1}12%{opacity:.4}18%{opacity:1}85%{opacity:1}100%{opacity:0}}
+
+/* ---------- screens ---------- */
+.screen{
+  position:absolute;inset:130px 0 0 0;z-index:10;display:flex;flex-direction:column;align-items:stretch;
+  padding:40px 64px 250px;gap:34px;visibility:hidden;
+}
+.screen.active{visibility:visible;animation:crtOn .5s var(--e-in) both}
+.screen.out{visibility:visible;z-index:11;animation:crtOff .22s var(--e-out) both}
+@keyframes crtOff{0%{transform:none;filter:none}60%{transform:scaleY(.05) scaleX(1.03);filter:brightness(3)}100%{transform:scaleY(.003) scaleX(.15);filter:brightness(6);opacity:0}}
+@keyframes crtOn{0%{transform:scaleY(.004) scaleX(.25);filter:brightness(6);opacity:.7}30%{transform:scaleY(.03) scaleX(1);filter:brightness(3)}100%{transform:none;filter:none;opacity:1}}
+@keyframes tune{0%{transform:translateY(-3%) skewX(-4deg);filter:brightness(2) contrast(.6)}40%{transform:translateY(1.5%) skewX(2deg)}100%{transform:none;filter:none}}
+.screen.active .focus{animation:focusIn .9s cubic-bezier(.2,.8,.2,1) both}
+.screen.active .focus.d1{animation-delay:.12s}
+.screen.active .focus.d2{animation-delay:.24s}
+@keyframes focusIn{from{filter:blur(18px);opacity:0;letter-spacing:.2em}to{filter:none;opacity:1}}
+
+.head{display:flex;flex-direction:column;gap:22px}
+.kicker{font-family:var(--font-mono);font-size:26px;letter-spacing:4px;text-transform:uppercase;color:var(--yellow)}
+h1,h2{font-family:var(--font-display);font-weight:200;text-transform:uppercase;letter-spacing:2px;line-height:.98;margin:0;text-wrap:balance;color:var(--text)}
+h1{font-size:180px;line-height:.9;letter-spacing:4px}
+h2{font-size:84px}
+h1 b,h2 b{font-weight:800}
+h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
+.lead{font-size:36px;line-height:1.35;margin:0;max-width:27ch;font-weight:500;text-wrap:pretty}
+.lead b{color:var(--yellow);font-weight:800}
+.hint{
+  align-self:center;display:inline-flex;align-items:center;gap:18px;font-family:var(--font-mono);font-weight:700;font-size:26px;letter-spacing:1px;text-transform:uppercase;
+  background:var(--paper);color:var(--ink);border:4px solid var(--screen);border-radius:99px;padding:14px 32px 14px 16px;box-shadow:6px 6px 0 var(--screen);
+}
+.hint i{width:44px;height:44px;border-radius:50%;background:var(--blue);position:relative;flex:none}
+.hint i::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:4px solid var(--blue);animation:ping 1.5s ease-out infinite}
+.big-btn{
+  align-self:center;display:inline-flex;align-items:center;gap:20px;
+  font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:1px;font-size:44px;
+  background:var(--yellow);color:var(--ink);border:5px solid var(--screen);border-radius:99px;
+  padding:26px 54px;box-shadow:10px 10px 0 var(--screen);transition:transform .12s, box-shadow .12s, background .2s;
+}
+.big-btn:active{transform:translate(10px,10px);box-shadow:0 0 0 var(--screen)}
+.big-btn.is-on{background:var(--paper)}
+.big-btn svg{width:48px;height:48px;flex:none}
+
+/* ---------- CH 00 · attract ---------- */
+#s0{inset:0;padding:130px 64px 96px;justify-content:flex-end;gap:30px}
+.tapes{position:absolute;inset:0;pointer-events:none;z-index:0}
+.tape{
+  position:absolute;left:-220px;right:-220px;height:96px;display:flex;align-items:center;overflow:hidden;
+  border-block:5px solid var(--screen);font-family:var(--font-mono);font-weight:700;font-size:38px;letter-spacing:3px;text-transform:uppercase;white-space:nowrap;
+}
+.tape .run{display:flex;flex:none;animation:marquee 26s linear infinite}
+.tape .run span{display:inline-flex;align-items:center;gap:44px;padding-right:44px}
+.tape .run span::after{content:"";width:20px;height:20px;border-radius:50%;background:currentColor;display:inline-block}
+.tape.t1{top:300px;transform:rotate(-11deg);background:var(--yellow);color:var(--ink)}
+.tape.t2{top:730px;transform:rotate(8deg);background:var(--screen);color:var(--yellow)}
+.tape.t2 .run{animation-direction:reverse;animation-duration:30s}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* the tube TV */
+.tv{position:absolute;left:50%;top:230px;width:720px;margin-left:-360px;z-index:2;animation:tvBob 4s ease-in-out infinite}
+.tv .ant{position:absolute;left:50%;top:-110px;width:0;height:0}
+.tv .ant i{position:absolute;bottom:0;left:-4px;width:8px;height:150px;background:var(--screen);border-radius:4px;transform-origin:50% 100%}
+.tv .ant i:first-child{transform:rotate(-32deg)}
+.tv .ant i:last-child{transform:rotate(28deg)}
+.tv .ant i::after{content:"";position:absolute;top:-14px;left:-10px;width:28px;height:28px;border-radius:50%;background:var(--yellow);border:5px solid var(--screen)}
+.tv .ant::after{content:"";position:absolute;left:-46px;top:-6px;width:92px;height:46px;border-radius:46px 46px 0 0;background:var(--screen)}
+.tv-body{position:relative;background:var(--ink);border:6px solid var(--screen);border-radius:64px;padding:34px 34px 0;box-shadow:16px 16px 0 var(--screen)}
+.tv-screen{
+  position:relative;height:470px;border-radius:90px/70px;overflow:hidden;border:6px solid var(--screen);
+  background:radial-gradient(90% 90% at 50% 45%, #4a56ff, var(--blue) 60%, #111a7a);
+  box-shadow:inset 0 0 70px rgba(0,0,0,.55);
+}
+.tv-screen::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 2px, transparent 2px 6px), radial-gradient(60% 50% at 30% 25%, rgba(255,255,255,.18), transparent 70%);pointer-events:none}
+.tv-screen .locky-live{position:absolute;left:50%;bottom:-80px;width:380px;height:484px;margin-left:-190px;overflow:visible;animation:peek 3.2s ease-in-out infinite;filter:drop-shadow(10px 10px 0 rgba(11,11,16,.6))}
+.blink{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
+.tv-screen .nolk{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px}
+.tv-screen .nolk b{display:block;font-family:var(--font-mono);font-size:130px;color:var(--yellow);text-shadow:6px 6px 0 var(--screen);line-height:1}
+.tv-screen .nolk span{font-family:var(--font-mono);font-size:28px;letter-spacing:4px;color:var(--text);text-transform:uppercase}
+.tv-osd{position:absolute;left:36px;top:26px;z-index:2;font-family:var(--font-mono);font-size:26px;color:var(--yellow);letter-spacing:2px;text-shadow:3px 3px 0 var(--screen)}
+.tv-strip{display:flex;align-items:center;justify-content:space-between;height:96px;padding:0 20px;font-family:var(--font-mono);font-size:24px;letter-spacing:3px;color:var(--gray);text-transform:lowercase}
+.tv-strip .knobs{display:flex;gap:18px}
+.tv-strip .knobs i{width:40px;height:40px;border-radius:50%;background:var(--gray);border:5px solid var(--screen);position:relative}
+.tv-strip .knobs i::after{content:"";position:absolute;left:50%;top:3px;width:5px;height:14px;margin-left:-2.5px;background:var(--screen);border-radius:3px}
+.tv-strip .knobs i:last-child{animation:knob 4s ease-in-out infinite}
+.zap-hint{position:absolute;left:50%;top:868px;transform:translateX(-50%);z-index:4;display:inline-flex;align-items:center;gap:14px;font-family:var(--font-mono);font-weight:700;font-size:24px;letter-spacing:1px;text-transform:uppercase;background:var(--screen);color:var(--yellow);border-radius:99px;padding:12px 26px 12px 14px;white-space:nowrap}
+.zap-hint i{width:34px;height:34px;border-radius:50%;background:var(--yellow);position:relative;flex:none}
+.zap-hint i::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:4px solid var(--yellow);animation:ping 1.5s ease-out infinite}
+.tv{cursor:pointer}
+.tv-static{position:absolute;inset:0;width:100%;height:100%;z-index:3;opacity:0;image-rendering:pixelated;pointer-events:none;transition:opacity .2s}
+.tv-screen.zap .tv-static{opacity:1;transition:none}
+.tv-screen #tv-line{display:block;margin-top:14px;max-width:560px;font-family:var(--font-display);font-weight:800;font-style:italic;font-size:40px;letter-spacing:0;text-transform:none;color:var(--text);line-height:1.1}
+.tv-screen .nolk b{font-size:120px}
+.bubble{
+  position:absolute;left:40px;top:180px;z-index:3;background:var(--paper);color:var(--ink);border:5px solid var(--screen);border-radius:40px;
+  padding:20px 32px;font-weight:800;font-style:italic;font-size:36px;box-shadow:8px 8px 0 var(--screen);
+  transform-origin:15% 100%;animation:pop 5s cubic-bezier(.3,1.6,.5,1) infinite;
+}
+.bubble::after{content:"";position:absolute;left:46px;bottom:-26px;width:36px;height:36px;background:var(--paper);border:5px solid var(--screen);border-top:0;border-left:0;transform:rotate(45deg)}
+#s0 .head{position:relative;z-index:3;align-items:center;text-align:center;gap:18px}
+#s0 h1{text-shadow:8px 8px 0 var(--screen)}
+.tagline{font-size:56px;font-weight:200;font-style:italic;color:var(--yellow);text-shadow:4px 4px 0 var(--screen)}
+.tagline b{font-weight:800}
+.start-btn{
+  position:relative;z-index:3;align-self:center;display:inline-flex;align-items:center;gap:26px;
+  font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:50px;letter-spacing:1px;
+  background:var(--yellow);color:var(--ink);border:6px solid var(--screen);border-radius:99px;padding:28px 60px 28px 30px;
+  box-shadow:12px 12px 0 var(--screen);animation:nudge 2.4s ease-in-out infinite;
+}
+.start-btn .tap{width:72px;height:72px;border-radius:50%;background:var(--blue);border:5px solid var(--screen);position:relative;flex:none}
+.start-btn .tap::after,.start-btn .tap::before{content:"";position:absolute;inset:-12px;border-radius:50%;border:5px solid var(--blue);animation:ping 1.6s ease-out infinite}
+.start-btn .tap::before{animation-delay:.8s}
+.host{font-family:var(--font-mono);font-size:28px;letter-spacing:3px;text-transform:uppercase;color:var(--text);background:var(--screen);padding:8px 22px;border-radius:99px}
+.legal{position:relative;z-index:3;margin:0;text-align:center;font-family:var(--font-mono);font-size:20px;letter-spacing:1px;color:var(--soft)}
+.meta-row{position:relative;z-index:3;display:flex;justify-content:center;flex-wrap:wrap;gap:14px;font-family:var(--font-mono);font-size:24px;letter-spacing:1px;text-transform:uppercase}
+.meta-row span{border:3px solid rgba(237,234,227,.55);border-radius:99px;padding:8px 22px;background:rgba(11,11,16,.25)}
+.meta-row .event{background:var(--yellow);color:var(--ink);border-color:var(--screen)}
+
+/* ---------- phone mock ---------- */
+.stage-area{flex:1;position:relative;display:grid;place-items:center;min-height:0}
+.phone{
+  width:440px;height:820px;background:var(--screen);border-radius:80px;padding:20px;position:relative;flex:none;
+  box-shadow:20px 20px 0 rgba(11,11,16,.55);
+}
+.phone::before{content:"";position:absolute;top:36px;left:50%;transform:translateX(-50%);width:140px;height:38px;background:var(--screen);border-radius:99px;z-index:3}
+.screen-in{
+  height:100%;border-radius:62px;background:var(--paper);overflow:hidden;position:relative;color:var(--ink);
+  display:flex;flex-direction:column;padding:88px 28px 28px;gap:14px;
+}
+.clock{font-family:var(--font-display);font-weight:200;font-size:88px;text-align:center;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:2px}
+.status{font-family:var(--font-mono);font-size:21px;text-align:center;color:var(--muted);text-transform:uppercase;letter-spacing:1px;min-height:1.3em}
+.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 20px;align-content:start;margin-top:8px}
+.app-tile{display:flex;flex-direction:column;align-items:center;gap:8px;background:none;border:0;padding:0;font-size:19px;font-weight:700;color:var(--ink);position:relative}
+.app-tile .ic{
+  width:100%;aspect-ratio:1;border-radius:30%;display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-style:italic;font-size:34px;color:var(--text);
+  border:4px solid var(--screen);position:relative;overflow:hidden;transition:filter .35s, transform .45s cubic-bezier(.3,1.6,.5,1);
+}
+.app-tile.sel .ic{outline:6px solid var(--yellow);outline-offset:3px}
+.app-tile.sel::after{
+  content:"";position:absolute;top:-14px;right:-14px;width:40px;height:40px;border-radius:50%;z-index:2;
+  background:var(--yellow) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%2316161C' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/78% no-repeat;
+  border:4px solid var(--screen);
+}
+.app-tile .ic svg{width:62%;height:62%;display:block}
+.app-tile .ic svg.tt{filter:drop-shadow(-1.6px -1px 0 #25F4EE) drop-shadow(1.6px 1px 0 #FE2C55)}
+.app-tile.ess .ic{border-style:dashed;border-color:var(--ok)}
+.app-tile .badge{position:absolute;left:0;right:0;top:0;aspect-ratio:1;display:grid;place-items:center;opacity:0;transform:scale(.2) rotate(-30deg);transition:opacity .3s, transform .55s cubic-bezier(.3,1.7,.5,1);pointer-events:none}
+.app-tile .badge svg{width:52%;height:52%}
+.is-locked .app-tile.sel .ic,.done #phone3 .app-tile.sel .ic{filter:grayscale(1) brightness(.35);outline-color:transparent;transform:scale(.86)}
+.is-locked .app-tile.sel .ic::before,.done #phone3 .app-tile.sel .ic::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg, rgba(255,255,255,.25) 0 2px, transparent 2px 4px);animation:snow .2s steps(2) infinite}
+.is-locked .app-tile.sel::after,.done #phone3 .app-tile.sel::after{display:none}
+.is-locked .app-tile.sel .badge,.done #phone3 .app-tile.sel .badge{opacity:1;transform:none}
+.is-locked .app-tile.ess .ic{box-shadow:0 0 0 8px rgba(29,138,90,.22)}
+.app-tile.shake .ic{animation:shake .45s}
+.lock-banner{
+  position:absolute;left:24px;right:24px;bottom:28px;background:var(--screen);color:var(--yellow);border:4px solid var(--screen);
+  border-radius:30px;padding:18px 20px;font-family:var(--font-mono);font-size:21px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:flex;gap:14px;align-items:center;line-height:1.25;
+  transform:translateY(180%);transition:transform .6s cubic-bezier(.3,1.5,.5,1) .25s;
+}
+.lock-banner svg{width:40px;height:40px;flex:none}
+.is-locked .lock-banner,.done #phone3 .lock-banner{transform:none}
+.stamp{
+  position:absolute;left:50%;top:46%;z-index:8;pointer-events:none;
+  font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:76px;letter-spacing:1px;color:var(--ink);white-space:nowrap;
+  background:var(--yellow);padding:14px 40px;border:6px solid var(--screen);box-shadow:10px 10px 0 var(--screen);
+  transform:translate(-50%,-50%) rotate(-9deg) scale(3);opacity:0;
+}
+.stamp.go{animation:stamp 1.8s cubic-bezier(.2,1.4,.4,1) forwards}
+@keyframes stamp{0%{opacity:0;transform:translate(-50%,-50%) rotate(-9deg) scale(3)}16%{opacity:1;transform:translate(-50%,-50%) rotate(-9deg) scale(1)}80%{opacity:1;transform:translate(-50%,-50%) rotate(-9deg) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) rotate(-9deg) scale(.9)}}
+.rumble{animation:rumble .5s}
+@keyframes rumble{0%,100%{translate:0 0;rotate:0deg}20%{translate:-12px 4px;rotate:-1.5deg}40%{translate:10px -5px;rotate:1.5deg}60%{translate:-6px 3px}80%{translate:4px -2px}}
+
+.notifs{position:absolute;left:18px;right:18px;top:92px;z-index:6;display:flex;flex-direction:column;gap:10px;pointer-events:auto}
+.notif{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.96);border:3px solid var(--screen);border-radius:22px;padding:10px 14px;box-shadow:4px 4px 0 var(--screen);font-size:19px;font-weight:700;line-height:1.15;color:var(--ink);text-align:left;animation:nIn .45s cubic-bezier(.3,1.5,.5,1) both;position:relative;overflow:hidden}
+.notif b{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;color:var(--text);font-style:italic;font-weight:800;font-size:20px;border:3px solid var(--screen)}
+.notif small{display:block;font-family:var(--font-mono);font-size:14px;font-weight:400;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.notif.bye{animation:nOut .35s ease forwards}
+.notif.cut::after{content:"";position:absolute;inset:0;background:var(--screen);transform-origin:left;animation:redact .35s cubic-bezier(.7,0,.2,1) forwards}
+@keyframes nIn{from{transform:translateY(-40px) scale(.9);opacity:0}}
+@keyframes nOut{to{transform:translateX(120%);opacity:0}}
+@keyframes redact{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* ---------- CH 02 · the key (card) ---------- */
+.card-area{flex:1;display:grid;place-items:center;perspective:2200px;min-height:0}
+.nfc-card{
+  width:900px;height:568px;position:relative;border:0;padding:0;background:none;color:var(--text);
+  transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(calc(var(--ry,0deg) + var(--flip,0deg)));
+  transition:transform .9s cubic-bezier(.3,1.3,.4,1);animation:floaty 5s ease-in-out infinite;
+}
+.nfc-card.tilting{transition:transform .08s linear}
+.nfc-card.flipped{--flip:180deg}
+.face{position:absolute;inset:0;border-radius:44px;border:6px solid var(--screen);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;box-shadow:18px 18px 0 var(--screen);text-align:left}
+.face.real{background:var(--screen);padding:0}
+.face.real img{display:block;width:100%;height:100%;object-fit:cover}
+.face.back.real{transform:rotateY(180deg);padding:0;background:var(--screen);display:block}
+.real-cap{margin:0;text-align:center;font-family:var(--font-mono);font-weight:700;font-size:26px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow)}
+.face.front{--c1:#3843dc;--c2:var(--blue-deep);--bar:var(--yellow);--fg:var(--text);background:repeating-linear-gradient(0deg, rgba(11,11,16,.12) 0 2px, transparent 2px 6px), linear-gradient(135deg, var(--c1), var(--c2));color:var(--fg)}
+.ed-1 .face.front{--c1:#f6f2ea;--c2:#d9d4c8;--bar:var(--blue);--fg:var(--ink)}
+.ed-1 .face.front .bar{color:var(--text)}
+.ed-1 .face.front .wm{color:var(--muted)}
+.ed-1 .face.front .serial,.ed-1 .face.front .big-ch{color:var(--blue)}
+.ed-3 .face.front{--c1:#24242e;--c2:var(--screen);--bar:var(--yellow);--fg:var(--text)}
+.nfc-card.spin{animation:edSpin .8s cubic-bezier(.3,1.2,.4,1)}
+@keyframes edSpin{from{rotate:y -360deg}to{rotate:y 0deg}}
+.editions{display:flex;align-items:center;justify-content:center;gap:16px}
+.ed-label{font-family:var(--font-mono);font-size:24px;letter-spacing:2px;text-transform:uppercase;color:var(--soft);margin-right:6px}
+.ed-sw{display:inline-flex;align-items:center;gap:12px;font-family:var(--font-mono);font-weight:700;font-size:26px;letter-spacing:1px;background:rgba(11,11,16,.3);color:var(--text);border:4px solid rgba(237,234,227,.45);border-radius:99px;padding:12px 24px 12px 12px;transition:transform .2s}
+.ed-sw i{width:44px;height:44px;border-radius:50%;border:4px solid var(--screen);background:linear-gradient(135deg,#3843dc,var(--blue-deep))}
+.ed-sw[data-ed="1"] i{background:linear-gradient(135deg,#f6f2ea,#d9d4c8)}
+.ed-sw[data-ed="3"] i{background:linear-gradient(135deg,#24242e,var(--screen))}
+.ed-sw.on{background:var(--yellow);color:var(--ink);border-color:var(--screen);box-shadow:6px 6px 0 var(--screen);transform:translateY(-4px)}
+.face .holo{
+  position:absolute;inset:-40%;pointer-events:none;mix-blend-mode:overlay;opacity:.75;
+  background:conic-gradient(from var(--ha,0deg) at var(--hx,50%) var(--hy,50%), #ffe680, #9fd8ff, #ff9ad5, #b6ffcf, #ffe680);
+}
+.face .shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,.45) var(--sh,45%), transparent 62%)}
+.face.front .wm{position:absolute;top:44px;left:50px;font-family:var(--font-mono);font-size:30px;letter-spacing:1px;color:var(--soft);text-transform:lowercase}
+.face.front .bar{position:absolute;left:0;right:0;bottom:120px;height:72px;background:var(--bar);border-block:5px solid var(--screen);display:flex;align-items:center;padding-left:50px;font-weight:800;font-style:italic;text-transform:uppercase;font-size:38px;color:var(--ink);letter-spacing:1px}
+.face.front .ed{position:absolute;bottom:46px;left:50px;font-family:var(--font-mono);font-size:24px;letter-spacing:3px;text-transform:uppercase}
+.face.front .serial{position:absolute;bottom:42px;right:50px;font-family:var(--font-mono);font-weight:700;font-size:30px;font-variant-numeric:tabular-nums;color:var(--yellow)}
+.face.front .lk{position:absolute;right:40px;top:28px;height:290px;width:auto;aspect-ratio:620/790}
+.face.front .big-ch{position:absolute;right:46px;top:40px;font-family:var(--font-mono);font-weight:700;font-size:150px;line-height:1;color:var(--yellow);text-shadow:7px 7px 0 var(--screen)}
+.face.front .waves{position:absolute;left:50px;top:150px;width:100px;height:100px;color:var(--fg)}
+.face.back{background:var(--paper);color:var(--ink);transform:rotateY(180deg);padding:60px 64px;display:flex;flex-direction:column;justify-content:center;gap:22px}
+.face.back h3{font-family:var(--font-display);margin:0;font-size:60px;font-weight:200;text-transform:uppercase;letter-spacing:1px;line-height:1}
+.face.back h3 b{font-weight:800;font-style:italic;color:var(--blue)}
+.face.back p{margin:0;font-size:30px;color:var(--muted);max-width:32ch;font-weight:500}
+.chip-ic{width:130px;height:100px;border-radius:20px;border:4px solid var(--screen);background:linear-gradient(135deg,#fff1a8,var(--yellow));position:relative}
+.chip-ic::before{content:"";position:absolute;inset:22px 36px;border:4px solid rgba(11,11,16,.5);border-radius:8px}
+.facts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:3px solid rgba(237,234,227,.4)}
+.facts li{display:flex;flex-direction:column;gap:8px;padding:24px 24px 24px 0;border-bottom:3px solid rgba(237,234,227,.4);font-size:26px;line-height:1.3;font-weight:500}
+.facts li:nth-child(odd){border-right:3px solid rgba(237,234,227,.4)}
+.facts li:nth-child(even){padding-left:28px}
+.facts li b{font-family:var(--font-mono);font-size:24px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow)}
+
+/* ---------- CH 03 · the tap ---------- */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:st}
+.steps li{
+  counter-increment:st;display:flex;flex-direction:column;gap:12px;font-size:23px;font-weight:700;line-height:1.2;
+  border-radius:26px;padding:18px 18px 22px;border:4px solid rgba(237,234,227,.35);transition:background .35s, color .35s, border-color .35s, transform .35s;
+}
+.steps li::before{
+  content:"0" counter(st);font-family:var(--font-mono);font-weight:700;font-size:30px;color:var(--yellow);
+}
+.steps li.now{background:var(--yellow);color:var(--ink);border-color:var(--screen);box-shadow:7px 7px 0 var(--screen);transform:translateY(-8px)}
+.steps li.now::before{color:var(--ink)}
+.steps li.ok{opacity:.7}
+.steps li.ok::before{content:"✓ 0" counter(st)}
+.drag-zone{flex:1;position:relative;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:70px;min-height:0}
+.drag-card{
+  width:300px;height:190px;border-radius:26px;border:6px solid var(--screen);flex:none;color:var(--text);
+  background:repeating-linear-gradient(0deg, rgba(11,11,16,.12) 0 2px, transparent 2px 6px), linear-gradient(135deg,#3843dc,var(--blue-deep));
+  box-shadow:12px 12px 0 var(--screen);position:relative;touch-action:none;cursor:grab;padding:0;z-index:20;overflow:visible;
+  transition:transform .55s cubic-bezier(.3,1.4,.5,1), opacity .4s;animation:hover 2.2s ease-in-out infinite;
+}
+.drag-card .stripe{position:absolute;left:0;right:0;bottom:30px;height:38px;background:var(--yellow);border-block:4px solid var(--screen)}
+.drag-card.dragging{transition:none;cursor:grabbing;box-shadow:30px 34px 0 rgba(11,11,16,.45);animation:none}
+.drag-card.used{opacity:.5;animation:none}
+.drag-card .lk-mini{height:120px;width:auto;aspect-ratio:620/790;position:absolute;right:14px;top:8px}
+.drag-card .mini-ch{position:absolute;right:20px;top:14px;font-family:var(--font-mono);font-weight:700;font-size:52px;color:var(--yellow);text-shadow:3px 3px 0 var(--screen)}
+.drag-card .waves{position:absolute;left:22px;top:22px;width:62px;height:62px}
+.drag-card::after{content:"";position:absolute;inset:-18px;border-radius:40px;border:5px dashed var(--yellow);animation:pulse 1.4s ease-in-out infinite;pointer-events:none}
+.done .drag-card::after,.drag-card.dragging::after{display:none}
+.down-arrow{position:absolute;top:50%;left:calc(50% - 74px);margin-top:-36px;width:48px;height:72px;color:var(--yellow);rotate:-90deg;animation:dip 1.2s ease-in-out infinite;z-index:1}
+.done .down-arrow{opacity:0}
+#phone3{width:400px;height:740px}
+#phone3 .clock{font-size:76px}
+#phone3 .screen-in{padding-top:84px}
+.mode-pick{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.mp-ask{width:100%;text-align:center;font-family:var(--font-mono);font-size:24px;letter-spacing:3px;text-transform:uppercase;color:var(--yellow)}
+.mp{display:inline-flex;align-items:center;gap:14px;min-height:96px;padding:0 30px 0 20px;border-radius:99px;border:4px solid rgba(237,234,227,.5);background:rgba(11,11,16,.3);color:var(--text);font-weight:800;font-style:italic;text-transform:uppercase;font-size:30px;letter-spacing:.5px;transition:transform .2s, background .2s}
+.mp svg{width:52px;height:52px;flex:none}
+.mp.on{background:var(--yellow);color:var(--ink);border-color:var(--screen);box-shadow:7px 7px 0 var(--screen);transform:translateY(-4px)}
+/* Locky himself is the totem: NFC waves over his head, a plinth with the channel */
+.totem{display:none;width:340px;flex:none;position:relative;flex-direction:column;align-items:center}
+.mode-totem .totem{display:flex}
+.tt-waves{width:130px;height:130px;color:var(--yellow);rotate:-90deg;margin-bottom:-26px;animation:ttWaves 1.8s ease-in-out infinite;filter:drop-shadow(4px 4px 0 var(--screen));z-index:2}
+@keyframes ttWaves{0%,100%{opacity:.45;transform:scale(.9)}50%{opacity:1;transform:scale(1.08)}}
+.tt-locky{width:300px;height:382px;overflow:visible;filter:drop-shadow(12px 12px 0 var(--screen));animation:ttBob 3.4s ease-in-out infinite;position:relative;z-index:1}
+@keyframes ttBob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-14px) rotate(1.5deg)}}
+.tt-base{margin-top:6px;width:310px;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--screen);border-radius:26px;padding:12px 16px 14px;box-shadow:8px 8px 0 rgba(11,11,16,.45)}
+.totem-ch{font-family:var(--font-mono);font-weight:700;font-size:56px;line-height:1;color:var(--yellow);text-shadow:4px 4px 0 var(--blue)}
+.totem-name{font-family:var(--font-mono);font-weight:700;font-size:24px;letter-spacing:2px;text-transform:uppercase;color:var(--text);text-align:center}
+.totem .target-ring,.totem .shock{top:330px}
+.totem .target-ring{width:380px;height:380px;margin:-190px 0 0 -190px}
+.mp-locky{width:46px;height:58px;flex:none;overflow:visible;filter:drop-shadow(3px 3px 0 var(--screen))}
+.nt-ico .mp-locky{filter:none;width:38px;height:48px}
+.moment .ico.lk{background:var(--sky)!important}
+.moment .ico.lk svg{width:78%;height:78%}
+.mode-totem .drag-card{display:none}
+.mode-totem #phone3{touch-action:none;cursor:grab;transition:transform .55s cubic-bezier(.3,1.4,.5,1)}
+#phone3.dragging{transition:none;cursor:grabbing}
+.mode-totem .down-arrow{left:calc(50% - 99px);rotate:90deg}
+.mode-totem #phone3 .target-ring{display:none}
+.target-ring{position:absolute;left:50%;top:32%;width:420px;height:420px;margin:-210px 0 0 -210px;border-radius:50%;border:8px dashed var(--yellow);opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+.drag-zone.hover .target-ring{opacity:1;animation:spin 6s linear infinite}
+.shock{position:absolute;left:50%;top:32%;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;border:10px solid var(--yellow);opacity:0;pointer-events:none;z-index:9}
+.done .shock{animation:shock 1s ease-out}
+.done .shock.s2{animation-delay:.18s}
+.done .shock.s3{animation-delay:.36s}
+.again-row{display:flex;justify-content:center;min-height:90px;align-items:center}
+.reset-link{background:var(--paper);color:var(--ink);border:4px solid var(--screen);border-radius:99px;font-family:var(--font-mono);font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:26px;padding:16px 36px;box-shadow:6px 6px 0 var(--screen)}
+
+/* ---------- CH 04 · the night ---------- */
+.moments{flex:1;position:relative;display:flex;flex-direction:column;justify-content:center;gap:20px}
+.walker{position:absolute;left:0;top:0;width:124px;height:158px;z-index:2;transition:transform .8s cubic-bezier(.4,1.4,.5,1);filter:drop-shadow(6px 6px 0 var(--screen));overflow:visible}
+.walker-dot{position:absolute;left:30px;top:0;width:64px;height:64px;border-radius:50%;background:var(--yellow);border:6px solid var(--screen);z-index:2;transition:transform .8s cubic-bezier(.4,1.4,.5,1);box-shadow:0 0 0 10px rgba(252,206,33,.25)}
+.moment{
+  position:relative;text-align:left;padding:26px 34px;display:grid;grid-template-columns:96px 1fr;gap:4px 28px;align-items:center;
+  background:var(--paper);color:var(--ink);border:5px solid var(--screen);border-radius:40px;box-shadow:10px 10px 0 var(--screen);
+  transition:background .3s, transform .45s cubic-bezier(.3,1.5,.5,1);
+}
+.moment .ico{grid-row:span 3;width:96px;height:96px;border-radius:50%;background:var(--blue);border:5px solid var(--screen);display:grid;place-items:center;transition:transform .5s cubic-bezier(.3,1.7,.5,1)}
+.moment .ico svg{width:56%;height:56%}
+.moment .when{font-family:var(--font-mono);font-size:22px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700}
+.moment h3{font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;margin:0;font-size:46px;line-height:1;letter-spacing:.5px}
+.moment p{margin:0;font-size:27px;color:var(--muted);font-weight:500}
+.moment p{font-size:30px}
+.moment .more{grid-column:2;max-height:0;overflow:hidden;transition:max-height .5s ease;color:var(--ink);font-weight:700;font-size:25px}
+.moment.on{background:var(--yellow);transform:scale(1.03)}
+.dial{display:flex;flex-direction:column;gap:12px;padding:0 10px}
+.dial-times{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:24px;letter-spacing:1px;color:var(--soft)}
+.dial-track{position:relative;height:30px;border-radius:99px;background:rgba(11,11,16,.45);border:4px solid var(--screen);touch-action:none;margin:30px 0 10px}
+.dial-track::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg, transparent 0 calc(33.333% - 3px), rgba(237,234,227,.5) calc(33.333% - 3px) 33.333%)}
+.dial-fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:99px;background:var(--yellow)}
+.dial-thumb{position:absolute;top:50%;left:0;width:150px;height:84px;margin:-42px 0 0 -75px;border-radius:99px;background:var(--yellow);border:5px solid var(--screen);box-shadow:6px 6px 0 var(--screen);font-family:var(--font-mono);font-weight:700;font-size:30px;color:var(--ink);touch-action:none;cursor:grab}
+.dial.anim .dial-thumb{transition:left .45s cubic-bezier(.3,1.4,.5,1)}
+.dial.anim .dial-fill{transition:width .45s cubic-bezier(.3,1.4,.5,1)}
+.dial-hint{align-self:center;font-family:var(--font-mono);font-size:22px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow)}
+.moment.on .ico{background:var(--screen);transform:rotate(-10deg) scale(1.08)}
+.moment.on .when{color:var(--ink)}
+.moment.on p{color:var(--ink)}
+.moment.on .more{max-height:5em;margin-top:6px}
+
+/* ---------- CH 05 · myth or fact + close ---------- */
+.quiz{position:relative;background:var(--paper);color:var(--ink);border:5px solid var(--screen);border-radius:40px;box-shadow:12px 12px 0 var(--screen);padding:34px 40px 40px;display:flex;flex-direction:column;gap:26px;min-height:560px}
+.qz-top{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:24px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);font-weight:700}
+.qz-q{margin:0;font-size:58px;font-weight:800;font-style:italic;text-transform:uppercase;line-height:1.02;letter-spacing:.5px;text-wrap:balance}
+.qz-q.in{animation:focusIn .6s cubic-bezier(.2,.8,.2,1) both}
+.qz-btns{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:auto}
+.qz-b{height:130px;border-radius:30px;border:5px solid var(--screen);font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:50px;box-shadow:8px 8px 0 var(--screen);transition:transform .12s, box-shadow .12s}
+.qz-b:active{transform:translate(8px,8px);box-shadow:0 0 0 var(--screen)}
+.qz-b[data-a="0"]{background:var(--screen);color:var(--yellow)}
+.qz-b[data-a="1"]{background:var(--yellow);color:var(--ink)}
+.qz-res{display:flex;flex-direction:column;gap:14px;margin-top:auto}
+.qz-verdict{font-family:var(--font-mono);font-weight:700;font-size:30px;letter-spacing:2px;text-transform:uppercase}
+.qz-verdict.ok{color:var(--ok)}
+.qz-verdict.no{color:#c2402f}
+.qz-a{position:relative;margin:0;font-size:32px;font-weight:500;line-height:1.3;color:var(--ink)}
+.qz-a::after{content:"";position:absolute;inset:-4px -6px;background:var(--screen);transform-origin:right;animation:unredact .7s cubic-bezier(.7,0,.2,1) .15s forwards}
+@keyframes unredact{to{transform:scaleX(0)}}
+.qz-next{align-self:flex-end;font-family:var(--font-mono);font-weight:700;font-size:28px;letter-spacing:1px;text-transform:uppercase;background:var(--blue);color:var(--text);border:4px solid var(--screen);border-radius:99px;padding:18px 34px;box-shadow:6px 6px 0 var(--screen)}
+.qz-stamp{position:absolute;right:36px;bottom:150px;font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:64px;padding:8px 28px;border:6px solid var(--screen);background:var(--yellow);color:var(--ink);box-shadow:8px 8px 0 var(--screen);opacity:0;transform:rotate(8deg) scale(2.4);pointer-events:none}
+.qz-stamp.go{animation:qstamp .5s cubic-bezier(.2,1.5,.4,1) forwards}
+.qz-stamp.myth{background:var(--screen);color:var(--yellow)}
+@keyframes qstamp{to{opacity:1;transform:rotate(8deg) scale(1)}}
+.qz-final{font-size:110px;font-weight:200;line-height:1;text-transform:uppercase}
+.qz-final b{font-weight:800;font-style:italic;color:var(--blue)}
+
+/* ---------- CH 05 · questions (redacted) + close ---------- */
+#s5{gap:26px}
+.faq{display:grid;gap:16px}
+.q{text-align:left;background:var(--paper);color:var(--ink);border:5px solid var(--screen);border-radius:32px;padding:24px 32px;box-shadow:8px 8px 0 var(--screen);display:grid;gap:12px}
+.q .qt{display:flex;justify-content:space-between;gap:24px;align-items:center;font-weight:800;font-size:36px;line-height:1.08}
+.q .qt::after{content:"";flex:none;width:56px;height:56px;border-radius:50%;background:var(--yellow) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12z' fill='none' stroke='%2316161C' stroke-width='2.2'/%3E%3Ccircle cx='12' cy='12' r='3' fill='%2316161C'/%3E%3C/svg%3E") center/60% no-repeat;border:4px solid var(--screen)}
+.q .qa{position:relative;font-size:28px;color:var(--muted);font-weight:500;line-height:1.3}
+.q .qa::after{content:"";position:absolute;inset:-4px -6px;background:var(--screen);transform-origin:right center;transition:transform .55s cubic-bezier(.7,0,.2,1)}
+.q .qa::before{content:"";position:absolute;left:-6px;right:-6px;top:50%;height:4px;margin-top:-2px;z-index:1;background:repeating-linear-gradient(90deg, transparent 0 18px, rgba(252,206,33,.7) 18px 30px);transition:opacity .3s}
+.q.open .qa::after{transform:scaleX(0)}
+.q.open .qa::before{opacity:0}
+.teaser{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;border:4px dashed rgba(237,234,227,.6);border-radius:32px;padding:22px 32px}
+.teaser .num{font-family:var(--font-mono);font-weight:700;font-size:110px;line-height:.85;color:var(--yellow);font-variant-numeric:tabular-nums;text-shadow:6px 6px 0 var(--screen)}
+.teaser .num small{display:block;font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--text);text-shadow:none;margin-top:10px}
+.teaser p{margin:0;font-size:28px;line-height:1.3;font-weight:500}
+.teaser p b{font-weight:800}
+.teaser .soon{display:inline-block;font-family:var(--font-mono);font-size:20px;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:var(--yellow);color:var(--ink);border-radius:99px;padding:5px 16px;margin-bottom:10px}
+.close-row{display:flex;align-items:center;justify-content:center;gap:34px;margin-top:auto}
+.wave-locky{width:150px;height:191px;flex:none;filter:drop-shadow(6px 6px 0 var(--screen));animation:wave 1.6s ease-in-out infinite;transform-origin:50% 90%;overflow:visible}
+.sign{font-size:40px;font-weight:200;font-style:italic;color:var(--yellow);text-align:center;text-shadow:3px 3px 0 var(--screen)}
+.sign b{font-weight:800}
+
+/* ---------- in-app picker ---------- */
+.app-bar{display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px 0 6px;border-bottom:3px solid rgba(11,11,16,.12)}
+.ab-logo{font-family:var(--font-mono);font-weight:700;font-size:30px;color:var(--blue);letter-spacing:1px}
+.ab-t{font-weight:800;font-style:italic;text-transform:uppercase;font-size:26px;color:var(--ink)}
+.saved-banner{position:absolute;left:24px;right:24px;bottom:28px;background:var(--ok);color:#fff;border:4px solid var(--screen);border-radius:30px;padding:18px 20px;font-family:var(--font-mono);font-weight:700;font-size:22px;letter-spacing:1px;text-transform:uppercase;display:flex;gap:14px;align-items:center;transform:translateY(180%);transition:transform .55s var(--e-spring)}
+.saved-banner span:first-child{width:40px;height:40px;border-radius:50%;background:#fff;color:var(--ok);display:grid;place-items:center;font-size:24px;flex:none}
+.is-saved .saved-banner{transform:none}
+.stage-area{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px}
+.next-tip{display:flex;align-items:center;gap:18px;font-weight:800;font-style:italic;text-transform:uppercase;font-size:30px;color:var(--ink);background:var(--yellow);border:5px solid var(--screen);border-radius:99px;padding:14px 30px 14px 16px;box-shadow:8px 8px 0 var(--screen);opacity:0;transform:translateY(30px) scale(.9);transition:opacity .4s var(--e-in), transform .5s var(--e-spring)}
+.next-tip.on{opacity:1;transform:none}
+.nt-ico{display:flex;align-items:center;gap:6px;background:var(--screen);border-radius:99px;padding:8px 14px;color:var(--yellow)}
+.nt-ico svg{width:40px;height:40px}
+
+/* ---------- who invited you ---------- */
+.invite{flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px;min-height:0}
+.inv{display:grid;grid-template-columns:130px 1fr 80px;align-items:center;gap:26px;text-align:left;background:var(--paper);color:var(--ink);border:5px solid var(--screen);border-radius:44px;box-shadow:10px 10px 0 var(--screen);padding:20px 36px 20px 22px;transition:background .3s, transform .4s var(--e-spring), opacity .3s}
+.inv-ic{width:130px;height:104px;border-radius:30px;background:var(--blue);color:var(--yellow);border:5px solid var(--screen);display:grid;place-items:center;font-family:var(--font-mono);font-weight:700;font-size:50px;letter-spacing:-2px;overflow:hidden}
+.inv-t{font-weight:800;font-style:italic;text-transform:uppercase;font-size:54px;line-height:1}
+.inv-ck{width:72px;height:72px;border-radius:50%;border:5px dashed var(--muted);display:grid;place-items:center;font-size:40px;color:transparent;transition:all .3s}
+.invite.picked .inv:not(.on){opacity:.55;transform:scale(.97)}
+.inv.on{background:var(--yellow);transform:scale(1.03)}
+.inv.on .inv-ic{background:var(--screen)}
+.inv.on .inv-ck{background:var(--screen);border:5px solid var(--screen);color:var(--yellow);animation:pop2 .4s var(--e-spring)}
+.inv-msg{margin:0;min-height:2.4em;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:40px;line-height:1.1;color:var(--yellow);text-shadow:4px 4px 0 var(--screen);display:grid;place-items:center}
+.inv-msg.in{animation:focusIn .5s cubic-bezier(.2,.8,.2,1) both}
+/* hidden tally (press and hold the wordmark) */
+.tally{position:absolute;inset:0;z-index:70;background:rgba(11,11,16,.82);display:grid;place-items:center;padding:60px}
+.tally-box{width:100%;background:var(--paper);color:var(--ink);border:6px solid var(--screen);border-radius:44px;box-shadow:14px 14px 0 var(--screen);padding:44px}
+.tally-box h3{margin:0 0 24px;font-family:var(--font-mono);font-size:34px;letter-spacing:3px;text-transform:uppercase;color:var(--blue)}
+.tally-box ul{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.tally-box li{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:44px;border-bottom:3px dashed rgba(11,11,16,.2);padding-bottom:12px}
+.tally-box li b{font-family:var(--font-mono);font-size:56px;color:var(--blue)}
+.tally-box li.total{border:0;color:var(--muted);font-size:32px}
+.tally-btns{display:flex;gap:16px;margin-top:30px}
+.tally-btns button{flex:1;height:96px;border-radius:99px;border:5px solid var(--screen);background:var(--yellow);font-family:var(--font-mono);font-weight:700;font-size:30px;letter-spacing:2px;text-transform:uppercase;box-shadow:6px 6px 0 var(--screen)}
+.tally-btns button.arm{background:#e0362c;color:#fff}
+
+/* ---------- step-by-step pieces ---------- */
+.split{flex:1;display:grid;grid-template-rows:1fr 1fr;gap:22px;min-height:0}
+/* 01 · cause -> effect: the key taps the phone, then the apps lock (one 4.8s loop) */
+.cause{position:relative;height:250px;display:flex;align-items:center;justify-content:center}
+.cz-key{position:relative;z-index:2;width:250px;height:158px;border-radius:24px;border:6px solid var(--screen);background:repeating-linear-gradient(0deg, rgba(11,11,16,.12) 0 2px, transparent 2px 6px),linear-gradient(135deg,#3843dc,var(--blue-deep));box-shadow:10px 10px 0 var(--screen);color:var(--text);animation:czKey 4.8s var(--e-std) infinite}
+.cz-key svg{position:absolute;left:18px;top:18px;width:54px;height:54px}
+.cz-key b{position:absolute;right:16px;top:14px;font-family:var(--font-mono);font-weight:700;font-size:40px;color:var(--yellow);text-shadow:3px 3px 0 var(--screen)}
+.cz-key i{position:absolute;left:0;right:0;bottom:24px;height:30px;background:var(--yellow);border-block:4px solid var(--screen)}
+.cz-waves{position:relative;width:150px;height:150px;flex:none}
+.cz-waves i{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:6px solid var(--yellow);opacity:0;animation:czWave 4.8s ease-out infinite}
+.cz-waves i:nth-child(2){animation-delay:.12s}
+.cz-waves i:nth-child(3){animation-delay:.24s}
+.cz-phone{position:relative;width:132px;height:240px;border-radius:30px;background:var(--paper);border:8px solid var(--screen);box-shadow:10px 10px 0 rgba(11,11,16,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;animation:czPhone 4.8s var(--e-std) infinite}
+.cz-notch{position:absolute;top:8px;width:46px;height:12px;border-radius:99px;background:var(--screen)}
+.cz-lock{width:66px;height:66px;border-radius:50%;background:var(--screen);display:grid;place-items:center;animation:czLock 4.8s var(--e-spring) infinite}
+.cz-lock svg{width:40px;height:40px}
+.cz-lbl{font-family:var(--font-mono);font-weight:700;font-size:20px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);animation:czLock 4.8s var(--e-spring) infinite}
+@keyframes czKey{0%,12%{transform:translateX(-40px) rotate(-6deg)}34%,52%{transform:translateX(150px) rotate(4deg)}72%,100%{transform:translateX(-40px) rotate(-6deg)}}
+@keyframes czWave{0%,34%{opacity:0;transform:translateX(70px) scale(.3)}38%{opacity:1}60%,100%{opacity:0;transform:translateX(70px) scale(2.6)}}
+@keyframes czPhone{0%,34%{transform:none}38%{transform:translateX(10px) rotate(3deg)}44%,100%{transform:none}}
+@keyframes czLock{0%,35%{transform:scale(0);opacity:0}42%,88%{transform:scale(1);opacity:1}96%,100%{transform:scale(0);opacity:0}}
+.split .pi{animation:czTile 4.8s var(--e-std) infinite}
+.split .pi::after{animation:czLock 4.8s var(--e-spring) infinite!important}
+@keyframes czTile{0%,36%{filter:none}44%,88%{filter:grayscale(1) brightness(.55)}96%,100%{filter:none}}
+.pane{border:5px solid var(--screen);border-radius:40px;box-shadow:10px 10px 0 var(--screen);padding:30px 36px;display:flex;flex-direction:column;justify-content:center;gap:24px}
+.pane.off{background:var(--screen);color:var(--yellow)}
+.pane.on{background:var(--paper);color:var(--ok)}
+.pane-k .pk-when{margin-left:auto;font-size:22px;letter-spacing:2px;opacity:.8}
+.pane-k{display:flex;align-items:center;gap:16px;font-family:var(--font-mono);font-weight:700;font-size:32px;letter-spacing:3px;text-transform:uppercase}
+.pane-k svg{width:48px;height:48px}
+.okdot{width:48px;height:48px;border-radius:50%;background:var(--ok);color:var(--paper);display:grid;place-items:center;font-size:30px}
+.pane-icons{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.pane-icons.ess{grid-template-columns:repeat(3,1fr)}
+.pi{position:relative;aspect-ratio:1;border-radius:30%;border:4px solid var(--soft);display:grid;place-items:center;font-weight:800;font-style:italic;font-size:46px;color:var(--text);overflow:hidden}
+.pi::after{content:"";position:absolute;inset:22%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4.5' y='10.5' width='15' height='11' rx='3' fill='%23FCCE21' stroke='%230B0B10' stroke-width='1.4'/%3E%3Cpath d='M8 10.5V8a4 4 0 0 1 8 0v2.5' fill='none' stroke='%23FCCE21' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat;filter:none}
+.screen.active .pi::after{animation:lockPop .5s cubic-bezier(.3,1.7,.5,1) var(--d) both}
+@keyframes lockPop{from{transform:scale(0) rotate(-40deg);opacity:0}}
+.pe{display:flex;flex-direction:column;align-items:center;gap:10px;font-weight:800;font-size:30px;color:var(--ink)}
+.pe b{width:130px;height:130px;border-radius:30%;border:4px dashed var(--ok);display:grid;place-items:center}
+.pe b svg,.pi svg{width:58%;height:58%;display:block}
+.pi svg.tt{filter:drop-shadow(-2px -1px 0 #25F4EE) drop-shadow(2px 1px 0 #FE2C55)}
+.oneliner{margin:0;text-align:center;font-family:var(--font-mono);font-weight:700;font-size:30px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow)}
+.flow{display:flex;align-items:center;justify-content:center;gap:12px}
+.fp{display:inline-flex;align-items:center;gap:12px;padding:10px 24px 10px 10px;border-radius:99px;border:4px solid rgba(237,234,227,.4);font-family:var(--font-mono);font-weight:700;font-size:26px;letter-spacing:1px;text-transform:uppercase;color:var(--soft);transition:all .3s}
+.fp b{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:rgba(11,11,16,.4);color:var(--text)}
+.fp.now{background:var(--yellow);color:var(--ink);border-color:var(--screen);box-shadow:5px 5px 0 var(--screen);transform:scale(1.06)}
+.fp.now b{background:var(--screen);color:var(--yellow)}
+.fp.ok{color:var(--text);border-color:var(--text)}
+.fp.ok b{background:var(--ok);font-size:0}
+.fp.ok b::after{content:"✓";font-size:26px}
+.fa{width:34px;height:4px;background:rgba(237,234,227,.5);border-radius:2px}
+#phone1{height:740px}
+.instr{margin:0;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:38px;line-height:1.08;color:var(--yellow);text-shadow:4px 4px 0 var(--screen);min-height:2.1em;display:grid;place-items:center}
+.instr.in{animation:focusIn .5s cubic-bezier(.2,.8,.2,1) both}
+.big-btn[disabled]{opacity:.45;box-shadow:none}
+.chips{display:flex;justify-content:center;gap:14px}
+.chips span{font-family:var(--font-mono);font-weight:700;font-size:26px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);background:var(--paper);border:4px solid var(--screen);border-radius:99px;padding:12px 26px;box-shadow:5px 5px 0 var(--screen)}
+.prep{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:stretch}
+.pstep{display:grid;grid-template-columns:120px 1fr 90px;align-items:center;gap:26px;text-align:left;background:var(--paper);color:var(--ink);border:5px solid var(--screen);border-radius:44px;box-shadow:10px 10px 0 var(--screen);padding:36px 36px;transition:background .3s, transform .4s cubic-bezier(.3,1.5,.5,1)}
+.pn{width:120px;height:120px;border-radius:50%;background:var(--blue);color:var(--yellow);border:5px solid var(--screen);display:grid;place-items:center;font-family:var(--font-mono);font-weight:700;font-size:60px}
+.pt b{display:block;font-weight:800;font-style:italic;text-transform:uppercase;font-size:54px;line-height:1}
+.pt small{display:block;margin-top:10px;font-size:28px;font-weight:500;color:var(--muted)}
+.pc{width:90px;height:90px;border-radius:50%;border:5px dashed var(--muted);display:grid;place-items:center;font-size:50px;color:transparent;transition:all .3s}
+.pstep.ok{background:var(--yellow);transform:scale(1.02)}
+.pstep.ok .pc{background:var(--screen);border:5px solid var(--screen);color:var(--yellow)}
+.pline{align-self:center;width:8px;height:70px;background:repeating-linear-gradient(180deg,var(--text) 0 12px,transparent 12px 22px);opacity:.6}
+.pready{align-self:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:52px;color:var(--text);border:5px dashed rgba(237,234,227,.5);border-radius:99px;padding:22px 48px;transition:all .4s}
+.pready.on{background:var(--yellow);color:var(--ink);border:5px solid var(--screen);box-shadow:10px 10px 0 var(--screen);transform:scale(1.06)}
+.close-row .big-btn{white-space:nowrap;flex:none}
+.close-line{min-width:0;font-size:44px;font-weight:200;text-transform:uppercase;letter-spacing:1px;line-height:1}
+.close-line em{font-style:italic;font-weight:800;color:var(--yellow)}
+
+/* ---------- nav ---------- */
+.nav{position:absolute;left:0;right:0;bottom:0;height:220px;z-index:30;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:0 56px 30px}
+.nav-btn{
+  min-width:270px;height:124px;border-radius:99px;font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:42px;letter-spacing:1px;
+  border:5px solid var(--screen);display:inline-flex;align-items:center;justify-content:center;gap:16px;padding:0 46px;transition:transform .12s, box-shadow .12s;
+}
+.nav-btn:active{transform:translate(10px,10px);box-shadow:0 0 0 var(--screen)!important}
+.nav-btn svg{width:46px;height:46px}
+.nav-btn.back{background:transparent;color:var(--text);border-color:rgba(237,234,227,.6)}
+.nav-btn.next{background:var(--yellow);color:var(--ink);box-shadow:10px 10px 0 var(--screen)}
+.nav-btn[disabled]{visibility:hidden}
+.lang{display:flex;border:3px solid rgba(237,234,227,.5);border-radius:99px;padding:5px;gap:4px;background:rgba(11,11,16,.25)}
+.lang button{min-width:84px;min-height:64px;border:0;border-radius:99px;background:transparent;color:var(--text);font-family:var(--font-mono);font-weight:700;font-size:24px;letter-spacing:2px}
+.lang button[aria-pressed="true"]{background:var(--yellow);color:var(--ink)}
+.lang-float{position:absolute;left:56px;top:150px;z-index:31}
+
+.idle{position:absolute;left:50%;bottom:250px;z-index:50;transform:translate(-50%,200%);opacity:0;background:var(--screen);color:var(--yellow);border-radius:99px;padding:20px 38px;font-family:var(--font-mono);font-size:26px;letter-spacing:1px;transition:transform .4s, opacity .4s;white-space:nowrap}
+.idle.show{transform:translate(-50%,0);opacity:1}
+
+@keyframes ping{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.8);opacity:0}}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes peek{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-24px) rotate(2deg)}}
+@keyframes tvBob{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg) translateY(-10px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
+@keyframes blinkDot{50%{opacity:.2}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-12px)}75%{transform:translateX(12px)}}
+@keyframes pop{0%,6%{transform:scale(0)}14%,82%{transform:scale(1) rotate(-3deg)}92%,100%{transform:scale(0)}}
+@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -18px}}
+@keyframes hover{0%,100%{translate:0 0}50%{translate:0 -14px}}
+@keyframes dip{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(16px);opacity:1}}
+@keyframes shock{0%{opacity:1;transform:scale(.3)}100%{opacity:0;transform:scale(3.2)}}
+@keyframes wave{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@keyframes knob{0%,100%{transform:rotate(-40deg)}50%{transform:rotate(60deg)}}
+@keyframes snow{50%{background-position:0 2px}}
+@keyframes flicker{0%,97%,100%{opacity:1}98%{opacity:.85}99%{opacity:.95}}
+
+/* ===================== motion layer ===================== */
+/* staged entrance: every block of a channel arrives in order, from the side we're travelling to */
+.screen.active:not(#s0) > *:not(.head):not(.instr){animation:enterFwd .6s var(--e-in) backwards;animation-delay:calc(.32s + var(--n,0)*.09s)}
+.dir-back .screen.active:not(#s0) > *:not(.head):not(.instr){animation-name:enterBack}
+@keyframes enterFwd{from{opacity:0;transform:translateX(90px)}}
+@keyframes enterBack{from{opacity:0;transform:translateX(-90px)}}
+/* headlines land word by word, kicker types itself */
+.screen.active h2.focus{animation:none}
+h2 .w{display:inline-block}
+.screen.active h2 .w{animation:wordIn .65s var(--e-in) backwards;animation-delay:calc(.22s + var(--i)*.06s)}
+@keyframes wordIn{from{opacity:0;transform:translateY(46px) rotate(5deg);filter:blur(10px)}}
+.screen.active .kicker{animation:typeIn .5s steps(16) .1s backwards}
+@keyframes typeIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+/* tap feedback: a signal ring wherever you touch */
+.ripple{position:absolute;z-index:55;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:6px solid var(--yellow);pointer-events:none;animation:rip .55s var(--e-in) forwards}
+.ripple.r2{border-color:var(--text);animation-delay:.07s;opacity:0}
+@keyframes rip{0%{transform:scale(.4);opacity:1}100%{transform:scale(5);opacity:0}}
+.mp:active,.pstep:active,.moment:active,.qz-next:active,.reset-link:active,.hint:active{transform:scale(.95)!important;transition:transform .08s var(--e-std)}
+.app-tile:active .ic{transform:scale(.88)}
+/* ambient: a slow scan sweep and a rolling bar inside the TV */
+.sweep{position:absolute;left:0;right:0;top:-260px;height:240px;z-index:37;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,255,255,.07),transparent);animation:sweep 8s linear infinite}
+@keyframes sweep{to{transform:translateY(2500px)}}
+.tv-screen::before{content:"";position:absolute;left:0;right:0;top:-80px;height:70px;z-index:2;background:linear-gradient(180deg,transparent,rgba(255,255,255,.12),transparent);animation:roll 3.6s linear infinite;pointer-events:none}
+@keyframes roll{to{transform:translateY(640px)}}
+#s0.active h1{animation:focusIn .9s cubic-bezier(.2,.8,.2,1) .12s both, glitch 5s steps(1) 2.2s infinite}
+@keyframes glitch{0%,93%,100%{text-shadow:8px 8px 0 var(--screen);transform:none}94%{text-shadow:-7px 0 0 #ff3b6b,7px 0 0 #3bd5ff,8px 8px 0 var(--screen);transform:translateX(5px) skewX(-6deg)}96%{text-shadow:5px 0 0 #3bd5ff,-5px 0 0 #ff3b6b,8px 8px 0 var(--screen);transform:translateX(-4px)}98%{transform:translateX(2px)}}
+/* guide the next move: when a channel is done, Next starts breathing */
+.nav-btn.next.ready{animation:readyPulse 1.3s var(--e-std) infinite}
+.nav-btn.next.ready svg{animation:arrowNudge .9s ease-in-out infinite}
+@keyframes readyPulse{0%,100%{box-shadow:10px 10px 0 var(--screen),0 0 0 0 rgba(252,206,33,.55)}50%{box-shadow:10px 10px 0 var(--screen),0 0 0 22px rgba(252,206,33,0)}}
+@keyframes arrowNudge{50%{transform:translateX(10px)}}
+/* 01 · panes slide in from both sides, checks pop */
+.screen.active .pane.off{animation:paneL .65s var(--e-in) .35s backwards}
+.screen.active .pane.on{animation:paneR .65s var(--e-in) .5s backwards}
+@keyframes paneL{from{opacity:0;transform:translateX(-120px) rotate(-2deg)}}
+@keyframes paneR{from{opacity:0;transform:translateX(120px) rotate(2deg)}}
+.screen.active .pe b{animation:pop2 .5s var(--e-spring) .8s backwards}
+.screen.active .pe:nth-child(2) b{animation-delay:.92s}
+.screen.active .pe:nth-child(3) b{animation-delay:1.04s}
+@keyframes pop2{from{opacity:0;transform:scale(.3)}}
+/* 02 · flow pills pop, the connector fills, tiles power off one by one */
+.fp.now{animation:pillPop .45s var(--e-spring)}
+@keyframes pillPop{from{transform:scale(.8)}}
+.fa{transition:background .4s var(--e-std)}
+.fa.on{background:var(--yellow)}
+.big-btn.bump{animation:bump .35s var(--e-spring)}
+@keyframes bump{40%{transform:scale(1.1)}}
+.app-tile.sel .ic{animation:tilePop .35s var(--e-spring)}
+@keyframes tilePop{40%{transform:scale(1.14) rotate(-4deg)}}
+.is-locked .app-tile.sel .ic,.done #phone3 .app-tile.sel .ic{animation:tileOff .55s var(--e-std) backwards;animation-delay:var(--td,0ms)}
+@keyframes tileOff{0%{transform:scale(1);filter:none}35%{transform:scaleY(.08) scaleX(1.12);filter:brightness(3)}}
+/* 03 · the key flies in, chips pop */
+.screen.active .nfc-card{animation:keyIn .95s var(--e-spring) .3s backwards, floaty 5s ease-in-out 1.3s infinite}
+@keyframes keyIn{from{opacity:0;transform:rotateY(-80deg) rotateZ(-10deg) translateY(180px) scale(.7)}}
+.screen.active .chips span{animation:pop2 .45s var(--e-spring) .9s backwards}
+.screen.active .chips span:nth-child(2){animation-delay:1s}
+.screen.active .chips span:nth-child(3){animation-delay:1.1s}
+/* 04 · checks pop, ready badge wiggles */
+.pstep.ok .pc{animation:pop2 .4s var(--e-spring)}
+.pstep.ok .pn{animation:spinOnce .5s var(--e-std)}
+@keyframes spinOnce{from{transform:rotate(-180deg) scale(.6)}}
+.pready.on{animation:wiggle .7s var(--e-std)}
+@keyframes wiggle{20%{rotate:-4deg}40%{rotate:4deg}60%{rotate:-2deg}80%{rotate:1deg}}
+/* 05 · the target calls you */
+.drag-zone.hover .totem,.drag-zone.hover #phone3{filter:drop-shadow(0 0 30px rgba(252,206,33,.7))}
+/* 06 · moments cascade, active icon rings */
+.screen.active .moment{animation:enterFwd .5s var(--e-in) backwards}
+.screen.active .moment:nth-child(1){animation-delay:.45s}
+.screen.active .moment:nth-child(2){animation-delay:.55s}
+.screen.active .moment:nth-child(3){animation-delay:.65s}
+.screen.active .moment:nth-child(4){animation-delay:.75s}
+.moment.on .ico{box-shadow:0 0 0 0 rgba(11,11,16,.5);animation:ring 1.4s ease-out infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(11,11,16,.45)}100%{box-shadow:0 0 0 22px rgba(11,11,16,0)}}
+.dial.drag .dial-thumb{transform:scale(1.12);box-shadow:10px 10px 0 var(--screen)}
+#dial-time.tick{display:inline-block;animation:tick .3s var(--e-spring)}
+@keyframes tick{from{transform:translateY(-14px);opacity:.2}}
+/* 07 · each question flips in, buttons pop, score bumps */
+.quiz.flip{animation:qFlip .55s var(--e-std)}
+@keyframes qFlip{0%{transform:perspective(1400px) rotateX(-75deg);opacity:0}100%{transform:none;opacity:1}}
+.qz-btns:not([hidden]) .qz-b{animation:pop2 .4s var(--e-spring) .15s backwards}
+.qz-btns:not([hidden]) .qz-b:nth-child(2){animation-delay:.25s}
+#qz-score.bump{display:inline-block;animation:bump .4s var(--e-spring)}
+.osd.alert b{color:var(--text);background:#e0362c;padding:0 18px;text-shadow:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+
+/* one clear instruction per screen: yellow pill + tapping hand; secondary clutter hidden */
+.hint{background:var(--yellow);font-family:var(--font-display);font-weight:800;font-style:italic;font-size:36px;letter-spacing:1px;padding:16px 38px 16px 22px;gap:16px}
+.hint i{width:58px;height:58px;border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230B0B10' d='M9 11V4.5a1.5 1.5 0 0 1 3 0V10h.5V8.5a1.5 1.5 0 0 1 3 0V11h.5v-.5a1.5 1.5 0 0 1 3 0V16c0 3-2 6-6 6h-1c-2 0-3.5-1-5-3l-2.5-3.5a1.4 1.4 0 0 1 2-2L9 15z'/%3E%3C/svg%3E") center/contain no-repeat;animation:tapNudge 1.1s ease-in-out infinite}
+.hint i::after{display:none}
+.invite:not(.picked)+.inv-msg{justify-self:center;align-self:center;display:inline-flex;align-items:center;gap:16px;min-height:0;margin:0 auto;background:var(--yellow);color:var(--ink);text-shadow:none;border:4px solid var(--screen);border-radius:99px;padding:14px 36px 14px 22px;box-shadow:6px 6px 0 var(--screen);font-size:36px}
+.invite:not(.picked)+.inv-msg::before{content:"";width:58px;height:58px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230B0B10' d='M9 11V4.5a1.5 1.5 0 0 1 3 0V10h.5V8.5a1.5 1.5 0 0 1 3 0V11h.5v-.5a1.5 1.5 0 0 1 3 0V16c0 3-2 6-6 6h-1c-2 0-3.5-1-5-3l-2.5-3.5a1.4 1.4 0 0 1 2-2L9 15z'/%3E%3C/svg%3E") center/contain no-repeat;animation:tapNudge 1.1s ease-in-out infinite}
+@keyframes tapNudge{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(.94)}}
+#s0 .kicker,#s0 .meta-row,#s0 .zap-hint,.chips,#card .ed,#card .serial,.pk-when,.flow{display:none!important}
+
+/* quiet guidance: a pulsing dot where to touch; hidden after the first touch on the screen */
+.tp{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:rgba(252,206,33,.92);border:4px solid var(--screen);pointer-events:none;z-index:8;animation:tpBeat 1.6s ease-in-out infinite}
+.tp::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:4px solid var(--yellow);animation:ping 1.6s ease-out infinite}
+@keyframes tpBeat{0%,100%{transform:scale(1)}50%{transform:scale(.82)}}
+.screen.touched .tp{display:none}
+.app-tile,#card-area,.moment{position:relative}
+.hint{display:none}
+#s5 .hint#hint3{display:none}
+#s5.touched .hint#hint3{display:inline-flex}
+.invite:not(.picked)+.inv-msg{display:none}
+#s2:not(.touched) #instr1{visibility:hidden}
+@keyframes icWave{0%,55%,100%{transform:scale(1);background:var(--blue)}25%{transform:scale(1.12);background:var(--screen)}}
+.invite:not(.picked) .inv-ic{animation:icWave 2.8s ease-in-out infinite}
+.invite:not(.picked) .inv:nth-child(2) .inv-ic{animation-delay:.25s}
+.invite:not(.picked) .inv:nth-child(3) .inv-ic{animation-delay:.5s}
+.invite:not(.picked) .inv:nth-child(4) .inv-ic{animation-delay:.75s}
+.invite:not(.picked) .inv:nth-child(5) .inv-ic{animation-delay:1s}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="lock-y" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="11" rx="3" fill="#FCCE21" stroke="#0B0B10" stroke-width="1.4"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="#FCCE21" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.7" fill="#0B0B10"/></symbol>
+    <symbol id="lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="11" rx="3" fill="#16161C"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="#16161C" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.7" fill="#FCCE21"/></symbol>
+    <symbol id="waves" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 7.5a6 6 0 0 1 0 9"/><path d="M11 5a10 10 0 0 1 0 14"/><path d="M15 2.6a13.6 13.6 0 0 1 0 18.8"/></g><circle cx="3.5" cy="12" r="1.8" fill="currentColor"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h13m-5-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="arrow-l" viewBox="0 0 24 24"><path d="M19 12H6m5-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="arrow-d" viewBox="0 0 24 36"><path d="M12 3v28m-9-9 9 9 9-9" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="totem" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5" fill="none" stroke="#FCCE21" stroke-width="2.2"/><path d="M10 9a2.6 2.6 0 0 1 4 0" fill="none" stroke="#FCCE21" stroke-width="2" stroke-linecap="round"/><path d="M9.5 13a4 4 0 0 1 5 0" fill="none" stroke="#FCCE21" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.4" fill="#FCCE21"/></symbol>
+    <symbol id="glass" viewBox="0 0 24 24"><path d="M6 3h12l-1.5 8a4.5 4.5 0 0 1-9 0z" fill="none" stroke="#FCCE21" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 15.5V21m-3.5 0h7" stroke="#FCCE21" stroke-width="2.2" stroke-linecap="round"/><path d="M7 7h10" stroke="#FCCE21" stroke-width="2"/></symbol>
+    <symbol id="unlock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="11" rx="3" fill="none" stroke="#FCCE21" stroke-width="2.2"/><path d="M8 10.5V8a4 4 0 0 1 7.6-1.8" fill="none" stroke="#FCCE21" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="15.8" r="1.6" fill="#FCCE21"/></symbol>
+    <symbol id="unlock-d" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="11" rx="3" fill="none" stroke="#16161C" stroke-width="2.2"/><path d="M8 10.5V8a4 4 0 0 1 7.6-1.8" fill="none" stroke="#16161C" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="15.8" r="1.6" fill="#16161C"/></symbol>
+    <symbol id="photo" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="#FCCE21" stroke-width="2.2"/><circle cx="9" cy="10" r="2" fill="#FCCE21"/><path d="m4 18 6-5 4 3 3-2 4 3" fill="none" stroke="#FCCE21" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="ico-instagram" viewBox="0 0 24 24"><path fill="currentColor" d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></symbol>
+    <symbol id="ico-tiktok" viewBox="0 0 24 24"><path fill="currentColor" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></symbol>
+    <symbol id="ico-youtube" viewBox="0 0 24 24"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></symbol>
+    <symbol id="ico-x" viewBox="0 0 24 24"><path fill="currentColor" d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></symbol>
+    <symbol id="ico-facebook" viewBox="0 0 24 24"><path fill="currentColor" d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></symbol>
+    <symbol id="ico-ph" viewBox="0 0 24 24"><path fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></symbol>
+    <symbol id="ico-cam" viewBox="0 0 24 24"><path fill="currentColor" d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></symbol>
+    <symbol id="ico-mp" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></symbol>
+    <symbol id="ico-gm" viewBox="0 0 24 24"><path fill="currentColor" d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zM11 13H9v2H7v-2H5v-2h2V9h2v2h2v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></symbol>
+    <symbol id="locky" viewBox="200 120 620 790"><g><path style="stroke:#000;stroke-width:6px;stroke-miterlimit:10;fill:#fff" d="M740.61,579.84l10.51,60.38,2.48,14.24,6.79,39.02c12.16,6.54,21.21,18.52,23.35,33.23,3.59,24.67-13.5,47.59-38.17,51.18-24.67,3.59-47.59-13.5-51.18-38.17-2.14-14.72,3.11-28.77,12.9-38.51l-4.51-38.41-1.86-15.82-7.08-60.33c-2.36-16.2,44.42-23.01,46.78-6.81Z"/></g><g><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#878ee5" d="M578.99,697.48v134.69h22.77c11.33,0,20.52,9.19,20.52,20.52h0c0,11.33-9.19,20.52-20.52,20.52h-61.9c-11.33,0-20.52-9.19-20.52-20.52v-155.21h59.64Z"/></g><g><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#878ee5" d="M467.18,704.11v134.69h22.77c11.33,0,20.52,9.19,20.52,20.52h0c0,11.33-9.19,20.52-20.52,20.52h-61.9c-11.33,0-20.52-9.19-20.52-20.52v-155.21h59.64Z"/></g><g><g><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#9fd8ff" d="M498.16,144.77h0c-83.37,0-150.96,67.59-150.96,150.96v54.08h83.22v-54.44c0-37.42,30.33-67.75,67.75-67.75h0c37.41,0,67.75,30.33,67.75,67.75v54.44h83.22v-54.08c0-83.37-67.59-150.96-150.96-150.96Z"/><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round" d="M377.95,758.06l-86.2-5.43c-16.65.11-30.2-13.35-30.2-30l-2.26-343.96c0-14.99,11.07-27.68,25.92-29.72l90.48-12.43,2.26,421.53Z"/><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#3f49cc" d="M715.4,749.57l-337.45,8.49c-16.86.42-30.75-13.13-30.75-29.99v-361.54c0-16.57,13.43-30,30-30h337.45c16.57,0,30,13.43,30,30v353.05c0,16.27-12.98,29.58-29.25,29.99Z"/></g></g><g class="blink"><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#fff" d="M693.74,501.9c.79,54.21-84.36,54.21-83.56,0-.79-54.21,84.36-54.21,83.56,0Z"/></g><g class="blink"><path style="stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;fill:#fff" d="M481.67,501.9c.79,54.21-84.36,54.21-83.56,0-.79-54.21,84.36-54.21,83.56,0Z"/></g><g><path style="fill:none;stroke:#000;stroke-width:6px;stroke-linecap:round;stroke-linejoin:round" d="M570.81,501.9c.47,32.3-50.27,32.3-49.79,0"/></g><g><path style="stroke:#000;stroke-width:6px;stroke-miterlimit:10;fill:#fff" d="M284.21,591.45s-5.99,34.42-10.51,60.38-9.27,53.26-9.27,53.26c-12.16,6.54-21.21,18.52-23.35,33.23-3.59,24.67,13.5,47.59,38.17,51.18,24.67,3.59,47.59-13.5,51.18-38.17,2.14-14.72-3.11-28.77-12.9-38.51,0,0,3.56-30.3,6.37-54.23,2.81-23.94,7.08-60.33,7.08-60.33,2.36-16.2-44.42-23.01-46.78-6.81Z"/></g></symbol>
+  </defs>
+</svg>
+
+<div class="vp" id="vp">
+ <div class="s9 flicker" id="s9">
+
+  <header class="top">
+    <span>loomlock experiences</span>
+    <span class="mid">prime time</span>
+    <span class="ch" id="ch-label"><i class="rec"></i><b id="ch-num">CH 02</b></span>
+  </header>
+
+  <!-- CH 00 · Attract -->
+  <section class="screen active" id="s0" aria-label="Inicio">
+    <div class="tapes" aria-hidden="true">
+      <div class="tape t1"><div class="run" data-tape="s0.tape1"></div></div>
+      <div class="tape t2"><div class="run" data-tape="s0.tape2"></div></div>
+    </div>
+    <div class="tv" id="tv" role="button" aria-label="Cambiar de canal">
+      <div class="ant"><i></i><i></i></div>
+      <div class="tv-body">
+        <div class="tv-screen" id="tv-screen">
+          <span class="tv-osd" id="tv-osd">CH 02</span>
+          <div class="nolk" id="tv-text"><div><b id="tv-ch">CH 02</b><span id="tv-line"></span></div></div>
+          <canvas class="tv-static" id="tv-static" width="120" height="80"></canvas>
+        </div>
+        <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div>
+      </div>
+    </div>
+    <div class="zap-hint" id="zap-hint"><i></i><span data-t="s0.zap">Toca la tele · cambia de canal</span></div>
+    <div class="head">
+      <span class="kicker focus" data-t="s0.kicker">Una serie que solo se ve en persona</span>
+      <h1 class="focus d1"><b>Prime</b> <em>Time</em></h1>
+      <span class="tagline focus d2"><b>live now</b>, post later.</span>
+      <span class="host focus d2" id="host"></span>
+    </div>
+    <button class="start-btn" id="start"><span class="tap"></span><span data-t="s0.cta">Toca para empezar</span></button>
+    <div class="meta-row">
+      <span class="event" id="event-tag" hidden></span>
+      <span data-t="s0.time">≈ 1 minuto</span>
+      <span data-t="s0.steps">7 pasos</span>
+    </div>
+    <p class="legal" id="legal" data-t="s0.legal" hidden>Evento para mayores de 18 · Disfruta con responsabilidad.</p>
+  </section>
+
+  <!-- 01 · Who invited you -->
+  <section class="screen" id="sInv" data-name="nInv" aria-label="Quién te invitó">
+    <div class="head">
+      <span class="kicker" data-t="kInv">01 · Quién te invitó</span>
+      <h2 class="focus" data-t="tInv">¿Quién <em>te invitó?</em></h2>
+    </div>
+    <div class="invite" id="invite" role="group">
+      <button class="inv" data-id="pr"><span class="inv-ic">PR</span><span class="inv-t" data-t="inv.pr">PR</span><span class="inv-ck">✓</span></button>
+      <button class="inv" data-id="loomlock"><span class="inv-ic">LL</span><span class="inv-t" data-t="inv.loomlock">Loomlock team</span><span class="inv-ck">✓</span></button>
+      <button class="inv" data-id="donjulio"><span class="inv-ic">DJ</span><span class="inv-t" data-t="inv.donjulio">Don Julio team</span><span class="inv-ck">✓</span></button>
+      <button class="inv" data-id="bikini"><span class="inv-ic">B</span><span class="inv-t" data-t="inv.bikini">Bikini team</span><span class="inv-ck">✓</span></button>
+      <button class="inv" data-id="locky"><span class="inv-ic"><svg class="mp-locky" style="filter:none;width:64px;height:80px" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg></span><span class="inv-t" data-t="inv.locky">I wanted to meet Locky</span><span class="inv-ck">✓</span></button>
+    </div>
+    <p class="inv-msg" id="inv-msg" aria-live="polite"></p>
+  </section>
+
+  <!-- 01 · Qué es -->
+  <section class="screen" id="s1" data-name="n1" aria-label="Qué es Loomlock">
+    <div class="head">
+      <span class="kicker" data-t="k1">Qué es</span>
+      <h2 class="focus" data-t="q1.title">Un tap con tu key. <em>Apps en pausa.</em></h2>
+    </div>
+    <div class="cause" aria-hidden="true">
+      <div class="cz-key"><svg><use href="#waves"/></svg><b data-ch>CH 02</b><i></i></div>
+      <div class="cz-waves"><i></i><i></i><i></i></div>
+      <div class="cz-phone"><span class="cz-notch"></span><span class="cz-lock"><svg><use href="#lock-y"/></svg></span><span class="cz-lbl" data-t="q1.tapped">Tap</span></div>
+    </div>
+    <div class="split">
+      <div class="pane off">
+        <span class="pane-k"><svg><use href="#lock-y"/></svg><span data-t="q1.off">En pausa</span><span class="pk-when" data-t="q1.after">después del tap</span></span>
+        <div class="pane-icons">
+          <span class="pi" style="--d:.2s;background:linear-gradient(45deg,#FEDA75 0%,#FA7E1E 25%,#D62976 50%,#962FBF 75%,#4F5BD5 100%)"><svg viewBox="0 0 24 24" style="color:#fff"><use href="#ico-instagram"/></svg></span><span class="pi" style="--d:.35s;background:#000"><svg viewBox="0 0 24 24" class="tt" style="color:#fff"><use href="#ico-tiktok"/></svg></span><span class="pi" style="--d:.5s;background:#fff"><svg viewBox="0 0 24 24" style="color:#FF0000"><use href="#ico-youtube"/></svg></span><span class="pi" style="--d:.65s;background:#000"><svg viewBox="0 0 24 24" style="color:#fff"><use href="#ico-x"/></svg></span>
+        </div>
+      </div>
+      <div class="pane on">
+        <span class="pane-k"><span class="okdot">✓</span><span data-t="q1.on">Siempre funcionan</span><span class="pk-when" data-t="q1.always">igual que siempre</span></span>
+        <div class="pane-icons ess">
+          <span class="pe"><b style="background:#34C759"><svg viewBox="0 0 24 24" style="color:#fff"><use href="#ico-ph"/></svg></b><span data-t="q1.e1">Llamadas</span></span><span class="pe"><b style="background:#D1D1D6"><svg viewBox="0 0 24 24" style="color:#1C1C1E"><use href="#ico-cam"/></svg></b><span data-t="q1.e2">Cámara</span></span><span class="pe"><b style="background:linear-gradient(160deg,#B8EBA3,#8ED3F7)"><svg viewBox="0 0 24 24" style="color:#EA4335"><use href="#ico-mp"/></svg></b><span data-t="q1.e3">Mapas</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="hint"><i></i><span data-t="q1.watch">Mira: la key pausa tus apps</span></div>
+  </section>
+
+  <!-- 03 · Tu key -->
+  <section class="screen" id="s3" data-name="n3" aria-label="Tu key">
+    <div class="head">
+      <span class="kicker" data-t="k3">Tu key</span>
+      <h2 class="focus" data-t="t3">Esta es <em>tu key.</em></h2>
+    </div>
+    <div class="card-area" id="card-area"><i class="tp" style="left:84%;top:70%"></i>
+      <button class="nfc-card" id="card" aria-label="Dar vuelta la key">
+        <div class="face front">
+          <div class="holo"></div>
+          <span class="wm">loomlock experiences</span>
+          <svg class="waves"><use href="#waves"/></svg>
+          <span class="big-ch" id="card-ch">CH 02</span>
+          <div class="bar"><span data-t="s2.bar">live now, post later.</span></div>
+          <span class="ed" data-t="s2.edition">Edición limitada</span>
+          <span class="serial">Nº 0042 / 0200</span>
+          <div class="shine"></div>
+        </div>
+        <div class="face back">
+          <div class="chip-ic"></div>
+          <h3 data-t="s2.backt">Adentro hay <b>un chip NFC.</b></h3>
+          <p data-t="s2.back">Se acerca al celular. La app hace el resto.</p>
+        </div>
+      </button>
+    </div>
+    <div class="chips"><span data-t="c1">Chip NFC</span><span data-t="c2">Sin batería</span><span data-t="c3">Es tuya</span></div>
+    <div class="hint"><i></i><span data-t="s2.hint">Muévela · tócala · cambia la edición</span></div>
+  </section>
+
+  <!-- 02 · Pruébalo -->
+  <section class="screen" id="s2" data-name="n2" aria-label="Elige tus apps">
+    <div class="head">
+      <span class="kicker" data-t="k2">En la app</span>
+      <h2 class="focus" data-t="t2">Elige qué <em>se pausa.</em></h2>
+    </div>
+    <div class="flow" id="flow1"><span class="fp ok"><b>1</b><span data-t="f1">App</span></span><i class="fa on"></i><span class="fp now"><b>2</b><span data-t="f2">Elige</span></span><i class="fa"></i><span class="fp"><b>3</b><span data-t="f3">Tap</span></span></div>
+    <p class="instr" id="instr1"></p>
+    <div class="stage-area">
+      <div class="phone" id="phone1">
+        <div class="screen-in">
+          <div class="app-bar"><span class="ab-logo">loomlock</span><span class="ab-t" data-t="s1.appbar">Apps a pausar</span></div>
+          <div class="status" id="status1"></div>
+          <div class="apps" id="apps1"></div>
+          <div class="saved-banner"><span>✓</span><span id="saved-txt"></span></div>
+        </div>
+      </div>
+      <div class="next-tip" id="next-tip"><span class="nt-ico"><svg class="mp-locky" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg><svg><use href="#waves"/></svg></span><span data-t="s1.tip">La pausa empieza con un tap: tótem o key</span></div>
+    </div>
+    <button class="big-btn" id="try-lock"><span>Guardar</span></button>
+  </section>
+
+  <!-- 05 · El tap -->
+  <section class="screen" id="s5" data-name="n5" aria-label="Cómo activar la key">
+    <div class="head">
+      <span class="kicker" data-t="k5">El tap</span>
+      <h2 class="focus" data-t="t5">Un tap <em>y entras.</em></h2>
+    </div>
+    <div class="mode-pick" id="mode-pick" role="group">
+      <span class="mp-ask" data-t="s3.ask">¿Cómo quieres hacer tap?</span>
+      <button class="mp on" data-mode="totem"><svg class="mp-locky" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg><span data-t="s3.optTotem">Uso el tótem de Locky</span></button>
+      <button class="mp" data-mode="card"><svg><use href="#waves"/></svg><span data-t="s3.optCard">Tengo mi key</span></button>
+    </div>
+    <div class="flow" id="flow3"><span class="fp now"><b>1</b><span data-t="tf1">Tap: pausa</span></span><i class="fa"></i><span class="fp"><b>2</b><span data-t="tf2">Tap: vuelves</span></span></div>
+    <div class="drag-zone mode-totem" id="zone3">
+      <div class="totem" id="totem3" aria-label="Tótem de Locky"><i class="tp" style="left:50%;top:48%"></i>
+        <svg class="tt-waves" aria-hidden="true"><use href="#waves"/></svg>
+        <svg class="tt-locky" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg>
+        <div class="tt-base"><b class="totem-ch" data-ch>CH 02</b><span class="totem-name" id="totem-name">tótem de Locky</span></div>
+        <div class="target-ring"></div>
+        <div class="shock"></div><div class="shock s2"></div><div class="shock s3"></div>
+      </div>
+      <button class="drag-card" id="drag-card" aria-label="Key Loomlock: toca o arrastra hasta el celular"><i class="tp" style="left:50%;top:50%"></i>
+        <svg class="waves"><use href="#waves"/></svg>
+        <span class="mini-ch" data-ch>CH 02</span>
+        <span class="stripe"></span>
+      </button>
+      <svg class="down-arrow"><use href="#arrow-d"/></svg>
+      <div class="phone" id="phone3">
+        <div class="screen-in">
+          <div class="clock" data-clock>21:30</div>
+          <div class="status" id="status3" data-t="s3.status">Esperando tu key…</div>
+          <div class="apps" id="apps3"></div>
+          <div class="lock-banner"><svg><use href="#lock-y"/></svg><span data-t="s3.banner">Fuera del aire. Disfruta la noche.</span></div>
+        </div>
+        <div class="target-ring"></div>
+        <div class="shock"></div><div class="shock s2"></div><div class="shock s3"></div>
+      </div>
+    </div>
+    <div class="again-row">
+      <div class="hint" id="hint3"><i></i><span data-t="s3.hint">Arrastra la key hasta el celular</span></div>
+      <button class="reset-link" id="reset3" hidden data-t="s3.again">Probar otra vez</button>
+    </div>
+  </section>
+
+  <!-- 06 · Tu noche -->
+  <section class="screen" id="s6" data-name="n6" aria-label="Tu noche">
+    <div class="head">
+      <span class="kicker" data-t="k6">Tu noche</span>
+      <h2 class="focus" data-t="s4.title">Así se vive <em>la noche.</em></h2>
+    </div>
+    <div class="moments" id="moments">
+      <button class="moment on" data-i="0"><span class="ico lk"><svg viewBox="200 120 620 790"><use href="#locky"/></svg></span><span class="when" data-t="s4.w1">En la puerta</span><h3 data-t="s4.t1">Tap</h3><p data-t="s4.p1">Key o tótem</p></button>
+      <button class="moment" data-i="1"><i class="tp" style="left:92%;top:50%"></i><span class="ico"><svg><use href="#glass"/></svg></span><span class="when" data-t="s4.w2">Adentro</span><h3 data-t="s4.t2">Fuera del aire</h3><p data-t="s4.p2">Brinda, baila, conversa</p></button>
+      <button class="moment" data-i="2"><span class="ico"><svg><use href="#unlock"/></svg></span><span class="when" data-t="s4.w3">Al salir</span><h3 data-t="s4.t3">Otro tap</h3><p data-t="s4.p3">Tus apps vuelven</p></button>
+      <button class="moment" data-i="3"><span class="ico"><svg><use href="#photo"/></svg></span><span class="when" data-t="s4.w4">Después</span><h3 data-t="s4.t4">La galería</h3><p data-t="s4.p4">Tus fotos, en la app</p></button>
+    </div>
+    <div class="dial">
+      <div class="dial-times"><span>21:00</span><span>22:00</span><span>01:30</span><span data-t="s4.later">+2 días</span></div>
+      <div class="dial-track" id="dial"><div class="dial-fill" id="dial-fill"></div><button class="dial-thumb" id="dial-thumb" aria-label="Hora"><span id="dial-time">21:00</span></button></div>
+      <div class="hint"><i></i><span data-t="s4.hint">Toca un momento · arrastra la hora</span></div>
+    </div>
+  </section>
+
+  <!-- 07 · Mito o verdad + cierre -->
+  <section class="screen" id="s7" data-name="n7" aria-label="Mito o verdad">
+    <div class="head">
+      <span class="kicker" data-t="k7">Mito o verdad</span>
+      <h2 class="focus" data-t="t7">¿Mito <em>o verdad?</em></h2>
+    </div>
+    <div class="quiz" id="quiz">
+      <div class="qz-top"><span id="qz-n">1 / 5</span><span id="qz-score">0 ✓</span></div>
+      <p class="qz-q" id="qz-q"></p>
+      <div class="qz-btns" id="qz-btns"><button class="qz-b" data-a="0" data-t="s5.myth">Mito</button><button class="qz-b" data-a="1" data-t="s5.fact">Verdad</button></div>
+      <div class="qz-res" id="qz-res" hidden><span class="qz-verdict" id="qz-verdict"></span><p class="qz-a" id="qz-a"></p><button class="qz-next" id="qz-next"></button></div>
+      <div class="qz-stamp" id="qz-stamp"></div>
+    </div>
+    <div class="close-row">
+      <span class="close-line" data-t="s5.title">¿Listo? <em>Ve al tótem.</em></span>
+      <button class="big-btn" id="restart"><span data-t="s5.restart">¡Vamos!</span><svg><use href="#arrow"/></svg></button>
+    </div>
+    <div class="sign"><b>live now</b>, post later.</div>
+  </section>
+
+  <nav class="nav" id="nav" hidden>
+    <button class="nav-btn back" id="back"><svg><use href="#arrow-l"/></svg><span data-t="nav.back">Atrás</span></button>
+    <div class="lang" id="lang-nav" role="group" aria-label="Idioma / Language"></div>
+    <button class="nav-btn next" id="next"><span data-t="nav.next">Siguiente</span><svg><use href="#arrow"/></svg></button>
+  </nav>
+  <div class="lang lang-float" id="lang-float" role="group" aria-label="Idioma / Language">
+    <button data-lang="es" aria-pressed="true">ES</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+
+  <div class="tally" id="tally" hidden>
+    <div class="tally-box">
+      <h3 data-t="tally.title">Who invited them</h3>
+      <ul id="tally-list"></ul>
+      <p id="tally-st" style="margin:14px 0 0;font:700 26px var(--font-mono);opacity:.8;text-align:center"></p>
+      <div class="tally-btns"><button id="tally-copy" data-t="tally.copy">Copy</button><button id="tally-csv" data-t="tally.csv">CSV</button><button id="tally-reset" data-t="tally.reset">Reset</button><button id="tally-close" data-t="tally.close">Close</button></div>
+    </div>
+  </div>
+  <div class="osd" id="osd"><b id="osd-num">CH 01</b><span id="osd-name"></span></div>
+  <canvas id="fx" width="1080" height="1920"></canvas>
+  <canvas id="noise" width="216" height="384"></canvas>
+  <div class="sweep"></div>
+  <div class="scan"></div>
+  <div class="vignette"></div>
+  <div class="idle" id="idle" role="status"></div>
+  <div class="poweron" id="poweron"><i></i></div>
+ </div>
+</div>
+
+<script>
+(() => {
+  /* ===== Ajustes del evento ===== */
+  const CONFIG = {
+    evento: "",                        // etiqueta opcional en la portada (vacío = no se muestra)
+    canal: "CH 02",                    // canal de la temporada: está en la tele, la key, el tótem y el aviso de cada pantalla
+    anfitrion: "Tequila Don Julio",    // marca anfitriona del canal (va chica, como anfitriona)
+    aviso18: true,                     // muestra "Evento para mayores de 18" en la portada (marcas de alcohol)
+    idleSegundos: 60,    // sin toques por este tiempo → vuelve al inicio
+    sheetUrl: "",   // URL de la web app de Google Apps Script (ver apps-script/README.md); vacío = solo conteo local
+    idioma: "es"
+  };
+
+  const T = {
+    es: {
+      "kInv":"Quién te invitó","nInv":"Quién te invitó","tInv":"¿Quién <em>te invitó?</em>",
+      "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
+      "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
+      "inv.hint":"Toca una opción",
+      "tally.title":"Quién los invitó","tally.copy":"Copiar","tally.reset":"Reiniciar","tally.reset2":"¿Seguro?","tally.close":"Cerrar","tally.total":"Total","tally.copied":"Copiado","tally.csv":"Bajar CSV","tally.all":"Todas las pantallas","tally.local":"Solo esta pantalla (sin conexión)","tally.pending":"pendientes de subir","tally.reset":"Reiniciar esta pantalla",
+      "s1.saved":"Guardado ✓","s1.savedN":"{n} apps listas para pausar","s1.status0":"Ninguna elegida","s1.appbar":"Apps a pausar","s1.tip":"La pausa empieza con un tap: tótem o key",
+      "osd.off":"FUERA DEL AIRE","osd.on":"AL AIRE",
+      "k1":"Qué es","k2":"En la app","k3":"Tu key","k4":"Antes de llegar","k5":"El tap","k6":"Tu noche","k7":"Mito o verdad",
+      "n1":"Qué es","n2":"En la app","n3":"Tu key","n4":"Antes de llegar","n5":"El tap","n6":"Tu noche","n7":"Mito o verdad",
+      "q1.title":"Un tap con tu key. <em>Apps en pausa.</em>","q1.tapped":"Tap","q1.after":"después del tap","q1.always":"igual que siempre","q1.off":"En pausa","q1.on":"Siempre funcionan","q1.e1":"Llamadas","q1.e2":"Cámara","q1.e3":"Mapas","q1.tap":"Tu celular sigue contigo · o usa el tótem de Locky",
+      "t2":"Elige qué <em>se pausa.</em>","f1":"App","f2":"Elige","f3":"Tap",
+      "i1":"Abre la app y toca las que te distraen","i2":"Ahora toca Guardar","i3":"Listo. La pausa empieza con el tap.","s1.btnN":"Guardar {n}",
+      "t3":"Esta es <em>tu key.</em>","c1":"Chip NFC","c2":"Sin batería","c3":"Es tuya",
+      "t4":"Dos pasos <em>antes.</em>","p1":"Descarga la app","p1s":"Busca Loomlock en tu tienda","p2":"Elige tus apps","p2s":"Las que quieres pausar esta noche","p3":"¡Listo para el tap!","p.hint":"Toca cada paso",
+      "t5":"Un tap <em>y entras.</em>","tf1":"Tap: pausa","tf2":"Tap: vuelves",
+      "t7":"¿Mito <em>o verdad?</em>",
+            "s0.tape1":"el celular se queda contigo · apps en pausa · solo aquí","s0.tape2":"shots, not screenshots · live now, post later",
+      "s0.bubble":"¡Hola! Soy Locky","s0.tvline":"en vivo · solo aquí","s0.zap":"Toca la tele",
+      "s0.z1":"Lo que no se postea, se cuenta.","s0.z2":"Shots, not screenshots.","s0.z3":"Un trago que se toma mirando a alguien.",
+      "s0.legal":"Evento para mayores de 18 · Disfruta con responsabilidad.","s0.host":"Esta noche, con {h}",
+      "s0.kicker":"Una serie que solo se ve en persona",
+      "s0.cta":"Toca para empezar","s0.time":"≈ 1 minuto","s0.steps":"7 pasos",
+      "s1.kicker":"01 · Qué es loomlock","s1.name":"Qué es",
+      "s1.title":"El celular <em>se queda contigo.</em>",
+      "s1.lead":"Loomlock pausa solo las apps que tú eliges, con un tap. <b>Llamadas, cámara y mapas siguen funcionando.</b>",
+      "s1.btn":"Guardar","s1.btnOff":"Volver al aire","s1.stamp":"Fuera del aire",
+      "s1.status":"Toca las apps para elegir","s1.statusN":"{n} apps elegidas","s1.statusL":"{n} en pausa · llamadas OK",
+      "s1.ess":"Esta siempre funciona","s1.none":"Elige al menos una app",
+      "s1.banner":"Fuera del aire. Volvemos después.",
+      "s2.kicker":"02 · Tu key","s2.name":"Tu key","s2.title":"Una key, <em>muchas puertas.</em>",
+      "s2.bar":"live now, post later.",
+      "s2.f1t":"Chip NFC","s2.f1":"El mismo del pago sin contacto.",
+      "s2.f2t":"Sin batería","s2.f2":"Funciona apenas la acercas.",
+      "s2.f3t":"Pausa y reactiva","s2.f3":"Un tap cierra o abre tus apps.",
+      "s2.f4t":"Coleccionable","s2.f4":"Cada edición abre una puerta nueva.",
+      "s2.edition":"Edición limitada","s2.backt":"Adentro hay <b>un chip NFC.</b>",
+      "s2.back":"Se acerca al celular. La app hace el resto.",
+      "s2.hint":"Toca la key para darle la vuelta","q1.watch":"Mira: la key pausa tus apps","s2.pick":"Elige tu edición",
+      "s3.kicker":"03 · Cómo activarla","s3.name":"El tap","s3.title":"Un tap <em>y estás adentro.</em>",
+      "s3.st1":"Descarga la app Loomlock","s3.st2":"Elige qué apps pausar",
+      "s3.st3":"Acerca la key al celular","s3.st4":"Para volver, otro tap",
+      "s3.hint":"Arrastra la key al celular","s3.hint2":"Ahora otra vez: vuelve al aire","s3.ask":"¿Cómo quieres hacer tap?","s3.optCard":"Tengo mi key","s3.optTotem":"Uso el tótem de Locky",
+      "s3.st3t":"Acerca tu celular al tótem","s3.hintT":"Arrastra el celular hasta el tótem","s3.statusT":"Acércalo al tótem…","s3.totem":"tótem de Locky","s3.again":"Probar otra vez",
+      "s3.status":"Esperando tu key…","s3.statusOk":"Key detectada ✓","s3.statusBack":"De vuelta al aire ✓","s3.banner":"Fuera del aire. Disfruta la noche.",
+      "s4.kicker":"04 · Tu noche","s4.name":"Tu noche","s4.title":"Así se vive <em>la noche.</em>","s4.hint":"Toca un momento","s4.later":"+2 días",
+      "s4.w1":"En la puerta","s4.t1":"Tap","s4.p1":"Key o tótem",
+      "s4.m1":"Tus apps quedan en pausa. El celular sigue contigo.",
+      "s4.w2":"Adentro","s4.t2":"Fuera del aire","s4.p2":"Brinda, baila, conversa",
+      "s4.m2":"Sin notificaciones que te saquen del momento.",
+      "s4.w3":"Al salir","s4.t3":"Otro tap","s4.p3":"Tus apps vuelven",
+      "s4.m3":"La key te la llevas a casa.",
+      "s4.w4":"Después","s4.t4":"La galería","s4.p4":"Tus fotos, en la app",
+      "s4.m4":"Las toma nuestro fotógrafo. Tú solo vives la noche.",
+      "s5.kicker":"05 · Antes de entrar","s5.name":"Antes de entrar","s5.title":"¿Listo? <em>Ve al tótem.</em>",
+      "s5.soon":"Próximamente",
+      "s5.restart":"¡Vamos!","s5.quizname":"Mito o verdad","s5.myth":"Mito","s5.fact":"Verdad","s5.right":"Bien","s5.wrong":"Casi",
+      "s5.nextq":"Siguiente →","s5.see":"Ver resultado →","s5.again":"Jugar otra vez","s5.ready":"Ya estás listo para entrar.",
+      "quiz":[{q:"Loomlock bloquea todo tu celular.",a:0,x:"Solo pausa las apps que eliges. Llamadas, cámara y mapas siguen funcionando."},
+        {q:"Con las apps en pausa puedes recibir llamadas.",a:1,x:"Las llamadas nunca se pausan."},
+        {q:"La key necesita batería.",a:0,x:"Funciona por cercanía, como el pago sin contacto. Sin batería ni carga."},
+        {q:"Si no tienes key, igual puedes entrar.",a:1,x:"Acerca tu celular al tótem de Locky y listo."},
+        {q:"La key es tuya y es coleccionable.",a:1,x:"Te la llevas a casa. Cada edición abre una puerta nueva."}],
+      "s5.q1":"¿Se bloquea todo mi celular?","s5.a1":"No. Solo las apps que eliges. Llamadas, cámara y mapas siguen funcionando.",
+      "s5.q2":"¿Y si tengo una emergencia?","s5.a2":"Las llamadas nunca se pausan. Siempre puedes llamar y contestar.",
+      "s5.q3":"¿Me quedo con la key?","s5.a3":"Sí, es tuya y es coleccionable. Úsala en casa o donde quieras.",
+      "s5.q4":"¿La key necesita internet?","s5.a4":"No. Funciona por cercanía, como el pago sin contacto.",
+      "nav.back":"Atrás","nav.next":"Siguiente","nav.end":"Listo",
+      "idle":"¿Sigues ahí? Volvemos al inicio en {s} s",
+      "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",cam:"Cámara",mp:"Mapas"}
+    },
+    en: {
+      "kInv":"Who invited you","nInv":"Who invited you","tInv":"Who <em>invited you?</em>",
+      "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
+      "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
+      "inv.hint":"Tap an option",
+      "tally.title":"Who invited them","tally.copy":"Copy","tally.reset":"Reset","tally.reset2":"Sure?","tally.close":"Close","tally.total":"Total","tally.copied":"Copied","tally.csv":"Get CSV","tally.all":"All screens","tally.local":"This screen only (offline)","tally.pending":"waiting to sync","tally.reset":"Reset this screen",
+      "s1.saved":"Saved ✓","s1.savedN":"{n} apps ready to pause","s1.status0":"None picked","s1.appbar":"Apps to pause","s1.tip":"The pause starts with a tap: totem or key",
+      "osd.off":"OFF AIR","osd.on":"ON AIR",
+      "k1":"What it is","k2":"In the app","k3":"Your key","k4":"Before you arrive","k5":"The tap","k6":"Your night","k7":"Myth or fact",
+      "n1":"What it is","n2":"In the app","n3":"Your key","n4":"Before you arrive","n5":"The tap","n6":"Your night","n7":"Myth or fact",
+      "q1.title":"Tap your key. <em>Apps pause.</em>","q1.tapped":"Tap","q1.after":"after the tap","q1.always":"as always","q1.off":"Paused","q1.on":"Always on","q1.e1":"Calls","q1.e2":"Camera","q1.e3":"Maps","q1.tap":"Your phone stays with you · or use Locky’s totem",
+      "t2":"Pick what <em>gets paused.</em>","f1":"App","f2":"Pick","f3":"Tap",
+      "i1":"Open the app and tap the ones that distract you","i2":"Now tap Save","i3":"Done. The pause starts with the tap.","s1.btnN":"Save {n}",
+      "t3":"This is <em>your key.</em>","c1":"NFC chip","c2":"No battery","c3":"It's yours",
+      "t4":"Two steps <em>before.</em>","p1":"Get the app","p1s":"Search Loomlock in your store","p2":"Pick your apps","p2s":"The ones to pause tonight","p3":"Ready for the tap!","p.hint":"Tap each step",
+      "t5":"One tap <em>and you're in.</em>","tf1":"Tap: pause","tf2":"Tap: back",
+      "t7":"Myth <em>or fact?</em>",
+            "s0.tape1":"phone in · apps off · just here","s0.tape2":"shots, not screenshots · live now, post later",
+      "s0.bubble":"Hi! I'm Locky","s0.tvline":"live · in person only","s0.zap":"Tap the TV",
+      "s0.z1":"What isn't posted gets told.","s0.z2":"Shots, not screenshots.","s0.z3":"A drink you share looking at someone.",
+      "s0.legal":"18+ event · Enjoy responsibly.","s0.host":"Tonight, with {h}",
+      "s0.kicker":"A series you can only watch in person",
+      "s0.cta":"Tap to start","s0.time":"≈ 1 minute","s0.steps":"7 steps",
+      "s1.kicker":"01 · What is loomlock","s1.name":"What is it",
+      "s1.title":"Your phone <em>stays with you.</em>",
+      "s1.lead":"Loomlock pauses only the apps you choose, with one tap. <b>Calls, camera and maps keep working.</b>",
+      "s1.btn":"Save","s1.btnOff":"Back on air","s1.stamp":"Off air",
+      "s1.status":"Tap apps to choose","s1.statusN":"{n} apps chosen","s1.statusL":"{n} paused · calls OK",
+      "s1.ess":"This one always works","s1.none":"Choose at least one app",
+      "s1.banner":"Off air. Back later.",
+      "s2.kicker":"02 · Your key","s2.name":"Your key","s2.title":"One key, <em>many doors.</em>",
+      "s2.bar":"live now, post later.",
+      "s2.f1t":"NFC chip","s2.f1":"Same as contactless payment.",
+      "s2.f2t":"No battery","s2.f2":"Works the moment it touches.",
+      "s2.f3t":"Pause and resume","s2.f3":"One tap closes or opens your apps.",
+      "s2.f4t":"Collectible","s2.f4":"Every edition opens a new door.",
+      "s2.edition":"Limited edition","s2.backt":"There's <b>an NFC chip inside.</b>",
+      "s2.back":"Hold it to your phone. The app does the rest.",
+      "s2.hint":"Tap the key to flip it","q1.watch":"Watch: the key pauses your apps","s2.pick":"Pick your edition",
+      "s3.kicker":"03 · How to activate it","s3.name":"The tap","s3.title":"One tap <em>and you're in.</em>",
+      "s3.st1":"Get the Loomlock app","s3.st2":"Choose apps to pause",
+      "s3.st3":"Tap the key to your phone","s3.st4":"To come back, tap again",
+      "s3.hint":"Drag the key onto the phone","s3.hint2":"Again: go back on air","s3.ask":"How do you want to tap?","s3.optCard":"I have my key","s3.optTotem":"Locky's totem",
+      "s3.st3t":"Hold your phone to the totem","s3.hintT":"Drag the phone onto the totem","s3.statusT":"Hold it to the totem…","s3.totem":"Locky's totem","s3.again":"Try again",
+      "s3.status":"Waiting for your key…","s3.statusOk":"Key detected ✓","s3.statusBack":"Back on air ✓","s3.banner":"Off air. Enjoy the night.",
+      "s4.kicker":"04 · Your night","s4.name":"Your night","s4.title":"This is <em>the night.</em>","s4.hint":"Tap a moment","s4.later":"+2 days",
+      "s4.w1":"At the door","s4.t1":"Tap","s4.p1":"Key or totem",
+      "s4.m1":"Your apps go on pause. Your phone stays with you.",
+      "s4.w2":"Inside","s4.t2":"Off air","s4.p2":"Toast, dance, talk",
+      "s4.m2":"No notifications pulling you out.",
+      "s4.w3":"On your way out","s4.t3":"Tap again","s4.p3":"Your apps return",
+      "s4.m3":"The key is yours to take home.",
+      "s4.w4":"After","s4.t4":"The gallery","s4.p4":"Your photos, in the app",
+      "s4.m4":"Our photographer takes them. You just live the night.",
+      "s5.kicker":"05 · Before you go in","s5.name":"Before you go in","s5.title":"Ready? <em>Head to the totem.</em>",
+      "s5.soon":"Coming soon",
+      "s5.restart":"Let's go!","s5.quizname":"Myth or fact","s5.myth":"Myth","s5.fact":"Fact","s5.right":"Nice","s5.wrong":"Close",
+      "s5.nextq":"Next →","s5.see":"See result →","s5.again":"Play again","s5.ready":"You're ready to go in.",
+      "quiz":[{q:"Loomlock locks your whole phone.",a:0,x:"It only pauses the apps you choose. Calls, camera and maps keep working."},
+        {q:"With apps on pause you can still get calls.",a:1,x:"Calls are never paused."},
+        {q:"The key needs a battery.",a:0,x:"It works by proximity, like contactless payment. No battery, no charging."},
+        {q:"No key? You can still get in.",a:1,x:"Hold your phone to Locky's totem and you're set."},
+        {q:"The key is yours and it's collectible.",a:1,x:"You take it home. Every edition opens a new door."}],
+      "s5.q1":"Does it lock my whole phone?","s5.a1":"No. Only the apps you choose. Calls, camera and maps keep working.",
+      "s5.q2":"What if there's an emergency?","s5.a2":"Calls are never paused. You can always call and answer.",
+      "s5.q3":"Do I keep the key?","s5.a3":"Yes, it's yours and it's collectible. Use it at home or anywhere.",
+      "s5.q4":"Does the key need internet?","s5.a4":"No. It works by proximity, like contactless payment.",
+      "nav.back":"Back","nav.next":"Next","nav.end":"Done",
+      "idle":"Still there? Back to start in {s} s",
+      "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Games",ph:"Calls",cam:"Camera",mp:"Maps"}
+    }
+  };
+
+  const IG = "linear-gradient(45deg,#FEDA75 0%,#FA7E1E 25%,#D62976 50%,#962FBF 75%,#4F5BD5 100%)";
+  const APPS = [
+    {id:"ig", ico:"instagram", bg:IG,        fg:"#fff",    sel:false},
+    {id:"tt", ico:"tiktok",    bg:"#000",    fg:"#fff",    sel:false, tt:true},
+    {id:"x",  ico:"x",         bg:"#000",    fg:"#fff",    sel:false},
+    {id:"yt", ico:"youtube",   bg:"#fff",    fg:"#FF0000", sel:false},
+    {id:"fb", ico:"facebook",  bg:"#fff",    fg:"#1877F2", sel:false},
+    {id:"gm", ico:"gm",        bg:"#7B61FF", fg:"#fff",    sel:false},
+    {id:"ph", ico:"ph",        bg:"#34C759", fg:"#fff",    ess:true},
+    {id:"cam",ico:"cam",       bg:"#D1D1D6", fg:"#1C1C1E", ess:true},
+    {id:"mp", ico:"mp",        bg:"linear-gradient(160deg,#B8EBA3,#8ED3F7)", fg:"#EA4335", ess:true}
+  ];
+
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let lang = CONFIG.idioma, cur = 0;
+  const screens = $$(".screen"), N = screens.length - 1;
+  const s9 = $("#s9");
+  const t = (k, v={}) => (T[lang][k] ?? T.es[k] ?? k).replace(/\{(\w+)\}/g, (_, x) => v[x]);
+  if (!CONFIG.locky) s9.classList.add("no-locky");
+  const ZAP = [null, {k:"z1"}, {k:"z2"}, {k:"z3"}];   // every zap stays on this night's channel
+  $$("[data-ch]").forEach(e => e.textContent = CONFIG.canal);
+  $("#tv-osd").textContent = CONFIG.canal;
+
+  /* ---------- fit 1080×1920 into any screen ---------- */
+  let K = 1;
+  function fit(){ K = Math.min(innerWidth / 1080, innerHeight / 1920); s9.style.setProperty("--k", K) }
+  fit(); addEventListener("resize", fit);
+  const local = (x, y) => { const r = s9.getBoundingClientRect(); return {x:(x - r.left)/K, y:(y - r.top)/K} };
+
+  /* ---------- TV grain / static ---------- */
+  const nz = $("#noise"), nx = nz.getContext("2d"), img = nx.createImageData(216, 384);
+  let lastN = 0;
+  function drawNoise(ts){
+    if (ts - lastN > 70){
+      lastN = ts;
+      const d = img.data;
+      for (let i = 0; i < d.length; i += 4){ const v = Math.random()*255|0; d[i] = d[i+1] = d[i+2] = v; d[i+3] = 255 }
+      nx.putImageData(img, 0, 0);
+    }
+    if (!reduce) requestAnimationFrame(drawNoise);
+  }
+  requestAnimationFrame(drawNoise);
+  /* the TV on CH 00: tap to zap channels (Locky only shows up on the home channel) */
+  const tvScreen = $("#tv-screen"), tvSt = $("#tv-static"), tvx = tvSt.getContext("2d"), tvImg = tvx.createImageData(120, 80);
+  let zapI = 0, zapping = false;
+  function drawTvStatic(){
+    const d = tvImg.data; for (let i = 0; i < d.length; i += 4){ const v = Math.random()*255|0; d[i] = d[i+1] = d[i+2] = v; d[i+3] = 255 }
+    tvx.putImageData(tvImg, 0, 0); if (zapping) requestAnimationFrame(drawTvStatic);
+  }
+  function renderTv(){
+    const z = ZAP[zapI], home = !z;
+    $("#tv-osd").textContent = CONFIG.canal + " · " + (zapI + 1) + "/" + ZAP.length;
+    $("#tv-ch").textContent = CONFIG.canal;
+    $("#tv-line").textContent = t(home ? "s0.tvline" : "s0." + z.k);
+  }
+  function zap(){
+    zapI = (zapI + 1) % ZAP.length;
+    zapping = true; tvScreen.classList.add("zap"); drawTvStatic();
+    $$(".tv-strip .knobs i")[0].style.transform = `rotate(${zapI*90}deg)`;
+    setTimeout(() => { renderTv(); tvScreen.classList.remove("zap"); zapping = false }, reduce ? 0 : 280);
+  }
+  $("#tv").addEventListener("click", e => { e.stopPropagation(); zap(); $("#zap-hint").style.opacity = 0 });
+  function staticBurst(ms=260){ if (reduce) return; nz.classList.add("burst"); setTimeout(() => nz.classList.remove("burst"), ms) }
+  function powerOn(){ if (reduce) return; const p = $("#poweron"); p.classList.remove("go"); void p.offsetWidth; p.classList.add("go") }
+
+  /* ---------- fx: padlock confetti ---------- */
+  const fx = $("#fx"), fc = fx.getContext("2d");
+  let parts = [], fxOn = false;
+  const COLS = ["#FCCE21","#EFEBE3","#9fd8ff","#0B0B10","#2F3AD0"];
+  function burst(x, y, n=70, spread=1){
+    if (reduce) return;
+    for (let i = 0; i < n; i++){
+      const a = Math.random()*Math.PI*2, v = (8 + Math.random()*18)*spread;
+      parts.push({x, y, vx:Math.cos(a)*v, vy:Math.sin(a)*v - 10, r:Math.random()*Math.PI, vr:(Math.random()-.5)*.3,
+        s:16 + Math.random()*20, c:COLS[i % COLS.length], lock:Math.random() < .45, life:1});
+    }
+    if (!fxOn){ fxOn = true; requestAnimationFrame(stepFx) }
+  }
+  function lockShape(s, c){
+    fc.lineWidth = s*.16; fc.strokeStyle = c; fc.fillStyle = c;
+    fc.beginPath(); fc.arc(0, -s*.15, s*.28, Math.PI, 0); fc.stroke();
+    fc.beginPath(); if (fc.roundRect) fc.roundRect(-s*.42, -s*.15, s*.84, s*.62, s*.14); else fc.rect(-s*.42, -s*.15, s*.84, s*.62); fc.fill();
+  }
+  function stepFx(){
+    fc.clearRect(0, 0, 1080, 1920);
+    parts = parts.filter(p => p.life > 0 && p.y < 2000);
+    parts.forEach(p => {
+      p.vy += .7; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life -= .009;
+      fc.save(); fc.globalAlpha = Math.min(1, p.life*2); fc.translate(p.x, p.y); fc.rotate(p.r);
+      if (p.lock) lockShape(p.s*1.5, p.c); else { fc.fillStyle = p.c; fc.fillRect(-p.s/2, -p.s/4, p.s, p.s/2) }
+      fc.restore();
+    });
+    if (parts.length) requestAnimationFrame(stepFx); else { fxOn = false; fc.clearRect(0, 0, 1080, 1920) }
+  }
+  const centerOf = el => { const r = el.getBoundingClientRect(); return local(r.left + r.width/2, r.top + r.height/2) };
+  function rumble(el){ el.classList.remove("rumble"); void el.offsetWidth; el.classList.add("rumble") }
+
+  /* ---------- language toggle (floats on CH 00, sits in the nav after) ---------- */
+  const langBox = $("#lang-float"), langNav = $("#lang-nav");
+  langBox.addEventListener("click", e => { const b = e.target.closest("[data-lang]"); if (!b) return; e.stopPropagation(); lang = b.dataset.lang; applyLang() });
+  function placeLang(){ if (cur === 0){ langBox.classList.add("lang-float"); s9.appendChild(langBox) } else { langBox.classList.remove("lang-float"); langNav.appendChild(langBox) } }
+
+  /* ---------- i18n ---------- */
+  function applyLang(){
+    document.documentElement.lang = lang;
+    $$("[data-t]").forEach(el => { el.innerHTML = t(el.dataset.t) });
+    $$("[data-tape]").forEach(el => { el.innerHTML = `<span>${t(el.dataset.tape)}</span>`.repeat(6) });
+    screens.forEach((sc, i) => { const k = sc.querySelector(".kicker"); if (k && i > 0) k.textContent = `0${i} · ` + k.textContent.replace(/^\d+ · /, "") });
+    $$(".screen h2").forEach(splitWords);
+    $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+    $$(".app-tile").forEach(b => { b.querySelector(".nm").textContent = T[lang].apps[b.dataset.id] });
+    $("#host").textContent = t("s0.host", {h:CONFIG.anfitrion}); $("#host").hidden = !CONFIG.anfitrion;
+    $("#totem-name").textContent = t("s3.totem");
+    refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz(); renderInvite();
+  }
+
+  /* ---------- channel changes ---------- */
+  let osdT;
+  function flashOsd(big, small, alert){
+    const o = $("#osd"); $("#osd-num").textContent = big; $("#osd-name").textContent = small || "";
+    o.classList.toggle("alert", !!alert); o.classList.remove("show"); void o.offsetWidth; o.classList.add("show");
+    s9.classList.add("osd-on"); clearTimeout(osdT); osdT = setTimeout(() => s9.classList.remove("osd-on"), 1600);
+  }
+  document.addEventListener("pointerdown", e => { const sc = e.target.closest(".screen"); if (sc) sc.classList.add("touched") }, true);
+  function go(i){
+    if (i === cur || i < 0 || i > N) return;
+    const prev = screens[cur];
+    screens.forEach(x => x.classList.remove("touched"));
+    s9.classList.toggle("dir-back", i < cur);
+    prev.classList.remove("active"); prev.classList.add("out");
+    setTimeout(() => prev.classList.remove("out"), 240);
+    cur = i;
+    staticBurst(); clearReady(); armReady();
+    [...screens[cur].children].forEach((c, k) => c.style.setProperty("--n", k));
+    if (screens[cur].contains(phone3) && !phase3) syncApps3();
+    setTimeout(() => {
+      screens[cur].classList.add("active");
+      if (screens[cur].contains(dial)) setTimeout(() => placeWalker(activeMoment()), 60);
+    }, reduce ? 0 : 200);
+    updateNav(); placeLang();
+    if (cur > 0){
+      flashOsd(CONFIG.canal, `0${cur} · ` + t(screens[cur].dataset.name));
+    }
+  }
+  function updateNav(){
+    $("#nav").hidden = cur === 0;
+    $("#back").disabled = cur <= 1;
+    $("#next").querySelector("span").textContent = cur === N ? t("nav.end") : t("nav.next");
+    $("#ch-num").textContent = CONFIG.canal;
+  }
+  $("#s0").addEventListener("click", () => go(1));
+  $("#back").onclick = () => go(cur - 1);
+  $("#next").onclick = () => cur === N ? finish() : go(cur + 1);
+  $("#restart").onclick = finish;
+  let finishing = false;
+  function finish(){
+    if (finishing) return; finishing = true;
+    const c = centerOf($("#restart"));
+    burst(c.x, c.y, 140, 1.3); burst(540, 700, 80, 1);
+    setTimeout(() => { finishing = false; resetAll() }, 1500);
+  }
+
+  /* ---------- clock ---------- */
+  function tick(){ const d = new Date(); const s = d.toLocaleTimeString("es", {hour:"2-digit", minute:"2-digit", hour12:false}); $$("[data-clock]").forEach(c => c.textContent = s) }
+  tick(); setInterval(tick, 15000);
+
+  /* ---------- CH 01: choose & pause ---------- */
+  function buildApps(host, interactive){
+    host.innerHTML = "";
+    APPS.forEach((a, i) => {
+      const b = document.createElement(interactive ? "button" : "div");
+      b.className = "app-tile" + (a.ess ? " ess" : "") + (a.sel ? " sel" : "");
+      b.dataset.id = a.id;
+      const d = `transition-delay:${i*50}ms;--td:${i*50}ms`;
+      b.innerHTML = `<span class="ic" style="background:${a.bg};${d}"><svg viewBox="0 0 24 24" class="${a.tt ? "tt" : ""}" style="color:${a.fg}"><use href="#ico-${a.ico}"/></svg></span><span class="badge" style="${d}"><svg viewBox="0 0 24 24"><use href="#lock-y"/></svg></span><span class="nm"></span>`;
+      if (interactive && i === 0) b.insertAdjacentHTML("beforeend", '<i class="tp" style="left:78%;top:78%"></i>');
+      host.appendChild(b);
+    });
+  }
+  buildApps($("#apps1"), true); buildApps($("#apps3"), false);
+  const phone1 = $("#phone1");
+  $("#apps1").addEventListener("click", e => {
+    const b = e.target.closest(".app-tile"); if (!b) return;
+    if (b.classList.contains("ess")){ b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); flashStatus(t("s1.ess")); return }
+    b.classList.toggle("sel");
+    if (saved1){ saved1 = false; phone1.classList.remove("is-saved"); $("#next-tip").classList.remove("on") }
+    refresh1();
+  });
+  let flashT;
+  function flashStatus(msg){ $("#status1").textContent = msg; clearTimeout(flashT); flashT = setTimeout(refresh1, 1600) }
+  let lastSub = 0, lastCount = 0;
+  function refresh1(){
+    const n = $$("#apps1 .app-tile.sel").length, sub = saved1 ? 2 : 1;
+    $("#status1").textContent = n ? t("s1.statusN", {n}) : t("s1.status0");
+    $$("#flow1 .fp").forEach((f, i) => f.className = "fp" + (i < sub ? " ok" : (i === sub ? " now" : "")));
+    $$("#flow1 .fa").forEach((f, i) => f.classList.toggle("on", i < sub));
+    const btn = $("#try-lock");
+    if (n !== lastCount){ btn.classList.remove("bump"); void btn.offsetWidth; btn.classList.add("bump"); lastCount = n }
+    const ins = $("#instr1"), key = saved1 ? "i3" : (n ? "i2" : "i1"); ins.textContent = t(key);
+    if (key !== lastSub){ ins.classList.remove("in"); void ins.offsetWidth; ins.classList.add("in"); lastSub = key }
+    btn.querySelector("span").textContent = saved1 ? t("s1.saved") : (n ? t("s1.btnN", {n}) : t("s1.btn"));
+    btn.classList.toggle("is-on", saved1);
+    btn.disabled = !n;
+    $("#saved-txt").textContent = t("s1.savedN", {n});
+  }
+
+  let saved1 = false;
+  function save1(){
+    const n = $$("#apps1 .app-tile.sel").length;
+    if (!n){ flashStatus(t("s1.none")); return }
+    saved1 = true; phone1.classList.add("is-saved"); syncApps3(); refresh1();
+    $("#next-tip").classList.add("on"); markReady(); vib(15);
+    const c = centerOf(phone1); burst(c.x, c.y + 200, 45, .9);
+  }
+  $("#try-lock").onclick = save1;
+  /* the tap screen pauses exactly the apps picked here */
+  function syncApps3(){
+    let ids = $$("#apps1 .app-tile.sel").map(b => b.dataset.id);
+    if (!ids.length) ids = ["ig", "tt", "yt"];
+    $$("#apps3 .app-tile").forEach(b => b.classList.toggle("sel", ids.includes(b.dataset.id)));
+  }
+
+  /* ---------- CH 02: holo key ---------- */
+  const card = $("#card"), area = $("#card-area");
+  let tiltMoved = false, tiltStart = null;
+  function tilt(e){
+    const r = card.getBoundingClientRect();
+    const px = Math.max(0, Math.min(1, (e.clientX - r.left)/r.width)), py = Math.max(0, Math.min(1, (e.clientY - r.top)/r.height));
+    card.style.setProperty("--ry", ((px - .5)*34) + "deg"); card.style.setProperty("--rx", ((.5 - py)*26) + "deg");
+    card.style.setProperty("--hx", px*100 + "%"); card.style.setProperty("--hy", py*100 + "%");
+    card.style.setProperty("--ha", (px*240) + "deg"); card.style.setProperty("--sh", (20 + px*60) + "%");
+  }
+  area.addEventListener("pointerdown", e => { tiltStart = {x:e.clientX, y:e.clientY}; tiltMoved = false; card.classList.add("tilting"); tilt(e) });
+  area.addEventListener("pointermove", e => {
+    if (!tiltStart && e.pointerType !== "mouse") return;
+    if (tiltStart && Math.hypot(e.clientX - tiltStart.x, e.clientY - tiltStart.y) > 14) tiltMoved = true;
+    card.classList.add("tilting"); tilt(e);
+  });
+  const untilt = () => { tiltStart = null; card.classList.remove("tilting"); ["--rx","--ry"].forEach(p => card.style.setProperty(p, "0deg")) };
+  area.addEventListener("pointerup", untilt); area.addEventListener("pointerleave", untilt); area.addEventListener("pointercancel", untilt);
+  card.addEventListener("click", () => {
+    if (tiltMoved){ tiltMoved = false; return }
+    card.classList.toggle("flipped"); markReady();
+    const c = centerOf(card); burst(c.x, c.y, 30, .7);
+  });
+  let sh = 0;
+  setInterval(() => { if (screens[cur].contains(card) && !tiltStart){ sh += .5; const px = .5 + Math.sin(sh)*.5; card.style.setProperty("--ha", px*240 + "deg"); card.style.setProperty("--sh", (20 + px*60) + "%") } }, 120);
+
+  /* ---------- CH 03: drag the key onto the phone ---------- */
+  const zone = $("#zone3"), dcard = $("#drag-card"), phone3 = $("#phone3");
+  let phase3 = 0, done3 = false, drag = null, back3, hit3;   // 0: lock next · 1: unlock next · 2: finished
+  function refresh3(){
+    $("#status3").textContent = t(["s3.status","s3.statusOk","s3.statusBack"][phase3]);
+    $$("#flow3 .fp").forEach((f, i) => f.className = "fp" + (i < phase3 ? " ok" : (i === phase3 ? " now" : "")));
+    $$("#flow3 .fa").forEach((f, i) => f.classList.toggle("on", i < phase3));
+    if (phase3) markReady();
+    $("#hint3").hidden = phase3 === 2; $("#reset3").hidden = phase3 !== 2;
+    const T3 = mode3 === "totem";
+    $("#hint3 span").textContent = t(phase3 === 1 ? "s3.hint2" : (T3 ? "s3.hintT" : "s3.hint"));
+    if (!phase3) $("#status3").textContent = t(T3 ? "s3.statusT" : "s3.status");
+    done3 = phase3 === 2;
+  }
+  const totem = $("#totem3");
+  let mode3 = "totem";
+  const mover = () => mode3 === "card" ? dcard : phone3;
+  const target = () => mode3 === "card" ? phone3 : totem;
+  function overPhone(){
+    const a = mover().getBoundingClientRect(), p = target().getBoundingClientRect();
+    const cx = mode3 === "card" ? a.left + a.width/2 : a.left + a.width*.25, cy = a.top + a.height/2;
+    const pad = mode3 === "card" ? 0 : 60;
+    return cx > p.left - pad && cx < p.right + pad && cy > p.top - a.height*.3 && cy < p.bottom + pad;
+  }
+  function lock3(){
+    if (phase3 === 2) return;
+    zone.classList.remove("hover");
+    const mv = mover(), a = mv.getBoundingClientRect(), p = target().getBoundingClientRect();
+    const m = mv.style.transform.match(/translate\(([-\d.]+)px, ([-\d.]+)px\)/);
+    const bx0 = m ? +m[1] : 0, by0 = m ? +m[2] : 0;
+    if (mode3 === "card"){
+      const dx = ((p.left + p.width/2) - (a.left + a.width/2))/K + bx0;
+      const dy = ((p.top + p.height*.3) - (a.top + a.height/2))/K + by0;
+      mv.style.transform = `translate(${dx}px, ${dy}px) rotate(-6deg) scale(.92)`;
+    } else {
+      const dx = ((p.left + p.width*.55) - a.left)/K + bx0;
+      const dy = ((p.top + p.height*.12) - (a.top + a.height*.18))/K + by0;
+      mv.style.transform = `translate(${dx}px, ${dy}px) rotate(5deg) scale(.94)`;
+    }
+    const unlocking = phase3 === 1;
+    clearTimeout(hit3); clearTimeout(back3);
+    hit3 = setTimeout(() => {
+      zone.classList.toggle("done", !unlocking); zone.classList.toggle("back", unlocking);
+      phase3 = unlocking ? 2 : 1; refresh3(); rumble(phone3); staticBurst(160); vib(30);
+      flashOsd(unlocking ? t("osd.on") : t("osd.off"), "", !unlocking);
+      const c = mode3 === "card" ? centerOf(phone3) : centerOf($(".tt-locky")); burst(c.x, c.y - (mode3 === "card" ? 120 : 0), unlocking ? 50 : 90, 1.1);
+    }, 300);
+    back3 = setTimeout(() => { mv.style.transform = ""; dcard.classList.toggle("used", phase3 === 2 && mode3 === "card") }, 1500);
+  }
+  function reset3(){ clearTimeout(back3); clearTimeout(hit3); phase3 = 0; zone.classList.remove("done", "hover", "back"); dcard.classList.remove("used"); dcard.style.transform = ""; phone3.style.transform = ""; refresh3() }
+  $("#mode-pick").addEventListener("click", e => {
+    const b = e.target.closest(".mp"); if (!b || b.dataset.mode === mode3) return;
+    mode3 = b.dataset.mode;
+    $$(".mp").forEach(x => x.classList.toggle("on", x === b));
+    zone.classList.toggle("mode-totem", mode3 === "totem");
+    staticBurst(140); reset3();
+  });
+  $("#reset3").onclick = reset3;
+  function startDrag(e){
+    const mv = e.currentTarget;
+    if (mv !== mover() || done3 || mv.style.transform) return;
+    mv.setPointerCapture(e.pointerId);
+    drag = {x:e.clientX, y:e.clientY, moved:false, el:mv};
+    mv.classList.add("dragging");
+  }
+  function moveDrag(e){
+    if (!drag || e.currentTarget !== drag.el) return;
+    const dx = (e.clientX - drag.x)/K, dy = (e.clientY - drag.y)/K;
+    if (Math.abs(dx) + Math.abs(dy) > 10) drag.moved = true;
+    drag.el.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx/(drag.el === dcard ? 22 : 60)}deg)`;
+    zone.classList.toggle("hover", overPhone());
+  }
+  function endDrag(){
+    if (!drag) return;
+    const el = drag.el; el.classList.remove("dragging");
+    const wasTap = !drag.moved; drag = null;
+    if (wasTap || overPhone()) lock3();
+    else { el.style.transform = ""; zone.classList.remove("hover") }
+  }
+  [dcard, phone3].forEach(el => {
+    el.addEventListener("pointerdown", startDrag); el.addEventListener("pointermove", moveDrag);
+    el.addEventListener("pointerup", endDrag); el.addEventListener("pointercancel", endDrag);
+  });
+  dcard.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && !done3){ e.preventDefault(); lock3() } });
+  totem.addEventListener("click", () => { if (mode3 === "totem" && !done3 && !phone3.style.transform) lock3() });
+
+  /* ---------- CH 04: the night ---------- */
+  const TIMES = ["21:00","22:00","01:30"], dial = $("#dial"), thumb = $("#dial-thumb"), dialBox = dial.parentElement;
+  const activeMoment = () => $$(".moment").findIndex(m => m.classList.contains("on"));
+  function setMoment(i, fromDial){
+    const ms = $$(".moment"); if (!ms[i] || (i === activeMoment() && fromDial)) return;
+    ms.forEach((o, k) => o.classList.toggle("on", k === i));
+    const c = centerOf(ms[i].querySelector(".ico")); burst(c.x, c.y, 20, .5);
+  }
+  function setDial(f, anim){
+    f = Math.max(0, Math.min(1, f));
+    dialBox.classList.toggle("anim", !!anim);
+    thumb.style.left = f*100 + "%"; $("#dial-fill").style.width = f*100 + "%";
+    const i = Math.round(f*3);
+    const dt = $("#dial-time"), lbl = i < 3 ? TIMES[i] : t("s4.later");
+    if (dt.textContent !== lbl){ dt.textContent = lbl; dt.classList.remove("tick"); void dt.offsetWidth; dt.classList.add("tick") }
+    if (i === 3) markReady();
+    return i;
+  }
+  function placeWalker(i){ setDial(i/3, true) }
+  let dialDrag = false;
+  const dialAt = e => { const r = dial.getBoundingClientRect(); return (e.clientX - r.left)/r.width };
+  dial.addEventListener("pointerdown", e => { dialDrag = true; dialBox.classList.add("drag"); dial.setPointerCapture(e.pointerId); setMoment(setDial(dialAt(e), false), true) });
+  dial.addEventListener("pointermove", e => { if (dialDrag) setMoment(setDial(dialAt(e), false), true) });
+  const dialEnd = e => { if (!dialDrag) return; dialDrag = false; dialBox.classList.remove("drag"); placeWalker(Math.round(Math.max(0, Math.min(1, dialAt(e)))*3)) };
+  dial.addEventListener("pointerup", dialEnd); dial.addEventListener("pointercancel", dialEnd);
+  $$(".moment").forEach((m, i) => m.addEventListener("click", () => { setMoment(i); placeWalker(i) }));
+
+  /* ---------- 04: two steps before ---------- */
+  $$(".pstep").forEach(b => b.addEventListener("click", () => {
+    b.classList.toggle("ok");
+    const all = $$(".pstep.ok").length === 2; $("#pready").classList.toggle("on", all); if (all) markReady();
+    const c = centerOf(b.classList.contains("ok") && all ? $("#pready") : b); burst(c.x, c.y, all ? 90 : 26, all ? 1.1 : .6);
+  }));
+
+  /* ---------- CH 05: myth or fact ---------- */
+  let qi = 0, qScore = 0, qAnswered = false;
+  function renderQuiz(){
+    const Q = T[lang].quiz, done = qi >= Q.length;
+    $("#qz-n").textContent = done ? `${Q.length} / ${Q.length}` : `${qi + 1} / ${Q.length}`;
+    $("#qz-score").textContent = qScore + " ✓";
+    $("#qz-btns").hidden = done || qAnswered;
+    if (done){
+      $("#qz-q").innerHTML = `<span class="qz-final"><b>${qScore}/${Q.length}</b></span><br>${t("s5.ready")}`;
+      $("#qz-res").hidden = false; $("#qz-verdict").textContent = ""; $("#qz-a").textContent = ""; $("#qz-a").style.display = "none";
+      $("#qz-next").textContent = t("s5.again");
+    } else {
+      $("#qz-q").textContent = Q[qi].q;
+      $("#qz-a").style.display = "";
+      $("#qz-next").textContent = qi === Q.length - 1 ? t("s5.see") : t("s5.nextq");
+      if (!qAnswered) $("#qz-res").hidden = true;
+    }
+  }
+  $("#qz-btns").addEventListener("click", e => {
+    const b = e.target.closest(".qz-b"); if (!b || qAnswered) return;
+    const Q = T[lang].quiz[qi], right = +b.dataset.a === Q.a;
+    qAnswered = true; if (right){ qScore++; const sc = $("#qz-score"); sc.classList.remove("bump"); void sc.offsetWidth; sc.classList.add("bump") } vib(right ? 15 : [20, 40, 20]);
+    const v = $("#qz-verdict"); v.className = "qz-verdict " + (right ? "ok" : "no");
+    v.textContent = (right ? "✓ " : "✗ ") + t(right ? "s5.right" : "s5.wrong") + " · " + t(Q.a ? "s5.fact" : "s5.myth");
+    const a = $("#qz-a"); a.textContent = Q.x; a.style.animation = "none"; void a.offsetWidth; a.style.animation = "";
+    const st = $("#qz-stamp"); st.textContent = t(Q.a ? "s5.fact" : "s5.myth") + "!"; st.className = "qz-stamp" + (Q.a ? "" : " myth"); void st.offsetWidth; st.classList.add("go");
+    $("#qz-res").hidden = false; renderQuiz();
+    const c = centerOf(b); if (right) burst(c.x, c.y, 40, .8); else rumble($("#quiz"));
+  });
+  $("#qz-next").addEventListener("click", () => {
+    if (qi >= T[lang].quiz.length){ qi = 0; qScore = 0 } else qi++;
+    qAnswered = false; $("#qz-stamp").className = "qz-stamp";
+    const q = $("#qz-q"), qz = $("#quiz"); q.classList.remove("in"); qz.classList.remove("flip"); void qz.offsetWidth; q.classList.add("in"); qz.classList.add("flip");
+    renderQuiz();
+    if (qi >= T[lang].quiz.length){ const c = centerOf(q); burst(c.x, c.y, 110, 1.2); markReady() }
+  });
+
+  /* ---------- who invited you ---------- */
+  const INV_IDS = ["pr", "loomlock", "donjulio", "bikini", "locky"];
+  const INV_KEY = "loomlock-kiosk-invites";
+  let inviteChoice = null;
+  const readTally = () => { try { return JSON.parse(localStorage.getItem(INV_KEY)) || {} } catch (e) { return {} } };
+  const writeTally = o => { try { localStorage.setItem(INV_KEY, JSON.stringify(o)) } catch (e) {} };
+  /* every pick is kept three ways: this screen's tally, a queue that survives reloads,
+     and the shared db (all screens). The queue is only emptied once the db confirms. */
+  const Q_KEY = "loomlock-kiosk-invites-queue";
+  const readQ = () => { try { return JSON.parse(localStorage.getItem(Q_KEY)) || [] } catch (e) { return [] } };
+  const writeQ = a => { try { localStorage.setItem(Q_KEY, JSON.stringify(a)) } catch (e) {} };
+  let dbRef = null, flushing = false;
+  if (window.claude && claude.use) claude.use("db").then(d => { dbRef = d; flushQ() }).catch(() => {});
+  const labelOf = id => (T.es["inv." + id] || id);
+  async function flushQ(){
+    if ((!dbRef && !CONFIG.sheetUrl) || flushing) return; flushing = true;
+    try {
+      let q = readQ();
+      while (q.length){
+        const it = q[0];
+        if (dbRef) await dbRef.doc("invites/" + it.k).set(it);
+        /* no-cors: the browser can't read the reply, a network error is what keeps it queued */
+        if (CONFIG.sheetUrl) await fetch(CONFIG.sheetUrl, {method: "POST", mode: "no-cors", headers: {"Content-Type": "text/plain"}, body: JSON.stringify({...it, label: labelOf(it.id)})});
+        q = readQ().filter(x => x.k !== it.k); writeQ(q);
+      }
+    } catch (e) {}
+    flushing = false;
+  }
+  setInterval(() => { if (readQ().length) flushQ() }, 30000);
+  function commitInvite(){
+    if (!inviteChoice) return;
+    const o = readTally(); o[inviteChoice] = (o[inviteChoice] || 0) + 1; writeTally(o);
+    const q = readQ(); q.push({k: Date.now().toString(36) + Math.random().toString(36).slice(2, 8), id: inviteChoice, ts: new Date().toISOString()}); writeQ(q);
+    inviteChoice = null; flushQ();
+  }
+  function renderInvite(){
+    $$("#invite .inv").forEach(b => b.classList.toggle("on", b.dataset.id === inviteChoice));
+    $("#invite").classList.toggle("picked", !!inviteChoice);
+    $("#inv-msg").textContent = inviteChoice ? t("invm." + inviteChoice) : t("inv.hint");
+  }
+  $("#invite").addEventListener("click", e => {
+    const b = e.target.closest(".inv"); if (!b) return;
+    inviteChoice = b.dataset.id; renderInvite();
+    const m = $("#inv-msg"); m.classList.remove("in"); void m.offsetWidth; m.classList.add("in");
+    const c = centerOf(b); burst(c.x, c.y, 40, .8); markReady(); vib(12);
+  });
+  /* press and hold the wordmark to see how many came from each host */
+  let holdT;
+  let shown = {}, rows = [], unsub = null;
+  function drawTally(o, st){
+    shown = o; let total = 0;
+    $("#tally-list").innerHTML = INV_IDS.map(id => { const n = o[id] || 0; total += n; return `<li><span>${t("inv." + id)}</span><b>${n}</b></li>` }).join("") + `<li class="total"><span>${t("tally.total")}</span><b>${total}</b></li>`;
+    const pend = readQ().length; if (pend) st += " · " + pend + " " + t("tally.pending");
+    $("#tally-st").textContent = st;
+  }
+  const showTally = () => {
+    drawTally(readTally(), t("tally.local"));
+    $("#tally").hidden = false; $("#tally-reset").textContent = t("tally.reset"); $("#tally-reset").classList.remove("arm");
+    if (CONFIG.sheetUrl && !unsub){
+      flushQ();
+      const pull = async () => {
+        try {
+          const r = await (await fetch(CONFIG.sheetUrl + "?t=" + Date.now())).json();
+          rows = r.rows || []; drawTally(r.counts || {}, t("tally.all") + " · live");
+        } catch (e) {}
+      };
+      pull(); const iv = setInterval(pull, 5000); unsub = () => clearInterval(iv);
+    } else if (dbRef && !unsub){
+      flushQ();
+      /* live: every pick from any screen shows up here as it happens */
+      unsub = dbRef.collection("invites").onSnapshot(snap => {
+        const c = {}; rows = [];
+        snap.docs.forEach(d => { const x = d.data() || {}; c[x.id] = (c[x.id] || 0) + 1; rows.push(x) });
+        drawTally(c, t("tally.all") + " · live");
+      }, () => { unsub = null });
+    }
+  };
+  const topLogo = $(".top span");
+  topLogo.addEventListener("pointerdown", () => { clearTimeout(holdT); holdT = setTimeout(showTally, 1500) });
+  ["pointerup", "pointerleave", "pointercancel"].forEach(ev => topLogo.addEventListener(ev, () => clearTimeout(holdT)));
+  $("#tally-close").onclick = () => { $("#tally").hidden = true; if (unsub){ unsub(); unsub = null } };
+  $("#tally-reset").onclick = e => {
+    const b = e.currentTarget;
+    if (!b.classList.contains("arm")){ b.classList.add("arm"); b.textContent = t("tally.reset2"); return }
+    writeTally({}); showTally();
+  };
+  $("#tally-csv").onclick = async () => {
+    const d = window.claude && claude.use ? await claude.use("downloads").catch(() => null) : null;
+    const csv = "fecha_hora,invitacion,id\n" + rows.sort((x, y) => (x.ts > y.ts) - (x.ts < y.ts)).map(x => `${x.ts},"${t("inv." + x.id)}",${x.id}`).join("\n");
+    if (d) d.save({filename: "loomlock-invitaciones.csv", data: csv}).catch(() => {});
+    else { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], {type: "text/csv"})); a.download = "loomlock-invitaciones.csv"; a.click() }
+  };
+  $("#tally-copy").onclick = () => {
+    const o = shown, txt = INV_IDS.map(id => `${t("inv." + id)}\t${o[id] || 0}`).join("\n");
+    const done = () => { $("#tally-copy").textContent = t("tally.copied"); setTimeout(() => { $("#tally-copy").textContent = t("tally.copy") }, 1400) };
+    try { navigator.clipboard.writeText(txt).then(done, done) } catch (e) { done() }
+  };
+
+  /* ---------- reset + idle ---------- */
+  function resetAll(){
+    commitInvite(); renderInvite();
+    saved1 = false; phone1.classList.remove("is-saved"); $("#next-tip").classList.remove("on");
+    buildApps($("#apps1"), true); syncApps3();
+    card.classList.remove("flipped");
+    reset3();
+    $$(".moment").forEach((m, i) => m.classList.toggle("on", i === 0)); placeWalker(0);
+    qi = 0; qScore = 0; qAnswered = false; $("#qz-stamp").className = "qz-stamp";
+    zapI = 0; $("#zap-hint").style.opacity = "";
+    mode3 = "totem"; zone.classList.add("mode-totem"); $$(".mp").forEach(x => x.classList.toggle("on", x.dataset.mode === "totem"));
+    go(0); applyLang(); hideIdle(); powerOn();
+  }
+  let idleAt = Date.now();
+  const idleEl = $("#idle");
+  function hideIdle(){ idleEl.classList.remove("show") }
+  ["pointerdown","keydown"].forEach(ev => addEventListener(ev, () => { idleAt = Date.now(); hideIdle() }, {passive:true}));
+  setInterval(() => {
+    if (cur === 0) return;
+    const left = CONFIG.idleSegundos - Math.floor((Date.now() - idleAt)/1000);
+    if (left <= 0){ lang = CONFIG.idioma; resetAll() }
+    else if (left <= 10){ idleEl.textContent = t("idle", {s:left}); idleEl.classList.add("show") }
+  }, 1000);
+
+  addEventListener("contextmenu", e => e.preventDefault());
+  addEventListener("gesturestart", e => e.preventDefault());
+
+  /* ---------- motion helpers ---------- */
+  function splitWords(h){
+    let i = 0;
+    const walk = node => [...node.childNodes].forEach(n => {
+      if (n.nodeType === 3){
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(part => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) frag.appendChild(document.createTextNode(part));
+          else { const w = document.createElement("span"); w.className = "w"; w.style.setProperty("--i", i++); w.textContent = part; frag.appendChild(w) }
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1 && !n.classList.contains("w")) walk(n);
+    });
+    walk(h);
+  }
+  function vib(p){ try { navigator.vibrate && navigator.vibrate(p) } catch (e) {} }
+  s9.addEventListener("pointerdown", e => {
+    if (reduce) return;
+    const p = local(e.clientX, e.clientY);
+    ["", " r2"].forEach(c => { const r = document.createElement("i"); r.className = "ripple" + c; r.style.left = p.x + "px"; r.style.top = p.y + "px"; s9.appendChild(r); setTimeout(() => r.remove(), 700) });
+    if (e.target.closest("button")) vib(8);
+  });
+  let readyT;
+  function markReady(){ if (cur > 0) $("#next").classList.add("ready") }
+  function clearReady(){ clearTimeout(readyT); $("#next").classList.remove("ready") }
+  function armReady(){ clearTimeout(readyT); readyT = setTimeout(markReady, 9000) }
+  ["pointerdown"].forEach(ev => s9.addEventListener(ev, () => { if (!$("#next").classList.contains("ready")) armReady() }));
+
+  if (CONFIG.evento){ const e = $("#event-tag"); e.textContent = CONFIG.evento; e.hidden = false }
+  $("#legal").hidden = !CONFIG.aviso18;
+  applyLang(); powerOn();
+})();
+</script>
