@@ -698,6 +698,15 @@ h2 .w{display:inline-block}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
+
+/* one clear instruction per screen: yellow pill + tapping hand; secondary clutter hidden */
+.hint{background:var(--yellow);font-family:var(--font-display);font-weight:800;font-style:italic;font-size:36px;letter-spacing:1px;padding:16px 38px 16px 22px;gap:16px}
+.hint i{width:58px;height:58px;border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230B0B10' d='M9 11V4.5a1.5 1.5 0 0 1 3 0V10h.5V8.5a1.5 1.5 0 0 1 3 0V11h.5v-.5a1.5 1.5 0 0 1 3 0V16c0 3-2 6-6 6h-1c-2 0-3.5-1-5-3l-2.5-3.5a1.4 1.4 0 0 1 2-2L9 15z'/%3E%3C/svg%3E") center/contain no-repeat;animation:tapNudge 1.1s ease-in-out infinite}
+.hint i::after{display:none}
+.invite:not(.picked)+.inv-msg{justify-self:center;align-self:center;display:inline-flex;align-items:center;gap:16px;min-height:0;margin:0 auto;background:var(--yellow);color:var(--ink);text-shadow:none;border:4px solid var(--screen);border-radius:99px;padding:14px 36px 14px 22px;box-shadow:6px 6px 0 var(--screen);font-size:36px}
+.invite:not(.picked)+.inv-msg::before{content:"";width:58px;height:58px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230B0B10' d='M9 11V4.5a1.5 1.5 0 0 1 3 0V10h.5V8.5a1.5 1.5 0 0 1 3 0V11h.5v-.5a1.5 1.5 0 0 1 3 0V16c0 3-2 6-6 6h-1c-2 0-3.5-1-5-3l-2.5-3.5a1.4 1.4 0 0 1 2-2L9 15z'/%3E%3C/svg%3E") center/contain no-repeat;animation:tapNudge 1.1s ease-in-out infinite}
+@keyframes tapNudge{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(.94)}}
+#s0 .kicker,#s0 .meta-row,#s0 .zap-hint,.chips,#card .ed,#card .serial,.pk-when,.flow{display:none!important}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -809,7 +818,7 @@ h2 .w{display:inline-block}
         </div>
       </div>
     </div>
-    <p class="oneliner" data-t="q1.tap">Tú eliges cuáles · con un tap</p>
+    <div class="hint"><i></i><span data-t="q1.watch">Mira: la key pausa tus apps</span></div>
   </section>
 
   <!-- 03 · Tu key -->
@@ -921,7 +930,7 @@ h2 .w{display:inline-block}
     <div class="dial">
       <div class="dial-times"><span>21:00</span><span>22:00</span><span>01:30</span><span data-t="s4.later">+2 días</span></div>
       <div class="dial-track" id="dial"><div class="dial-fill" id="dial-fill"></div><button class="dial-thumb" id="dial-thumb" aria-label="Hora"><span id="dial-time">21:00</span></button></div>
-      <span class="dial-hint" data-t="s4.hint">Arrastra la hora</span>
+      <div class="hint"><i></i><span data-t="s4.hint">Toca un momento · arrastra la hora</span></div>
     </div>
   </section>
 
@@ -983,7 +992,7 @@ h2 .w{display:inline-block}
     anfitrion: "Tequila Don Julio",    // marca anfitriona del canal (va chica, como anfitriona)
     aviso18: true,                     // muestra "Evento para mayores de 18" en la portada (marcas de alcohol)
     idleSegundos: 60,    // sin toques por este tiempo → vuelve al inicio
-    idioma: "en"
+    idioma: "es"
   };
 
   const T = {
@@ -1025,14 +1034,14 @@ h2 .w{display:inline-block}
       "s2.f4t":"Coleccionable","s2.f4":"Cada edición abre una puerta nueva.",
       "s2.edition":"Edición limitada","s2.backt":"Adentro hay <b>un chip NFC.</b>",
       "s2.back":"Se acerca al celular. La app hace el resto.",
-      "s2.hint":"Muévela · tócala para ver el dorso","s2.pick":"Elige tu edición",
+      "s2.hint":"Toca la key para darle la vuelta","q1.watch":"Mira: la key pausa tus apps","s2.pick":"Elige tu edición",
       "s3.kicker":"03 · Cómo activarla","s3.name":"El tap","s3.title":"Un tap <em>y estás adentro.</em>",
       "s3.st1":"Descarga la app Loomlock","s3.st2":"Elige qué apps pausar",
       "s3.st3":"Acerca la key al celular","s3.st4":"Para volver, otro tap",
-      "s3.hint":"Arrastra la key hasta el celular","s3.hint2":"Ahora otra vez: vuelve al aire","s3.ask":"¿Cómo quieres hacer tap?","s3.optCard":"Tengo mi key","s3.optTotem":"Uso el tótem de Locky",
+      "s3.hint":"Arrastra la key al celular","s3.hint2":"Ahora otra vez: vuelve al aire","s3.ask":"¿Cómo quieres hacer tap?","s3.optCard":"Tengo mi key","s3.optTotem":"Uso el tótem de Locky",
       "s3.st3t":"Acerca tu celular al tótem","s3.hintT":"Arrastra el celular hasta el tótem","s3.statusT":"Acércalo al tótem…","s3.totem":"tótem de Locky","s3.again":"Probar otra vez",
       "s3.status":"Esperando tu key…","s3.statusOk":"Key detectada ✓","s3.statusBack":"De vuelta al aire ✓","s3.banner":"Fuera del aire. Disfruta la noche.",
-      "s4.kicker":"04 · Tu noche","s4.name":"Tu noche","s4.title":"Así se vive <em>la noche.</em>","s4.hint":"Arrastra la hora","s4.later":"+2 días",
+      "s4.kicker":"04 · Tu noche","s4.name":"Tu noche","s4.title":"Así se vive <em>la noche.</em>","s4.hint":"Toca un momento","s4.later":"+2 días",
       "s4.w1":"En la puerta","s4.t1":"Tap","s4.p1":"Key o tótem",
       "s4.m1":"Tus apps quedan en pausa. El celular sigue contigo.",
       "s4.w2":"Adentro","s4.t2":"Fuera del aire","s4.p2":"Brinda, baila, conversa",
@@ -1096,14 +1105,14 @@ h2 .w{display:inline-block}
       "s2.f4t":"Collectible","s2.f4":"Every edition opens a new door.",
       "s2.edition":"Limited edition","s2.backt":"There's <b>an NFC chip inside.</b>",
       "s2.back":"Hold it to your phone. The app does the rest.",
-      "s2.hint":"Move it · tap it to see the back","s2.pick":"Pick your edition",
+      "s2.hint":"Tap the key to flip it","q1.watch":"Watch: the key pauses your apps","s2.pick":"Pick your edition",
       "s3.kicker":"03 · How to activate it","s3.name":"The tap","s3.title":"One tap <em>and you're in.</em>",
       "s3.st1":"Get the Loomlock app","s3.st2":"Choose apps to pause",
       "s3.st3":"Tap the key to your phone","s3.st4":"To come back, tap again",
       "s3.hint":"Drag the key onto the phone","s3.hint2":"Again: go back on air","s3.ask":"How do you want to tap?","s3.optCard":"I have my key","s3.optTotem":"Locky's totem",
       "s3.st3t":"Hold your phone to the totem","s3.hintT":"Drag the phone onto the totem","s3.statusT":"Hold it to the totem…","s3.totem":"Locky's totem","s3.again":"Try again",
       "s3.status":"Waiting for your key…","s3.statusOk":"Key detected ✓","s3.statusBack":"Back on air ✓","s3.banner":"Off air. Enjoy the night.",
-      "s4.kicker":"04 · Your night","s4.name":"Your night","s4.title":"This is <em>the night.</em>","s4.hint":"Drag the time","s4.later":"+2 days",
+      "s4.kicker":"04 · Your night","s4.name":"Your night","s4.title":"This is <em>the night.</em>","s4.hint":"Tap a moment","s4.later":"+2 days",
       "s4.w1":"At the door","s4.t1":"Tap","s4.p1":"Key or totem",
       "s4.m1":"Your apps go on pause. Your phone stays with you.",
       "s4.w2":"Inside","s4.t2":"Off air","s4.p2":"Toast, dance, talk",
