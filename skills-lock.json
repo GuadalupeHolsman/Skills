@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "character-animation": {
+      "source": "karem505/character-animation-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "9cd310a3ceffb46cd3e9095051cbf969152ac9a00098be15411290a159038293"
+    }
+  }
+}
