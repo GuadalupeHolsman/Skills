@@ -250,5 +250,13 @@
     if (line) text(ctx, line, w / 2, 262, { size: 20, weight: 400, color: 'rgba(255,255,255,0.7)', align: 'center' });
   }
 
-  globalThis.Loom = { C, FONT, font, text, rr, mix, dayColors, bg, roll, banner, feed, lock, lockScreen, endCard, loadBrand, logo, brandBg, key, nfc, keyTap, handBack, handFront, reel, homeScreen, appPos, APPS, lockPhone, img: (k) => (k === "pattern" ? PATTERN : k === "logo" ? LOGO : ART[k]) };
+  // a touch indicator (iOS-style) where the finger is; strength 0..1
+  function touch(ctx, x, y, strength = 1) {
+    if (strength <= 0) return;
+    ctx.save(); ctx.globalAlpha = 0.85 * strength;
+    ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(x, y, 34, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); ctx.restore();
+  }
+
+  globalThis.Loom = { C, FONT, font, text, rr, mix, dayColors, bg, roll, banner, feed, lock, lockScreen, endCard, loadBrand, logo, brandBg, key, nfc, keyTap, handBack, handFront, reel, homeScreen, appPos, APPS, lockPhone, touch, img: (k) => (k === "pattern" ? PATTERN : k === "logo" ? LOGO : ART[k]) };
 })();

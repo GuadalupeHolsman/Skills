@@ -58,9 +58,8 @@
     const last = [...swipes].reverse().find((ts) => ts <= t && t < ev.stop);
     const u = last !== undefined ? clamp((t - last) / 0.22) : 1;
     const thumb = [W / 2 + 70, lerp(PCY + 330, PCY + 60, Math.sin(Math.PI * u))];
-    L.handBack(ctx, W / 2, PCY, PH);
     V.phone(ctx, () => UI.phone(ctx, W / 2, PCY, PH, screen, t, { time: steps[stepAt(t)].v.replace(/^0/, ''), sketch: false, dark: true }));
-    L.handFront(ctx, W / 2, PCY, PH, t < ev.lock ? thumb : [W / 2 + 140, PCY + 380]);
+    if (t < ev.stop) L.touch(ctx, thumb[0], thumb[1], Math.sin(Math.PI * u));
     ctx.restore();
     const k = L.keyTap(t, ev.lock, [W + 420, 1800], [600, 1420], 0.8);
     if (k) V.key(ctx, k.x, k.y, 640, { rot: k.rot, art: 'ship', t });

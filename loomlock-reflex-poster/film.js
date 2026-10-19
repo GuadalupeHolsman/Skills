@@ -20,7 +20,7 @@
       V.bg(ctx, t, { night: t >= ev.stop && t < ev.tap ? 0.6 : 0, chaos: frantic });
       V.stickers(ctx, t);
       const up = ease.outCubic(clamp((t - ev.grab) / 0.35)) * (1 - ease.inOutCubic(clamp((t - ev.letgo) / 0.6)));
-      const cy = CY + 260 * (1 - up), ph = lerp(880, PH, up), handY = 700 * (1 - up);
+      const cy = CY + 260 * (1 - up), ph = lerp(880, PH, up);
       const o = openAt(t);
       const rest = [CX + ph * 0.16, cy + ph * 0.34];
       let thumb = rest;
@@ -41,9 +41,12 @@
         const icon = toFrame(...L.appPos(0), cy, ph), u = clamp((t - T(7, 1)) / (ev.test - T(7, 1))), back = clamp((t - ev.test - 0.35) / 0.3);
         thumb = [lerp(lerp(rest[0], icon[0], ease.outCubic(u)), rest[0], back), lerp(lerp(rest[1], icon[1], ease.outCubic(u)), rest[1], back)];
       }
-      if (up > 0.01) { ctx.save(); ctx.translate(0, handY); L.handBack(ctx, CX, cy, ph); ctx.restore(); }
       V.phone(ctx, () => UI.phone(ctx, CX, cy, ph, screen, t, { time: t < ev.stop ? '10:12' : '4:40', sketch: false, dark: true, rot: up > 0.01 ? 0 : -0.04 }));
-      if (up > 0.01) { ctx.save(); ctx.translate(0, handY); L.handFront(ctx, CX, cy, ph, thumb); ctx.restore(); }
+      // where the finger touches: the app tap, the flick, the blocked tap
+      let press = 0;
+      if (o) { const u = (t - o.t) / o.dur; press = Math.max(clamp(1 - Math.abs(u - 0.3) / 0.08), u > 0.45 && u < 0.7 ? 1 : 0); }
+      else if (t >= T(7, 1) && t < ev.letgo) press = clamp(1 - Math.abs(t - ev.test) / 0.2);
+      L.touch(ctx, thumb[0], thumb[1], press);
       const k = L.keyTap(t, ev.tap, [W + 420, 1800], [600, 1440], 0.9);
       if (k) V.key(ctx, k.x, k.y, 640, { rot: k.rot, art: 'dragon', t });
       L.nfc(ctx, CX, cy - 60, t, ev.tap, { color: V.name === 'dark' ? '#8E9BFF' : '#FFFFFF' });
