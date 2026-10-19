@@ -1601,11 +1601,12 @@ h2 .w{display:inline-block}
     flushing = false;
   }
   setInterval(() => { if (readQ().length) flushQ() }, 30000);
+  let inviteDone = false, inviteT;
   function commitInvite(){
-    if (!inviteChoice) return;
+    if (!inviteChoice || inviteDone) return;
     const o = readTally(); o[inviteChoice] = (o[inviteChoice] || 0) + 1; writeTally(o);
     const q = readQ(); q.push({k: Date.now().toString(36) + Math.random().toString(36).slice(2, 8), id: inviteChoice, ts: new Date().toISOString()}); writeQ(q);
-    inviteChoice = null; flushQ();
+    inviteDone = true; flushQ();
   }
   function renderInvite(){
     $$("#invite .inv").forEach(b => b.classList.toggle("on", b.dataset.id === inviteChoice));
@@ -1615,6 +1616,8 @@ h2 .w{display:inline-block}
   $("#invite").addEventListener("click", e => {
     const b = e.target.closest(".inv"); if (!b) return;
     inviteChoice = b.dataset.id; renderInvite();
+    /* counted ~3 s after the last tap (so a change of mind still counts once), without waiting for the session to end */
+    clearTimeout(inviteT); inviteT = setTimeout(commitInvite, 3000);
     const m = $("#inv-msg"); m.classList.remove("in"); void m.offsetWidth; m.classList.add("in");
     const c = centerOf(b); burst(c.x, c.y, 40, .8); markReady(); vib(12);
   });
@@ -1672,7 +1675,7 @@ h2 .w{display:inline-block}
 
   /* ---------- reset + idle ---------- */
   function resetAll(){
-    commitInvite(); renderInvite();
+    clearTimeout(inviteT); commitInvite(); inviteChoice = null; inviteDone = false; renderInvite();
     saved1 = false; phone1.classList.remove("is-saved"); $("#next-tip").classList.remove("on");
     buildApps($("#apps1"), true); syncApps3();
     card.classList.remove("flipped");
