@@ -472,6 +472,30 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .nt-ico svg{width:40px;height:40px}
 .nt-ico .mp-totem{color:var(--yellow)}
 
+/* ---------- who invited you ---------- */
+.invite{flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px;min-height:0}
+.inv{display:grid;grid-template-columns:130px 1fr 80px;align-items:center;gap:26px;text-align:left;background:var(--paper);color:var(--ink);border:5px solid var(--screen);border-radius:44px;box-shadow:10px 10px 0 var(--screen);padding:20px 36px 20px 22px;transition:background .3s, transform .4s var(--e-spring), opacity .3s}
+.inv-ic{width:130px;height:104px;border-radius:30px;background:var(--blue);color:var(--yellow);border:5px solid var(--screen);display:grid;place-items:center;font-family:var(--font-mono);font-weight:700;font-size:50px;letter-spacing:-2px;overflow:hidden}
+.inv-t{font-weight:800;font-style:italic;text-transform:uppercase;font-size:54px;line-height:1}
+.inv-ck{width:72px;height:72px;border-radius:50%;border:5px dashed var(--muted);display:grid;place-items:center;font-size:40px;color:transparent;transition:all .3s}
+.invite.picked .inv:not(.on){opacity:.55;transform:scale(.97)}
+.inv.on{background:var(--yellow);transform:scale(1.03)}
+.inv.on .inv-ic{background:var(--screen)}
+.inv.on .inv-ck{background:var(--screen);border:5px solid var(--screen);color:var(--yellow);animation:pop2 .4s var(--e-spring)}
+.inv-msg{margin:0;min-height:2.4em;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:40px;line-height:1.1;color:var(--yellow);text-shadow:4px 4px 0 var(--screen);display:grid;place-items:center}
+.inv-msg.in{animation:focusIn .5s cubic-bezier(.2,.8,.2,1) both}
+/* hidden tally (press and hold the wordmark) */
+.tally{position:absolute;inset:0;z-index:70;background:rgba(11,11,16,.82);display:grid;place-items:center;padding:60px}
+.tally-box{width:100%;background:var(--paper);color:var(--ink);border:6px solid var(--screen);border-radius:44px;box-shadow:14px 14px 0 var(--screen);padding:44px}
+.tally-box h3{margin:0 0 24px;font-family:var(--font-mono);font-size:34px;letter-spacing:3px;text-transform:uppercase;color:var(--blue)}
+.tally-box ul{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.tally-box li{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:44px;border-bottom:3px dashed rgba(11,11,16,.2);padding-bottom:12px}
+.tally-box li b{font-family:var(--font-mono);font-size:56px;color:var(--blue)}
+.tally-box li.total{border:0;color:var(--muted);font-size:32px}
+.tally-btns{display:flex;gap:16px;margin-top:30px}
+.tally-btns button{flex:1;height:96px;border-radius:99px;border:5px solid var(--screen);background:var(--yellow);font-family:var(--font-mono);font-weight:700;font-size:30px;letter-spacing:2px;text-transform:uppercase;box-shadow:6px 6px 0 var(--screen)}
+.tally-btns button.arm{background:#e0362c;color:#fff}
+
 /* ---------- step-by-step pieces ---------- */
 .split{flex:1;display:grid;grid-template-rows:1fr 1fr;gap:22px;min-height:0}
 /* 01 · cause -> effect: the key taps the phone, then the apps lock (one 4.8s loop) */
@@ -724,15 +748,31 @@ h2 .w{display:inline-block}
     <div class="meta-row">
       <span class="event" id="event-tag" hidden></span>
       <span data-t="s0.time">≈ 1 minuto</span>
-      <span data-t="s0.steps">6 pasos</span>
+      <span data-t="s0.steps">7 pasos</span>
     </div>
     <p class="legal" id="legal" data-t="s0.legal" hidden>Evento para mayores de 18 · Disfruta con responsabilidad.</p>
+  </section>
+
+  <!-- 01 · Who invited you -->
+  <section class="screen" id="sInv" data-name="nInv" aria-label="Quién te invitó">
+    <div class="head">
+      <span class="kicker" data-t="kInv">01 · Quién te invitó</span>
+      <h2 class="focus" data-t="tInv">¿Quién <em>te invitó?</em></h2>
+    </div>
+    <div class="invite" id="invite" role="group">
+      <button class="inv" data-id="pr"><span class="inv-ic">PR</span><span class="inv-t" data-t="inv.pr">PR</span><span class="inv-ck">✓</span></button>
+      <button class="inv" data-id="loomlock"><span class="inv-ic">LL</span><span class="inv-t" data-t="inv.loomlock">Loomlock team</span><span class="inv-ck">✓</span></button>
+      <button class="inv" data-id="donjulio"><span class="inv-ic">DJ</span><span class="inv-t" data-t="inv.donjulio">Don Julio team</span><span class="inv-ck">✓</span></button>
+      <button class="inv" data-id="bikini"><span class="inv-ic">B</span><span class="inv-t" data-t="inv.bikini">Bikini team</span><span class="inv-ck">✓</span></button>
+      <button class="inv" data-id="vibing"><span class="inv-ic">~</span><span class="inv-t" data-t="inv.vibing">I'm just vibing</span><span class="inv-ck">✓</span></button>
+    </div>
+    <p class="inv-msg" id="inv-msg" aria-live="polite"></p>
   </section>
 
   <!-- 01 · Qué es -->
   <section class="screen" id="s1" data-name="n1" aria-label="Qué es Loomlock">
     <div class="head">
-      <span class="kicker" data-t="k1">01 · Qué es</span>
+      <span class="kicker" data-t="k1">Qué es</span>
       <h2 class="focus" data-t="q1.title">Un tap con tu key. <em>Apps en pausa.</em></h2>
     </div>
     <div class="cause" aria-hidden="true">
@@ -760,7 +800,7 @@ h2 .w{display:inline-block}
   <!-- 03 · Tu key -->
   <section class="screen" id="s3" data-name="n3" aria-label="Tu key">
     <div class="head">
-      <span class="kicker" data-t="k3">03 · Tu key</span>
+      <span class="kicker" data-t="k3">Tu key</span>
       <h2 class="focus" data-t="t3">Esta es <em>tu key.</em></h2>
     </div>
     <div class="card-area" id="card-area">
@@ -789,7 +829,7 @@ h2 .w{display:inline-block}
   <!-- 02 · Pruébalo -->
   <section class="screen" id="s2" data-name="n2" aria-label="Elige tus apps">
     <div class="head">
-      <span class="kicker" data-t="k2">03 · En la app</span>
+      <span class="kicker" data-t="k2">En la app</span>
       <h2 class="focus" data-t="t2">Elige qué <em>se pausa.</em></h2>
     </div>
     <div class="flow" id="flow1"><span class="fp ok"><b>1</b><span data-t="f1">App</span></span><i class="fa on"></i><span class="fp now"><b>2</b><span data-t="f2">Elige</span></span><i class="fa"></i><span class="fp"><b>3</b><span data-t="f3">Tap</span></span></div>
@@ -811,7 +851,7 @@ h2 .w{display:inline-block}
   <!-- 05 · El tap -->
   <section class="screen" id="s5" data-name="n5" aria-label="Cómo activar la key">
     <div class="head">
-      <span class="kicker" data-t="k5">05 · El tap</span>
+      <span class="kicker" data-t="k5">El tap</span>
       <h2 class="focus" data-t="t5">Un tap <em>y entras.</em></h2>
     </div>
     <div class="mode-pick" id="mode-pick" role="group">
@@ -854,7 +894,7 @@ h2 .w{display:inline-block}
   <!-- 06 · Tu noche -->
   <section class="screen" id="s6" data-name="n6" aria-label="Tu noche">
     <div class="head">
-      <span class="kicker" data-t="k6">06 · Tu noche</span>
+      <span class="kicker" data-t="k6">Tu noche</span>
       <h2 class="focus" data-t="s4.title">Así se vive <em>la noche.</em></h2>
     </div>
     <div class="moments" id="moments">
@@ -873,7 +913,7 @@ h2 .w{display:inline-block}
   <!-- 07 · Mito o verdad + cierre -->
   <section class="screen" id="s7" data-name="n7" aria-label="Mito o verdad">
     <div class="head">
-      <span class="kicker" data-t="k7">07 · Mito o verdad</span>
+      <span class="kicker" data-t="k7">Mito o verdad</span>
       <h2 class="focus" data-t="t7">¿Mito <em>o verdad?</em></h2>
     </div>
     <div class="quiz" id="quiz">
@@ -900,6 +940,13 @@ h2 .w{display:inline-block}
     <button data-lang="en" aria-pressed="false">EN</button>
   </div>
 
+  <div class="tally" id="tally" hidden>
+    <div class="tally-box">
+      <h3 data-t="tally.title">Who invited them</h3>
+      <ul id="tally-list"></ul>
+      <div class="tally-btns"><button id="tally-copy" data-t="tally.copy">Copy</button><button id="tally-reset" data-t="tally.reset">Reset</button><button id="tally-close" data-t="tally.close">Close</button></div>
+    </div>
+  </div>
   <div class="osd" id="osd"><b id="osd-num">CH 01</b><span id="osd-name"></span></div>
   <canvas id="fx" width="1080" height="1920"></canvas>
   <canvas id="noise" width="216" height="384"></canvas>
@@ -925,9 +972,14 @@ h2 .w{display:inline-block}
 
   const T = {
     es: {
+      "kInv":"Quién te invitó","nInv":"Quién te invitó","tInv":"¿Quién <em>te invitó?</em>",
+      "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.vibing":"Solo vine a disfrutar",
+      "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.vibing":"Sin invitación. Pura buena energía.",
+      "inv.hint":"Toca una opción",
+      "tally.title":"Quién los invitó","tally.copy":"Copiar","tally.reset":"Reiniciar","tally.reset2":"¿Seguro?","tally.close":"Cerrar","tally.total":"Total","tally.copied":"Copiado",
       "s1.saved":"Guardado ✓","s1.savedN":"{n} apps listas para pausar","s1.status0":"Ninguna elegida","s1.appbar":"Apps a pausar","s1.tip":"La pausa empieza con un tap: tótem o key",
       "osd.off":"FUERA DEL AIRE","osd.on":"AL AIRE",
-      "k1":"01 · Qué es","k2":"03 · En la app","k3":"02 · Tu key","k4":"04 · Antes de llegar","k5":"04 · El tap","k6":"05 · Tu noche","k7":"06 · Mito o verdad",
+      "k1":"Qué es","k2":"En la app","k3":"Tu key","k4":"Antes de llegar","k5":"El tap","k6":"Tu noche","k7":"Mito o verdad",
       "n1":"Qué es","n2":"En la app","n3":"Tu key","n4":"Antes de llegar","n5":"El tap","n6":"Tu noche","n7":"Mito o verdad",
       "q1.title":"Un tap con tu key. <em>Apps en pausa.</em>","q1.tapped":"Tap","q1.after":"después del tap","q1.always":"igual que siempre","q1.off":"En pausa","q1.on":"Siempre funcionan","q1.e1":"Llamadas","q1.e2":"Cámara","q1.e3":"Mapas","q1.tap":"Tu celular sigue contigo · o usa el tótem de Locky",
       "t2":"Elige qué <em>se pausa.</em>","f1":"App","f2":"Elige","f3":"Tap",
@@ -941,7 +993,7 @@ h2 .w{display:inline-block}
       "s0.z1":"Lo que no se postea, se cuenta.","s0.z2":"Shots, not screenshots.","s0.z3":"Un trago que se toma mirando a alguien.",
       "s0.legal":"Evento para mayores de 18 · Disfruta con responsabilidad.","s0.host":"Esta noche, con {h}",
       "s0.kicker":"Una serie que solo se ve en persona",
-      "s0.cta":"Toca para empezar","s0.time":"≈ 1 minuto","s0.steps":"6 pasos",
+      "s0.cta":"Toca para empezar","s0.time":"≈ 1 minuto","s0.steps":"7 pasos",
       "s1.kicker":"01 · Qué es loomlock","s1.name":"Qué es",
       "s1.title":"El celular <em>se queda contigo.</em>",
       "s1.lead":"Loomlock pausa solo las apps que tú eliges, con un tap. <b>Llamadas, cámara y mapas siguen funcionando.</b>",
@@ -991,9 +1043,14 @@ h2 .w{display:inline-block}
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",cam:"Cámara",mp:"Mapas"}
     },
     en: {
+      "kInv":"Who invited you","nInv":"Who invited you","tInv":"Who <em>invited you?</em>",
+      "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.vibing":"I'm just vibing",
+      "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.vibing":"No invite needed. Just good vibes.",
+      "inv.hint":"Tap an option",
+      "tally.title":"Who invited them","tally.copy":"Copy","tally.reset":"Reset","tally.reset2":"Sure?","tally.close":"Close","tally.total":"Total","tally.copied":"Copied",
       "s1.saved":"Saved ✓","s1.savedN":"{n} apps ready to pause","s1.status0":"None picked","s1.appbar":"Apps to pause","s1.tip":"The pause starts with a tap: totem or key",
       "osd.off":"OFF AIR","osd.on":"ON AIR",
-      "k1":"01 · What it is","k2":"03 · In the app","k3":"02 · Your key","k4":"04 · Before you arrive","k5":"04 · The tap","k6":"05 · Your night","k7":"06 · Myth or fact",
+      "k1":"What it is","k2":"In the app","k3":"Your key","k4":"Before you arrive","k5":"The tap","k6":"Your night","k7":"Myth or fact",
       "n1":"What it is","n2":"In the app","n3":"Your key","n4":"Before you arrive","n5":"The tap","n6":"Your night","n7":"Myth or fact",
       "q1.title":"Tap your key. <em>Apps pause.</em>","q1.tapped":"Tap","q1.after":"after the tap","q1.always":"as always","q1.off":"Paused","q1.on":"Always on","q1.e1":"Calls","q1.e2":"Camera","q1.e3":"Maps","q1.tap":"Your phone stays with you · or use Locky’s totem",
       "t2":"Pick what <em>gets paused.</em>","f1":"App","f2":"Pick","f3":"Tap",
@@ -1007,7 +1064,7 @@ h2 .w{display:inline-block}
       "s0.z1":"What isn't posted gets told.","s0.z2":"Shots, not screenshots.","s0.z3":"A drink you share looking at someone.",
       "s0.legal":"18+ event · Enjoy responsibly.","s0.host":"Tonight, with {h}",
       "s0.kicker":"A series you can only watch in person",
-      "s0.cta":"Tap to start","s0.time":"≈ 1 minute","s0.steps":"6 steps",
+      "s0.cta":"Tap to start","s0.time":"≈ 1 minute","s0.steps":"7 steps",
       "s1.kicker":"01 · What is loomlock","s1.name":"What is it",
       "s1.title":"Your phone <em>stays with you.</em>",
       "s1.lead":"Loomlock pauses only the apps you choose, with one tap. <b>Calls, camera and maps keep working.</b>",
@@ -1166,12 +1223,13 @@ h2 .w{display:inline-block}
     document.documentElement.lang = lang;
     $$("[data-t]").forEach(el => { el.innerHTML = t(el.dataset.t) });
     $$("[data-tape]").forEach(el => { el.innerHTML = `<span>${t(el.dataset.tape)}</span>`.repeat(6) });
+    screens.forEach((sc, i) => { const k = sc.querySelector(".kicker"); if (k && i > 0) k.textContent = `0${i} · ` + k.textContent.replace(/^\d+ · /, "") });
     $$(".screen h2").forEach(splitWords);
     $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
     $$(".app-tile").forEach(b => { b.querySelector(".nm").textContent = T[lang].apps[b.dataset.id] });
     $("#host").textContent = t("s0.host", {h:CONFIG.anfitrion}); $("#host").hidden = !CONFIG.anfitrion;
     $("#totem-name").textContent = t("s3.totem");
-    refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz();
+    refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz(); renderInvite();
   }
 
   /* ---------- channel changes ---------- */
@@ -1460,8 +1518,52 @@ h2 .w{display:inline-block}
     if (qi >= T[lang].quiz.length){ const c = centerOf(q); burst(c.x, c.y, 110, 1.2); markReady() }
   });
 
+  /* ---------- who invited you ---------- */
+  const INV_IDS = ["pr", "loomlock", "donjulio", "bikini", "vibing"];
+  const INV_KEY = "loomlock-kiosk-invites";
+  let inviteChoice = null;
+  const readTally = () => { try { return JSON.parse(localStorage.getItem(INV_KEY)) || {} } catch (e) { return {} } };
+  const writeTally = o => { try { localStorage.setItem(INV_KEY, JSON.stringify(o)) } catch (e) {} };
+  function commitInvite(){
+    if (!inviteChoice) return;
+    const o = readTally(); o[inviteChoice] = (o[inviteChoice] || 0) + 1; writeTally(o); inviteChoice = null;
+  }
+  function renderInvite(){
+    $$("#invite .inv").forEach(b => b.classList.toggle("on", b.dataset.id === inviteChoice));
+    $("#invite").classList.toggle("picked", !!inviteChoice);
+    $("#inv-msg").textContent = inviteChoice ? t("invm." + inviteChoice) : t("inv.hint");
+  }
+  $("#invite").addEventListener("click", e => {
+    const b = e.target.closest(".inv"); if (!b) return;
+    inviteChoice = b.dataset.id; renderInvite();
+    const m = $("#inv-msg"); m.classList.remove("in"); void m.offsetWidth; m.classList.add("in");
+    const c = centerOf(b); burst(c.x, c.y, 40, .8); markReady(); vib(12);
+  });
+  /* press and hold the wordmark to see how many came from each host */
+  let holdT;
+  const showTally = () => {
+    const o = readTally(); let total = 0;
+    $("#tally-list").innerHTML = INV_IDS.map(id => { const n = o[id] || 0; total += n; return `<li><span>${t("inv." + id)}</span><b>${n}</b></li>` }).join("") + `<li class="total"><span>${t("tally.total")}</span><b>${total}</b></li>`;
+    $("#tally").hidden = false; $("#tally-reset").textContent = t("tally.reset"); $("#tally-reset").classList.remove("arm");
+  };
+  const topLogo = $(".top span");
+  topLogo.addEventListener("pointerdown", () => { clearTimeout(holdT); holdT = setTimeout(showTally, 1500) });
+  ["pointerup", "pointerleave", "pointercancel"].forEach(ev => topLogo.addEventListener(ev, () => clearTimeout(holdT)));
+  $("#tally-close").onclick = () => { $("#tally").hidden = true };
+  $("#tally-reset").onclick = e => {
+    const b = e.currentTarget;
+    if (!b.classList.contains("arm")){ b.classList.add("arm"); b.textContent = t("tally.reset2"); return }
+    writeTally({}); showTally();
+  };
+  $("#tally-copy").onclick = () => {
+    const o = readTally(), txt = INV_IDS.map(id => `${t("inv." + id)}\t${o[id] || 0}`).join("\n");
+    const done = () => { $("#tally-copy").textContent = t("tally.copied"); setTimeout(() => { $("#tally-copy").textContent = t("tally.copy") }, 1400) };
+    try { navigator.clipboard.writeText(txt).then(done, done) } catch (e) { done() }
+  };
+
   /* ---------- reset + idle ---------- */
   function resetAll(){
+    commitInvite(); renderInvite();
     saved1 = false; phone1.classList.remove("is-saved"); $("#next-tip").classList.remove("on");
     buildApps($("#apps1"), true); syncApps3();
     card.classList.remove("flipped");

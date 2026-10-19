@@ -7,12 +7,16 @@ Explica qué es Loomlock, la tarjeta NFC, cómo activarla y cómo se vive la noc
 Todo pasa en el **CH 02 · Tequila Don Julio**. Locky no aparece dibujado (nivel 0 con marcas de alcohol); solo se nombra el tótem de Locky. Cada pantalla explica una sola idea.
 
 0. **Portada:** tele de tubo en el CH 02 (al tocarla cambia la frase), "Tonight, with Tequila Don Julio" y aviso +18
-1. **01 · What it is:** "Tap your key. Apps pause." Animación en loop: la key toca el celular y recién ahí se pausan las redes; llamadas, cámara y mapas siguen igual
-2. **02 · Your key:** la key del CH 02, que se inclina y se da vuelta (chip NFC)
-3. **03 · In the app:** en la app de Loomlock eliges qué apps se pausan y tocas Save. Aviso: "la pausa empieza con un tap: tótem o key"
-4. **04 · The tap:** arranca con el tótem de Locky (arrastras el celular al tótem); la otra opción es tu key. Se pausan justo las apps elegidas en el paso 03. Tap para pausar y tap para volver
-5. **05 · Your night:** deslizas la hora y se encienden los 4 momentos
-6. **06 · Myth or fact:** 5 preguntas rápidas con puntaje y cierre "Head to the totem"
+1. **01 · Who invited you:** cinco opciones (PR, Loomlock team, Don Julio team, Bikini team, I'm just vibing). Al elegir, responde con una línea de bienvenida y cuenta una invitación. Se puede cambiar de opinión; la elección se cuenta una vez, cuando termina la sesión
+2. **02 · What it is:** "Tap your key. Apps pause." Animación en loop: la key toca el celular y recién ahí se pausan las redes; llamadas, cámara y mapas siguen igual
+3. **03 · Your key:** la key del CH 02, que se inclina y se da vuelta (chip NFC)
+4. **04 · In the app:** en la app de Loomlock eliges qué apps se pausan y tocas Save. Aviso: "la pausa empieza con un tap: tótem o key"
+5. **05 · The tap:** arranca con el tótem de Locky (arrastras el celular al tótem); la otra opción es tu key. Se pausan justo las apps elegidas en el paso 03. Tap para pausar y tap para volver
+6. **06 · Your night:** deslizas la hora y se encienden los 4 momentos
+7. **07 · Myth or fact:** 5 preguntas rápidas con puntaje y cierre "Head to the totem"
+
+### Conteo de invitaciones
+Cada tótem guarda en su propio navegador cuántas personas llegaron por cada opción. Para verlo: mantén presionado 1,5 segundos el texto "loomlock experiences" arriba a la izquierda. Ahí se puede copiar el conteo o reiniciarlo. El conteo vive en esa pantalla (no se junta entre varias).
 
 ## Estética
 Usa la dirección de arte de **Prime Time · loomlock experiences**: cada pantalla es un canal de TV (CH 01 a CH 05), azul canal `#2F3AD0`, amarillo señal `#FCCE21`, negro pantalla y papel; Montserrat fina en mayúsculas con énfasis en itálica gruesa, rótulos en Space Mono; grano, líneas de TV, estática al cambiar de canal y respuestas "tachadas" que se destapan. Firma: *live now, post later.*
