@@ -15,6 +15,10 @@ Todo pasa en el **CH 02 · Tequila Don Julio**. Locky no aparece dibujado (nivel
 6. **06 · Your night:** deslizas la hora y se encienden los 4 momentos
 7. **07 · Myth or fact:** 5 preguntas rápidas con puntaje y cierre "Head to the totem"
 
+### Íconos y tótem
+- Las apps de la demo usan los íconos reales de Instagram, TikTok, YouTube, X y Facebook (glifos del paquete *simple-icons*, licencia CC0, con los colores de cada marca). Los nombres e íconos son marcas de sus dueños y se muestran solo para explicar qué apps se pausan. Juegos, llamadas, cámara y mapas usan íconos genéricos.
+- El tótem es Locky mismo (el personaje del archivo `locky.svg`), con ondas NFC sobre la cabeza y una base con el canal. Aparece en la pantalla 05 y en los botones que nombran al tótem.
+
 ### Conteo de invitaciones
 Cada tótem guarda en su propio navegador cuántas personas llegaron por cada opción. Para verlo: mantén presionado 1,5 segundos el texto "loomlock experiences" arriba a la izquierda. Ahí se puede copiar el conteo o reiniciarlo. El conteo vive en esa pantalla (no se junta entre varias).
 
