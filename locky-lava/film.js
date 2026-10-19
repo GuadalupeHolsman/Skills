@@ -55,9 +55,9 @@
   // eyes: 'normal' | 'phone' (slid toward the phone) | 'wide' | 'closed' | 'happy' | 'sad' | 'spiral' (dizzy squiggles)
   const BOX = { W: 430, D: 300, top: -541, bot: -122 };
   const SHOULDER = -297, HIP = -169;
-  function limb(ctx, k, fill, ax, ay, ang) { // an official arm/leg path, its joint pinned at (ax, ay)
+  function limb(ctx, k, fill, ax, ay, ang, sx = -1) { // an official arm/leg path, its joint pinned at (ax, ay); sx flips it
     const [jx, jy] = JOINT[k];
-    ctx.save(); ctx.translate(ax, ay); ctx.scale(-1, 1); ctx.rotate(ang); ctx.translate(-jx, -jy);
+    ctx.save(); ctx.translate(ax, ay); ctx.scale(sx, 1); ctx.rotate(ang); ctx.translate(-jx, -jy);
     const p = pth(k); ctx.fillStyle = fill; ctx.fill(p);
     ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.stroke(p);
     ctx.restore();
@@ -98,7 +98,7 @@
     const dir = o.dir || 1;
     const th = o.turn == null ? 0.3 : o.turn, c = Math.cos(th), sn = Math.sin(th);
     // walk cycle: a lean into the step (and toward the phone), contact squash, a rise on the passing pose
-    const swing = walking ? Math.sin(ph) * 0.42 * (o.stride || 1) : 0;
+    const swing = walking ? Math.sin(ph) * 0.36 * (o.stride || 1) : 0;
     const liftL = walking ? Math.max(0, Math.cos(ph)) * 34 : 0, liftR = walking ? Math.max(0, -Math.cos(ph)) * 34 : 0;
     const bob = walking ? -Math.abs(Math.cos(ph)) * 22 * (o.bounce || 1) : 0;
     const lean = (walking ? 0.07 + Math.sin(2 * ph) * 0.025 : 0) * dir + (o.hunch || 0);
@@ -133,10 +133,12 @@
     }[arms];
     // joints, projected
     const [rX, rZ] = P(W2 - 14, 0), [lX, lZ] = P(-(W2 - 14), 0);
-    const [hRX] = P(56, -40), [hLX] = P(-56, -40);
-    // legs (always behind the body)
-    limb(ctx, 'legL', lav, hRX, HIP - liftL, swing);
-    limb(ctx, 'legR', lav, hLX, HIP - liftR, -swing);
+    const [hRX] = P(70, -40), [hLX] = P(-70, -40);
+    // legs (always behind the body). The feet point the way he faces; the stride goes the way he walks.
+    const fx = sn > 0.05 ? 1 : sn < -0.05 ? -1 : dir; // the SVG's feet point right when drawn unflipped
+    const legA = (a) => -dir * fx * a;
+    limb(ctx, 'legL', lav, hRX, HIP - liftL, legA(swing), fx);
+    limb(ctx, 'legR', lav, hLX, HIP - liftR, legA(-swing), fx);
     ctx.save(); ctx.translate(0, bob);
     // the phone in the right hand
     const holding = o.phone && (arms === 'phone' || arms === 'phoneUp');

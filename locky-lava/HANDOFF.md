@@ -105,6 +105,11 @@ node song.js && node engine/render.js video && node engine/render.js mux && node
   globitos, `notify`), luz de la pantalla en la cara; en los intentos 1 y 2 se frena a mitad de camino a
   escribir y reírse; tras caer vuelve directo al celular. Sincronía ✓ (todas +0f).
 
+## Arreglo: pies (19 oct 2026)
+- Los pies del SVG apuntan a la derecha sin espejar; ahora `limb(..., sx)` los da vuelta según hacia dónde mira
+  (sin(turn)) y el balanceo de piernas sigue la dirección de la caminata (`dir`), así no camina "al revés"
+  ni hace moonwalk al arrastrarse hacia la izquierda. Caderas a ±70, balanceo 0,36.
+
 ## Notas
 - Siempre responder en español rioplatense.
 - La memoria de Notion no tenía nada sobre Locky ni Loomlock. Se puede guardar si Lupe quiere.
