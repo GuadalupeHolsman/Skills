@@ -87,3 +87,4 @@ _Última actualización: 16 oct 2026. Fuente: artifact "Prime Time Programación
 - Pie de las piezas: "Channel 4 · Quokka / Thu 12 Nov · Medellín" en amarillo a la izquierda, "Live now, post later. / loomlock experiences" a la derecha.
 - Las piezas de Quokka (invitación IG, banner web y 3 posts) están en `quokka/`, armadas sobre los carteles originales (`quokka/originales`, `quokka/art`). Regla: partir siempre de los diseños ya hechos en la parrilla y modificarlos, no rehacerlos.
 - Para bajar archivos del Drive: `download_file_content` guarda en disco los archivos grandes; se decodifica con python (campo `content`, base64).
+- Logo loomlock: las dos formas del isotipo (la "l" y el cubo) van **solo en contorno**, nunca rellenas. Versión corregida en `quokka/assets/loomlock-logo*.svg` (blanco, oscuro y azul). El SVG original del Drive es `LoomlockFull.svg` (carpeta "Loomlock Logo").
