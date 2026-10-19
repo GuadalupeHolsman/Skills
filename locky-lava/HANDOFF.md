@@ -65,6 +65,14 @@ node song.js && node engine/render.js video && node engine/render.js mux && node
 - `locky-lava.mp4` re-renderizado y verificado (sincronía ✓, -13,9 LUFS).
 - Las placas de `anim/` siguen listas para la vía con Gemini si algún día anda la clave.
 
+## Actualización: perspectiva y textos en inglés (19 oct 2026)
+- Lupe pidió la perspectiva de su video de referencia: cámara alta mirando un pasillo de lava que se aleja
+  hacia el fondo. `film.js` ahora proyecta el escenario desde la fila donde actúa Locky (`VP`, `dep`, `px`):
+  caminos de piedra a los costados con bordes iluminados por la lava, paredes, puerta EXIT en la pared derecha.
+- Locky se dibuja espejado: costado oscuro a la derecha, celular de perfil en la mano del costado.
+- Todos los textos en pantalla están en inglés (Try 1/2/3, AAAH!, IDEA!, BOOM!, MADE IT!, Watch where you walk).
+- Destello naranja en el cuadro exacto de cada caída para que la imagen marque el golpe. Sincronía ✓.
+
 ## Notas
 - Siempre responder en español rioplatense.
 - La memoria de Notion no tenía nada sobre Locky ni Loomlock. Se puede guardar si Lupe quiere.

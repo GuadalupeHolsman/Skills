@@ -386,6 +386,8 @@
       stamp(ctx, t, ev.win, ev.end, 'MADE IT!', W / 2 - 40, 640, 110, '#7CF29A');
 
       // white flashes on the idea and the win
+      // a hot orange flash on the exact frame Locky hits the lava
+      for (const tf of [ev.splash1, ev.splash2, ev.splash3]) { const a = t - tf; if (a >= 0 && a < 0.12) { ctx.save(); ctx.globalAlpha = 0.55 * (1 - a / 0.12); ctx.fillStyle = '#FFB040'; ctx.fillRect(0, 0, W, H); ctx.restore(); } }
       for (const tf of [ev.idea, ev.win]) { const a = t - tf; if (a >= 0 && a < 0.2) { ctx.save(); ctx.globalAlpha = 0.6 * (1 - a / 0.2); ctx.fillStyle = '#FFF6D8'; ctx.fillRect(0, 0, W, H); ctx.restore(); } }
       // the end card
       const e = clamp((t - ev.end) / 0.4);
