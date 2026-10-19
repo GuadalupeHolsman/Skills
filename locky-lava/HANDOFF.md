@@ -110,6 +110,15 @@ node song.js && node engine/render.js video && node engine/render.js mux && node
   (sin(turn)) y el balanceo de piernas sigue la dirección de la caminata (`dir`), así no camina "al revés"
   ni hace moonwalk al arrastrarse hacia la izquierda. Caderas a ±70, balanceo 0,36.
 
+## Actualización: final con mensaje (19 oct 2026)
+- Sin los carteles "Try 1/2/3" (`labels = []` en score.js).
+- Al final Locky va decidido: cruza el puente con ojos firmes (`eyes: 'focus'`), festeja dos saltos y en
+  `S.leave` (T(11,2)) se da vuelta y camina de espaldas hacia la puerta abierta, achicándose con la profundidad
+  (`depthK`, `gy`).
+- Cierre: fundido a negro en `ev.end` y el mensaje "Your phone is a tool. / Don't let it consume you." en blanco y
+  celeste (Fredoka). Duración 25,9 s (T(13)+1,9) con un acorde suave de campanitas bajo el mensaje.
+  Sincronía ✓ (todas +0f), -14,0 LUFS.
+
 ## Notas
 - Siempre responder en español rioplatense.
 - La memoria de Notion no tenía nada sobre Locky ni Loomlock. Se puede guardar si Lupe quiere.

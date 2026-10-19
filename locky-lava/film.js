@@ -204,6 +204,10 @@
         ctx.save(); ctx.translate(ex, ey); ctx.scale(kx, ky);
         const e = pth('eye'); ctx.fillStyle = '#FFFFFF'; ctx.fill(e); ctx.lineWidth = 6 / Math.max(kx, ky); ctx.strokeStyle = OUT; ctx.stroke(e);
         ctx.restore();
+        if (eyes === 'focus') { // determined: a flat lid across the top of each eye
+          ctx.beginPath(); ctx.moveTo(ex - 50, ey - 50); ctx.lineTo(ex + 50, ey - 50); ctx.lineTo(ex + 50, ey - 12); ctx.lineTo(ex - 50, ey - 12); ctx.closePath();
+          ctx.fillStyle = blue; ctx.fill(); stroke(ctx, [[ex - 40, ey - 12], [ex + 40, ey - 12]], 7);
+        }
         if (eyes === 'sad') {
           ctx.beginPath(); ctx.moveTo(ex - 50, ey - 50); ctx.lineTo(ex + 50, ey - 50);
           ctx.lineTo(ex + 50, ey + (left ? -18 : 4)); ctx.lineTo(ex - 50, ey + (left ? 4 : -18)); ctx.closePath(); // low on the outside: sad, not cross
@@ -350,7 +354,13 @@
     if (t < ev.win) {
       const u = clamp((t - ev.cross) / (ev.win - ev.cross)), x = lerp(110, 860, u);
       const onBridge = clamp((x - 270) / 50) * clamp((GEO.BRIDGE_END + 30 - x) / 50);
-      return { ...base, x, y: lerp(FLOOR, GEO.BRIDGE_TOP, onBridge), walk: walkPhase(t, ev.cross), bounce: 1.5, armSwing: 1.8, eyes: 'normal', lookX: 8, mouth: 'smile', arms: 'down', turn: 0.5 };
+      return { ...base, x, y: lerp(FLOOR, GEO.BRIDGE_TOP, onBridge), walk: walkPhase(t, ev.cross), bounce: 1.2, armSwing: 1.8, eyes: 'focus', lookX: 10, mouth: 'smile', arms: 'down', turn: 0.5 };
+    }
+    // then he turns his back on the camera and walks off through the open door, toward the light
+    if (t >= S.leave) {
+      const a = t - S.leave, u = clamp(a / (ev.end + 0.5 - S.leave));
+      const y = lerp(FLOOR, 1112, ease.inOutQuad(u)), d = dep(y);
+      return { ...base, x: lerp(860, px(985, 1112), ease.inOutQuad(u)), y, depthK: d, gy: y, walk: walkPhase(t, S.leave), stride: 0.9, armSwing: 1.5, turn: lerp(0, 2.75, ease.outBack(clamp(a / 0.35), 1.5)), eyes: 'focus', mouth: 'smile', arms: 'down', blush: true };
     }
     // the celebration: each hop = anticipation squash, stretch on the way up and down, squash on landing
     const hopK = S.celebrate.filter((c) => c <= t).pop(), u = (t - hopK) / BEAT;
@@ -480,9 +490,9 @@
   // soft contact shadow on whatever floor is under him
   function shadow(ctx, st, t) {
     const onBridge = t >= ev.bridge && st.x > 280 && st.x < GEO.BRIDGE_END + 20;
-    const gy = onBridge ? GEO.BRIDGE_TOP : (st.x < EDGE + 20 || st.x > GEO.RIGHT - 20) ? FLOOR : null;
+    const gy = st.gy != null ? st.gy : onBridge ? GEO.BRIDGE_TOP : (st.x < EDGE + 20 || st.x > GEO.RIGHT - 20) ? FLOOR : null;
     if (gy == null || st.y > gy + 5) return;
-    const h = clamp((gy - st.y) / 300), k = 1 - 0.6 * h;
+    const h = clamp((gy - st.y) / 300), k = (1 - 0.6 * h) * (st.depthK || 1);
     ctx.save(); ctx.globalAlpha = 0.28 * k; ctx.filter = 'blur(3px)';
     ctx.beginPath(); ctx.ellipse(st.x - 8, gy + 4, 92 * k, 16 * k, 0, 0, Math.PI * 2); ctx.fillStyle = '#2A2428'; ctx.fill();
     ctx.restore();
@@ -553,9 +563,8 @@
     return [x, y];
   }
 
-  let YAY = null;
   Studio.film({
-    async init() { await Studio.loadFont('Fredoka', 'assets/fonts/Fredoka-700.woff2', 700); YAY = await Studio.loadImage('assets/locky-yay.png'); },
+    async init() { await Studio.loadFont('Fredoka', 'assets/fonts/Fredoka-700.woff2', 700); },
     post: { vignette: 0.18, grain: 0.03, paper: 0.12 },
     fadeOut: 0.6,
     draw(ctx, t) {
@@ -573,7 +582,7 @@
       const inLava = st.y > LAVA - 5 && st.x > EDGE && st.x < GEO.RIGHT;
       ctx.save();
       if (inLava) { ctx.beginPath(); ctx.rect(-200, -2000, W + 400, LAVA + 2000 + 6); ctx.clip(); }
-      locky(ctx, { ...st, s: 1.25 });
+      locky(ctx, { ...st, s: 1.25 * (st.depthK || 1) });
       ctx.restore();
       if (st.air) { // speed lines trailing the flight
         const p0 = state(t - 0.05), vx = st.x - p0.x, vy = st.y - p0.y, v = Math.hypot(vx, vy) || 1;
@@ -621,18 +630,20 @@
       // a hot orange flash on the exact frame Locky hits the lava
       for (const tf of [ev.splash1, ev.splash2, ev.splash3]) { const a = t - tf; if (a >= 0 && a < 0.12) { ctx.save(); ctx.globalAlpha = 0.7 * (1 - a / 0.12); ctx.fillStyle = '#FFB040'; ctx.fillRect(0, 0, W, H); ctx.restore(); } }
       for (const tf of [ev.idea, ev.win]) { const a = t - tf; if (a >= 0 && a < 0.2) { ctx.save(); ctx.globalAlpha = 0.6 * (1 - a / 0.2); ctx.fillStyle = '#FFF6D8'; ctx.fillRect(0, 0, W, H); ctx.restore(); } }
-      // the end card
-      const e = clamp((t - ev.end) / 0.4);
+      // the ending: fade to black, then the message
+      const e = clamp((t - ev.end) / 0.6);
       if (e > 0) {
-        ctx.save(); ctx.globalAlpha = e;
-        ctx.fillStyle = 'rgba(214,211,215,0.94)'; ctx.fillRect(0, 0, W, H);
-        const pop = ease.outBack(e, 2);
-        ctx.translate(W / 2 - 50, 640); ctx.scale(pop, pop);
-        G.text(ctx, 'LOCKY', 0, 0, { size: 210, align: 'center', fam: 'Fredoka', weight: 700, color: '#3F49CC', stroke: INK, strokeW: 22 });
-        G.text(ctx, "Don't let it", 0, 170, { size: 84, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF', stroke: INK, strokeW: 12 });
-        G.text(ctx, 'consume you', 0, 270, { size: 84, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF', stroke: INK, strokeW: 12 });
-        if (YAY) { const w = 760, h = w * YAY.height / YAY.width; ctx.drawImage(YAY, -w / 2 + 40, 330, w, h); } else locky(ctx, { x: 0, y: 640, s: 1.3, eyes: 'happy', arms: 'cheer', blush: true });
-        ctx.restore();
+        ctx.save(); ctx.globalAlpha = ease.inOutQuad(e); ctx.fillStyle = '#000000'; ctx.fillRect(0, 0, W, H); ctx.restore();
+        const line = (txt, t0, y, size, color) => {
+          const k = clamp((t - t0) / 0.5); if (k <= 0) return;
+          ctx.save(); ctx.globalAlpha = ease.outQuad(k); ctx.translate(W / 2, y + 30 * (1 - ease.outCubic(k)));
+          G.text(ctx, txt, 0, 0, { size, align: 'center', fam: 'Fredoka', weight: 700, color });
+          ctx.restore();
+        };
+        line('Your phone', ev.end + 0.5, H / 2 - 170, 104, '#FFFFFF');
+        line('is a tool.', ev.end + 0.5, H / 2 - 50, 104, '#FFFFFF');
+        line("Don't let it", ev.end + 1.4, H / 2 + 120, 104, '#9FD8FF');
+        line('consume you.', ev.end + 1.4, H / 2 + 240, 104, '#9FD8FF');
       }
     },
   });

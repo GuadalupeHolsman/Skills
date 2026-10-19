@@ -73,6 +73,8 @@ for (const [beat, ch] of [[0, ['C4', 'E4', 'G4', 'C5']], [1.5, ['D4', 'F4', 'A4'
 drums.addMono(I.crash(1), ev.win, 0.45);
 for (let i = 0; i < 8; i++) fx.addMono(I.pop(0.8 + rng() * 0.6), ev.win + 0.05 + rng() * 1.6, 0.12); // confetti pops
 drums.addMono(I.clap({ spread: 1.4 }), T(13), 0.5);
+// the closing message: a soft bell chord in the quiet
+for (const [k, f] of [[0, 523.25], [1, 659.25], [2, 783.99]]) fx.addMono(I.bell(f, 2.4, 2, 3.5), T(13) + 0.05 + k * 0.04, 0.16);
 
 // ---------- mix ----------
 const music = [drums, bass, pad, keys, brass];

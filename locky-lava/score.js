@@ -13,7 +13,7 @@
   const SAFE = U.safeArea(W, H);
   const clock = makeClock({ bpm: 132, offset: 0.4 });
   const { T, BEAT } = clock;
-  const DURATION = T(13) + 0.6;
+  const DURATION = T(13) + 1.9; // room after the music for the closing message
 
   // the world: the left ledge ends at EDGE, the lava sits a bit lower, the phone-bridge spans the gap
   const GEO = { EDGE: 330, FLOOR: 1300, LAVA: 1360, RIGHT: 790, BRIDGE_TOP: 1235, BRIDGE_END: 890 };
@@ -43,16 +43,13 @@
   for (const [a, b] of walks) for (let t = a; t < b - 0.05; t += BEAT / 2) steps.push(t);
 
   // the on-screen words (English)
-  const labels = [
-    { t: T(0, 2), end: ev.land1, text: 'Try 1' },
-    { t: ev.land1 + BEAT, end: ev.land2, text: 'Try 2' },
-    { t: ev.land2 + BEAT, end: ev.idea, text: 'Try 3...' },
-  ];
+  const labels = []; // no on-screen try counters
   const shouts = [
     { t: ev.launch1, end: ev.land1 - 0.2, text: 'AAAH!' },
     { t: ev.launch2, end: ev.land2 - 0.3, text: 'AAAAAAH!' },
   ];
-  const celebrate = [ev.win, T(11, 1), T(11, 2), T(11, 3)];
+  const celebrate = [ev.win, T(11, 1)]; // two hops, then he heads for the door
+  const leave = T(11, 2);
 
   const markers = {
     splash1: { t: ev.splash1, sync: 'av' }, land1: { t: ev.land1, sync: 'av' },
@@ -61,6 +58,6 @@
     bridge: { t: ev.bridge, sync: 'v' }, win: { t: ev.win, sync: 'av' }, end: ev.end,
   };
 
-  const SCORE = { FPS, FORMAT, W, H, SAFE, DURATION, clock, T, BEAT, S, m, chords, chordAt, ev, GEO, steps, labels, shouts, celebrate, markers };
+  const SCORE = { FPS, FORMAT, W, H, SAFE, DURATION, clock, T, BEAT, S, m, chords, chordAt, ev, GEO, steps, labels, shouts, celebrate, leave, markers };
   if (node) module.exports = SCORE; else globalThis.SCORE = SCORE;
 })();
