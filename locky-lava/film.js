@@ -1,4 +1,4 @@
-// THE FILM: Locky (an original little golden padlock) vs. the lava. One wide shot of a volcanic cave,
+// THE FILM: Locky (Loomlock's mascot, rigged from the official vector) vs. the lava. One wide shot of a volcanic cave,
 // with camera shakes on every hit. Every frame is a pure function of t; every event comes from score.js.
 (function () {
   const U = globalThis.U, G = globalThis.G, S = globalThis.SCORE, Studio = globalThis.Studio;
@@ -8,97 +8,125 @@
   const INK = '#2A1E1A';
 
   // ---------- Locky ----------
-  // origin = between the feet. o: {x, y, s, rot, walk (phase) | null, eyes, burn 0..1, open 0..1 (shackle),
-  // phone, arms: 'phone'|'down'|'up'|'cheer'|'flail', mouth: 'keyhole'|'scream'|'smile'|'sad', squash}
+  // Rigged from the official vector (assets/BASIC_LOCKY.svg, 1024 viewBox): each body part is its own path,
+  // posed around its joint. origin = between the feet. o: {x, y, s, rot, walk (phase) | null, eyes, burn 0..1,
+  // open 0..1 (shackle), phone, arms: 'phone'|'down'|'up'|'cheer'|'flail'|'sad', mouth: 'smile'|'scream'|'sad', squash}
+  const SVG = {
+    armR: 'M740.61,579.84l10.51,60.38,2.48,14.24,6.79,39.02c12.16,6.54,21.21,18.52,23.35,33.23,3.59,24.67-13.5,47.59-38.17,51.18-24.67,3.59-47.59-13.5-51.18-38.17-2.14-14.72,3.11-28.77,12.9-38.51l-4.51-38.41-1.86-15.82-7.08-60.33c-2.36-16.2,44.42-23.01,46.78-6.81Z',
+    legR: 'M578.99,697.48v134.69h22.77c11.33,0,20.52,9.19,20.52,20.52h0c0,11.33-9.19,20.52-20.52,20.52h-61.9c-11.33,0-20.52-9.19-20.52-20.52v-155.21h59.64Z',
+    legL: 'M467.18,704.11v134.69h22.77c11.33,0,20.52,9.19,20.52,20.52h0c0,11.33-9.19,20.52-20.52,20.52h-61.9c-11.33,0-20.52-9.19-20.52-20.52v-155.21h59.64Z',
+    shackle: 'M498.16,144.77h0c-83.37,0-150.96,67.59-150.96,150.96v54.08h83.22v-54.44c0-37.42,30.33-67.75,67.75-67.75h0c37.41,0,67.75,30.33,67.75,67.75v54.44h83.22v-54.08c0-83.37-67.59-150.96-150.96-150.96Z',
+    side: 'M377.95,758.06l-86.2-5.43c-16.65.11-30.2-13.35-30.2-30l-2.26-343.96c0-14.99,11.07-27.68,25.92-29.72l90.48-12.43,2.26,421.53Z',
+    front: 'M715.4,749.57l-337.45,8.49c-16.86.42-30.75-13.13-30.75-29.99v-361.54c0-16.57,13.43-30,30-30h337.45c16.57,0,30,13.43,30,30v353.05c0,16.27-12.98,29.58-29.25,29.99Z',
+    eye: 'M41.78,0c.79,54.21-84.36,54.21-83.56,0-.79-54.21,84.36-54.21,83.56,0Z', // centred on (0,0)
+    smile: 'M570.81,501.9c.47,32.3-50.27,32.3-49.79,0',
+    armL: 'M284.21,591.45s-5.99,34.42-10.51,60.38-9.27,53.26-9.27,53.26c-12.16,6.54-21.21,18.52-23.35,33.23-3.59,24.67,13.5,47.59,38.17,51.18,24.67,3.59,47.59-13.5,51.18-38.17,2.14-14.72-3.11-28.77-12.9-38.51,0,0,3.56-30.3,6.37-54.23,2.81-23.94,7.08-60.33,7.08-60.33,2.36-16.2-44.42-23.01-46.78-6.81Z',
+  };
+  const PATH = {};
+  const pth = (k) => PATH[k] || (PATH[k] = new Path2D(SVG[k]));
+  const OUT = '#000000';
+  const JOINT = { armL: [307, 590], armR: [717, 578], legL: [437, 712], legR: [549, 705], shackle: [608, 350] };
+  const ORIGIN = [511, 877], EYES = [[439.9, 501.9], [652, 501.9]], FACE = [546, 510];
+  function part(ctx, k, fill, ang = 0, dx = 0, dy = 0) {
+    ctx.save(); ctx.translate(dx, dy);
+    if (ang) { const [jx, jy] = JOINT[k]; ctx.translate(jx, jy); ctx.rotate(ang); ctx.translate(-jx, -jy); }
+    const p = pth(k);
+    if (fill) { ctx.fillStyle = fill; ctx.fill(p); }
+    ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.stroke(p);
+    ctx.restore();
+  }
+  function oval(ctx, x, y, rx, ry, fill, lw = 6) {
+    ctx.beginPath(); ctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
+    if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+    if (lw) { ctx.lineWidth = lw; ctx.strokeStyle = OUT; ctx.stroke(); }
+  }
+  function stroke(ctx, pts, lw = 7) {
+    ctx.beginPath(); ctx.moveTo(...pts[0]);
+    if (pts.length === 3) ctx.quadraticCurveTo(...pts[1], ...pts[2]); else for (const p of pts.slice(1)) ctx.lineTo(...p);
+    ctx.lineWidth = lw; ctx.strokeStyle = OUT; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+  }
   function locky(ctx, o) {
-    const s = o.s || 1, burn = o.burn || 0;
+    const s = (o.s || 1) * 0.3, burn = o.burn || 0;
     ctx.save(); ctx.translate(o.x, o.y); ctx.rotate(o.rot || 0);
     const sq = o.squash || 0; ctx.scale(s * (1 + sq * 0.25), s * (1 - sq * 0.3));
-    const OUT = '#121218';
-    const blue = burn > 0 ? mix('#3A5CFC', '#2C2730', burn * 0.85) : '#3A5CFC';
-    const side = burn > 0 ? mix('#2338B4', '#1C181E', burn * 0.85) : '#2338B4';
-    const sky = burn > 0 ? mix('#8ED6FF', '#4A4650', burn * 0.8) : '#8ED6FF';
-    const lav = burn > 0 ? mix('#9C98EE', '#4A4458', burn * 0.6) : '#9C98EE';
-    const glove = burn > 0 ? mix('#FFFFFF', '#8A8488', burn * 0.6) : '#FFFFFF';
-    // legs: short lavender legs with rounded feet
-    const ph = o.walk == null ? null : o.walk;
-    const sw = ph == null ? 0 : Math.sin(ph) * 20, liftL = ph == null ? 0 : Math.max(0, Math.cos(ph)) * 10, liftR = ph == null ? 0 : Math.max(0, -Math.cos(ph)) * 10;
-    for (const [lx, d, lift] of [[-30, sw, liftL], [30, -sw, liftR]]) {
-      G.limb(ctx, [[lx, -44], [lx + d, -8 - lift]], { color: lav, lw: 22, outline: OUT });
-      G.ellipse(ctx, lx + d + 6, -8 - lift, 20, 11, { fill: lav, lw: 5, seed: 3 + lx });
-    }
-    // the shackle (light blue, thick, black outline; pops open when Locky is shocked)
-    const op = o.open || 0;
-    ctx.save(); ctx.translate(40, -170 - op * 26); ctx.rotate(-op * 0.75);
-    const arc = []; for (let i = 0; i <= 20; i++) { const a = Math.PI + (Math.PI * i) / 20; arc.push([-40 + 40 * Math.cos(a), -6 + 50 * Math.sin(a)]); }
-    const sh = [[-80, 16], ...arc, [0, 16]];
-    G.line(ctx, sh, { color: OUT, lw: 36, seed: 7, amp: 0.2 });
-    G.line(ctx, sh, { color: sky, lw: 25, seed: 8, amp: 0.2 });
-    ctx.save(); ctx.globalAlpha = 0.7 * (1 - burn); G.line(ctx, arc.slice(4, 9).map(([x, y]) => [x - 4, y + 4]), { color: '#E6F6FF', lw: 6, seed: 9 }); ctx.restore();
-    ctx.restore();
-    // arms: white noodles with round white hands
+    ctx.translate(-ORIGIN[0], -ORIGIN[1]);
+    const b = (c, k) => (burn > 0 ? mix(c, k[0], burn * k[1]) : c);
+    const blue = b('#3F49CC', ['#2C2730', 0.85]), sky = b('#9FD8FF', ['#4A4650', 0.8]);
+    const lav = b('#878EE5', ['#4A4458', 0.6]), glove = b('#FFFFFF', ['#8A8488', 0.6]);
+    const t = G.t;
+    // walk cycle: legs swing from the hips, the body bobs on the passing pose
+    const ph = o.walk;
+    const swing = ph == null ? 0 : Math.sin(ph) * 0.38;
+    const liftL = ph == null ? 0 : Math.max(0, Math.cos(ph)) * 26, liftR = ph == null ? 0 : Math.max(0, -Math.cos(ph)) * 26;
+    const bob = ph == null ? 0 : -Math.abs(Math.cos(ph)) * 16;
+    // arm angles around the shoulders (0 = hanging); the right arm comes in front of the body when it is posed
+    const fl = Math.sin(t * 40);
     const arms = o.arms || 'down';
-    const armPts = {
-      down: [[[-72, -100], [-96, -72], [-94, -48]], [[72, -100], [96, -72], [94, -48]]],
-      phone: [[[-72, -100], [-60, -60], [10, -76]], [[72, -100], [112, -94], [106, -134]]],
-      up: [[[-72, -110], [-110, -150], [-118, -196]], [[72, -110], [110, -150], [118, -196]]],
-      cheer: [[[-72, -110], [-120, -150], [-140, -210]], [[72, -110], [120, -150], [140, -210]]],
-      flail: [[[-72, -110], [-128, -126 + Math.sin(G.t * 40) * 20], [-150, -170 + Math.sin(G.t * 40) * 30]], [[72, -110], [128, -126 - Math.sin(G.t * 40) * 20], [150, -170 - Math.sin(G.t * 40) * 30]]],
-      sad: [[[-72, -100], [-70, -56], [-22, -46]], [[72, -100], [70, -56], [22, -46]]],
+    const [aL, aR] = {
+      down: [swing * 0.6, -swing * 0.6], phone: [-1.05, 1.05], sad: [-0.62, 0.62],
+      up: [2.8, -2.8], cheer: [2.35 + 0.1 * Math.sin(t * 12), -2.35 - 0.1 * Math.sin(t * 12)],
+      flail: [2.1 + 0.55 * fl, -2.1 - 0.55 * Math.sin(t * 40 + 1.3)],
     }[arms];
-    // the body: a chunky blue block with a darker side face (the 3D look of the Loomlock art)
-    G.rrect(ctx, -60, -170, 140, 134, 22, { fill: side, lw: 6, seed: 10 });
-    G.rrect(ctx, -76, -176, 136, 136, 22, { fill: blue, lw: 6, seed: 11 });
-    ctx.save(); ctx.globalAlpha = 0.25 * (1 - burn); G.rrect(ctx, -64, -164, 20, 60, 10, { fill: '#FFFFFF', lw: 0, seed: 12 }); ctx.restore();
-    if (burn > 0.2) for (let i = 0; i < 7; i++) { // soot smudges
-      ctx.save(); ctx.globalAlpha = burn * 0.7;
-      G.ellipse(ctx, -60 + G.rnd(i, 21) * 100, -160 + G.rnd(i, 22) * 110, 8 + G.rnd(i, 23) * 14, 6 + G.rnd(i, 24) * 9, { fill: '#0E0C10', lw: 0, seed: 30 + i });
+    part(ctx, 'legR', lav, -swing, 0, -liftR);
+    part(ctx, 'legL', lav, swing, 0, -liftL);
+    ctx.save(); ctx.translate(0, bob);
+    if (arms === 'down') part(ctx, 'armR', glove, aR);
+    // the shackle pops open when Locky is shocked
+    const op = o.open || 0;
+    part(ctx, 'shackle', sky, -op * 0.55, 0, -op * 80);
+    part(ctx, 'side', b('#000000', ['#000000', 0]));
+    part(ctx, 'front', blue);
+    if (burn > 0.2) { // soot smudges, kept on the body
+      ctx.save(); ctx.clip(pth('front'));
+      for (let i = 0; i < 7; i++) { ctx.globalAlpha = burn * 0.7; oval(ctx, 400 + G.rnd(i, 21) * 300, 360 + G.rnd(i, 22) * 360, 22 + G.rnd(i, 23) * 36, 16 + G.rnd(i, 24) * 22, '#0E0C10', 0); }
       ctx.restore();
     }
-    for (const a of armPts) G.limb(ctx, a, { color: glove, lw: 14, outline: OUT });
-    for (const a of armPts) G.ellipse(ctx, a[2][0], a[2][1], 17, 16, { fill: glove, lw: 5, seed: 40 + a[2][0] });
-    // the phone in hand
-    if (o.phone) {
-      const [hx, hy] = armPts[1][2];
-      ctx.save(); ctx.translate(hx - 8, hy + 6); ctx.rotate(-0.25);
-      G.rrect(ctx, -22, -42, 44, 78, 9, { fill: '#1C1C26', lw: 5, seed: 50 });
-      G.rrect(ctx, -16, -34, 32, 60, 5, { fill: '#F37BC0', lw: 0, seed: 51 });
-      ctx.restore();
-      G.ellipse(ctx, hx, hy, 17, 16, { fill: glove, lw: 5, seed: 52 });
-    }
-    // the face: white oval eyes, a tiny smile with a pink tongue
+    // the face: plain white oval eyes, a small smile
     const eyes = o.eyes || 'normal';
-    const look = eyes === 'phone' ? [8, 5] : [o.lookX || 0, o.lookY || 0];
-    const fx = -8; // face centre (the front face is shifted left of the side panel)
-    for (const ex of [fx - 32, fx + 32]) {
-      if (eyes === 'closed' || eyes === 'happy') {
-        G.line(ctx, eyes === 'happy' ? [[ex - 15, -112], [ex, -124], [ex + 15, -112]] : [[ex - 15, -120], [ex, -110], [ex + 15, -120]], { color: OUT, lw: 6, seed: 60 + ex });
-        continue;
-      }
-      const ry = eyes === 'wide' ? 24 : 14, rx = eyes === 'wide' ? 22 : 20;
-      G.ellipse(ctx, ex, -118, rx, ry, { fill: '#FFFFFF', lw: 5, seed: 61 + ex });
+    const look = eyes === 'phone' ? [6, 22] : [(o.lookX || 0) * 1.6, (o.lookY || 0) * 1.6];
+    for (const [ex0, ey0] of EYES) {
+      const ex = ex0 + look[0], ey = ey0 + look[1], left = ex0 < FACE[0];
+      if (eyes === 'closed') { stroke(ctx, [[ex - 34, ey - 6], [ex, ey + 22], [ex + 34, ey - 6]], 8); continue; }
+      if (eyes === 'happy') { stroke(ctx, [[ex - 34, ey + 12], [ex, ey - 30], [ex + 34, ey + 12]], 8); continue; }
+      const k = eyes === 'wide' ? 1.3 : 1;
+      ctx.save(); ctx.translate(ex, ey); ctx.scale(k, k);
+      const e = pth('eye'); ctx.fillStyle = '#FFFFFF'; ctx.fill(e); ctx.lineWidth = 6 / k; ctx.strokeStyle = OUT; ctx.stroke(e);
+      ctx.restore();
+      if (eyes === 'wide') oval(ctx, ex + (o.lookX || 0), ey + 4, 10, 10, OUT, 0);
       if (eyes === 'spiral') {
-        const pts = []; for (let i = 0; i < 34; i++) { const a = i * 0.5 + G.t * 14 * (ex < fx ? 1 : -1), r = i * 0.5; pts.push([ex + r * Math.cos(a), -118 + r * 0.8 * Math.sin(a)]); }
-        G.line(ctx, pts, { color: OUT, lw: 3.5, seed: 62 });
-      } else if (eyes === 'phone' || eyes === 'wide' || o.lookX) {
-        const pr = eyes === 'wide' ? 6 : 6;
-        G.ellipse(ctx, ex + look[0], -118 + look[1], pr, pr, { fill: OUT, lw: 0, seed: 63 });
+        ctx.beginPath(); for (let i = 0; i < 40; i++) { const a = i * 0.5 + t * 14 * (left ? 1 : -1), r = i * 0.85; ctx[i ? 'lineTo' : 'moveTo'](ex + r * Math.cos(a), ey + r * 0.9 * Math.sin(a)); }
+        ctx.lineWidth = 5; ctx.strokeStyle = OUT; ctx.stroke();
       }
-      if (eyes === 'sad') { // droopy lids
-        G.poly(ctx, [[ex - 22, -136], [ex + 22, -136], [ex + 22, ex < fx ? -114 : -122], [ex - 22, ex < fx ? -122 : -114]], { fill: blue, lw: 4, seed: 65 + ex });
+      if (eyes === 'sad') { // droopy lids, sloping down to the outside
+        ctx.beginPath(); ctx.moveTo(ex - 50, ey - 50); ctx.lineTo(ex + 50, ey - 50);
+        ctx.lineTo(ex + 50, ey + (left ? -18 : 4)); ctx.lineTo(ex - 50, ey + (left ? 4 : -18)); ctx.closePath();
+        ctx.fillStyle = blue; ctx.fill();
+        stroke(ctx, [[ex - 40, ey + (left ? 2 : -16)], [ex + 40, ey + (left ? -16 : 2)]], 6);
       }
     }
+    const [mx, my] = [FACE[0] + look[0] * 0.6, FACE[1] + look[1] * 0.6];
     const mouth = o.mouth || 'smile';
     if (mouth === 'scream') {
-      G.ellipse(ctx, fx, -76, 16, 20, { fill: '#5A1E2E', lw: 5, seed: 70 });
-      G.ellipse(ctx, fx, -66, 9, 6, { fill: '#F27BA0', lw: 0, seed: 71 });
+      oval(ctx, mx, my + 34, 32, 40, '#5A1E2E');
+      oval(ctx, mx, my + 56, 18, 11, '#F27BA0', 0);
     } else if (mouth === 'sad') {
-      G.line(ctx, [[fx - 12, -78], [fx, -86], [fx + 12, -78]], { color: OUT, lw: 5, seed: 72 });
+      stroke(ctx, [[mx - 26, my + 26], [mx, my + 4], [mx + 26, my + 26]], 6);
     } else {
-      G.ellipse(ctx, fx, -84, 8, 7, { fill: '#F27BA0', lw: 4, seed: 73 });
-      G.line(ctx, [[fx - 14, -90], [fx - 7, -84], [fx, -90], [fx + 7, -84], [fx + 14, -90]], { color: OUT, lw: 5, seed: 74 });
+      ctx.save(); ctx.translate(look[0] * 0.6, look[1] * 0.6);
+      ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.lineCap = 'round'; ctx.stroke(pth('smile'));
+      ctx.restore();
     }
-    if (o.blush) { ctx.save(); ctx.globalAlpha = 0.5; G.ellipse(ctx, fx - 52, -94, 12, 7, { fill: '#F27BA0', lw: 0, seed: 75 }); G.ellipse(ctx, fx + 52, -94, 12, 7, { fill: '#F27BA0', lw: 0, seed: 76 }); ctx.restore(); }
+    if (o.blush) { ctx.save(); ctx.globalAlpha = 0.5; oval(ctx, 395, 566, 30, 16, '#F27BA0', 0); oval(ctx, 698, 566, 30, 16, '#F27BA0', 0); ctx.restore(); }
+    // the phone, held in both hands in front of the body
+    if (o.phone) {
+      ctx.save(); ctx.translate(FACE[0] - 30, 650); ctx.rotate(-0.12);
+      ctx.beginPath(); ctx.roundRect(-62, -96, 124, 192, 22); ctx.fillStyle = '#1C1C26'; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.stroke();
+      ctx.beginPath(); ctx.roundRect(-48, -80, 96, 158, 12); ctx.fillStyle = '#F37BC0'; ctx.fill();
+      ctx.restore();
+    }
+    if (arms !== 'down') part(ctx, 'armR', glove, aR);
+    part(ctx, 'armL', glove, aL);
+    ctx.restore();
     ctx.restore();
   }
   function mix(a, b, k) {
