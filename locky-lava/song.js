@@ -65,7 +65,6 @@ fx.addMono(I.paperFwip(0.6), ev.tip, 0.3);
 // ---------- the bridge: THUNK ----------
 fx.addMono(I.thud(55, 0.6), ev.bridge, 1);
 fx.addMono(I.subBoom(1, 70, 30), ev.bridge, 0.6);
-drums.addMono(I.crash(4), ev.bridge, 0.35);
 // ---------- the win: fanfare ----------
 for (const [beat, ch] of [[0, ['C4', 'E4', 'G4', 'C5']], [1.5, ['D4', 'F4', 'A4', 'D5']], [2, ['E4', 'G4', 'C5', 'E5']]]) {
   for (const n of ch) { const { L, R } = I.brassNote(m(n), BEAT * (beat === 2 ? 1.6 : 0.45), { stab: beat !== 2, bright: 1.2, seed: m(n) + beat }); brass.addStereo(L, R, T(11, beat), 0.09); }

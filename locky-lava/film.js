@@ -245,7 +245,7 @@
   }
   function bulb(ctx, t, x, y) {
     if (t < ev.idea || t > ev.bridge) return;
-    const p = ease.outBack(clamp((t - ev.idea) / 0.25), 2.5);
+    const p = ease.outBack(clamp((t - ev.idea) / 0.1), 2.5);
     ctx.save(); ctx.translate(x, y); ctx.scale(p, p);
     G.rays(ctx, 0, 0, { n: 12, r0: 70, r1: 120, color: '#FFE06A', lw: 7, seed: 410, spin: t * 0.6 });
     G.ellipse(ctx, 0, 0, 48, 52, { fill: '#FFE06A', lw: 6, seed: 411 });
@@ -315,6 +315,8 @@
       stamp(ctx, t, ev.bridge, ev.bridge + 0.9, '¡PUM!', 600, 1080, 100, '#FFFFFF', 0.05);
       stamp(ctx, t, ev.win, ev.end, '¡LO LOGRÓ!', W / 2 - 40, 640, 110, '#7CF29A');
 
+      // white flashes on the idea and the win
+      for (const tf of [ev.idea, ev.win]) { const a = t - tf; if (a >= 0 && a < 0.2) { ctx.save(); ctx.globalAlpha = 0.6 * (1 - a / 0.2); ctx.fillStyle = '#FFF6D8'; ctx.fillRect(0, 0, W, H); ctx.restore(); } }
       // the end card
       const e = clamp((t - ev.end) / 0.4);
       if (e > 0) {
