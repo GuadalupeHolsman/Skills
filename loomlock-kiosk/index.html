@@ -1016,6 +1016,7 @@ h2 .w{display:inline-block}
     anfitrion: "Tequila Don Julio",    // marca anfitriona del canal (va chica, como anfitriona)
     aviso18: true,                     // muestra "Evento para mayores de 18" en la portada (marcas de alcohol)
     idleSegundos: 60,    // sin toques por este tiempo → vuelve al inicio
+    sheetUrl: "",   // URL de la web app de Google Apps Script (ver apps-script/README.md); vacío = solo conteo local
     idioma: "es"
   };
 
@@ -1584,13 +1585,17 @@ h2 .w{display:inline-block}
   const writeQ = a => { try { localStorage.setItem(Q_KEY, JSON.stringify(a)) } catch (e) {} };
   let dbRef = null, flushing = false;
   if (window.claude && claude.use) claude.use("db").then(d => { dbRef = d; flushQ() }).catch(() => {});
+  const labelOf = id => (T.es["inv." + id] || id);
   async function flushQ(){
-    if (!dbRef || flushing) return; flushing = true;
+    if ((!dbRef && !CONFIG.sheetUrl) || flushing) return; flushing = true;
     try {
       let q = readQ();
       while (q.length){
-        await dbRef.doc("invites/" + q[0].k).set(q[0]);
-        q = readQ().filter(x => x.k !== q[0].k); writeQ(q);
+        const it = q[0];
+        if (dbRef) await dbRef.doc("invites/" + it.k).set(it);
+        /* no-cors: the browser can't read the reply, a network error is what keeps it queued */
+        if (CONFIG.sheetUrl) await fetch(CONFIG.sheetUrl, {method: "POST", mode: "no-cors", headers: {"Content-Type": "text/plain"}, body: JSON.stringify({...it, label: labelOf(it.id)})});
+        q = readQ().filter(x => x.k !== it.k); writeQ(q);
       }
     } catch (e) {}
     flushing = false;
@@ -1625,7 +1630,16 @@ h2 .w{display:inline-block}
   const showTally = () => {
     drawTally(readTally(), t("tally.local"));
     $("#tally").hidden = false; $("#tally-reset").textContent = t("tally.reset"); $("#tally-reset").classList.remove("arm");
-    if (dbRef && !unsub){
+    if (CONFIG.sheetUrl && !unsub){
+      flushQ();
+      const pull = async () => {
+        try {
+          const r = await (await fetch(CONFIG.sheetUrl + "?t=" + Date.now())).json();
+          rows = r.rows || []; drawTally(r.counts || {}, t("tally.all") + " · live");
+        } catch (e) {}
+      };
+      pull(); const iv = setInterval(pull, 5000); unsub = () => clearInterval(iv);
+    } else if (dbRef && !unsub){
       flushQ();
       /* live: every pick from any screen shows up here as it happens */
       unsub = dbRef.collection("invites").onSnapshot(snap => {
@@ -1648,6 +1662,7 @@ h2 .w{display:inline-block}
     const d = window.claude && claude.use ? await claude.use("downloads").catch(() => null) : null;
     const csv = "fecha_hora,invitacion,id\n" + rows.sort((x, y) => (x.ts > y.ts) - (x.ts < y.ts)).map(x => `${x.ts},"${t("inv." + x.id)}",${x.id}`).join("\n");
     if (d) d.save({filename: "loomlock-invitaciones.csv", data: csv}).catch(() => {});
+    else { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], {type: "text/csv"})); a.download = "loomlock-invitaciones.csv"; a.click() }
   };
   $("#tally-copy").onclick = () => {
     const o = shown, txt = INV_IDS.map(id => `${t("inv." + id)}\t${o[id] || 0}`).join("\n");
