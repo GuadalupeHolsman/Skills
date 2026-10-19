@@ -2,6 +2,7 @@
 
 Evento: **jueves 12 de noviembre · Medellín · 40 cupos · solo con invitación**. Hora y lugar: por confirmar. Las piezas no los dicen todavía.
 Reglas: "loomlock" siempre en minúscula · "Live now, post later." · sin WhatsApp · nada en vivo durante el evento.
+Estilo: v2, con la impronta de loomlock (Channel, azul, formas geométricas, Locky). Quokka entra con su logo, su naranja y su sonrisa.
 Cuentas: @quokkacoworking (Instagram y Facebook). Etiquetar a @loomlock.
 
 ## 1 · Invitación Instagram (`01-invitacion-instagram-1080x1350.png`)
@@ -16,7 +17,7 @@ Cuándo: dom 8 nov. Mejor como **collab post** con loomlock.
 Story (misma pieza): "Jueves 12 · 40 cupos · Solo con invitación".
 
 ## 2 · Banner web (`02-banner-web-1600x500.png`)
-Para la home o la página de eventos de quokkacoworking.com. Pensado para escritorio; en celular conviene recortar el panel naranja.
+Para la home o la página de eventos de quokkacoworking.com. Pensado para escritorio; en celular conviene recortar el sol y dejar solo el titular.
 - Texto alternativo: "Grill on. Feed off. Asado y networking en Quokka Medellín, jueves 12 de noviembre. 40 cupos, solo con invitación."
 - Botón sugerido: "Solo con invitación".
 

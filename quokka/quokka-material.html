@@ -6,156 +6,208 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{
-    --purple:#692DDD; --orange:#FE6736; --cream:#F5F7FD; --ink:#212120; --white:#fff;
+    --blue:#1a3fc4; --blue-d:#0b238a; --brand:#3f49cc; --navy:#14186b;
+    --yellow:#f9c823; --orange:#FE6736; --lav:#e9e9f8; --black:#0b0b12; --white:#fff;
+    --q-purple:#692DDD;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:#d9dbe3;font-family:'Inter Display','Inter',system-ui,sans-serif;padding:40px;display:flex;flex-direction:column;gap:40px;align-items:flex-start}
+  body{background:#cfd2e0;font-family:'Inter Display','Inter',system-ui,sans-serif;padding:40px;display:flex;flex-direction:column;gap:40px;align-items:flex-start}
   .piece{position:relative;overflow:hidden;flex:none}
   .ig{width:1080px;height:1350px}
   .banner{width:1600px;height:500px}
-  h1,h2,p{font-weight:800;letter-spacing:-0.035em}
-  .lockup{display:flex;align-items:center;gap:26px}
-  .lockup .ll{height:50px;width:auto}
-  .lockup .qk{height:62px;width:auto}
-  .lockup .x{font-size:34px;font-weight:500;opacity:.8}
-  .pill{display:inline-block;border-radius:999px;padding:12px 26px;font-size:26px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
-  .smile{position:absolute}
+  .up{text-transform:uppercase;font-weight:900;letter-spacing:-.045em;line-height:.86}
+  .ll-word{height:34px;width:auto;display:block}
+  .ll-mark{height:78px;width:auto;display:block}
+  .pill{display:inline-flex;align-items:center;border-radius:999px;padding:9px 22px;font-size:24px;font-weight:800;letter-spacing:.04em;background:var(--black);color:var(--yellow)}
+  .foot{position:absolute;left:70px;right:70px;bottom:62px;display:flex;justify-content:space-between;align-items:flex-end;font-size:24px;line-height:1.3}
+  .foot .l b{display:block;color:var(--yellow);font-weight:800}
+  .foot .l span{display:block;color:var(--yellow);opacity:.9;font-weight:600}
+  .foot .r{text-align:right;color:var(--white);font-weight:700}
+  .foot .r i{font-weight:800}
+  .foot .r small{display:block;font-size:20px;font-weight:600;opacity:.85}
+  .topbar{position:absolute;left:70px;right:70px;top:62px;display:flex;justify-content:space-between;align-items:center}
+  .co{display:flex;align-items:center;gap:20px}
+  .co .x{font-size:26px;opacity:.8;font-weight:500}
+  .co .qk{height:46px;width:auto;display:block}
 
-  /* 1 · invitación instagram */
-  #invite{background:var(--purple);color:var(--white)}
-  #invite .lockup{position:absolute;left:84px;top:84px}
-  #invite .pill{position:absolute;left:84px;top:250px;background:var(--orange);color:var(--ink)}
-  #invite h1{position:absolute;left:84px;top:330px;font-size:178px;line-height:.92}
-  #invite h1 em{font-style:normal;color:var(--orange)}
-  #invite .smile{left:0;top:760px;width:1080px;height:300px}
-  #invite .info{position:absolute;left:84px;bottom:84px;right:84px}
-  #invite .info .d{font-size:60px;font-weight:800;letter-spacing:-.03em;line-height:1.05}
-  #invite .info .s{font-size:34px;font-weight:500;margin-top:14px;opacity:.92}
-  #invite .info .f{display:flex;justify-content:space-between;align-items:center;margin-top:34px;padding-top:28px;border-top:2px solid rgba(255,255,255,.35);font-size:28px;font-weight:600}
-  #invite .info .f b{color:var(--orange)}
+  /* ===== 1 · invitación IG · estilo "Channel" ===== */
+  #invite{background:var(--lav);color:var(--navy)}
+  #invite .topbar .qk{height:50px}
+  #invite .chan{position:absolute;left:0;right:0;top:128px;text-align:center;font-size:156px;font-weight:300;letter-spacing:-.05em;line-height:1;transform:skewX(-9deg);color:var(--navy)}
+  #invite .n{position:absolute;top:290px;font-size:900px;font-weight:900;line-height:.74;color:var(--navy);transform-origin:left top;letter-spacing:-.08em}
+  #invite .n0{left:28px;transform:scale(.58,1)}
+  #invite .n4{right:-18px;transform:scale(.58,1);transform-origin:right top}
+  #invite .panel{position:absolute;left:262px;top:352px;width:556px;height:618px;background:var(--yellow)}
+  #invite .locky{position:absolute;left:270px;top:400px;width:540px;height:540px}
+  #invite .meta{position:absolute;left:70px;right:70px;top:1010px;display:flex;justify-content:space-between;align-items:flex-start}
+  #invite .meta .d{font-size:36px;line-height:1.2;font-weight:500}
+  #invite .meta .d b{font-weight:900}
+  #invite .meta .t{font-size:44px;font-weight:900;font-style:italic;line-height:1.05;text-align:right;letter-spacing:-.02em}
+  #invite .bot{position:absolute;left:70px;right:70px;bottom:56px;display:flex;justify-content:space-between;align-items:center;font-size:24px;font-weight:700;border-top:3px solid var(--navy);padding-top:22px}
+  #invite .bot i{font-weight:800}
 
-  /* 2 · banner web */
-  #banner{background:var(--purple);color:var(--white)}
-  #banner .left{position:absolute;left:80px;top:0;bottom:0;width:880px;display:flex;flex-direction:column;justify-content:center}
-  #banner .lockup .ll{height:34px}
-  #banner .lockup .qk{height:44px}
-  #banner .lockup .x{font-size:26px}
-  #banner h1{font-size:112px;line-height:.95;margin-top:34px}
-  #banner h1 em{font-style:normal;color:var(--orange)}
-  #banner .sub{font-size:30px;font-weight:500;margin-top:22px;opacity:.95}
-  #banner .right{position:absolute;right:0;top:0;bottom:0;width:540px;background:var(--orange);color:var(--ink);padding:52px 56px;display:flex;flex-direction:column;justify-content:space-between}
-  #banner .right .k{font-size:26px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-  #banner .right .n{font-size:180px;font-weight:800;letter-spacing:-.06em;line-height:.8}
-  #banner .right .m{font-size:60px;font-weight:800;letter-spacing:-.03em;margin-top:6px}
-  #banner .right .b{display:inline-block;white-space:nowrap;background:var(--ink);color:var(--white);border-radius:999px;padding:16px 28px;font-size:23px;font-weight:700;align-self:flex-start}
-  #banner .arc{position:absolute;left:640px;bottom:-130px;width:560px;height:240px}
+  /* ===== 2 · banner ===== */
+  #banner{background:radial-gradient(ellipse at 78% 50%,#2a54e6 0%,var(--blue) 45%,var(--blue-d) 100%);color:var(--white)}
+  #banner .left{position:absolute;left:72px;top:0;bottom:0;width:1090px;display:flex;flex-direction:column;justify-content:center;gap:26px}
+  #banner .co .ll-word{height:34px}
+  #banner .co .qk{height:44px}
+  #banner h1{font-size:120px}
+  #banner h1 em{font-style:normal;color:var(--yellow)}
+  #banner .line{font-size:25px;white-space:nowrap;line-height:1.4;font-weight:600;color:var(--white)}
+  #banner .line b{color:var(--yellow);font-weight:800}
+  #banner .sun{position:absolute;right:56px;top:96px;width:370px;height:370px}
+  #banner .pillw{position:absolute;right:72px;top:34px}
+  #banner .liv{position:absolute;right:72px;bottom:34px;font-size:22px;font-weight:800;font-style:italic}
 
-  /* posts */
-  .post .top{position:absolute;left:84px;top:84px;right:84px;display:flex;justify-content:space-between;align-items:center}
-  .post .kick{font-size:26px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-  .post h2{position:absolute;left:84px;right:84px;line-height:.98}
-  .post .foot{position:absolute;left:84px;right:84px;bottom:84px;display:flex;justify-content:space-between;align-items:flex-end}
-  .post .foot .t{font-size:32px;font-weight:700;line-height:1.25;letter-spacing:-.01em}
-  .post .lockup .ll{height:40px}.post .lockup .qk{height:50px}.post .lockup .x{font-size:28px}
+  /* ===== posts ===== */
+  /* 3 · networking · estilo carrusel */
+  #p1{background:var(--white);color:var(--brand)}
+  #p1 .topbar .ll-word{height:34px}
+  #p1 h2{position:absolute;left:70px;right:70px;top:230px;font-size:108px;font-weight:800;letter-spacing:-.04em;line-height:1.02;color:var(--brand)}
+  #p1 h2 em{font-style:normal;color:var(--orange)}
+  #p1 .mk{position:absolute;left:70px;bottom:62px;height:96px}
+  #p1 .rt{position:absolute;right:70px;bottom:62px;text-align:right;font-size:24px;font-weight:700;color:var(--brand);display:flex;flex-direction:column;align-items:flex-end;gap:14px}
+  #p1 .rt .qk{height:56px;width:auto}
+  #p1 .rt i{font-weight:600}
 
-  #p1{background:var(--orange);color:var(--ink)}
-  #p1 h2{top:230px;font-size:116px}
-  #p1 h2 em{font-style:normal;color:var(--white)}
-  #p1 .smile{left:84px;top:930px;width:912px;height:190px}
+  /* 4 · asado · estilo "Better habits" */
+  #p2{background:var(--black);color:var(--white)}
+  #p2 svg.bowls{position:absolute;left:0;top:110px;width:1080px;height:640px}
+  #p2 h2{position:absolute;left:70px;right:330px;top:790px;font-size:92px}
+  #p2 .side{position:absolute;right:70px;top:800px;width:210px;font-size:17px;line-height:1.35;font-weight:600;opacity:.9}
+  #p2 .side img{display:block;width:92px;margin-top:28px}
 
-  #p2{background:var(--cream);color:var(--purple)}
-  #p2 h2{top:250px;font-size:150px}
-  #p2 h2 em{font-style:normal;color:var(--orange)}
-  #p2 .foot .t{color:var(--ink)}
-  #p2 .icon{position:absolute;left:84px;top:930px;width:150px;height:150px}
-
-  #p3{background:var(--ink);color:var(--white)}
-  #p3 h2{top:300px;font-size:178px;line-height:.9}
-  #p3 h2 em{font-style:normal;color:var(--orange)}
-  #p3 .big{position:absolute;left:84px;top:700px;font-size:120px;font-weight:800;letter-spacing:-.03em;line-height:1.1;color:var(--cream)}
-  #p3 .big span{color:var(--orange)}
+  /* 5 · mañana · estilo "Take a break" */
+  #p3{background:radial-gradient(ellipse at 50% 38%,#2a54e6 0%,var(--blue) 40%,var(--blue-d) 100%);color:var(--white)}
+  #p3 svg.flower{position:absolute;left:140px;top:120px;width:800px;height:800px}
+  #p3 h2{position:absolute;left:70px;top:890px;font-size:146px}
+  #p3 .sub{position:absolute;left:70px;top:1040px;font-size:28px;font-weight:700;line-height:1.35;width:940px}
+  #p3 .sub b{color:var(--yellow)}
 </style>
 </head>
 <body>
 
 <!-- 1 · Invitación Instagram 4:5 -->
 <section class="piece ig" id="invite">
-  <div class="lockup">
-    <img class="ll" src="assets/loomlock-logo-white.svg" alt="loomlock">
-    <span class="x">×</span>
-    <img class="qk" src="assets/quokka-logo-white.png" alt="Quokka coworking">
+  <div class="topbar">
+    <img class="ll-word" src="assets/loomlock-logo-blue.svg" alt="loomlock" style="height:44px">
+    <div class="co"><span class="x">×</span><img class="qk" src="assets/quokka-logo.png" alt="Quokka coworking"></div>
   </div>
-  <span class="pill">Channel 04</span>
-  <h1>Grill on.<br><em>Feed off.</em></h1>
-  <svg class="smile" viewBox="0 0 1080 300" fill="none"><path d="M120 60 C 300 300, 780 300, 960 60" stroke="#FE6736" stroke-width="64" stroke-linecap="round"/></svg>
-  <div class="info">
-    <div class="d">Jueves 12 de noviembre</div>
-    <div class="s">Asado y networking · Medellín</div>
-    <div class="f"><span>40 cupos · Solo con invitación</span><b>Live now, post later.</b></div>
+  <div class="chan">Channel</div>
+  <div class="n n0">0</div>
+  <div class="n n4">4</div>
+  <div class="panel"></div>
+  <svg class="locky" viewBox="0 0 300 300" fill="none">
+    <!-- confeti -->
+    <rect x="30" y="60" width="14" height="14" rx="3" fill="#ff4d6d" transform="rotate(20 37 67)"/>
+    <rect x="250" y="40" width="16" height="10" rx="3" fill="#7b3fe4" transform="rotate(-25 258 45)"/>
+    <circle cx="58" cy="140" r="7" fill="#27c46b"/>
+    <circle cx="256" cy="120" r="8" fill="#ff8a1f"/>
+    <rect x="228" y="190" width="14" height="14" rx="3" fill="#ff4d6d" transform="rotate(35 235 197)"/>
+    <rect x="52" y="210" width="16" height="9" rx="3" fill="#27c46b" transform="rotate(-30 60 214)"/>
+    <circle cx="150" cy="28" r="6" fill="#7b3fe4"/>
+    <!-- piernas -->
+    <rect x="108" y="238" width="26" height="34" rx="8" fill="#14186b"/>
+    <rect x="166" y="238" width="26" height="34" rx="8" fill="#14186b"/>
+    <ellipse cx="116" cy="276" rx="22" ry="9" fill="#14186b"/>
+    <ellipse cx="184" cy="276" rx="22" ry="9" fill="#14186b"/>
+    <!-- brazos arriba -->
+    <path d="M78 172 C52 160 40 130 44 104" stroke="#14186b" stroke-width="15" stroke-linecap="round"/>
+    <path d="M222 172 C248 160 260 130 256 104" stroke="#14186b" stroke-width="15" stroke-linecap="round"/>
+    <circle cx="44" cy="100" r="13" fill="#14186b"/><circle cx="256" cy="100" r="13" fill="#14186b"/>
+    <!-- argolla -->
+    <path d="M104 134 V96 a46 46 0 0 1 92 0 V134" stroke="#c9d0ff" stroke-width="20" stroke-linecap="round"/>
+    <path d="M104 134 V96 a46 46 0 0 1 92 0 V134" stroke="#8d9cf0" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 300" opacity="0"/>
+    <!-- cuerpo -->
+    <rect x="70" y="128" width="160" height="118" rx="26" fill="#2b45e8"/>
+    <rect x="70" y="128" width="160" height="40" rx="26" fill="#4a63f5" opacity=".55"/>
+    <!-- cara -->
+    <circle cx="122" cy="180" r="9" fill="#14186b"/><circle cx="178" cy="180" r="9" fill="#14186b"/>
+    <circle cx="125" cy="177" r="3" fill="#fff"/><circle cx="181" cy="177" r="3" fill="#fff"/>
+    <circle cx="104" cy="204" r="9" fill="#ff8fb1" opacity=".75"/><circle cx="196" cy="204" r="9" fill="#ff8fb1" opacity=".75"/>
+    <path d="M128 200 Q150 232 172 200 Z" fill="#14186b"/>
+    <path d="M138 212 Q150 224 162 212 Q150 216 138 212Z" fill="#ff6b8a"/>
+  </svg>
+  <div class="meta">
+    <div class="d"><b>Thu 12 Nov</b><br>Medellín · Quokka<br>Asado y networking · 40 cupos</div>
+    <div class="t">Grill on.<br>Feed off.</div>
   </div>
+  <div class="bot"><span>Solo con invitación</span><i>Live now, post later.</i></div>
 </section>
 
 <!-- 2 · Banner web 1600×500 -->
 <section class="piece banner" id="banner">
   <div class="left">
-    <div class="lockup">
-      <img class="ll" src="assets/loomlock-logo-white.svg" alt="loomlock">
+    <div class="co">
+      <img class="ll-word" src="assets/loomlock-logo-white.svg" alt="loomlock">
       <span class="x">×</span>
       <img class="qk" src="assets/quokka-logo-white.png" alt="Quokka coworking">
     </div>
-    <h1>Grill on. <em>Feed off.</em></h1>
-    <p class="sub" style="font-weight:500;letter-spacing:-.01em">Channel 04 · Asado y networking en Medellín. Una noche sin celulares, con gente de verdad.</p>
+    <h1 class="up">Grill on.<br><em>Feed off.</em></h1>
+    <div class="line"><b>Channel 4 · Jueves 12 de noviembre</b><br>Asado y networking · Medellín · 40 cupos · Solo con invitación · <i style="color:var(--yellow);font-weight:800">Live now, post later.</i></div>
   </div>
-  <div class="right">
-    <div class="k">Jueves</div>
-    <div><div class="n">12</div><div class="m">noviembre</div></div>
-    <div class="b">40 cupos · Solo con invitación</div>
-  </div>
+  <span class="pill pillw">Ch. 04</span>
+  <svg class="sun" viewBox="0 0 400 400" fill="none">
+    <defs><radialGradient id="g1" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe27a"/><stop offset=".55" stop-color="#fbb13c"/><stop offset="1" stop-color="#FE6736"/></radialGradient></defs>
+    <circle cx="200" cy="200" r="190" fill="url(#g1)"/>
+    <g stroke="#FE6736" stroke-opacity=".55" fill="none"><circle cx="200" cy="200" r="150" stroke-width="3"/><circle cx="200" cy="200" r="112" stroke-width="3"/><circle cx="200" cy="200" r="76" stroke-width="3"/></g>
+    <path d="M110 215 C150 290, 250 290, 290 215" stroke="#1a3fc4" stroke-width="26" stroke-linecap="round"/>
+  </svg>
+  
 </section>
 
-<!-- 3 · Post: networking -->
-<section class="piece ig post" id="p1">
-  <div class="top"><span class="kick">Ch.04 · Quokka</span></div>
+<!-- 3 · Post: networking (estilo carrusel) -->
+<section class="piece ig" id="p1">
+  <div class="topbar">
+    <img class="ll-word" src="assets/loomlock-logo-blue.svg" alt="loomlock">
+    <img class="ll-mark" src="assets/loomlock-mark-blue.svg" alt="" style="height:92px">
+  </div>
   <h2>Networking used to mean <em>talking to the person next to you.</em></h2>
-  <svg class="smile" viewBox="0 0 912 190" fill="none"><path d="M40 30 C 200 190, 712 190, 872 30" stroke="#212120" stroke-width="40" stroke-linecap="round"/></svg>
-  <div class="foot">
-    <div class="t">Jueves 12 de noviembre<br>Medellín · 40 cupos</div>
-    <div class="lockup">
-      <img class="ll" src="assets/loomlock-logo-dark.svg" alt="loomlock">
-      <span class="x">×</span>
-      <img class="qk" src="assets/quokka-logo-white.png" alt="Quokka coworking">
-    </div>
-  </div>
+  <img class="mk" src="assets/loomlock-mark-blue.svg" alt="">
+  <div class="rt"><img class="qk" src="assets/quokka-logo.png" alt="Quokka coworking"><span>Prime Time · <i>Channel 4</i></span><span style="font-weight:600;opacity:.85">Thu 12 Nov · Medellín</span></div>
 </section>
 
-<!-- 4 · Post: asado -->
-<section class="piece ig post" id="p2">
-  <div class="top"><span class="kick">Ch.04 · Asado y networking</span></div>
-  <h2>The asado is on. <em>The group chat is not.</em></h2>
-  <svg class="icon" viewBox="0 0 150 150" fill="none"><rect x="38" y="14" width="74" height="122" rx="16" stroke="#692DDD" stroke-width="10"/><line x1="64" y1="118" x2="86" y2="118" stroke="#692DDD" stroke-width="8" stroke-linecap="round"/><line x1="14" y1="136" x2="136" y2="14" stroke="#FE6736" stroke-width="12" stroke-linecap="round"/></svg>
-  <div class="foot">
-    <div class="t">Jueves 12 de noviembre<br>Medellín · Solo con invitación</div>
-    <div class="lockup">
-      <img class="ll" src="assets/loomlock-logo-dark.svg" alt="loomlock">
-      <span class="x" style="color:var(--ink)">×</span>
-      <img class="qk" src="assets/quokka-logo.png" alt="Quokka coworking">
-    </div>
+<!-- 4 · Post: asado (estilo Better habits) -->
+<section class="piece ig" id="p2">
+  <div class="topbar">
+    <div class="co"><img class="ll-word" src="assets/loomlock-logo-white.svg" alt="loomlock"><span class="x">×</span><img class="qk" src="assets/quokka-logo-white.png" alt="Quokka coworking" style="height:40px"></div>
+    <span class="pill">Ch. 04</span>
   </div>
+  <svg class="bowls" viewBox="0 0 1080 700" fill="none">
+    <defs>
+      <linearGradient id="b1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0452a"/><stop offset="1" stop-color="#f98a2e"/></linearGradient>
+      <linearGradient id="b2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4672b"/><stop offset="1" stop-color="#fba834"/></linearGradient>
+      <linearGradient id="b3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f9a233"/><stop offset="1" stop-color="#fdd23d"/></linearGradient>
+      <linearGradient id="b4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fcc936"/><stop offset="1" stop-color="#ffe98a"/></linearGradient>
+    </defs>
+    <path d="M200 20 H880 A340 270 0 0 1 200 20Z" fill="url(#b1)"/>
+    <path d="M230 190 H850 A310 220 0 0 1 230 190Z" fill="url(#b2)"/>
+    <path d="M270 340 H810 A270 170 0 0 1 270 340Z" fill="url(#b3)"/>
+    <path d="M330 470 H750 A210 130 0 0 1 330 470Z" fill="url(#b4)"/>
+  </svg>
+  <h2 class="up">The asado is on. The group chat is not.</h2>
+  <div class="side">Una noche para hablar con la persona de al lado. Asado, networking y cero pantallas. Solo con invitación.<img src="assets/quokka-logo-white.png" alt="" style="display:none"></div>
+  <div class="foot"><div class="l"><b>Channel 4 · Quokka</b><span>Thu 12 Nov</span><span>Medellín · 40 cupos</span></div><div class="r"><i>Live now, post later.</i><small>loomlock experiences</small></div></div>
 </section>
 
-<!-- 5 · Post: mañana -->
-<section class="piece ig post" id="p3">
-  <div class="top"><span class="kick" style="color:var(--orange)">Ch.04 · Quokka</span></div>
-  <h2>Tomorrow.</h2>
-  <div class="big">Grill on.<br><span>Feed off.</span></div>
-  <div class="foot">
-    <div class="t">Mañana, jueves 12 de noviembre<br>Medellín</div>
-    <div class="lockup">
-      <img class="ll" src="assets/loomlock-logo-white.svg" alt="loomlock">
-      <span class="x">×</span>
-      <img class="qk" src="assets/quokka-logo-white.png" alt="Quokka coworking">
-    </div>
+<!-- 5 · Post: mañana (estilo Take a break) -->
+<section class="piece ig" id="p3">
+  <div class="topbar">
+    <div class="co"><img class="ll-word" src="assets/loomlock-logo-white.svg" alt="loomlock"><span class="x">×</span><img class="qk" src="assets/quokka-logo-white.png" alt="Quokka coworking" style="height:40px"></div>
+    <span class="pill">Ch. 04</span>
   </div>
+  <svg class="flower" viewBox="0 0 880 880" fill="none">
+    <defs><filter id="glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14"/></filter></defs>
+    <g filter="url(#glow)" opacity=".7"><rect x="150" y="150" width="580" height="580" rx="120" fill="#fff"/><rect x="150" y="150" width="580" height="580" rx="120" fill="#fff" transform="rotate(45 440 440)"/></g>
+    <rect x="160" y="160" width="560" height="560" rx="110" fill="#f4f6ff"/>
+    <rect x="160" y="160" width="560" height="560" rx="110" fill="#f4f6ff" transform="rotate(45 440 440)"/>
+    <circle cx="440" cy="440" r="170" fill="#f9c823"/>
+    <path d="M360 470 C395 520, 485 520, 520 470" stroke="#1a3fc4" stroke-width="22" stroke-linecap="round"/>
+    <circle cx="395" cy="410" r="13" fill="#1a3fc4"/><circle cx="485" cy="410" r="13" fill="#1a3fc4"/>
+  </svg>
+  <h2 class="up">Tomorrow.</h2>
+  <div class="sub"><b>Grill on. Feed off.</b><br>Mañana, jueves 12 de noviembre, nos vemos en Quokka.</div>
+  <div class="foot"><div class="l"><b>Channel 4 · Quokka</b><span>Thu 12 Nov</span><span>Medellín</span></div><div class="r"><i>Live now, post later.</i><small>loomlock experiences</small></div></div>
 </section>
 
 </body>
