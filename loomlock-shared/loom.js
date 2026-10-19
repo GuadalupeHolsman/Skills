@@ -96,7 +96,11 @@
     LOGO = await Studio.loadImage('assets/loomlock-logo.png');
     PATTERN = await Studio.loadImage('assets/pattern.webp');
     for (const k of ['dragon', 'ship', 'planet', 'landscape', 'mascot']) ART[k] = await Studio.loadImage(`assets/key-${k}.webp`);
+    FEED = await Promise.all(FEED_IDS.map((id) => Studio.loadImage(`assets/feed/${id}.jpg`)));
   }
+  // real photos for the social feed (Unsplash via picsum.photos; see assets/feed/CREDITS.txt)
+  const FEED_IDS = [64, 65, 237, 1025, 1062, 659, 837, 838, 839, 836, 823, 1011, 1027, 429, 431, 1080, 488, 646, 656, 777, 815, 453, 1040, 1039, 1015, 670, 841, 395, 674, 1069];
+  let FEED = [];
   // the loomlock mark (white, transparent PNG cropped from the brand's own artwork)
   function logo(ctx, x, y, size, { alpha = 1 } = {}) {
     if (!LOGO) return;
@@ -201,16 +205,22 @@
   // a full-screen vertical video post (reels style), seeded by i; w = 412
   function reel(ctx, w, h, i, t, { app = 'reels' } = {}) {
     const hue = Math.floor(U.hash(i, 3) * 360), hue2 = (hue + 60 + U.hash(i, 4) * 120) % 360;
-    const g = ctx.createLinearGradient(0, 0, w, h); g.addColorStop(0, `hsl(${hue},75%,58%)`); g.addColorStop(1, `hsl(${hue2},70%,32%)`);
-    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
-    // moving content: blobs bouncing
-    for (let k = 0; k < 3; k++) {
-      const r = 70 + U.hash(i, k) * 90, x = w * (0.2 + 0.6 * U.hash(i, k + 5)) + Math.sin(t * (1.5 + k) + k) * 40, y = h * (0.25 + 0.4 * U.hash(i, k + 9)) + Math.cos(t * (1.2 + k)) * 50;
-      ctx.fillStyle = `hsla(${(hue + k * 70) % 360},90%,${70 - k * 8}%,0.55)`; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    const img = FEED.length ? FEED[Math.abs(i * 7 + 3) % FEED.length] : null;
+    if (img) {
+      // the photo, with a slow push-in so it reads as video
+      const z = 1.06 + 0.06 * Math.sin(t * 0.7 + i), k = Math.max(w / img.width, h / img.height) * z;
+      ctx.drawImage(img, (w - img.width * k) / 2 + Math.sin(t * 0.5 + i) * 6, (h - img.height * k) / 2, img.width * k, img.height * k);
+      const sh = ctx.createLinearGradient(0, h * 0.55, 0, h); sh.addColorStop(0, 'rgba(0,0,0,0)'); sh.addColorStop(1, 'rgba(0,0,0,0.6)');
+      ctx.fillStyle = sh; ctx.fillRect(0, h * 0.55, w, h * 0.45);
+      const tp = ctx.createLinearGradient(0, 0, 0, 160); tp.addColorStop(0, 'rgba(0,0,0,0.45)'); tp.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = tp; ctx.fillRect(0, 0, w, 160);
+    } else {
+      const g = ctx.createLinearGradient(0, 0, w, h); g.addColorStop(0, `hsl(${hue},75%,58%)`); g.addColorStop(1, `hsl(${hue2},70%,32%)`);
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
     }
     // big caption text in the video
     const caps = ['you won’t believe this', 'POV: it’s Monday', '3 tricks nobody tells you', 'wait for the end', 'part 2', 'ok but this…', 'morning routine', 'storytime'];
-    text(ctx, caps[Math.floor(U.hash(i, 6) * caps.length)], w / 2, h * 0.42, { size: 30, weight: 700, color: '#fff', align: 'center' });
+    ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.6)'; ctx.shadowBlur = 8; text(ctx, caps[Math.floor(U.hash(i, 6) * caps.length)], w / 2, h * 0.62, { size: 28, weight: 700, color: '#fff', align: 'center' }); ctx.restore();
     // right rail
     const likes = ['12.4K', '873', '45.1K', '2.3K', '128K', '9,871'];
     for (let k = 0; k < 3; k++) { const y = h * 0.58 + k * 78; ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.beginPath(); ctx.arc(w - 40, y, 18, 0, Math.PI * 2); ctx.fill(); text(ctx, k === 0 ? likes[Math.floor(U.hash(i, 7) * likes.length)] : `${Math.floor(U.hash(i, 8 + k) * 900 + 10)}`, w - 40, y + 38, { size: 14, weight: 600, color: '#fff', align: 'center' }); }
