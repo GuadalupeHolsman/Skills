@@ -45,32 +45,85 @@
     if (pts.length === 3) ctx.quadraticCurveTo(...pts[1], ...pts[2]); else for (const p of pts.slice(1)) ctx.lineTo(...p);
     ctx.lineWidth = lw; ctx.strokeStyle = OUT; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
   }
+  // ---- the 2.5D rig ----
+  // The body is a box that turns on its vertical axis (o.turn, radians: 0 = facing the camera, + = turned toward
+  // screen right, PI = back to the camera). Each frame the box corners are projected: the front and side faces
+  // widen and narrow, the face slides across the front and foreshortens, the shackle goes edge-on, and the back
+  // (with a keyhole) shows when he turns around. Arms and legs are the official vector parts, pinned to the
+  // projected joints and drawn in front of or behind the body by depth. Units: the SVG's, origin between the feet.
   // eyes have no pupils: they act through shape and position only.
   // eyes: 'normal' | 'phone' (slid toward the phone) | 'wide' | 'closed' | 'happy' | 'sad' | 'spiral' (dizzy squiggles)
+  const BOX = { W: 430, D: 300, top: -541, bot: -122 };
+  const SHOULDER = -297, HIP = -169;
+  function limb(ctx, k, fill, ax, ay, ang) { // an official arm/leg path, its joint pinned at (ax, ay)
+    const [jx, jy] = JOINT[k];
+    ctx.save(); ctx.translate(ax, ay); ctx.scale(-1, 1); ctx.rotate(ang); ctx.translate(-jx, -jy);
+    const p = pth(k); ctx.fillStyle = fill; ctx.fill(p);
+    ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.stroke(p);
+    ctx.restore();
+  }
+  function quadPath(ctx, q, r) { // a quad with rounded corners
+    ctx.beginPath();
+    const m = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    ctx.moveTo(...m(q[3], q[0]));
+    for (let i = 0; i < 4; i++) { const a = q[i], b = q[(i + 1) % 4]; ctx.arcTo(a[0], a[1], b[0], b[1], r); }
+    ctx.closePath();
+  }
+  function phoneProp(ctx, x, y, rot, t, notify) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+    ctx.beginPath(); ctx.roundRect(-40, -96, 80, 192, 18); ctx.fillStyle = '#1C1C26'; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.stroke();
+    ctx.beginPath(); ctx.roundRect(-28, -80, 34, 160, 8); ctx.fillStyle = '#F37BC0'; ctx.fill();
+    ctx.restore();
+    if (!notify) return;
+    // notifications popping off the screen: hearts and chat bubbles, rising and fading
+    for (let i = 0; i < 3; i++) {
+      const ph = ((t * 1.1 + i / 3) % 1), k = ease.outBack(clamp(ph / 0.15), 2);
+      ctx.save(); ctx.globalAlpha = clamp((1 - ph) * 1.6); ctx.translate(x + 30 + (i - 1) * 46 + Math.sin(ph * 6 + i) * 12, y - 120 - ph * 220); ctx.scale(k, k);
+      if (i % 2 === 0) { // heart
+        ctx.beginPath(); ctx.moveTo(0, 18); ctx.bezierCurveTo(-34, -6, -18, -34, 0, -16); ctx.bezierCurveTo(18, -34, 34, -6, 0, 18);
+        ctx.fillStyle = '#FF4F7A'; ctx.fill(); ctx.lineWidth = 5; ctx.strokeStyle = OUT; ctx.stroke();
+      } else { // chat bubble with dots
+        ctx.beginPath(); ctx.roundRect(-34, -24, 68, 44, 16); ctx.moveTo(-12, 20); ctx.lineTo(-22, 34); ctx.lineTo(2, 20);
+        ctx.fillStyle = '#FFFFFF'; ctx.fill(); ctx.lineWidth = 5; ctx.strokeStyle = OUT; ctx.stroke();
+        for (let d = -1; d <= 1; d++) oval(ctx, d * 15, -2, 5, 5, OUT, 0);
+      }
+      ctx.restore();
+    }
+  }
   function locky(ctx, o) {
     const s = (o.s || 1) * 0.3, burn = o.burn || 0;
     const t = G.t;
     const ph = o.walk;
     const walking = ph != null;
-    // walk cycle: a lean into the step, contact squash, a rise on the passing pose
-    const swing = walking ? Math.sin(ph) * 0.42 : 0;
+    const dir = o.dir || 1;
+    const th = o.turn == null ? 0.3 : o.turn, c = Math.cos(th), sn = Math.sin(th);
+    // walk cycle: a lean into the step (and toward the phone), contact squash, a rise on the passing pose
+    const swing = walking ? Math.sin(ph) * 0.42 * (o.stride || 1) : 0;
     const liftL = walking ? Math.max(0, Math.cos(ph)) * 34 : 0, liftR = walking ? Math.max(0, -Math.cos(ph)) * 34 : 0;
     const bob = walking ? -Math.abs(Math.cos(ph)) * 22 * (o.bounce || 1) : 0;
-    const lean = walking ? 0.07 + Math.sin(2 * ph) * 0.025 : 0;
+    const lean = (walking ? 0.07 + Math.sin(2 * ph) * 0.025 : 0) * dir + (o.hunch || 0);
     const stepSq = walking ? 0.06 * Math.max(0, -Math.cos(2 * ph)) : 0;
-    ctx.save(); ctx.translate(o.x, o.y); ctx.rotate((o.rot || 0) + lean);
     const breathe = walking ? 0 : 0.025 * Math.sin(t * 3.1); // a moving hold: never fully still
+    ctx.save(); ctx.translate(o.x, o.y); ctx.rotate((o.rot || 0) + lean);
     const sq = (o.squash || 0) + stepSq + breathe; ctx.scale(s * (1 + sq * 0.25), s * (1 - sq * 0.3));
-    ctx.scale(-1, 1); ctx.translate(-ORIGIN[0], -ORIGIN[1]);
-    const b = (c, k) => (burn > 0 ? mix(c, k[0], burn * k[1]) : c);
+    const b = (col, k) => (burn > 0 ? mix(col, k[0], burn * k[1]) : col);
     const blue = b('#3F49CC', ['#2E2A2C', 0.85]), sky = b('#9FD8FF', ['#55504E', 0.8]);
     const lav = b('#878EE5', ['#4A4458', 0.6]), glove = b('#FFFFFF', ['#8A8488', 0.6]);
-    // arm angles around the shoulders (0 = hanging); local +angle = toward screen right after the mirror
+    const side = b('#1E2366', ['#151214', 0.85]); // the dark side panel, navy so it reads as volume when he turns
+    // projection of the box
+    const P = (x, z) => [x * c + z * sn, -x * sn + z * c]; // -> [screen x, depth toward camera]
+    const yC = (BOX.top + BOX.bot) / 2, hH = (BOX.bot - BOX.top) / 2;
+    const hk = (Z) => 1 + 0.12 * Z / (BOX.D / 2);
+    const W2 = BOX.W / 2, D2 = BOX.D / 2;
+    const corner = { FL: P(-W2, D2), FR: P(W2, D2), BR: P(W2, -D2), BL: P(-W2, -D2) };
+    const faceQuad = (a, b2) => [[a[0], yC - hH * hk(a[1])], [b2[0], yC - hH * hk(b2[1])], [b2[0], yC + hH * hk(b2[1])], [a[0], yC + hH * hk(a[1])]];
+    // arm poses (angles at the shoulders; + = toward screen right)
     const arms = o.arms || 'down';
     const wave = Math.sin(t * 14);
+    const type = o.typing ? 0.06 * Math.sin(t * 38) : 0; // a thumb tapping away
     const [aL, aR] = {
       down: [swing * 0.7 * (o.armSwing || 1), -swing * 0.7 * (o.armSwing || 1)],
-      phone: [1.88 + (walking ? Math.sin(2 * ph) * 0.05 : 0), -swing * 0.7],
+      phone: [1.95 + type + (walking ? Math.sin(2 * ph) * 0.05 : 0), -swing * 0.5 - 0.5],
       sad: [-0.55 + 0.04 * Math.sin(t * 2.2), 0.55 - 0.04 * Math.sin(t * 2.2)],
       up: [2.75, -2.75],
       cheer: [2.25 + 0.22 * wave, -2.25 - 0.22 * Math.sin(t * 14 + 0.9)],
@@ -78,84 +131,115 @@
       reach: [2.6, -2.2],
       phoneUp: [2.95 + 0.08 * Math.sin(t * 9), -2.0 - 0.6 * Math.sin(t * 34 + 1.9)], // saving the phone from the lava
     }[arms];
-    part(ctx, 'legR', lav, -swing, 0, -liftR);
-    part(ctx, 'legL', lav, swing, 0, -liftL);
+    // joints, projected
+    const [rX, rZ] = P(W2 - 14, 0), [lX, lZ] = P(-(W2 - 14), 0);
+    const [hRX] = P(56, -40), [hLX] = P(-56, -40);
+    // legs (always behind the body)
+    limb(ctx, 'legL', lav, hRX, HIP - liftL, swing);
+    limb(ctx, 'legR', lav, hLX, HIP - liftR, -swing);
     ctx.save(); ctx.translate(0, bob);
-    if (arms === 'down' || arms === 'phone' || arms === 'sad') part(ctx, 'armR', glove, aR); // the far arm stays behind
-    // the shackle trails the body a little (overlap), and pops open when Locky is shocked
+    // the phone in the right hand
+    const holding = o.phone && (arms === 'phone' || arms === 'phoneUp');
+    const ca = Math.cos(aL), sa = Math.sin(aL);
+    const handX = rX - (-21.5 * ca - 155 * sa), handY = SHOULDER + (-21.5 * sa + 155 * ca);
+    const drawRight = () => {
+      if (holding) phoneProp(ctx, handX + 16, handY - 54 + (walking ? Math.sin(2 * ph) * 6 : 0) + (o.typing ? Math.sin(t * 38) * 3 : 0), -0.1 + (arms === 'phoneUp' ? 0.15 * Math.sin(t * 9) : 0), t, o.notify);
+      limb(ctx, 'armL', glove, rX, SHOULDER, aL);
+    };
+    const drawLeft = () => limb(ctx, 'armR', glove, lX, SHOULDER, aR);
+    if (rZ < 0) drawRight();
+    if (lZ < 0) drawLeft();
+    // the shackle: a flat arch on top, edge-on when he is in profile; pops open when he's shocked
     const op = o.open || 0;
     const lag = walking ? 0.05 * Math.sin(2 * ph - 1.2) : 0;
-    part(ctx, 'shackle', sky, -op * 0.55 + lag + (o.shLag || 0), 0, -op * 80 + (o.shY || 0));
-    part(ctx, 'side', '#000000');
-    part(ctx, 'front', blue);
-    if (burn > 0.2) { // soot smudges, kept on the body
-      ctx.save(); ctx.clip(pth('front'));
-      for (let i = 0; i < 9; i++) { ctx.globalAlpha = burn * 0.6; oval(ctx, 400 + G.rnd(i, 21) * 300, 360 + G.rnd(i, 22) * 360, 22 + G.rnd(i, 23) * 40, 16 + G.rnd(i, 24) * 24, '#141012', 0); }
+    ctx.save(); ctx.translate(0, -op * 80 + (o.shY || 0)); ctx.scale(Math.max(0.16, Math.abs(c)), 1); ctx.translate(-498, -877);
+    const [jx, jy] = JOINT.shackle; ctx.translate(jx, jy); ctx.rotate(-op * 0.55 + lag + (o.shLag || 0)); ctx.translate(-jx, -jy);
+    ctx.fillStyle = sky; ctx.fill(pth('shackle')); ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.lineJoin = 'round'; ctx.stroke(pth('shackle'));
+    ctx.restore();
+    // the faces of the box
+    const faces = [];
+    if (c > 0.01) faces.push([faceQuad(corner.FL, corner.FR), blue, 'front']);
+    if (c < -0.01) faces.push([faceQuad(corner.BR, corner.BL), blue, 'back']);
+    if (sn < -0.01) faces.push([faceQuad(corner.FR, corner.BR), side, 'side']);
+    if (sn > 0.01) faces.push([faceQuad(corner.BL, corner.FL), side, 'side']);
+    for (const [q, fill] of faces) { quadPath(ctx, q, 28); ctx.fillStyle = fill; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.lineJoin = 'round'; ctx.stroke(); }
+    const main = faces.find((f) => f[2] !== 'side');
+    if (burn > 0.2 && main) { // soot smudges on the big face
+      ctx.save(); quadPath(ctx, main[0], 28); ctx.clip();
+      const x0 = main[0][0][0], x1 = main[0][1][0];
+      for (let i = 0; i < 9; i++) { ctx.globalAlpha = burn * 0.6; oval(ctx, lerp(x0, x1, G.rnd(i, 21)), BOX.top + 30 + G.rnd(i, 22) * 360, (22 + G.rnd(i, 23) * 40) * Math.abs(c), 16 + G.rnd(i, 24) * 24, '#141012', 0); }
       ctx.restore();
     }
-    // the face: plain white oval eyes, no pupils. A blink every few seconds keeps him alive.
-    let eyes = o.eyes || 'normal';
-    const blink = ((t + (o.blinkOff || 0)) % 2.6) < 0.1;
-    if (blink && (eyes === 'normal' || eyes === 'phone')) eyes = 'closed';
-    const look = (o.eyes === 'phone') ? [-16, -4] : [-(o.lookX || 0) * 1.6, (o.lookY || 0) * 1.6];
-    for (const [ex0, ey0] of EYES) {
-      const ex = ex0 + look[0], ey = ey0 + look[1], left = ex0 < FACE[0];
-      if (eyes === 'closed') { stroke(ctx, [[ex - 34, ey - 2], [ex, ey + 14], [ex + 34, ey - 2]], 8); continue; }
-      if (eyes === 'happy') { stroke(ctx, [[ex - 34, ey + 12], [ex, ey - 30], [ex + 34, ey + 12]], 8); continue; }
-      if (eyes === 'spiral') { // dizzy: wobbly squiggles in place of the eyes
-        ctx.beginPath(); for (let i = 0; i <= 16; i++) { const u = i / 16; ctx[i ? 'lineTo' : 'moveTo'](ex - 36 + 72 * u, ey + Math.sin(u * Math.PI * 3 + t * 18 * (left ? 1 : -1)) * 12); }
-        ctx.lineWidth = 8; ctx.strokeStyle = OUT; ctx.lineCap = 'round'; ctx.stroke(); continue;
+    // the light of the screen on his face
+    if (o.eyes === 'phone' && main && main[2] === 'front') {
+      ctx.save(); quadPath(ctx, main[0], 28); ctx.clip();
+      const gx = main[0][1][0], g2 = ctx.createRadialGradient(gx, yC - 40, 10, gx, yC - 40, 260);
+      g2.addColorStop(0, 'rgba(255,170,225,0.45)'); g2.addColorStop(1, 'rgba(255,170,225,0)');
+      ctx.fillStyle = g2; ctx.fillRect(gx - 300, yC - 340, 600, 600); ctx.restore();
+    }
+    if (c < -0.12) { // the back: a keyhole
+      ctx.save(); ctx.translate(-D2 * sn, yC - 20); ctx.scale(-c, 1);
+      ctx.beginPath(); ctx.arc(0, -30, 34, 0, Math.PI * 2); ctx.moveTo(-16, -10); ctx.lineTo(-26, 70); ctx.lineTo(26, 70); ctx.lineTo(16, -10); ctx.closePath();
+      ctx.fillStyle = '#1A1C40'; ctx.fill(); ctx.lineWidth = 5; ctx.strokeStyle = OUT; ctx.stroke(); ctx.restore();
+    }
+    // the face, painted on the front and turned with it (an affine map from the SVG's face coordinates)
+    if (c > 0.12) {
+      ctx.save(); ctx.translate(D2 * sn, yC); ctx.scale(c, hk(D2 * c)); ctx.translate(-546, -(877 + yC));
+      let eyes = o.eyes || 'normal';
+      const blink = ((t + (o.blinkOff || 0)) % 2.6) < 0.1;
+      if (blink && (eyes === 'normal' || eyes === 'phone')) eyes = 'closed';
+      const look = (o.eyes === 'phone') ? [26, -2] : [(o.lookX || 0) * 1.6, (o.lookY || 0) * 1.6];
+      for (const [ex0, ey0] of EYES) {
+        const ex = ex0 + look[0], ey = ey0 + look[1], left = ex0 < FACE[0];
+        if (eyes === 'closed') { stroke(ctx, [[ex - 34, ey - 2], [ex, ey + 14], [ex + 34, ey - 2]], 8); continue; }
+        if (eyes === 'happy') { stroke(ctx, [[ex - 34, ey + 12], [ex, ey - 30], [ex + 34, ey + 12]], 8); continue; }
+        if (eyes === 'spiral') {
+          ctx.beginPath(); for (let i = 0; i <= 16; i++) { const u = i / 16; ctx[i ? 'lineTo' : 'moveTo'](ex - 36 + 72 * u, ey + Math.sin(u * Math.PI * 3 + t * 18 * (left ? 1 : -1)) * 12); }
+          ctx.lineWidth = 8; ctx.strokeStyle = OUT; ctx.lineCap = 'round'; ctx.stroke(); continue;
+        }
+        const pop = o.eyeK || 1;
+        const kx = (eyes === 'wide' ? 1.18 : 1) * pop, ky = (eyes === 'wide' ? 1.42 : eyes === 'phone' ? 0.82 : 1) * pop;
+        ctx.save(); ctx.translate(ex, ey); ctx.scale(kx, ky);
+        const e = pth('eye'); ctx.fillStyle = '#FFFFFF'; ctx.fill(e); ctx.lineWidth = 6 / Math.max(kx, ky); ctx.strokeStyle = OUT; ctx.stroke(e);
+        ctx.restore();
+        if (eyes === 'sad') {
+          ctx.beginPath(); ctx.moveTo(ex - 50, ey - 50); ctx.lineTo(ex + 50, ey - 50);
+          ctx.lineTo(ex + 50, ey + (left ? -18 : 4)); ctx.lineTo(ex - 50, ey + (left ? 4 : -18)); ctx.closePath(); // low on the outside: sad, not cross
+          ctx.fillStyle = blue; ctx.fill();
+          stroke(ctx, [[ex - 40, ey + (left ? 2 : -16)], [ex + 40, ey + (left ? -16 : 2)]], 6);
+        }
       }
-      const pop = o.eyeK || 1;
-      const kx = (eyes === 'wide' ? 1.18 : 1) * pop, ky = (eyes === 'wide' ? 1.42 : eyes === 'phone' ? 0.9 : 1) * pop;
-      ctx.save(); ctx.translate(ex, ey); ctx.scale(kx, ky);
-      const e = pth('eye'); ctx.fillStyle = '#FFFFFF'; ctx.fill(e); ctx.lineWidth = 6 / Math.max(kx, ky); ctx.strokeStyle = OUT; ctx.stroke(e);
-      ctx.restore();
-      if (eyes === 'sad') { // droopy lids, sloping down to the outside
-        ctx.beginPath(); ctx.moveTo(ex - 50, ey - 50); ctx.lineTo(ex + 50, ey - 50);
-        ctx.lineTo(ex + 50, ey + (left ? -18 : 4)); ctx.lineTo(ex - 50, ey + (left ? 4 : -18)); ctx.closePath();
-        ctx.fillStyle = blue; ctx.fill();
-        stroke(ctx, [[ex - 40, ey + (left ? 2 : -16)], [ex + 40, ey + (left ? -16 : 2)]], 6);
+      const [mx, my] = [FACE[0] + look[0] * 0.6, FACE[1] + look[1] * 0.6];
+      const mouth = o.mouth || 'smile';
+      if (mouth === 'scream') {
+        const open = 1 + 0.12 * Math.sin(t * 30);
+        oval(ctx, mx, my + 34, 32, 40 * open, '#5A1E2E');
+        oval(ctx, mx, my + 56 * open, 18, 11, '#F27BA0', 0);
+      } else if (mouth === 'sad') {
+        stroke(ctx, [[mx - 26, my + 26], [mx, my + 4], [mx + 26, my + 26]], 6);
+      } else if (mouth === 'laugh') {
+        ctx.beginPath(); ctx.moveTo(mx - 34, my); ctx.quadraticCurveTo(mx, my + 70, mx + 34, my); ctx.closePath();
+        ctx.fillStyle = '#5A1E2E'; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.stroke();
+        oval(ctx, mx, my + 26, 14, 8, '#F27BA0', 0);
+      } else if (mouth === 'o') {
+        oval(ctx, mx, my + 20, 14, 18, '#5A1E2E');
+      } else {
+        ctx.save(); ctx.translate(look[0] * 0.6, look[1] * 0.6);
+        ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.lineCap = 'round'; ctx.stroke(pth('smile'));
+        ctx.restore();
       }
-    }
-    const [mx, my] = [FACE[0] + look[0] * 0.6, FACE[1] + look[1] * 0.6];
-    const mouth = o.mouth || 'smile';
-    if (mouth === 'scream') {
-      const open = 1 + 0.12 * Math.sin(t * 30);
-      oval(ctx, mx, my + 34, 32, 40 * open, '#5A1E2E');
-      oval(ctx, mx, my + 56 * open, 18, 11, '#F27BA0', 0);
-    } else if (mouth === 'sad') {
-      stroke(ctx, [[mx - 26, my + 26], [mx, my + 4], [mx + 26, my + 26]], 6);
-    } else if (mouth === 'laugh') { // open D-shaped grin with the tongue
-      ctx.beginPath(); ctx.moveTo(mx - 34, my); ctx.quadraticCurveTo(mx, my + 70, mx + 34, my); ctx.closePath();
-      ctx.fillStyle = '#5A1E2E'; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.stroke();
-      oval(ctx, mx, my + 26, 14, 8, '#F27BA0', 0);
-    } else if (mouth === 'o') {
-      oval(ctx, mx, my + 20, 14, 18, '#5A1E2E');
-    } else {
-      ctx.save(); ctx.translate(look[0] * 0.6, look[1] * 0.6);
-      ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.lineCap = 'round'; ctx.stroke(pth('smile'));
+      if (o.tears) for (const [ex0, ey0] of EYES) for (let k = 0; k < 2; k++) {
+        const tp = ((t * 1.6 + k * 0.5 + (ex0 < FACE[0] ? 0.25 : 0)) % 1);
+        ctx.save(); ctx.globalAlpha = 1 - tp;
+        const tx = ex0 + look[0] + (ex0 < FACE[0] ? -10 : 10), ty = ey0 + 40 + tp * 140;
+        ctx.beginPath(); ctx.moveTo(tx, ty - 22); ctx.quadraticCurveTo(tx + 14, ty, tx, ty + 10); ctx.quadraticCurveTo(tx - 14, ty, tx, ty - 22);
+        ctx.fillStyle = '#BFE8FF'; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = OUT; ctx.stroke(); ctx.restore();
+      }
+      if (o.blush) { ctx.save(); ctx.globalAlpha = 0.5; oval(ctx, 395, 566, 30, 16, '#F27BA0', 0); oval(ctx, 698, 566, 30, 16, '#F27BA0', 0); ctx.restore(); }
       ctx.restore();
     }
-    if (o.tears) for (const [ex0, ey0] of EYES) for (let k = 0; k < 2; k++) { // tears rolling off the bottom of each eye
-      const ph = ((t * 1.6 + k * 0.5 + (ex0 < FACE[0] ? 0.25 : 0)) % 1);
-      ctx.save(); ctx.globalAlpha = 1 - ph;
-      const tx = ex0 + look[0] + (ex0 < FACE[0] ? -10 : 10), ty = ey0 + 40 + ph * 140;
-      ctx.beginPath(); ctx.moveTo(tx, ty - 22); ctx.quadraticCurveTo(tx + 14, ty, tx, ty + 10); ctx.quadraticCurveTo(tx - 14, ty, tx, ty - 22);
-      ctx.fillStyle = '#BFE8FF'; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = OUT; ctx.stroke(); ctx.restore();
-    }
-    if (o.blush) { ctx.save(); ctx.globalAlpha = 0.5; oval(ctx, 395, 566, 30, 16, '#F27BA0', 0); oval(ctx, 698, 566, 30, 16, '#F27BA0', 0); ctx.restore(); }
-    if (!(arms === 'down' || arms === 'phone' || arms === 'sad')) part(ctx, 'armR', glove, aR);
-    // the phone, in the near hand: held out at eye level, or held high to keep it out of the lava
-    if (o.phone && (arms === 'phone' || arms === 'phoneUp')) {
-      const [jx, jy] = JOINT.armL, c = Math.cos(aL), sn = Math.sin(aL);
-      const hx = jx + (-21.5 * c - 155 * sn), hy = jy + (-21.5 * sn + 155 * c);
-      ctx.save(); ctx.translate(hx - 16, hy - 54 + (walking ? Math.sin(2 * ph) * 6 : 0)); ctx.rotate(0.1 + (arms === 'phoneUp' ? 0.15 * Math.sin(t * 9) : 0));
-      ctx.beginPath(); ctx.roundRect(-40, -96, 80, 192, 18); ctx.fillStyle = '#1C1C26'; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.stroke();
-      ctx.beginPath(); ctx.roundRect(-6, -80, 34, 160, 8); ctx.fillStyle = '#F37BC0'; ctx.fill();
-      ctx.restore();
-    }
-    part(ctx, 'armL', glove, aL);
+    if (rZ >= 0) drawRight();
+    if (lZ >= 0) drawLeft();
     ctx.restore();
     ctx.restore();
   }
@@ -176,19 +260,19 @@
   // the take: walks off the edge reading the phone, floats, looks down, eyes POP, then drops, phone held high
   function fall(t, off, splash, x0, w0) {
     const u = clamp((t - off) / (splash - off));
-    if (u < 0.25) { const k = u / 0.25; return { x: lerp(x0, x0 + 110, k), y: FLOOR, walk: walkPhase(t, w0), eyes: 'phone', phone: true, arms: 'phone' }; }
+    if (u < 0.25) { const k = u / 0.25; return { x: lerp(x0, x0 + 110, k), y: FLOOR, walk: walkPhase(t, w0), eyes: 'phone', phone: true, arms: 'phone', turn: 0.55, typing: true, notify: true, hunch: 0.06 }; }
     if (u < 0.72) {
       const k = (u - 0.25) / 0.47, a = (u - 0.25) * (splash - off);
-      if (k < 0.45) return { x: x0 + 110, y: FLOOR - 4 * Math.sin(Math.PI * k), eyes: 'normal', lookY: 12, mouth: 'smile', phone: true, arms: 'phone' };
+      if (k < 0.45) return { x: x0 + 110, y: FLOOR - 4 * Math.sin(Math.PI * k), eyes: 'normal', lookY: 12, mouth: 'smile', phone: true, arms: 'phone', turn: 0.55, hunch: 0.04 };
       const a2 = a - 0.45 * 0.47 * (splash - off);
-      return { x: x0 + 110, y: FLOOR - 6, eyes: 'wide', eyeK: 1 + ring(a2, 0.35, 40, 12), mouth: 'o', phone: true, arms: 'phone', open: clamp(a2 / 0.05), squash: -0.12, shY: -40 * clamp(a2 / 0.05) };
+      return { x: x0 + 110, y: FLOOR - 6, eyes: 'wide', eyeK: 1 + ring(a2, 0.35, 40, 12), mouth: 'o', phone: true, arms: 'phone', open: clamp(a2 / 0.05), squash: -0.12, shY: -40 * clamp(a2 / 0.05), turn: 0.55 * (1 - ease.outBack(clamp(a2 / 0.07), 2)) }; // snaps round to the camera
     }
     const k = (u - 0.72) / 0.28;
-    return { x: x0 + 110 + 2 * k, y: lerp(FLOOR - 6, LAVA + 10, ease.inQuad(k)), eyes: 'wide', mouth: 'scream', arms: 'phoneUp', phone: true, open: 1, squash: -0.42 * k, rot: 0.08 * k };
+    return { x: x0 + 110 + 2 * k, y: lerp(FLOOR - 6, LAVA + 10, ease.inQuad(k)), eyes: 'wide', mouth: 'scream', arms: 'phoneUp', phone: true, open: 1, squash: -0.42 * k, rot: 0.08 * k, turn: 0 };
   }
   function sunk(t, splash, depth = SUNK) {
     const a = t - splash, k = ease.outCubic(clamp(a / 0.18));
-    return { x: EDGE + 100 + Math.sin(a * 60) * 6 * clamp(1 - a), y: lerp(LAVA + 10, depth, k) + Math.sin(a * 22) * 6, eyes: 'wide', arms: 'phoneUp', open: 1, phone: true, mouth: 'scream', squash: ring(a, 0.5, 30, 10) };
+    return { x: EDGE + 100 + Math.sin(a * 60) * 6 * clamp(1 - a), y: lerp(LAVA + 10, depth, k) + Math.sin(a * 22) * 6, eyes: 'wide', arms: 'phoneUp', open: 1, phone: true, mouth: 'scream', squash: ring(a, 0.5, 30, 10), turn: 0.18 * Math.sin(a * 9) };
   }
   function arc(t, t0, t1, p0, p1, peak) {
     const u = clamp((t - t0) / (t1 - t0));
@@ -201,9 +285,17 @@
   function state(t) {
     const burn = burnAt(t);
     const base = { burn, eyes: 'normal', arms: 'down', phone: false, walk: null, open: 0, rot: 0 };
-    const walkTo = (t0, t1, x0, x1, giggle = true) => {
-      const f = clamp((t - t0) / (t1 - t0)), lol = giggle && f > 0.42 && f < 0.62;
-      return { x: lerp(x0, x1, f), y: FLOOR, walk: walkPhase(t, t0), eyes: lol ? 'happy' : 'phone', mouth: lol ? 'laugh' : 'smile', arms: 'phone', phone: true, squash: lol ? 0.06 * Math.sin(t * 40) : 0, bounce: lol ? 1.4 : 1 };
+    // the distracted walk: head down in the phone, thumb going, notifications popping; on the first two tries he
+    // stops dead halfway to type and laugh at something, then shuffles on
+    const walkTo = (t0, t1, x0, x1, stops = true) => {
+      const f = clamp((t - t0) / (t1 - t0)), P0 = 0.38, P1 = 0.64;
+      const g = !stops ? f : f < P0 ? (f / P0) * 0.45 : f < P1 ? 0.45 : 0.45 + ((f - P1) / (1 - P1)) * 0.55;
+      const d = { x: lerp(x0, x1, g), y: FLOOR, eyes: 'phone', mouth: 'smile', arms: 'phone', phone: true, typing: true, notify: true, turn: 0.55, hunch: 0.07 };
+      if (stops && f >= P0 && f < P1) {
+        const k = (f - P0) / (P1 - P0), lol = k > 0.45;
+        return { ...d, walk: null, turn: 0.55 - 0.3 * ease.inOutQuad(clamp(k / 0.3)), eyes: lol ? 'happy' : 'phone', mouth: lol ? 'laugh' : 'smile', typing: !lol, squash: lol ? 0.07 * Math.sin(t * 40) : 0, hunch: lol ? -0.04 : 0.09 };
+      }
+      return { ...d, walk: walkPhase(t, stops && f >= P1 ? t0 + P1 * (t1 - t0) : t0), stride: 0.8 };
     };
     // try 1
     if (t < ev.off1) return { ...base, ...walkTo(0, ev.off1, -110, EDGE - 10) };
@@ -211,24 +303,24 @@
     if (t < ev.launch1) return { ...base, ...sunk(t, ev.splash1) };
     if (t < ev.land1) { // shot out: stretched along the launch, spinning
       const a = arc(t, ev.launch1, ev.land1, [EDGE + 100, SUNK], [170, FLOOR], 520);
-      return { ...base, x: a.x, y: a.y, rot: -ease.inOutQuad(a.u) * Math.PI * 2, eyes: 'wide', arms: 'phoneUp', phone: true, mouth: 'scream', open: 1, squash: -0.4 * (1 - a.u) * (1 - a.u), air: true };
+      return { ...base, x: a.x, y: a.y, rot: -0.35 * Math.sin(Math.PI * a.u), turn: Math.PI * 4 * ease.inOutQuad(a.u), eyes: 'wide', arms: 'phoneUp', phone: true, mouth: 'scream', open: 1, squash: -0.4 * (1 - a.u) * (1 - a.u), air: true };
     }
     if (t < ev.walk2) {
       // lands, checks the phone is fine, sighs with relief, carries on
       const a = t - ev.land1, shock = a < 0.35, relief = !shock && a < BEAT * 2.2;
-      return { ...base, x: 170, y: FLOOR, squash: landSq(a), rot: shock ? 0.06 * Math.sin(a * 14) * Math.exp(-a * 3) : 0, eyes: shock ? 'wide' : relief ? 'happy' : 'phone', mouth: shock ? 'o' : 'smile', arms: 'phone', phone: true, open: clamp(1 - a / 0.4), shLag: ring(a, 0.25, 20, 6), shY: ring(a, 40, 22, 8) };
+      return { ...base, x: 170, y: FLOOR, squash: landSq(a), rot: shock ? 0.06 * Math.sin(a * 14) * Math.exp(-a * 3) : 0, eyes: shock ? 'wide' : relief ? 'happy' : 'phone', mouth: shock ? 'o' : 'smile', arms: 'phone', phone: true, open: clamp(1 - a / 0.4), shLag: ring(a, 0.25, 20, 6), shY: ring(a, 40, 22, 8), turn: 0.55 * ease.inOutQuad(clamp((a - 0.35) / 0.3)), typing: !shock && !relief, notify: !shock };
     }
     // try 2
     if (t < ev.off2) return { ...base, ...walkTo(ev.walk2, ev.off2, 170, EDGE - 10) };
     if (t < ev.splash2) return { ...base, ...fall(t, ev.off2, ev.splash2, EDGE - 10, ev.walk2) };
     if (t < ev.launch2) return { ...base, ...sunk(t, ev.splash2) };
     if (t < ev.land2) {
-      if (t < ev.peak2) { const u = ease.outQuad(clamp((t - ev.launch2) / (ev.peak2 - ev.launch2))); return { ...base, x: lerp(EDGE + 100, 260, u), y: lerp(SUNK, -500, u), rot: u * 4, eyes: 'spiral', arms: 'phoneUp', phone: true, mouth: 'scream', open: 1, squash: -0.45 * (1 - u), air: true }; }
-      const u = ease.inQuad(clamp((t - ev.peak2) / (ev.land2 - ev.peak2))); return { ...base, x: lerp(260, 160, u), y: lerp(-500, FLOOR, u), rot: 4 + u * 2.283, eyes: 'spiral', arms: 'phoneUp', phone: true, mouth: 'scream', open: 1, squash: -0.35 * u, air: true };
+      if (t < ev.peak2) { const u = ease.outQuad(clamp((t - ev.launch2) / (ev.peak2 - ev.launch2))); return { ...base, x: lerp(EDGE + 100, 260, u), y: lerp(SUNK, -500, u), rot: u * 4, turn: Math.PI * 2 * u, eyes: 'spiral', arms: 'phoneUp', phone: true, mouth: 'scream', open: 1, squash: -0.45 * (1 - u), air: true }; }
+      const u = ease.inQuad(clamp((t - ev.peak2) / (ev.land2 - ev.peak2))); return { ...base, x: lerp(260, 160, u), y: lerp(-500, FLOOR, u), rot: 4 + u * 2.283, turn: Math.PI * 2 * (1 + u), eyes: 'spiral', arms: 'phoneUp', phone: true, mouth: 'scream', open: 1, squash: -0.35 * u, air: true };
     }
     if (t < ev.walk3) {
       const a = t - ev.land2;
-      return { ...base, x: 160, y: FLOOR, squash: landSq(a), rot: 0.12 * Math.sin(a * 9) * Math.exp(-a * 1.2), eyes: a < BEAT * 2.5 ? 'spiral' : 'phone', mouth: 'sad', arms: 'phone', phone: true, open: clamp(1 - a / 0.5), shLag: ring(a, 0.3, 18, 5), shY: ring(a, 50, 22, 8) };
+      return { ...base, x: 160, y: FLOOR, squash: landSq(a), rot: 0.12 * Math.sin(a * 9) * Math.exp(-a * 1.2), eyes: a < BEAT * 2.5 ? 'spiral' : 'phone', mouth: 'sad', arms: 'phone', phone: true, open: clamp(1 - a / 0.5), shLag: ring(a, 0.3, 18, 5), shY: ring(a, 50, 22, 8), turn: a < BEAT * 2.5 ? 0.7 * Math.sin(a * 6) * Math.exp(-a * 0.6) : 0.55, typing: a >= BEAT * 2.5, notify: a >= BEAT * 2.5 };
     }
     // try 3: he does it again, of course
     if (t < ev.off3) return { ...base, ...walkTo(ev.walk3, ev.off3, 160, EDGE - 10, false) };
@@ -236,7 +328,7 @@
     if (t < ev.crawl) { const st = sunk(t, ev.splash3, LAVA + 150); return { ...base, ...st, arms: t > ev.scratch ? 'sad' : 'phoneUp', phone: t <= ev.scratch, mouth: t > ev.scratch ? 'sad' : 'scream', eyes: t > ev.scratch ? 'sad' : 'wide', tears: t > ev.scratch }; }
     if (t < ev.sit) { // drags himself out, heavy and slow
       const u = ease.inOutQuad(clamp((t - ev.crawl) / (ev.sit - ev.crawl)));
-      return { ...base, x: lerp(EDGE + 100, 150, u), y: lerp(LAVA + 150, FLOOR, ease.outQuad(u)), walk: walkPhase(t, ev.crawl) * 0.5, bounce: 0.4, eyes: 'sad', mouth: 'sad', arms: 'sad', rot: -0.15 * (1 - u), tears: true };
+      return { ...base, x: lerp(EDGE + 100, 150, u), y: lerp(LAVA + 150, FLOOR, ease.outQuad(u)), walk: walkPhase(t, ev.crawl) * 0.5, bounce: 0.4, eyes: 'sad', mouth: 'sad', arms: 'sad', rot: -0.15 * (1 - u), tears: true, turn: lerp(-0.9, -0.45, u), dir: -1 };
     }
     // the sad beat, then the idea: a squash of anticipation and a pop
     if (t < ev.grow) {
@@ -244,26 +336,26 @@
       if (t < ev.idea) {
         const pre = clamp((t - (ev.idea - 0.14)) / 0.14); // anticipation right before the pop
         const sob = Math.sin(t * 1.9) > 0.2 ? 0.07 * Math.max(0, Math.sin(t * 17)) : 0; // sobs in little bursts
-        return { ...base, x: 150, y: FLOOR, eyes: pre > 0 ? 'closed' : 'sad', mouth: 'sad', arms: 'sad', squash: sob + 0.3 * pre, rot: -0.05 + 0.02 * Math.sin(t * 1.3), tears: pre === 0 };
+        return { ...base, x: 150, y: FLOOR, eyes: pre > 0 ? 'closed' : 'sad', mouth: 'sad', arms: 'sad', squash: sob + 0.3 * pre, rot: -0.05 + 0.02 * Math.sin(t * 1.3), tears: pre === 0, turn: -0.45 };
       }
-      return { ...base, x: 150, y: FLOOR - Math.max(0, Math.sin(Math.PI * clamp(a / 0.3))) * 40, eyes: 'wide', mouth: 'smile', arms: 'phone', phone: true, open: clamp(1 - a / 0.3) * 0.6, squash: a < 0.3 ? -0.3 * (1 - a / 0.3) : ring(a - 0.3, 0.2, 26, 9) };
+      return { ...base, x: 150, y: FLOOR - Math.max(0, Math.sin(Math.PI * clamp(a / 0.3))) * 40, eyes: 'wide', mouth: 'smile', arms: 'phone', phone: true, open: clamp(1 - a / 0.3) * 0.6, squash: a < 0.3 ? -0.3 * (1 - a / 0.3) : ring(a - 0.3, 0.2, 26, 9), turn: ring(a, -0.45, 30, 12) + 0.2 * ease.inOutQuad(clamp((a - 0.3) / 0.5)) }; // whips round to us
     }
     if (t < ev.cross) {
       const a = t - ev.bridge;
-      return { ...base, x: 110, y: FLOOR - (a > 0.25 ? Math.max(0, Math.sin(Math.PI * clamp((a - 0.25) / 0.35))) * 40 : 0), eyes: t < ev.bridge ? 'wide' : 'happy', arms: t < ev.bridge ? 'reach' : 'cheer', mouth: 'smile', squash: t < ev.bridge ? 0 : a < 0.25 ? 0.3 * Math.exp(-a * 12) : ring(a - 0.25, -0.25, 14, 8) };
+      return { ...base, x: 110, y: FLOOR - (a > 0.25 ? Math.max(0, Math.sin(Math.PI * clamp((a - 0.25) / 0.35))) * 40 : 0), eyes: t < ev.bridge ? 'wide' : 'happy', arms: t < ev.bridge ? 'reach' : 'cheer', mouth: 'smile', turn: 0.2, squash: t < ev.bridge ? 0 : a < 0.25 ? 0.3 * Math.exp(-a * 12) : ring(a - 0.25, -0.25, 14, 8) };
     }
     // crossing on the phone, eyes up, a happy bouncy walk
     if (t < ev.win) {
       const u = clamp((t - ev.cross) / (ev.win - ev.cross)), x = lerp(110, 860, u);
       const onBridge = clamp((x - 270) / 50) * clamp((GEO.BRIDGE_END + 30 - x) / 50);
-      return { ...base, x, y: lerp(FLOOR, GEO.BRIDGE_TOP, onBridge), walk: walkPhase(t, ev.cross), bounce: 1.5, armSwing: 1.8, eyes: 'normal', lookX: 8, mouth: 'smile', arms: 'down' };
+      return { ...base, x, y: lerp(FLOOR, GEO.BRIDGE_TOP, onBridge), walk: walkPhase(t, ev.cross), bounce: 1.5, armSwing: 1.8, eyes: 'normal', lookX: 8, mouth: 'smile', arms: 'down', turn: 0.5 };
     }
     // the celebration: each hop = anticipation squash, stretch on the way up and down, squash on landing
     const hopK = S.celebrate.filter((c) => c <= t).pop(), u = (t - hopK) / BEAT;
     const air = clamp(u / 0.75);
     const hop = u < 0.75 ? Math.sin(Math.PI * air) * 110 : 0;
     const sqH = u < 0.75 ? -0.28 * Math.abs(Math.cos(Math.PI * air)) : 0.35 * Math.sin(Math.PI * clamp((u - 0.75) / 0.25));
-    return { ...base, x: 860, y: FLOOR - hop, eyes: 'happy', arms: 'cheer', mouth: 'smile', blush: true, open: hop > 60 ? 0.4 : 0, squash: sqH, rot: S.celebrate.indexOf(hopK) === 2 ? -Math.PI * 2 * ease.inOutQuad(air) : 0.06 * Math.sin(Math.PI * air) * (S.celebrate.indexOf(hopK) % 2 ? 1 : -1), mouth: hop > 50 ? 'laugh' : 'smile' };
+    return { ...base, x: 860, y: FLOOR - hop, eyes: 'happy', arms: 'cheer', mouth: 'smile', blush: true, open: hop > 60 ? 0.4 : 0, squash: sqH, turn: S.celebrate.indexOf(hopK) === 2 ? Math.PI * 2 * ease.inOutQuad(air) : 0.15 * Math.sin(Math.PI * air) * (S.celebrate.indexOf(hopK) % 2 ? 1 : -1), rot: 0.06 * Math.sin(Math.PI * air) * (S.celebrate.indexOf(hopK) % 2 ? 1 : -1), mouth: hop > 50 ? 'laugh' : 'smile' };
   }
 
   // ---------- the set: a lava corridor seen from above, receding to a vanishing point ----------

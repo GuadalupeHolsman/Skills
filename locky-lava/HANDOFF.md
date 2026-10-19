@@ -92,6 +92,19 @@ node song.js && node engine/render.js video && node engine/render.js mux && node
 - Alivio después del primer aterrizaje; tristeza con sollozos a ráfagas y lágrimas (tears); respiración en
   las pausas; un salto de festejo con giro completo. Sincronía ✓ (todas +0f).
 
+## Actualización: Locky 2.5D y más distraído (19 oct 2026)
+- Rig 2.5D en `locky()`: el cuerpo es una caja que gira (`turn`, radianes; 0 = a cámara, + = hacia la derecha,
+  PI = de espaldas). Se proyectan las esquinas: frente y costados se ensanchan/angostan con perspectiva, la cara
+  se desliza y se escorza, el arco queda de canto de perfil, de espaldas se ve una cerradura. Brazos y piernas
+  (paths oficiales) se clavan en las articulaciones proyectadas y van delante o detrás según la profundidad.
+  Costado en azul muy oscuro (#1E2366) para que lea como volumen.
+- Giros en la actuación: camina en 3/4 hacia el celular, gira de golpe a cámara en el "take", vueltas en el
+  aire mostrando la espalda, se arrastra de perfil hacia la izquierda, triste en 3/4, gira con la idea, salto
+  de festejo con giro completo.
+- Distraído: encorvado sobre el celular (`hunch`), pulgar escribiendo (`typing`), notificaciones (corazones y
+  globitos, `notify`), luz de la pantalla en la cara; en los intentos 1 y 2 se frena a mitad de camino a
+  escribir y reírse; tras caer vuelve directo al celular. Sincronía ✓ (todas +0f).
+
 ## Notas
 - Siempre responder en español rioplatense.
 - La memoria de Notion no tenía nada sobre Locky ni Loomlock. Se puede guardar si Lupe quiere.
