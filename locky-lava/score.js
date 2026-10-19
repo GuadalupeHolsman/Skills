@@ -42,15 +42,15 @@
   const steps = [];
   for (const [a, b] of walks) for (let t = a; t < b - 0.05; t += BEAT / 2) steps.push(t);
 
-  // the on-screen words (Spanish, rioplatense)
+  // the on-screen words (English)
   const labels = [
-    { t: T(0, 2), end: ev.land1, text: 'Intento 1' },
-    { t: ev.land1 + BEAT, end: ev.land2, text: 'Intento 2' },
-    { t: ev.land2 + BEAT, end: ev.idea, text: 'Intento 3...' },
+    { t: T(0, 2), end: ev.land1, text: 'Try 1' },
+    { t: ev.land1 + BEAT, end: ev.land2, text: 'Try 2' },
+    { t: ev.land2 + BEAT, end: ev.idea, text: 'Try 3...' },
   ];
   const shouts = [
-    { t: ev.launch1, end: ev.land1 - 0.2, text: '¡AAAY!' },
-    { t: ev.launch2, end: ev.land2 - 0.3, text: '¡AAAAAAY!' },
+    { t: ev.launch1, end: ev.land1 - 0.2, text: 'AAAH!' },
+    { t: ev.launch2, end: ev.land2 - 0.3, text: 'AAAAAAH!' },
   ];
   const celebrate = [ev.win, T(11, 1), T(11, 2), T(11, 3)];
 

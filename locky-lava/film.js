@@ -9,7 +9,7 @@
 
   // ---------- Locky ----------
   // Rigged from the official vector (assets/BASIC_LOCKY.svg, 1024 viewBox): each body part is its own path,
-  // posed around its joint. origin = between the feet. o: {x, y, s, rot, walk (phase) | null, eyes, burn 0..1,
+  // posed around its joint. Drawn mirrored, so the dark side panel is on screen-right (local -x = screen right). origin = between the feet. o: {x, y, s, rot, walk (phase) | null, eyes, burn 0..1,
   // open 0..1 (shackle), phone, arms: 'phone'|'down'|'up'|'cheer'|'flail'|'sad', mouth: 'smile'|'scream'|'sad', squash}
   const SVG = {
     armR: 'M740.61,579.84l10.51,60.38,2.48,14.24,6.79,39.02c12.16,6.54,21.21,18.52,23.35,33.23,3.59,24.67-13.5,47.59-38.17,51.18-24.67,3.59-47.59-13.5-51.18-38.17-2.14-14.72,3.11-28.77,12.9-38.51l-4.51-38.41-1.86-15.82-7.08-60.33c-2.36-16.2,44.42-23.01,46.78-6.81Z',
@@ -49,7 +49,7 @@
     const s = (o.s || 1) * 0.3, burn = o.burn || 0;
     ctx.save(); ctx.translate(o.x, o.y); ctx.rotate(o.rot || 0);
     const sq = o.squash || 0; ctx.scale(s * (1 + sq * 0.25), s * (1 - sq * 0.3));
-    ctx.translate(-ORIGIN[0], -ORIGIN[1]);
+    ctx.scale(-1, 1); ctx.translate(-ORIGIN[0], -ORIGIN[1]);
     const b = (c, k) => (burn > 0 ? mix(c, k[0], burn * k[1]) : c);
     const blue = b('#3F49CC', ['#2C2730', 0.85]), sky = b('#9FD8FF', ['#4A4650', 0.8]);
     const lav = b('#878EE5', ['#4A4458', 0.6]), glove = b('#FFFFFF', ['#8A8488', 0.6]);
@@ -63,14 +63,14 @@
     const fl = Math.sin(t * 40);
     const arms = o.arms || 'down';
     const [aL, aR] = {
-      down: [swing * 0.6, -swing * 0.6], phone: [-1.05, 1.05], sad: [-0.62, 0.62],
+      down: [swing * 0.6, -swing * 0.6], phone: [1.88, -swing * 0.6], sad: [-0.62, 0.62],
       up: [2.8, -2.8], cheer: [2.35 + 0.1 * Math.sin(t * 12), -2.35 - 0.1 * Math.sin(t * 12)],
       flail: [2.1 + 0.55 * fl, -2.1 - 0.55 * Math.sin(t * 40 + 1.3)],
     }[arms];
     part(ctx, 'legR', lav, -swing, 0, -liftR);
     part(ctx, 'legL', lav, swing, 0, -liftL);
     ctx.save(); ctx.translate(0, bob);
-    if (arms === 'down') part(ctx, 'armR', glove, aR);
+    if (arms === 'down' || arms === 'phone') part(ctx, 'armR', glove, aR); // the far arm stays behind
     // the shackle pops open when Locky is shocked
     const op = o.open || 0;
     part(ctx, 'shackle', sky, -op * 0.55, 0, -op * 80);
@@ -83,7 +83,7 @@
     }
     // the face: plain white oval eyes, a small smile
     const eyes = o.eyes || 'normal';
-    const look = eyes === 'phone' ? [6, 22] : [(o.lookX || 0) * 1.6, (o.lookY || 0) * 1.6];
+    const look = eyes === 'phone' ? [-14, -6] : [-(o.lookX || 0) * 1.6, (o.lookY || 0) * 1.6];
     for (const [ex0, ey0] of EYES) {
       const ex = ex0 + look[0], ey = ey0 + look[1], left = ex0 < FACE[0];
       if (eyes === 'closed') { stroke(ctx, [[ex - 34, ey - 6], [ex, ey + 22], [ex + 34, ey - 6]], 8); continue; }
@@ -92,7 +92,8 @@
       ctx.save(); ctx.translate(ex, ey); ctx.scale(k, k);
       const e = pth('eye'); ctx.fillStyle = '#FFFFFF'; ctx.fill(e); ctx.lineWidth = 6 / k; ctx.strokeStyle = OUT; ctx.stroke(e);
       ctx.restore();
-      if (eyes === 'wide') oval(ctx, ex + (o.lookX || 0), ey + 4, 10, 10, OUT, 0);
+      if (eyes === 'wide') oval(ctx, ex + look[0], ey + 4, 10, 10, OUT, 0);
+      if (eyes === 'phone') oval(ctx, ex - 20, ey - 6, 13, 15, OUT, 0); // pupils on the phone
       if (eyes === 'spiral') {
         ctx.beginPath(); for (let i = 0; i < 40; i++) { const a = i * 0.5 + t * 14 * (left ? 1 : -1), r = i * 0.85; ctx[i ? 'lineTo' : 'moveTo'](ex + r * Math.cos(a), ey + r * 0.9 * Math.sin(a)); }
         ctx.lineWidth = 5; ctx.strokeStyle = OUT; ctx.stroke();
@@ -117,14 +118,14 @@
       ctx.restore();
     }
     if (o.blush) { ctx.save(); ctx.globalAlpha = 0.5; oval(ctx, 395, 566, 30, 16, '#F27BA0', 0); oval(ctx, 698, 566, 30, 16, '#F27BA0', 0); ctx.restore(); }
-    // the phone, held in both hands in front of the body
-    if (o.phone) {
-      ctx.save(); ctx.translate(FACE[0] - 30, 650); ctx.rotate(-0.12);
-      ctx.beginPath(); ctx.roundRect(-62, -96, 124, 192, 22); ctx.fillStyle = '#1C1C26'; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.stroke();
-      ctx.beginPath(); ctx.roundRect(-48, -80, 96, 158, 12); ctx.fillStyle = '#F37BC0'; ctx.fill();
+    if (arms !== 'down' && arms !== 'phone') part(ctx, 'armR', glove, aR);
+    // the phone, held out in the near hand at eye level, screen turned to Locky
+    if (o.phone && arms === 'phone') {
+      ctx.save(); ctx.translate(150, 468); ctx.rotate(0.1);
+      ctx.beginPath(); ctx.roundRect(-40, -96, 80, 192, 18); ctx.fillStyle = '#1C1C26'; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.stroke();
+      ctx.beginPath(); ctx.roundRect(-6, -80, 34, 160, 8); ctx.fillStyle = '#F37BC0'; ctx.fill();
       ctx.restore();
     }
-    if (arms !== 'down') part(ctx, 'armR', glove, aR);
     part(ctx, 'armL', glove, aL);
     ctx.restore();
     ctx.restore();
@@ -192,53 +193,84 @@
   }
 
   // ---------- the cave ----------
+  // ---------- the set: a lava corridor seen from above, receding to a vanishing point ----------
+  // Locky acts on one row (y = FLOOR); everything else is projected from that row. xa = x on the action row.
+  const VP = [600, 880], FAR = 1000;
+  const dep = (y) => (y - VP[1]) / (FLOOR - VP[1]);           // 1 on the action row, 0 at the vanishing point
+  const px = (xa, y) => VP[0] + (xa - VP[0]) * dep(y);
+  const LWALL = -250, RWALL = 1050, BOT = 1960;
+  const edge = (xa, y0, y1, drop = 0) => [[px(xa, y0), y0 + drop * dep(y0)], [px(xa, y1), y1 + drop * dep(y1)]];
   function cave(ctx, t) {
-    const g = ctx.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, '#2B1B2E'); g.addColorStop(0.55, '#5A2A2A'); g.addColorStop(1, '#8A3A1E');
-    ctx.fillStyle = g; ctx.fillRect(-200, -800, W + 400, H + 1600);
-    // back-wall rocks with glowing cracks
-    for (let i = 0; i < 9; i++) {
-      const x = G.rnd(i, 1) * W, y = 300 + G.rnd(i, 2) * 800, r = 90 + G.rnd(i, 3) * 120;
-      G.ellipse(ctx, x, y, r, r * 0.7, { fill: i % 2 ? '#47252F' : '#3A2030', lw: 4, seed: 100 + i, hatch: { color: 'rgba(0,0,0,0.12)', gap: 12 } });
+    // ceiling
+    const g = ctx.createLinearGradient(0, 0, 0, FAR);
+    g.addColorStop(0, '#1E1420'); g.addColorStop(1, '#3A2030');
+    ctx.fillStyle = g; ctx.fillRect(-300, -800, W + 600, H + 1600);
+    // the far wall, glowing from below
+    const wt = FAR - 700 * dep(FAR);
+    const fw = ctx.createLinearGradient(0, wt, 0, FAR); fw.addColorStop(0, '#4A2632'); fw.addColorStop(1, '#8A3A26');
+    G.poly(ctx, [[px(LWALL, FAR), wt], [px(RWALL, FAR), wt], [px(RWALL, FAR), FAR], [px(LWALL, FAR), FAR]], { fill: fw, lw: 5, seed: 100 });
+    // side walls: stone courses that run to the vanishing point
+    for (const [xa, seed] of [[LWALL, 110], [RWALL, 120]]) {
+      const top = (y) => y - 700 * dep(y);
+      const wg = ctx.createLinearGradient(px(xa, BOT), 0, px(xa, FAR), 0);
+      wg.addColorStop(0, '#2E1A26'); wg.addColorStop(1, '#5A2C30');
+      G.poly(ctx, [[px(xa, FAR), FAR], [px(xa, FAR), top(FAR)], [px(xa, BOT), top(BOT)], [px(xa, BOT), BOT]], { fill: wg, lw: 5, seed, step: 40 });
+      for (let k = 1; k < 5; k++) { const h = 700 * k / 5; G.line(ctx, [[px(xa, FAR), FAR - h * dep(FAR)], [px(xa, BOT), BOT - h * dep(BOT)]], { color: 'rgba(0,0,0,0.35)', lw: 3, seed: seed + k }); }
+      for (const y of [1040, 1110, 1200, 1330, 1520, 1800]) G.line(ctx, [[px(xa, y), y], [px(xa, y), top(y)]], { color: 'rgba(0,0,0,0.3)', lw: 3, seed: seed + y });
     }
+    // glowing cracks on the far wall
     for (let k = 0; k < 4; k++) {
-      const x0 = 120 + k * 260, pts = [[x0, 380 + k * 90]];
-      for (let i = 1; i < 6; i++) pts.push([x0 + (G.rnd(k, i) - 0.5) * 120, 380 + k * 90 + i * 60]);
-      ctx.save(); ctx.globalAlpha = 0.55 + 0.25 * Math.sin(t * 3 + k); G.line(ctx, pts, { color: '#FF8A3A', lw: 5, seed: 150 + k }); ctx.restore();
+      const x0 = px(LWALL, FAR) + 40 + k * 90, pts = [[x0, wt + 10]];
+      for (let i = 1; i < 5; i++) pts.push([x0 + (G.rnd(k, i) - 0.5) * 40, wt + 10 + i * 40]);
+      ctx.save(); ctx.globalAlpha = 0.55 + 0.25 * Math.sin(t * 3 + k); G.line(ctx, pts, { color: '#FF8A3A', lw: 4, seed: 150 + k }); ctx.restore();
     }
-    // stalactites
-    for (let i = 0; i < 8; i++) { const x = 40 + i * 140 + G.rnd(i, 9) * 40, h = 120 + G.rnd(i, 8) * 160; G.poly(ctx, [[x - 50, -10], [x + 50, -10], [x + 4, h]], { fill: '#24161F', lw: 4, seed: 170 + i, step: 30 }); }
-    // the exit on the right: a stone arch with daylight and a sign
-    G.rrect(ctx, 840, 930, 210, 370, 100, { fill: '#BFE7FF', lw: 7, seed: 190 });
-    ctx.save(); ctx.globalAlpha = 0.45; G.ellipse(ctx, 945, 1120, 90, 160, { fill: '#FFFFFF', lw: 0, seed: 191 }); ctx.restore();
-    G.rrect(ctx, 850, 790, 180, 70, 10, { fill: '#3FA86B', lw: 5, seed: 192 });
-    G.line(ctx, [[940, 860], [940, 930]], { color: INK, lw: 6, seed: 193 });
-    G.text(ctx, 'SALIDA', 940, 838, { size: 40, align: 'center', fam: 'Bungee', weight: 400, color: '#FFFFFF' });
+    // the exit: a door in the right wall, further down the corridor, with daylight and a sign
+    const d0 = 1060, d1 = 1150, dh = 420;
+    const door = [[px(RWALL, d0), d0], [px(RWALL, d1), d1], [px(RWALL, d1), d1 - dh * dep(d1)], [px(RWALL, d0), d0 - dh * dep(d0)]];
+    G.poly(ctx, door, { fill: '#BFE7FF', lw: 6, seed: 190 });
+    ctx.save(); ctx.globalAlpha = 0.35; ctx.fillStyle = '#FFF6D8';
+    ctx.beginPath(); ctx.moveTo(...door[0]); ctx.lineTo(...door[1]); ctx.lineTo(px(RWALL - 260, d1 + 140), d1 + 140); ctx.lineTo(px(RWALL - 260, d0 + 90), d0 + 90); ctx.closePath(); ctx.fill(); ctx.restore();
+    const sx = (door[2][0] + door[3][0]) / 2, sy = (door[2][1] + door[3][1]) / 2 - 70;
+    ctx.save(); ctx.translate(sx, sy); ctx.transform(1, 0.55, 0, 1, 0, 0);
+    G.rrect(ctx, -70, -26, 140, 52, 8, { fill: '#3FA86B', lw: 5, seed: 192 });
+    G.text(ctx, 'EXIT', 0, 12, { size: 34, align: 'center', fam: 'Bungee', weight: 400, color: '#FFFFFF' });
+    ctx.restore();
   }
   function lava(ctx, t) {
-    const y0 = LAVA;
-    const pts = [[GEO.EDGE - 20, H + 50]];
-    for (let i = 0; i <= 24; i++) { const x = GEO.EDGE - 20 + (i / 24) * (GEO.RIGHT + 40 - GEO.EDGE); pts.push([x, y0 + 8 * Math.sin(x * 0.03 + t * 3)]); }
-    pts.push([GEO.RIGHT + 20, H + 50]);
-    const g = ctx.createLinearGradient(0, y0, 0, H); g.addColorStop(0, '#FFB52E'); g.addColorStop(0.3, '#FF6A1A'); g.addColorStop(1, '#C8321A');
-    G.shape(ctx, pts, { fill: g, lw: 5, seed: 200, closed: true });
-    for (let i = 0; i < 12; i++) { // blobs drifting
-      const x = GEO.EDGE + 20 + ((G.rnd(i, 1) * 440 + t * (20 + i * 3)) % 440), y = y0 + 60 + G.rnd(i, 2) * 420;
-      ctx.save(); ctx.globalAlpha = 0.55; G.ellipse(ctx, x, y, 34 + G.rnd(i, 3) * 30, 14 + G.rnd(i, 4) * 10, { fill: '#FFD45A', lw: 0, seed: 210 + i }); ctx.restore();
+    const drop = LAVA - FLOOR;
+    const L = edge(EDGE, FAR, BOT, drop), R = edge(GEO.RIGHT, FAR, BOT, drop);
+    const g = ctx.createLinearGradient(0, FAR, 0, BOT); g.addColorStop(0, '#FFB52E'); g.addColorStop(0.35, '#FF7A1A'); g.addColorStop(1, '#E0481A');
+    G.poly(ctx, [L[0], R[0], R[1], L[1]], { fill: g, lw: 5, seed: 200, step: 60 });
+    ctx.save(); ctx.beginPath(); ctx.moveTo(...L[0]); ctx.lineTo(...R[0]); ctx.lineTo(...R[1]); ctx.lineTo(...L[1]); ctx.closePath(); ctx.clip();
+    for (let i = 0; i < 26; i++) { // blobs drifting toward the camera, scaled by depth
+      const y = FAR + 10 + ((G.rnd(i, 2) * 900 + t * (14 + i * 2)) % 900), d = dep(y);
+      const x = px(lerp(EDGE, GEO.RIGHT, G.rnd(i, 1)), y);
+      ctx.globalAlpha = 0.5; G.ellipse(ctx, x, y + drop * d, (30 + G.rnd(i, 3) * 26) * d, (9 + G.rnd(i, 4) * 7) * d, { fill: '#FFD45A', lw: 0, seed: 210 + i });
     }
-    for (let i = 0; i < 5; i++) { // bubbles that pop
+    ctx.restore();
+    for (let i = 0; i < 6; i++) { // bubbles that pop
       const per = 1.3 + G.rnd(i, 5), ph = ((t + G.rnd(i, 6) * per) % per) / per;
-      const x = GEO.EDGE + 40 + G.rnd(i, 7) * 400, r = 6 + 22 * Math.sin(Math.PI * ph);
-      if (ph < 0.9) G.ellipse(ctx, x, y0 + 4 - r * 0.4, r, r * 0.8, { fill: '#FFC93C', lw: 3, seed: 230 + i });
+      const y = FLOOR - 120 + G.rnd(i, 8) * 420, d = dep(y), x = px(lerp(EDGE + 30, GEO.RIGHT - 30, G.rnd(i, 7)), y), r = (6 + 20 * Math.sin(Math.PI * ph)) * d;
+      if (ph < 0.9) G.ellipse(ctx, x, y + drop * d - r * 0.4, r, r * 0.8, { fill: '#FFC93C', lw: 3, seed: 230 + i });
     }
   }
   function ledges(ctx) {
-    G.rrect(ctx, -40, FLOOR, GEO.EDGE + 40, H - FLOOR + 40, 8, { fill: '#6B5A5E', lw: 6, seed: 250, hatch: { color: 'rgba(0,0,0,0.18)', gap: 12 } });
-    G.rrect(ctx, GEO.RIGHT, FLOOR, W - GEO.RIGHT + 40, H - FLOOR + 40, 8, { fill: '#6B5A5E', lw: 6, seed: 251, hatch: { color: 'rgba(0,0,0,0.18)', gap: 12 } });
-    G.rrect(ctx, -40, FLOOR - 4, GEO.EDGE + 40, 26, 6, { fill: '#8E7C7E', lw: 5, seed: 252 });
-    G.rrect(ctx, GEO.RIGHT, FLOOR - 4, W - GEO.RIGHT + 40, 26, 6, { fill: '#8E7C7E', lw: 5, seed: 253 });
-    // the glow of the lava on the inner edges
-    for (const x of [GEO.EDGE - 30, GEO.RIGHT]) { ctx.save(); ctx.globalAlpha = 0.35; ctx.fillStyle = '#FF7A2A'; ctx.fillRect(x, FLOOR + 22, 30, H - FLOOR); ctx.restore(); }
+    const drop = LAVA - FLOOR;
+    const stone = { lw: 6, hatch: { color: 'rgba(0,0,0,0.16)', gap: 12 } };
+    // the walkways
+    G.poly(ctx, [[px(LWALL, FAR), FAR], [px(EDGE, FAR), FAR], [px(EDGE, BOT), BOT], [px(LWALL, BOT), BOT]], { ...stone, fill: '#7A686C', seed: 250, step: 40 });
+    G.poly(ctx, [[px(GEO.RIGHT, FAR), FAR], [px(RWALL, FAR), FAR], [px(RWALL, BOT), BOT], [px(GEO.RIGHT, BOT), BOT]], { ...stone, fill: '#7A686C', seed: 251, step: 40 });
+    // floor tiles: rows across, seams toward the vanishing point
+    for (const [a, b2, seed] of [[LWALL, EDGE, 260], [GEO.RIGHT, RWALL, 270]]) {
+      for (let k = 1; k < 4; k++) { const xa = lerp(a, b2, k / 4); G.line(ctx, [[px(xa, FAR), FAR], [px(xa, BOT), BOT]], { color: 'rgba(0,0,0,0.22)', lw: 3, seed: seed + k }); }
+      for (const y of [1030, 1080, 1150, 1240, 1380, 1580, 1850]) G.line(ctx, [[px(a, y), y], [px(b2, y), y]], { color: 'rgba(0,0,0,0.22)', lw: 3, seed: seed + y });
+    }
+    // the curb faces down to the lava, lit orange from below
+    for (const [xa, seed] of [[EDGE, 252], [GEO.RIGHT, 253]]) {
+      const top = edge(xa, FAR, BOT), bot = edge(xa, FAR, BOT, drop);
+      const cg = ctx.createLinearGradient(0, FLOOR, 0, LAVA); cg.addColorStop(0, '#5E4A4E'); cg.addColorStop(1, '#C8642E');
+      G.poly(ctx, [top[0], top[1], bot[1], bot[0]], { fill: cg, lw: 5, seed, step: 40 });
+    }
   }
   // splash: droplets + rings + a smoke column
   function splashFx(ctx, t, ts, size) {
@@ -349,9 +381,9 @@
       if (t >= ev.splash3 + 0.6 && t < ev.idea) G.text(ctx, '...', W / 2, 760, { size: 120, align: 'center', fam: 'Bungee', weight: 400, color: '#FFFFFF', stroke: INK, strokeW: 10 });
       const st2 = state(t);
       for (const sh of S.shouts) if (t >= sh.t && t < sh.end) stamp(ctx, t, sh.t, sh.end, sh.text, clamp(540 + (st2.x - 515) * 1.15, 380, 680), clamp(1260 + (st2.y - 1300) * 1.15 - 400, SAFE.y + 260, 1050), 84, '#FFE06A');
-      stamp(ctx, t, ev.idea, ev.bridge, '¡IDEA!', 520, 760, 110, '#FFE06A');
-      stamp(ctx, t, ev.bridge, ev.bridge + 0.9, '¡PUM!', 600, 1080, 100, '#FFFFFF', 0.05);
-      stamp(ctx, t, ev.win, ev.end, '¡LO LOGRÓ!', W / 2 - 40, 640, 110, '#7CF29A');
+      stamp(ctx, t, ev.idea, ev.bridge, 'IDEA!', 520, 760, 110, '#FFE06A');
+      stamp(ctx, t, ev.bridge, ev.bridge + 0.9, 'BOOM!', 600, 1080, 100, '#FFFFFF', 0.05);
+      stamp(ctx, t, ev.win, ev.end, 'MADE IT!', W / 2 - 40, 640, 110, '#7CF29A');
 
       // white flashes on the idea and the win
       for (const tf of [ev.idea, ev.win]) { const a = t - tf; if (a >= 0 && a < 0.2) { ctx.save(); ctx.globalAlpha = 0.6 * (1 - a / 0.2); ctx.fillStyle = '#FFF6D8'; ctx.fillRect(0, 0, W, H); ctx.restore(); } }
@@ -363,8 +395,8 @@
         const pop = ease.outBack(e, 2);
         ctx.translate(W / 2 - 50, 640); ctx.scale(pop, pop);
         G.text(ctx, 'LOCKY', 0, 0, { size: 190, align: 'center', fam: 'Bungee', weight: 400, color: '#F2B84B', stroke: INK, strokeW: 16 });
-        G.text(ctx, 'Mirá por dónde', 0, 170, { size: 76, align: 'center', fam: 'Permanent Marker', weight: 400, color: '#FFFFFF' });
-        G.text(ctx, 'caminás', 0, 260, { size: 76, align: 'center', fam: 'Permanent Marker', weight: 400, color: '#FFFFFF' });
+        G.text(ctx, 'Watch where', 0, 170, { size: 76, align: 'center', fam: 'Permanent Marker', weight: 400, color: '#FFFFFF' });
+        G.text(ctx, 'you walk', 0, 260, { size: 76, align: 'center', fam: 'Permanent Marker', weight: 400, color: '#FFFFFF' });
         if (YAY) { const w = 760, h = w * YAY.height / YAY.width; ctx.drawImage(YAY, -w / 2 + 40, 330, w, h); } else locky(ctx, { x: 0, y: 640, s: 1.3, eyes: 'happy', arms: 'cheer', blush: true });
         ctx.restore();
       }
