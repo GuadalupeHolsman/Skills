@@ -2,10 +2,10 @@
 
 Evento: **jueves 12 de noviembre · Medellín · 40 cupos · solo con invitación**. Hora y lugar: por confirmar. Las piezas no los dicen todavía.
 Reglas: "loomlock" siempre en minúscula · "Live now, post later." · sin WhatsApp · nada en vivo durante el evento.
-Estilo: v2, con la impronta de loomlock (Channel, azul, formas geométricas, Locky). Quokka entra con su logo, su naranja y su sonrisa.
+Estilo: v3, armado sobre los carteles originales de loomlock de la carpeta "Quokka" del Drive (arco, anillos, asterisco, flor). Se cambiaron el texto y los logos; las formas son las originales.
 Cuentas: @quokkacoworking (Instagram y Facebook). Etiquetar a @loomlock.
 
-## 1 · Invitación Instagram (`01-invitacion-instagram-1080x1350.png`)
+## 1 · Invitación Instagram (cartel "Take a break" oscuro, el arco) (`01-invitacion-instagram-1080x1350.png`)
 Cuándo: dom 8 nov. Mejor como **collab post** con loomlock.
 
 > Grill on. Feed off. 🔥📵
@@ -21,14 +21,14 @@ Para la home o la página de eventos de quokkacoworking.com. Pensado para escrit
 - Texto alternativo: "Grill on. Feed off. Asado y networking en Quokka Medellín, jueves 12 de noviembre. 40 cupos, solo con invitación."
 - Botón sugerido: "Solo con invitación".
 
-## 3 · Post networking (`03-post-networking.png`)
+## 3 · Post networking (cartel "Deep focus" crema) (`03-post-networking.png`)
 Cuándo: sáb 7 nov o lun 9 nov.
 
 > Networking used to mean talking to the person next to you.
 > Volvamos a eso. El 12 de noviembre, asado, buena gente y cero pantallas. 40 cupos, solo con invitación.
 > @loomlock
 
-## 4 · Post asado (`04-post-asado.png`)
+## 4 · Post asado (cartel "Take a break" azul) (`04-post-asado.png`)
 Cuándo: lun 9 nov.
 
 > The asado is on. The group chat is not. 📵
@@ -36,7 +36,7 @@ Cuándo: lun 9 nov.
 > Jueves 12 de noviembre · Medellín · Solo con invitación.
 > @loomlock
 
-## 5 · Post "mañana" (`05-post-manana.png`)
+## 5 · Post "mañana" (cartel "Deep focus" anillos) (`05-post-manana.png`)
 Cuándo: **mié 11 nov** (también en story).
 
 > Tomorrow. Grill on. Feed off.

@@ -80,3 +80,10 @@ _Última actualización: 16 oct 2026. Fuente: artifact "Prime Time Programación
 - Collab posts de Instagram (en los dos feeds): "Channel 04 · Grill on. Feed off." (8 nov), el carrusel "The asado is on." (9 nov) y el recap.
 - Quokka por su cuenta: reposta en stories, invita a su comunidad, sube una story el día del evento antes de empezar (nada en vivo) y su propio recap.
 - Adelantar el recap de Quokka al 13 o 14 nov (el 28 queda 16 días después del evento).
+
+## Estilo visual loomlock para Ch.4 Quokka (19 oct 2026)
+- Los carteles de la serie (carpeta "Quokka" del Drive, 709×1082): "Take a break" (flor azul / arco oscuro) y "Deep focus" (asterisco crema / anillos azules). Fuente tipo Helvetica Bold en mayúsculas apretadas, formas geométricas difuminadas, logo loomlock arriba a la izquierda.
+- Colores: azul #0052c4, negro #1d1d1b, crema #f6f2ec, amarillo #ffcd20. Quokka: morado #692DDD, naranja #FE6736.
+- Pie de las piezas: "Channel 4 · Quokka / Thu 12 Nov · Medellín" en amarillo a la izquierda, "Live now, post later. / loomlock experiences" a la derecha.
+- Las piezas de Quokka (invitación IG, banner web y 3 posts) están en `quokka/`, armadas sobre los carteles originales (`quokka/originales`, `quokka/art`). Regla: partir siempre de los diseños ya hechos en la parrilla y modificarlos, no rehacerlos.
+- Para bajar archivos del Drive: `download_file_content` guarda en disco los archivos grandes; se decodifica con python (campo `content`, base64).
