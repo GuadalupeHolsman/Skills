@@ -65,6 +65,7 @@ fx.addMono(I.paperFwip(0.6), ev.tip, 0.3);
 // ---------- the bridge: THUNK ----------
 fx.addMono(I.thud(55, 0.6), ev.bridge, 1);
 fx.addMono(I.subBoom(1, 70, 30), ev.bridge, 0.6);
+fx.addMono(I.pop(0.5), ev.bridge, 0.6);
 // ---------- the win: fanfare ----------
 for (const [beat, ch] of [[0, ['C4', 'E4', 'G4', 'C5']], [1.5, ['D4', 'F4', 'A4', 'D5']], [2, ['E4', 'G4', 'C5', 'E5']]]) {
   for (const n of ch) { const { L, R } = I.brassNote(m(n), BEAT * (beat === 2 ? 1.6 : 0.45), { stab: beat !== 2, bright: 1.2, seed: m(n) + beat }); brass.addStereo(L, R, T(11, beat), 0.09); }
@@ -76,7 +77,8 @@ drums.addMono(I.clap({ spread: 1.4 }), T(13), 0.5);
 // ---------- mix ----------
 const music = [drums, bass, pad, keys, brass];
 for (const b of music) MIX.gate(b, ev.splash3 + 0.02, ev.idea, 0.01); // the silence after the third fall
-for (const b of [drums, bass, pad]) MIX.gate(b, ev.idea, ev.bridge, 0.01); // only the idea sounds until the THUNK
+for (const b of [drums, bass, pad]) MIX.gate(b, ev.idea, ev.bridge, 0.01);
+for (const b of music) MIX.gate(b, ev.bridge + 0.01, ev.cross, 0.01); // let the THUNK ring alone for a beat // only the idea sounds until the THUNK
 const room = reverb(verb, { room: 0.55, damp: 0.4 });
 const stems = { drums, bass, pad, keys, brass, fx, voice, verb: room };
 const GAIN = { drums: 0.9, bass: 0.7, pad: 0.8, keys: 0.9, brass: 2.2, fx: 1.2, voice: 1.3, verb: 0.4 };

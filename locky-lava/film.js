@@ -14,83 +14,91 @@
     const s = o.s || 1, burn = o.burn || 0;
     ctx.save(); ctx.translate(o.x, o.y); ctx.rotate(o.rot || 0);
     const sq = o.squash || 0; ctx.scale(s * (1 + sq * 0.25), s * (1 - sq * 0.3));
-    const gold = burn > 0 ? mix('#F2B84B', '#4A3A30', burn * 0.85) : '#F2B84B';
-    const steel = burn > 0 ? mix('#C9D1DB', '#3C3836', burn * 0.8) : '#C9D1DB';
-    // legs
+    const OUT = '#121218';
+    const blue = burn > 0 ? mix('#3A5CFC', '#2C2730', burn * 0.85) : '#3A5CFC';
+    const side = burn > 0 ? mix('#2338B4', '#1C181E', burn * 0.85) : '#2338B4';
+    const sky = burn > 0 ? mix('#8ED6FF', '#4A4650', burn * 0.8) : '#8ED6FF';
+    const lav = burn > 0 ? mix('#9C98EE', '#4A4458', burn * 0.6) : '#9C98EE';
+    const glove = burn > 0 ? mix('#FFFFFF', '#8A8488', burn * 0.6) : '#FFFFFF';
+    // legs: short lavender legs with rounded feet
     const ph = o.walk == null ? null : o.walk;
-    const sw = ph == null ? 0 : Math.sin(ph) * 22, lift = ph == null ? 0 : Math.max(0, Math.cos(ph)) * 10;
-    G.limb(ctx, [[-30, -42], [-30 + sw, -2 - lift]], { color: INK, lw: 9 });
-    G.limb(ctx, [[30, -42], [30 - sw, -2 - (ph == null ? 0 : Math.max(0, -Math.cos(ph)) * 10)]], { color: INK, lw: 9 });
-    G.ellipse(ctx, -30 + sw + 8, -2 - lift, 16, 8, { fill: INK, lw: 2, seed: 3 });
-    G.ellipse(ctx, 30 - sw + 8, -2, 16, 8, { fill: INK, lw: 2, seed: 4 });
-    // the shackle (pops open when Locky is shocked: it swings on its right leg)
+    const sw = ph == null ? 0 : Math.sin(ph) * 20, liftL = ph == null ? 0 : Math.max(0, Math.cos(ph)) * 10, liftR = ph == null ? 0 : Math.max(0, -Math.cos(ph)) * 10;
+    for (const [lx, d, lift] of [[-30, sw, liftL], [30, -sw, liftR]]) {
+      G.limb(ctx, [[lx, -44], [lx + d, -8 - lift]], { color: lav, lw: 22, outline: OUT });
+      G.ellipse(ctx, lx + d + 6, -8 - lift, 20, 11, { fill: lav, lw: 5, seed: 3 + lx });
+    }
+    // the shackle (light blue, thick, black outline; pops open when Locky is shocked)
     const op = o.open || 0;
-    ctx.save(); ctx.translate(46, -168 - op * 26); ctx.rotate(-op * 0.75);
-    const arc = []; for (let i = 0; i <= 20; i++) { const a = Math.PI + (Math.PI * i) / 20; arc.push([-46 + 46 * Math.cos(a), -10 + 52 * Math.sin(a)]); }
-    const sh = [[-92, 18], ...arc, [0, 18]];
-    G.line(ctx, sh, { color: INK, lw: 26, seed: 7, amp: 0.3 });
-    G.line(ctx, sh, { color: steel, lw: 15, seed: 8, amp: 0.3 });
-    ctx.save(); ctx.globalAlpha = 0.6 * (1 - burn); G.line(ctx, arc.slice(3, 9).map(([x, y]) => [x - 3, y + 3]), { color: '#FFFFFF', lw: 4, seed: 9 }); ctx.restore();
+    ctx.save(); ctx.translate(40, -170 - op * 26); ctx.rotate(-op * 0.75);
+    const arc = []; for (let i = 0; i <= 20; i++) { const a = Math.PI + (Math.PI * i) / 20; arc.push([-40 + 40 * Math.cos(a), -6 + 50 * Math.sin(a)]); }
+    const sh = [[-80, 16], ...arc, [0, 16]];
+    G.line(ctx, sh, { color: OUT, lw: 36, seed: 7, amp: 0.2 });
+    G.line(ctx, sh, { color: sky, lw: 25, seed: 8, amp: 0.2 });
+    ctx.save(); ctx.globalAlpha = 0.7 * (1 - burn); G.line(ctx, arc.slice(4, 9).map(([x, y]) => [x - 4, y + 4]), { color: '#E6F6FF', lw: 6, seed: 9 }); ctx.restore();
     ctx.restore();
-    // arms (behind the body when down)
+    // arms: white noodles with round white hands
     const arms = o.arms || 'down';
     const armPts = {
-      down: [[[-74, -100], [-96, -70], [-92, -44]], [[74, -100], [96, -70], [92, -44]]],
-      phone: [[[-74, -100], [-60, -60], [10, -78]], [[74, -100], [110, -92], [104, -132]]],
-      up: [[[-74, -110], [-110, -150], [-118, -196]], [[74, -110], [110, -150], [118, -196]]],
-      cheer: [[[-74, -110], [-120, -150], [-140, -210]], [[74, -110], [120, -150], [140, -210]]],
-      flail: [[[-74, -110], [-128, -126 + Math.sin(G.t * 40) * 20], [-150, -170 + Math.sin(G.t * 40) * 30]], [[74, -110], [128, -126 - Math.sin(G.t * 40) * 20], [150, -170 - Math.sin(G.t * 40) * 30]]],
-      sad: [[[-74, -100], [-70, -56], [-20, -46]], [[74, -100], [70, -56], [20, -46]]],
+      down: [[[-72, -100], [-96, -72], [-94, -48]], [[72, -100], [96, -72], [94, -48]]],
+      phone: [[[-72, -100], [-60, -60], [10, -76]], [[72, -100], [112, -94], [106, -134]]],
+      up: [[[-72, -110], [-110, -150], [-118, -196]], [[72, -110], [110, -150], [118, -196]]],
+      cheer: [[[-72, -110], [-120, -150], [-140, -210]], [[72, -110], [120, -150], [140, -210]]],
+      flail: [[[-72, -110], [-128, -126 + Math.sin(G.t * 40) * 20], [-150, -170 + Math.sin(G.t * 40) * 30]], [[72, -110], [128, -126 - Math.sin(G.t * 40) * 20], [150, -170 - Math.sin(G.t * 40) * 30]]],
+      sad: [[[-72, -100], [-70, -56], [-22, -46]], [[72, -100], [70, -56], [22, -46]]],
     }[arms];
-    // the body
-    G.rrect(ctx, -76, -172, 152, 132, 26, { fill: gold, lw: 6, seed: 11, hatch: { color: 'rgba(120,70,10,0.18)', gap: 11 } });
-    ctx.save(); ctx.globalAlpha = 0.5 * (1 - burn); G.rrect(ctx, -62, -160, 22, 70, 10, { fill: '#FFE3A0', lw: 0, seed: 12 }); ctx.restore();
+    // the body: a chunky blue block with a darker side face (the 3D look of the Loomlock art)
+    G.rrect(ctx, -60, -170, 140, 134, 22, { fill: side, lw: 6, seed: 10 });
+    G.rrect(ctx, -76, -176, 136, 136, 22, { fill: blue, lw: 6, seed: 11 });
+    ctx.save(); ctx.globalAlpha = 0.25 * (1 - burn); G.rrect(ctx, -64, -164, 20, 60, 10, { fill: '#FFFFFF', lw: 0, seed: 12 }); ctx.restore();
     if (burn > 0.2) for (let i = 0; i < 7; i++) { // soot smudges
       ctx.save(); ctx.globalAlpha = burn * 0.7;
-      G.ellipse(ctx, -55 + G.rnd(i, 21) * 110, -160 + G.rnd(i, 22) * 110, 8 + G.rnd(i, 23) * 14, 6 + G.rnd(i, 24) * 9, { fill: '#1E1614', lw: 0, seed: 30 + i });
+      G.ellipse(ctx, -60 + G.rnd(i, 21) * 100, -160 + G.rnd(i, 22) * 110, 8 + G.rnd(i, 23) * 14, 6 + G.rnd(i, 24) * 9, { fill: '#0E0C10', lw: 0, seed: 30 + i });
       ctx.restore();
     }
-    for (const a of armPts) G.limb(ctx, a, { color: INK, lw: 9 });
-    for (const a of armPts) G.ellipse(ctx, a[2][0], a[2][1], 11, 11, { fill: '#FFFFFF', lw: 4, seed: 40 + a[2][0] });
+    for (const a of armPts) G.limb(ctx, a, { color: glove, lw: 14, outline: OUT });
+    for (const a of armPts) G.ellipse(ctx, a[2][0], a[2][1], 17, 16, { fill: glove, lw: 5, seed: 40 + a[2][0] });
     // the phone in hand
     if (o.phone) {
       const [hx, hy] = armPts[1][2];
-      ctx.save(); ctx.translate(hx - 6, hy + 4); ctx.rotate(-0.25);
-      G.rrect(ctx, -22, -40, 44, 76, 8, { fill: '#26262E', lw: 4, seed: 50 });
-      G.rrect(ctx, -16, -32, 32, 58, 4, { fill: '#7FD3FF', lw: 0, seed: 51 });
+      ctx.save(); ctx.translate(hx - 8, hy + 6); ctx.rotate(-0.25);
+      G.rrect(ctx, -22, -42, 44, 78, 9, { fill: '#1C1C26', lw: 5, seed: 50 });
+      G.rrect(ctx, -16, -34, 32, 60, 5, { fill: '#F37BC0', lw: 0, seed: 51 });
       ctx.restore();
+      G.ellipse(ctx, hx, hy, 17, 16, { fill: glove, lw: 5, seed: 52 });
     }
-    // the face: two eyes and the keyhole (which is also the mouth)
+    // the face: white oval eyes, a tiny smile with a pink tongue
     const eyes = o.eyes || 'normal';
-    const look = eyes === 'phone' ? [9, 7] : [o.lookX || 2, o.lookY || 0];
-    for (const ex of [-30, 30]) {
+    const look = eyes === 'phone' ? [8, 5] : [o.lookX || 0, o.lookY || 0];
+    const fx = -8; // face centre (the front face is shifted left of the side panel)
+    for (const ex of [fx - 32, fx + 32]) {
       if (eyes === 'closed' || eyes === 'happy') {
-        G.line(ctx, [[ex - 16, -118 + (eyes === 'happy' ? 6 : 0)], [ex, -128], [ex + 16, -118 + (eyes === 'happy' ? 6 : 0)]], { color: INK, lw: 6, seed: 60 + ex });
+        G.line(ctx, eyes === 'happy' ? [[ex - 15, -112], [ex, -124], [ex + 15, -112]] : [[ex - 15, -120], [ex, -110], [ex + 15, -120]], { color: OUT, lw: 6, seed: 60 + ex });
         continue;
       }
-      const ry = eyes === 'wide' ? 30 : 25, rx = eyes === 'wide' ? 24 : 20;
-      G.ellipse(ctx, ex, -120, rx, ry, { fill: '#FFFFFF', lw: 5, seed: 61 + ex });
+      const ry = eyes === 'wide' ? 24 : 14, rx = eyes === 'wide' ? 22 : 20;
+      G.ellipse(ctx, ex, -118, rx, ry, { fill: '#FFFFFF', lw: 5, seed: 61 + ex });
       if (eyes === 'spiral') {
-        const pts = []; for (let i = 0; i < 40; i++) { const a = i * 0.45 + G.t * 14 * (ex < 0 ? 1 : -1), r = i * 0.45; pts.push([ex + r * Math.cos(a), -120 + r * Math.sin(a)]); }
-        G.line(ctx, pts, { color: INK, lw: 4, seed: 62 });
-      } else {
-        const pr = eyes === 'wide' ? 7 : 10;
-        G.ellipse(ctx, ex + look[0], -120 + look[1], pr, pr, { fill: INK, lw: 0, seed: 63 });
-        G.ellipse(ctx, ex + look[0] + 3, -124 + look[1], 3, 3, { fill: '#FFFFFF', lw: 0, seed: 64 });
+        const pts = []; for (let i = 0; i < 34; i++) { const a = i * 0.5 + G.t * 14 * (ex < fx ? 1 : -1), r = i * 0.5; pts.push([ex + r * Math.cos(a), -118 + r * 0.8 * Math.sin(a)]); }
+        G.line(ctx, pts, { color: OUT, lw: 3.5, seed: 62 });
+      } else if (eyes === 'phone' || eyes === 'wide' || o.lookX) {
+        const pr = eyes === 'wide' ? 6 : 6;
+        G.ellipse(ctx, ex + look[0], -118 + look[1], pr, pr, { fill: OUT, lw: 0, seed: 63 });
       }
-      if (eyes === 'sad') { // heavy lids
-        G.poly(ctx, [[ex - 22, -146], [ex + 22, -146], [ex + 22, -126 + (ex < 0 ? 4 : -4) * -1], [ex - 22, -126 + (ex < 0 ? -4 : 4) * -1]], { fill: gold, lw: 4, seed: 65 + ex });
+      if (eyes === 'sad') { // droopy lids
+        G.poly(ctx, [[ex - 22, -136], [ex + 22, -136], [ex + 22, ex < fx ? -114 : -122], [ex - 22, ex < fx ? -122 : -114]], { fill: blue, lw: 4, seed: 65 + ex });
       }
     }
-    const mouth = o.mouth || 'keyhole';
+    const mouth = o.mouth || 'smile';
     if (mouth === 'scream') {
-      G.ellipse(ctx, 0, -72, 20, 24, { fill: '#5A1E1E', lw: 5, seed: 70 });
+      G.ellipse(ctx, fx, -76, 16, 20, { fill: '#5A1E2E', lw: 5, seed: 70 });
+      G.ellipse(ctx, fx, -66, 9, 6, { fill: '#F27BA0', lw: 0, seed: 71 });
+    } else if (mouth === 'sad') {
+      G.line(ctx, [[fx - 12, -78], [fx, -86], [fx + 12, -78]], { color: OUT, lw: 5, seed: 72 });
     } else {
-      G.ellipse(ctx, 0, -80, 11, 11, { fill: INK, lw: 0, seed: 71 });
-      G.poly(ctx, [[-6, -76], [6, -76], [10, -56], [-10, -56]], { fill: INK, lw: 0, seed: 72 });
-      if (mouth === 'smile') G.line(ctx, [[-30, -66], [-20, -56]], { color: INK, lw: 4, seed: 73 }), G.line(ctx, [[30, -66], [20, -56]], { color: INK, lw: 4, seed: 74 });
+      G.ellipse(ctx, fx, -84, 8, 7, { fill: '#F27BA0', lw: 4, seed: 73 });
+      G.line(ctx, [[fx - 14, -90], [fx - 7, -84], [fx, -90], [fx + 7, -84], [fx + 14, -90]], { color: OUT, lw: 5, seed: 74 });
     }
-    if (o.blush) { ctx.save(); ctx.globalAlpha = 0.5; G.ellipse(ctx, -52, -92, 12, 7, { fill: '#F27B7B', lw: 0, seed: 75 }); G.ellipse(ctx, 52, -92, 12, 7, { fill: '#F27B7B', lw: 0, seed: 76 }); ctx.restore(); }
+    if (o.blush) { ctx.save(); ctx.globalAlpha = 0.5; G.ellipse(ctx, fx - 52, -94, 12, 7, { fill: '#F27BA0', lw: 0, seed: 75 }); G.ellipse(ctx, fx + 52, -94, 12, 7, { fill: '#F27BA0', lw: 0, seed: 76 }); ctx.restore(); }
     ctx.restore();
   }
   function mix(a, b, k) {
@@ -117,7 +125,7 @@
     const y = lerp(p0[1], p1[1], u) - 4 * (peak) * u * (1 - u);
     return { x: lerp(p0[0], p1[0], u), y, u };
   }
-  function burnAt(t) { return t < ev.launch1 ? 0 : t < ev.launch2 ? 0.4 : t < ev.crawl ? 0.72 : 1; }
+  function burnAt(t) { return t < ev.launch1 ? 0 : t < ev.launch2 ? 0.25 : t < ev.crawl ? 0.42 : 0.6; }
   function state(t) {
     const burn = burnAt(t);
     const base = { burn, eyes: 'normal', arms: 'down', phone: false, walk: null, open: 0, rot: 0 };
@@ -139,10 +147,10 @@
     // try 3
     if (t < ev.off3) return { ...base, x: lerp(160, EDGE + 10, clamp((t - ev.walk3) / (ev.off3 - ev.walk3))), y: FLOOR, walk: walkPhase(t, ev.walk3), eyes: 'phone', arms: 'phone', phone: true };
     if (t < ev.splash3) return { ...base, ...fall(t, ev.off3, ev.splash3, EDGE + 10) };
-    if (t < ev.crawl) { const st = sunk(t, ev.splash3, LAVA + 150); return { ...base, ...st, arms: 'down', mouth: 'keyhole', eyes: t > ev.scratch ? 'sad' : 'wide' }; }
-    if (t < ev.sit) { const u = ease.inOutQuad(clamp((t - ev.crawl) / (ev.sit - ev.crawl))); return { ...base, x: lerp(EDGE + 70, 150, u), y: lerp(LAVA + 150, FLOOR, ease.outQuad(u)), walk: walkPhase(t, ev.crawl) * 0.5, eyes: 'sad', arms: 'down', rot: -0.15 * (1 - u) }; }
+    if (t < ev.crawl) { const st = sunk(t, ev.splash3, LAVA + 150); return { ...base, ...st, arms: 'down', mouth: t > ev.scratch ? 'sad' : 'scream', eyes: t > ev.scratch ? 'sad' : 'wide' }; }
+    if (t < ev.sit) { const u = ease.inOutQuad(clamp((t - ev.crawl) / (ev.sit - ev.crawl))); return { ...base, x: lerp(EDGE + 70, 150, u), y: lerp(LAVA + 150, FLOOR, ease.outQuad(u)), walk: walkPhase(t, ev.crawl) * 0.5, eyes: 'sad', mouth: 'sad', arms: 'down', rot: -0.15 * (1 - u) }; }
     // the idea
-    if (t < ev.grow) { const a = t - ev.idea; return { ...base, x: 150, y: FLOOR, eyes: t < ev.idea ? 'sad' : 'wide', arms: t < ev.idea ? 'sad' : 'phone', phone: t >= ev.idea, open: t >= ev.idea ? clamp(1 - a / 0.3) * 0.6 : 0, lookX: 8, lookY: 6 }; }
+    if (t < ev.grow) { const a = t - ev.idea; return { ...base, x: 150, y: FLOOR, eyes: t < ev.idea ? 'sad' : 'wide', mouth: t < ev.idea ? 'sad' : 'smile', arms: t < ev.idea ? 'sad' : 'phone', phone: t >= ev.idea, open: t >= ev.idea ? clamp(1 - a / 0.3) * 0.6 : 0, lookX: 8, lookY: 6 }; }
     if (t < ev.cross) return { ...base, x: 110, y: FLOOR, eyes: t < ev.bridge ? 'wide' : 'happy', arms: t < ev.bridge ? 'up' : 'cheer', mouth: 'smile', lookX: 10 };
     // crossing on the phone, eyes up
     if (t < ev.win) {
@@ -270,7 +278,9 @@
     return [x, y];
   }
 
+  let YAY = null;
   Studio.film({
+    async init() { YAY = await Studio.loadImage('assets/locky-yay.png'); },
     post: { vignette: 0.3, grain: 0.05, paper: 0.25 },
     fadeOut: 0.6,
     draw(ctx, t) {
@@ -287,7 +297,7 @@
       const inLava = st.y > LAVA - 5 && st.x > EDGE && st.x < GEO.RIGHT;
       ctx.save();
       if (inLava) { ctx.beginPath(); ctx.rect(-200, -2000, W + 400, LAVA + 2000 + 6); ctx.clip(); }
-      locky(ctx, st);
+      locky(ctx, { ...st, s: 1.25 });
       ctx.restore();
       for (const [ts, sz] of [[ev.splash1, 0.8], [ev.splash2, 1], [ev.splash3, 1.25]]) splashFx(ctx, t, ts, sz);
       // smoke: off his head after each fall, and a big column after the third
@@ -327,7 +337,7 @@
         G.text(ctx, 'LOCKY', 0, 0, { size: 190, align: 'center', fam: 'Bungee', weight: 400, color: '#F2B84B', stroke: INK, strokeW: 16 });
         G.text(ctx, 'Mirá por dónde', 0, 170, { size: 76, align: 'center', fam: 'Permanent Marker', weight: 400, color: '#FFFFFF' });
         G.text(ctx, 'caminás', 0, 260, { size: 76, align: 'center', fam: 'Permanent Marker', weight: 400, color: '#FFFFFF' });
-        locky(ctx, { x: 0, y: 640, s: 1.3, eyes: 'happy', arms: 'cheer', mouth: 'smile', blush: true });
+        if (YAY) { const w = 760, h = w * YAY.height / YAY.width; ctx.drawImage(YAY, -w / 2 + 40, 330, w, h); } else locky(ctx, { x: 0, y: 640, s: 1.3, eyes: 'happy', arms: 'cheer', blush: true });
         ctx.restore();
       }
     },
