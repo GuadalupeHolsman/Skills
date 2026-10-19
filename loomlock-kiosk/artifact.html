@@ -779,7 +779,7 @@ h2 .w{display:inline-block}
       <button class="inv" data-id="loomlock"><span class="inv-ic">LL</span><span class="inv-t" data-t="inv.loomlock">Loomlock team</span><span class="inv-ck">✓</span></button>
       <button class="inv" data-id="donjulio"><span class="inv-ic">DJ</span><span class="inv-t" data-t="inv.donjulio">Don Julio team</span><span class="inv-ck">✓</span></button>
       <button class="inv" data-id="bikini"><span class="inv-ic">B</span><span class="inv-t" data-t="inv.bikini">Bikini team</span><span class="inv-ck">✓</span></button>
-      <button class="inv" data-id="vibing"><span class="inv-ic">~</span><span class="inv-t" data-t="inv.vibing">I'm just vibing</span><span class="inv-ck">✓</span></button>
+      <button class="inv" data-id="locky"><span class="inv-ic"><svg class="mp-locky" style="filter:none;width:64px;height:80px" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg></span><span class="inv-t" data-t="inv.locky">I wanted to meet Locky</span><span class="inv-ck">✓</span></button>
     </div>
     <p class="inv-msg" id="inv-msg" aria-live="polite"></p>
   </section>
@@ -959,6 +959,7 @@ h2 .w{display:inline-block}
     <div class="tally-box">
       <h3 data-t="tally.title">Who invited them</h3>
       <ul id="tally-list"></ul>
+      <p id="tally-st" style="margin:14px 0 0;font:700 26px var(--font-mono);opacity:.8;text-align:center"></p>
       <div class="tally-btns"><button id="tally-copy" data-t="tally.copy">Copy</button><button id="tally-reset" data-t="tally.reset">Reset</button><button id="tally-close" data-t="tally.close">Close</button></div>
     </div>
   </div>
@@ -988,10 +989,10 @@ h2 .w{display:inline-block}
   const T = {
     es: {
       "kInv":"Quién te invitó","nInv":"Quién te invitó","tInv":"¿Quién <em>te invitó?</em>",
-      "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.vibing":"Solo vine a disfrutar",
-      "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.vibing":"Sin invitación. Pura buena energía.",
+      "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
+      "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
       "inv.hint":"Toca una opción",
-      "tally.title":"Quién los invitó","tally.copy":"Copiar","tally.reset":"Reiniciar","tally.reset2":"¿Seguro?","tally.close":"Cerrar","tally.total":"Total","tally.copied":"Copiado",
+      "tally.title":"Quién los invitó","tally.copy":"Copiar","tally.reset":"Reiniciar","tally.reset2":"¿Seguro?","tally.close":"Cerrar","tally.total":"Total","tally.copied":"Copiado","tally.all":"Todas las pantallas","tally.local":"Solo esta pantalla (sin conexión)","tally.pending":"pendientes de subir","tally.reset":"Reiniciar esta pantalla",
       "s1.saved":"Guardado ✓","s1.savedN":"{n} apps listas para pausar","s1.status0":"Ninguna elegida","s1.appbar":"Apps a pausar","s1.tip":"La pausa empieza con un tap: tótem o key",
       "osd.off":"FUERA DEL AIRE","osd.on":"AL AIRE",
       "k1":"Qué es","k2":"En la app","k3":"Tu key","k4":"Antes de llegar","k5":"El tap","k6":"Tu noche","k7":"Mito o verdad",
@@ -1059,10 +1060,10 @@ h2 .w{display:inline-block}
     },
     en: {
       "kInv":"Who invited you","nInv":"Who invited you","tInv":"Who <em>invited you?</em>",
-      "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.vibing":"I'm just vibing",
-      "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.vibing":"No invite needed. Just good vibes.",
+      "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
+      "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
       "inv.hint":"Tap an option",
-      "tally.title":"Who invited them","tally.copy":"Copy","tally.reset":"Reset","tally.reset2":"Sure?","tally.close":"Close","tally.total":"Total","tally.copied":"Copied",
+      "tally.title":"Who invited them","tally.copy":"Copy","tally.reset":"Reset","tally.reset2":"Sure?","tally.close":"Close","tally.total":"Total","tally.copied":"Copied","tally.all":"All screens","tally.local":"This screen only (offline)","tally.pending":"waiting to sync","tally.reset":"Reset this screen",
       "s1.saved":"Saved ✓","s1.savedN":"{n} apps ready to pause","s1.status0":"None picked","s1.appbar":"Apps to pause","s1.tip":"The pause starts with a tap: totem or key",
       "osd.off":"OFF AIR","osd.on":"ON AIR",
       "k1":"What it is","k2":"In the app","k3":"Your key","k4":"Before you arrive","k5":"The tap","k6":"Your night","k7":"Myth or fact",
@@ -1535,14 +1536,35 @@ h2 .w{display:inline-block}
   });
 
   /* ---------- who invited you ---------- */
-  const INV_IDS = ["pr", "loomlock", "donjulio", "bikini", "vibing"];
+  const INV_IDS = ["pr", "loomlock", "donjulio", "bikini", "locky"];
   const INV_KEY = "loomlock-kiosk-invites";
   let inviteChoice = null;
   const readTally = () => { try { return JSON.parse(localStorage.getItem(INV_KEY)) || {} } catch (e) { return {} } };
   const writeTally = o => { try { localStorage.setItem(INV_KEY, JSON.stringify(o)) } catch (e) {} };
+  /* every pick is kept three ways: this screen's tally, a queue that survives reloads,
+     and the shared db (all screens). The queue is only emptied once the db confirms. */
+  const Q_KEY = "loomlock-kiosk-invites-queue";
+  const readQ = () => { try { return JSON.parse(localStorage.getItem(Q_KEY)) || [] } catch (e) { return [] } };
+  const writeQ = a => { try { localStorage.setItem(Q_KEY, JSON.stringify(a)) } catch (e) {} };
+  let dbRef = null, flushing = false;
+  if (window.claude && claude.use) claude.use("db").then(d => { dbRef = d; flushQ() }).catch(() => {});
+  async function flushQ(){
+    if (!dbRef || flushing) return; flushing = true;
+    try {
+      let q = readQ();
+      while (q.length){
+        await dbRef.doc("invites/" + q[0].k).set(q[0]);
+        q = readQ().filter(x => x.k !== q[0].k); writeQ(q);
+      }
+    } catch (e) {}
+    flushing = false;
+  }
+  setInterval(() => { if (readQ().length) flushQ() }, 30000);
   function commitInvite(){
     if (!inviteChoice) return;
-    const o = readTally(); o[inviteChoice] = (o[inviteChoice] || 0) + 1; writeTally(o); inviteChoice = null;
+    const o = readTally(); o[inviteChoice] = (o[inviteChoice] || 0) + 1; writeTally(o);
+    const q = readQ(); q.push({k: Date.now().toString(36) + Math.random().toString(36).slice(2, 8), id: inviteChoice, ts: new Date().toISOString()}); writeQ(q);
+    inviteChoice = null; flushQ();
   }
   function renderInvite(){
     $$("#invite .inv").forEach(b => b.classList.toggle("on", b.dataset.id === inviteChoice));
@@ -1557,9 +1579,21 @@ h2 .w{display:inline-block}
   });
   /* press and hold the wordmark to see how many came from each host */
   let holdT;
-  const showTally = () => {
-    const o = readTally(); let total = 0;
+  let shown = {};
+  const showTally = async () => {
+    let o = readTally(), st = t("tally.local");
+    if (dbRef){
+      try {
+        await flushQ();
+        const snap = await dbRef.collection("invites").get(), c = {};
+        snap.docs.forEach(d => { const id = (d.data() || {}).id; c[id] = (c[id] || 0) + 1 });
+        o = c; st = t("tally.all");
+      } catch (e) {}
+    }
+    const pend = readQ().length; if (pend) st += " · " + pend + " " + t("tally.pending");
+    shown = o; let total = 0;
     $("#tally-list").innerHTML = INV_IDS.map(id => { const n = o[id] || 0; total += n; return `<li><span>${t("inv." + id)}</span><b>${n}</b></li>` }).join("") + `<li class="total"><span>${t("tally.total")}</span><b>${total}</b></li>`;
+    $("#tally-st").textContent = st;
     $("#tally").hidden = false; $("#tally-reset").textContent = t("tally.reset"); $("#tally-reset").classList.remove("arm");
   };
   const topLogo = $(".top span");
@@ -1572,7 +1606,7 @@ h2 .w{display:inline-block}
     writeTally({}); showTally();
   };
   $("#tally-copy").onclick = () => {
-    const o = readTally(), txt = INV_IDS.map(id => `${t("inv." + id)}\t${o[id] || 0}`).join("\n");
+    const o = shown, txt = INV_IDS.map(id => `${t("inv." + id)}\t${o[id] || 0}`).join("\n");
     const done = () => { $("#tally-copy").textContent = t("tally.copied"); setTimeout(() => { $("#tally-copy").textContent = t("tally.copy") }, 1400) };
     try { navigator.clipboard.writeText(txt).then(done, done) } catch (e) { done() }
   };

@@ -7,7 +7,7 @@ Explica qué es Loomlock, la tarjeta NFC, cómo activarla y cómo se vive la noc
 Todo pasa en el **CH 02 · Tequila Don Julio**. Locky no aparece dibujado (nivel 0 con marcas de alcohol); solo se nombra el tótem de Locky. Cada pantalla explica una sola idea.
 
 0. **Portada:** tele de tubo en el CH 02 (al tocarla cambia la frase), "Tonight, with Tequila Don Julio" y aviso +18
-1. **01 · Who invited you:** cinco opciones (PR, Loomlock team, Don Julio team, Bikini team, I'm just vibing). Al elegir, responde con una línea de bienvenida y cuenta una invitación. Se puede cambiar de opinión; la elección se cuenta una vez, cuando termina la sesión
+1. **01 · Who invited you:** cinco opciones (PR, Loomlock team, Don Julio team, Bikini team, I wanted to meet Locky). Al elegir, responde con una línea de bienvenida y cuenta una invitación. Se puede cambiar de opinión; la elección se cuenta una vez, cuando termina la sesión
 2. **02 · What it is:** "Tap your key. Apps pause." Animación en loop: la key toca el celular y recién ahí se pausan las redes; llamadas, cámara y mapas siguen igual
 3. **03 · Your key:** la key del CH 02, que se inclina y se da vuelta (chip NFC)
 4. **04 · In the app:** en la app de Loomlock eliges qué apps se pausan y tocas Save. Aviso: "la pausa empieza con un tap: tótem o key"
@@ -20,7 +20,7 @@ Todo pasa en el **CH 02 · Tequila Don Julio**. Locky no aparece dibujado (nivel
 - El tótem es Locky mismo (el personaje del archivo `locky.svg`), con ondas NFC sobre la cabeza y una base con el canal. Aparece en la pantalla 05 y en los botones que nombran al tótem.
 
 ### Conteo de invitaciones
-Cada tótem guarda en su propio navegador cuántas personas llegaron por cada opción. Para verlo: mantén presionado 1,5 segundos el texto "loomlock experiences" arriba a la izquierda. Ahí se puede copiar el conteo o reiniciarlo. El conteo vive en esa pantalla (no se junta entre varias).
+Cada elección se guarda de tres formas: en esa pantalla, en una cola que sobrevive a recargas, y en la **base compartida** del link publicado (colección `invites`, un documento por elección con `id` y `ts`). Si no hay internet o el dispositivo no puede escribir, la cola espera y se sube sola apenas se pueda (cada 30 s). Para verlo: mantén presionado 1,5 s "loomlock experiences" arriba a la izquierda; muestra "All screens" si lee la base compartida, o "This screen only" si no, más cuántas están pendientes de subir. Para que se sincronice, la pantalla debe abrir el link publicado con la sesión de la cuenta dueña (o de alguien con permiso de Contributor).
 
 ## Estética
 Usa la dirección de arte de **Prime Time · loomlock experiences**: cada pantalla es un canal de TV (CH 01 a CH 05), azul canal `#2F3AD0`, amarillo señal `#FCCE21`, negro pantalla y papel; Montserrat fina en mayúsculas con énfasis en itálica gruesa, rótulos en Space Mono; grano, líneas de TV, estática al cambiar de canal y respuestas "tachadas" que se destapan. Firma: *live now, post later.*
