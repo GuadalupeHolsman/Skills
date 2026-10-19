@@ -157,7 +157,6 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 }
 .tv-screen::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 2px, transparent 2px 6px), radial-gradient(60% 50% at 30% 25%, rgba(255,255,255,.18), transparent 70%);pointer-events:none}
 .tv-screen .locky-live{position:absolute;left:50%;bottom:-80px;width:380px;height:484px;margin-left:-190px;overflow:visible;animation:peek 3.2s ease-in-out infinite;filter:drop-shadow(10px 10px 0 rgba(11,11,16,.6))}
-.locky-live .pupil{transition:transform .25s ease-out}
 .blink{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
 .tv-screen .nolk{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px}
 .tv-screen .nolk b{display:block;font-family:var(--font-mono);font-size:130px;color:var(--yellow);text-shadow:6px 6px 0 var(--screen);line-height:1}
@@ -707,6 +706,24 @@ h2 .w{display:inline-block}
 .invite:not(.picked)+.inv-msg::before{content:"";width:58px;height:58px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230B0B10' d='M9 11V4.5a1.5 1.5 0 0 1 3 0V10h.5V8.5a1.5 1.5 0 0 1 3 0V11h.5v-.5a1.5 1.5 0 0 1 3 0V16c0 3-2 6-6 6h-1c-2 0-3.5-1-5-3l-2.5-3.5a1.4 1.4 0 0 1 2-2L9 15z'/%3E%3C/svg%3E") center/contain no-repeat;animation:tapNudge 1.1s ease-in-out infinite}
 @keyframes tapNudge{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(.94)}}
 #s0 .kicker,#s0 .meta-row,#s0 .zap-hint,.chips,#card .ed,#card .serial,.pk-when,.flow{display:none!important}
+
+/* quiet guidance: a pulsing dot where to touch; hidden after the first touch on the screen */
+.tp{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:rgba(252,206,33,.92);border:4px solid var(--screen);pointer-events:none;z-index:8;animation:tpBeat 1.6s ease-in-out infinite}
+.tp::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:4px solid var(--yellow);animation:ping 1.6s ease-out infinite}
+@keyframes tpBeat{0%,100%{transform:scale(1)}50%{transform:scale(.82)}}
+.screen.touched .tp{display:none}
+.app-tile,#card-area,.moment{position:relative}
+.hint{display:none}
+#s5 .hint#hint3{display:none}
+#s5.touched .hint#hint3{display:inline-flex}
+.invite:not(.picked)+.inv-msg{display:none}
+#s2:not(.touched) #instr1{visibility:hidden}
+@keyframes icWave{0%,55%,100%{transform:scale(1);background:var(--blue)}25%{transform:scale(1.12);background:var(--screen)}}
+.invite:not(.picked) .inv-ic{animation:icWave 2.8s ease-in-out infinite}
+.invite:not(.picked) .inv:nth-child(2) .inv-ic{animation-delay:.25s}
+.invite:not(.picked) .inv:nth-child(3) .inv-ic{animation-delay:.5s}
+.invite:not(.picked) .inv:nth-child(4) .inv-ic{animation-delay:.75s}
+.invite:not(.picked) .inv:nth-child(5) .inv-ic{animation-delay:1s}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -827,7 +844,7 @@ h2 .w{display:inline-block}
       <span class="kicker" data-t="k3">Tu key</span>
       <h2 class="focus" data-t="t3">Esta es <em>tu key.</em></h2>
     </div>
-    <div class="card-area" id="card-area">
+    <div class="card-area" id="card-area"><i class="tp" style="left:84%;top:70%"></i>
       <button class="nfc-card" id="card" aria-label="Dar vuelta la key">
         <div class="face front">
           <div class="holo"></div>
@@ -885,14 +902,14 @@ h2 .w{display:inline-block}
     </div>
     <div class="flow" id="flow3"><span class="fp now"><b>1</b><span data-t="tf1">Tap: pausa</span></span><i class="fa"></i><span class="fp"><b>2</b><span data-t="tf2">Tap: vuelves</span></span></div>
     <div class="drag-zone mode-totem" id="zone3">
-      <div class="totem" id="totem3" aria-label="Tótem de Locky">
+      <div class="totem" id="totem3" aria-label="Tótem de Locky"><i class="tp" style="left:50%;top:48%"></i>
         <svg class="tt-waves" aria-hidden="true"><use href="#waves"/></svg>
         <svg class="tt-locky" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg>
         <div class="tt-base"><b class="totem-ch" data-ch>CH 02</b><span class="totem-name" id="totem-name">tótem de Locky</span></div>
         <div class="target-ring"></div>
         <div class="shock"></div><div class="shock s2"></div><div class="shock s3"></div>
       </div>
-      <button class="drag-card" id="drag-card" aria-label="Key Loomlock: toca o arrastra hasta el celular">
+      <button class="drag-card" id="drag-card" aria-label="Key Loomlock: toca o arrastra hasta el celular"><i class="tp" style="left:50%;top:50%"></i>
         <svg class="waves"><use href="#waves"/></svg>
         <span class="mini-ch" data-ch>CH 02</span>
         <span class="stripe"></span>
@@ -923,7 +940,7 @@ h2 .w{display:inline-block}
     </div>
     <div class="moments" id="moments">
       <button class="moment on" data-i="0"><span class="ico lk"><svg viewBox="200 120 620 790"><use href="#locky"/></svg></span><span class="when" data-t="s4.w1">En la puerta</span><h3 data-t="s4.t1">Tap</h3><p data-t="s4.p1">Key o tótem</p></button>
-      <button class="moment" data-i="1"><span class="ico"><svg><use href="#glass"/></svg></span><span class="when" data-t="s4.w2">Adentro</span><h3 data-t="s4.t2">Fuera del aire</h3><p data-t="s4.p2">Brinda, baila, conversa</p></button>
+      <button class="moment" data-i="1"><i class="tp" style="left:92%;top:50%"></i><span class="ico"><svg><use href="#glass"/></svg></span><span class="when" data-t="s4.w2">Adentro</span><h3 data-t="s4.t2">Fuera del aire</h3><p data-t="s4.p2">Brinda, baila, conversa</p></button>
       <button class="moment" data-i="2"><span class="ico"><svg><use href="#unlock"/></svg></span><span class="when" data-t="s4.w3">Al salir</span><h3 data-t="s4.t3">Otro tap</h3><p data-t="s4.p3">Tus apps vuelven</p></button>
       <button class="moment" data-i="3"><span class="ico"><svg><use href="#photo"/></svg></span><span class="when" data-t="s4.w4">Después</span><h3 data-t="s4.t4">La galería</h3><p data-t="s4.p4">Tus fotos, en la app</p></button>
     </div>
@@ -969,7 +986,7 @@ h2 .w{display:inline-block}
       <h3 data-t="tally.title">Who invited them</h3>
       <ul id="tally-list"></ul>
       <p id="tally-st" style="margin:14px 0 0;font:700 26px var(--font-mono);opacity:.8;text-align:center"></p>
-      <div class="tally-btns"><button id="tally-copy" data-t="tally.copy">Copy</button><button id="tally-reset" data-t="tally.reset">Reset</button><button id="tally-close" data-t="tally.close">Close</button></div>
+      <div class="tally-btns"><button id="tally-copy" data-t="tally.copy">Copy</button><button id="tally-csv" data-t="tally.csv">CSV</button><button id="tally-reset" data-t="tally.reset">Reset</button><button id="tally-close" data-t="tally.close">Close</button></div>
     </div>
   </div>
   <div class="osd" id="osd"><b id="osd-num">CH 01</b><span id="osd-name"></span></div>
@@ -1001,7 +1018,7 @@ h2 .w{display:inline-block}
       "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
       "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
       "inv.hint":"Toca una opción",
-      "tally.title":"Quién los invitó","tally.copy":"Copiar","tally.reset":"Reiniciar","tally.reset2":"¿Seguro?","tally.close":"Cerrar","tally.total":"Total","tally.copied":"Copiado","tally.all":"Todas las pantallas","tally.local":"Solo esta pantalla (sin conexión)","tally.pending":"pendientes de subir","tally.reset":"Reiniciar esta pantalla",
+      "tally.title":"Quién los invitó","tally.copy":"Copiar","tally.reset":"Reiniciar","tally.reset2":"¿Seguro?","tally.close":"Cerrar","tally.total":"Total","tally.copied":"Copiado","tally.csv":"Bajar CSV","tally.all":"Todas las pantallas","tally.local":"Solo esta pantalla (sin conexión)","tally.pending":"pendientes de subir","tally.reset":"Reiniciar esta pantalla",
       "s1.saved":"Guardado ✓","s1.savedN":"{n} apps listas para pausar","s1.status0":"Ninguna elegida","s1.appbar":"Apps a pausar","s1.tip":"La pausa empieza con un tap: tótem o key",
       "osd.off":"FUERA DEL AIRE","osd.on":"AL AIRE",
       "k1":"Qué es","k2":"En la app","k3":"Tu key","k4":"Antes de llegar","k5":"El tap","k6":"Tu noche","k7":"Mito o verdad",
@@ -1072,7 +1089,7 @@ h2 .w{display:inline-block}
       "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
       "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
       "inv.hint":"Tap an option",
-      "tally.title":"Who invited them","tally.copy":"Copy","tally.reset":"Reset","tally.reset2":"Sure?","tally.close":"Close","tally.total":"Total","tally.copied":"Copied","tally.all":"All screens","tally.local":"This screen only (offline)","tally.pending":"waiting to sync","tally.reset":"Reset this screen",
+      "tally.title":"Who invited them","tally.copy":"Copy","tally.reset":"Reset","tally.reset2":"Sure?","tally.close":"Close","tally.total":"Total","tally.copied":"Copied","tally.csv":"Get CSV","tally.all":"All screens","tally.local":"This screen only (offline)","tally.pending":"waiting to sync","tally.reset":"Reset this screen",
       "s1.saved":"Saved ✓","s1.savedN":"{n} apps ready to pause","s1.status0":"None picked","s1.appbar":"Apps to pause","s1.tip":"The pause starts with a tap: totem or key",
       "osd.off":"OFF AIR","osd.on":"ON AIR",
       "k1":"What it is","k2":"In the app","k3":"Your key","k4":"Before you arrive","k5":"The tap","k6":"Your night","k7":"Myth or fact",
@@ -1265,9 +1282,11 @@ h2 .w{display:inline-block}
     o.classList.toggle("alert", !!alert); o.classList.remove("show"); void o.offsetWidth; o.classList.add("show");
     s9.classList.add("osd-on"); clearTimeout(osdT); osdT = setTimeout(() => s9.classList.remove("osd-on"), 1600);
   }
+  document.addEventListener("pointerdown", e => { const sc = e.target.closest(".screen"); if (sc) sc.classList.add("touched") }, true);
   function go(i){
     if (i === cur || i < 0 || i > N) return;
     const prev = screens[cur];
+    screens.forEach(x => x.classList.remove("touched"));
     s9.classList.toggle("dir-back", i < cur);
     prev.classList.remove("active"); prev.classList.add("out");
     setTimeout(() => prev.classList.remove("out"), 240);
@@ -1315,6 +1334,7 @@ h2 .w{display:inline-block}
       b.dataset.id = a.id;
       const d = `transition-delay:${i*50}ms;--td:${i*50}ms`;
       b.innerHTML = `<span class="ic" style="background:${a.bg};${d}"><svg viewBox="0 0 24 24" class="${a.tt ? "tt" : ""}" style="color:${a.fg}"><use href="#ico-${a.ico}"/></svg></span><span class="badge" style="${d}"><svg viewBox="0 0 24 24"><use href="#lock-y"/></svg></span><span class="nm"></span>`;
+      if (interactive && i === 0) b.insertAdjacentHTML("beforeend", '<i class="tp" style="left:78%;top:78%"></i>');
       host.appendChild(b);
     });
   }
@@ -1588,31 +1608,39 @@ h2 .w{display:inline-block}
   });
   /* press and hold the wordmark to see how many came from each host */
   let holdT;
-  let shown = {};
-  const showTally = async () => {
-    let o = readTally(), st = t("tally.local");
-    if (dbRef){
-      try {
-        await flushQ();
-        const snap = await dbRef.collection("invites").get(), c = {};
-        snap.docs.forEach(d => { const id = (d.data() || {}).id; c[id] = (c[id] || 0) + 1 });
-        o = c; st = t("tally.all");
-      } catch (e) {}
-    }
-    const pend = readQ().length; if (pend) st += " · " + pend + " " + t("tally.pending");
+  let shown = {}, rows = [], unsub = null;
+  function drawTally(o, st){
     shown = o; let total = 0;
     $("#tally-list").innerHTML = INV_IDS.map(id => { const n = o[id] || 0; total += n; return `<li><span>${t("inv." + id)}</span><b>${n}</b></li>` }).join("") + `<li class="total"><span>${t("tally.total")}</span><b>${total}</b></li>`;
+    const pend = readQ().length; if (pend) st += " · " + pend + " " + t("tally.pending");
     $("#tally-st").textContent = st;
+  }
+  const showTally = () => {
+    drawTally(readTally(), t("tally.local"));
     $("#tally").hidden = false; $("#tally-reset").textContent = t("tally.reset"); $("#tally-reset").classList.remove("arm");
+    if (dbRef && !unsub){
+      flushQ();
+      /* live: every pick from any screen shows up here as it happens */
+      unsub = dbRef.collection("invites").onSnapshot(snap => {
+        const c = {}; rows = [];
+        snap.docs.forEach(d => { const x = d.data() || {}; c[x.id] = (c[x.id] || 0) + 1; rows.push(x) });
+        drawTally(c, t("tally.all") + " · live");
+      }, () => { unsub = null });
+    }
   };
   const topLogo = $(".top span");
   topLogo.addEventListener("pointerdown", () => { clearTimeout(holdT); holdT = setTimeout(showTally, 1500) });
   ["pointerup", "pointerleave", "pointercancel"].forEach(ev => topLogo.addEventListener(ev, () => clearTimeout(holdT)));
-  $("#tally-close").onclick = () => { $("#tally").hidden = true };
+  $("#tally-close").onclick = () => { $("#tally").hidden = true; if (unsub){ unsub(); unsub = null } };
   $("#tally-reset").onclick = e => {
     const b = e.currentTarget;
     if (!b.classList.contains("arm")){ b.classList.add("arm"); b.textContent = t("tally.reset2"); return }
     writeTally({}); showTally();
+  };
+  $("#tally-csv").onclick = async () => {
+    const d = window.claude && claude.use ? await claude.use("downloads").catch(() => null) : null;
+    const csv = "fecha_hora,invitacion,id\n" + rows.sort((x, y) => (x.ts > y.ts) - (x.ts < y.ts)).map(x => `${x.ts},"${t("inv." + x.id)}",${x.id}`).join("\n");
+    if (d) d.save({filename: "loomlock-invitaciones.csv", data: csv}).catch(() => {});
   };
   $("#tally-copy").onclick = () => {
     const o = shown, txt = INV_IDS.map(id => `${t("inv." + id)}\t${o[id] || 0}`).join("\n");

@@ -31,9 +31,9 @@ def locky():
         return 'style="%s"' % ";".join(rules.get(m.group(1), []))
 
     body = re.sub(r'class="(\w)"', to_style, body)
-    # eyes get pupils + a blink
-    body = re.sub(r'<g id="i">(.*?)</g>', r'<g class="blink">\1<circle class="pupil" cx="651" cy="505" r="19" fill="#0b0d26"/></g>', body, flags=re.S)
-    body = re.sub(r'<g id="k">(.*?)</g>', r'<g class="blink">\1<circle class="pupil" cx="439" cy="505" r="19" fill="#0b0d26"/></g>', body, flags=re.S)
+    # eyes: white only (no pupils), just a blink
+    body = re.sub(r'<g id="i">(.*?)</g>', r'<g class="blink">\1</g>', body, flags=re.S)
+    body = re.sub(r'<g id="k">(.*?)</g>', r'<g class="blink">\1</g>', body, flags=re.S)
     return re.sub(r'\s(id)="[a-z]"', "", body)
 
 
