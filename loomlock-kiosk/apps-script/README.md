@@ -8,3 +8,6 @@
 6. Prueba: haz una elección en el kiosco; debe aparecer una fila en `Respuestas` y el total subir en `Resumen`.
 
 Si cambias el código del script, hay que volver a implementar (Nueva versión) para que tome efecto.
+
+## Reiniciar los datos (antes del evento)
+Con el código actualizado, la planilla muestra el menú **Loomlock > Reiniciar datos…** (recarga la página de la planilla si no aparece). Pregunta si quieres guardar una copia (pestaña "Copia fecha hora") y después borra las respuestas de la hoja `Respuestas`. Los totales y gráficos vuelven a cero. No hace falta volver a implementar.
