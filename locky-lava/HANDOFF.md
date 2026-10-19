@@ -70,7 +70,7 @@ node song.js && node engine/render.js video && node engine/render.js mux && node
   hacia el fondo. `film.js` ahora proyecta el escenario desde la fila donde actúa Locky (`VP`, `dep`, `px`):
   caminos de piedra a los costados con bordes iluminados por la lava, paredes, puerta EXIT en la pared derecha.
 - Locky se dibuja espejado: costado oscuro a la derecha, celular de perfil en la mano del costado.
-- Todos los textos en pantalla están en inglés (Try 1/2/3, AAAH!, IDEA!, BOOM!, MADE IT!, Watch where you walk).
+- Todos los textos en pantalla están en inglés (Try 1/2/3, AAAH!, IDEA!, BOOM!, MADE IT!). Sin cartel EXIT; la tarjeta final dice "LOCKY — Don't let it consume you".
 - Destello naranja en el cuadro exacto de cada caída para que la imagen marque el golpe. Sincronía ✓.
 
 ## Actualización: estética del video de referencia y mejor movimiento (19 oct 2026)

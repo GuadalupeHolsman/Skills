@@ -327,12 +327,6 @@
     // a door on the left wall (where he came from) and the exit on the right, which opens when he makes it
     door(ctx, t, LWALL, 1004, 1040, 520, 300);
     door(ctx, t, RWALL, 1060, 1150, 470, 190, clamp((t - ev.win - 0.1) / 0.5));
-    // EXIT sign over the right door
-    const q = wallQuad(RWALL, 1060, 1150, 470, 470), sx = (q[2][0] + q[3][0]) / 2, sy = (q[2][1] + q[3][1]) / 2 - 95;
-    ctx.save(); ctx.translate(sx, sy); ctx.transform(1, 0.55, 0, 1, 0, 0);
-    G.rrect(ctx, -64, -24, 128, 48, 8, { fill: '#4DB27A', lw: 4, seed: 192 });
-    G.text(ctx, 'EXIT', 0, 12, { size: 32, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF' });
-    ctx.restore();
   }
   function lava(ctx, t) {
     const drop = LAVA - FLOOR;
@@ -541,8 +535,8 @@
         const pop = ease.outBack(e, 2);
         ctx.translate(W / 2 - 50, 640); ctx.scale(pop, pop);
         G.text(ctx, 'LOCKY', 0, 0, { size: 210, align: 'center', fam: 'Fredoka', weight: 700, color: '#3F49CC', stroke: INK, strokeW: 22 });
-        G.text(ctx, 'Watch where', 0, 170, { size: 84, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF', stroke: INK, strokeW: 12 });
-        G.text(ctx, 'you walk', 0, 270, { size: 84, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF', stroke: INK, strokeW: 12 });
+        G.text(ctx, "Don't let it", 0, 170, { size: 84, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF', stroke: INK, strokeW: 12 });
+        G.text(ctx, 'consume you', 0, 270, { size: 84, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF', stroke: INK, strokeW: 12 });
         if (YAY) { const w = 760, h = w * YAY.height / YAY.width; ctx.drawImage(YAY, -w / 2 + 40, 330, w, h); } else locky(ctx, { x: 0, y: 640, s: 1.3, eyes: 'happy', arms: 'cheer', blush: true });
         ctx.restore();
       }
