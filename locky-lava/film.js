@@ -45,59 +45,69 @@
     if (pts.length === 3) ctx.quadraticCurveTo(...pts[1], ...pts[2]); else for (const p of pts.slice(1)) ctx.lineTo(...p);
     ctx.lineWidth = lw; ctx.strokeStyle = OUT; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
   }
+  // eyes have no pupils: they act through shape and position only.
+  // eyes: 'normal' | 'phone' (slid toward the phone) | 'wide' | 'closed' | 'happy' | 'sad' | 'spiral' (dizzy squiggles)
   function locky(ctx, o) {
     const s = (o.s || 1) * 0.3, burn = o.burn || 0;
-    ctx.save(); ctx.translate(o.x, o.y); ctx.rotate(o.rot || 0);
-    const sq = o.squash || 0; ctx.scale(s * (1 + sq * 0.25), s * (1 - sq * 0.3));
+    const t = G.t;
+    const ph = o.walk;
+    const walking = ph != null;
+    // walk cycle: a lean into the step, contact squash, a rise on the passing pose
+    const swing = walking ? Math.sin(ph) * 0.42 : 0;
+    const liftL = walking ? Math.max(0, Math.cos(ph)) * 34 : 0, liftR = walking ? Math.max(0, -Math.cos(ph)) * 34 : 0;
+    const bob = walking ? -Math.abs(Math.cos(ph)) * 22 * (o.bounce || 1) : 0;
+    const lean = walking ? 0.07 + Math.sin(2 * ph) * 0.025 : 0;
+    const stepSq = walking ? 0.06 * Math.max(0, -Math.cos(2 * ph)) : 0;
+    ctx.save(); ctx.translate(o.x, o.y); ctx.rotate((o.rot || 0) + lean);
+    const sq = (o.squash || 0) + stepSq; ctx.scale(s * (1 + sq * 0.25), s * (1 - sq * 0.3));
     ctx.scale(-1, 1); ctx.translate(-ORIGIN[0], -ORIGIN[1]);
     const b = (c, k) => (burn > 0 ? mix(c, k[0], burn * k[1]) : c);
-    const blue = b('#3F49CC', ['#2C2730', 0.85]), sky = b('#9FD8FF', ['#4A4650', 0.8]);
+    const blue = b('#3F49CC', ['#2E2A2C', 0.85]), sky = b('#9FD8FF', ['#55504E', 0.8]);
     const lav = b('#878EE5', ['#4A4458', 0.6]), glove = b('#FFFFFF', ['#8A8488', 0.6]);
-    const t = G.t;
-    // walk cycle: legs swing from the hips, the body bobs on the passing pose
-    const ph = o.walk;
-    const swing = ph == null ? 0 : Math.sin(ph) * 0.38;
-    const liftL = ph == null ? 0 : Math.max(0, Math.cos(ph)) * 26, liftR = ph == null ? 0 : Math.max(0, -Math.cos(ph)) * 26;
-    const bob = ph == null ? 0 : -Math.abs(Math.cos(ph)) * 16;
-    // arm angles around the shoulders (0 = hanging); the right arm comes in front of the body when it is posed
-    const fl = Math.sin(t * 40);
+    // arm angles around the shoulders (0 = hanging); local +angle = toward screen right after the mirror
     const arms = o.arms || 'down';
+    const wave = Math.sin(t * 14);
     const [aL, aR] = {
-      down: [swing * 0.6, -swing * 0.6], phone: [1.88, -swing * 0.6], sad: [-0.62, 0.62],
-      up: [2.8, -2.8], cheer: [2.35 + 0.1 * Math.sin(t * 12), -2.35 - 0.1 * Math.sin(t * 12)],
-      flail: [2.1 + 0.55 * fl, -2.1 - 0.55 * Math.sin(t * 40 + 1.3)],
+      down: [swing * 0.7, -swing * 0.7],
+      phone: [1.88 + (walking ? Math.sin(2 * ph) * 0.05 : 0), -swing * 0.7],
+      sad: [-0.55 + 0.04 * Math.sin(t * 2.2), 0.55 - 0.04 * Math.sin(t * 2.2)],
+      up: [2.75, -2.75],
+      cheer: [2.25 + 0.22 * wave, -2.25 - 0.22 * Math.sin(t * 14 + 0.9)],
+      flail: [2.0 + 0.6 * Math.sin(t * 34), -2.0 - 0.6 * Math.sin(t * 34 + 1.9)],
+      reach: [2.6, -2.2],
     }[arms];
     part(ctx, 'legR', lav, -swing, 0, -liftR);
     part(ctx, 'legL', lav, swing, 0, -liftL);
     ctx.save(); ctx.translate(0, bob);
-    if (arms === 'down' || arms === 'phone') part(ctx, 'armR', glove, aR); // the far arm stays behind
-    // the shackle pops open when Locky is shocked
+    if (arms === 'down' || arms === 'phone' || arms === 'sad') part(ctx, 'armR', glove, aR); // the far arm stays behind
+    // the shackle trails the body a little (overlap), and pops open when Locky is shocked
     const op = o.open || 0;
-    part(ctx, 'shackle', sky, -op * 0.55, 0, -op * 80);
-    part(ctx, 'side', b('#000000', ['#000000', 0]));
+    const lag = walking ? 0.05 * Math.sin(2 * ph - 1.2) : 0;
+    part(ctx, 'shackle', sky, -op * 0.55 + lag + (o.shLag || 0), 0, -op * 80);
+    part(ctx, 'side', '#000000');
     part(ctx, 'front', blue);
     if (burn > 0.2) { // soot smudges, kept on the body
       ctx.save(); ctx.clip(pth('front'));
-      for (let i = 0; i < 7; i++) { ctx.globalAlpha = burn * 0.7; oval(ctx, 400 + G.rnd(i, 21) * 300, 360 + G.rnd(i, 22) * 360, 22 + G.rnd(i, 23) * 36, 16 + G.rnd(i, 24) * 22, '#0E0C10', 0); }
+      for (let i = 0; i < 9; i++) { ctx.globalAlpha = burn * 0.6; oval(ctx, 400 + G.rnd(i, 21) * 300, 360 + G.rnd(i, 22) * 360, 22 + G.rnd(i, 23) * 40, 16 + G.rnd(i, 24) * 24, '#141012', 0); }
       ctx.restore();
     }
-    // the face: plain white oval eyes, a small smile
-    const eyes = o.eyes || 'normal';
-    const look = eyes === 'phone' ? [-14, -6] : [-(o.lookX || 0) * 1.6, (o.lookY || 0) * 1.6];
+    // the face: plain white oval eyes, no pupils. A blink every few seconds keeps him alive.
+    let eyes = o.eyes || 'normal';
+    const blink = ((t + (o.blinkOff || 0)) % 2.6) < 0.1;
+    if (blink && (eyes === 'normal' || eyes === 'phone')) eyes = 'closed';
+    const look = (o.eyes === 'phone') ? [-16, -4] : [-(o.lookX || 0) * 1.6, (o.lookY || 0) * 1.6];
     for (const [ex0, ey0] of EYES) {
       const ex = ex0 + look[0], ey = ey0 + look[1], left = ex0 < FACE[0];
-      if (eyes === 'closed') { stroke(ctx, [[ex - 34, ey - 6], [ex, ey + 22], [ex + 34, ey - 6]], 8); continue; }
+      if (eyes === 'closed') { stroke(ctx, [[ex - 34, ey - 2], [ex, ey + 14], [ex + 34, ey - 2]], 8); continue; }
       if (eyes === 'happy') { stroke(ctx, [[ex - 34, ey + 12], [ex, ey - 30], [ex + 34, ey + 12]], 8); continue; }
-      const k = eyes === 'wide' ? 1.3 : 1;
-      ctx.save(); ctx.translate(ex, ey); ctx.scale(k, k);
-      const e = pth('eye'); ctx.fillStyle = '#FFFFFF'; ctx.fill(e); ctx.lineWidth = 6 / k; ctx.strokeStyle = OUT; ctx.stroke(e);
-      ctx.restore();
-      if (eyes === 'wide') oval(ctx, ex + look[0], ey + 4, 10, 10, OUT, 0);
-      if (eyes === 'phone') oval(ctx, ex - 20, ey - 6, 13, 15, OUT, 0); // pupils on the phone
-      if (eyes === 'spiral') {
-        ctx.beginPath(); for (let i = 0; i < 40; i++) { const a = i * 0.5 + t * 14 * (left ? 1 : -1), r = i * 0.85; ctx[i ? 'lineTo' : 'moveTo'](ex + r * Math.cos(a), ey + r * 0.9 * Math.sin(a)); }
-        ctx.lineWidth = 5; ctx.strokeStyle = OUT; ctx.stroke();
+      if (eyes === 'spiral') { // dizzy: wobbly squiggles in place of the eyes
+        ctx.beginPath(); for (let i = 0; i <= 16; i++) { const u = i / 16; ctx[i ? 'lineTo' : 'moveTo'](ex - 36 + 72 * u, ey + Math.sin(u * Math.PI * 3 + t * 18 * (left ? 1 : -1)) * 12); }
+        ctx.lineWidth = 8; ctx.strokeStyle = OUT; ctx.lineCap = 'round'; ctx.stroke(); continue;
       }
+      const kx = eyes === 'wide' ? 1.18 : 1, ky = eyes === 'wide' ? 1.42 : eyes === 'phone' ? 0.9 : 1;
+      ctx.save(); ctx.translate(ex, ey); ctx.scale(kx, ky);
+      const e = pth('eye'); ctx.fillStyle = '#FFFFFF'; ctx.fill(e); ctx.lineWidth = 6 / Math.max(kx, ky); ctx.strokeStyle = OUT; ctx.stroke(e);
+      ctx.restore();
       if (eyes === 'sad') { // droopy lids, sloping down to the outside
         ctx.beginPath(); ctx.moveTo(ex - 50, ey - 50); ctx.lineTo(ex + 50, ey - 50);
         ctx.lineTo(ex + 50, ey + (left ? -18 : 4)); ctx.lineTo(ex - 50, ey + (left ? 4 : -18)); ctx.closePath();
@@ -108,20 +118,23 @@
     const [mx, my] = [FACE[0] + look[0] * 0.6, FACE[1] + look[1] * 0.6];
     const mouth = o.mouth || 'smile';
     if (mouth === 'scream') {
-      oval(ctx, mx, my + 34, 32, 40, '#5A1E2E');
-      oval(ctx, mx, my + 56, 18, 11, '#F27BA0', 0);
+      const open = 1 + 0.12 * Math.sin(t * 30);
+      oval(ctx, mx, my + 34, 32, 40 * open, '#5A1E2E');
+      oval(ctx, mx, my + 56 * open, 18, 11, '#F27BA0', 0);
     } else if (mouth === 'sad') {
       stroke(ctx, [[mx - 26, my + 26], [mx, my + 4], [mx + 26, my + 26]], 6);
+    } else if (mouth === 'o') {
+      oval(ctx, mx, my + 20, 14, 18, '#5A1E2E');
     } else {
       ctx.save(); ctx.translate(look[0] * 0.6, look[1] * 0.6);
       ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.lineCap = 'round'; ctx.stroke(pth('smile'));
       ctx.restore();
     }
     if (o.blush) { ctx.save(); ctx.globalAlpha = 0.5; oval(ctx, 395, 566, 30, 16, '#F27BA0', 0); oval(ctx, 698, 566, 30, 16, '#F27BA0', 0); ctx.restore(); }
-    if (arms !== 'down' && arms !== 'phone') part(ctx, 'armR', glove, aR);
+    if (!(arms === 'down' || arms === 'phone' || arms === 'sad')) part(ctx, 'armR', glove, aR);
     // the phone, held out in the near hand at eye level, screen turned to Locky
     if (o.phone && arms === 'phone') {
-      ctx.save(); ctx.translate(150, 468); ctx.rotate(0.1);
+      ctx.save(); ctx.translate(150, 468 + (walking ? Math.sin(2 * ph) * 6 : 0)); ctx.rotate(0.1);
       ctx.beginPath(); ctx.roundRect(-40, -96, 80, 192, 18); ctx.fillStyle = '#1C1C26'; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = OUT; ctx.stroke();
       ctx.beginPath(); ctx.roundRect(-6, -80, 34, 160, 8); ctx.fillStyle = '#F37BC0'; ctx.fill();
       ctx.restore();
@@ -141,58 +154,91 @@
   const { EDGE, FLOOR, LAVA } = GEO;
   const SUNK = LAVA + 95;
   const walkPhase = (t, t0) => (t - t0) * Math.PI * 2 / BEAT;
-  function fall(t, off, splash, x0) { // steps off the edge still looking at the phone
+  // damped spring: a value that kicks to `amp` at a0 and rings down (landings, pops)
+  const ring = (a, amp, f = 26, d = 9) => (a < 0 ? 0 : amp * Math.exp(-a * d) * Math.cos(a * f));
+  // walks off the edge still reading the phone, hangs in the air for a beat, realises, then drops (stretching)
+  function fall(t, off, splash, x0, w0) {
     const u = clamp((t - off) / (splash - off));
-    return { x: lerp(x0, x0 + 70, u), y: lerp(FLOOR, LAVA + 10, ease.inQuad(u)), rot: 0.35 * u, eyes: u > 0.7 ? 'wide' : 'phone', phone: true, arms: 'phone', walk: null, open: u > 0.7 ? 1 : 0 };
+    if (u < 0.38) { const k = u / 0.38; return { x: lerp(x0, x0 + 110, k), y: FLOOR, walk: walkPhase(t, w0), eyes: 'phone', phone: true, arms: 'phone' }; }
+    if (u < 0.6) { const k = (u - 0.38) / 0.22; return { x: x0 + 110, y: FLOOR - 6 * Math.sin(Math.PI * k), eyes: 'wide', mouth: 'o', phone: true, arms: 'phone', open: k, squash: -0.08 * k, rot: -0.05 * k }; }
+    const k = (u - 0.6) / 0.4;
+    return { x: x0 + 110 + 2 * k, y: lerp(FLOOR, LAVA + 10, ease.inQuad(k)), eyes: 'wide', mouth: 'scream', arms: 'up', open: 1, squash: -0.38 * k, rot: 0.08 * k };
   }
   function sunk(t, splash, depth = SUNK) {
     const a = t - splash, k = ease.outCubic(clamp(a / 0.18));
-    return { x: EDGE + 70 + Math.sin(a * 60) * 6 * clamp(1 - a), y: lerp(LAVA + 10, depth, k), eyes: 'wide', arms: 'flail', open: 1, phone: false, mouth: 'scream' };
+    return { x: EDGE + 100 + Math.sin(a * 60) * 6 * clamp(1 - a), y: lerp(LAVA + 10, depth, k) + Math.sin(a * 22) * 6, eyes: 'wide', arms: 'flail', open: 1, phone: false, mouth: 'scream', squash: ring(a, 0.5, 30, 10) };
   }
   function arc(t, t0, t1, p0, p1, peak) {
     const u = clamp((t - t0) / (t1 - t0));
     const y = lerp(p0[1], p1[1], u) - 4 * (peak) * u * (1 - u);
     return { x: lerp(p0[0], p1[0], u), y, u };
   }
+  // landing: squash hard, ring back, dizzy wobble
+  const landSq = (a) => ring(a, 0.75, 14, 10); // biggest on the hit frame, then a soft rebound
   function burnAt(t) { return t < ev.launch1 ? 0 : t < ev.launch2 ? 0.25 : t < ev.crawl ? 0.42 : 0.6; }
   function state(t) {
     const burn = burnAt(t);
     const base = { burn, eyes: 'normal', arms: 'down', phone: false, walk: null, open: 0, rot: 0 };
+    const walkTo = (t0, t1, x0, x1) => ({ x: lerp(x0, x1, clamp((t - t0) / (t1 - t0))), y: FLOOR, walk: walkPhase(t, t0), eyes: 'phone', arms: 'phone', phone: true });
     // try 1
-    if (t < ev.off1) return { ...base, x: lerp(-110, EDGE + 10, clamp(t / ev.off1)), y: FLOOR, walk: walkPhase(t, 0), eyes: 'phone', arms: 'phone', phone: true };
-    if (t < ev.splash1) return { ...base, ...fall(t, ev.off1, ev.splash1, EDGE + 10) };
+    if (t < ev.off1) return { ...base, ...walkTo(0, ev.off1, -110, EDGE - 10) };
+    if (t < ev.splash1) return { ...base, ...fall(t, ev.off1, ev.splash1, EDGE - 10, 0) };
     if (t < ev.launch1) return { ...base, ...sunk(t, ev.splash1) };
-    if (t < ev.land1) { const a = arc(t, ev.launch1, ev.land1, [EDGE + 70, SUNK], [170, FLOOR], 520); return { ...base, x: a.x, y: a.y, rot: -a.u * Math.PI * 2, eyes: 'wide', arms: 'flail', mouth: 'scream', open: 1 }; }
-    if (t < ev.walk2) { const a = t - ev.land1; const sq = Math.max(0, Math.sin(Math.PI * clamp(a / 0.25))) * clamp(1 - a / 0.25); return { ...base, x: 170, y: FLOOR, squash: sq, eyes: a < BEAT * 1.5 ? 'wide' : 'phone', arms: a < BEAT * 1.5 ? 'down' : 'phone', phone: a >= BEAT * 1.5, open: clamp(1 - a / 0.4) }; }
+    if (t < ev.land1) { // shot out: stretched along the launch, spinning
+      const a = arc(t, ev.launch1, ev.land1, [EDGE + 100, SUNK], [170, FLOOR], 520);
+      return { ...base, x: a.x, y: a.y, rot: -ease.inOutQuad(a.u) * Math.PI * 2, eyes: 'wide', arms: 'flail', mouth: 'scream', open: 1, squash: -0.4 * (1 - a.u) * (1 - a.u) };
+    }
+    if (t < ev.walk2) {
+      const a = t - ev.land1, shock = a < BEAT * 1.5;
+      return { ...base, x: 170, y: FLOOR, squash: landSq(a), rot: shock ? 0.06 * Math.sin(a * 14) * Math.exp(-a * 3) : 0, eyes: shock ? 'wide' : 'phone', mouth: shock ? 'o' : 'smile', arms: shock ? 'down' : 'phone', phone: !shock, open: clamp(1 - a / 0.4), shLag: ring(a, 0.25, 20, 6) };
+    }
     // try 2
-    if (t < ev.off2) return { ...base, x: lerp(170, EDGE + 10, clamp((t - ev.walk2) / (ev.off2 - ev.walk2))), y: FLOOR, walk: walkPhase(t, ev.walk2), eyes: 'phone', arms: 'phone', phone: true };
-    if (t < ev.splash2) return { ...base, ...fall(t, ev.off2, ev.splash2, EDGE + 10) };
+    if (t < ev.off2) return { ...base, ...walkTo(ev.walk2, ev.off2, 170, EDGE - 10) };
+    if (t < ev.splash2) return { ...base, ...fall(t, ev.off2, ev.splash2, EDGE - 10, ev.walk2) };
     if (t < ev.launch2) return { ...base, ...sunk(t, ev.splash2) };
     if (t < ev.land2) {
-      if (t < ev.peak2) { const u = ease.outQuad(clamp((t - ev.launch2) / (ev.peak2 - ev.launch2))); return { ...base, x: lerp(EDGE + 70, 260, u), y: lerp(SUNK, -500, u), rot: u * 4, eyes: 'spiral', arms: 'flail', mouth: 'scream', open: 1 }; }
-      const u = ease.inQuad(clamp((t - ev.peak2) / (ev.land2 - ev.peak2))); return { ...base, x: lerp(260, 160, u), y: lerp(-500, FLOOR, u), rot: 4 + u * 2.283, eyes: 'spiral', arms: 'up', mouth: 'scream', open: 1 };
+      if (t < ev.peak2) { const u = ease.outQuad(clamp((t - ev.launch2) / (ev.peak2 - ev.launch2))); return { ...base, x: lerp(EDGE + 100, 260, u), y: lerp(SUNK, -500, u), rot: u * 4, eyes: 'spiral', arms: 'flail', mouth: 'scream', open: 1, squash: -0.45 * (1 - u) }; }
+      const u = ease.inQuad(clamp((t - ev.peak2) / (ev.land2 - ev.peak2))); return { ...base, x: lerp(260, 160, u), y: lerp(-500, FLOOR, u), rot: 4 + u * 2.283, eyes: 'spiral', arms: 'up', mouth: 'scream', open: 1, squash: -0.35 * u };
     }
-    if (t < ev.walk3) { const a = t - ev.land2; const sq = Math.max(0, Math.sin(Math.PI * clamp(a / 0.25))) * clamp(1 - a / 0.25); return { ...base, x: 160, y: FLOOR, squash: sq, rot: 0.08 * Math.sin(a * 9), eyes: 'spiral', arms: 'down', open: clamp(1 - a / 0.5) }; }
-    // try 3
-    if (t < ev.off3) return { ...base, x: lerp(160, EDGE + 10, clamp((t - ev.walk3) / (ev.off3 - ev.walk3))), y: FLOOR, walk: walkPhase(t, ev.walk3), eyes: 'phone', arms: 'phone', phone: true };
-    if (t < ev.splash3) return { ...base, ...fall(t, ev.off3, ev.splash3, EDGE + 10) };
-    if (t < ev.crawl) { const st = sunk(t, ev.splash3, LAVA + 150); return { ...base, ...st, arms: 'down', mouth: t > ev.scratch ? 'sad' : 'scream', eyes: t > ev.scratch ? 'sad' : 'wide' }; }
-    if (t < ev.sit) { const u = ease.inOutQuad(clamp((t - ev.crawl) / (ev.sit - ev.crawl))); return { ...base, x: lerp(EDGE + 70, 150, u), y: lerp(LAVA + 150, FLOOR, ease.outQuad(u)), walk: walkPhase(t, ev.crawl) * 0.5, eyes: 'sad', mouth: 'sad', arms: 'down', rot: -0.15 * (1 - u) }; }
-    // the idea
-    if (t < ev.grow) { const a = t - ev.idea; return { ...base, x: 150, y: FLOOR, eyes: t < ev.idea ? 'sad' : 'wide', mouth: t < ev.idea ? 'sad' : 'smile', arms: t < ev.idea ? 'sad' : 'phone', phone: t >= ev.idea, open: t >= ev.idea ? clamp(1 - a / 0.3) * 0.6 : 0, lookX: 8, lookY: 6 }; }
-    if (t < ev.cross) return { ...base, x: 110, y: FLOOR, eyes: t < ev.bridge ? 'wide' : 'happy', arms: t < ev.bridge ? 'up' : 'cheer', mouth: 'smile', lookX: 10 };
-    // crossing on the phone, eyes up
+    if (t < ev.walk3) {
+      const a = t - ev.land2;
+      return { ...base, x: 160, y: FLOOR, squash: landSq(a), rot: 0.12 * Math.sin(a * 9) * Math.exp(-a * 1.2), eyes: a < BEAT * 2.5 ? 'spiral' : 'normal', mouth: 'sad', arms: 'down', open: clamp(1 - a / 0.5), shLag: ring(a, 0.3, 18, 5) };
+    }
+    // try 3: he does it again, of course
+    if (t < ev.off3) return { ...base, ...walkTo(ev.walk3, ev.off3, 160, EDGE - 10) };
+    if (t < ev.splash3) return { ...base, ...fall(t, ev.off3, ev.splash3, EDGE - 10, ev.walk3) };
+    if (t < ev.crawl) { const st = sunk(t, ev.splash3, LAVA + 150); return { ...base, ...st, arms: t > ev.scratch ? 'sad' : 'flail', mouth: t > ev.scratch ? 'sad' : 'scream', eyes: t > ev.scratch ? 'sad' : 'wide' }; }
+    if (t < ev.sit) { // drags himself out, heavy and slow
+      const u = ease.inOutQuad(clamp((t - ev.crawl) / (ev.sit - ev.crawl)));
+      return { ...base, x: lerp(EDGE + 100, 150, u), y: lerp(LAVA + 150, FLOOR, ease.outQuad(u)), walk: walkPhase(t, ev.crawl) * 0.5, bounce: 0.4, eyes: 'sad', mouth: 'sad', arms: 'sad', rot: -0.15 * (1 - u) };
+    }
+    // the sad beat, then the idea: a squash of anticipation and a pop
+    if (t < ev.grow) {
+      const a = t - ev.idea;
+      if (t < ev.idea) {
+        const pre = clamp((t - (ev.idea - 0.14)) / 0.14); // anticipation right before the pop
+        return { ...base, x: 150, y: FLOOR, eyes: pre > 0 ? 'closed' : 'sad', mouth: 'sad', arms: 'sad', squash: 0.04 * Math.sin(t * 2.4) + 0.3 * pre, rot: -0.05 + 0.02 * Math.sin(t * 1.3) };
+      }
+      return { ...base, x: 150, y: FLOOR - Math.max(0, Math.sin(Math.PI * clamp(a / 0.3))) * 40, eyes: 'wide', mouth: 'smile', arms: 'phone', phone: true, open: clamp(1 - a / 0.3) * 0.6, squash: a < 0.3 ? -0.3 * (1 - a / 0.3) : ring(a - 0.3, 0.2, 26, 9) };
+    }
+    if (t < ev.cross) {
+      const a = t - ev.bridge;
+      return { ...base, x: 110, y: FLOOR - (a > 0.25 ? Math.max(0, Math.sin(Math.PI * clamp((a - 0.25) / 0.35))) * 40 : 0), eyes: t < ev.bridge ? 'wide' : 'happy', arms: t < ev.bridge ? 'reach' : 'cheer', mouth: 'smile', squash: t < ev.bridge ? 0 : a < 0.25 ? 0.3 * Math.exp(-a * 12) : ring(a - 0.25, -0.25, 14, 8) };
+    }
+    // crossing on the phone, eyes up, a happy bouncy walk
     if (t < ev.win) {
       const u = clamp((t - ev.cross) / (ev.win - ev.cross)), x = lerp(110, 860, u);
       const onBridge = clamp((x - 270) / 50) * clamp((GEO.BRIDGE_END + 30 - x) / 50);
-      return { ...base, x, y: lerp(FLOOR, GEO.BRIDGE_TOP, onBridge), walk: walkPhase(t, ev.cross), eyes: 'normal', lookX: 8, mouth: 'smile', arms: 'down' };
+      return { ...base, x, y: lerp(FLOOR, GEO.BRIDGE_TOP, onBridge), walk: walkPhase(t, ev.cross), bounce: 1.4, eyes: 'normal', lookX: 8, mouth: 'smile', arms: 'down' };
     }
-    const a = t - ev.win, hopK = S.celebrate.filter((c) => c <= t).pop();
-    const hop = Math.max(0, Math.sin(Math.PI * clamp((t - hopK) / (BEAT * 0.9)))) * 90;
-    return { ...base, x: 860, y: FLOOR - hop, eyes: 'happy', arms: 'cheer', mouth: 'smile', blush: true, open: hop > 40 ? 0.4 : 0 };
+    // the celebration: each hop = anticipation squash, stretch on the way up and down, squash on landing
+    const hopK = S.celebrate.filter((c) => c <= t).pop(), u = (t - hopK) / BEAT;
+    const air = clamp(u / 0.75);
+    const hop = u < 0.75 ? Math.sin(Math.PI * air) * 110 : 0;
+    const sqH = u < 0.75 ? -0.28 * Math.abs(Math.cos(Math.PI * air)) : 0.35 * Math.sin(Math.PI * clamp((u - 0.75) / 0.25));
+    return { ...base, x: 860, y: FLOOR - hop, eyes: 'happy', arms: 'cheer', mouth: 'smile', blush: true, open: hop > 60 ? 0.4 : 0, squash: sqH, rot: 0.06 * Math.sin(Math.PI * air) * (S.celebrate.indexOf(hopK) % 2 ? 1 : -1) };
   }
 
-  // ---------- the cave ----------
   // ---------- the set: a lava corridor seen from above, receding to a vanishing point ----------
   // Locky acts on one row (y = FLOOR); everything else is projected from that row. xa = x on the action row.
   const VP = [600, 880], FAR = 1000;
@@ -200,82 +246,136 @@
   const px = (xa, y) => VP[0] + (xa - VP[0]) * dep(y);
   const LWALL = -250, RWALL = 1050, BOT = 1960;
   const edge = (xa, y0, y1, drop = 0) => [[px(xa, y0), y0 + drop * dep(y0)], [px(xa, y1), y1 + drop * dep(y1)]];
+  // the look: a pale grey room drawn in thin black ink, lit only by the lava
+  const WALL = '#C9C6CA', FLOORC = '#D9D7DA', CURB = '#B8B5B9';
+  const ink = (ctx, pts, lw = 3.5, seed = 1, color = INK) => G.line(ctx, pts, { color, lw, seed, amp: 0.9 });
+  function wallQuad(xa, y0, y1, h0, h1) { // a rectangle standing on a side wall, from depth y0 to y1, heights in action-row px
+    return [[px(xa, y0), y0], [px(xa, y1), y1], [px(xa, y1), y1 - h1 * dep(y1)], [px(xa, y0), y0 - h0 * dep(y0)]];
+  }
+  function door(ctx, t, xa, y0, y1, h, seed, openK = 0) {
+    const q = wallQuad(xa, y0, y1, h, h);
+    // the opening (dark until it opens onto daylight)
+    G.poly(ctx, q, { fill: openK > 0 ? mix('#8E8A90', '#FFF4D6', openK) : '#EDEBEE', lw: 4, seed, step: 30 });
+    // arched top: a half-moon window above the frame
+    const mx = (q[2][0] + q[3][0]) / 2, my = (q[2][1] + q[3][1]) / 2, rw = Math.abs(q[2][0] - q[3][0]) / 2;
+    ctx.save(); ctx.translate(mx, my); ctx.transform(1, (q[2][1] - q[3][1]) / (q[2][0] - q[3][0] || 1), 0, 1, 0, 0);
+    ctx.beginPath(); ctx.ellipse(0, 0, rw + 8, rw * 0.9, 0, Math.PI, 0); ctx.closePath(); ctx.fillStyle = '#F2F0F3'; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = INK; ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(0, -6, rw * 0.62, rw * 0.5, 0, Math.PI, 0); ctx.closePath(); ctx.lineWidth = 3; ctx.stroke();
+    ctx.restore();
+    // the leaf: planks, a handle; swings into the room when it opens
+    const sw = ease.outBack(clamp(openK), 1.4);
+    const hinge = q[0], far = q[3];
+    const lx = lerp(q[1][0], hinge[0] - (q[1][0] - hinge[0]) * 0.55, sw), ly = lerp(q[1][1], hinge[1] + 40, sw);
+    const leaf = [hinge, [lx, ly], [lx, ly - (q[1][1] - q[2][1]) * lerp(1, 1.12, sw)], far];
+    G.poly(ctx, leaf, { fill: '#F4F2F5', lw: 4, seed: seed + 1, step: 30 });
+    for (let k = 1; k < 4; k++) ink(ctx, [[lerp(leaf[0][0], leaf[1][0], k / 4), lerp(leaf[0][1], leaf[1][1], k / 4)], [lerp(leaf[3][0], leaf[2][0], k / 4), lerp(leaf[3][1], leaf[2][1], k / 4)]], 2, seed + 2 + k);
+    const hx = lerp(leaf[0][0], leaf[1][0], 0.85), hy = lerp(lerp(leaf[0][1], leaf[1][1], 0.85), lerp(leaf[3][1], leaf[2][1], 0.85), 0.5);
+    G.rrect(ctx, hx - 5, hy - 22, 10, 44, 5, { fill: '#F4F2F5', lw: 3, seed: seed + 9 });
+  }
+  function box(ctx, x, y, w, h, d, seed) { // a cardboard box, line art, seen from the front-left and above
+    const top = [[x, y - h], [x + w, y - h], [x + w + d * 0.6, y - h - d * 0.45], [x + d * 0.6, y - h - d * 0.45]];
+    const side = [[x + w, y], [x + w + d * 0.6, y - d * 0.45], [x + w + d * 0.6, y - h - d * 0.45], [x + w, y - h]];
+    G.poly(ctx, [[x, y], [x + w, y], [x + w, y - h], [x, y - h]], { fill: '#E4E1E4', lw: 3, seed, step: 30 });
+    G.poly(ctx, side, { fill: '#CFCBCF', lw: 3, seed: seed + 1, step: 30 });
+    G.poly(ctx, top, { fill: '#EFECEF', lw: 3, seed: seed + 2, step: 30 });
+    ink(ctx, [[x + w * 0.5, y - h], [x + w * 0.5 + d * 0.3, y - h - d * 0.45]], 2, seed + 3);
+    G.rrect(ctx, x + w * 0.45, y - h, w * 0.1, h * 0.3, 2, { fill: '#D8D4D8', lw: 2, seed: seed + 4 });
+    G.rrect(ctx, x + w * 0.62, y - h * 0.32, w * 0.24, h * 0.16, 2, { fill: null, lw: 2, seed: seed + 5 });
+  }
   function cave(ctx, t) {
-    // ceiling
-    const g = ctx.createLinearGradient(0, 0, 0, FAR);
-    g.addColorStop(0, '#1E1420'); g.addColorStop(1, '#3A2030');
-    ctx.fillStyle = g; ctx.fillRect(-300, -800, W + 600, H + 1600);
-    // the far wall, glowing from below
-    const wt = FAR - 700 * dep(FAR);
-    const fw = ctx.createLinearGradient(0, wt, 0, FAR); fw.addColorStop(0, '#4A2632'); fw.addColorStop(1, '#8A3A26');
-    G.poly(ctx, [[px(LWALL, FAR), wt], [px(RWALL, FAR), wt], [px(RWALL, FAR), FAR], [px(LWALL, FAR), FAR]], { fill: fw, lw: 5, seed: 100 });
-    // side walls: stone courses that run to the vanishing point
-    for (const [xa, seed] of [[LWALL, 110], [RWALL, 120]]) {
-      const top = (y) => y - 700 * dep(y);
-      const wg = ctx.createLinearGradient(px(xa, BOT), 0, px(xa, FAR), 0);
-      wg.addColorStop(0, '#2E1A26'); wg.addColorStop(1, '#5A2C30');
-      G.poly(ctx, [[px(xa, FAR), FAR], [px(xa, FAR), top(FAR)], [px(xa, BOT), top(BOT)], [px(xa, BOT), BOT]], { fill: wg, lw: 5, seed, step: 40 });
-      for (let k = 1; k < 5; k++) { const h = 700 * k / 5; G.line(ctx, [[px(xa, FAR), FAR - h * dep(FAR)], [px(xa, BOT), BOT - h * dep(BOT)]], { color: 'rgba(0,0,0,0.35)', lw: 3, seed: seed + k }); }
-      for (const y of [1040, 1110, 1200, 1330, 1520, 1800]) G.line(ctx, [[px(xa, y), y], [px(xa, y), top(y)]], { color: 'rgba(0,0,0,0.3)', lw: 3, seed: seed + y });
+    // walls and far wall: soft pale grey, slightly darker up high
+    const g = ctx.createLinearGradient(0, -800, 0, FAR);
+    g.addColorStop(0, '#AFACB0'); g.addColorStop(1, WALL);
+    ctx.fillStyle = g; ctx.fillRect(-400, -1200, W + 800, H + 2400);
+    // side walls, a touch darker than the far wall, with a skirting line along the floor
+    for (const [xa, seed, shade] of [[LWALL, 110, '#BDBABE'], [RWALL, 120, '#C2BFC3']]) {
+      G.poly(ctx, [[px(xa, FAR), FAR], [px(xa, FAR), -1400], [px(xa, BOT), -1400], [px(xa, BOT), BOT]], { fill: shade, lw: 0, seed, step: 60 });
+      ink(ctx, [[px(xa, FAR), FAR], [px(xa, FAR), -1400]], 3, seed + 1);
+      ink(ctx, [[px(xa, FAR), FAR - 30 * dep(FAR)], [px(xa, BOT), BOT - 30 * dep(BOT)]], 2.5, seed + 2);
+      ink(ctx, [[px(xa, FAR), FAR], [px(xa, BOT), BOT]], 3.5, seed + 3);
     }
-    // glowing cracks on the far wall
-    for (let k = 0; k < 4; k++) {
-      const x0 = px(LWALL, FAR) + 40 + k * 90, pts = [[x0, wt + 10]];
-      for (let i = 1; i < 5; i++) pts.push([x0 + (G.rnd(k, i) - 0.5) * 40, wt + 10 + i * 40]);
-      ctx.save(); ctx.globalAlpha = 0.55 + 0.25 * Math.sin(t * 3 + k); G.line(ctx, pts, { color: '#FF8A3A', lw: 4, seed: 150 + k }); ctx.restore();
-    }
-    // the exit: a door in the right wall, further down the corridor, with daylight and a sign
-    const d0 = 1060, d1 = 1150, dh = 420;
-    const door = [[px(RWALL, d0), d0], [px(RWALL, d1), d1], [px(RWALL, d1), d1 - dh * dep(d1)], [px(RWALL, d0), d0 - dh * dep(d0)]];
-    G.poly(ctx, door, { fill: '#BFE7FF', lw: 6, seed: 190 });
-    ctx.save(); ctx.globalAlpha = 0.35; ctx.fillStyle = '#FFF6D8';
-    ctx.beginPath(); ctx.moveTo(...door[0]); ctx.lineTo(...door[1]); ctx.lineTo(px(RWALL - 260, d1 + 140), d1 + 140); ctx.lineTo(px(RWALL - 260, d0 + 90), d0 + 90); ctx.closePath(); ctx.fill(); ctx.restore();
-    const sx = (door[2][0] + door[3][0]) / 2, sy = (door[2][1] + door[3][1]) / 2 - 70;
+    // the far wall's glow from the lava
+    ctx.save(); const gl = ctx.createRadialGradient(px(560, FAR), FAR, 10, px(560, FAR), FAR, 360);
+    gl.addColorStop(0, 'rgba(255,140,40,0.35)'); gl.addColorStop(1, 'rgba(255,140,40,0)'); ctx.fillStyle = gl; ctx.fillRect(-400, FAR - 400, W + 800, 500); ctx.restore();
+    // a door on the left wall (where he came from) and the exit on the right, which opens when he makes it
+    door(ctx, t, LWALL, 1004, 1040, 520, 300);
+    door(ctx, t, RWALL, 1060, 1150, 470, 190, clamp((t - ev.win - 0.1) / 0.5));
+    // EXIT sign over the right door
+    const q = wallQuad(RWALL, 1060, 1150, 470, 470), sx = (q[2][0] + q[3][0]) / 2, sy = (q[2][1] + q[3][1]) / 2 - 95;
     ctx.save(); ctx.translate(sx, sy); ctx.transform(1, 0.55, 0, 1, 0, 0);
-    G.rrect(ctx, -70, -26, 140, 52, 8, { fill: '#3FA86B', lw: 5, seed: 192 });
-    G.text(ctx, 'EXIT', 0, 12, { size: 34, align: 'center', fam: 'Bungee', weight: 400, color: '#FFFFFF' });
+    G.rrect(ctx, -64, -24, 128, 48, 8, { fill: '#4DB27A', lw: 4, seed: 192 });
+    G.text(ctx, 'EXIT', 0, 12, { size: 32, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF' });
     ctx.restore();
   }
   function lava(ctx, t) {
     const drop = LAVA - FLOOR;
     const L = edge(EDGE, FAR, BOT, drop), R = edge(GEO.RIGHT, FAR, BOT, drop);
-    const g = ctx.createLinearGradient(0, FAR, 0, BOT); g.addColorStop(0, '#FFB52E'); g.addColorStop(0.35, '#FF7A1A'); g.addColorStop(1, '#E0481A');
-    G.poly(ctx, [L[0], R[0], R[1], L[1]], { fill: g, lw: 5, seed: 200, step: 60 });
-    ctx.save(); ctx.beginPath(); ctx.moveTo(...L[0]); ctx.lineTo(...R[0]); ctx.lineTo(...R[1]); ctx.lineTo(...L[1]); ctx.closePath(); ctx.clip();
-    for (let i = 0; i < 26; i++) { // blobs drifting toward the camera, scaled by depth
-      const y = FAR + 10 + ((G.rnd(i, 2) * 900 + t * (14 + i * 2)) % 900), d = dep(y);
-      const x = px(lerp(EDGE, GEO.RIGHT, G.rnd(i, 1)), y);
-      ctx.globalAlpha = 0.5; G.ellipse(ctx, x, y + drop * d, (30 + G.rnd(i, 3) * 26) * d, (9 + G.rnd(i, 4) * 7) * d, { fill: '#FFD45A', lw: 0, seed: 210 + i });
+    const quad = [L[0], R[0], R[1], L[1]];
+    const g = ctx.createLinearGradient(0, FAR, 0, BOT); g.addColorStop(0, '#FF8A1C'); g.addColorStop(0.4, '#FF6A0C'); g.addColorStop(1, '#F85A08');
+    ctx.save(); ctx.beginPath(); ctx.moveTo(...quad[0]); for (const q of quad.slice(1)) ctx.lineTo(...q); ctx.closePath();
+    ctx.fillStyle = g; ctx.fill(); ctx.clip();
+    // soft molten blobs: blurred, drifting toward the camera, scaled by depth
+    ctx.filter = 'blur(10px)';
+    for (let i = 0; i < 34; i++) {
+      const y = FAR + ((G.rnd(i, 2) * 960 + t * (10 + (i % 5) * 4)) % 960), d = dep(y);
+      const x = px(lerp(EDGE - 40, GEO.RIGHT + 40, G.rnd(i, 1)), y) + Math.sin(t * 0.8 + i) * 12 * d;
+      ctx.globalAlpha = i % 4 ? 0.55 : 0.4; ctx.fillStyle = i % 4 ? '#FFA82A' : '#E9480A';
+      ctx.beginPath(); ctx.ellipse(x, y + drop * d, (50 + G.rnd(i, 3) * 60) * d, (16 + G.rnd(i, 4) * 16) * d, 0, 0, Math.PI * 2); ctx.fill();
     }
+    ctx.filter = 'none'; ctx.globalAlpha = 1;
+    // glints
+    for (let i = 0; i < 10; i++) { const y = FAR + 40 + G.rnd(i, 12) * 800, d = dep(y), x = px(lerp(EDGE, GEO.RIGHT, G.rnd(i, 11)), y); ctx.globalAlpha = 0.5 + 0.5 * Math.sin(t * 4 + i); oval(ctx, x, y + drop * d, 4 * d, 2.5 * d, '#FFF2C0', 0); }
     ctx.restore();
-    for (let i = 0; i < 6; i++) { // bubbles that pop
-      const per = 1.3 + G.rnd(i, 5), ph = ((t + G.rnd(i, 6) * per) % per) / per;
-      const y = FLOOR - 120 + G.rnd(i, 8) * 420, d = dep(y), x = px(lerp(EDGE + 30, GEO.RIGHT - 30, G.rnd(i, 7)), y), r = (6 + 20 * Math.sin(Math.PI * ph)) * d;
-      if (ph < 0.9) G.ellipse(ctx, x, y + drop * d - r * 0.4, r, r * 0.8, { fill: '#FFC93C', lw: 3, seed: 230 + i });
+    ink(ctx, [L[0], L[1]], 4, 205); ink(ctx, [R[0], R[1]], 4, 206);
+    // glossy dome bubbles that swell and pop, leaving a ring
+    for (let i = 0; i < 7; i++) {
+      const per = 1.6 + G.rnd(i, 5) * 1.2, ph = ((t + G.rnd(i, 6) * per) % per) / per;
+      const y = FAR + 120 + G.rnd(i, 8) * 640, d = dep(y), x = px(lerp(EDGE + 40, GEO.RIGHT - 40, G.rnd(i, 7)), y), yy = y + drop * d;
+      if (ph < 0.8) {
+        const r = (8 + 26 * ease.outQuad(ph / 0.8)) * d;
+        ctx.beginPath(); ctx.ellipse(x, yy, r, r * 0.85, 0, Math.PI, 0); ctx.closePath(); ctx.fillStyle = '#FFC21E'; ctx.fill(); ctx.lineWidth = 2.5; ctx.strokeStyle = 'rgba(160,60,0,0.6)'; ctx.stroke();
+        oval(ctx, x - r * 0.35, yy - r * 0.5, r * 0.22, r * 0.14, '#FFF8D8', 0);
+      } else { const k = (ph - 0.8) / 0.2; ctx.save(); ctx.globalAlpha = 1 - k; oval(ctx, x, yy, (20 + 60 * k) * d, (6 + 18 * k) * d, null, 0); ctx.lineWidth = 3; ctx.strokeStyle = '#FFD45A'; ctx.stroke(); ctx.restore(); }
     }
   }
   function ledges(ctx) {
     const drop = LAVA - FLOOR;
-    const stone = { lw: 6, hatch: { color: 'rgba(0,0,0,0.16)', gap: 12 } };
-    // the walkways
-    G.poly(ctx, [[px(LWALL, FAR), FAR], [px(EDGE, FAR), FAR], [px(EDGE, BOT), BOT], [px(LWALL, BOT), BOT]], { ...stone, fill: '#7A686C', seed: 250, step: 40 });
-    G.poly(ctx, [[px(GEO.RIGHT, FAR), FAR], [px(RWALL, FAR), FAR], [px(RWALL, BOT), BOT], [px(GEO.RIGHT, BOT), BOT]], { ...stone, fill: '#7A686C', seed: 251, step: 40 });
-    // floor tiles: rows across, seams toward the vanishing point
-    for (const [a, b2, seed] of [[LWALL, EDGE, 260], [GEO.RIGHT, RWALL, 270]]) {
-      for (let k = 1; k < 4; k++) { const xa = lerp(a, b2, k / 4); G.line(ctx, [[px(xa, FAR), FAR], [px(xa, BOT), BOT]], { color: 'rgba(0,0,0,0.22)', lw: 3, seed: seed + k }); }
-      for (const y of [1030, 1080, 1150, 1240, 1380, 1580, 1850]) G.line(ctx, [[px(a, y), y], [px(b2, y), y]], { color: 'rgba(0,0,0,0.22)', lw: 3, seed: seed + y });
+    // the walkways: pale stone slabs with ink seams
+    for (const [a, b2, seed] of [[LWALL, EDGE, 250], [GEO.RIGHT, RWALL, 260]]) {
+      G.poly(ctx, [[px(a, FAR), FAR], [px(b2, FAR), FAR], [px(b2, BOT), BOT], [px(a, BOT), BOT]], { fill: FLOORC, lw: 0, seed, step: 60 });
+      for (const y of [1060, 1180, 1420, 1760]) ink(ctx, [[px(a, y), y], [px(b2, y), y]], 2, seed + y, 'rgba(26,22,24,0.55)');
     }
-    // the curb faces down to the lava, lit orange from below
+    // the curb faces down to the lava, a lip along the top, and the warm light on them
     for (const [xa, seed] of [[EDGE, 252], [GEO.RIGHT, 253]]) {
       const top = edge(xa, FAR, BOT), bot = edge(xa, FAR, BOT, drop);
-      const cg = ctx.createLinearGradient(0, FLOOR, 0, LAVA); cg.addColorStop(0, '#5E4A4E'); cg.addColorStop(1, '#C8642E');
-      G.poly(ctx, [top[0], top[1], bot[1], bot[0]], { fill: cg, lw: 5, seed, step: 40 });
+      const cg = ctx.createLinearGradient(0, FLOOR, 0, LAVA); cg.addColorStop(0, CURB); cg.addColorStop(1, '#E2A27A');
+      G.poly(ctx, [top[0], top[1], bot[1], bot[0]], { fill: cg, lw: 0, seed, step: 60 });
+      ink(ctx, [top[0], top[1]], 4, seed + 1);
+      const lip = edge(xa + (xa === EDGE ? -16 : 16), FAR, BOT);
+      ink(ctx, [lip[0], lip[1]], 2.5, seed + 2);
+      // a chipped corner every so often
+      for (const y of [1120, 1500]) { const x0 = px(xa, y), d = dep(y); ink(ctx, [[x0, y], [x0 + (xa === EDGE ? -24 : 24) * d, y + 10 * d], [x0, y + drop * d * 0.8]], 2.5, seed + y); }
     }
+    // boxes stacked on the right walkway, near the far wall
+    const bx = px(GEO.RIGHT + 60, 1040), by = 1040, sc = dep(1040) * 1.25;
+    box(ctx, bx, by, 120 * sc, 90 * sc, 70 * sc, 600);
+    box(ctx, bx + 115 * sc, by, 110 * sc, 80 * sc, 70 * sc, 610);
+    box(ctx, bx + 40 * sc, by - 90 * sc, 110 * sc, 85 * sc, 70 * sc, 620);
+  }
+  // soft contact shadow on whatever floor is under him
+  function shadow(ctx, st, t) {
+    const onBridge = t >= ev.bridge && st.x > 280 && st.x < GEO.BRIDGE_END + 20;
+    const gy = onBridge ? GEO.BRIDGE_TOP : (st.x < EDGE + 20 || st.x > GEO.RIGHT - 20) ? FLOOR : null;
+    if (gy == null || st.y > gy + 5) return;
+    const h = clamp((gy - st.y) / 300), k = 1 - 0.6 * h;
+    ctx.save(); ctx.globalAlpha = 0.28 * k; ctx.filter = 'blur(3px)';
+    ctx.beginPath(); ctx.ellipse(st.x - 8, gy + 4, 92 * k, 16 * k, 0, 0, Math.PI * 2); ctx.fillStyle = '#2A2428'; ctx.fill();
+    ctx.restore();
   }
   // splash: droplets + rings + a smoke column
   function splashFx(ctx, t, ts, size) {
     const a = t - ts; if (a < 0 || a > 3) return;
-    const cx = EDGE + 70;
+    const cx = EDGE + 100;
     for (let i = 0; i < 14; i++) {
       const vx = (G.rnd(i, 1) - 0.5) * 700 * size, vy = -(400 + G.rnd(i, 2) * 600) * size;
       const x = cx + vx * a, y = LAVA + vy * a + 1600 * a * a;
@@ -290,7 +390,7 @@
       const pa = a - i * 0.12; if (pa < 0) continue;
       const k = pa / dur; if (k > 1) continue;
       ctx.save(); ctx.globalAlpha = 0.6 * (1 - k);
-      G.ellipse(ctx, x + Math.sin(pa * 4 + i) * 30, y - pa * 260, 26 + pa * 40, 22 + pa * 34, { fill: '#5E5A60', lw: 3, seed: 340 + i });
+      G.ellipse(ctx, x + Math.sin(pa * 4 + i) * 30, y - pa * 260, 26 + pa * 40, 22 + pa * 34, { fill: '#55525A', lw: 0, seed: 340 + i });
       ctx.restore();
     }
   }
@@ -324,24 +424,24 @@
     if (t < t0 || t > t1) return;
     const p = ease.outBack(clamp((t - t0) / 0.22), 2.5);
     ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(p, p);
-    G.text(ctx, text, 0, 0, { size, align: 'center', fam: 'Bungee', weight: 400, color, stroke: INK, strokeW: size * 0.1 });
+    G.text(ctx, text, 0, 0, { size, align: 'center', fam: 'Fredoka', weight: 700, color, stroke: INK, strokeW: size * 0.16 });
     ctx.restore();
   }
 
   // ---------- the camera: shakes on the hits ----------
   function shake(t) {
     let x = 0, y = 0;
-    for (const [t0, amp] of [[ev.splash1, 14], [ev.splash2, 20], [ev.splash3, 26], [ev.land1, 10], [ev.land2, 16], [ev.bridge, 22], [ev.win, 8]]) {
+    for (const [t0, amp] of [[ev.splash1, 9], [ev.splash2, 12], [ev.splash3, 15], [ev.land1, 8], [ev.land2, 11], [ev.bridge, 14], [ev.win, 6]]) {
       const a = t - t0; if (a < 0 || a > 0.6) continue;
-      const k = Math.exp(-a * 7) * amp; x += Math.sin(a * 70) * k; y += Math.cos(a * 53) * k;
+      const k = Math.exp(-a * 7) * amp; x += Math.cos(a * 40) * k; y += Math.cos(a * 33 + 0.6) * k; // the biggest jolt lands on the hit frame
     }
     return [x, y];
   }
 
   let YAY = null;
   Studio.film({
-    async init() { YAY = await Studio.loadImage('assets/locky-yay.png'); },
-    post: { vignette: 0.3, grain: 0.05, paper: 0.25 },
+    async init() { await Studio.loadFont('Fredoka', 'assets/fonts/Fredoka-700.woff2', 700); YAY = await Studio.loadImage('assets/locky-yay.png'); },
+    post: { vignette: 0.18, grain: 0.03, paper: 0.12 },
     fadeOut: 0.6,
     draw(ctx, t) {
       const [sx, sy] = shake(t);
@@ -353,6 +453,7 @@
       ledges(ctx);
       bigPhone(ctx, t);
       const st = state(t);
+      shadow(ctx, st, t);
       // Locky, clipped at the lava surface when he is in it
       const inLava = st.y > LAVA - 5 && st.x > EDGE && st.x < GEO.RIGHT;
       ctx.save();
@@ -363,7 +464,7 @@
       // smoke: off his head after each fall, and a big column after the third
       smoke(ctx, t, 170, FLOOR - 200, ev.land1, 5, 1.8);
       smoke(ctx, t, 160, FLOOR - 200, ev.land2, 7, 2.2);
-      smoke(ctx, t, EDGE + 70, LAVA - 40, ev.splash3 + 0.2, 9, 2.6);
+      smoke(ctx, t, EDGE + 100, LAVA - 40, ev.splash3 + 0.2, 9, 2.6);
       smoke(ctx, t, 150, FLOOR - 210, ev.sit, 6, 2.2);
       // dust when the bridge lands
       if (t >= ev.bridge && t < ev.bridge + 1) { const a = t - ev.bridge; for (let i = 0; i < 6; i++) { ctx.save(); ctx.globalAlpha = 0.6 * (1 - a); G.ellipse(ctx, 330 + i * 110, GEO.BRIDGE_TOP - 10 - a * 60, 30 + a * 50, 20 + a * 30, { fill: '#D8C8B8', lw: 3, seed: 500 + i }); ctx.restore(); } }
@@ -374,31 +475,31 @@
       // words
       for (const l of S.labels) if (t >= l.t && t < l.end) {
         const p = ease.outBack(clamp((t - l.t) / 0.25), 2);
-        ctx.save(); ctx.translate(SAFE.x + 40, SAFE.y + 70); ctx.scale(p, p);
-        G.text(ctx, l.text, 0, 0, { size: 64, fam: 'Bungee', weight: 400, color: '#FFFFFF', stroke: INK, strokeW: 8 });
+        ctx.save(); ctx.translate(W / 2, SAFE.y + 260); ctx.scale(p, p);
+        G.text(ctx, l.text, 0, 0, { size: 120, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF', stroke: INK, strokeW: 18 });
         ctx.restore();
       }
-      if (t >= ev.splash3 + 0.6 && t < ev.idea) G.text(ctx, '...', W / 2, 760, { size: 120, align: 'center', fam: 'Bungee', weight: 400, color: '#FFFFFF', stroke: INK, strokeW: 10 });
+      if (t >= ev.splash3 + 0.6 && t < ev.idea) G.text(ctx, '...', W / 2, 760, { size: 140, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF', stroke: INK, strokeW: 18 });
       const st2 = state(t);
       for (const sh of S.shouts) if (t >= sh.t && t < sh.end) stamp(ctx, t, sh.t, sh.end, sh.text, clamp(540 + (st2.x - 515) * 1.15, 380, 680), clamp(1260 + (st2.y - 1300) * 1.15 - 400, SAFE.y + 260, 1050), 84, '#FFE06A');
-      stamp(ctx, t, ev.idea, ev.bridge, 'IDEA!', 520, 760, 110, '#FFE06A');
+      stamp(ctx, t, ev.idea, ev.bridge, 'IDEA!', 520, 760, 120, '#FFE06A');
       stamp(ctx, t, ev.bridge, ev.bridge + 0.9, 'BOOM!', 600, 1080, 100, '#FFFFFF', 0.05);
-      stamp(ctx, t, ev.win, ev.end, 'MADE IT!', W / 2 - 40, 640, 110, '#7CF29A');
+      stamp(ctx, t, ev.win, ev.end, 'MADE IT!', W / 2, 640, 120, '#FFFFFF');
 
       // white flashes on the idea and the win
       // a hot orange flash on the exact frame Locky hits the lava
-      for (const tf of [ev.splash1, ev.splash2, ev.splash3]) { const a = t - tf; if (a >= 0 && a < 0.12) { ctx.save(); ctx.globalAlpha = 0.55 * (1 - a / 0.12); ctx.fillStyle = '#FFB040'; ctx.fillRect(0, 0, W, H); ctx.restore(); } }
+      for (const tf of [ev.splash1, ev.splash2, ev.splash3]) { const a = t - tf; if (a >= 0 && a < 0.12) { ctx.save(); ctx.globalAlpha = 0.7 * (1 - a / 0.12); ctx.fillStyle = '#FFB040'; ctx.fillRect(0, 0, W, H); ctx.restore(); } }
       for (const tf of [ev.idea, ev.win]) { const a = t - tf; if (a >= 0 && a < 0.2) { ctx.save(); ctx.globalAlpha = 0.6 * (1 - a / 0.2); ctx.fillStyle = '#FFF6D8'; ctx.fillRect(0, 0, W, H); ctx.restore(); } }
       // the end card
       const e = clamp((t - ev.end) / 0.4);
       if (e > 0) {
         ctx.save(); ctx.globalAlpha = e;
-        ctx.fillStyle = 'rgba(30,16,24,0.82)'; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = 'rgba(214,211,215,0.94)'; ctx.fillRect(0, 0, W, H);
         const pop = ease.outBack(e, 2);
         ctx.translate(W / 2 - 50, 640); ctx.scale(pop, pop);
-        G.text(ctx, 'LOCKY', 0, 0, { size: 190, align: 'center', fam: 'Bungee', weight: 400, color: '#F2B84B', stroke: INK, strokeW: 16 });
-        G.text(ctx, 'Watch where', 0, 170, { size: 76, align: 'center', fam: 'Permanent Marker', weight: 400, color: '#FFFFFF' });
-        G.text(ctx, 'you walk', 0, 260, { size: 76, align: 'center', fam: 'Permanent Marker', weight: 400, color: '#FFFFFF' });
+        G.text(ctx, 'LOCKY', 0, 0, { size: 210, align: 'center', fam: 'Fredoka', weight: 700, color: '#3F49CC', stroke: INK, strokeW: 22 });
+        G.text(ctx, 'Watch where', 0, 170, { size: 84, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF', stroke: INK, strokeW: 12 });
+        G.text(ctx, 'you walk', 0, 270, { size: 84, align: 'center', fam: 'Fredoka', weight: 700, color: '#FFFFFF', stroke: INK, strokeW: 12 });
         if (YAY) { const w = 760, h = w * YAY.height / YAY.width; ctx.drawImage(YAY, -w / 2 + 40, 330, w, h); } else locky(ctx, { x: 0, y: 640, s: 1.3, eyes: 'happy', arms: 'cheer', blush: true });
         ctx.restore();
       }

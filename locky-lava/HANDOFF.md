@@ -73,6 +73,17 @@ node song.js && node engine/render.js video && node engine/render.js mux && node
 - Todos los textos en pantalla están en inglés (Try 1/2/3, AAAH!, IDEA!, BOOM!, MADE IT!, Watch where you walk).
 - Destello naranja en el cuadro exacto de cada caída para que la imagen marque el golpe. Sincronía ✓.
 
+## Actualización: estética del video de referencia y mejor movimiento (19 oct 2026)
+- Escenario: cuarto gris claro dibujado con línea negra fina, puertas blancas con arco (la de EXIT se abre al
+  ganar), cajas de cartón, lava naranja con manchas suaves desenfocadas, burbujas con brillo, sombra bajo Locky.
+- Tipografía: Fredoka 700 (assets/fonts, OFL) blanca con borde negro grueso, como el "3..." de la referencia.
+- Locky SIN pupilas: los ojos actúan con forma y posición (deslizados hacia el celular, más altos de susto,
+  cerrados, felices, tristes, garabatos de mareo). Pestañea cada ~2,6 s.
+- Movimiento: inclinación y rebote al caminar, aplastado en cada paso, el arco con retraso; en cada caída camina
+  sobre el vacío, se queda en el aire, se da cuenta y cae estirado; aterrizajes con aplastado y rebote suave;
+  anticipación antes de la idea; saltos de festejo con impulso, estirado y aplastado.
+- Sacudidas de cámara con el golpe más fuerte en el cuadro del impacto. Sincronía ✓ (todas +0f).
+
 ## Notas
 - Siempre responder en español rioplatense.
 - La memoria de Notion no tenía nada sobre Locky ni Loomlock. Se puede guardar si Lupe quiere.
