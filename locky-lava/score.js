@@ -58,7 +58,7 @@
     splash1: { t: ev.splash1, sync: 'av' }, land1: { t: ev.land1, sync: 'av' },
     splash2: { t: ev.splash2, sync: 'av' }, land2: { t: ev.land2, sync: 'av' },
     splash3: { t: ev.splash3, sync: 'av' }, idea: { t: ev.idea, sync: 'av' },
-    bridge: { t: ev.bridge, sync: 'av' }, win: { t: ev.win, sync: 'av' }, end: ev.end,
+    bridge: { t: ev.bridge, sync: 'v' }, win: { t: ev.win, sync: 'av' }, end: ev.end,
   };
 
   const SCORE = { FPS, FORMAT, W, H, SAFE, DURATION, clock, T, BEAT, S, m, chords, chordAt, ev, GEO, steps, labels, shouts, celebrate, markers };
