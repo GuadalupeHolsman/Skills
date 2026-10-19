@@ -47,6 +47,17 @@ node song.js && node engine/render.js video && node engine/render.js mux && node
 4. Reemplazar en `film.js` al Locky dibujado por esos cuadros (sprites con `Studio.loadImage`),
    volver a renderizar, verificar y mandar el video.
 
+## Estado al 19 oct 2026
+- `GEMINI_API_KEY` no está en el entorno como variable. La credencial que inyecta el proxy para
+  `generativelanguage.googleapis.com` la rechaza Google con `401 API_KEY_SERVICE_BLOCKED`
+  (la clave tiene bloqueada la Gemini API en sus restricciones). Sin eso no se pueden generar cuadros.
+- Poses bajadas por rango del zip y guardadas en `assets/poses/` (phone, cry, sad, sad-x, yay, wave,
+  run, happy, winner).
+- `anim/`: placas base sobre verde croma (`base_*.png`), listas de poses (`walk/fall/sad/yay.json`)
+  y `anim/generate.sh`, que corre la skill character-animation (Mode 2) para las 4 animaciones.
+- Falta: correr `anim/generate.sh` con una clave que ande, cargar los cuadros en `film.js`,
+  renderizar y verificar.
+
 ## Notas
 - Siempre responder en español rioplatense.
 - La memoria de Notion no tenía nada sobre Locky ni Loomlock. Se puede guardar si Lupe quiere.
