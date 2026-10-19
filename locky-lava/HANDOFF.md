@@ -84,6 +84,14 @@ node song.js && node engine/render.js video && node engine/render.js mux && node
   anticipación antes de la idea; saltos de festejo con impulso, estirado y aplastado.
 - Sacudidas de cámara con el golpe más fuerte en el cuadro del impacto. Sincronía ✓ (todas +0f).
 
+## Actualización: animación de Locky potenciada (19 oct 2026)
+- Gag del celular: nunca lo suelta; al caer lo sostiene en alto (pose `phoneUp`) dentro de la lava y volando.
+- Caída con "take": camina sobre el vacío, mira hacia abajo, los ojos hacen POP (eyeK con rebote) y cae.
+- Caminatas con personalidad: se ríe de algo en el celular (boca `laugh`); cruza el puente confiado (armSwing).
+- Impactos: líneas de velocidad en el aire, estallido de trazos y polvo al aterrizar, arco que rebota (shY).
+- Alivio después del primer aterrizaje; tristeza con sollozos a ráfagas y lágrimas (tears); respiración en
+  las pausas; un salto de festejo con giro completo. Sincronía ✓ (todas +0f).
+
 ## Notas
 - Siempre responder en español rioplatense.
 - La memoria de Notion no tenía nada sobre Locky ni Loomlock. Se puede guardar si Lupe quiere.
