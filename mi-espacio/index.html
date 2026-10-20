@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Mi Espacio</title>
+  <meta name="description" content="Finanzas, laburo y cosas personales en un solo lugar.">
+  <meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#191919" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Mi Espacio">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+  <script src="config.js" defer></script>
+  <script src="app.js" type="module"></script>
+</head>
+<body>
+  <div class="app">
+    <nav class="nav" aria-label="Secciones">
+      <div class="brand"><img src="icon.svg" alt="" width="28" height="28"><span>Mi Espacio</span></div>
+      <button data-view="home"><span class="ico">🏠</span><span>Inicio</span></button>
+      <button data-view="money"><span class="ico">💸</span><span>Finanzas</span></button>
+      <button data-view="work"><span class="ico">💼</span><span>Laburo</span></button>
+      <button data-view="personal"><span class="ico">🌱</span><span>Personal</span></button>
+      <button data-view="settings"><span class="ico">⚙️</span><span>Ajustes</span><i id="sync-dot" class="sync-dot" title=""></i></button>
+    </nav>
+    <main id="view" tabindex="-1"></main>
+  </div>
+
+  <dialog id="modal">
+    <form id="modal-form" method="dialog"></form>
+  </dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
