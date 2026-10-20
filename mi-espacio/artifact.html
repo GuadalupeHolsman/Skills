@@ -50,7 +50,7 @@ h2 { font-size: 15px; font-weight: 650; }
   background: var(--surface-2); border-right: 1px solid var(--border);
 }
 .who { display: flex; align-items: center; gap: 10px; padding: 6px 10px; margin-bottom: 14px; border: 0; background: none; border-radius: 8px; cursor: pointer; text-align: left; }
-.who:hover { background: var(--border); }
+.who { cursor: default; }
 .avatar { width: 28px; height: 28px; border-radius: 7px; display: grid; place-items: center; font-weight: 700; font-size: 13px; color: var(--on-accent); background: var(--accent); flex: none; }
 .who .nm { font-weight: 650; }
 .who .sub { display: block; font-size: 12px; color: var(--muted); }
@@ -218,7 +218,7 @@ dialog footer { border-top: 1px solid var(--border); flex-wrap: wrap; }
 
 <div class="app">
   <nav class="nav" aria-label="Secciones">
-    <button class="who" id="who" data-action="pickPerson" type="button"><span class="avatar" id="who-av">?</span><span><span class="nm" id="who-nm">Elegí quién sos</span><span class="sub">Cambiar</span></span></button>
+    <div class="who"><span class="avatar">L</span><span><span class="nm">Lupe</span><span class="sub">Mi Espacio</span></span></div>
     <button class="tab" data-view="inicio" type="button"><span class="ico">🏠</span><span>Inicio</span><span class="badge" id="alert-badge" hidden></span></button>
     <button class="tab" data-view="finanzas" type="button"><span class="ico">💸</span><span>Finanzas</span></button>
     <button class="tab" data-view="laburo" type="button"><span class="ico">💼</span><span>Laburo</span></button>
@@ -235,7 +235,7 @@ dialog footer { border-top: 1px solid var(--border); flex-wrap: wrap; }
 <script>
 (() => {
 // ---------- constantes ----------
-const PEOPLE = [{ key: 'lupe', name: 'Lupe' }, { key: 'cami', name: 'Cami' }, { key: 'cami-roja', name: 'Cami Roja' }];
+const person = { key: 'lupe', name: 'Lupe' };
 const EXPENSE_CATS = ['Comida', 'Súper', 'Transporte', 'Casa', 'Servicios', 'Salud', 'Salidas', 'Ropa', 'Suscripciones', 'Educación', 'Otros'];
 const INCOME_CATS = ['Sueldo', 'Freelance', 'Ventas', 'Otros'];
 const AREAS = { work: 'Laburo', personal: 'Personal' };
@@ -274,7 +274,6 @@ function toast(msg) {
 }
 
 // ---------- estado ----------
-let person = PEOPLE.find(p => p.key === lsGet('miespacio:person')) || null;
 const state = { tx: [], budgets: [], bills: [], tasks: [], settings: structuredClone(DEFAULT_SETTINGS) };
 
 function setSettingsFrom(obj) {
@@ -507,11 +506,8 @@ let charts = [];
 
 function render() {
   document.querySelectorAll('.nav [data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-  $('#who-av').textContent = person ? person.name[0] + (person.key === 'cami-roja' ? 'R' : '') : '?';
-  $('#who-nm').textContent = person ? person.name : 'Elegí quién sos';
   charts.forEach(c => c.destroy());
   charts = [];
-  if (!person) { $('#view').innerHTML = welcome(); updateBadge(); return; }
   $('#view').innerHTML = VIEWS[view]();
   AFTER[view]?.();
   updateBadge();
@@ -524,15 +520,7 @@ function go(v) {
   window.scrollTo(0, 0);
 }
 
-function welcome() {
-  return `<header class="page-head"><div><p class="eyebrow">${prettyDay(today())}</p><h1>Hola 👋 ¿Quién sos?</h1></div></header>
-    <section class="panel" style="max-width:460px">
-      <p class="help">Cada una tiene su propio espacio con sus finanzas y tareas. Lo podés cambiar cuando quieras desde el menú.</p>
-      <div class="people">${PEOPLE.map(p => `<button type="button" class="person" data-action="setPerson" data-key="${p.key}"><span class="avatar big">${p.name[0]}${p.key === 'cami-roja' ? 'R' : ''}</span><strong>${p.name}</strong></button>`).join('')}</div>
-    </section>`;
-}
-
-const whoChip = () => `<button type="button" class="btn sm ghost who-mobile" data-action="pickPerson"><span class="avatar" style="width:20px;height:20px;font-size:11px">${person.name[0]}</span>${esc(person.name)} ▾</button>`;
+const whoChip = () => '';
 
 function taskRow(t, showArea) {
   const done = t.status === 'done';
@@ -689,9 +677,6 @@ const VIEWS = {
       <header class="page-head"><div><p class="eyebrow">Ajustes ${whoChip()}</p><h1>Configuración</h1></div></header>
       <div class="settings grid2">
         <section class="panel">
-          <h2>Quién sos</h2>
-          <p class="help">Cada una tiene su espacio separado. Ahora estás en el de <strong>${esc(person.name)}</strong>.</p>
-          <button type="button" class="btn" data-action="pickPerson">Cambiar de persona</button>
           <h2>Dólar</h2>
           <p class="help">Cotización que usás para pasar los montos en USD a pesos en los totales y gráficos.</p>
           <div class="inline"><input id="set-rate" type="number" min="0" step="0.01" value="${esc(s.rate)}"><button type="button" class="btn" data-action="saveRate">Guardar</button></div>
@@ -927,11 +912,6 @@ function taskForm(t = {}) {
   }, isNew ? '' : delBtn('tasks', t.id));
 }
 
-function peoplePicker() {
-  openModal('¿Quién sos?', `<p class="help" style="margin-top:0">Cada una tiene su espacio separado.</p>
-    <div class="people">${PEOPLE.map(p => `<button type="button" class="person ${person?.key === p.key ? 'on' : ''}" data-action="setPerson" data-key="${p.key}"><span class="avatar big">${p.name[0]}${p.key === 'cami-roja' ? 'R' : ''}</span><strong>${p.name}</strong></button>`).join('')}</div>`, null);
-}
-
 // ---------- ejemplos ----------
 function loadExamples() {
   const d = off => addDays(today(), off), id = () => uid(), ex = { example: true, updatedAt: Date.now() };
@@ -973,14 +953,6 @@ const ACTIONS = {
   closeModal,
   month: d => { ui.month = shiftMonth(ui.month, +d.d); render(); },
   filter: d => { ui.filter[d.area] = d.f; render(); },
-  pickPerson: () => peoplePicker(),
-  setPerson: d => {
-    person = PEOPLE.find(p => p.key === d.key);
-    lsSet('miespacio:person', person.key);
-    if ($('#modal').open) $('#modal').close();
-    Store.open();
-    toast(`Hola, ${person.name}`);
-  },
 
   newTx: d => txForm({ type: d.type }),
   editTx: d => txForm({ ...find('tx', d.id) }),
