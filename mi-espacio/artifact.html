@@ -123,6 +123,44 @@ main { flex: 1; min-width: 0; max-width: 1200px; padding-block: 40px 64px; paddi
   }
 }
 
+/* ---------- portada de cada página (como las covers de Notion) ---------- */
+.page[data-page=inicio] { --h1: var(--accent); --h2: var(--warn); }
+.page[data-page=finanzas] { --h1: var(--warn); --h2: var(--income); }
+.page[data-page=laburo] { --h1: var(--work); --h2: var(--accent); }
+.page[data-page=personal] { --h1: var(--accent); --h2: var(--expense); }
+.page[data-page=ajustes] { --h1: var(--muted); --h2: var(--faint); }
+.cover { position: relative; height: clamp(112px, 15vw, 164px); margin-bottom: 24px; }
+[hidden] { display: none !important; }
+.cover .art {
+  position: absolute; inset: 0; border-radius: var(--r-lg); overflow: hidden;
+  background:
+    radial-gradient(60% 130% at 10% 0%, color-mix(in srgb, var(--h1) 34%, transparent), transparent 70%),
+    radial-gradient(55% 120% at 92% 100%, color-mix(in srgb, var(--h2) 30%, transparent), transparent 72%),
+    color-mix(in srgb, var(--h1) 9%, var(--surface));
+}
+.cover .art::after { content: ""; position: absolute; inset: 0; background: var(--pattern, none); }
+/* inicio: arcos de amanecer */
+.page[data-page=inicio] .art::after { --pattern: repeating-radial-gradient(circle at 14% 135%, transparent 0 30px, color-mix(in srgb, var(--h1) 20%, transparent) 30px 31px); }
+/* finanzas: hoja de cuaderno contable, con renglones y margen */
+.page[data-page=finanzas] .art::after { --pattern: linear-gradient(90deg, transparent 63px, color-mix(in srgb, var(--expense) 40%, transparent) 63px 64px, transparent 64px), repeating-linear-gradient(0deg, color-mix(in srgb, var(--h1) 24%, transparent) 0 1px, transparent 1px 22px); }
+/* laburo: cuadrícula de puntos */
+.page[data-page=laburo] .art::after { --pattern: radial-gradient(color-mix(in srgb, var(--h1) 40%, transparent) 1.2px, transparent 1.6px) 0 0 / 18px 18px; }
+/* personal: ondas */
+.page[data-page=personal] .art::after { --pattern: repeating-radial-gradient(circle at 82% 30%, transparent 0 22px, color-mix(in srgb, var(--h2) 22%, transparent) 22px 23px); }
+/* ajustes: líneas diagonales finas */
+.page[data-page=ajustes] .art::after { --pattern: repeating-linear-gradient(135deg, color-mix(in srgb, var(--h1) 16%, transparent) 0 1px, transparent 1px 14px); }
+.page-icon {
+  position: absolute; left: 22px; bottom: -26px; width: 64px; height: 64px; display: grid; place-items: center; font-size: 36px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow);
+}
+.stamp {
+  position: absolute; right: 20px; bottom: 16px; display: grid; justify-items: end; line-height: 1;
+  color: color-mix(in srgb, var(--h1) 70%, var(--text));
+}
+.stamp b { font: 700 clamp(44px, 6vw, 64px)/.9 var(--font-display); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.stamp span { font-size: 12px; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; margin-top: 6px; }
+@media (max-width: 760px) { .cover { margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); margin-top: -20px; } .cover .art { border-radius: 0; } .page-icon { left: 16px; width: 56px; height: 56px; font-size: 30px; } }
+
 /* ---------- encabezado ---------- */
 .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .eyebrow { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
@@ -713,8 +751,16 @@ const ui = { month: thisMonth(), filter: { work: 'pending', personal: 'pending' 
 
 function render() {
   document.querySelectorAll('.nav [data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-  $('#view').innerHTML = `<div class="page">${VIEWS[view]()}</div>`;
+  $('#view').innerHTML = `<div class="page" data-page="${view}">${cover(view)}${VIEWS[view]()}</div>`;
   updateNav();
+}
+
+const PAGE_ICON = { inicio: '🏠', finanzas: '💸', laburo: '💼', personal: '🌱', ajustes: '⚙️' };
+
+function cover(v) {
+  const d = new Date();
+  const stamp = v === 'inicio' ? `<div class="stamp" aria-hidden="true"><b>${d.getDate()}</b><span>${d.toLocaleDateString('es-AR', { month: 'long' })}</span></div>` : '';
+  return `<div class="cover"><div class="art"></div>${stamp}<span class="page-icon" aria-hidden="true">${PAGE_ICON[v]}</span></div>`;
 }
 
 function go(v) {
