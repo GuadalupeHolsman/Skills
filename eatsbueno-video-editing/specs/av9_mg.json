@@ -46,16 +46,12 @@
    ]
   },
   {
-   "src": "avatar/av9.mp4",
-   "in": 10.56,
+   "src": "broll/smartwatch.mp4",
+   "in": 1.0,
    "dur": 2.76,
    "zoom": [
-    1.2,
-    1.28
-   ],
-   "pan": [
-    0.5,
-    0.36
+    1.0,
+    1.04
    ]
   },
   {
@@ -225,19 +221,6 @@
   },
   {
    "type": "callout",
-   "text": "Not a science rule",
-   "start": 10.86,
-   "end": 13.32,
-   "y": 1060,
-   "size": 84,
-   "bg": [
-    43,
-    94,
-    82
-   ]
-  },
-  {
-   "type": "callout",
    "text": "Walk + talk",
    "start": 21.18,
    "end": 22.2,
@@ -266,6 +249,14 @@
    "start": 18.4,
    "end": 21.03,
    "x": 190,
+   "y": 380
+  },
+  {
+   "type": "mgvid",
+   "path": "mg/av9_vs.mov",
+   "start": 10.61,
+   "end": 13.27,
+   "x": 130,
    "y": 380
   }
  ],

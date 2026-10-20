@@ -26,7 +26,8 @@ add("av9", [
   (a1, b1, mg.counter("mg/av9_counter.mov", b1 - a1, 0, 10000, "STEPS", "= marketing"), 640, 380),
   (a2, b2, mg.chart("mg/av9_chart.mov", b2 - a2, "Health benefit vs. steps/day", [(plateau, (43, 94, 82), "")], "steps/day",
             "Illustrative · Paluch et al. 2022", marker=(10 / 12, "10,000"), band=(6 / 12, 8 / 12, "levels off"), ymax=1.15), 900, 330),
-  (a3, b3, mg.counter("mg/av9_plus.mov", b3 - a3, 6000, 7000, "STEPS / DAY", "+1,000", ring_to=0.7), 640, 380)],
+  (a3, b3, mg.counter("mg/av9_plus.mov", b3 - a3, 6000, 7000, "STEPS / DAY", "+1,000", ring_to=0.7), 640, 380),
+  (at(W, "it") - 0.05, at(W, "recent") - 0.15, mg.versus("mg/av9_vs.mov", at(W, "recent") - 0.1 - at(W, "it"), "Brand name", "Scientific rule"), 760, 380)],
   {"10,000 = marketing", "Benefits start\nbelow 10,000", "+1,000 steps"})
 # ---- 11 (walk after eating)
 W = glued("avatar/av10.mp4"); a1, b1 = at(W, "light") - 0.05, at(W, "helps") - 0.15

@@ -548,8 +548,8 @@ def main(spec_path):
     out = spec["out"]
     fcp = os.path.join(work, "fc.txt"); open(fcp, "w").write(";\n".join(fc))
     run(["ffmpeg", "-y", "-v", "error"] + inputs + ["-filter_complex_script", fcp, "-map", "[vout]", "-map", "[aout]",
-         *SDR_TAGS, "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-profile:v", "high", "-pix_fmt", "yuv420p",
-         "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "-t", f"{total / gs:.3f}", out])
+         *SDR_TAGS, "-c:v", "libx264", "-preset", "slow", "-crf", str(spec.get("final_crf", 19)), "-profile:v", "high", "-pix_fmt", "yuv420p",
+         "-c:a", "aac", "-b:a", str(spec.get("audio_bitrate", "192k")), "-movflags", "+faststart", "-t", f"{total / gs:.3f}", out])
     print("wrote", out, f"{total / gs:.2f}s", f"{len(ovs)} overlays", f"{len(sfx)} sfx")
 
 if __name__ == "__main__":

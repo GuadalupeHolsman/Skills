@@ -145,3 +145,24 @@ def checklist(out, dur, items, step=0.45):
             d.text((30 + 160, y + 10), it, font=F(8, 52), fill=DARK if p > 0 else (150, 140, 120))
         return im
     return write(fr, dur, out)
+
+def versus(out, dur, yes, no):
+    """'Brand name ✓' then 'Scientific rule' gets crossed out."""
+    W, H = 760, 330
+    def fr(t):
+        im = panel(W, H); d = ImageDraw.Draw(im)
+        p1 = ease((t - 0.2) / 0.35); p2 = ease((t - 0.7) / 0.35); p3 = ease((t - 1.15) / 0.4)
+        for k, (txt, col, p) in enumerate(((yes, GREEN, p1), (no, DARK, p2))):
+            y = 30 + 60 + k * 130
+            if p <= 0: continue
+            bx = 30 + 50; box = (bx, y, bx + 86, y + 86)
+            d.rounded_rectangle(box, 22, fill=(GREEN if k == 0 else ORANGE))
+            if k == 0:   # check mark
+                d.line([(bx + 20, y + 46), (bx + 38, y + 64), (bx + 68, y + 24)], fill=CREAM, width=12, joint="curve")
+            else:        # cross
+                d.line([(bx + 24, y + 24), (bx + 62, y + 62)], fill=CREAM, width=12); d.line([(bx + 62, y + 24), (bx + 24, y + 62)], fill=CREAM, width=12)
+            tx = 30 + 170; d.text((tx, y + 8), txt, font=F(8, 58), fill=col)
+            if k == 1 and p3 > 0:
+                tw = d.textlength(txt, font=F(8, 58)); d.line([(tx - 6, y + 46), (tx - 6 + (tw + 12) * p3, y + 46)], fill=ORANGE, width=10)
+        return im
+    return write(fr, dur, out)
