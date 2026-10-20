@@ -56,6 +56,34 @@
   color-scheme: dark;
 }
 
+/* Capa de vidrio: superficies translúcidas sobre un fondo de color difuso. */
+:root {
+  --glass: rgba(255, 255, 255, .42);
+  --glass-strong: rgba(255, 255, 255, .7);
+  --glass-edge: rgba(255, 255, 255, .85);
+  --glass-line: rgba(28, 48, 38, .09);
+  --sheen: linear-gradient(140deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 42%);
+  --glass-shadow: 0 1px 0 rgba(255, 255, 255, .7) inset, 0 10px 34px -14px rgba(25, 60, 45, .22);
+  --blob-a: color-mix(in srgb, var(--accent) 52%, transparent);
+  --blob-b: color-mix(in srgb, var(--work) 42%, transparent);
+  --blob-c: color-mix(in srgb, var(--warn) 40%, transparent);
+  --blob-d: color-mix(in srgb, var(--expense) 28%, transparent);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --glass: rgba(34, 40, 36, .46); --glass-strong: rgba(30, 36, 32, .78); --glass-edge: rgba(255, 255, 255, .1); --glass-line: rgba(255, 255, 255, .07);
+  --sheen: linear-gradient(140deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, 0) 40%);
+  --glass-shadow: 0 1px 0 rgba(255, 255, 255, .06) inset, 0 14px 40px -16px rgba(0, 0, 0, .7);
+  --blob-a: color-mix(in srgb, var(--accent) 22%, transparent); --blob-b: color-mix(in srgb, var(--work) 20%, transparent);
+  --blob-c: color-mix(in srgb, var(--warn) 12%, transparent); --blob-d: color-mix(in srgb, var(--expense) 10%, transparent);
+} }
+:root[data-theme="dark"] {
+  --glass: rgba(34, 40, 36, .46); --glass-strong: rgba(30, 36, 32, .78); --glass-edge: rgba(255, 255, 255, .1); --glass-line: rgba(255, 255, 255, .07);
+  --sheen: linear-gradient(140deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, 0) 40%);
+  --glass-shadow: 0 1px 0 rgba(255, 255, 255, .06) inset, 0 14px 40px -16px rgba(0, 0, 0, .7);
+  --blob-a: color-mix(in srgb, var(--accent) 22%, transparent); --blob-b: color-mix(in srgb, var(--work) 20%, transparent);
+  --blob-c: color-mix(in srgb, var(--warn) 12%, transparent); --blob-d: color-mix(in srgb, var(--expense) 10%, transparent);
+}
+
 * { box-sizing: border-box; }
 html, body { min-height: 100%; }
 body { background: var(--bg); color: var(--text); font: 15px/1.5 var(--font-body); -webkit-font-smoothing: antialiased; }
@@ -358,6 +386,50 @@ dialog footer { border-top: 1px solid var(--line); flex-wrap: wrap; }
 #toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); opacity: 0; background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 14px; font-weight: 500; transition: .2s ease-out; pointer-events: none; z-index: 50; max-width: calc(100vw - 32px); }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
 @media (max-width: 760px) { #toast { bottom: calc(146px + env(safe-area-inset-bottom, 0px)); } }
+/* ---------- vidrio ---------- */
+.app::before {
+  content: ""; position: fixed; inset: -12%; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(42% 38% at 20% 14%, var(--blob-a), transparent 72%),
+    radial-gradient(38% 34% at 84% 22%, var(--blob-b), transparent 72%),
+    radial-gradient(44% 40% at 70% 86%, var(--blob-c), transparent 72%),
+    radial-gradient(34% 34% at 10% 78%, var(--blob-d), transparent 72%);
+  filter: blur(30px);
+  animation: drift 40s ease-in-out infinite alternate;
+}
+@keyframes drift { to { transform: translate3d(2%, -2%, 0) scale(1.04); } }
+.panel, .kpi, .banner, .nav, dialog, .page-icon, .btn:not(.primary):not(.ghost), .chips, .quick, input, select, textarea {
+  -webkit-backdrop-filter: blur(18px) saturate(170%); backdrop-filter: blur(18px) saturate(170%);
+}
+.panel, .kpi {
+  background: var(--sheen), var(--glass); border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow), 0 0 0 1px var(--glass-line);
+}
+button.kpi:hover { border-color: var(--glass-edge); box-shadow: var(--glass-shadow), 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent); transform: translateY(-1px); }
+button.kpi { transition: box-shadow .2s ease-out, transform .2s ease-out; }
+.nav { background: var(--sheen), var(--glass); border-color: var(--glass-line); }
+.nav .tab:hover { background: color-mix(in srgb, var(--surface) 50%, transparent); }
+.nav .tab.active { background: var(--glass-strong); box-shadow: 0 1px 0 var(--glass-edge) inset, 0 4px 14px -6px rgba(25, 60, 45, .25); }
+.banner { background: var(--sheen), color-mix(in srgb, var(--accent) 14%, var(--glass)); border: 1px solid var(--glass-edge); }
+.banner.soft { background: var(--sheen), var(--glass); }
+.btn:not(.primary):not(.ghost) { background: var(--glass-strong); border-color: var(--glass-edge); box-shadow: 0 0 0 1px var(--glass-line), 0 2px 8px -4px rgba(25, 60, 45, .2); }
+.btn:not(.primary):not(.ghost):hover { background: var(--surface); }
+.btn.primary { box-shadow: 0 1px 0 rgba(255, 255, 255, .25) inset, 0 8px 20px -8px color-mix(in srgb, var(--accent) 70%, transparent); }
+input, select, textarea { background: var(--glass-strong); border-color: var(--glass-line); }
+.quick { background: var(--glass); border-color: var(--glass-edge); }
+.chips { background: var(--glass); box-shadow: 0 0 0 1px var(--glass-line); }
+.chip.on { background: var(--glass-strong); }
+.row.click:hover { background: color-mix(in srgb, var(--surface) 55%, transparent); }
+.hbar .ht, .pace { background: color-mix(in srgb, var(--text) 8%, transparent); }
+.cat-ico, .alert .ai { box-shadow: 0 1px 0 var(--glass-edge) inset; }
+.page-icon { background: var(--glass-strong); border-color: var(--glass-edge); box-shadow: var(--glass-shadow); }
+.cover .art { box-shadow: 0 0 0 1px var(--glass-line); }
+dialog { background: var(--sheen), var(--glass-strong); border-color: var(--glass-edge); }
+dialog::backdrop { -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.fab { box-shadow: 0 1px 0 rgba(255, 255, 255, .3) inset, 0 14px 30px -10px color-mix(in srgb, var(--accent) 80%, transparent); }
+#toast { background: color-mix(in srgb, var(--text) 88%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+@media (max-width: 760px) { .nav { background: var(--sheen), var(--glass-strong); } }
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 
