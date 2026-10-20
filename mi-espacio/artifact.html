@@ -1,243 +1,353 @@
 <title>Mi Espacio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: barra lateral estilo Notion en la compu, barra inferior en el celu; páginas de tarjetas y listas. */
+/* Layout: espacio de trabajo tipo Notion. Barra lateral fija (compu) o barra inferior + botón ＋ (celu).
+   Cada página: encabezado → fila de indicadores → panel principal → paneles de apoyo → detalle.
+   Escala de espacio en múltiplos de 4px; tipos: display (títulos y cifras), cuerpo, etiquetas. */
 :root {
-  --bg: #f7f6f3; --surface: #ffffff; --surface-2: #efeee9; --text: #2f2e2b; --muted: #77746b; --border: #e4e2db;
-  --accent: #2f6f5e; --accent-soft: #e1eee8; --on-accent: #ffffff;
-  --income: #2f8f5b; --expense: #c0533a; --warn: #b97f0c; --danger: #c0392b;
-  --work-bg: #e7ecf9; --work-fg: #3d5aa8; --late-bg: #fbe6e2; --late-fg: #b5352a;
-  --soon-bg: #fbf0d9; --soon-fg: #8a5e08; --doing-bg: #efe6f7; --doing-fg: #7a46a0;
-  --c1: #2f6f5e; --c2: #e0a03a; --c3: #c0533a; --c4: #5876c9; --c5: #9a64b8; --c6: #3e9fb0; --c7: #8a8f3c; --c8: #b8577e; --c9: #8c8a84;
-  --shadow: 0 1px 2px rgba(40,38,30,.05), 0 4px 14px rgba(40,38,30,.05);
-  --scrim: rgba(20,20,18,.38);
-  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --radius: 12px;
+  --bg: #f3f4f0;
+  --surface: #ffffff;
+  --surface-2: #eaece6;
+  --line: #e1e4dd;
+  --text: #1c211e;
+  --muted: #646b66;
+  --faint: #9aa19b;
+  --accent: #1d6b51;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcece4;
+  --bar: #cfd4cc;
+  --income: #23855a;
+  --expense: #c4553b;
+  --warn: #b57a0f;
+  --danger: #c23a2c;
+  --work: #4f63d2;
+  --work-soft: #e4e8fb;
+  --late-soft: #fbe5e0;
+  --warn-soft: #f9eed6;
+  --doing: #7b4fa6;
+  --doing-soft: #efe5f7;
+  --shadow-sm: 0 1px 2px rgba(29, 52, 41, .06);
+  --shadow: 0 1px 2px rgba(29, 52, 41, .05), 0 6px 20px -8px rgba(29, 52, 41, .12);
+  --shadow-lg: 0 24px 60px -12px rgba(15, 30, 22, .35);
+  --scrim: rgba(18, 24, 20, .4);
+  --font-display: "Bricolage Grotesque", "Figtree", system-ui, sans-serif;
+  --font-body: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --r-sm: 6px; --r: 10px; --r-lg: 14px;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #191919; --surface: #222221; --surface-2: #2c2c2a; --text: #ebe9e4; --muted: #9b988f; --border: #363634;
-  --accent: #6cc3a6; --accent-soft: #1f3530; --on-accent: #10201b;
-  --income: #6cc38f; --expense: #ec8a6f; --warn: #e7b14a; --danger: #ef7465;
-  --work-bg: #26304a; --work-fg: #9db3f0; --late-bg: #4a2620; --late-fg: #f19a8a;
-  --soon-bg: #463818; --soon-fg: #f0c56b; --doing-bg: #3a2c47; --doing-fg: #cfa6ec;
-  --c1: #6cc3a6; --c2: #e7b14a; --c3: #ec8a6f; --c4: #8aa4ef; --c5: #c497df; --c6: #6cc9d9; --c7: #c2c770; --c8: #e58fb3; --c9: #a6a39b;
-  --shadow: none; --scrim: rgba(0,0,0,.55); color-scheme: dark;
+  --bg: #121513; --surface: #1a1e1b; --surface-2: #232825; --line: #2c322e;
+  --text: #e7ebe7; --muted: #98a09a; --faint: #69716b;
+  --accent: #5fc69b; --accent-ink: #0d1f17; --accent-soft: #1b3229; --bar: #353c37;
+  --income: #63c28d; --expense: #ec8b70; --warn: #e6b04c; --danger: #f0786a;
+  --work: #8d9ff0; --work-soft: #262d4a; --late-soft: #45231e; --warn-soft: #40331a; --doing: #c9a2ea; --doing-soft: #352a42;
+  --shadow-sm: none; --shadow: none; --shadow-lg: 0 24px 60px -12px rgba(0, 0, 0, .6); --scrim: rgba(0, 0, 0, .55);
+  color-scheme: dark;
 } }
 :root[data-theme="dark"] {
-  --bg: #191919; --surface: #222221; --surface-2: #2c2c2a; --text: #ebe9e4; --muted: #9b988f; --border: #363634;
-  --accent: #6cc3a6; --accent-soft: #1f3530; --on-accent: #10201b;
-  --income: #6cc38f; --expense: #ec8a6f; --warn: #e7b14a; --danger: #ef7465;
-  --work-bg: #26304a; --work-fg: #9db3f0; --late-bg: #4a2620; --late-fg: #f19a8a;
-  --soon-bg: #463818; --soon-fg: #f0c56b; --doing-bg: #3a2c47; --doing-fg: #cfa6ec;
-  --c1: #6cc3a6; --c2: #e7b14a; --c3: #ec8a6f; --c4: #8aa4ef; --c5: #c497df; --c6: #6cc9d9; --c7: #c2c770; --c8: #e58fb3; --c9: #a6a39b;
-  --shadow: none; --scrim: rgba(0,0,0,.55); color-scheme: dark;
+  --bg: #121513; --surface: #1a1e1b; --surface-2: #232825; --line: #2c322e;
+  --text: #e7ebe7; --muted: #98a09a; --faint: #69716b;
+  --accent: #5fc69b; --accent-ink: #0d1f17; --accent-soft: #1b3229; --bar: #353c37;
+  --income: #63c28d; --expense: #ec8b70; --warn: #e6b04c; --danger: #f0786a;
+  --work: #8d9ff0; --work-soft: #262d4a; --late-soft: #45231e; --warn-soft: #40331a; --doing: #c9a2ea; --doing-soft: #352a42;
+  --shadow-sm: none; --shadow: none; --shadow-lg: 0 24px 60px -12px rgba(0, 0, 0, .6); --scrim: rgba(0, 0, 0, .55);
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
 html, body { min-height: 100%; }
-body { background: var(--bg); color: var(--text); font: 15px/1.45 var(--font); -webkit-font-smoothing: antialiased; }
+body { background: var(--bg); color: var(--text); font: 15px/1.5 var(--font-body); -webkit-font-smoothing: antialiased; }
 button, input, select, textarea { font: inherit; color: inherit; }
-h1, h2 { margin: 0; line-height: 1.2; text-wrap: balance; }
-h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; }
-h2 { font-size: 15px; font-weight: 650; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+h1 { font: 650 32px/1.1 var(--font-display); letter-spacing: -.025em; }
+h2 { font-size: 14px; font-weight: 650; letter-spacing: -.005em; }
+p { margin: 0; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.num, .amount, .value { font-variant-numeric: tabular-nums; }
+.num, .amount, .kpi-value { font-variant-numeric: tabular-nums; }
+.pos { color: var(--income); } .neg { color: var(--expense); } .muted { color: var(--muted); }
 
+/* ---------- estructura ---------- */
 .app { display: flex; min-height: 100vh; }
 .nav {
-  position: sticky; top: env(safe-area-inset-top, 0px); height: 100vh; width: 224px; flex: none;
-  display: flex; flex-direction: column; gap: 2px; padding: 16px 10px; padding-left: max(10px, env(safe-area-inset-left, 0px));
-  background: var(--surface-2); border-right: 1px solid var(--border);
+  position: sticky; top: env(safe-area-inset-top, 0px); height: 100vh; width: 236px; flex: none;
+  display: flex; flex-direction: column; gap: 2px;
+  padding-block: 20px; padding-right: 12px; padding-left: max(12px, env(safe-area-inset-left, 0px));
+  background: var(--surface-2); border-right: 1px solid var(--line);
 }
-.who { display: flex; align-items: center; gap: 10px; padding: 6px 10px; margin-bottom: 14px; border: 0; background: none; border-radius: 8px; cursor: pointer; text-align: left; }
-.who { cursor: default; }
-.avatar { width: 28px; height: 28px; border-radius: 7px; display: grid; place-items: center; font-weight: 700; font-size: 13px; color: var(--on-accent); background: var(--accent); flex: none; }
-.who .nm { font-weight: 650; }
-.who .sub { display: block; font-size: 12px; color: var(--muted); }
+.ws { display: flex; align-items: center; gap: 10px; padding: 4px 8px 20px; }
+.ws-mark { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--accent); color: var(--accent-ink); font: 700 16px/1 var(--font-display); }
+.ws-name { font: 650 16px/1.1 var(--font-display); letter-spacing: -.01em; }
+.ws-sub { font-size: 12px; color: var(--muted); }
+.nav-label { font-size: 11px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); padding: 14px 10px 6px; }
 .nav .tab {
-  position: relative; display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 0; border-radius: 8px;
-  background: none; text-align: left; cursor: pointer; color: var(--muted);
+  display: flex; align-items: center; gap: 10px; padding: 7px 10px; border: 0; border-radius: var(--r-sm);
+  background: none; text-align: left; cursor: pointer; color: var(--muted); font-weight: 500;
+  transition: background-color .15s ease-out, color .15s ease-out;
 }
-.nav .tab:hover { background: var(--border); color: var(--text); }
-.nav .tab.active { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: var(--shadow); }
-.nav .ico { width: 22px; text-align: center; }
-.badge { margin-left: auto; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 99px; background: var(--danger); color: var(--surface); font-size: 11px; font-weight: 700; display: grid; place-items: center; }
-.nav .foot { margin-top: auto; padding: 10px; font-size: 12px; color: var(--muted); }
+.nav .tab:hover { background: var(--line); color: var(--text); }
+.nav .tab.active { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: var(--shadow-sm); }
+.nav .ico { width: 20px; text-align: center; font-size: 15px; }
+.nav .count { margin-left: auto; font-size: 12px; color: var(--faint); font-variant-numeric: tabular-nums; }
+.nav .badge { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 99px; background: var(--danger); color: var(--surface); font-size: 11.5px; font-weight: 700; display: grid; place-items: center; }
+.nav .foot { margin-top: auto; padding: 10px; font-size: 12px; color: var(--faint); display: flex; gap: 6px; align-items: center; }
+.nav .foot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.nav .foot.local::before { background: var(--warn); }
+.nav .foot:empty { display: none; }
 
-main { flex: 1; min-width: 0; max-width: 1180px; padding-block: 32px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px), 4vw); padding-right: max(16px, env(safe-area-inset-right, 0px), 4vw); }
+main { flex: 1; min-width: 0; max-width: 1200px; padding-block: 40px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px), 4vw); padding-right: max(16px, env(safe-area-inset-right, 0px), 4vw); }
+.page { display: grid; gap: 20px; }
 
-/* chip de persona: solo en el celu, donde no está la barra lateral */
-.who-mobile { display: none !important; }
+.fab { display: none; }
 @media (max-width: 760px) {
   .app { display: block; }
   .nav {
     position: fixed; z-index: 10; top: auto; bottom: 0; left: 0; right: 0; width: auto; height: auto;
-    flex-direction: row; justify-content: space-around; background: var(--surface);
+    flex-direction: row; justify-content: space-around; gap: 0; background: var(--surface);
     padding: 6px max(4px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(4px, env(safe-area-inset-left, 0px));
-    border-right: 0; border-top: 1px solid var(--border);
+    border-right: 0; border-top: 1px solid var(--line);
   }
-  .who, .nav .foot { display: none; }
-  .nav .tab { flex: 1; flex-direction: column; align-items: center; gap: 2px; padding: 6px 2px; font-size: 11px; }
-  .nav .tab.active { box-shadow: none; background: var(--accent-soft); }
-  .nav .ico { font-size: 19px; }
-  .badge { position: absolute; top: 2px; right: 18%; margin: 0; }
-  main { padding-block: 16px calc(92px + env(safe-area-inset-bottom, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-  h1 { font-size: 24px; }
-  .who-mobile { display: inline-flex !important; }
+  .ws, .nav-label, .nav .foot, .nav .count { display: none; }
+  .nav .tab { position: relative; flex: 1; flex-direction: column; align-items: center; gap: 1px; padding: 6px 2px; font-size: 11px; }
+  .nav .tab.active { box-shadow: none; background: var(--accent-soft); color: var(--accent); }
+  .nav .ico { font-size: 19px; width: auto; }
+  .nav .badge { position: absolute; top: 1px; right: calc(50% - 22px); margin: 0; min-width: 17px; height: 17px; font-size: 10.5px; }
+  main { padding-block: 20px calc(100px + env(safe-area-inset-bottom, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  h1 { font-size: 27px; }
+  .head-actions { display: none !important; }
+  .fab {
+    display: grid; place-items: center; position: fixed; z-index: 11; width: 54px; height: 54px; border-radius: 16px; border: 0;
+    right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+    background: var(--accent); color: var(--accent-ink); font-size: 28px; line-height: 1; cursor: pointer; box-shadow: var(--shadow-lg);
+  }
 }
 
-.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
-.eyebrow { margin: 0 0 4px; color: var(--muted); font-size: 13px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+/* ---------- encabezado ---------- */
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.eyebrow { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.lede { margin-top: 8px; color: var(--muted); max-width: 60ch; }
+.lede strong { color: var(--text); font-weight: 600; }
 .head-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-weight: 550; white-space: nowrap; }
+/* ---------- botones ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 14px; border-radius: var(--r-sm);
+  border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap;
+  transition: background-color .15s ease-out, border-color .15s ease-out, transform .1s ease-out;
+}
 .btn:hover { background: var(--surface-2); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.btn.primary:hover { filter: brightness(1.06); }
-.btn.ghost { background: none; border-color: transparent; }
-.btn.ghost:hover { background: var(--surface-2); }
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.07); }
+.btn.ghost { background: none; border-color: transparent; color: var(--muted); }
+.btn.ghost:hover { background: var(--surface-2); color: var(--text); }
 .btn.danger { color: var(--danger); }
-.btn.sm { padding: 4px 10px; font-size: 13px; }
-.icon-btn { border: 0; background: none; cursor: pointer; padding: 6px 8px; border-radius: 6px; color: var(--muted); }
+.btn.sm { padding: 5px 10px; font-size: 13px; }
+.icon-btn { border: 0; background: none; cursor: pointer; padding: 6px 9px; border-radius: var(--r-sm); color: var(--muted); font-size: 16px; line-height: 1; }
 .icon-btn:hover { background: var(--surface-2); color: var(--text); }
 
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 16px; }
-.card, .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); min-width: 0; }
-.card { padding: 14px 16px; }
-.card .label { color: var(--muted); font-size: 13px; }
-.card .value { font-size: 22px; font-weight: 700; letter-spacing: -.01em; margin-top: 2px; }
-.card .sub { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
-.card.link { cursor: pointer; }
-.card.link:hover { border-color: var(--muted); }
-.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+/* ---------- indicadores ---------- */
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1000px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.kpi {
+  display: flex; flex-direction: column; gap: 4px; padding: 16px; min-width: 0; text-align: left;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-sm);
+}
+button.kpi { cursor: pointer; transition: border-color .15s ease-out, box-shadow .15s ease-out; }
+button.kpi:hover { border-color: var(--faint); box-shadow: var(--shadow); }
+.kpi-label { font-size: 12.5px; color: var(--muted); font-weight: 500; display: flex; justify-content: space-between; gap: 8px; }
+.kpi-value { font: 650 26px/1.15 var(--font-display); letter-spacing: -.02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kpi-foot { font-size: 12.5px; color: var(--muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-height: 20px; }
+.kpi .spark { width: 100%; height: 30px; margin-top: 2px; color: var(--accent); }
+.delta { white-space: nowrap; align-self: flex-start; font-size: 12px; font-weight: 650; padding: 1px 7px; border-radius: 99px; background: var(--surface-2); color: var(--muted); font-variant-numeric: tabular-nums; }
+.delta.up-bad, .delta.down-bad { background: var(--late-soft); color: var(--danger); }
+.delta.up-good, .delta.down-good { background: var(--accent-soft); color: var(--accent); }
+
+/* barra de ritmo: lo gastado contra lo que va del mes */
+.pace { position: relative; height: 8px; border-radius: 99px; background: var(--surface-2); margin-top: 6px; }
+.pace i { position: absolute; inset: 0 auto 0 0; border-radius: 99px; background: var(--accent); }
+.pace i.warn { background: var(--warn); } .pace i.over { background: var(--danger); }
+.pace b { position: absolute; top: -4px; width: 2px; height: 16px; border-radius: 2px; background: var(--text); opacity: .55; }
+
+/* ---------- paneles ---------- */
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
 .grid2 > .wide { grid-column: 1 / -1; }
-@media (max-width: 900px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
-.panel { padding: 16px; }
-.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-.chart-box { position: relative; height: 240px; }
-.empty { color: var(--muted); font-size: 14px; padding: 14px 6px; text-align: center; }
-.pos { color: var(--income); } .neg { color: var(--expense); } .muted { color: var(--muted); }
+.grid-main { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 900px) { .grid2, .grid-main { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); padding: 20px; min-width: 0; }
+.panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.panel-title { font: 600 17px/1.3 var(--font-display); letter-spacing: -.01em; }
+.panel-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.empty { color: var(--muted); font-size: 14px; padding: 20px 8px; text-align: center; display: grid; gap: 4px; justify-items: center; }
+.empty .em { font-size: 22px; }
 
-.month-switch { display: inline-flex; align-items: center; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 2px; }
-.month-switch span { min-width: 140px; text-align: center; font-weight: 600; }
+/* ---------- gráficos dibujados con HTML ---------- */
+.hbars { display: grid; gap: 10px; }
+.hbar { display: grid; grid-template-columns: minmax(84px, 120px) minmax(0, 1fr) auto; align-items: center; gap: 12px; font-size: 13.5px; }
+.hbar .hl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hbar .ht { height: 10px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+.hbar .ht i { display: block; height: 100%; border-radius: 99px; background: var(--bar); transform-origin: left; animation: grow .5s ease-out both; }
+.hbar.top .ht i { background: var(--accent); }
+.hbar.top .hl { font-weight: 600; }
+.hbar .hv { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.hbar .hv em { font-style: normal; color: var(--faint); margin-left: 6px; display: inline-block; min-width: 3ch; }
+@keyframes grow { from { transform: scaleX(0); } }
 
+.cols { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 8px; align-items: end; height: 190px; padding-top: 22px; border-bottom: 1px solid var(--line); }
+.col { position: relative; display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 100%; }
+.col .b { width: min(18px, 40%); border-radius: 4px 4px 1px 1px; background: var(--bar); transform-origin: bottom; animation: rise .5s ease-out both; min-height: 2px; }
+.col .b.inc { background: var(--bar); }
+.col .b.exp { background: var(--expense); opacity: .45; }
+.col.now .b.exp { opacity: 1; }
+.col .stack { width: min(26px, 60%); display: flex; flex-direction: column-reverse; border-radius: 4px 4px 1px 1px; overflow: hidden; transform-origin: bottom; animation: rise .5s ease-out both; }
+.col .stack i { display: block; }
+.col .tip { position: absolute; top: -20px; font-size: 11.5px; font-weight: 650; color: var(--text); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.col-labels { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 8px; margin-top: 6px; font-size: 11.5px; color: var(--faint); text-align: center; }
+.col-labels .now { color: var(--text); font-weight: 650; }
+@keyframes rise { from { transform: scaleY(0); } }
+.key { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin-top: 12px; }
+.key span::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 6px; background: var(--c); vertical-align: -1px; }
+
+/* ---------- listas ---------- */
 .list { display: flex; flex-direction: column; }
-.row { display: flex; align-items: center; gap: 10px; padding: 9px 6px; border-bottom: 1px solid var(--border); border-radius: 6px; }
-.row:last-child { border-bottom: 0; }
+.row { display: flex; align-items: center; gap: 12px; padding: 10px 8px; margin: 0 -8px; border-radius: var(--r-sm); transition: background-color .12s ease-out; }
+.row + .row { box-shadow: 0 -1px 0 var(--line); }
 .row.click { cursor: pointer; }
-.row.click:hover { background: var(--surface-2); }
+.row.click:hover { background: var(--surface-2); box-shadow: none; }
+.row.click:hover + .row { box-shadow: none; }
 .row .main { flex: 1; min-width: 0; }
-.row .title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.row .meta { color: var(--muted); font-size: 12.5px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.row .title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+.row .meta { color: var(--muted); font-size: 12.5px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 2px; }
 .row .amount { font-weight: 650; white-space: nowrap; }
-.day-head { font-size: 12.5px; color: var(--muted); font-weight: 600; margin: 12px 6px 2px; }
+.cat-ico { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: var(--surface-2); font-size: 16px; flex: none; }
+.day-head { display: flex; justify-content: space-between; font-size: 12px; color: var(--faint); font-weight: 650; letter-spacing: .04em; text-transform: uppercase; margin: 18px 0 4px; }
+.day-head:first-child { margin-top: 0; }
 
-.tag { display: inline-block; padding: 1px 7px; border-radius: 99px; font-size: 11.5px; background: var(--surface-2); color: var(--muted); }
-.tag.work { background: var(--work-bg); color: var(--work-fg); }
+.tag { display: inline-flex; align-items: center; padding: 1px 8px; border-radius: 99px; font-size: 11.5px; font-weight: 600; background: var(--surface-2); color: var(--muted); }
+.tag.work { background: var(--work-soft); color: var(--work); }
 .tag.personal, .tag.ok { background: var(--accent-soft); color: var(--accent); }
-.tag.late { background: var(--late-bg); color: var(--late-fg); }
-.tag.soon { background: var(--soon-bg); color: var(--soon-fg); }
-.tag.doing { background: var(--doing-bg); color: var(--doing-fg); }
-.tag.example { background: var(--surface-2); color: var(--muted); border: 1px dashed var(--border); }
-.prio { width: 8px; height: 8px; border-radius: 50%; flex: none; }
-.prio.alta { background: var(--danger); } .prio.media { background: var(--warn); } .prio.baja { background: var(--border); }
+.tag.late { background: var(--late-soft); color: var(--danger); }
+.tag.soon { background: var(--warn-soft); color: var(--warn); }
+.tag.doing { background: var(--doing-soft); color: var(--doing); }
+.tag.example { background: none; border: 1px dashed var(--line); color: var(--faint); }
+.prio { width: 3px; align-self: stretch; border-radius: 3px; flex: none; background: transparent; }
+.prio.alta { background: var(--danger); } .prio.media { background: var(--warn); opacity: .7; }
 
-.check { width: 20px; height: 20px; flex: none; border-radius: 6px; border: 1.6px solid var(--muted); background: none; cursor: pointer; display: grid; place-items: center; padding: 0; color: transparent; font-size: 13px; }
-.check:hover { border-color: var(--accent); }
-.check.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.done .title { text-decoration: line-through; color: var(--muted); }
+.check {
+  width: 20px; height: 20px; flex: none; border-radius: 6px; border: 1.5px solid var(--faint); background: none;
+  cursor: pointer; display: grid; place-items: center; padding: 0; color: transparent; font-size: 12px; font-weight: 800;
+  transition: background-color .15s ease-out, border-color .15s ease-out;
+}
+.check:hover { border-color: var(--accent); background: var(--accent-soft); }
+.check.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); animation: pop .25s ease-out; }
+@keyframes pop { 50% { transform: scale(1.18); } }
+.done .title { text-decoration: line-through; color: var(--faint); }
 
-.budget { display: block; padding: 8px 6px; }
+.budget { display: block; padding: 12px 8px; }
 .budget .top { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; }
-.bar { height: 7px; border-radius: 99px; background: var(--surface-2); margin-top: 6px; overflow: hidden; }
-.bar i { display: block; height: 100%; border-radius: 99px; background: var(--accent); }
-.bar i.warn { background: var(--warn); } .bar i.over { background: var(--danger); }
+.budget .top strong { font-weight: 600; }
+.budget .note { font-size: 12px; color: var(--muted); margin-top: 6px; }
 
-.alert { display: flex; gap: 10px; align-items: flex-start; padding: 10px 6px; border-bottom: 1px solid var(--border); }
-.alert:last-child { border-bottom: 0; }
-.alert .dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 7px; flex: none; background: var(--accent); }
-.alert.warn .dot { background: var(--warn); } .alert.late .dot { background: var(--danger); }
-.alert .t { font-weight: 600; } .alert .b { color: var(--muted); font-size: 13.5px; }
+.alert { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; }
+.alert + .alert { border-top: 1px solid var(--line); }
+.alert .ai { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; flex: none; background: var(--accent-soft); font-size: 14px; }
+.alert.warn .ai { background: var(--warn-soft); } .alert.late .ai { background: var(--late-soft); }
+.alert .t { font-weight: 600; }
+.alert .b { color: var(--muted); font-size: 13.5px; }
+.alert .main { flex: 1; min-width: 0; }
 
-.quick { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-.quick input[name=title] { flex: 1 1 220px; }
-.quick input, .quick select { width: auto; }
-.chips { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
-.chip { border: 1px solid var(--border); background: var(--surface); padding: 5px 12px; border-radius: 99px; cursor: pointer; font-size: 13.5px; }
-.chip.on { background: var(--text); color: var(--bg); border-color: var(--text); }
-.group-title { display: flex; gap: 8px; font-size: 13px; font-weight: 650; color: var(--muted); margin: 16px 6px 4px; }
+/* ---------- tareas ---------- */
+.quick { display: flex; gap: 8px; flex-wrap: wrap; padding: 6px; border: 1px solid var(--line); border-radius: var(--r); background: var(--bg); margin-bottom: 14px; }
+.quick:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.quick input[name=title] { flex: 1 1 220px; border: 0; background: none; box-shadow: none; }
+.quick input[name=title]:focus { box-shadow: none; }
+.quick input[type=date], .quick select { width: auto; background: var(--surface); }
+.chips { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--r); background: var(--surface-2); margin-bottom: 6px; }
+.chip { border: 0; background: none; padding: 5px 12px; border-radius: 7px; cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--muted); }
+.chip.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
+.group-title { display: flex; align-items: baseline; gap: 8px; font-size: 12px; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; color: var(--faint); margin: 20px 0 4px; }
+.group-title.late { color: var(--danger); }
 
-input, select, textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); outline: none; }
+/* ---------- formularios ---------- */
+input, select, textarea { width: 100%; padding: 9px 11px; border-radius: var(--r-sm); border: 1px solid var(--line); background: var(--surface); outline: none; transition: border-color .15s, box-shadow .15s; }
 input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-textarea { min-height: 130px; resize: vertical; line-height: 1.5; }
-label.field { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
-label.field > span { font-weight: 550; }
-.fields { display: grid; gap: 12px; }
+textarea { min-height: 130px; resize: vertical; line-height: 1.55; }
+label.field { display: grid; gap: 6px; font-size: 13px; color: var(--muted); }
+label.field > span { font-weight: 600; }
+.fields { display: grid; gap: 14px; }
 .fields.two { grid-template-columns: 1fr 1fr; }
 @media (max-width: 480px) { .fields.two { grid-template-columns: 1fr; } }
-.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; background: var(--surface-2); padding: 3px; border-radius: 9px; gap: 3px; position: relative; }
+.big-amount { font: 650 28px/1.2 var(--font-display) !important; letter-spacing: -.02em; padding: 10px 12px !important; font-variant-numeric: tabular-nums; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; background: var(--surface-2); padding: 3px; border-radius: var(--r); gap: 3px; position: relative; }
 .seg input { position: absolute; opacity: 0; pointer-events: none; width: 1px; }
-.seg label { text-align: center; padding: 6px; border-radius: 7px; cursor: pointer; font-weight: 550; color: var(--muted); }
-.seg input:checked + label { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.seg label { text-align: center; padding: 7px; border-radius: 7px; cursor: pointer; font-weight: 600; color: var(--muted); transition: background-color .15s; }
+.seg input:checked + label { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
 .seg input:focus-visible + label { outline: 2px solid var(--accent); }
-.switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.switch:last-of-type { border-bottom: 0; }
-.switch input { width: 40px; height: 22px; appearance: none; background: var(--border); border-radius: 99px; position: relative; cursor: pointer; flex: none; border: 0; padding: 0; transition: background .15s; }
-.switch input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--surface); transition: transform .15s; }
+.switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; }
+.switch + .switch { border-top: 1px solid var(--line); }
+.switch input { width: 40px; height: 22px; appearance: none; background: var(--bar); border-radius: 99px; position: relative; cursor: pointer; flex: none; border: 0; padding: 0; transition: background .15s; }
+.switch input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--surface); transition: transform .15s ease-out; box-shadow: var(--shadow-sm); }
 .switch input:checked { background: var(--accent); }
 .switch input:checked::after { transform: translateX(18px); }
 .switch .desc { font-size: 12.5px; color: var(--muted); }
 .inline { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .inline input { width: auto; flex: 1 1 160px; }
-.hours { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 10px; }
-.help { color: var(--muted); font-size: 13px; margin: 4px 0 10px; }
-.settings h2 + .help { margin-top: 4px; }
-.settings .panel h2:not(:first-child) { margin-top: 18px; }
+.hours { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 14px; }
+.help { color: var(--muted); font-size: 13.5px; margin: 4px 0 12px; }
+.settings .panel h2 { font: 600 17px/1.3 var(--font-display); }
+.settings .panel h2:not(:first-child) { margin-top: 24px; }
 
-dialog { border: 1px solid var(--border); border-radius: 14px; padding: 0; width: min(520px, calc(100vw - 24px)); background: var(--surface); color: var(--text); box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+/* ---------- modal ---------- */
+dialog { border: 1px solid var(--line); border-radius: 16px; padding: 0; width: min(520px, calc(100vw - 24px)); background: var(--surface); color: var(--text); box-shadow: var(--shadow-lg); }
+dialog[open] { animation: rise-in .2s ease-out; }
+@keyframes rise-in { from { opacity: 0; transform: translateY(8px); } }
 dialog::backdrop { background: var(--scrim); }
-dialog header, dialog footer { display: flex; align-items: center; gap: 8px; padding: 14px 16px; }
-dialog header { justify-content: space-between; border-bottom: 1px solid var(--border); }
-dialog footer { border-top: 1px solid var(--border); flex-wrap: wrap; }
+dialog header, dialog footer { display: flex; align-items: center; gap: 8px; padding: 14px 18px; }
+dialog header { justify-content: space-between; }
+dialog header h2 { font: 600 18px/1.3 var(--font-display); }
+dialog footer { border-top: 1px solid var(--line); flex-wrap: wrap; }
 .spacer { flex: 1; }
-.modal-body { padding: 16px; max-height: min(70vh, 640px); overflow: auto; }
-@media (max-width: 760px) { dialog { margin: auto auto 0; width: 100vw; max-width: 100vw; border-radius: 16px 16px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); } }
+.modal-body { padding: 4px 18px 18px; max-height: min(70vh, 640px); overflow: auto; }
+@media (max-width: 760px) { dialog { margin: auto auto 0; width: 100vw; max-width: 100vw; border-radius: 18px 18px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); } }
+.picker { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pick { display: grid; gap: 6px; justify-items: start; padding: 14px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); cursor: pointer; text-align: left; font-weight: 600; }
+.pick:hover { border-color: var(--accent); background: var(--accent-soft); }
+.pick span { font-size: 20px; }
 
-.people { display: grid; gap: 10px; }
-.person { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); cursor: pointer; text-align: left; width: 100%; }
-.person:hover, .person.on { border-color: var(--accent); background: var(--accent-soft); }
-.avatar.big { width: 36px; height: 36px; font-size: 15px; border-radius: 9px; }
-
-.banner { display: flex; align-items: center; gap: 12px; justify-content: space-between; flex-wrap: wrap; padding: 12px 14px; margin-bottom: 16px; border-radius: var(--radius); background: var(--accent-soft); font-size: 14px; }
-.banner.soft { background: var(--surface-2); }
-#toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); opacity: 0; background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 14px; transition: .2s; pointer-events: none; z-index: 50; max-width: calc(100vw - 32px); }
+.banner { display: flex; align-items: center; gap: 12px; justify-content: space-between; flex-wrap: wrap; padding: 12px 16px; border-radius: var(--r-lg); background: var(--accent-soft); font-size: 14px; }
+.banner.soft { background: var(--surface-2); color: var(--muted); }
+#toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); opacity: 0; background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 14px; font-weight: 500; transition: .2s ease-out; pointer-events: none; z-index: 50; max-width: calc(100vw - 32px); }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
-@media (max-width: 760px) { #toast { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); } }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (max-width: 760px) { #toast { bottom: calc(146px + env(safe-area-inset-bottom, 0px)); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 
 <div class="app">
   <nav class="nav" aria-label="Secciones">
-    <div class="who"><span class="avatar">L</span><span><span class="nm">Lupe</span><span class="sub">Mi Espacio</span></span></div>
+    <div class="ws"><span class="ws-mark">L</span><span><span class="ws-name">Mi Espacio</span><br><span class="ws-sub">de Lupe</span></span></div>
     <button class="tab" data-view="inicio" type="button"><span class="ico">🏠</span><span>Inicio</span><span class="badge" id="alert-badge" hidden></span></button>
+    <div class="nav-label">Espacios</div>
     <button class="tab" data-view="finanzas" type="button"><span class="ico">💸</span><span>Finanzas</span></button>
-    <button class="tab" data-view="laburo" type="button"><span class="ico">💼</span><span>Laburo</span></button>
-    <button class="tab" data-view="personal" type="button"><span class="ico">🌱</span><span>Personal</span></button>
+    <button class="tab" data-view="laburo" type="button"><span class="ico">💼</span><span>Laburo</span><span class="count" id="count-work"></span></button>
+    <button class="tab" data-view="personal" type="button"><span class="ico">🌱</span><span>Personal</span><span class="count" id="count-personal"></span></button>
+    <div class="nav-label">General</div>
     <button class="tab" data-view="ajustes" type="button"><span class="ico">⚙️</span><span>Ajustes</span></button>
     <div class="foot" id="store-note"></div>
   </nav>
   <main id="view"><p class="muted">Cargando…</p></main>
 </div>
+<button class="fab" type="button" data-action="quickAdd" aria-label="Agregar">＋</button>
 <dialog id="modal"><form id="modal-form" method="dialog"></form></dialog>
 <div id="toast" role="status" aria-live="polite"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 (() => {
 // ---------- constantes ----------
 const person = { key: 'lupe', name: 'Lupe' };
 const EXPENSE_CATS = ['Comida', 'Súper', 'Transporte', 'Casa', 'Servicios', 'Salud', 'Salidas', 'Ropa', 'Suscripciones', 'Educación', 'Otros'];
 const INCOME_CATS = ['Sueldo', 'Freelance', 'Ventas', 'Otros'];
+const CAT_ICON = { Comida: '🍝', 'Súper': '🛒', Transporte: '🚌', Casa: '🏠', Servicios: '💡', Salud: '🩺', Salidas: '🍷', Ropa: '👗', Suscripciones: '📺', 'Educación': '📚', Sueldo: '💼', Freelance: '🧾', Ventas: '🏷️' };
 const AREAS = { work: 'Laburo', personal: 'Personal' };
 const PRIO = { alta: 'Alta', media: 'Media', baja: 'Baja' };
 const PRIO_ORDER = { alta: 0, media: 1, baja: 2 };
@@ -255,15 +365,18 @@ const addDays = (s, n) => { const d = parseDate(s); d.setDate(d.getDate() + n); 
 const daysBetween = (a, b) => Math.round((parseDate(b) - parseDate(a)) / 864e5);
 const thisMonth = () => today().slice(0, 7);
 const shiftMonth = (mk, n) => { const [y, m] = mk.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}`; };
+const daysInMonth = mk => { const [y, m] = mk.split('-').map(Number); return new Date(y, m, 0).getDate(); };
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
-const monthName = (mk, short) => { const [y, m] = mk.split('-').map(Number); return new Date(y, m - 1, 1).toLocaleDateString('es-AR', short ? { month: 'short' } : { month: 'long', year: 'numeric' }); };
+const monthName = (mk, short) => { const [y, m] = mk.split('-').map(Number); return new Date(y, m - 1, 1).toLocaleDateString('es-AR', short ? { month: 'short' } : { month: 'long', year: 'numeric' }).replace('.', ''); };
+const monthOnly = mk => { const [y, m] = mk.split('-').map(Number); return new Date(y, m - 1, 1).toLocaleDateString('es-AR', { month: 'long' }); };
 const prettyDay = s => cap(parseDate(s).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' }));
-const shortDay = s => parseDate(s).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' });
+const shortDay = s => parseDate(s).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }).replace('.', '');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fmt = (n, cur = 'ARS') => new Intl.NumberFormat('es-AR', { style: 'currency', currency: cur, maximumFractionDigits: cur === 'USD' ? 2 : 0 }).format(n || 0);
-const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const fmtShort = n => '$ ' + new Intl.NumberFormat('es-AR', { notation: 'compact', maximumFractionDigits: 1 }).format(n || 0);
 const lsGet = k => { try { return localStorage.getItem(k); } catch { return null; } };
 const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch { } };
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 
 function toast(msg) {
   const t = $('#toast');
@@ -281,7 +394,7 @@ function setSettingsFrom(obj) {
   state.settings = { ...DEFAULT_SETTINGS, ...s, notif: { ...DEFAULT_SETTINGS.notif, ...(s.notif || {}) } };
 }
 
-// Guarda en la base del artifact (privada por cuenta, separada por persona).
+// Guarda en la base del artifact (privada para esta cuenta).
 // Sin base (vista previa, sesión cerrada) guarda en este navegador.
 const Store = {
   mode: 'starting', db: null, base: null, unsubs: [],
@@ -302,7 +415,6 @@ const Store = {
     this.unsubs = [];
     COLLS.forEach(c => { state[c] = []; });
     setSettingsFrom(null);
-    if (!person) { render(); return; }
     if (this.mode === 'cloud') {
       this.base = this.db.doc(`data/users/${this.uid}/${person.key}`);
       this.unsubs.push(this.base.onSnapshot(s => { setSettingsFrom(s.exists ? s.data().settings : null); soon(); }, e => this.fail(e)));
@@ -323,7 +435,7 @@ const Store = {
   },
 
   persistLocal() {
-    if (this.mode !== 'cloud' && person) lsSet('miespacio:data:' + person.key, JSON.stringify(state));
+    if (this.mode !== 'cloud') lsSet('miespacio:data:' + person.key, JSON.stringify(state));
   },
 
   // Una escritura por vez, en orden, para no saturar la base.
@@ -365,12 +477,14 @@ function soon() {
   requestAnimationFrame(() => {
     renderQueued = false;
     const typing = document.activeElement?.matches('main input, main textarea');
-    if (!$('#modal').open && !typing) render(); else updateBadge();
+    if (!$('#modal').open && !typing) render(); else updateNav();
   });
 }
 
 function noteStore() {
-  $('#store-note').textContent = Store.mode === 'cloud' ? 'Guardado en tu cuenta de Claude' : Store.mode === 'local' ? 'Guardado solo en este navegador' : '';
+  const el = $('#store-note');
+  el.textContent = Store.mode === 'cloud' ? 'Guardado en tu cuenta' : Store.mode === 'local' ? 'Guardado en este navegador' : '';
+  el.classList.toggle('local', Store.mode === 'local');
 }
 
 const upsert = (coll, item) => Store.put(coll, { ...item, updatedAt: Date.now() });
@@ -396,10 +510,15 @@ function byCategory(mk) {
   return Object.entries(m).sort((a, b) => b[1] - a[1]);
 }
 
-function billDue(b, mk) {
-  const [y, m] = mk.split('-').map(Number);
-  return `${mk}-${pad(Math.min(+b.day, new Date(y, m, 0).getDate()))}`;
+// Qué parte del mes ya pasó (1 para meses anteriores, 0 para futuros).
+function monthElapsed(mk) {
+  const cur = thisMonth();
+  if (mk < cur) return 1;
+  if (mk > cur) return 0;
+  return new Date().getDate() / daysInMonth(mk);
 }
+
+function billDue(b, mk) { return `${mk}-${pad(Math.min(+b.day, daysInMonth(mk)))}`; }
 
 // Pagos sin marcar de este mes (incluye vencidos) y del próximo, dentro de `days` días.
 function upcomingBills(days, from = today()) {
@@ -419,6 +538,8 @@ function categories(type) {
   const used = state.tx.filter(t => t.type === type).map(t => t.category);
   return [...new Set([...base, ...used, ...(type === 'expense' ? state.budgets.map(b => b.category) : [])])];
 }
+
+const catIcon = c => CAT_ICON[c] || '•';
 
 // ---------- tareas ----------
 function sortTasks(list) {
@@ -442,6 +563,7 @@ function groupTasks(list) {
 }
 
 const pendingTasks = area => state.tasks.filter(t => t.status !== 'done' && (!area || t.area === area));
+const dueByToday = area => pendingTasks(area).filter(t => t.due && t.due <= today());
 
 function dueLabel(due) {
   if (!due) return '';
@@ -462,55 +584,137 @@ function alerts() {
   const dueTom = pending.filter(x => x.due === addDays(t, 1));
   const names = l => l.slice(0, 3).map(x => x.title).join(', ') + (l.length > 3 ? ` y ${l.length - 3} más` : '');
   if (n.summary && h >= s.summaryHour) {
-    const w = [...overdue, ...dueToday].filter(x => x.area === 'work').length, p = [...overdue, ...dueToday].filter(x => x.area === 'personal').length;
+    const all = [...overdue, ...dueToday];
+    const w = all.filter(x => x.area === 'work').length, p = all.filter(x => x.area === 'personal').length;
     const parts = [w && `${w} de laburo`, p && `${p} personal${p > 1 ? 'es' : ''}`].filter(Boolean);
-    out.push({ kind: '', title: 'Resumen de hoy', body: parts.length ? `Para hoy: ${parts.join(' y ')}.` : 'Nada pendiente para hoy.' });
+    out.push({ kind: '', icon: '☀️', title: 'Resumen de hoy', body: parts.length ? `Tenés ${parts.join(' y ')} para hoy.` : 'Nada pendiente para hoy.' });
   }
   if (n.tasks) {
-    if (overdue.length) out.push({ kind: 'late', title: `${overdue.length} tarea${overdue.length > 1 ? 's' : ''} vencida${overdue.length > 1 ? 's' : ''}`, body: names(overdue) });
-    if (dueToday.length && h >= s.taskHour) out.push({ kind: 'warn', title: 'Vencen hoy y siguen pendientes', body: names(dueToday) });
-    if (dueTom.length && h >= s.taskHour) out.push({ kind: '', title: 'Vencen mañana', body: names(dueTom) });
+    if (overdue.length) out.push({ kind: 'late', icon: '⏰', title: `${plural(overdue.length, 'tarea vencida', 'tareas vencidas')}`, body: names(overdue) });
+    if (dueToday.length && h >= s.taskHour) out.push({ kind: 'warn', icon: '📌', title: 'Vencen hoy y siguen pendientes', body: names(dueToday) });
+    if (dueTom.length && h >= s.taskHour) out.push({ kind: '', icon: '🗓️', title: 'Vencen mañana', body: names(dueTom) });
   }
   if (n.bills) {
     for (const b of upcomingBills(+s.billDaysBefore)) {
       const d = daysBetween(t, b.due);
-      const when = d < 0 ? `venció hace ${-d} día${d < -1 ? 's' : ''}` : d === 0 ? 'vence hoy' : d === 1 ? 'vence mañana' : `vence en ${d} días`;
-      out.push({ kind: d <= 0 ? 'late' : 'warn', title: `${b.name} ${when}`, body: `${fmt(+b.amount, b.currency)} · día ${b.day}`, bill: b });
+      const when = d < 0 ? `venció hace ${plural(-d, 'día', 'días')}` : d === 0 ? 'vence hoy' : d === 1 ? 'vence mañana' : `vence en ${d} días`;
+      out.push({ kind: d <= 0 ? 'late' : 'warn', icon: '💸', title: `${b.name} ${when}`, body: `${fmt(+b.amount, b.currency)} · día ${b.day} de cada mes`, bill: b });
     }
   }
   if (n.budget) {
     const spent = Object.fromEntries(byCategory(thisMonth()));
     for (const b of state.budgets) {
       const p = (spent[b.category] || 0) / b.amount * 100;
-      if (p >= 80) out.push({ kind: p > 100 ? 'late' : 'warn', title: p > 100 ? `Te pasaste en ${b.category}` : `${b.category}: usaste el ${Math.round(p)}%`, body: `${fmt(spent[b.category])} de ${fmt(+b.amount)}` });
+      if (p >= 80) out.push({ kind: p > 100 ? 'late' : 'warn', icon: '📊', title: p > 100 ? `Te pasaste en ${b.category}` : `${b.category}: usaste el ${Math.round(p)}%`, body: `${fmt(spent[b.category])} de ${fmt(+b.amount)}` });
     }
   }
   if (n.evening && h >= s.eveningHour && !state.tx.some(x => x.date === t)) {
-    out.push({ kind: 'warn', title: '¿Cargaste tus gastos de hoy?', body: 'Todavía no anotaste nada hoy.', evening: true });
+    out.push({ kind: 'warn', icon: '✍️', title: '¿Cargaste tus gastos de hoy?', body: 'Todavía no anotaste nada hoy.', evening: true });
   }
   return out;
 }
 
-function updateBadge() {
-  const n = person ? alerts().filter(a => a.kind).length : 0;
+function updateNav() {
+  const n = alerts().filter(a => a.kind).length;
   const b = $('#alert-badge');
   b.hidden = !n;
   b.textContent = n;
+  $('#count-work').textContent = pendingTasks('work').length || '';
+  $('#count-personal').textContent = pendingTasks('personal').length || '';
 }
+
+// ---------- gráficos (HTML puro, siguen el tema) ----------
+function spark(values) {
+  if (values.every(v => !v)) return '';
+  const min = Math.min(...values), max = Math.max(...values), span = max - min || 1;
+  const pts = values.map((v, i) => [i / (values.length - 1) * 100, 26 - (v - min) / span * 22]);
+  const line = pts.map(p => p.map(n => n.toFixed(1)).join(',')).join(' ');
+  const [lx, ly] = pts[pts.length - 1];
+  return `<svg class="spark" viewBox="0 -2 104 32" preserveAspectRatio="none" aria-hidden="true">
+    <polygon points="0,28 ${line} 100,28" fill="currentColor" opacity=".1"></polygon>
+    <polyline points="${line}" fill="none" stroke="currentColor" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"></polyline>
+    <circle cx="${lx}" cy="${ly}" r="2.4" fill="currentColor"></circle></svg>`;
+}
+
+function catBars(mk) {
+  const data = byCategory(mk);
+  if (!data.length) return { title: 'Todavía no hay gastos este mes', html: '<div class="empty"><span class="em">🧾</span>Cuando cargues gastos, acá ves en qué se va la plata.</div>' };
+  const total = data.reduce((s, d) => s + d[1], 0), max = data[0][1];
+  const shown = data.slice(0, 6), rest = data.slice(6).reduce((s, d) => s + d[1], 0);
+  if (rest) shown.push(['Otras', rest]);
+  const html = `<div class="hbars">${shown.map(([c, v], i) => `<div class="hbar ${i === 0 ? 'top' : ''}">
+      <span class="hl">${esc(c)}</span><span class="ht"><i style="width:${(v / max * 100).toFixed(1)}%;animation-delay:${i * 40}ms"></i></span>
+      <span class="hv">${fmtShort(v)}<em>${Math.round(v / total * 100)}%</em></span></div>`).join('')}</div>`;
+  return { title: `${data[0][0]} se lleva el ${Math.round(data[0][1] / total * 100)}% de tus gastos`, html };
+}
+
+function monthCols(mk) {
+  const months = Array.from({ length: 6 }, (_, i) => shiftMonth(mk, i - 5));
+  const t = months.map(totals);
+  const max = Math.max(1, ...t.flatMap(x => [x.inc, x.exp]));
+  const cur = t[5], prev = t[4];
+  let title = 'Ingresos y gastos de los últimos 6 meses';
+  if (cur.exp && prev.exp) {
+    const d = Math.round((cur.exp / prev.exp - 1) * 100);
+    title = d === 0 ? `Gastaste lo mismo que en ${monthOnly(months[4])}` : `Gastaste ${Math.abs(d)}% ${d > 0 ? 'más' : 'menos'} que en ${monthOnly(months[4])}`;
+    if (mk === thisMonth()) title += ' (y el mes no terminó)';
+  }
+  const html = `<div class="cols" style="--n:6">${t.map((x, i) => `<div class="col ${i === 5 ? 'now' : ''}">
+      ${i === 5 && x.exp ? `<span class="tip">${fmtShort(x.exp)}</span>` : ''}
+      <span class="b inc" title="Ingresos ${fmt(x.inc)}" style="height:${(x.inc / max * 100).toFixed(1)}%;animation-delay:${i * 40}ms"></span>
+      <span class="b exp" title="Gastos ${fmt(x.exp)}" style="height:${(x.exp / max * 100).toFixed(1)}%;animation-delay:${i * 40 + 20}ms"></span></div>`).join('')}</div>
+    <div class="col-labels" style="--n:6">${months.map((m, i) => `<span class="${i === 5 ? 'now' : ''}">${monthName(m, true)}</span>`).join('')}</div>
+    <div class="key"><span style="--c:var(--bar)">Ingresos</span><span style="--c:var(--expense)">Gastos</span></div>`;
+  return { title, html };
+}
+
+function doneCols() {
+  const start = parseDate(today());
+  start.setDate(start.getDate() - ((start.getDay() + 6) % 7)); // lunes de esta semana
+  const weeks = Array.from({ length: 8 }, (_, i) => { const d = new Date(start); d.setDate(d.getDate() - (7 - i) * 7); return d; });
+  const counts = weeks.map((w, i) => {
+    const from = w.getTime(), to = i < 7 ? weeks[i + 1].getTime() : Infinity;
+    const done = state.tasks.filter(t => t.status === 'done' && t.doneAt >= from && t.doneAt < to);
+    return { work: done.filter(t => t.area === 'work').length, personal: done.filter(t => t.area === 'personal').length };
+  });
+  const max = Math.max(1, ...counts.map(c => c.work + c.personal));
+  const now = counts[7].work + counts[7].personal;
+  const avg = counts.slice(0, 7).reduce((s, c) => s + c.work + c.personal, 0) / 7;
+  const title = !state.tasks.some(t => t.status === 'done') ? 'Acá vas a ver cuántas tareas terminás por semana'
+    : `${now === 1 ? 'Terminaste 1 tarea' : `Terminaste ${now} tareas`} esta semana` + (avg ? ` · tu promedio es ${avg.toFixed(1).replace('.', ',')}` : '');
+  const html = `<div class="cols" style="--n:8">${counts.map((c, i) => {
+      const tot = c.work + c.personal;
+      return `<div class="col ${i === 7 ? 'now' : ''}">${tot && i === 7 ? `<span class="tip">${tot}</span>` : ''}
+        <span class="stack" style="height:${(tot / max * 100).toFixed(1)}%;animation-delay:${i * 35}ms" title="${c.work} de laburo, ${c.personal} personales">
+          <i style="height:${tot ? c.work / tot * 100 : 0}%;background:var(--work)"></i><i style="height:${tot ? c.personal / tot * 100 : 0}%;background:var(--accent)"></i></span></div>`;
+    }).join('')}</div>
+    <div class="col-labels" style="--n:8">${weeks.map((w, i) => `<span class="${i === 7 ? 'now' : ''}">${i === 7 ? 'Esta' : w.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }).replace('.', '')}</span>`).join('')}</div>
+    <div class="key"><span style="--c:var(--work)">Laburo</span><span style="--c:var(--accent)">Personal</span></div>`;
+  return { title, html };
+}
+
+// Presupuesto: lo gastado contra la parte del mes que ya pasó.
+function paceInfo(mk) {
+  const spent = Object.fromEntries(byCategory(mk));
+  const total = state.budgets.reduce((s, b) => s + +b.amount, 0);
+  const used = state.budgets.reduce((s, b) => s + (spent[b.category] || 0), 0);
+  const p = total ? used / total : 0, e = monthElapsed(mk);
+  const cls = p > 1 ? 'over' : p > e + 0.05 ? 'warn' : '';
+  const verdict = p > 1 ? 'Te pasaste del presupuesto' : p > e + 0.05 ? 'Vas más rápido que el mes' : 'Vas bien';
+  return { total, used, p, e, cls, verdict };
+}
+
+const paceBar = (p, e, cls) => `<div class="pace" title="La marca es el día de hoy"><i class="${cls}" style="width:${Math.min(p, 1) * 100}%"></i>${e > 0 && e < 1 ? `<b style="left:calc(${(e * 100).toFixed(1)}% - 1px)"></b>` : ''}</div>`;
 
 // ---------- vistas ----------
 const VIEW_KEYS = ['inicio', 'finanzas', 'laburo', 'personal', 'ajustes'];
 let view = VIEW_KEYS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio';
 const ui = { month: thisMonth(), filter: { work: 'pending', personal: 'pending' } };
-let charts = [];
 
 function render() {
   document.querySelectorAll('.nav [data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-  charts.forEach(c => c.destroy());
-  charts = [];
-  $('#view').innerHTML = VIEWS[view]();
-  AFTER[view]?.();
-  updateBadge();
+  $('#view').innerHTML = `<div class="page">${VIEWS[view]()}</div>`;
+  updateNav();
 }
 
 function go(v) {
@@ -520,20 +724,18 @@ function go(v) {
   window.scrollTo(0, 0);
 }
 
-const whoChip = () => '';
-
 function taskRow(t, showArea) {
   const done = t.status === 'done';
   return `<div class="row click ${done ? 'done' : ''}" data-action="editTask" data-id="${t.id}">
-    <button type="button" class="check ${done ? 'on' : ''}" data-action="toggleTask" data-id="${t.id}" aria-label="${done ? 'Marcar pendiente' : 'Marcar hecha'}">✓</button>
     <span class="prio ${esc(t.priority || 'media')}" title="Prioridad ${esc(PRIO[t.priority] || 'Media')}"></span>
+    <button type="button" class="check ${done ? 'on' : ''}" data-action="toggleTask" data-id="${t.id}" aria-label="${done ? 'Marcar pendiente' : 'Marcar hecha'}">✓</button>
     <div class="main">
       <div class="title">${esc(t.title)}</div>
       <div class="meta">
         ${showArea ? `<span class="tag ${t.area}">${AREAS[t.area]}</span>` : ''}
         ${t.status === 'doing' ? '<span class="tag doing">En curso</span>' : ''}
         ${done ? '' : dueLabel(t.due)}
-        ${t.notes ? '<span title="Tiene notas">📝</span>' : ''}
+        ${t.notes ? '<span title="Tiene notas">📝 Notas</span>' : ''}
         ${t.example ? '<span class="tag example">Ejemplo</span>' : ''}
       </div>
     </div>
@@ -544,125 +746,148 @@ function exampleBanner() {
   const has = COLLS.some(c => state[c].some(x => x.example));
   const empty = COLLS.every(c => !state[c].length);
   if (has) return `<div class="banner soft"><span>Estás viendo datos de ejemplo. Borralos cuando quieras empezar con lo tuyo.</span><button type="button" class="btn sm" data-action="clearExamples">Borrar ejemplos</button></div>`;
-  if (empty) return `<div class="banner"><span>Tu espacio está vacío. Cargá tu primer gasto o tarea con los botones de arriba, o mirá cómo queda con datos de ejemplo.</span><button type="button" class="btn sm" data-action="loadExamples">Ver con ejemplos</button></div>`;
+  if (empty && Store.mode !== 'starting') return `<div class="banner"><span>Tu espacio está vacío. Cargá tu primer gasto o tarea, o mirá cómo queda con datos de ejemplo.</span><button type="button" class="btn sm" data-action="loadExamples">Ver con ejemplos</button></div>`;
   return '';
 }
 
+const panel = (title, sub, body, action = '', cls = '') => `<section class="panel ${cls}">
+  <div class="panel-head"><div><h2 class="panel-title">${title}</h2>${sub ? `<p class="panel-sub">${sub}</p>` : ''}</div>${action}</div>${body}</section>`;
+
 const VIEWS = {
   inicio() {
-    const mk = thisMonth(), tt = totals(mk);
-    const budgetTotal = state.budgets.reduce((s, b) => s + +b.amount, 0);
-    const spentCat = Object.fromEntries(byCategory(mk));
-    const budgetSpent = state.budgets.reduce((s, b) => s + (spentCat[b.category] || 0), 0);
-    const todayList = sortTasks(pendingTasks().filter(t => t.due && t.due <= today()));
+    const mk = thisMonth(), tt = totals(mk), prev = totals(shiftMonth(mk, -1));
+    const pace = paceInfo(mk);
+    const todayList = sortTasks(dueByToday());
     const h = new Date().getHours();
     const hello = h < 13 ? 'Buen día' : h < 20 ? 'Buenas tardes' : 'Buenas noches';
-    const countToday = a => pendingTasks(a).filter(t => t.due && t.due <= today()).length;
     const al = alerts();
+    const urgent = al.filter(a => a.kind).length;
+    const nextBill = upcomingBills(31)[0];
+    const balSeries = Array.from({ length: 6 }, (_, i) => totals(shiftMonth(mk, i - 5)).bal);
+    const expDelta = prev.exp ? Math.round((tt.exp / prev.exp - 1) * 100) : null;
+    const w = dueByToday('work').length, p = dueByToday('personal').length;
+    const lede = todayList.length || urgent
+      ? `Hoy tenés <strong>${plural(todayList.length, 'tarea', 'tareas')}</strong>${urgent ? ` y <strong>${plural(urgent, 'aviso', 'avisos')}</strong> para mirar` : ''}.`
+      : 'Hoy no tenés nada urgente. Buen momento para adelantar algo.';
+    const cb = catBars(mk), dc = doneCols();
     return `
       <header class="page-head">
-        <div><p class="eyebrow">${prettyDay(today())} ${whoChip()}</p><h1>${hello}, ${esc(person.name)}</h1></div>
+        <div><p class="eyebrow">${prettyDay(today())}</p><h1>${hello}, ${esc(person.name)}</h1><p class="lede">${lede}</p></div>
         <div class="head-actions">
-          <button type="button" class="btn" data-action="newTx" data-type="expense">＋ Gasto</button>
+          <button type="button" class="btn primary" data-action="newTx" data-type="expense">＋ Gasto</button>
           <button type="button" class="btn" data-action="newTask" data-area="work">＋ Laburo</button>
           <button type="button" class="btn" data-action="newTask" data-area="personal">＋ Personal</button>
         </div>
       </header>
       ${exampleBanner()}
-      <section class="cards">
-        <div class="card link" data-action="go" data-view="finanzas">
-          <div class="label">Balance de ${monthName(mk, true)}</div>
-          <div class="value ${tt.bal < 0 ? 'neg' : ''}">${fmt(tt.bal)}</div>
-          <div class="sub"><span class="pos">↑ ${fmt(tt.inc)}</span> · <span class="neg">↓ ${fmt(tt.exp)}</span></div>
-        </div>
-        <div class="card link" data-action="go" data-view="finanzas">
-          <div class="label">Presupuesto del mes</div>
-          ${budgetTotal ? `<div class="value ${budgetSpent > budgetTotal ? 'neg' : ''}">${Math.round(budgetSpent / budgetTotal * 100)}%</div><div class="sub">${fmt(budgetSpent)} de ${fmt(budgetTotal)}</div>` : '<div class="value">—</div><div class="sub">Todavía sin presupuesto</div>'}
-        </div>
-        <div class="card link" data-action="go" data-view="laburo"><div class="label">💼 Laburo para hoy</div><div class="value">${countToday('work')}</div><div class="sub">${pendingTasks('work').length} pendientes en total</div></div>
-        <div class="card link" data-action="go" data-view="personal"><div class="label">🌱 Personal para hoy</div><div class="value">${countToday('personal')}</div><div class="sub">${pendingTasks('personal').length} pendientes en total</div></div>
+      <section class="kpis">
+        <button type="button" class="kpi" data-action="go" data-view="finanzas">
+          <span class="kpi-label">Balance de ${monthOnly(mk)}</span>
+          <span class="kpi-value ${tt.bal < 0 ? 'neg' : ''}">${fmt(tt.bal)}</span>
+          ${spark(balSeries) || '<span class="kpi-foot">Sin movimientos todavía</span>'}
+        </button>
+        <button type="button" class="kpi" data-action="go" data-view="finanzas">
+          <span class="kpi-label">Gastado en ${monthOnly(mk)} ${expDelta !== null ? `<span class="delta ${expDelta > 0 ? 'up-bad' : 'down-good'}">${expDelta > 0 ? '+' : ''}${expDelta}%</span>` : ''}</span>
+          <span class="kpi-value">${fmt(tt.exp)}</span>
+          ${pace.total ? `${paceBar(pace.p, pace.e, pace.cls)}<span class="kpi-foot">${Math.round(pace.p * 100)}% del presupuesto · ${pace.verdict}</span>` : '<span class="kpi-foot">Sin presupuesto definido</span>'}
+        </button>
+        <button type="button" class="kpi" data-action="go" data-view="${w >= p ? 'laburo' : 'personal'}">
+          <span class="kpi-label">Tareas para hoy</span>
+          <span class="kpi-value">${w + p}</span>
+          <span class="kpi-foot"><span class="tag work">${w} laburo</span><span class="tag personal">${p} personal</span></span>
+        </button>
+        <button type="button" class="kpi" data-action="go" data-view="finanzas">
+          <span class="kpi-label">Próximo pago</span>
+          ${nextBill ? `<span class="kpi-value">${fmt(+nextBill.amount, nextBill.currency)}</span><span class="kpi-foot">${esc(nextBill.name)} · ${dueLabel(nextBill.due).replace('Vencida', 'Vencido')}</span>`
+            : '<span class="kpi-value muted">—</span><span class="kpi-foot">Nada en los próximos 30 días</span>'}
+        </button>
       </section>
-      <div class="grid2">
-        <section class="panel">
-          <div class="panel-head"><h2>Avisos</h2><button type="button" class="btn ghost sm" data-action="go" data-view="ajustes">Configurar</button></div>
-          ${al.map(a => `<div class="alert ${a.kind}"><span class="dot"></span><div class="main" style="flex:1;min-width:0"><div class="t">${esc(a.title)}</div><div class="b">${esc(a.body)}</div></div>
+      <div class="grid-main">
+        ${panel('Para hoy', todayList.length ? 'Tocá el cuadrado para marcarla como hecha.' : '', `<div class="list">${todayList.map(t => taskRow(t, true)).join('') || '<div class="empty"><span class="em">🎉</span>Nada pendiente para hoy.</div>'}</div>`)}
+        ${panel('Avisos', '', al.map(a => `<div class="alert ${a.kind}"><span class="ai">${a.icon}</span><div class="main"><div class="t">${esc(a.title)}</div><div class="b">${esc(a.body)}</div></div>
             ${a.bill ? `<button type="button" class="btn sm" data-action="payBill" data-id="${a.bill.id}" data-month="${a.bill.month}">Pagado</button>` : ''}
-            ${a.evening ? '<button type="button" class="btn sm" data-action="newTx" data-type="expense">Cargar</button>' : ''}</div>`).join('') || '<div class="empty">Sin avisos por ahora.</div>'}
-        </section>
-        <section class="panel">
-          <div class="panel-head"><h2>Para hoy</h2></div>
-          <div class="list">${todayList.map(t => taskRow(t, true)).join('') || '<div class="empty">Nada pendiente para hoy 🎉</div>'}</div>
-        </section>
-        <section class="panel"><div class="panel-head"><h2>Gastos por categoría · ${monthName(mk, true)}</h2></div><div class="chart-box"><canvas id="ch-cat"></canvas></div></section>
-        <section class="panel"><div class="panel-head"><h2>Tareas hechas · últimas 8 semanas</h2></div><div class="chart-box"><canvas id="ch-done"></canvas></div></section>
+            ${a.evening ? '<button type="button" class="btn sm" data-action="newTx" data-type="expense">Cargar</button>' : ''}</div>`).join('') || '<div class="empty"><span class="em">🔕</span>Sin avisos por ahora.</div>',
+          '<button type="button" class="btn ghost sm" data-action="go" data-view="ajustes">Configurar</button>')}
+      </div>
+      <div class="grid2">
+        ${panel(esc(cb.title), `Gastos de ${monthOnly(mk)} por categoría`, cb.html)}
+        ${panel(dc.title, 'Tareas hechas por semana, últimas 8', dc.html)}
       </div>`;
   },
 
   finanzas() {
-    const mk = ui.month, tt = totals(mk);
+    const mk = ui.month, tt = totals(mk), prev = totals(shiftMonth(mk, -1));
     const spent = Object.fromEntries(byCategory(mk));
-    const budgets = [...state.budgets].sort((a, b) => a.category.localeCompare(b.category));
+    const e = monthElapsed(mk);
+    const budgets = [...state.budgets].sort((a, b) => (spent[b.category] || 0) / b.amount - (spent[a.category] || 0) / a.amount);
     const bills = [...state.bills].sort((a, b) => +a.day - +b.day);
     const txs = monthTx(mk).sort((a, b) => b.date.localeCompare(a.date) || (b.createdAt || 0) - (a.createdAt || 0));
-    let lastDay = '';
-    const txHtml = txs.map(t => {
-      const head = t.date !== lastDay ? `<div class="day-head">${prettyDay(t.date)}</div>` : '';
-      lastDay = t.date;
-      return `${head}<div class="row click" data-action="editTx" data-id="${t.id}">
-        <div class="main"><div class="title">${esc(t.note || t.category)}</div><div class="meta"><span class="tag">${esc(t.category)}</span>${t.currency === 'USD' ? `<span>≈ ${fmt(toARS(+t.amount, 'USD'))}</span>` : ''}${t.example ? '<span class="tag example">Ejemplo</span>' : ''}</div></div>
-        <span class="amount ${t.type === 'income' ? 'pos' : 'neg'}">${t.type === 'income' ? '+' : '−'} ${fmt(+t.amount, t.currency)}</span>
-      </div>`;
+    const delta = (a, b, goodWhenUp) => {
+      if (!b) return '';
+      const d = Math.round((a / b - 1) * 100);
+      return `<span class="delta ${d > 0 ? (goodWhenUp ? 'up-good' : 'up-bad') : (goodWhenUp ? 'down-bad' : 'down-good')}">${d > 0 ? '+' : ''}${d}%</span>`;
+    };
+    const days = {};
+    for (const t of txs) (days[t.date] ||= []).push(t);
+    const txHtml = Object.entries(days).map(([day, list]) => {
+      const net = list.reduce((s, t) => s + (t.type === 'income' ? 1 : -1) * toARS(+t.amount, t.currency), 0);
+      return `<div class="day-head"><span>${prettyDay(day)}</span><span class="num">${net > 0 ? '+' : ''}${fmt(net)}</span></div>` + list.map(t => `
+        <div class="row click" data-action="editTx" data-id="${t.id}">
+          <span class="cat-ico">${catIcon(t.category)}</span>
+          <div class="main"><div class="title">${esc(t.note || t.category)}</div><div class="meta"><span>${esc(t.category)}</span>${t.currency === 'USD' ? `<span>· ≈ ${fmt(toARS(+t.amount, 'USD'))}</span>` : ''}${t.example ? '<span class="tag example">Ejemplo</span>' : ''}</div></div>
+          <span class="amount ${t.type === 'income' ? 'pos' : ''}">${t.type === 'income' ? '+' : '−'} ${fmt(+t.amount, t.currency)}</span>
+        </div>`).join('');
     }).join('');
+    const cb = catBars(mk), mc = monthCols(mk);
     return `
       <header class="page-head">
-        <div><p class="eyebrow">Finanzas ${whoChip()}</p><h1>Mi plata</h1></div>
+        <div><p class="eyebrow">Finanzas</p><h1>Mi plata</h1></div>
         <div class="head-actions">
-          <div class="month-switch">
+          <div class="inline" style="gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:2px">
             <button type="button" class="icon-btn" data-action="month" data-d="-1" aria-label="Mes anterior">‹</button>
-            <span>${cap(monthName(mk))}</span>
+            <span style="min-width:150px;text-align:center;font-weight:600">${cap(monthName(mk))}</span>
             <button type="button" class="icon-btn" data-action="month" data-d="1" aria-label="Mes siguiente">›</button>
           </div>
           <button type="button" class="btn primary" data-action="newTx" data-type="expense">＋ Movimiento</button>
         </div>
       </header>
       ${exampleBanner()}
-      <section class="cards">
-        <div class="card"><div class="label">Ingresos</div><div class="value pos">${fmt(tt.inc)}</div></div>
-        <div class="card"><div class="label">Gastos</div><div class="value neg">${fmt(tt.exp)}</div></div>
-        <div class="card"><div class="label">Balance</div><div class="value ${tt.bal < 0 ? 'neg' : ''}">${fmt(tt.bal)}</div></div>
-        <div class="card link" data-action="editRate"><div class="label">Dólar (lo cargás vos)</div><div class="value">${fmt(+state.settings.rate)}</div><div class="sub">Tocá para actualizar</div></div>
+      <section class="kpis">
+        <div class="kpi"><span class="kpi-label">Ingresos ${delta(tt.inc, prev.inc, true)}</span><span class="kpi-value pos">${fmt(tt.inc)}</span><span class="kpi-foot">vs ${monthOnly(shiftMonth(mk, -1))}</span></div>
+        <div class="kpi"><span class="kpi-label">Gastos ${delta(tt.exp, prev.exp, false)}</span><span class="kpi-value">${fmt(tt.exp)}</span><span class="kpi-foot">vs ${monthOnly(shiftMonth(mk, -1))}</span></div>
+        <div class="kpi"><span class="kpi-label">Balance</span><span class="kpi-value ${tt.bal < 0 ? 'neg' : ''}">${fmt(tt.bal)}</span><span class="kpi-foot">${tt.inc ? `Ahorraste el ${Math.max(0, Math.round(tt.bal / tt.inc * 100))}% de lo que entró` : 'Sin ingresos cargados'}</span></div>
+        <button type="button" class="kpi" data-action="editRate"><span class="kpi-label">Dólar</span><span class="kpi-value">${fmt(+state.settings.rate)}</span><span class="kpi-foot">Lo cargás vos · tocá para cambiarlo</span></button>
       </section>
+      ${panel(esc(mc.title), 'Ingresos contra gastos, últimos 6 meses', mc.html)}
       <div class="grid2">
-        <section class="panel"><div class="panel-head"><h2>Gastos por categoría</h2></div><div class="chart-box"><canvas id="ch-cat"></canvas></div></section>
-        <section class="panel"><div class="panel-head"><h2>Últimos 6 meses</h2></div><div class="chart-box"><canvas id="ch-months"></canvas></div></section>
-        <section class="panel">
-          <div class="panel-head"><h2>Presupuestos</h2><button type="button" class="btn ghost sm" data-action="newBudget">＋ Presupuesto</button></div>
-          ${budgets.map(b => {
-            const s = spent[b.category] || 0, p = b.amount > 0 ? s / b.amount * 100 : 0;
+        ${panel(esc(cb.title), `Gastos de ${monthOnly(mk)} por categoría`, cb.html)}
+        ${panel('Presupuestos', e > 0 && e < 1 ? `La marca es hoy: pasó el ${Math.round(e * 100)}% del mes.` : 'Tope mensual por categoría.',
+          budgets.map(b => {
+            const s = spent[b.category] || 0, p = b.amount > 0 ? s / b.amount : 0;
+            const cls = p > 1 ? 'over' : p > e + 0.05 ? 'warn' : '';
+            const left = b.amount - s;
             return `<div class="budget row click" data-action="editBudget" data-id="${b.id}">
-              <div class="top"><strong>${esc(b.category)}</strong><span class="num ${p > 100 ? 'neg' : 'muted'}">${fmt(s)} / ${fmt(+b.amount)}</span></div>
-              <div class="bar"><i class="${p > 100 ? 'over' : p >= 80 ? 'warn' : ''}" style="width:${Math.min(p, 100)}%"></i></div>
+              <div class="top"><strong>${catIcon(b.category)} ${esc(b.category)}</strong><span class="num ${p > 1 ? 'neg' : 'muted'}">${fmt(s)} / ${fmt(+b.amount)}</span></div>
+              ${paceBar(p, e, cls)}
+              <div class="note">${left >= 0 ? `Te quedan ${fmt(left)}` : `Te pasaste ${fmt(-left)}`}</div>
             </div>`;
-          }).join('') || '<div class="empty">Poné un tope por categoría y te aviso si te pasás.</div>'}
-        </section>
-        <section class="panel">
-          <div class="panel-head"><h2>Gastos fijos</h2><button type="button" class="btn ghost sm" data-action="newBill">＋ Gasto fijo</button></div>
-          <div class="list">${bills.map(b => {
+          }).join('') || '<div class="empty"><span class="em">🎯</span>Poné un tope por categoría y te aviso si te pasás.</div>',
+          '<button type="button" class="btn ghost sm" data-action="newBudget">＋ Presupuesto</button>')}
+        ${panel('Gastos fijos', 'Al marcarlos como pagados se cargan como gasto.', `<div class="list">${bills.map(b => {
             const paid = b.paid?.includes(mk), d = daysBetween(today(), billDue(b, mk));
             const st = paid ? '<span class="tag ok">Pagado</span>' : d < 0 ? '<span class="tag late">Vencido</span>'
               : d <= state.settings.billDaysBefore ? `<span class="tag soon">Vence ${d === 0 ? 'hoy' : `en ${d} d`}</span>` : `<span class="tag">Día ${b.day}</span>`;
             return `<div class="row click" data-action="editBill" data-id="${b.id}">
-              <div class="main"><div class="title">${esc(b.name)}</div><div class="meta">${st}<span>${esc(b.category || '')}</span></div></div>
+              <span class="cat-ico">${catIcon(b.category)}</span>
+              <div class="main"><div class="title">${esc(b.name)}</div><div class="meta">${st}</div></div>
               <span class="amount">${fmt(+b.amount, b.currency)}</span>
               <button type="button" class="btn sm ${paid ? 'ghost' : ''}" data-action="${paid ? 'unpayBill' : 'payBill'}" data-id="${b.id}" data-month="${mk}">${paid ? 'Deshacer' : 'Pagado'}</button>
             </div>`;
-          }).join('') || '<div class="empty">Alquiler, servicios, tarjeta: cargalos y te aviso antes de que venzan.</div>'}</div>
-        </section>
-        <section class="panel wide">
-          <div class="panel-head"><h2>Movimientos de ${monthName(mk)}</h2>
-            <div class="inline"><button type="button" class="btn ghost sm" data-action="newTx" data-type="income">＋ Ingreso</button><button type="button" class="btn ghost sm" data-action="newTx" data-type="expense">＋ Gasto</button></div></div>
-          <div class="list">${txHtml || '<div class="empty">Sin movimientos este mes.</div>'}</div>
-        </section>
+          }).join('') || '<div class="empty"><span class="em">📅</span>Alquiler, servicios, tarjeta: cargalos y te aviso antes de que venzan.</div>'}</div>`,
+          '<button type="button" class="btn ghost sm" data-action="newBill">＋ Gasto fijo</button>')}
+        ${panel(`Movimientos de ${monthOnly(mk)}`, txs.length ? plural(txs.length, 'movimiento', 'movimientos') : '',
+          `<div class="list">${txHtml || '<div class="empty"><span class="em">🪙</span>Sin movimientos este mes.</div>'}</div>`,
+          '<div class="inline"><button type="button" class="btn ghost sm" data-action="newTx" data-type="income">＋ Ingreso</button><button type="button" class="btn ghost sm" data-action="newTx" data-type="expense">＋ Gasto</button></div>')}
       </div>`;
   },
 
@@ -671,34 +896,34 @@ const VIEWS = {
 
   ajustes() {
     const s = state.settings;
-    const hourSel = (name, val) => `<select id="set-${name}" name="${name}" data-set="${name}">${Array.from({ length: 24 }, (_, h) => `<option value="${h}" ${+val === h ? 'selected' : ''}>${pad(h)}:00</option>`).join('')}</select>`;
-    const toggle = (key, title, desc) => `<label class="switch"><div><div>${title}</div><div class="desc">${desc}</div></div><input type="checkbox" id="nt-${key}" data-notif="${key}" ${s.notif[key] ? 'checked' : ''}></label>`;
+    const hourSel = (name, val) => `<select id="set-${name}" data-set="${name}">${Array.from({ length: 24 }, (_, h) => `<option value="${h}" ${+val === h ? 'selected' : ''}>${pad(h)}:00</option>`).join('')}</select>`;
+    const toggle = (key, title, desc) => `<label class="switch"><div><div style="font-weight:600">${title}</div><div class="desc">${desc}</div></div><input type="checkbox" id="nt-${key}" data-notif="${key}" ${s.notif[key] ? 'checked' : ''}></label>`;
     return `
-      <header class="page-head"><div><p class="eyebrow">Ajustes ${whoChip()}</p><h1>Configuración</h1></div></header>
+      <header class="page-head"><div><p class="eyebrow">Ajustes</p><h1>Configuración</h1></div></header>
       <div class="settings grid2">
         <section class="panel">
-          <h2>Dólar</h2>
-          <p class="help">Cotización que usás para pasar los montos en USD a pesos en los totales y gráficos.</p>
-          <div class="inline"><input id="set-rate" type="number" min="0" step="0.01" value="${esc(s.rate)}"><button type="button" class="btn" data-action="saveRate">Guardar</button></div>
-          <h2>Dónde se guarda</h2>
-          <p class="help">${Store.mode === 'cloud' ? 'En tu cuenta de Claude, solo visible para esta cuenta. Lo ves igual en la compu y en el celu.' : 'Solo en este navegador. Abrí el artifact con tu sesión de Claude iniciada para guardarlo en tu cuenta.'}</p>
-          <div class="inline"><button type="button" class="btn" data-action="exportData">Descargar copia</button>
-            <label class="btn">Importar copia<input type="file" accept="application/json,.json" id="import-file" hidden></label></div>
-        </section>
-        <section class="panel">
           <h2>Avisos</h2>
-          <p class="help">Aparecen en Inicio y con un número rojo en el menú. Elegí cuáles querés ver y a qué hora.</p>
+          <p class="help">Aparecen en Inicio y con un número rojo en el menú. Elegí cuáles querés y a qué hora.</p>
           ${toggle('summary', 'Resumen diario', 'Lo que tenés para hoy, desde la hora del resumen.')}
           ${toggle('tasks', 'Tareas que vencen hoy o mañana', 'Las vencidas siempre; las de hoy y mañana, desde la hora de tareas.')}
-          ${toggle('bills', 'Vencimientos de pagos', `Desde ${s.billDaysBefore} día${s.billDaysBefore > 1 ? 's' : ''} antes de cada gasto fijo.`)}
+          ${toggle('bills', 'Vencimientos de pagos', `Desde ${plural(+s.billDaysBefore, 'día', 'días')} antes de cada gasto fijo.`)}
           ${toggle('budget', 'Presupuesto', 'Cuando una categoría llega al 80% o te pasás.')}
           ${toggle('evening', 'Recordatorio de cargar gastos', 'A la noche, si ese día no anotaste nada.')}
           <div class="hours">
             <label class="field"><span>Resumen</span>${hourSel('summaryHour', s.summaryHour)}</label>
             <label class="field"><span>Tareas</span>${hourSel('taskHour', s.taskHour)}</label>
             <label class="field"><span>Cargar gastos</span>${hourSel('eveningHour', s.eveningHour)}</label>
-            <label class="field"><span>Avisar pagos</span><select id="set-billDaysBefore" data-set="billDaysBefore">${[1, 2, 3, 5, 7].map(n => `<option value="${n}" ${+s.billDaysBefore === n ? 'selected' : ''}>${n} día${n > 1 ? 's' : ''} antes</option>`).join('')}</select></label>
+            <label class="field"><span>Avisar pagos</span><select id="set-billDaysBefore" data-set="billDaysBefore">${[1, 2, 3, 5, 7].map(n => `<option value="${n}" ${+s.billDaysBefore === n ? 'selected' : ''}>${plural(n, 'día', 'días')} antes</option>`).join('')}</select></label>
           </div>
+        </section>
+        <section class="panel">
+          <h2>Dólar</h2>
+          <p class="help">Cotización para pasar los montos en dólares a pesos en los totales y gráficos.</p>
+          <div class="inline"><input id="set-rate" type="number" min="0" step="0.01" value="${esc(s.rate)}"><button type="button" class="btn" data-action="saveRate">Guardar</button></div>
+          <h2>Dónde se guarda</h2>
+          <p class="help">${Store.mode === 'cloud' ? 'En tu cuenta de Claude, solo para vos. Lo ves igual en la compu y en el celu.' : 'Solo en este navegador. Abrí el artifact con tu sesión de Claude iniciada para guardarlo en tu cuenta.'}</p>
+          <div class="inline"><button type="button" class="btn" data-action="exportData">Descargar copia</button>
+            <label class="btn">Importar copia<input type="file" accept="application/json,.json" id="import-file" hidden></label></div>
         </section>
       </div>`;
   }
@@ -708,95 +933,27 @@ function taskView(area) {
   const all = state.tasks.filter(t => t.area === area);
   const g = groupTasks(all), f = ui.filter[area];
   const doneWeek = g.done.filter(t => (t.doneAt || 0) >= Date.now() - 7 * 864e5).length;
-  const groupHtml = (key, title) => g[key].length ? `<div class="group-title">${title} <span>${g[key].length}</span></div><div class="list">${g[key].map(t => taskRow(t)).join('')}</div>` : '';
+  const pending = all.length - g.done.length, forToday = g.today.length + g.overdue.length;
+  const groupHtml = (key, title, cls = '') => g[key].length ? `<div class="group-title ${cls}">${title} <span>${g[key].length}</span></div><div class="list">${g[key].map(t => taskRow(t)).join('')}</div>` : '';
   let body = '';
-  if (f !== 'done') body += [['overdue', 'Vencidas'], ['today', 'Hoy'], ['tomorrow', 'Mañana'], ['later', 'Próximas'], ['nodate', 'Sin fecha']].map(([k, t]) => groupHtml(k, t)).join('');
+  if (f !== 'done') body += [['overdue', 'Vencidas', 'late'], ['today', 'Hoy'], ['tomorrow', 'Mañana'], ['later', 'Próximas'], ['nodate', 'Sin fecha']].map(([k, t, c]) => groupHtml(k, t, c)).join('');
   if (f !== 'pending') body += groupHtml('done', 'Hechas');
-  if (!body) body = `<div class="empty">${f === 'done' ? 'Todavía no completaste tareas.' : 'No hay pendientes. Escribí una arriba y apretá Enter.'}</div>`;
+  if (!body) body = `<div class="empty"><span class="em">${f === 'done' ? '🌤️' : '✨'}</span>${f === 'done' ? 'Todavía no completaste tareas.' : 'No hay pendientes. Escribí una arriba y apretá Enter.'}</div>`;
+  const lede = pending ? `<strong>${plural(pending, 'pendiente', 'pendientes')}</strong>${forToday ? `, ${forToday} para hoy` : ''}${g.overdue.length ? ` (${plural(g.overdue.length, 'vencida', 'vencidas')})` : ''}. Esta semana terminaste ${doneWeek}.` : `Todo al día. Esta semana terminaste ${doneWeek}.`;
   return `
-    <header class="page-head"><div><p class="eyebrow">${AREAS[area]} ${whoChip()}</p><h1>${area === 'work' ? '💼 Lo del laburo' : '🌱 Mis cosas'}</h1></div></header>
+    <header class="page-head"><div><p class="eyebrow">${AREAS[area]}</p><h1>${area === 'work' ? 'Lo del laburo' : 'Mis cosas'}</h1><p class="lede">${lede}</p></div></header>
     ${exampleBanner()}
-    <section class="cards">
-      <div class="card"><div class="label">Pendientes</div><div class="value">${all.length - g.done.length}</div></div>
-      <div class="card"><div class="label">Para hoy</div><div class="value">${g.today.length + g.overdue.length}</div><div class="sub">${g.overdue.length ? `${g.overdue.length} vencida${g.overdue.length > 1 ? 's' : ''}` : 'Al día'}</div></div>
-      <div class="card"><div class="label">Hechas esta semana</div><div class="value pos">${doneWeek}</div></div>
-    </section>
     <section class="panel">
       <form class="quick" data-quick="${area}">
-        <input id="q-title-${area}" name="title" placeholder="Nueva tarea… (Enter para agregar)" autocomplete="off" required>
-        <input id="q-due-${area}" name="due" type="date" title="Fecha">
-        <select id="q-prio-${area}" name="priority" title="Prioridad">${Object.entries(PRIO).map(([k, v]) => `<option value="${k}" ${k === 'media' ? 'selected' : ''}>${v}</option>`).join('')}</select>
-        <button class="btn primary">Agregar</button>
+        <input id="q-title-${area}" name="title" placeholder="＋ Nueva tarea… (Enter para agregar)" autocomplete="off" required>
+        <input id="q-due-${area}" name="due" type="date" title="Fecha" aria-label="Fecha">
+        <select id="q-prio-${area}" name="priority" title="Prioridad" aria-label="Prioridad">${Object.entries(PRIO).map(([k, v]) => `<option value="${k}" ${k === 'media' ? 'selected' : ''}>${v}</option>`).join('')}</select>
+        <button class="btn primary sm">Agregar</button>
       </form>
       <div class="chips">${[['pending', 'Pendientes'], ['done', 'Hechas'], ['all', 'Todas']].map(([k, v]) => `<button type="button" class="chip ${f === k ? 'on' : ''}" data-action="filter" data-area="${area}" data-f="${k}">${v}</button>`).join('')}</div>
       ${body}
     </section>`;
 }
-
-// ---------- gráficos ----------
-const palette = n => Array.from({ length: n }, (_, i) => css(`--c${(i % 9) + 1}`));
-
-function chartDefaults() {
-  const C = window.Chart;
-  C.defaults.color = css('--muted');
-  C.defaults.borderColor = css('--border');
-  C.defaults.font.family = css('--font');
-  C.defaults.plugins.legend.labels.boxWidth = 10;
-  C.defaults.plugins.legend.labels.boxHeight = 10;
-  C.defaults.maintainAspectRatio = false;
-}
-
-function noChart(id, msg) {
-  const c = document.getElementById(id);
-  if (c) c.parentElement.innerHTML = `<div class="empty">${msg}</div>`;
-}
-
-function catChart(mk) {
-  const data = byCategory(mk);
-  if (!window.Chart) return noChart('ch-cat', 'No se pudieron cargar los gráficos.');
-  if (!data.length) return noChart('ch-cat', 'Sin gastos este mes.');
-  charts.push(new Chart(document.getElementById('ch-cat'), {
-    type: 'doughnut',
-    data: { labels: data.map(d => d[0]), datasets: [{ data: data.map(d => Math.round(d[1])), backgroundColor: palette(data.length), borderColor: css('--surface'), borderWidth: 2 }] },
-    options: { cutout: '62%', plugins: { legend: { position: innerWidth < 520 ? 'bottom' : 'right' }, tooltip: { callbacks: { label: c => ` ${c.label}: ${fmt(c.raw)}` } } } }
-  }));
-}
-
-function monthsChart(mk) {
-  if (!window.Chart) return noChart('ch-months', 'No se pudieron cargar los gráficos.');
-  const months = Array.from({ length: 6 }, (_, i) => shiftMonth(mk, i - 5)), t = months.map(totals);
-  charts.push(new Chart(document.getElementById('ch-months'), {
-    type: 'bar',
-    data: { labels: months.map(m => monthName(m, true)), datasets: [
-      { label: 'Ingresos', data: t.map(x => Math.round(x.inc)), backgroundColor: css('--income'), borderRadius: 4 },
-      { label: 'Gastos', data: t.map(x => Math.round(x.exp)), backgroundColor: css('--expense'), borderRadius: 4 }] },
-    options: { plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${fmt(c.raw)}` } } },
-      scales: { y: { beginAtZero: true, ticks: { callback: v => fmt(v).replace(/\s/g, '') } }, x: { grid: { display: false } } } }
-  }));
-}
-
-function doneChart() {
-  if (!window.Chart) return noChart('ch-done', 'No se pudieron cargar los gráficos.');
-  const start = parseDate(today());
-  start.setDate(start.getDate() - ((start.getDay() + 6) % 7)); // lunes de esta semana
-  const weeks = Array.from({ length: 8 }, (_, i) => { const d = new Date(start); d.setDate(d.getDate() - (7 - i) * 7); return d; });
-  const count = area => weeks.map((w, i) => {
-    const from = w.getTime(), to = i < 7 ? weeks[i + 1].getTime() : Infinity;
-    return state.tasks.filter(t => t.area === area && t.status === 'done' && t.doneAt >= from && t.doneAt < to).length;
-  });
-  charts.push(new Chart(document.getElementById('ch-done'), {
-    type: 'bar',
-    data: { labels: weeks.map(w => w.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })), datasets: [
-      { label: 'Laburo', data: count('work'), backgroundColor: css('--c4'), borderRadius: 4 },
-      { label: 'Personal', data: count('personal'), backgroundColor: css('--c1'), borderRadius: 4 }] },
-    options: { plugins: { legend: { position: 'bottom' } }, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, beginAtZero: true, ticks: { precision: 0 } } } }
-  }));
-}
-
-const AFTER = {
-  inicio() { if (window.Chart) chartDefaults(); catChart(thisMonth()); doneChart(); },
-  finanzas() { if (window.Chart) chartDefaults(); catChart(ui.month); monthsChart(ui.month); }
-};
 
 // ---------- modal ----------
 let modalSubmit = null;
@@ -822,8 +979,8 @@ $('#modal-form').addEventListener('submit', e => {
 });
 
 const datalist = (id, items) => `<datalist id="${id}">${items.map(c => `<option value="${esc(c)}">`).join('')}</datalist>`;
-const currencySel = cur => `<select id="f-currency" name="currency"><option value="ARS" ${cur !== 'USD' ? 'selected' : ''}>$ ARS</option><option value="USD" ${cur === 'USD' ? 'selected' : ''}>US$ USD</option></select>`;
-const delBtn = (action, id) => `<button type="button" class="btn danger ghost" data-action="confirmDelete" data-del="${action}" data-id="${id}">Eliminar</button>`;
+const currencySel = cur => `<select id="f-currency" name="currency"><option value="ARS" ${cur !== 'USD' ? 'selected' : ''}>$ Pesos</option><option value="USD" ${cur === 'USD' ? 'selected' : ''}>US$ Dólares</option></select>`;
+const delBtn = (coll, id) => `<button type="button" class="btn danger ghost" data-action="confirmDelete" data-del="${coll}" data-id="${id}">Eliminar</button>`;
 
 function txForm(t) {
   const isNew = !t.id;
@@ -835,7 +992,7 @@ function txForm(t) {
         <input type="radio" name="type" id="ty-i" value="income" ${t.type === 'income' ? 'checked' : ''}><label for="ty-i">Ingreso</label>
       </div>
       <div class="fields two">
-        <label class="field"><span>Monto</span><input id="f-amount" name="amount" type="number" inputmode="decimal" min="0" step="0.01" required value="${esc(t.amount ?? '')}"></label>
+        <label class="field"><span>Monto</span><input id="f-amount" class="big-amount" name="amount" type="number" inputmode="decimal" min="0" step="0.01" required placeholder="0" value="${esc(t.amount ?? '')}"></label>
         <label class="field"><span>Moneda</span>${currencySel(t.currency)}</label>
       </div>
       <div class="fields two">
@@ -858,7 +1015,7 @@ function budgetForm(b = {}) {
   openModal(isNew ? 'Nuevo presupuesto' : 'Editar presupuesto', `
     <div class="fields">
       <label class="field"><span>Categoría</span><input id="f-bcat" name="category" list="bcats" required value="${esc(b.category ?? '')}" placeholder="Ej: Salidas"></label>
-      <label class="field"><span>Tope mensual (en pesos)</span><input id="f-bamount" name="amount" type="number" inputmode="decimal" min="1" step="1" required value="${esc(b.amount ?? '')}"></label>
+      <label class="field"><span>Tope mensual en pesos</span><input id="f-bamount" class="big-amount" name="amount" type="number" inputmode="decimal" min="1" step="1" required placeholder="0" value="${esc(b.amount ?? '')}"></label>
     </div>${datalist('bcats', categories('expense'))}`,
   d => { upsert('budgets', { ...b, category: d.category.trim(), amount: +d.amount, id: b.id || uid() }); toast('Presupuesto guardado'); },
   isNew ? '' : delBtn('budgets', b.id));
@@ -871,14 +1028,13 @@ function billForm(b = {}) {
     <div class="fields">
       <label class="field"><span>Nombre</span><input id="f-name" name="name" required value="${esc(b.name ?? '')}" placeholder="Ej: Alquiler, Luz, Tarjeta"></label>
       <div class="fields two">
-        <label class="field"><span>Monto</span><input id="f-famount" name="amount" type="number" inputmode="decimal" min="0" step="0.01" required value="${esc(b.amount ?? '')}"></label>
+        <label class="field"><span>Monto</span><input id="f-famount" class="big-amount" name="amount" type="number" inputmode="decimal" min="0" step="0.01" required placeholder="0" value="${esc(b.amount ?? '')}"></label>
         <label class="field"><span>Moneda</span>${currencySel(b.currency)}</label>
       </div>
       <div class="fields two">
         <label class="field"><span>Vence el día</span><input id="f-day" name="day" type="number" min="1" max="31" required value="${esc(b.day)}"></label>
         <label class="field"><span>Categoría</span><input id="f-fcat" name="category" list="fcats" value="${esc(b.category)}"></label>
       </div>
-      <p class="help" style="margin:0">Cuando lo marques como pagado se carga solo como gasto del mes.</p>
     </div>${datalist('fcats', categories('expense'))}`,
   d => { upsert('bills', { ...b, name: d.name.trim(), amount: +d.amount, currency: d.currency, day: Math.min(31, Math.max(1, +d.day)), category: d.category.trim() || 'Servicios', id: b.id || uid() }); toast('Gasto fijo guardado'); },
   isNew ? '' : delBtn('bills', b.id));
@@ -914,19 +1070,20 @@ function taskForm(t = {}) {
 
 // ---------- ejemplos ----------
 function loadExamples() {
-  const d = off => addDays(today(), off), id = () => uid(), ex = { example: true, updatedAt: Date.now() };
+  const d = off => addDays(today(), off), id = () => uid(), ex = { example: true };
   const cats = [['Comida', 42000], ['Transporte', 18000], ['Salidas', 36000], ['Servicios', 51000], ['Súper', 64000]];
   for (let m = 0; m < 6; m++) {
     const base = shiftMonth(thisMonth(), -m) + '-0';
-    upsert('tx', { ...ex, id: id(), type: 'income', amount: 900000 + (5 - m) * 30000, currency: 'ARS', category: 'Sueldo', note: 'Sueldo (ejemplo)', date: base + '1', createdAt: 1 });
+    upsert('tx', { ...ex, id: id(), type: 'income', amount: 900000 + (5 - m) * 30000, currency: 'ARS', category: 'Sueldo', note: 'Sueldo', date: base + '1', createdAt: 1 });
     cats.forEach(([c, a], i) => upsert('tx', { ...ex, id: id(), type: 'expense', amount: Math.round(a * (0.75 + ((m + i) % 4) * 0.12)), currency: 'ARS', category: c, note: '', date: base + (2 + i), createdAt: 1 }));
   }
-  upsert('tx', { ...ex, id: id(), type: 'expense', amount: 20, currency: 'USD', category: 'Suscripciones', note: 'Suscripción (ejemplo)', date: today(), createdAt: 2 });
+  upsert('tx', { ...ex, id: id(), type: 'expense', amount: 20, currency: 'USD', category: 'Suscripciones', note: 'Suscripción de música', date: today(), createdAt: 2 });
   upsert('budgets', { ...ex, id: id(), category: 'Salidas', amount: 40000 });
   upsert('budgets', { ...ex, id: id(), category: 'Súper', amount: 70000 });
+  upsert('budgets', { ...ex, id: id(), category: 'Comida', amount: 60000 });
   const dom = new Date().getDate();
-  upsert('bills', { ...ex, id: id(), name: 'Alquiler (ejemplo)', amount: 350000, currency: 'ARS', day: Math.min(28, dom + 2), category: 'Casa', paid: [] });
-  upsert('bills', { ...ex, id: id(), name: 'Internet (ejemplo)', amount: 22000, currency: 'ARS', day: Math.max(1, dom - 5), category: 'Servicios', paid: [thisMonth()] });
+  upsert('bills', { ...ex, id: id(), name: 'Alquiler', amount: 350000, currency: 'ARS', day: Math.min(28, dom + 2), category: 'Casa', paid: [] });
+  upsert('bills', { ...ex, id: id(), name: 'Internet', amount: 22000, currency: 'ARS', day: Math.max(1, dom - 5), category: 'Servicios', paid: [thisMonth()] });
   const t = (area, title, due, priority, status = 'todo', doneAt = null, notes = '') => upsert('tasks', { ...ex, id: id(), area, title, due, priority, status, doneAt, notes, createdAt: 1 });
   t('work', 'Preparar la reunión del lunes', d(-1), 'alta');
   t('work', 'Actualizar la planilla de costos', d(1), 'media', 'doing', null, 'Pedir los números del mes.');
@@ -953,6 +1110,11 @@ const ACTIONS = {
   closeModal,
   month: d => { ui.month = shiftMonth(ui.month, +d.d); render(); },
   filter: d => { ui.filter[d.area] = d.f; render(); },
+  quickAdd: () => openModal('¿Qué querés agregar?', `<div class="picker">
+      <button type="button" class="pick" data-action="newTx" data-type="expense"><span>💸</span>Gasto</button>
+      <button type="button" class="pick" data-action="newTx" data-type="income"><span>💰</span>Ingreso</button>
+      <button type="button" class="pick" data-action="newTask" data-area="work"><span>💼</span>Tarea de laburo</button>
+      <button type="button" class="pick" data-action="newTask" data-area="personal"><span>🌱</span>Tarea personal</button></div>`, null),
 
   newTx: d => txForm({ type: d.type }),
   editTx: d => txForm({ ...find('tx', d.id) }),
@@ -991,7 +1153,7 @@ const ACTIONS = {
     if (done) toast('¡Hecho! ✓');
   },
 
-  editRate: () => openModal('Cotización del dólar', `<label class="field"><span>1 USD = ? ARS</span><input id="f-rate" name="rate" type="number" min="0" step="0.01" required value="${esc(state.settings.rate)}"></label>`,
+  editRate: () => openModal('Cotización del dólar', `<label class="field"><span>1 dólar = ? pesos</span><input id="f-rate" class="big-amount" name="rate" type="number" min="0" step="0.01" required value="${esc(state.settings.rate)}"></label>`,
     d => { setSettings({ rate: +d.rate }); toast('Cotización actualizada'); }),
   saveRate: () => { setSettings({ rate: +$('#set-rate').value || 0 }); toast('Cotización actualizada'); render(); },
 
@@ -1001,7 +1163,7 @@ const ACTIONS = {
     const data = JSON.stringify({ person: person.key, ...state }, null, 2);
     const dl = await window.claude?.use?.('downloads');
     if (!dl) return toast('Las descargas no están disponibles acá');
-    try { const r = await dl.save({ filename: `mi-espacio-${person.key}-${today()}.json`, data }); if (r?.status === 'saved') toast('Copia descargada'); }
+    try { const r = await dl.save({ filename: `mi-espacio-${today()}.json`, data }); if (r?.status === 'saved') toast('Copia descargada'); }
     catch { toast('No se descargó la copia'); }
   }
 };
@@ -1018,7 +1180,7 @@ document.addEventListener('click', e => {
 
 document.addEventListener('change', e => {
   const el = e.target;
-  if (el.dataset.notif) { setSettings({ notif: { ...state.settings.notif, [el.dataset.notif]: el.checked } }); updateBadge(); return; }
+  if (el.dataset.notif) { setSettings({ notif: { ...state.settings.notif, [el.dataset.notif]: el.checked } }); updateNav(); return; }
   if (el.dataset.set) { setSettings({ [el.dataset.set]: +el.value }); toast('Guardado'); render(); return; }
   if (el.id === 'import-file' && el.files[0]) {
     el.files[0].text().then(txt => {
@@ -1043,6 +1205,7 @@ document.addEventListener('submit', e => {
   upsert('tasks', { id: uid(), area: f.dataset.quick, title: d.title.trim(), due: d.due, priority: d.priority, status: 'todo', notes: '', createdAt: Date.now() });
   render();
   $('form[data-quick] input[name=title]')?.focus();
+  toast('Tarea agregada');
 });
 
 document.querySelector('.nav').addEventListener('click', e => {
@@ -1054,9 +1217,7 @@ addEventListener('hashchange', () => {
   const v = location.hash.slice(1);
   if (v !== view && VIEW_KEYS.includes(v)) { view = v; render(); }
 });
-matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => { if (!$('#modal').open) render(); });
-new MutationObserver(() => { if (!$('#modal').open) render(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-setInterval(updateBadge, 60e3);
+setInterval(updateNav, 60e3);
 
 render();
 Store.init();
