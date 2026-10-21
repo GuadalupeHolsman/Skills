@@ -49,7 +49,13 @@ def data_uri(path):
     return "data:image/png;base64," + base64.b64encode((ROOT / path).read_bytes()).decode()
 
 
+def app_img(n):
+    return "data:image/webp;base64," + base64.b64encode((ROOT / f"src/app-screens/app{n}.webp").read_bytes()).decode()
+
+
 page = (tpl.replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky()))
+for i in range(1, 6):
+    page = page.replace("{{APP%d}}" % i, app_img(i))
 
 (ROOT / "artifact.html").write_text(page, encoding="utf-8")
 head, body = page.split("</style>", 1)
