@@ -24,6 +24,9 @@ Para hosting propio (GitHub Pages) el conteo va a un Google Sheet con Apps Scrip
 
 Cada elección se guarda de tres formas: en esa pantalla, en una cola que sobrevive a recargas, y en la **base compartida** del link publicado (colección `invites`, un documento por elección con `id` y `ts`). Si no hay internet o el dispositivo no puede escribir, la cola espera y se sube sola apenas se pueda (cada 30 s). Para verlo: mantén presionado 1,5 s "loomlock experiences" arriba a la izquierda; muestra "All screens" si lee la base compartida, o "This screen only" si no, más cuántas están pendientes de subir. Para que se sincronice, la pantalla debe abrir el link publicado con la sesión de la cuenta dueña (o de alguien con permiso de Contributor).
 
+### Pantallas reales de la app
+La pantalla 04 ("Antes de llegar") muestra 5 pantallas reales de la app (`src/app-screens/app1..5.webp`, reducidas desde el zip de diseño): abrir, permitir Screen Time, llamadas y SMS, elegir apps y entrar con la key. Pasan solas y se avanzan con un toque o deslizando. Para cambiarlas, reemplaza los .webp (640 px de ancho) y corre `python3 src/build.py`.
+
 ## Estética
 Usa la dirección de arte de **Prime Time · loomlock experiences**: cada pantalla es un canal de TV (CH 01 a CH 05), azul canal `#2F3AD0`, amarillo señal `#FCCE21`, negro pantalla y papel; Montserrat fina en mayúsculas con énfasis en itálica gruesa, rótulos en Space Mono; grano, líneas de TV, estática al cambiar de canal y respuestas "tachadas" que se destapan. Firma: *live now, post later.*
 
