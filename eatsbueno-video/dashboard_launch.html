@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>EatsBueno Institutional · Launch Film</title>
+<style>
+  @font-face { font-family: "Manrope"; font-style: normal; font-weight: 200 800; font-display: block; src: url(assets/fonts/manrope.woff2) format("woff2"); }
+  /* EBI tokens (assets from the dev team: 11_Fonts_and_Colors) */
+  :root { --ink:#1E1E1E; --green:#3B7668; --green7:#2F5D52; --sidebar:#173F37; --sideHover:#1F4A41; --cream:#FAF0DF; --mint:#AFCFC4; --blush:#F9F4F2;
+          --sage:#EAECDE; --orange:#E26023; --muted:#5B5651; --sand:#E6DFD8; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--sidebar); font-family: Manrope, sans-serif; font-feature-settings: 'cv02','cv03','cv04'; }
+  .scene { position: absolute; inset: 0; overflow: hidden; visibility: hidden; perspective: 2200px; }
+  .abs { position: absolute; }
+  .grain { position: absolute; inset: 0; pointer-events: none; opacity: .07; mix-blend-mode: overlay; z-index: 60; }
+  .wm { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .02em .12em; margin-bottom: -.12em; }
+  .w { display: inline-block; will-change: transform; }
+  .h1 { font: 800 96px/1.05 Manrope; letter-spacing: -.035em; color: var(--cream); }
+  .eyebrow { font: 800 18px Manrope; letter-spacing: .22em; text-transform: uppercase; }
+  /* browser window */
+  #win { position: absolute; left: 240px; top: 72px; width: 1440px; height: 946px; border-radius: 18px; overflow: hidden; background: var(--blush);
+         box-shadow: 0 60px 140px -40px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06); transform-origin: 720px 473px; }
+  #chrome { position: absolute; left: 0; right: 0; top: 0; height: 46px; background: #ECE7E2; border-bottom: 1px solid #DDD5CD; display: flex; align-items: center; padding: 0 18px; gap: 8px; z-index: 5; }
+  #chrome i { width: 13px; height: 13px; border-radius: 50%; display: block; }
+  #url { position: absolute; left: 50%; top: 9px; width: 440px; height: 28px; margin-left: -220px; border-radius: 8px; background: #F9F6F3; display: flex; align-items: center; justify-content: center; gap: 8px;
+         font: 600 13px Manrope; color: #5B5651; }
+  #vp { position: absolute; left: 0; top: 46px; width: 1440px; height: 900px; overflow: hidden; background: var(--blush); }
+  .pg { position: absolute; left: 0; top: 0; width: 1440px; isolation: isolate; }
+  .pg > img.base { display: block; width: 1440px; }
+  .comp { position: absolute; }
+  .comp > img { display: block; width: 100%; }
+  #cursor { position: absolute; left: 0; top: 0; width: 26px; height: 34px; z-index: 50; pointer-events: none; filter: drop-shadow(0 3px 4px rgba(0,0,0,.3)); }
+  .clickring { position: absolute; left: 0; top: 0; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; border: 3px solid rgba(59,118,104,.8); opacity: 0; z-index: 49; }
+  /* captions over the product */
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; height: 400px; z-index: 30; background: linear-gradient(180deg, rgba(15,42,37,0) 0%, rgba(15,42,37,.86) 42%, rgba(15,42,37,.96) 100%); opacity: 0; }
+  .capt { position: absolute; left: 120px; bottom: 92px; font: 800 64px/1.08 Manrope; letter-spacing: -.035em; color: var(--cream); z-index: 31; }
+  .capt small { display: block; font: 600 24px/1.4 Manrope; letter-spacing: 0; color: var(--mint); margin-top: 14px; }
+  .chip { position: absolute; display: flex; align-items: center; gap: 12px; padding: 14px 20px 14px 14px; border-radius: 14px; background: #fff; box-shadow: 0 30px 60px -20px rgba(0,0,0,.45);
+          font: 700 17px Manrope; color: var(--ink); z-index: 45; }
+  .chip .xl { width: 40px; height: 48px; border-radius: 8px; background: #1D6F42; color: #fff; display: grid; place-items: center; font: 800 13px Manrope; }
+  .chip small { display: block; font: 500 13px Manrope; color: var(--muted); }
+  .card3 { position: absolute; transform-style: preserve-3d; }
+  .card3 img { display: block; width: 100%; filter: drop-shadow(0 40px 60px rgba(0,0,0,.35)); }
+  .card3 .lab { margin-top: 18px; text-align: center; font: 800 16px Manrope; letter-spacing: .2em; text-transform: uppercase; color: var(--mint); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg class="grain" width="1920" height="1080"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+  <!-- 1 · Hook: real teams, three lines -->
+  <section class="scene" id="s1" style="background:#0F2A25">
+    <div class="abs" id="foot1" style="inset:0"></div>
+    <div class="abs" style="inset:0;background:radial-gradient(70% 70% at 50% 55%,rgba(15,42,37,.25) 0%,rgba(15,42,37,.75) 100%);z-index:2"></div>
+    <div class="abs h1" id="l1" style="left:0;right:0;top:470px;text-align:center;z-index:3">You invested in your team’s wellbeing.</div>
+    <div class="abs h1" id="l2" style="left:0;right:0;top:470px;text-align:center;z-index:3">But how is it <span style="color:#F0A26A">really</span> going?</div>
+    <div class="abs h1" id="l3" style="left:0;right:0;top:420px;text-align:center;z-index:3;font-size:90px">See it as a group.<br><span style="color:var(--mint)">Never person by person.</span></div>
+  </section>
+
+  <!-- 2 · Brand -->
+  <section class="scene" id="s2" style="background:radial-gradient(90% 90% at 50% 45%,#1F4A41 0%,#173F37 60%,#10302A 100%)">
+    <div class="abs" id="logo2" style="left:570px;top:300px;width:780px;height:230px"></div>
+    <div class="abs" id="tag2" style="left:0;right:0;top:600px;text-align:center;font:800 54px/1.15 Manrope;letter-spacing:-.03em;color:var(--cream)">Aggregate wellbeing evidence<br><span style="color:var(--mint)">for your organization.</span></div>
+  </section>
+
+  <!-- 3–6 · The product, inside one browser window -->
+  <section class="scene" id="s3" style="background:radial-gradient(100% 100% at 50% 30%,#24574C 0%,#173F37 55%,#0F2A25 100%)">
+    <div class="abs" id="cam" style="inset:0;transform-origin:960px 540px">
+      <div id="win">
+        <div id="chrome"><i style="background:#E46B5F"></i><i style="background:#E8B64C"></i><i style="background:#5EBD6B"></i>
+          <div id="url"><svg width="12" height="13" viewBox="0 0 12 13"><rect x="1" y="5.5" width="10" height="7" rx="2" fill="#8D8072"/><path d="M3.5 5.5V4a2.5 2.5 0 0 1 5 0v1.5" stroke="#8D8072" stroke-width="1.6" fill="none"/></svg>EatsBueno Institutional</div></div>
+        <div id="vp">
+          <div class="pg" id="pgOv"><img class="base" src="assets/dash/overview_clean.png"></div>
+          <div class="pg" id="pgSub" style="opacity:0"><img class="base" src="assets/dash/subgroups.png"></div>
+          <div class="pg" id="pgHr" style="opacity:0"><img class="base" src="assets/dash/hr_clean.png"></div>
+          <div class="pg" id="pgLogin" style="z-index:5"><img class="base" src="assets/dash/login.png"></div>
+          <svg id="cursor" viewBox="0 0 26 34"><path d="M2 2 L2 27 L8.5 21 L13 31.5 L17.5 29.5 L13 19.5 L22 19.5 Z" fill="#111" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
+          <div class="clickring" id="ring"></div>
+        </div>
+      </div>
+    </div>
+    <div class="cap" id="capbg"></div>
+    <div class="capt" id="capA">One clear score.<br>Real participation.<small>Group results for the closed month, refreshed every period.</small></div>
+    <div class="capt" id="capB">How your people feel,<br>in aggregate.<small>Self-reported energy and HR-reported absence, side by side with your baseline.</small></div>
+    <div class="capt" id="capC">Small groups are<br>never shown.<small>Below the minimum reporting size, a result is withheld, never shown as zero.</small></div>
+    <div class="capt" id="capD">Upload. Check.<br>On file.<small>One monthly workbook of group totals. Never individual employees.</small></div>
+  </section>
+
+  <!-- 7 · The program at a glance -->
+  <section class="scene" id="s7" style="background:radial-gradient(100% 100% at 50% 20%,#24574C 0%,#173F37 55%,#0F2A25 100%)">
+    <div class="abs h1" id="h7" style="left:0;right:0;top:86px;text-align:center;font-size:72px">Everything your program needs.<br><span style="color:var(--mint)">In one place.</span></div>
+    <div class="abs" id="cards7" style="inset:0;transform-style:preserve-3d"></div>
+  </section>
+
+  <!-- 8 · Outro -->
+  <section class="scene" id="s8" style="background:radial-gradient(90% 90% at 50% 45%,#1F4A41 0%,#173F37 60%,#10302A 100%)">
+    <div class="abs" id="logo8" style="left:570px;top:280px;width:780px;height:230px"></div>
+    <div class="abs" id="tag8" style="left:0;right:0;top:560px;text-align:center;font:800 50px/1.15 Manrope;letter-spacing:-.03em;color:var(--cream)">Aggregate wellbeing evidence for your organization.</div>
+    <div class="abs" id="sub8" style="left:0;right:0;top:648px;text-align:center;font:600 26px Manrope;color:var(--mint)">Group results only — never individual employees.</div>
+    <div class="abs" id="sig8" style="left:0;right:0;bottom:60px;display:flex;align-items:center;justify-content:center;gap:22px;font:800 15px Manrope;letter-spacing:.24em;text-transform:uppercase;color:rgba(250,240,223,.6)"><i style="width:80px;height:1px;background:rgba(250,240,223,.4)"></i>Closed months · Privacy first · Your HR figures<i style="width:80px;height:1px;background:rgba(250,240,223,.4)"></i></div>
+  </section>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/CustomEase.min.js"></script>
+<script src="assets/dash/layout.js"></script>
+<script src="assets/dash/logo.js"></script>
+<script>
+(() => {
+  let READY; window.__ready = new Promise((r) => { READY = r; });
+  gsap.registerPlugin(CustomEase);
+  CustomEase.create('ebOut', '0.2, 0, 0, 1');
+  CustomEase.create('ebIn', '0.4, 0, 1, 1');
+  CustomEase.create('ebPush', '0.32, 0.72, 0, 1');
+  CustomEase.create('ebSoft', '0.45, 0, 0.2, 1');
+  CustomEase.create('ui', '0.2, 0, 0.2, 1');            // the dashboard's own motion curve (tokens: 200/280 ms)
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'ebOut' } });
+  const $ = (s) => document.querySelector(s);
+  const DUR = 44.5;
+  const META = { duration: DUR, slams: [], taps: [], keys: [], whooshes: [], hits: [], titles: [], words: [], pops: [], ticks: [], success: [], scans: [], logo: [], risers: [] };
+  const scene = (id, t0, t1) => { tl.set('#' + id, { visibility: 'visible' }, t0); tl.set('#' + id, { visibility: 'hidden' }, t1); };
+  const words = (el) => {
+    const wrap = (node) => {
+      if (node.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach((p) => {
+          if (!p) return;
+          if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+          const m = document.createElement('span'); m.className = 'wm';
+          const w = document.createElement('span'); w.className = 'w'; w.textContent = p;
+          m.appendChild(w); frag.appendChild(m);
+        });
+        node.replaceWith(frag);
+      } else if (node.nodeType === 1 && node.tagName !== 'BR') Array.from(node.childNodes).forEach(wrap);
+    };
+    Array.from(el.childNodes).forEach(wrap);
+    return el.querySelectorAll('.w');
+  };
+  const reveal = (el, t, stagger = 0.06) => {
+    const ws = words(el);
+    tl.set(ws, { yPercent: 115 }, 0);
+    tl.fromTo(ws, { yPercent: 115, rotation: 2 }, { yPercent: 0, rotation: 0, duration: 0.7, stagger, ease: 'ebOut', immediateRender: false }, t);
+    return ws;
+  };
+  const hide = (el, t) => tl.to(el.querySelectorAll ? el.querySelectorAll('.w') : el, { yPercent: -115, duration: 0.4, stagger: 0.02, ease: 'ebIn' }, t);
+
+  // ---------- footage ----------
+  const VIDS = [];
+  const foot = (parent, name, t0, dur, { inPt = 0, rate = 1, vcss = '', tint = '' } = {}) => {
+    const box = document.createElement('div');
+    box.style.cssText = 'position:absolute;inset:0;overflow:hidden;opacity:0';
+    box.innerHTML = `<video muted playsinline preload="auto" src="assets/footage/${name}.webm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;${vcss}"></video>` +
+      (tint ? `<div style="position:absolute;inset:0;${tint}"></div>` : '');
+    parent.appendChild(box);
+    VIDS.push({ v: box.querySelector('video'), t0, dur, inPt, rate });
+    return box;
+  };
+  const DUO = 'filter:grayscale(1) contrast(1.08) brightness(1.05)';
+  const GREEN = 'background:#2C6B5C;mix-blend-mode:multiply;opacity:.9';
+
+  // ================= 1 · Hook (0 – 6.4) =================
+  scene('s1', 0, 6.55);
+  const F1 = $('#foot1');
+  [['d_office', 0, 2.3, 0.1], ['d_meeting', 2.3, 2.1, 0.6], ['d_coworkers', 4.4, 2.15, 0.4]].forEach(([n, t0, d, inPt], i) => {
+    const f = foot(F1, n, t0, d, { inPt, rate: 0.8, vcss: DUO, tint: GREEN });
+    tl.set(f, { opacity: 1 }, t0); tl.set(f, { opacity: 0 }, t0 + d);
+    tl.fromTo(f.firstChild, { scale: 1.14 }, { scale: 1.02, duration: d, ease: 'ebSoft', immediateRender: false }, t0);
+    if (i) { tl.fromTo(f, { clipPath: 'inset(0 0 0 100%)' }, { clipPath: 'inset(0 0 0 0%)', duration: 0.5, ease: 'ebPush', immediateRender: false }, t0 - 0.05); META.whooshes.push(t0); }
+  });
+  reveal($('#l1'), 0.35, 0.07); hide($('#l1'), 2.0);
+  reveal($('#l2'), 2.45, 0.08); hide($('#l2'), 4.05);
+  reveal($('#l3'), 4.5, 0.06);
+  META.titles.push(0.4, 2.5, 4.55);
+  tl.to('#l3', { scale: 0.92, opacity: 0, filter: 'blur(8px)', duration: 0.45, ease: 'ebIn' }, 6.1);
+
+  // ================= 2 · Brand (6.4 – 9.8) =================
+  scene('s2', 6.35, 10.0);
+  tl.fromTo('#s2', { clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(80% at 50% 50%)', duration: 0.6, ease: 'ebIn', immediateRender: false }, 6.35);
+  const logoSVG = window.EBI_LOGO;
+  const buildLogo = (host, t) => {
+    host.innerHTML = logoSVG; const svg = host.querySelector('svg'); svg.style.cssText = 'width:100%;height:100%;overflow:visible';
+    const sym = svg.querySelector('[id="Institutional Symbol"]'), ps = sym.querySelectorAll('path');
+    const arc = ps[0], bars = [ps[1], ps[2], ps[3]], leaf = ps[4], stem = ps[5];
+    const L = arc.getTotalLength(); arc.style.strokeDasharray = L;
+    tl.fromTo(arc, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.8, ease: 'ebSoft', immediateRender: true }, t);
+    bars.forEach((b, i) => { b.style.transformBox = 'fill-box'; b.style.transformOrigin = '50% 100%';
+      tl.fromTo(b, { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: 'ebOut', immediateRender: true }, t + 0.35 + i * 0.08); });
+    leaf.style.transformBox = 'fill-box'; leaf.style.transformOrigin = '0% 100%';
+    tl.fromTo(leaf, { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.5, ease: 'ebOut', immediateRender: true }, t + 0.7);
+    const sL = stem.getTotalLength(); stem.style.strokeDasharray = sL;
+    tl.fromTo(stem, { strokeDashoffset: sL }, { strokeDashoffset: 0, duration: 0.35, ease: 'ebOut', immediateRender: true }, t + 0.8);
+    const div = svg.querySelector('#Divider'); div.style.transformBox = 'fill-box'; div.style.transformOrigin = '50% 50%';
+    tl.fromTo(div, { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: 'ebOut', immediateRender: true }, t + 0.55);
+    const eb = svg.querySelector('#EatsBueno'), inst = svg.querySelector('#INSTITUTIONAL');
+    tl.fromTo(eb, { clipPath: 'inset(0 100% 0 0)', x: -20 }, { clipPath: 'inset(0 0% 0 0)', x: 0, duration: 0.7, ease: 'ebOut', immediateRender: true }, t + 0.7);
+    tl.fromTo(inst, { opacity: 0, letterSpacing: 0 }, { opacity: 1, duration: 0.6, ease: 'ebSoft', immediateRender: true }, t + 1.05);
+    META.logo.push(t + 0.3);
+  };
+  buildLogo($('#logo2'), 6.75);
+  reveal($('#tag2'), 8.0, 0.06);
+  META.titles.push(8.05);
+  tl.to(['#logo2', '#tag2'], { y: -40, opacity: 0, duration: 0.45, ease: 'ebIn' }, 9.55);
+
+  // ================= 3 · Sign in (9.8 – 13.8) =================
+  scene('s3', 9.75, 37.2);
+  const CAM = $('#cam'), WIN = $('#win');
+  tl.fromTo(WIN, { y: 700, rotationX: 24, scale: 0.86, opacity: 0 }, { y: 0, rotationX: 0, scale: 1, opacity: 1, duration: 1.0, ease: 'ebOut', immediateRender: true }, 9.75);
+  META.whooshes.push(9.85);
+  // cursor + clicks (coordinates are page css px inside the viewport)
+  const CUR = $('#cursor'), RING = $('#ring');
+  tl.set(CUR, { x: 1180, y: 760, opacity: 0 }, 0);
+  const moveTo = (x, y, t, d = 0.5) => tl.to(CUR, { x, y, duration: d, ease: 'power2.inOut' }, t);
+  const click = (x, y, t) => {
+    tl.to(CUR, { scale: 0.85, duration: 0.06, transformOrigin: '0 0' }, t - 0.06);
+    tl.to(CUR, { scale: 1, duration: 0.18 }, t);
+    tl.fromTo(RING, { x, y, scale: 0.4, opacity: 0.9 }, { scale: 1.6, opacity: 0, duration: 0.45, ease: 'ebOut', immediateRender: false }, t);
+    META.taps.push(t);
+  };
+  tl.to(CUR, { opacity: 1, duration: 0.2 }, 10.4);
+  const EM = { x: 951, y: 389, w: 418, h: 44 }, PW = { x: 951, y: 477 }, BTN = { x: 950, y: 542, w: 420, h: 44 };
+  moveTo(EM.x + 120, EM.y + 24, 10.45, 0.5); click(EM.x + 120, EM.y + 24, 10.98);
+  const pgLogin = $('#pgLogin');
+  const field = (x, y, cls) => { const d = document.createElement('div'); d.className = 'abs ' + cls;
+    d.style.cssText = `left:${x + 14}px;top:${y + 11}px;height:22px;font:500 15px/22px Manrope;color:#1E1E1E;white-space:pre`; pgLogin.appendChild(d); return d; };
+  const emailEl = field(EM.x, EM.y, 'em'), passEl = field(PW.x, PW.y, 'pw');
+  const focus = document.createElement('div'); focus.className = 'abs';
+  focus.style.cssText = `left:${EM.x - 3}px;top:${EM.y - 3}px;width:${EM.w + 6}px;height:${EM.h + 6}px;border-radius:14px;border:2px solid #15589F;opacity:0`;
+  pgLogin.appendChild(focus);
+  tl.set(focus, { opacity: 1 }, 11.0);
+  const EMAIL = 'hr@sintetica.example';
+  const typeAt = (el, text, t0, cps, mask = false) => {
+    const times = Array.from(text, (_, i) => t0 + i / cps + ((i * 7919) % 5) * 0.006);
+    const o = { n: 0 };
+    tl.fromTo(o, { n: 0 }, { n: text.length, duration: times[times.length - 1] - t0 + 0.01, ease: 'none', immediateRender: false,
+      onUpdate: () => { const n = Math.round(o.n); el.textContent = mask ? '•'.repeat(n) : text.slice(0, n); } }, t0);
+    tl.call(() => { el.textContent = ''; }, null, t0 - 0.01);
+    times.forEach((t) => META.keys.push(t));
+  };
+  typeAt(emailEl, EMAIL, 11.1, 18);
+  moveTo(PW.x + 120, PW.y + 24, 12.25, 0.35); click(PW.x + 120, PW.y + 24, 12.62);
+  tl.to(focus, { y: PW.y - EM.y, duration: 0.15, ease: 'ui' }, 12.62);
+  typeAt(passEl, 'xxxxxxxxxx', 12.7, 22, true);
+  moveTo(BTN.x + 210, BTN.y + 24, 13.2, 0.35); click(BTN.x + 210, BTN.y + 24, 13.58);
+  const press = document.createElement('div'); press.className = 'abs';
+  press.style.cssText = `left:${BTN.x}px;top:${BTN.y}px;width:${BTN.w}px;height:${BTN.h}px;border-radius:12px;background:#2F5D52;opacity:0;display:grid;place-items:center;font:700 15px Manrope;color:#fff`;
+  press.textContent = 'Sign in'; pgLogin.appendChild(press);
+  tl.fromTo(press, { opacity: 0 }, { opacity: 1, duration: 0.1, immediateRender: false }, 13.58);
+  // match cut: the green brand panel narrows into the dashboard's sidebar; the form steps away
+  tl.to(pgLogin, { clipPath: 'inset(0 1180px 0 0)', duration: 0.7, ease: 'ebPush' }, 13.8);
+  tl.set(pgLogin, { clipPath: 'inset(0 0px 0 0)' }, 0);
+  tl.set(pgLogin, { opacity: 0 }, 14.52);
+  META.whooshes.push(13.85);
+
+  // ================= 4 · Overview builds (13.8 – 21.6) =================
+  const D = window.DASH, O = D.overview, pgOv = $('#pgOv');
+  const comp = (pg, name, info, z = 2) => { const c = document.createElement('div'); c.className = 'comp';
+    c.style.cssText = `left:${info.x}px;top:${info.y}px;width:${info.w}px;z-index:${z}`; c.innerHTML = `<img src="assets/dash/${name}.png">`; pg.appendChild(c); return c; };
+  const cards = ['score', 'users', 'part', 'energy', 'absent'].map((n) => comp(pgOv, n, O[n]));
+  const tC = [14.35, 14.47, 14.59, 14.85, 14.97];
+  cards.forEach((c, i) => {
+    tl.fromTo(c, { y: 34, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: 'ui', immediateRender: true }, tC[i]);
+    META.pops.push(tC[i] + 0.05);
+  });
+  // numbers count up in place (white patch over the baked value, live digits in the dashboard's KPI type)
+  const kpi = (name, rx, ry, w, h, fmt, to, t, size = 48) => {
+    const card = O[name].card, p = document.createElement('div'); p.className = 'abs';
+    p.style.cssText = `left:${card[0] + rx}px;top:${card[1] + ry}px;width:${w}px;height:${h}px;background:#fff;z-index:3;display:flex;align-items:flex-end;font:800 ${size}px/1 Manrope;letter-spacing:-.045em;color:#1E1E1E;font-variant-numeric:tabular-nums`;
+    pgOv.appendChild(p);
+    const o = { v: 0 };
+    tl.fromTo(o, { v: 0 }, { v: to, duration: 1.0, ease: 'ebOut', immediateRender: false, onUpdate: () => { p.textContent = fmt(o.v); } }, t);
+    tl.call(() => { p.textContent = fmt(0); }, null, t - 0.01);
+    tl.fromTo(p, { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: true }, tC[['score', 'users', 'part', 'energy', 'absent'].indexOf(name)]);
+    META.ticks.push(t);
+    return p;
+  };
+  kpi('score', 20, 54, 70, 54, (v) => v.toFixed(1), 7.4, 14.75);
+  kpi('users', 20, 54, 110, 54, (v) => Math.round(v).toString(), 52, 14.85);
+  kpi('part', 20, 54, 150, 54, (v) => v.toFixed(1) + '%', 73.8, 14.95);
+  // energy + absence bars grow (a white cover retracts across each bar region)
+  const cover = (name, rx, ry, w, h, t, d = 0.8) => { const card = O[name].card, c = document.createElement('div'); c.className = 'abs';
+    c.style.cssText = `left:${card[0] + rx}px;top:${card[1] + ry}px;width:${w}px;height:${h}px;background:#fff;z-index:3;transform-origin:100% 50%`;
+    pgOv.appendChild(c); tl.fromTo(c, { scaleX: 1 }, { scaleX: 0, duration: d, ease: 'ebSoft', immediateRender: true }, t); return c; };
+  cover('energy', 18, 104, 610, 26, 15.45, 0.9);              // stacked bar
+  [0, 1, 2].forEach((i) => cover('energy', 100, 144 + i * 30.5, 380, 18, 15.6 + i * 0.1, 0.7));   // level bars
+  cover('absent', 150, 142, 222, 14, 15.7, 0.7); cover('absent', 150, 186, 222, 14, 15.85, 0.7);
+  META.scans.push(15.45);
+  // camera: settle, then lean in on the KPIs, then the trends
+  const winTo = (props, t, d = 1.0) => tl.to(CAM, { ...props, duration: d, ease: 'ebSoft' }, t);
+  // page coordinate (px, py) → stage point, for a given cam scale s, so the camera can aim at any part of the page
+  const aim = (px, py, s, sx = 960, sy = 470) => { const X = 240 + px, Y = 72 + 46 + py; return { scale: s, x: sx - (960 + (X - 960) * s), y: sy - (540 + (Y - 540) * s) }; };
+  winTo(aim(850, 465, 1.62, 960, 360), 16.3, 1.1);
+  META.whooshes.push(16.35);
+  const caption = (id, t0, t1) => {
+    tl.to('#capbg', { opacity: 1, duration: 0.5, ease: 'ebSoft' }, t0 - 0.1);
+    reveal($(id), t0, 0.05); tl.fromTo($(id).querySelector('small'), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, immediateRender: true }, t0 + 0.35);
+    hide($(id), t1); tl.to($(id).querySelector('small'), { opacity: 0, duration: 0.3 }, t1);
+    META.titles.push(t0 + 0.05);
+  };
+  caption('#capA', 16.75, 19.0);
+  winTo(aim(850, 765, 1.5, 960, 350), 19.1, 1.1);
+  META.whooshes.push(19.15);
+  caption('#capB', 19.5, 21.6);
+  tl.to('#capbg', { opacity: 0, duration: 0.4 }, 21.7);
+
+  // ================= 5 · Privacy: subgroups (21.8 – 27.4) =================
+  winTo({ scale: 1, x: 0, y: 0 }, 21.8, 0.9);
+  tl.to(pgOv, { y: -(1343 - 640), duration: 0.9, ease: 'ebSoft' }, 21.95);      // scroll to "View subgroup breakdown"
+  moveTo(396, 640 + 0, 22.2, 0.6); click(396, 640, 22.9);
+  const pgSub = $('#pgSub');
+  tl.fromTo(pgSub, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.3, ease: 'ui', immediateRender: false }, 23.05);
+  tl.set(pgOv, { opacity: 0 }, 23.4);
+  const SG = D.subgroups.rects;
+  // table rows land one by one
+  [SG[1], SG[2], SG[3], SG[4], [293, 777, 1114, 46], SG[5]].forEach((r, i) => {
+    const c = document.createElement('div'); c.className = 'abs';
+    c.style.cssText = `left:${r[0]}px;top:${r[1]}px;width:${r[2]}px;height:${r[3]}px;background:#F9F4F2;z-index:2`;
+    pgSub.appendChild(c);
+    tl.fromTo(c, { opacity: 1 }, { opacity: 0, duration: 0.25, ease: 'ui', immediateRender: true }, 23.4 + i * 0.09);
+    META.ticks.push(23.4 + i * 0.09);
+  });
+  const VR = SG[5];
+  const hl = document.createElement('div'); hl.className = 'abs';
+  hl.style.cssText = `left:${VR[0] - 4}px;top:${VR[1] - 4}px;width:${VR[2] + 8}px;height:${VR[3] + 8}px;border-radius:12px;border:3px solid #E26023;box-shadow:0 0 0 6px rgba(226,96,35,.15);opacity:0;z-index:3`;
+  pgSub.appendChild(hl);
+  winTo(aim(850, 857, 1.75, 960, 330), 24.15, 1.0);
+  tl.fromTo(hl, { opacity: 0, scale: 1.03 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'ebOut', immediateRender: false }, 24.9);
+  // the lock clicks shut
+  const lk = document.createElement('div'); lk.className = 'abs';
+  lk.style.cssText = `left:${VR[0] + 418 - 14}px;top:${VR[1] + 10 - 14}px;width:44px;height:44px;border-radius:50%;background:rgba(58,99,96,.18);opacity:0;z-index:3`;
+  pgSub.appendChild(lk);
+  tl.fromTo(lk, { scale: 0.3, opacity: 1 }, { scale: 2.2, opacity: 0, duration: 0.7, ease: 'ebOut', immediateRender: false }, 25.05);
+  META.success.push(25.05);
+  caption('#capC', 25.1, 27.2);
+  tl.to('#capbg', { opacity: 0, duration: 0.4 }, 27.3);
+
+  // ================= 6 · HR data (27.4 – 33.8) =================
+  winTo({ scale: 1, x: 0, y: 0 }, 27.35, 0.8);
+  moveTo(70, 296, 27.6, 0.55); click(70, 296, 28.2);
+  const pgHr = $('#pgHr'), H = D.hr;
+  tl.fromTo(pgHr, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.3, ease: 'ui', immediateRender: false }, 28.35);
+  tl.set(pgSub, { opacity: 0 }, 28.7);
+  const crop = (pg, name, r, z = 2) => { const c = document.createElement('div'); c.className = 'abs';
+    c.style.cssText = `left:${r[0] - 2}px;top:${r[1] - 2}px;width:${r[2] + 4}px;z-index:${z}`; c.innerHTML = `<img src="assets/dash/${name}.png" style="display:block;width:100%">`; pg.appendChild(c); return c; };
+  const upEmpty = crop(pgHr, 'hr_empty', H.upload);
+  const upFile = crop(pgHr, 'hr_file', H.upload, 3);
+  const result = crop(pgHr, 'hr_result', H.accepted_result, 4);
+  const sAcc = [1, 2].map((i) => crop(pgHr, `hr_s${i}_acc`, H.strip[i], 3));
+  tl.set([upFile, result, ...sAcc], { opacity: 0 }, 0);
+  // the workbook is dragged in from the desktop
+  const chip = document.createElement('div'); chip.className = 'chip';
+  chip.innerHTML = '<div class="xl">XLSX</div><div>julio.xlsx<small>HR aggregate workbook</small></div>';
+  $('#vp').appendChild(chip);
+  tl.set(chip, { x: 1500, y: 760, opacity: 0, rotation: 6 }, 0);
+  tl.to(chip, { opacity: 1, duration: 0.2 }, 28.75);
+  tl.to(chip, { x: 560, y: 318, rotation: -2, duration: 0.85, ease: 'power2.inOut' }, 28.8);
+  tl.to(CUR, { x: 600, y: 340, duration: 0.85, ease: 'power2.inOut' }, 28.8);
+  const dropHL = document.createElement('div'); dropHL.className = 'abs';
+  dropHL.style.cssText = `left:${H.upload[0] - 4}px;top:${H.upload[1] - 4}px;width:${H.upload[2] + 8}px;height:${H.upload[3] + 8}px;border-radius:16px;border:2px dashed #3B7668;background:rgba(238,244,242,.6);opacity:0;z-index:5`;
+  pgHr.appendChild(dropHL);
+  tl.to(dropHL, { opacity: 1, duration: 0.2 }, 29.3);
+  tl.to(chip, { scale: 0.6, opacity: 0, duration: 0.25, ease: 'ebIn' }, 29.7);
+  tl.to(dropHL, { opacity: 0, duration: 0.2 }, 29.72);
+  tl.to(upFile, { opacity: 1, duration: 0.25, ease: 'ui' }, 29.72);
+  tl.to(sAcc[0], { opacity: 1, duration: 0.25, ease: 'ui' }, 29.8);
+  META.pops.push(29.72);
+  // Upload and check
+  const UC = { x: 952, y: H.upload[1] + 48 };
+  moveTo(UC.x, UC.y, 30.0, 0.45); click(UC.x, UC.y, 30.5);
+  const spin = document.createElement('div'); spin.className = 'abs';
+  spin.style.cssText = `left:${H.strip[2][0] + 22}px;top:${H.strip[2][1] + 19}px;width:26px;height:26px;border-radius:50%;border:3px solid #DDE9E5;border-top-color:#3B7668;opacity:0;z-index:4`;
+  pgHr.appendChild(spin);
+  tl.set(spin, { opacity: 1 }, 30.55); tl.fromTo(spin, { rotation: 0 }, { rotation: 720, duration: 0.7, ease: 'none', immediateRender: false }, 30.55); tl.set(spin, { opacity: 0 }, 31.25);
+  tl.to(sAcc[1], { opacity: 1, duration: 0.25, ease: 'ui' }, 31.25);
+  META.scans.push(30.6);
+  tl.to(upFile, { y: H.accepted_upload[1] - H.upload[1], duration: 0.45, ease: 'ui' }, 31.3);
+  tl.set(upEmpty, { opacity: 0 }, 31.3);
+  tl.fromTo(result, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.4, ease: 'ui', immediateRender: false }, 31.42);
+  META.success.push(31.45);
+  winTo(aim(680, 390, 1.6, 960, 340), 31.0, 1.0);
+  tl.to(CUR, { opacity: 0, duration: 0.3 }, 31.6);
+  caption('#capD', 31.7, 33.8);
+  tl.to('#capbg', { opacity: 0, duration: 0.4 }, 33.9);
+  // pull back: the window drops away into the program view
+  winTo({ scale: 0.7, x: 0, y: 30 }, 33.9, 0.9);
+  tl.to(WIN, { rotationX: 30, y: 900, opacity: 0, duration: 0.7, ease: 'ebIn' }, 34.5);
+  META.whooshes.push(34.6);
+
+  // ================= 7 · The program at a glance (34.9 – 39.7) =================
+  scene('s7', 34.9, 39.9);
+  tl.fromTo('#s7', { opacity: 0 }, { opacity: 1, duration: 0.4, immediateRender: false }, 34.9);
+  reveal($('#h7'), 35.05, 0.06);
+  META.titles.push(35.1);
+  const C7 = [['c_thriving', 'Wellbeing score', 150, -14], ['c_sello', 'Sello EatsBueno readiness', 690, 0], ['c_cost', 'Employee access cost', 1230, 14]];
+  C7.forEach(([n, lab, x, rot], i) => {
+    const c = document.createElement('div'); c.className = 'card3';
+    c.style.cssText = `left:${x}px;top:${n === 'c_sello' ? 300 : 350}px;width:${n === 'c_sello' ? 540 : 540}px`;
+    c.innerHTML = `<img src="assets/dash/${n}.png"><div class="lab">${lab}</div>`;
+    $('#cards7').appendChild(c);
+    tl.fromTo(c, { y: 500, rotationY: rot * 2, rotationX: 30, opacity: 0 }, { y: 0, rotationY: rot, rotationX: 6, opacity: 1, duration: 0.9, ease: 'ebOut', immediateRender: true }, 35.5 + i * 0.12);
+    tl.to(c, { rotationY: rot * 0.4, rotationX: 0, y: -10, duration: 3.4, ease: 'sine.inOut' }, 36.4);
+    META.pops.push(35.6 + i * 0.12);
+  });
+  tl.to(['#h7', '#cards7'], { opacity: 0, y: -30, duration: 0.45, ease: 'ebIn' }, 39.4);
+
+  // ================= 8 · Outro (39.7 – 44.5) =================
+  scene('s8', 39.75, DUR + 0.1);
+  tl.fromTo('#s8', { opacity: 0 }, { opacity: 1, duration: 0.4, immediateRender: false }, 39.75);
+  buildLogo($('#logo8'), 40.0);
+  reveal($('#tag8'), 41.25, 0.05);
+  tl.fromTo('#sub8', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, immediateRender: true }, 41.9);
+  tl.fromTo('#sig8', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, immediateRender: true }, 42.4);
+  META.titles.push(41.3);
+  tl.set({}, {}, DUR);
+
+  window.DURATION = DUR; window.META = META;
+  window.__seek = (t) => {
+    tl.seek(t, false);
+    return Promise.all(VIDS.filter((c) => t >= c.t0 - 0.05 && t <= c.t0 + c.dur + 0.05).map(({ v, t0, inPt, rate }) => new Promise((res) => {
+      const want = Math.min(Math.max(0, inPt + (t - t0) * rate), Math.max(0, (v.duration || 99) - 0.04));
+      if (Math.abs(v.currentTime - want) < 1e-3 && v.readyState >= 2) return res();
+      v.addEventListener('seeked', () => res(), { once: true });
+      v.currentTime = want;
+    }))).then(() => {});
+  };
+  READY(Promise.all([document.fonts.ready, ...Array.from(document.images).map((i) => i.decode().catch(() => {})),
+    ...VIDS.map(({ v }) => new Promise((res) => { if (v.readyState >= 2) res(); else { v.addEventListener('loadeddata', res, { once: true }); v.addEventListener('error', res, { once: true }); } }))]));
+  if (!/render=1/.test(location.search)) { tl.play(0); tl.eventCallback('onComplete', () => tl.play(0)); }
+})();
+</script>
+</body>
+</html>
