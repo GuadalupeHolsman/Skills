@@ -27,6 +27,9 @@ Cada elección se guarda de tres formas: en esa pantalla, en una cola que sobrev
 ### Pantallas reales de la app
 No es un paso aparte: la app real aparece dentro de los pasos que ya existían. En "Elige qué se pausa" el celular arranca mostrando la pantalla real *App Group Setup*; al tocarlo se abre el selector de apps. En "Un tap y entras" arranca con la pantalla real *You're Event Ready!* y, al acercar el celular al tótem (o la key), esa pantalla se va y aparece el bloqueo. Las imágenes están en `src/app-screens/` (`app4.webp` y `app5.webp`, 640 px de ancho, reducidas del zip de diseño); para cambiarlas reemplaza los archivos y corre `python3 src/build.py`.
 
+### Key de Don Julio
+La key que se ve en todo el kiosco es el diseño real de Don Julio (frente y dorso) de `src/keys/don-julio-front.svg` y `don-julio-back.svg`, extraídos del archivo `DONJULIO_keys.svg`. Se usa en la pantalla "Tu key" (se da vuelta al tocarla), en el dibujo de "Qué es" y como la key que se arrastra en "Tengo mi key". Para cambiarla, reemplaza esos dos SVG y corre `python3 src/build.py`.
+
 ## Estética
 Usa la dirección de arte de **Prime Time · loomlock experiences**: cada pantalla es un canal de TV (CH 01 a CH 05), azul canal `#2F3AD0`, amarillo señal `#FCCE21`, negro pantalla y papel; Montserrat fina en mayúsculas con énfasis en itálica gruesa, rótulos en Space Mono; grano, líneas de TV, estática al cambiar de canal y respuestas "tachadas" que se destapan. Firma: *live now, post later.*
 
