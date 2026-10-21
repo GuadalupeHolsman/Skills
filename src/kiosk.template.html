@@ -206,7 +206,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
   width:440px;height:820px;background:var(--screen);border-radius:80px;padding:20px;position:relative;flex:none;
   box-shadow:20px 20px 0 rgba(11,11,16,.55);
 }
-.phone::before{content:"";position:absolute;top:36px;left:50%;transform:translateX(-50%);width:140px;height:38px;background:var(--screen);border-radius:99px;z-index:3}
+.phone::before{content:"";position:absolute;top:36px;left:50%;transform:translateX(-50%);width:140px;height:38px;background:var(--screen);border-radius:99px;z-index:7}
 .screen-in{
   height:100%;border-radius:62px;background:var(--paper);overflow:hidden;position:relative;color:var(--ink);
   display:flex;flex-direction:column;padding:88px 28px 28px;gap:14px;
@@ -725,16 +725,15 @@ h2 .w{display:inline-block}
 .invite:not(.picked) .inv:nth-child(4) .inv-ic{animation-delay:.75s}
 .invite:not(.picked) .inv:nth-child(5) .inv-ic{animation-delay:1s}
 
-/* real app screens */
-.appdemo{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;gap:26px}
-.ad-phone{position:relative;height:min(100%,1090px);aspect-ratio:1572/3408;background:var(--screen);border-radius:64px;padding:13px;box-shadow:12px 12px 0 rgba(11,11,16,.55),0 0 0 4px rgba(237,234,227,.18);flex:none;cursor:pointer}
-.ad-view{width:100%;height:100%;border-radius:52px;overflow:hidden;position:relative;background:#fff}
-.ad-track{display:flex;width:500%;height:100%;transition:transform .6s var(--e-std)}
-.ad-track img{width:20%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none}
-.ad-cap{margin:0;min-height:1.2em;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:40px;line-height:1.1;color:var(--yellow);text-shadow:4px 4px 0 var(--screen)}
-.ad-dots{display:flex;gap:16px}
-.ad-dots i{width:18px;height:18px;border-radius:50%;background:rgba(237,234,227,.35);transition:all .3s}
-.ad-dots i.on{background:var(--yellow);width:48px;border-radius:99px}
+/* the real app, shown first inside the demo phones */
+.app-ov{position:absolute;inset:20px;border-radius:62px;overflow:hidden;z-index:6;transition:opacity .5s var(--e-std),transform .5s var(--e-std);background:#ECEDFF}
+.app-ov img{width:100%;height:100%;display:block;pointer-events:none;-webkit-user-drag:none}
+#ov1 img{object-fit:contain}
+#ov3 img{object-fit:cover;object-position:center bottom}
+.app-ov.gone{opacity:0;transform:scale(1.04);pointer-events:none}
+#ov1{cursor:pointer}
+#ov1:not(.gone) ~ .screen-in .tp{display:none}
+#ov3{pointer-events:none}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -878,24 +877,6 @@ h2 .w{display:inline-block}
     <div class="hint"><i></i><span data-t="s2.hint">Muévela · tócala · cambia la edición</span></div>
   </section>
 
-  <!-- 04 · La app real -->
-  <section class="screen" id="sApp" data-name="n4" aria-label="La app">
-    <div class="head">
-      <span class="kicker" data-t="k4">Antes de llegar</span>
-      <h2 class="focus" data-t="tApp">Así se ve <em>la app.</em></h2>
-    </div>
-    <div class="appdemo">
-      <div class="ad-phone" id="ad-phone" role="button" aria-label="Siguiente pantalla de la app">
-        <div class="ad-view"><div class="ad-track" id="ad-track">
-          <img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""><img src="{{APP5}}" alt="">
-        </div></div>
-        <i class="tp" style="left:50%;top:90%"></i>
-      </div>
-      <p class="ad-cap" id="ad-cap"></p>
-      <div class="ad-dots" id="ad-dots"><i></i><i></i><i></i><i></i><i></i></div>
-    </div>
-  </section>
-
   <!-- 02 · Pruébalo -->
   <section class="screen" id="s2" data-name="n2" aria-label="Elige tus apps">
     <div class="head">
@@ -906,6 +887,7 @@ h2 .w{display:inline-block}
     <p class="instr" id="instr1"></p>
     <div class="stage-area">
       <div class="phone" id="phone1">
+        <div class="app-ov" id="ov1"><img src="{{APP4}}" alt=""><i class="tp" style="left:50%;top:91%"></i></div>
         <div class="screen-in">
           <div class="app-bar"><span class="ab-logo">loomlock</span><span class="ab-t" data-t="s1.appbar">Apps a pausar</span></div>
           <div class="status" id="status1"></div>
@@ -945,6 +927,7 @@ h2 .w{display:inline-block}
       </button>
       <svg class="down-arrow"><use href="#arrow-d"/></svg>
       <div class="phone" id="phone3">
+        <div class="app-ov" id="ov3"><img src="{{APP5}}" alt=""></div>
         <div class="screen-in">
           <div class="clock" data-clock>21:30</div>
           <div class="status" id="status3" data-t="s3.status">Esperando tu key…</div>
@@ -1044,7 +1027,7 @@ h2 .w{display:inline-block}
 
   const T = {
     es: {
-      "kInv":"Quién te invitó","nInv":"Quién te invitó","tApp":"Así se ve <em>la app.</em>","app.c1":"Abre la app","app.c2":"Permite Screen Time","app.c3":"Llamadas y SMS siguen activos","app.c4":"Elige las apps que quedan activas","app.c5":"Acerca tu key y entra","tInv":"¿Quién <em>te invitó?</em>",
+      "kInv":"Quién te invitó","nInv":"Quién te invitó","tInv":"¿Quién <em>te invitó?</em>",
       "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
       "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
       "inv.hint":"Toca una opción",
@@ -1115,7 +1098,7 @@ h2 .w{display:inline-block}
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",cam:"Cámara",mp:"Mapas"}
     },
     en: {
-      "kInv":"Who invited you","nInv":"Who invited you","tApp":"This is <em>the app.</em>","app.c1":"Open the app","app.c2":"Allow Screen Time","app.c3":"Calls & SMS stay on","app.c4":"Pick the apps that stay on","app.c5":"Tap your key and walk in","tInv":"Who <em>invited you?</em>",
+      "kInv":"Who invited you","nInv":"Who invited you","tInv":"Who <em>invited you?</em>",
       "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
       "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
       "inv.hint":"Tap an option",
@@ -1302,7 +1285,7 @@ h2 .w{display:inline-block}
     $$(".app-tile").forEach(b => { b.querySelector(".nm").textContent = T[lang].apps[b.dataset.id] });
     $("#host").textContent = t("s0.host", {h:CONFIG.anfitrion}); $("#host").hidden = !CONFIG.anfitrion;
     $("#totem-name").textContent = t("s3.totem");
-    refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz(); renderInvite(); renderApp();
+    refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz(); renderInvite();
   }
 
   /* ---------- channel changes ---------- */
@@ -1370,6 +1353,7 @@ h2 .w{display:inline-block}
   }
   buildApps($("#apps1"), true); buildApps($("#apps3"), false);
   const phone1 = $("#phone1");
+  $("#ov1").addEventListener("click", e => { e.currentTarget.classList.add("gone"); vib(10) });
   $("#apps1").addEventListener("click", e => {
     const b = e.target.closest(".app-tile"); if (!b) return;
     if (b.classList.contains("ess")){ b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); flashStatus(t("s1.ess")); return }
@@ -1444,6 +1428,7 @@ h2 .w{display:inline-block}
     $("#status3").textContent = t(["s3.status","s3.statusOk","s3.statusBack"][phase3]);
     $$("#flow3 .fp").forEach((f, i) => f.className = "fp" + (i < phase3 ? " ok" : (i === phase3 ? " now" : "")));
     $$("#flow3 .fa").forEach((f, i) => f.classList.toggle("on", i < phase3));
+    $("#ov3").classList.toggle("gone", phase3 > 0);
     if (phase3) markReady();
     $("#hint3").hidden = phase3 === 2; $("#reset3").hidden = phase3 !== 2;
     const T3 = mode3 === "totem";
@@ -1695,29 +1680,10 @@ h2 .w{display:inline-block}
     try { navigator.clipboard.writeText(txt).then(done, done) } catch (e) { done() }
   };
 
-
-  /* ---------- real app screens ---------- */
-  let adI = 0;
-  function renderApp(){
-    $("#ad-track").style.transform = `translateX(${-adI * 20}%)`;
-    $$("#ad-dots i").forEach((d, i) => d.classList.toggle("on", i === adI));
-    $("#ad-cap").textContent = t("app.c" + (adI + 1));
-  }
-  const adStep = d => { adI = (adI + d + 5) % 5; renderApp(); vib(8) };
-  let adX = null;
-  const adPhone = $("#ad-phone");
-  adPhone.addEventListener("pointerdown", e => { adX = e.clientX });
-  adPhone.addEventListener("pointerup", e => {
-    if (adX === null) return; const dx = e.clientX - adX; adX = null;
-    adStep(Math.abs(dx) > 40 ? (dx < 0 ? 1 : -1) : 1);
-  });
-  /* plays itself until someone touches it */
-  setInterval(() => { const sc = $("#sApp"); if (sc.classList.contains("active") && !sc.classList.contains("touched") && adI < 4) adStep(1) }, 3200);
-
   /* ---------- reset + idle ---------- */
   function resetAll(){
     clearTimeout(inviteT); commitInvite(); inviteChoice = null; inviteDone = false; renderInvite();
-    adI = 0; renderApp();
+    $("#ov1").classList.remove("gone");
     saved1 = false; phone1.classList.remove("is-saved"); $("#next-tip").classList.remove("on");
     buildApps($("#apps1"), true); syncApps3();
     card.classList.remove("flipped");
