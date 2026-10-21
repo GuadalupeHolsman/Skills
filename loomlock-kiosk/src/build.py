@@ -54,7 +54,7 @@ def app_img(n):
 
 
 page = (tpl.replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky()))
-for i in range(1, 6):
+for i in (4, 5):
     page = page.replace("{{APP%d}}" % i, app_img(i))
 
 (ROOT / "artifact.html").write_text(page, encoding="utf-8")
