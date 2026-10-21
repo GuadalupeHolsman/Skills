@@ -727,13 +727,13 @@ h2 .w{display:inline-block}
 /* the real app, shown first inside the demo phones */
 .app-ov{position:absolute;inset:14px;border-radius:54px;overflow:hidden;z-index:6;transition:opacity .5s var(--e-std),transform .5s var(--e-std);background:#ECEDFF}
 .app-ov img{width:100%;height:100%;display:block;pointer-events:none;-webkit-user-drag:none}
-#ov1 img,#ov3 img{object-fit:cover}
+#ov1 img,#ov3 img,#ov3b img{object-fit:cover}
 .app-ov.gone{opacity:0;transform:scale(1.04);pointer-events:none}
 #ov1{cursor:pointer}
 .phone::before{transition:opacity .4s}
 .phone:has(.app-ov:not(.gone))::before{opacity:0}
 #ov1:not(.gone) ~ .screen-in .tp{display:none}
-#ov3{pointer-events:none}
+#ov3,#ov3b{pointer-events:none}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -928,6 +928,7 @@ h2 .w{display:inline-block}
       <svg class="down-arrow"><use href="#arrow-d"/></svg>
       <div class="phone" id="phone3">
         <div class="app-ov" id="ov3"><img src="{{APP5}}" alt=""></div>
+        <div class="app-ov gone" id="ov3b"><img src="{{APP3}}" alt=""></div>
         <div class="screen-in">
           <div class="clock" data-clock>21:30</div>
           <div class="status" id="status3" data-t="s3.status">Esperando tu key…</div>
@@ -1423,12 +1424,14 @@ h2 .w{display:inline-block}
 
   /* ---------- CH 03: drag the key onto the phone ---------- */
   const zone = $("#zone3"), dcard = $("#drag-card"), phone3 = $("#phone3");
-  let phase3 = 0, done3 = false, drag = null, back3, hit3;   // 0: lock next · 1: unlock next · 2: finished
+  let phase3 = 0, done3 = false, drag = null, back3, hit3, ovT;   // 0: lock next · 1: unlock next · 2: finished
   function refresh3(){
     $("#status3").textContent = t(["s3.status","s3.statusOk","s3.statusBack"][phase3]);
     $$("#flow3 .fp").forEach((f, i) => f.className = "fp" + (i < phase3 ? " ok" : (i === phase3 ? " now" : "")));
     $$("#flow3 .fa").forEach((f, i) => f.classList.toggle("on", i < phase3));
     $("#ov3").classList.toggle("gone", phase3 > 0);
+    /* once the lock has landed, the real app screen shows what stays on while paused */
+    clearTimeout(ovT); if (phase3 === 1) ovT = setTimeout(() => $("#ov3b").classList.remove("gone"), 1700); else $("#ov3b").classList.add("gone");
     if (phase3) markReady();
     $("#hint3").hidden = phase3 === 2; $("#reset3").hidden = phase3 !== 2;
     const T3 = mode3 === "totem";
