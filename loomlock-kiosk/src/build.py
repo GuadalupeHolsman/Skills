@@ -53,7 +53,11 @@ def app_img(n):
     return "data:image/webp;base64," + base64.b64encode((ROOT / f"src/app-screens/app{n}.webp").read_bytes()).decode()
 
 
-page = (tpl.replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky()))
+def key_svg(n):
+    return "data:image/svg+xml;base64," + base64.b64encode((ROOT / f"src/keys/don-julio-{n}.svg").read_bytes()).decode()
+
+
+page = (tpl.replace("{{KEY_FRONT}}", key_svg("front")).replace("{{KEY_BACK}}", key_svg("back")).replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky()))
 for i in (4, 5):
     page = page.replace("{{APP%d}}" % i, app_img(i))
 

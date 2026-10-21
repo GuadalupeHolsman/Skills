@@ -9,7 +9,7 @@
    Channel-blue ground with grain, scanlines and vignette; Space Mono rails; Montserrat 200
    uppercase with 800-italic yellow emphasis. Interactive objects keep Locky's ink outline
    and hard offset shadows. Channel changes cut through static with an on-screen display. */
-:root{
+:root{--key-front:url('{{KEY_FRONT}}');--key-back:url('{{KEY_BACK}}');
   --blue:#2F3AD0;        /* channel blue */
   --blue-deep:#1E269C;
   --yellow:#FCCE21;      /* signal yellow: what matters */
@@ -746,6 +746,12 @@ h2 .w{display:inline-block}
 .drag-zone.done:not(.back) #phone3 .app-tile.sel .ic{animation-delay:calc(var(--td,0ms) + 1.25s)}
 .drag-zone.done:not(.back) #phone3 .app-tile .badge{transition-delay:calc(var(--td,0ms) + 1.25s)!important}
 .drag-zone.done:not(.back) #phone3 .lock-banner{transition-delay:1.4s}
+
+/* the real Don Julio key (CH 02), one copy shared by every key on screen */
+.nfc-card .face.front{background:var(--key-front) center/cover no-repeat}
+.nfc-card .face.back{background:var(--key-back) center/cover no-repeat;padding:0}
+.drag-card{background:var(--key-front) center/cover no-repeat}
+.cz-key{background:var(--key-front) center/cover no-repeat}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -839,7 +845,7 @@ h2 .w{display:inline-block}
       <h2 class="focus" data-t="q1.title">Un tap con tu key. <em>Apps en pausa.</em></h2>
     </div>
     <div class="cause" aria-hidden="true">
-      <div class="cz-key"><svg><use href="#waves"/></svg><b data-ch>CH 02</b><i></i></div>
+      <div class="cz-key"></div>
       <div class="cz-waves"><i></i><i></i><i></i></div>
       <div class="cz-phone"><span class="cz-notch"></span><span class="cz-lock"><svg><use href="#lock-y"/></svg></span><span class="cz-lbl" data-t="q1.tapped">Tap</span></div>
     </div>
@@ -868,21 +874,8 @@ h2 .w{display:inline-block}
     </div>
     <div class="card-area" id="card-area"><i class="tp" style="left:84%;top:70%"></i>
       <button class="nfc-card" id="card" aria-label="Dar vuelta la key">
-        <div class="face front">
-          <div class="holo"></div>
-          <span class="wm">loomlock experiences</span>
-          <svg class="waves"><use href="#waves"/></svg>
-          <span class="big-ch" id="card-ch">CH 02</span>
-          <div class="bar"><span data-t="s2.bar">live now, post later.</span></div>
-          <span class="ed" data-t="s2.edition">Edición limitada</span>
-          <span class="serial">Nº 0042 / 0200</span>
-          <div class="shine"></div>
-        </div>
-        <div class="face back">
-          <div class="chip-ic"></div>
-          <h3 data-t="s2.backt">Adentro hay <b>un chip NFC.</b></h3>
-          <p data-t="s2.back">Se acerca al celular. La app hace el resto.</p>
-        </div>
+        <div class="face front"><div class="shine"></div></div>
+        <div class="face back"></div>
       </button>
     </div>
     <div class="chips"><span data-t="c1">Chip NFC</span><span data-t="c2">Sin batería</span><span data-t="c3">Es tuya</span></div>
@@ -932,11 +925,7 @@ h2 .w{display:inline-block}
         <div class="target-ring"></div>
         <div class="shock"></div><div class="shock s2"></div><div class="shock s3"></div>
       </div>
-      <button class="drag-card" id="drag-card" aria-label="Key Loomlock: toca o arrastra hasta el celular"><i class="tp" style="left:50%;top:50%"></i>
-        <svg class="waves"><use href="#waves"/></svg>
-        <span class="mini-ch" data-ch>CH 02</span>
-        <span class="stripe"></span>
-      </button>
+      <button class="drag-card" id="drag-card" aria-label="Key Loomlock: toca o arrastra hasta el celular"><i class="tp" style="left:50%;top:50%"></i></button>
       <svg class="down-arrow"><use href="#arrow-d"/></svg>
       <div class="phone" id="phone3">
         <div class="app-ov" id="ov3"><img src="{{APP5}}" alt=""></div>
