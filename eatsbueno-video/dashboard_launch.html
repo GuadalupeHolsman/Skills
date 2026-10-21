@@ -281,7 +281,8 @@
   // energy + absence bars grow (a white cover retracts across each bar region)
   const cover = (name, rx, ry, w, h, t, d = 0.8) => { const card = O[name].card, c = document.createElement('div'); c.className = 'abs';
     c.style.cssText = `left:${card[0] + rx}px;top:${card[1] + ry}px;width:${w}px;height:${h}px;background:#fff;z-index:3;transform-origin:100% 50%`;
-    pgOv.appendChild(c); tl.fromTo(c, { scaleX: 1 }, { scaleX: 0, duration: d, ease: 'ebSoft', immediateRender: true }, t); return c; };
+    pgOv.appendChild(c); tl.set(c, { opacity: 0 }, 0); tl.set(c, { opacity: 1 }, tC[name === 'energy' ? 3 : 4]);
+    tl.fromTo(c, { scaleX: 1 }, { scaleX: 0, duration: d, ease: 'ebSoft', immediateRender: false }, t); return c; };
   cover('energy', 18, 104, 610, 26, 15.45, 0.9);              // stacked bar
   [0, 1, 2].forEach((i) => cover('energy', 100, 144 + i * 30.5, 380, 18, 15.6 + i * 0.1, 0.7));   // level bars
   cover('absent', 150, 142, 222, 14, 15.7, 0.7); cover('absent', 150, 186, 222, 14, 15.85, 0.7);
@@ -392,10 +393,10 @@
   tl.fromTo('#s7', { opacity: 0 }, { opacity: 1, duration: 0.4, immediateRender: false }, 34.9);
   reveal($('#h7'), 35.05, 0.06);
   META.titles.push(35.1);
-  const C7 = [['c_thriving', 'Wellbeing score', 150, -14], ['c_sello', 'Sello EatsBueno readiness', 690, 0], ['c_cost', 'Employee access cost', 1230, 14]];
+  const C7 = [['c_thriving', 'Wellbeing score', 90, -14], ['c_sello', 'Sello EatsBueno readiness', 660, 0], ['c_cost', 'Employee access cost', 1230, 14]];
   C7.forEach(([n, lab, x, rot], i) => {
     const c = document.createElement('div'); c.className = 'card3';
-    c.style.cssText = `left:${x}px;top:${n === 'c_sello' ? 300 : 350}px;width:${n === 'c_sello' ? 540 : 540}px`;
+    c.style.cssText = `left:${x}px;top:${n === 'c_sello' ? 280 : 340}px;width:600px`;
     c.innerHTML = `<img src="assets/dash/${n}.png"><div class="lab">${lab}</div>`;
     $('#cards7').appendChild(c);
     tl.fromTo(c, { y: 500, rotationY: rot * 2, rotationX: 30, opacity: 0 }, { y: 0, rotationY: rot, rotationX: 6, opacity: 1, duration: 0.9, ease: 'ebOut', immediateRender: true }, 35.5 + i * 0.12);
