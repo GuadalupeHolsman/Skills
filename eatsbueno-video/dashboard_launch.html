@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=1920, height=1080">
 <title>EatsBueno Institutional · Launch Film</title>
 <style>
+  /* Cooper BT (licensed, gitignored) with Cooper* (OFL) fallback */
+  @font-face { font-family: "Cooper"; font-style: normal; font-weight: 300; font-display: block; src: url(assets/fonts/cooperbt/CooperLtBT-Regular.ttf), url(assets/fonts/cooper.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: normal; font-weight: 500; font-display: block; src: url(assets/fonts/cooperbt/CooperMdBT-Regular.ttf), url(assets/fonts/cooper.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: normal; font-weight: 700; font-display: block; src: url(assets/fonts/cooperbt/CooperLtBT-Bold.ttf), url(assets/fonts/cooper.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: normal; font-weight: 900; font-display: block; src: url(assets/fonts/cooperbt/CooperBlkBT-Regular.ttf), url(assets/fonts/cooper.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: italic; font-weight: 300; font-display: block; src: url(assets/fonts/cooperbt/CooperLtBT-Italic.ttf), url(assets/fonts/cooper-italic.woff2) format("woff2"); }
+  @font-face { font-family: "Cooper"; font-style: italic; font-weight: 700; font-display: block; src: url(assets/fonts/cooperbt/CooperLtBT-BoldItalic.ttf), url(assets/fonts/cooper-italic.woff2) format("woff2"); }
   @font-face { font-family: "Manrope"; font-style: normal; font-weight: 200 800; font-display: block; src: url(assets/fonts/manrope.woff2) format("woff2"); }
   /* EBI tokens (assets from the dev team: 11_Fonts_and_Colors) */
   :root { --ink:#1E1E1E; --green:#3B7668; --green7:#2F5D52; --sidebar:#173F37; --sideHover:#1F4A41; --cream:#FAF0DF; --mint:#AFCFC4; --blush:#F9F4F2;
@@ -17,7 +24,11 @@
   .grain { position: absolute; inset: 0; pointer-events: none; opacity: .07; mix-blend-mode: overlay; z-index: 60; }
   .wm { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .02em .12em; margin-bottom: -.12em; }
   .w { display: inline-block; will-change: transform; }
-  .h1 { font: 800 96px/1.05 Manrope; letter-spacing: -.035em; color: var(--cream); }
+  .h1 { font: 700 100px/1.08 Cooper; color: var(--cream); } .h1 i { font-weight: 300; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(90px); }
+  .flower svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .wordmark { -webkit-mask: var(--wm) center / contain no-repeat; mask: var(--wm) center / contain no-repeat; background: var(--cream); aspect-ratio: 1174 / 194; }
+  .seed { position: absolute; border-radius: 50%; background: var(--cream); }
   .eyebrow { font: 800 18px Manrope; letter-spacing: .22em; text-transform: uppercase; }
   /* browser window */
   #win { position: absolute; left: 240px; top: 72px; width: 1440px; height: 946px; border-radius: 18px; overflow: hidden; background: var(--blush);
@@ -34,16 +45,16 @@
   #cursor { position: absolute; left: 0; top: 0; width: 26px; height: 34px; z-index: 50; pointer-events: none; filter: drop-shadow(0 3px 4px rgba(0,0,0,.3)); }
   .clickring { position: absolute; left: 0; top: 0; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; border: 3px solid rgba(59,118,104,.8); opacity: 0; z-index: 49; }
   /* captions over the product */
-  .cap { position: absolute; left: 0; right: 0; bottom: 0; height: 400px; z-index: 30; background: linear-gradient(180deg, rgba(15,42,37,0) 0%, rgba(15,42,37,.86) 42%, rgba(15,42,37,.96) 100%); opacity: 0; }
-  .capt { position: absolute; left: 120px; bottom: 92px; font: 800 64px/1.08 Manrope; letter-spacing: -.035em; color: var(--cream); z-index: 31; }
-  .capt small { display: block; font: 600 24px/1.4 Manrope; letter-spacing: 0; color: var(--mint); margin-top: 14px; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; height: 400px; z-index: 30; background: linear-gradient(180deg, rgba(250,240,223,0) 0%, rgba(250,240,223,.9) 42%, rgba(250,240,223,.97) 100%); opacity: 0; }
+  .capt { position: absolute; left: 120px; bottom: 92px; font: 700 68px/1.08 Cooper; color: #2A5D51; z-index: 31; } .capt i { font-weight: 300; color: #E26023; }
+  .capt small { display: block; font: 600 24px/1.4 Manrope; letter-spacing: 0; color: #5B5651; margin-top: 14px; }
   .chip { position: absolute; display: flex; align-items: center; gap: 12px; padding: 14px 20px 14px 14px; border-radius: 14px; background: #fff; box-shadow: 0 30px 60px -20px rgba(0,0,0,.45);
           font: 700 17px Manrope; color: var(--ink); z-index: 45; }
   .chip .xl { width: 40px; height: 48px; border-radius: 8px; background: #1D6F42; color: #fff; display: grid; place-items: center; font: 800 13px Manrope; }
   .chip small { display: block; font: 500 13px Manrope; color: var(--muted); }
   .card3 { position: absolute; transform-style: preserve-3d; }
   .card3 img { display: block; width: 100%; filter: drop-shadow(0 40px 60px rgba(0,0,0,.35)); }
-  .card3 .lab { margin-top: 18px; text-align: center; font: 800 16px Manrope; letter-spacing: .2em; text-transform: uppercase; color: var(--mint); }
+  .card3 .lab { margin-top: 18px; text-align: center; font: 800 16px Manrope; letter-spacing: .2em; text-transform: uppercase; color: var(--cream); }
 </style>
 </head>
 <body>
@@ -51,22 +62,26 @@
   <svg class="grain" width="1920" height="1080"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
 
   <!-- 1 · Hook: real teams, three lines -->
-  <section class="scene" id="s1" style="background:#0F2A25">
+  <section class="scene" id="s1" style="background:#E26023">
     <div class="abs" id="foot1" style="inset:0"></div>
-    <div class="abs" style="inset:0;background:radial-gradient(70% 70% at 50% 55%,rgba(15,42,37,.25) 0%,rgba(15,42,37,.75) 100%);z-index:2"></div>
-    <div class="abs h1" id="l1" style="left:0;right:0;top:470px;text-align:center;z-index:3">You invested in your team’s wellbeing.</div>
-    <div class="abs h1" id="l2" style="left:0;right:0;top:470px;text-align:center;z-index:3">But how is it <span style="color:#F0A26A">really</span> going?</div>
-    <div class="abs h1" id="l3" style="left:0;right:0;top:420px;text-align:center;z-index:3;font-size:90px">See it as a group.<br><span style="color:var(--mint)">Never person by person.</span></div>
+    <div class="abs" style="inset:0;background:radial-gradient(70% 70% at 50% 55%,rgba(120,40,10,.0) 0%,rgba(90,30,8,.45) 100%);z-index:2"></div>
+    <div class="abs h1" id="l1" style="left:0;right:0;top:476px;text-align:center;z-index:3;font-size:86px">You invested in your team’s <i>wellbeing.</i></div>
+    <div class="abs h1" id="l2" style="left:0;right:0;top:470px;text-align:center;z-index:3">But how is it <i>really</i> going?</div>
+    <div class="abs h1" id="l3" style="left:0;right:0;top:410px;text-align:center;z-index:3;font-size:96px">See it as a group.<br><i>Never person by person.</i></div>
   </section>
 
   <!-- 2 · Brand -->
-  <section class="scene" id="s2" style="background:radial-gradient(90% 90% at 50% 45%,#1F4A41 0%,#173F37 60%,#10302A 100%)">
-    <div class="abs" id="logo2" style="left:570px;top:300px;width:780px;height:230px"></div>
-    <div class="abs" id="tag2" style="left:0;right:0;top:600px;text-align:center;font:800 54px/1.15 Manrope;letter-spacing:-.03em;color:var(--cream)">Aggregate wellbeing evidence<br><span style="color:var(--mint)">for your organization.</span></div>
+  <section class="scene" id="s2" style="background:#E26023">
+    <div class="blob" style="width:1500px;height:1100px;left:-200px;top:0;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:900px;top:300px;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
+    <div class="abs" id="seeds2" style="left:960px;top:360px;width:0;height:0"></div>
+    <div class="abs flower" id="fl2" style="left:830px;top:230px;width:260px;height:260px;color:var(--cream)"></div>
+    <div class="abs wordmark" id="wm2" style="left:560px;top:520px;width:800px"></div>
+    <div class="abs eyebrow" id="ins2" style="left:0;right:0;top:672px;text-align:center;color:var(--cream);font-size:22px;letter-spacing:.6em">Institutional</div>
+    <div class="abs" id="tag2" style="left:0;right:0;top:760px;text-align:center;font:italic 300 56px/1.15 Cooper;color:var(--cream)">Aggregate wellbeing evidence for your organization.</div>
   </section>
 
   <!-- 3–6 · The product, inside one browser window -->
-  <section class="scene" id="s3" style="background:radial-gradient(100% 100% at 50% 30%,#24574C 0%,#173F37 55%,#0F2A25 100%)">
+  <section class="scene" id="s3" style="background:radial-gradient(90% 90% at 50% 55%,#FBEBDD 0%,#F6E3D2 45%,#EFD3BE 100%)">
     <div class="abs" id="cam" style="inset:0;transform-origin:960px 540px">
       <div id="win">
         <div id="chrome"><i style="background:#E46B5F"></i><i style="background:#E8B64C"></i><i style="background:#5EBD6B"></i>
@@ -82,31 +97,37 @@
       </div>
     </div>
     <div class="cap" id="capbg"></div>
-    <div class="capt" id="capA">One clear score.<br>Real participation.<small>Group results for the closed month, refreshed every period.</small></div>
-    <div class="capt" id="capB">How your people feel,<br>in aggregate.<small>Self-reported energy and HR-reported absence, side by side with your baseline.</small></div>
-    <div class="capt" id="capC">Small groups are<br>never shown.<small>Below the minimum reporting size, a result is withheld, never shown as zero.</small></div>
-    <div class="capt" id="capD">Upload. Check.<br>On file.<small>One monthly workbook of group totals. Never individual employees.</small></div>
+    <div class="capt" id="capA">One clear score.<br><i>Real participation.</i><small>Group results for the closed month, refreshed every period.</small></div>
+    <div class="capt" id="capB">How your people feel,<br><i>in aggregate.</i><small>Self-reported energy and HR-reported absence, side by side with your baseline.</small></div>
+    <div class="capt" id="capC">Small groups are<br><i>never shown.</i><small>Below the minimum reporting size, a result is withheld, never shown as zero.</small></div>
+    <div class="capt" id="capD">Upload. Check.<br><i>On file.</i><small>One monthly workbook of group totals. Never individual employees.</small></div>
   </section>
 
   <!-- 7 · The program at a glance -->
-  <section class="scene" id="s7" style="background:radial-gradient(100% 100% at 50% 20%,#24574C 0%,#173F37 55%,#0F2A25 100%)">
-    <div class="abs h1" id="h7" style="left:0;right:0;top:86px;text-align:center;font-size:72px">Everything your program needs.<br><span style="color:var(--mint)">In one place.</span></div>
+  <section class="scene" id="s7" style="background:#E26023">
+    <div class="blob" style="width:1500px;height:1100px;left:-200px;top:0;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:900px;top:300px;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
+    <div class="abs h1" id="h7" style="left:0;right:0;top:86px;text-align:center;font-size:72px">Everything your program needs.<br><i>In one place.</i></div>
     <div class="abs" id="cards7" style="inset:0;transform-style:preserve-3d"></div>
   </section>
 
   <!-- 8 · Outro -->
-  <section class="scene" id="s8" style="background:radial-gradient(90% 90% at 50% 45%,#1F4A41 0%,#173F37 60%,#10302A 100%)">
-    <div class="abs" id="logo8" style="left:570px;top:280px;width:780px;height:230px"></div>
-    <div class="abs" id="tag8" style="left:0;right:0;top:560px;text-align:center;font:800 50px/1.15 Manrope;letter-spacing:-.03em;color:var(--cream)">Aggregate wellbeing evidence for your organization.</div>
-    <div class="abs" id="sub8" style="left:0;right:0;top:648px;text-align:center;font:600 26px Manrope;color:var(--mint)">Group results only — never individual employees.</div>
-    <div class="abs" id="sig8" style="left:0;right:0;bottom:60px;display:flex;align-items:center;justify-content:center;gap:22px;font:800 15px Manrope;letter-spacing:.24em;text-transform:uppercase;color:rgba(250,240,223,.6)"><i style="width:80px;height:1px;background:rgba(250,240,223,.4)"></i>Closed months · Privacy first · Your HR figures<i style="width:80px;height:1px;background:rgba(250,240,223,.4)"></i></div>
+  <section class="scene" id="s8" style="background:#E26023">
+    <div class="blob" style="width:1500px;height:1100px;left:-200px;top:0;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:900px;top:300px;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
+    <div class="abs" id="seeds8" style="left:960px;top:320px;width:0;height:0"></div>
+    <div class="abs flower" id="fl8" style="left:840px;top:200px;width:240px;height:240px;color:var(--cream)"></div>
+    <div class="abs wordmark" id="wm8" style="left:610px;top:470px;width:700px"></div>
+    <div class="abs eyebrow" id="ins8" style="left:0;right:0;top:604px;text-align:center;color:var(--cream);font-size:20px;letter-spacing:.6em">Institutional</div>
+    <div class="abs" id="tag8" style="left:0;right:0;top:680px;text-align:center;font:italic 300 54px/1.15 Cooper;color:var(--cream)">Aggregate wellbeing evidence for your organization.</div>
+    <div class="abs" id="sub8" style="left:0;right:0;top:766px;text-align:center;font:700 24px Manrope;color:rgba(250,240,223,.85)">Group results only — never individual employees.</div>
+    <div class="abs" id="sig8" style="left:0;right:0;bottom:56px;display:flex;align-items:center;justify-content:center;gap:22px;font:700 15px Manrope;letter-spacing:.24em;text-transform:uppercase;color:rgba(250,240,223,.65)"><i style="width:80px;height:1px;background:rgba(250,240,223,.45)"></i>EatsBueno Institutional · Closed months · Privacy first<i style="width:80px;height:1px;background:rgba(250,240,223,.45)"></i></div>
   </section>
 </div>
 
 <script src="vendor/gsap.min.js"></script>
 <script src="vendor/CustomEase.min.js"></script>
 <script src="assets/dash/layout.js"></script>
-<script src="assets/dash/logo.js"></script>
+<script src="assets/flower.js"></script>
+<script src="assets/wordmark.js"></script>
 <script>
 (() => {
   let READY; window.__ready = new Promise((r) => { READY = r; });
@@ -157,8 +178,8 @@
     VIDS.push({ v: box.querySelector('video'), t0, dur, inPt, rate });
     return box;
   };
-  const DUO = 'filter:grayscale(1) contrast(1.08) brightness(1.05)';
-  const GREEN = 'background:#2C6B5C;mix-blend-mode:multiply;opacity:.9';
+  const DUO = 'filter:grayscale(1) contrast(1.15) brightness(1.15)';
+  const GREEN = 'background:#E26023;mix-blend-mode:multiply;opacity:.78';   // the app film's orange duotone
 
   // ================= 1 · Hook (0 – 6.4) =================
   scene('s1', 0, 6.55);
@@ -178,30 +199,34 @@
   // ================= 2 · Brand (6.4 – 9.8) =================
   scene('s2', 6.35, 10.0);
   tl.fromTo('#s2', { clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(80% at 50% 50%)', duration: 0.6, ease: 'ebIn', immediateRender: false }, 6.35);
-  const logoSVG = window.EBI_LOGO;
-  const buildLogo = (host, t) => {
-    host.innerHTML = logoSVG.replaceAll('ebi-logo-horizontal-reversed-clip', 'ebi-clip-' + host.id); const svg = host.querySelector('svg'); svg.style.cssText = 'width:100%;height:100%;overflow:visible';
-    const sym = svg.querySelector('[id="Institutional Symbol"]'), ps = sym.querySelectorAll('path');
-    const arc = ps[0], bars = [ps[1], ps[2], ps[3]], leaf = ps[4], stem = ps[5];
-    const L = arc.getTotalLength(); arc.style.strokeDasharray = L;
-    tl.fromTo(arc, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.8, ease: 'ebSoft', immediateRender: true }, t);
-    bars.forEach((b, i) => { b.style.transformBox = 'fill-box'; b.style.transformOrigin = '50% 100%';
-      tl.fromTo(b, { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: 'ebOut', immediateRender: true }, t + 0.35 + i * 0.08); });
-    leaf.style.transformBox = 'fill-box'; leaf.style.transformOrigin = '0% 100%';
-    tl.fromTo(leaf, { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.5, ease: 'ebOut', immediateRender: true }, t + 0.7);
-    const sL = stem.getTotalLength(); stem.style.strokeDasharray = sL;
-    tl.fromTo(stem, { strokeDashoffset: sL }, { strokeDashoffset: 0, duration: 0.35, ease: 'ebOut', immediateRender: true }, t + 0.8);
-    const div = svg.querySelector('#Divider'); div.style.transformBox = 'fill-box'; div.style.transformOrigin = '50% 50%';
-    tl.fromTo(div, { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: 'ebOut', immediateRender: true }, t + 0.55);
-    const eb = svg.querySelector('#EatsBueno'), inst = svg.querySelector('#INSTITUTIONAL');
-    tl.fromTo(eb, { clipPath: 'inset(0 100% 0 0)', x: -20 }, { clipPath: 'inset(0 0% 0 0)', x: 0, duration: 0.7, ease: 'ebOut', immediateRender: true }, t + 0.7);
-    tl.fromTo(inst, { opacity: 0, letterSpacing: 0 }, { opacity: 1, duration: 0.6, ease: 'ebSoft', immediateRender: true }, t + 1.05);
-    META.logo.push(t + 0.3);
+  const VB = '411 96 618 618', CX = 720, CY = 405;
+  const HOLES = [[784.4,165.3],[596.1,189.9],[480.3,340.4],[504.9,528.6],[655.4,644.4],[843.6,619.9],[959.4,469.4],[934.9,281.1]];
+  document.querySelectorAll('.flower').forEach((el) => { el.innerHTML = `<svg viewBox="${VB}"><path fill="currentColor" d="${FLOWER_D}"/></svg>`; });
+  document.documentElement.style.setProperty('--wm', `url(${WORDMARK_URI})`);
+  const seedRing = (box, size) => HOLES.map(([x, y]) => {
+    const d = document.createElement('div'); d.className = 'seed'; const k = size / 618, r = 72 * k;
+    d.style.cssText = `width:${r}px;height:${r}px;left:${(x - CX) * k - r / 2}px;top:${(y - CY) * k - r / 2}px`; box.appendChild(d); return d; });
+  // seeds fly in, the flower blooms out of them, a shock ring, then the wordmark and INSTITUTIONAL
+  const buildLogo = (id, t) => {
+    const seeds = seedRing($('#seeds' + id), id === '2' ? 260 : 240);
+    tl.fromTo(seeds, { x: (i) => Math.cos(i * Math.PI / 4 + 0.4) * 1100, y: (i) => Math.sin(i * Math.PI / 4 + 0.4) * 1100, opacity: 0, scale: 1 },
+      { x: 0, y: 0, opacity: 1, duration: 0.5, stagger: 0.025, ease: 'ebOut', immediateRender: true }, t);
+    tl.fromTo('#fl' + id, { scale: 0, rotation: -140 }, { scale: 1, rotation: 0, duration: 1.1, ease: 'ebOut', immediateRender: true }, t + 0.33);
+    tl.to(seeds, { scale: 0, duration: 0.35, ease: 'ebIn' }, t + 0.43);
+    const fl = $('#fl' + id), r = document.createElement('div'); r.className = 'abs';
+    const cx = fl.offsetLeft + fl.offsetWidth / 2, cy = fl.offsetTop + fl.offsetHeight / 2;
+    r.style.cssText = `left:${cx - 200}px;top:${cy - 200}px;width:400px;height:400px;border-radius:50%;border:5px solid rgba(250,240,223,.7);opacity:0`;
+    fl.before(r);
+    tl.fromTo(r, { scale: 0.3, opacity: 1 }, { scale: 2.4, opacity: 0, duration: 0.9, ease: 'ebOut', immediateRender: false }, t + 0.5);
+    tl.fromTo('#wm' + id, { clipPath: 'inset(0 100% 0 0)', opacity: 0 }, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 0.9, immediateRender: true }, t + 0.75);
+    tl.fromTo('#ins' + id, { opacity: 0, letterSpacing: '.9em' }, { opacity: 1, letterSpacing: '.6em', duration: 0.8, ease: 'ebOut', immediateRender: true }, t + 1.1);
+    tl.fromTo('#fl' + id, { filter: 'drop-shadow(0 0 0px rgba(250,240,223,0))' }, { filter: 'drop-shadow(0 0 24px rgba(250,240,223,.5))', duration: 0.7, ease: 'ebOut', immediateRender: true }, t + 1.0);
+    META.logo.push(t + 0.35);
   };
-  buildLogo($('#logo2'), 6.75);
-  reveal($('#tag2'), 8.0, 0.06);
+  buildLogo('2', 6.6);
+  reveal($('#tag2'), 8.05, 0.06);
   META.titles.push(8.05);
-  tl.to(['#logo2', '#tag2'], { y: -40, opacity: 0, duration: 0.45, ease: 'ebIn' }, 9.55);
+  tl.to(['#fl2', '#wm2', '#ins2', '#tag2'], { y: -40, opacity: 0, duration: 0.45, ease: 'ebIn' }, 9.55);
 
   // ================= 3 · Sign in (9.8 – 13.8) =================
   scene('s3', 9.75, 37.2);
@@ -408,7 +433,7 @@
   // ================= 8 · Outro (39.7 – 44.5) =================
   scene('s8', 39.75, DUR + 0.1);
   tl.fromTo('#s8', { opacity: 0 }, { opacity: 1, duration: 0.4, immediateRender: false }, 39.75);
-  buildLogo($('#logo8'), 40.0);
+  buildLogo('8', 39.95);
   reveal($('#tag8'), 41.25, 0.05);
   tl.fromTo('#sub8', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, immediateRender: true }, 41.9);
   tl.fromTo('#sig8', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, immediateRender: true }, 42.4);
