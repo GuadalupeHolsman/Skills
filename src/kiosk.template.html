@@ -756,8 +756,16 @@ h2 .w{display:inline-block}
 .cz-key{background:var(--key-front) center/cover no-repeat}
 
 /* the app, step by step: numbered real screens, tap to go on */
-.ov-track{display:flex;width:400%;height:100%;transition:transform 1.6s cubic-bezier(.65,0,.35,1)}
-.ov-track img{width:25%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none}
+/* app screens push like iOS: a tap on the button, the next screen slides in over the last, which sinks back */
+.ov-track{position:relative;width:100%;height:100%}
+.ov-track img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none;transform:translateX(104%);box-shadow:-30px 0 60px rgba(11,11,16,.35);transition:transform .9s cubic-bezier(.2,.9,.25,1.04),filter .9s ease}
+.ov-track img.cur{transform:none}
+.ov-track img.prev{transform:translateX(-30%) scale(.92);filter:brightness(.5)}
+.tap-rip{position:absolute;width:70px;height:70px;margin:-35px 0 0 -35px;border-radius:50%;background:rgba(252,206,33,.55);border:4px solid var(--yellow);opacity:0;pointer-events:none;z-index:9}
+.tap-rip.go{animation:tapRip .55s ease-out}
+@keyframes tapRip{0%{opacity:1;transform:scale(.3)}100%{opacity:0;transform:scale(2.4)}}
+#phone1.bump{animation:phBump .45s var(--e-spring)}
+@keyframes phBump{0%{transform:none}35%{transform:scale(.975)}100%{transform:none}}
 .ov-n{position:absolute;left:12px;top:12px;width:54px;height:54px;border-radius:50%;background:var(--yellow);color:var(--ink);border:4px solid var(--screen);display:grid;place-items:center;font:800 italic 30px/1 var(--font-display);z-index:2;pointer-events:none}
 .astep{display:flex;flex-direction:column;align-items:center;gap:14px;min-height:2.1em}
 .astep .as-row{display:flex;align-items:center;gap:18px}
@@ -775,7 +783,7 @@ h2 .w{display:inline-block}
 #s5 .mp-ask{display:none}
 #s6 .dial{display:none}
 
-#tp1{transition:left 1.6s cubic-bezier(.65,0,.35,1),top 1.6s cubic-bezier(.65,0,.35,1)}
+#tp1{transition:left .9s cubic-bezier(.2,.9,.25,1.04),top .9s cubic-bezier(.2,.9,.25,1.04)}
 #next-tip{display:none!important}
 
 #s2:has(#ov1:not(.gone)) #try-lock{visibility:hidden}
@@ -797,7 +805,7 @@ h2 .w{display:inline-block}
 .moment{z-index:1}
 
 /* calmer app steps: the caption eases in after the screen settles */
-.astep.in .as-row{animation:asIn 1s var(--e-std) .9s both}
+.astep.in .as-row{animation:asIn .7s var(--e-spring) .45s both}
 @keyframes asIn{from{opacity:0;transform:translateY(14px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 
 /* MORE PUNCH on the rest */
@@ -942,7 +950,7 @@ h2 .w{display:inline-block}
     <div class="astep" id="astep" aria-live="polite"></div>
     <div class="stage-area">
       <div class="phone" id="phone1">
-        <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" id="tp1" style="left:50%;top:91%"></i></div>
+        <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" id="tp1" style="left:50%;top:91%"></i><i class="tap-rip" id="rip"></i></div>
         <div class="screen-in">
           <div class="app-bar"><span class="ab-logo">loomlock</span><span class="ab-t" data-t="s1.appbar">Apps a pausar</span></div>
           <div class="status" id="status1"></div>
@@ -1750,14 +1758,22 @@ h2 .w{display:inline-block}
   const SPOTS = [[5, 87.5, 90, 7.5], [5, 87.5, 90, 7.5], [3, 39, 94, 24], [3, 32, 94, 17]];
   const ov1 = $("#ov1");
   function renderAd(){
-    $("#ov-track").style.transform = `translateX(${-adI * 25}%)`;
-    clearTimeout(renderAd.t); renderAd.t = setTimeout(() => { $("#ov-n").textContent = adI + 1 }, 800);
+    $$("#ov-track img").forEach((im, i) => { im.classList.toggle("prev", i < adI); im.classList.toggle("cur", i === adI) });
+    clearTimeout(renderAd.t); renderAd.t = setTimeout(() => { $("#ov-n").textContent = adI + 1 }, 450);
     const [l, tp, w, h] = SPOTS[adI];
     $("#tp1").style.left = (l + w / 2) + "%"; $("#tp1").style.top = (tp + h / 2) + "%";
     const as = $("#astep"); as.classList.remove("in"); void as.offsetWidth; as.classList.add("in");
     as.innerHTML = `<div class="as-row"><b>${adI + 1}</b><span class="as-t">${t("app.c" + (adI + 1))}</span></div><div class="as-d">${[0, 1, 2, 3].map(i => `<i class="${i === adI ? "on" : ""}"></i>`).join("")}</div>`;
   }
-  const adNext = () => { adAt = Date.now(); if (adI < 3){ adI++; renderAd() } else ov1.classList.add("gone"); vib(10) };
+  const adGo = () => { if (adI < 3){ adI++; renderAd() } else ov1.classList.add("gone") };
+  /* a tap lands on the button first, then the next screen pushes in */
+  function adTap(){
+    const r = $("#rip"), d = $("#tp1").style; r.style.left = d.left; r.style.top = d.top;
+    r.classList.remove("go"); void r.offsetWidth; r.classList.add("go");
+    const ph = $("#phone1"); ph.classList.remove("bump"); void ph.offsetWidth; ph.classList.add("bump");
+    setTimeout(adGo, 380);
+  }
+  const adNext = () => { adAt = Date.now(); adTap(); vib(10) };
   ov1.addEventListener("click", adNext);
   /* screens pass by themselves, slowly: each one stays 9 s (a tap on the phone jumps ahead and restarts the count);
      after step 4 the picker opens on its own */
@@ -1768,7 +1784,7 @@ h2 .w{display:inline-block}
     if (!sc.classList.contains("active") || ov1.classList.contains("gone")){ adAt = Date.now(); return }
     if (Date.now() - adAt < AD_HOLD) return;
     adAt = Date.now();
-    if (adI < 3){ adI++; renderAd() } else ov1.classList.add("gone");
+    adTap();
   }, 500);
 
 
