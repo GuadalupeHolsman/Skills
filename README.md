@@ -14,7 +14,7 @@ El orden sigue lo que vive el invitado: qué es → preparar la app antes de lle
 3. **03 · Prepara tu app (pasos 1-4):** pantallas reales de la app, numeradas: 1 abre la app, 2 permite Screen Time, 3 llamadas y SMS siguen, 4 elige tus apps. Pasan solas o con un toque; después del paso 4 se abre el selector y se toca Guardar
 4. **04 · Tu key:** la key real de Don Julio; al tocarla se da vuelta
 5. **05 · El tap (paso 5):** el celular arranca con la pantalla real *You're Event Ready!*; al acercarlo al tótem de Locky (o con tu key) la pantalla se desliza y se bloquean las apps elegidas en el paso 03. Otro tap y vuelven
-6. **06 · Tu noche:** 4 momentos (puerta, adentro, salida, galería); se tocan para encenderlos
+6. **06 · Tu noche:** 4 momentos (puerta, adentro, salida, galería); las fotos quedan en la web de Loomlock Experiences
 7. **07 · Mito o verdad:** 3 preguntas rápidas y cierre "Ve al tótem"
 
 ### Íconos y tótem
