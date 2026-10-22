@@ -67,7 +67,7 @@ PLAN = {
 }
 music = load(post('/v1/music', {'composition_plan': PLAN, 'model_id': 'music_v1'}, os.path.join(CACHE, 'music_dash_plan.mp3')))
 
-KIT = {k: load(os.path.join(CACHE, f'sfx_{k}.mp3')) for k in ['whoosh', 'tap', 'key', 'pop', 'tick', 'success', 'title', 'logo', 'scan']}
+KIT = {k: load(os.path.join(CACHE, f'sfx_{k}.mp3')) for k in ['whoosh', 'tap', 'key', 'pop', 'tick', 'success', 'title', 'logo', 'scan', 'impact']}
 for k, (text, d) in {'click': ('soft trackpad click, quiet and precise, modern laptop', 0.5),
                      'swish': ('very soft UI page transition swish, subtle and airy', 0.6)}.items():
     KIT[k] = load(post('/v1/sound-generation', {'text': text, 'duration_seconds': d, 'prompt_influence': 0.5}, os.path.join(CACHE, f'sfx_{k}.mp3')))
@@ -117,6 +117,8 @@ for t in M('scans'):
     place(KIT['scan'], t, 0.22)
 for t in M('success'):
     place(KIT['success'], t, 0.32, ducks=0.25)
+for t in M('hits'):
+    place(KIT['impact'], t - 0.02, 0.45, ducks=0.4)
 for t in M('logo'):
     place(KIT['logo'], t, 0.4, ducks=0.25)
 
