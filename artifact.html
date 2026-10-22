@@ -505,9 +505,6 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 /* 01 · cause -> effect: the key taps the phone, then the apps lock (one 4.8s loop) */
 .cause{position:relative;height:250px;display:flex;align-items:center;justify-content:center}
 .cz-key{position:relative;z-index:2;width:250px;height:158px;border-radius:24px;border:6px solid var(--screen);background:repeating-linear-gradient(0deg, rgba(11,11,16,.12) 0 2px, transparent 2px 6px),linear-gradient(135deg,#3843dc,var(--blue-deep));box-shadow:10px 10px 0 var(--screen);color:var(--text);animation:czKey 4.8s var(--e-std) infinite}
-.cz-key svg{position:absolute;left:18px;top:18px;width:54px;height:54px}
-.cz-key b{position:absolute;right:16px;top:14px;font-family:var(--font-mono);font-weight:700;font-size:40px;color:var(--yellow);text-shadow:3px 3px 0 var(--screen)}
-.cz-key i{position:absolute;left:0;right:0;bottom:24px;height:30px;background:var(--yellow);border-block:4px solid var(--screen)}
 .cz-waves{position:relative;width:150px;height:150px;flex:none}
 .cz-waves i{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:6px solid var(--yellow);opacity:0;animation:czWave 4.8s ease-out infinite}
 .cz-waves i:nth-child(2){animation-delay:.12s}
@@ -835,14 +832,21 @@ h2 .w{display:inline-block}
 /* Qué es: the tap waits for a touch on the key (or plays by itself after a few seconds) */
 .cause{cursor:pointer}
 .cause .cz-key,.cause .cz-phone,.cause .cz-phone::after,.cause .cz-waves i,.cause .cz-apps .pi,.cause .cz-apps .pi::after{animation:none!important}
-.cause.play .cz-key{animation:czKey 4.8s var(--e-std) 1!important}
-.cause.play .cz-phone{animation:czHit 4.8s ease-out 1!important}
-.cause.play .cz-phone::after{animation:czFlash 4.8s ease-out 1!important}
-.cause.play .cz-waves i{animation:czWave 4.8s ease-out 1!important}
-.cause.play .cz-waves i:nth-child(2){animation-delay:.12s!important}
-.cause.play .cz-waves i:nth-child(3){animation-delay:.24s!important}
-.cause.play .cz-apps .pi{animation:czTile 4.8s var(--e-std) 1!important}
-.cause.play .cz-apps .pi::after{animation:czLock 4.8s var(--e-spring) 1!important}
+.cause.play .cz-key{animation:czKey2 3.6s var(--e-std) 1!important}
+.cause.play .cz-phone{animation:czHit2 3.6s ease-out 1!important}
+.cause.play .cz-phone::after{animation:czFlash2 3.6s ease-out 1!important}
+.cause.play .cz-waves i{animation:czWave2 3.6s ease-out 1!important}
+.cause.play .cz-waves i:nth-child(2){animation-delay:.1s!important}
+.cause.play .cz-waves i:nth-child(3){animation-delay:.2s!important}
+.cause.play .cz-apps .pi{animation:czTile2 3.6s var(--e-std) 1!important}
+.cause.play .cz-apps .pi::after{animation:czLock2 3.6s var(--e-spring) 1!important}
+/* the hit lands right away (~0.3 s after the touch) */
+@keyframes czKey2{0%{transform:none}9%{transform:translateX(78px) rotate(-9deg) scale(1.05)}14%{transform:translateX(62px) rotate(-6deg)}28%,100%{transform:none}}
+@keyframes czHit2{0%,9%{transform:none}11%{transform:translateX(10px) rotate(3deg)}14%{transform:translateX(-6px) rotate(-2deg)}18%,100%{transform:none}}
+@keyframes czFlash2{0%,9%{opacity:0}11%{opacity:.85}22%,100%{opacity:0}}
+@keyframes czWave2{0%,9%{opacity:0;transform:translateX(50px) scale(.3)}12%{opacity:1}40%,100%{opacity:0;transform:translateX(50px) scale(2.6)}}
+@keyframes czTile2{0%,12%{filter:none}20%,88%{filter:grayscale(1) brightness(.55)}96%,100%{filter:none}}
+@keyframes czLock2{0%,12%{transform:scale(0);opacity:0}20%,88%{transform:scale(1);opacity:1}96%,100%{transform:scale(0);opacity:0}}
 .cause .cz-apps .pi::after{opacity:0}
 </style>
 
@@ -1811,14 +1815,14 @@ h2 .w{display:inline-block}
   setInterval(() => { const sc = $("#s6"); if (sc.classList.contains("active") && !sc.classList.contains("touched")){ const i = (activeMoment() + 1) % 4; setMoment(i); placeWalker(i) } }, 2600);
 
 
-  /* Qué es: touch the key to make it tap the phone; untouched, it plays on its own after 4 s, then every 7 s */
+  /* Qué es: touch the key to make it tap the phone; untouched, it plays on its own after 4 s, then every 6 s */
   const cause = $("#s1 .cause");
   let czLast = Date.now();
   function czPlay(byHand){ cause.classList.remove("play"); void cause.offsetWidth; cause.classList.add("play"); czLast = Date.now(); if (byHand) vib(15) }
-  cause.addEventListener("click", () => czPlay(true));
+  cause.addEventListener("pointerdown", () => czPlay(true));
   setInterval(() => {
     if (!$("#s1").classList.contains("active")){ czLast = Date.now(); cause.classList.remove("play"); return }
-    if (Date.now() - czLast > (cause.classList.contains("play") ? 7000 : 4000)) czPlay(false);
+    if (Date.now() - czLast > (cause.classList.contains("play") ? 6000 : 4000)) czPlay(false);
   }, 500);
 
   /* ---------- reset + idle ---------- */
