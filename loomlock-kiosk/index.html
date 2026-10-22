@@ -761,7 +761,7 @@ h2 .w{display:inline-block}
 .cz-key{background:var(--key-front) center/cover no-repeat}
 
 /* the app, step by step: numbered real screens, tap to go on */
-.ov-track{display:flex;width:400%;height:100%;transition:transform 1.1s cubic-bezier(.65,0,.35,1)}
+.ov-track{display:flex;width:400%;height:100%;transition:transform 1.6s cubic-bezier(.65,0,.35,1)}
 .ov-track img{width:25%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none}
 .ov-n{position:absolute;left:12px;top:12px;width:54px;height:54px;border-radius:50%;background:var(--yellow);color:var(--ink);border:4px solid var(--screen);display:grid;place-items:center;font:800 italic 30px/1 var(--font-display);z-index:2;pointer-events:none}
 .astep{display:flex;flex-direction:column;align-items:center;gap:14px;min-height:2.1em}
@@ -780,7 +780,7 @@ h2 .w{display:inline-block}
 #s5 .mp-ask{display:none}
 #s6 .dial{display:none}
 
-#tp1{transition:left 1.1s cubic-bezier(.65,0,.35,1),top 1.1s cubic-bezier(.65,0,.35,1)}
+#tp1{transition:left 1.6s cubic-bezier(.65,0,.35,1),top 1.6s cubic-bezier(.65,0,.35,1)}
 #next-tip{display:none!important}
 
 #s2:has(#ov1:not(.gone)) #try-lock{visibility:hidden}
@@ -802,7 +802,7 @@ h2 .w{display:inline-block}
 .moment{z-index:1}
 
 /* calmer app steps: the caption eases in after the screen settles */
-.astep.in .as-row{animation:asIn .9s var(--e-std) .35s both}
+.astep.in .as-row{animation:asIn 1s var(--e-std) .9s both}
 @keyframes asIn{from{opacity:0;transform:translateY(14px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 
 /* MORE PUNCH on the rest */
@@ -1758,16 +1758,25 @@ h2 .w{display:inline-block}
   const ov1 = $("#ov1");
   function renderAd(){
     $("#ov-track").style.transform = `translateX(${-adI * 25}%)`;
-    $("#ov-n").textContent = adI + 1;
+    clearTimeout(renderAd.t); renderAd.t = setTimeout(() => { $("#ov-n").textContent = adI + 1 }, 800);
     const [l, tp, w, h] = SPOTS[adI];
     $("#tp1").style.left = (l + w / 2) + "%"; $("#tp1").style.top = (tp + h / 2) + "%";
     const as = $("#astep"); as.classList.remove("in"); void as.offsetWidth; as.classList.add("in");
     as.innerHTML = `<div class="as-row"><b>${adI + 1}</b><span class="as-t">${t("app.c" + (adI + 1))}</span></div><div class="as-d">${[0, 1, 2, 3].map(i => `<i class="${i === adI ? "on" : ""}"></i>`).join("")}</div>`;
   }
-  const adNext = () => { if (adI < 3){ adI++; renderAd() } else ov1.classList.add("gone"); vib(10) };
+  const adNext = () => { adAt = Date.now(); if (adI < 3){ adI++; renderAd() } else ov1.classList.add("gone"); vib(10) };
   ov1.addEventListener("click", adNext);
-  /* plays itself until someone touches it, then waits on the last step */
-  setInterval(() => { const sc = $("#s2"); if (sc.classList.contains("active") && !sc.classList.contains("touched") && !ov1.classList.contains("gone") && adI < 3){ adI++; renderAd() } }, 6500);
+  /* screens pass by themselves, slowly: each one stays 9 s (a tap on the phone jumps ahead and restarts the count);
+     after step 4 the picker opens on its own */
+  const AD_HOLD = 9000;
+  let adAt = Date.now();
+  setInterval(() => {
+    const sc = $("#s2");
+    if (!sc.classList.contains("active") || ov1.classList.contains("gone")){ adAt = Date.now(); return }
+    if (Date.now() - adAt < AD_HOLD) return;
+    adAt = Date.now();
+    if (adI < 3){ adI++; renderAd() } else ov1.classList.add("gone");
+  }, 500);
 
 
   /* Tu noche plays itself, moment by moment, until someone touches it */
