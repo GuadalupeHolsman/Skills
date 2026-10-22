@@ -87,6 +87,7 @@
 
   <!-- 3–6 · The product, inside one browser window -->
   <section class="scene" id="s3" style="background:radial-gradient(90% 90% at 50% 55%,#FBEBDD 0%,#F6E3D2 45%,#EFD3BE 100%)">
+    <div class="abs" id="drift" style="inset:0;transform-origin:960px 540px">
     <div class="abs" id="cam" style="inset:0;transform-origin:960px 540px">
       <div id="win">
         <div id="chrome"><i style="background:#E46B5F"></i><i style="background:#E8B64C"></i><i style="background:#5EBD6B"></i>
@@ -100,6 +101,7 @@
           <div class="clickring" id="ring"></div>
         </div>
       </div>
+    </div>
     </div>
     <div class="cap" id="capbg"></div>
     <div class="capt" id="capA">See your program<br><i>at work.</i><small>One clear score and real participation, every closed month.</small></div>
@@ -190,8 +192,8 @@
   scene('s1', 0, 6.55);
   const F1 = $('#foot1');
   [['d_meeting', 0, 2.3, 0.6], ['d_coworkers', 2.3, 2.1, 0.4], ['d_office', 4.4, 2.15, 0.1]].forEach(([n, t0, d, inPt], i) => {
-    const f = foot(F1, n, t0, d, { inPt, rate: 0.8, vcss: DUO, tint: GREEN });
-    tl.set(f, { opacity: 1 }, t0); tl.set(f, { opacity: 0 }, t0 + d);
+    const f = foot(F1, n, t0 - 0.05, d + 0.65, { inPt, rate: 1, vcss: DUO, tint: GREEN });
+    tl.set(f, { opacity: 1 }, t0 - 0.05); tl.set(f, { opacity: 0 }, t0 + d + 0.55);
     tl.fromTo(f.firstChild, { scale: 1.14 }, { scale: 1.02, duration: d, ease: 'ebSoft', immediateRender: false }, t0);
     if (i) {
       tl.fromTo(f, { clipPath: 'inset(0 0 0 100%)' }, { clipPath: 'inset(0 0 0 0%)', duration: 0.5, ease: 'ebPush', immediateRender: false }, t0 - 0.05);
@@ -304,6 +306,15 @@
 
   // ================= 4 · Overview builds (13.8 – 21.6) =================
   const D = window.DASH, O = D.overview, pgOv = $('#pgOv');
+  const mark = (pg, x, y, h) => {        // h = wordmark height in css px
+    const m = document.createElement('div'); m.className = 'abs';
+    m.style.cssText = `left:${x - 6}px;top:${y - 8}px;width:${h * 11}px;height:${h * 2.3}px;background:#173F37;z-index:6;display:flex;align-items:flex-start;gap:${h * 0.45}px;padding:6px`;
+    m.innerHTML = `<div class="flower" style="width:${h * 1.5}px;height:${h * 1.5}px;color:#FAF0DF;flex:none"><svg viewBox="${VB}"><path fill="currentColor" d="${FLOWER_D}"/></svg></div>` +
+      `<div><div class="wordmark" style="width:${h * 1174 / 194}px"></div><div style="font:800 ${Math.max(6, h * 0.36)}px Manrope;letter-spacing:.42em;color:#C7DAD2;margin-top:${h * 0.18}px">INSTITUTIONAL</div></div>`;
+    pg.appendChild(m);
+  };
+  mark($('#pgLogin'), 54, 62, 24);
+  [pgOv, $('#pgSub'), $('#pgHr')].forEach((pg) => mark(pg, 15, 32, 17));
   const comp = (pg, name, info, z = 2) => { const c = document.createElement('div'); c.className = 'comp';
     c.style.cssText = `left:${info.x}px;top:${info.y}px;width:${info.w}px;z-index:${z}`; c.innerHTML = `<img src="assets/dash/${name}.png">`; pg.appendChild(c); return c; };
   const cards = ['score', 'users', 'part', 'energy', 'absent'].map((n) => comp(pgOv, n, O[n]));
@@ -338,6 +349,8 @@
   META.scans.push(15.45);
   // camera: settle, then lean in on the KPIs, then the trends
   const winTo = (props, t, d = 1.0) => tl.to(CAM, { ...props, duration: d, ease: 'ebSoft' }, t);
+  tl.fromTo('#drift', { scale: 1, x: 0, y: 0 }, { scale: 1.05, x: -18, y: -8, duration: 34.8 - 10.2, ease: 'none', immediateRender: true }, 10.2);
+  tl.fromTo('#drift', { rotation: -0.25 }, { rotation: 0.25, duration: 34.8 - 10.2, ease: 'sine.inOut', immediateRender: true }, 10.2);
   // page coordinate (px, py) → stage point, for a given cam scale s, so the camera can aim at any part of the page
   const aim = (px, py, s, sx = 960, sy = 470) => { const X = 240 + px, Y = 72 + 46 + py; return { scale: s, x: sx - (960 + (X - 960) * s), y: sy - (540 + (Y - 540) * s) }; };
   winTo(aim(850, 465, 1.62, 960, 360), 16.3, 1.1);
@@ -453,9 +466,10 @@
     $('#s7').insertBefore(F7, $('#h7'));
     const sh7 = document.createElement('div'); sh7.className = 'abs'; sh7.style.cssText = 'inset:0;background:linear-gradient(180deg,rgba(110,32,6,.62) 0%,rgba(110,32,6,.2) 34%,rgba(110,32,6,0) 50%)';
     $('#s7').insertBefore(sh7, $('#h7'));
-    [['highfive', 34.78, 1.75, 0.6], ['d_coworkers', 36.5, 1.75, 1.6], ['d_handshake', 38.25, 1.7, 0.4]].forEach(([n, t0, d, inPt], i) => {
-      const f = foot(F7, n, t0, d, { inPt, rate: 0.7, vcss: DUO, tint: GREEN });
-      tl.set(f, { opacity: 1 }, t0); tl.set(f, { opacity: 0 }, t0 + d);
+    tl.to([F7, sh7], { opacity: 0, duration: 0.55, ease: 'ebSoft' }, 39.3);
+    [['d_highfive', 34.78, 1.75, 0.6], ['d_coworkers', 36.5, 1.75, 1.6], ['d_handshake', 38.25, 1.7, 0.4]].forEach(([n, t0, d, inPt], i) => {
+      const f = foot(F7, n, t0 - 0.05, d + 0.65, { inPt, rate: 1, vcss: DUO, tint: GREEN });
+      tl.set(f, { opacity: 1 }, t0 - 0.05); tl.set(f, { opacity: i === 2 ? 1 : 0 }, t0 + d + 0.55);
       tl.fromTo(f.firstChild, { scale: 1.16 }, { scale: 1.04, duration: d, ease: 'ebSoft', immediateRender: false }, t0);
       if (i) tl.fromTo(f, { clipPath: 'inset(0 0 0 100%)' }, { clipPath: 'inset(0 0 0 0%)', duration: 0.5, ease: 'ebPush', immediateRender: false }, t0 - 0.05);
     }); }
