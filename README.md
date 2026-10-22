@@ -10,7 +10,7 @@ El orden sigue lo que vive el invitado: qué es → preparar la app antes de lle
 
 0. **Portada:** tele de tubo en el CH 02 (al tocarla cambia la frase), "Esta noche, con Tequila Don Julio" y aviso +18
 1. **01 · Quién te invitó:** PR, Equipo Loomlock, Equipo Don Julio, Equipo Bikini o "Quería conocer a Locky". Se envía al Sheet a los 3 s de elegir
-2. **02 · Qué es:** "Acerca tu key. Apps en pausa." Solo la animación grande: la key toca el celular y aparece el candado
+2. **02 · Qué es:** "Escanea tu key. Apps en pausa." Solo la animación grande: la key toca el celular y aparece el candado
 3. **03 · Prepara tu app (pasos 1-4):** pantallas reales de la app, numeradas: 1 abre la app, 2 permite Screen Time, 3 llamadas y SMS siguen, 4 elige tus apps. Pasan solas o con un toque; después del paso 4 se abre el selector y se toca Guardar
 4. **04 · Tu key:** la key de Locky; al tocarla se da vuelta
 5. **05 · La entrada (paso 5):** el celular arranca con la pantalla real *You're Event Ready!*; al acercarlo al tótem de Locky (o con tu key) la pantalla se desliza y se bloquean las apps elegidas en el paso 03. Otro tap y vuelven
@@ -33,7 +33,7 @@ No es un paso aparte: la app real aparece dentro de los pasos que ya existían. 
 La key que se ve en todo el kiosco es el diseño *Big Locky* (Locky con ondas NFC sobre negro), de `src/keys/locky-key.svg`, convertido del PDF `Big_locky_200_B.pdf`. Se usa en "Qué es", en "Tu key" (mismo arte de los dos lados) y como la key que se arrastra en "Tengo mi key". Para cambiarla, reemplaza ese SVG y corre `python3 src/build.py`.
 
 ### Sin la palabra "tap"
-Ningún texto visible usa "tap" (ni en español ni en inglés): la acción con la key se dice *acercar* / *hold it close*, y en la pantalla *tocar* / *touch*.
+Ningún texto visible usa "tap" (ni en español ni en inglés): la acción con la key se dice *escanear* / *scan* (igual que el botón "Scan key and enter now" de la app), y en la pantalla *tocar* / *touch*.
 
 ## Estética
 Usa la dirección de arte de **Prime Time · loomlock experiences**: cada pantalla es un canal de TV (CH 01 a CH 05), azul canal `#2F3AD0`, amarillo señal `#FCCE21`, negro pantalla y papel; Montserrat fina en mayúsculas con énfasis en itálica gruesa, rótulos en Space Mono; grano, líneas de TV, estática al cambiar de canal y respuestas "tachadas" que se destapan. Firma: *live now, post later.*
