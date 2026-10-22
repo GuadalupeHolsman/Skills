@@ -58,7 +58,7 @@ def key_svg(n):
 
 
 page = (tpl.replace("{{KEY_FRONT}}", key_svg("front")).replace("{{KEY_BACK}}", key_svg("back")).replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky()))
-for i in (4, 5):
+for i in (1, 2, 3, 4, 5):
     page = page.replace("{{APP%d}}" % i, app_img(i))
 
 (ROOT / "artifact.html").write_text(page, encoding="utf-8")

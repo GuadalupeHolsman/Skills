@@ -752,6 +752,20 @@ h2 .w{display:inline-block}
 .nfc-card .face.back{background:var(--key-back) center/cover no-repeat;padding:0}
 .drag-card{background:var(--key-front) center/cover no-repeat}
 .cz-key{background:var(--key-front) center/cover no-repeat}
+
+/* the app, step by step: numbered real screens, tap to go on */
+.ov-track{display:flex;width:400%;height:100%;transition:transform .55s var(--e-std)}
+.ov-track img{width:25%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none}
+.ov-n{position:absolute;left:12px;top:12px;width:54px;height:54px;border-radius:50%;background:var(--yellow);color:var(--ink);border:4px solid var(--screen);display:grid;place-items:center;font:800 italic 30px/1 var(--font-display);z-index:2;pointer-events:none}
+.astep{display:flex;flex-direction:column;align-items:center;gap:14px;min-height:2.1em}
+.astep .as-row{display:flex;align-items:center;gap:18px}
+.astep b{width:64px;height:64px;border-radius:50%;background:var(--yellow);color:var(--ink);border:5px solid var(--screen);display:grid;place-items:center;font:800 italic 36px/1 var(--font-display);flex:none}
+.astep .as-t{font-weight:800;font-style:italic;text-transform:uppercase;font-size:40px;line-height:1.05;color:var(--yellow);text-shadow:4px 4px 0 var(--screen)}
+.astep .as-d{display:flex;gap:12px}
+.astep .as-d i{width:14px;height:14px;border-radius:50%;background:rgba(237,234,227,.35);transition:all .3s}
+.astep .as-d i.on{background:var(--yellow);width:40px;border-radius:99px}
+#s2:has(#ov1:not(.gone)) #instr1{display:none}
+#s2:has(#ov1.gone) #astep{display:none}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -886,13 +900,14 @@ h2 .w{display:inline-block}
   <section class="screen" id="s2" data-name="n2" aria-label="Elige tus apps">
     <div class="head">
       <span class="kicker" data-t="k2">En la app</span>
-      <h2 class="focus" data-t="t2">Elige qué <em>se pausa.</em></h2>
+      <h2 class="focus" data-t="t2">Prepara <em>tu app.</em></h2>
     </div>
     <div class="flow" id="flow1"><span class="fp ok"><b>1</b><span data-t="f1">App</span></span><i class="fa on"></i><span class="fp now"><b>2</b><span data-t="f2">Elige</span></span><i class="fa"></i><span class="fp"><b>3</b><span data-t="f3">Tap</span></span></div>
     <p class="instr" id="instr1"></p>
+    <div class="astep" id="astep" aria-live="polite"></div>
     <div class="stage-area">
       <div class="phone" id="phone1">
-        <div class="app-ov" id="ov1"><img src="{{APP4}}" alt=""><i class="tp" style="left:50%;top:91%"></i></div>
+        <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" style="left:50%;top:91%"></i></div>
         <div class="screen-in">
           <div class="app-bar"><span class="ab-logo">loomlock</span><span class="ab-t" data-t="s1.appbar">Apps a pausar</span></div>
           <div class="status" id="status1"></div>
@@ -928,7 +943,7 @@ h2 .w{display:inline-block}
       <button class="drag-card" id="drag-card" aria-label="Key Loomlock: toca o arrastra hasta el celular"><i class="tp" style="left:50%;top:50%"></i></button>
       <svg class="down-arrow"><use href="#arrow-d"/></svg>
       <div class="phone" id="phone3">
-        <div class="app-ov" id="ov3"><img src="{{APP5}}" alt=""></div>
+        <div class="app-ov" id="ov3"><img src="{{APP5}}" alt=""><b class="ov-n">5</b></div>
         <div class="screen-in">
           <div class="clock" data-clock>21:30</div>
           <div class="status" id="status3" data-t="s3.status">Esperando tu key…</div>
@@ -1028,7 +1043,7 @@ h2 .w{display:inline-block}
 
   const T = {
     es: {
-      "kInv":"Quién te invitó","nInv":"Quién te invitó","tInv":"¿Quién <em>te invitó?</em>",
+      "kInv":"Quién te invitó","nInv":"Quién te invitó","app.c1":"Abre la app","app.c2":"Permite Screen Time","app.c3":"Llamadas y SMS siguen","app.c4":"Elige tus apps","tInv":"¿Quién <em>te invitó?</em>",
       "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
       "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
       "inv.hint":"Toca una opción",
@@ -1038,7 +1053,7 @@ h2 .w{display:inline-block}
       "k1":"Qué es","k2":"En la app","k3":"Tu key","k4":"Antes de llegar","k5":"El tap","k6":"Tu noche","k7":"Mito o verdad",
       "n1":"Qué es","n2":"En la app","n3":"Tu key","n4":"Antes de llegar","n5":"El tap","n6":"Tu noche","n7":"Mito o verdad",
       "q1.title":"Un tap con tu key. <em>Apps en pausa.</em>","q1.tapped":"Tap","q1.after":"después del tap","q1.always":"igual que siempre","q1.off":"En pausa","q1.on":"Siempre funcionan","q1.e1":"Llamadas","q1.e2":"Cámara","q1.e3":"Mapas","q1.tap":"Tu celular sigue contigo · o usa el tótem de Locky",
-      "t2":"Elige qué <em>se pausa.</em>","f1":"App","f2":"Elige","f3":"Tap",
+      "t2":"Prepara <em>tu app.</em>","f1":"App","f2":"Elige","f3":"Tap",
       "i1":"Abre la app y toca las que te distraen","i2":"Ahora toca Guardar","i3":"Listo. La pausa empieza con el tap.","s1.btnN":"Guardar {n}",
       "t3":"Esta es <em>tu key.</em>","c1":"Chip NFC","c2":"Sin batería","c3":"Es tuya",
       "t4":"Dos pasos <em>antes.</em>","p1":"Descarga la app","p1s":"Busca Loomlock en tu tienda","p2":"Elige tus apps","p2s":"Las que quieres pausar esta noche","p3":"¡Listo para el tap!","p.hint":"Toca cada paso",
@@ -1099,7 +1114,7 @@ h2 .w{display:inline-block}
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",cam:"Cámara",mp:"Mapas"}
     },
     en: {
-      "kInv":"Who invited you","nInv":"Who invited you","tInv":"Who <em>invited you?</em>",
+      "kInv":"Who invited you","nInv":"Who invited you","app.c1":"Open the app","app.c2":"Allow Screen Time","app.c3":"Calls & SMS stay on","app.c4":"Pick your apps","tInv":"Who <em>invited you?</em>",
       "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
       "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
       "inv.hint":"Tap an option",
@@ -1109,7 +1124,7 @@ h2 .w{display:inline-block}
       "k1":"What it is","k2":"In the app","k3":"Your key","k4":"Before you arrive","k5":"The tap","k6":"Your night","k7":"Myth or fact",
       "n1":"What it is","n2":"In the app","n3":"Your key","n4":"Before you arrive","n5":"The tap","n6":"Your night","n7":"Myth or fact",
       "q1.title":"Tap your key. <em>Apps pause.</em>","q1.tapped":"Tap","q1.after":"after the tap","q1.always":"as always","q1.off":"Paused","q1.on":"Always on","q1.e1":"Calls","q1.e2":"Camera","q1.e3":"Maps","q1.tap":"Your phone stays with you · or use Locky’s totem",
-      "t2":"Pick what <em>gets paused.</em>","f1":"App","f2":"Pick","f3":"Tap",
+      "t2":"Set up <em>your app.</em>","f1":"App","f2":"Pick","f3":"Tap",
       "i1":"Open the app and tap the ones that distract you","i2":"Now tap Save","i3":"Done. The pause starts with the tap.","s1.btnN":"Save {n}",
       "t3":"This is <em>your key.</em>","c1":"NFC chip","c2":"No battery","c3":"It's yours",
       "t4":"Two steps <em>before.</em>","p1":"Get the app","p1s":"Search Loomlock in your store","p2":"Pick your apps","p2s":"The ones to pause tonight","p3":"Ready for the tap!","p.hint":"Tap each step",
@@ -1286,7 +1301,7 @@ h2 .w{display:inline-block}
     $$(".app-tile").forEach(b => { b.querySelector(".nm").textContent = T[lang].apps[b.dataset.id] });
     $("#host").textContent = t("s0.host", {h:CONFIG.anfitrion}); $("#host").hidden = !CONFIG.anfitrion;
     $("#totem-name").textContent = t("s3.totem");
-    refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz(); renderInvite();
+    refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz(); renderInvite(); renderAd();
   }
 
   /* ---------- channel changes ---------- */
@@ -1354,7 +1369,6 @@ h2 .w{display:inline-block}
   }
   buildApps($("#apps1"), true); buildApps($("#apps3"), false);
   const phone1 = $("#phone1");
-  $("#ov1").addEventListener("click", e => { e.currentTarget.classList.add("gone"); vib(10) });
   $("#apps1").addEventListener("click", e => {
     const b = e.target.closest(".app-tile"); if (!b) return;
     if (b.classList.contains("ess")){ b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); flashStatus(t("s1.ess")); return }
@@ -1682,10 +1696,24 @@ h2 .w{display:inline-block}
     try { navigator.clipboard.writeText(txt).then(done, done) } catch (e) { done() }
   };
 
+
+  /* ---------- the app, step by step ---------- */
+  let adI = 0;
+  const ov1 = $("#ov1");
+  function renderAd(){
+    $("#ov-track").style.transform = `translateX(${-adI * 25}%)`;
+    $("#ov-n").textContent = adI + 1;
+    $("#astep").innerHTML = `<div class="as-row"><b>${adI + 1}</b><span class="as-t">${t("app.c" + (adI + 1))}</span></div><div class="as-d">${[0, 1, 2, 3].map(i => `<i class="${i === adI ? "on" : ""}"></i>`).join("")}</div>`;
+  }
+  const adNext = () => { if (adI < 3){ adI++; renderAd() } else ov1.classList.add("gone"); vib(10) };
+  ov1.addEventListener("click", adNext);
+  /* plays itself until someone touches it, then waits on the last step */
+  setInterval(() => { const sc = $("#s2"); if (sc.classList.contains("active") && !sc.classList.contains("touched") && !ov1.classList.contains("gone") && adI < 3){ adI++; renderAd() } }, 3500);
+
   /* ---------- reset + idle ---------- */
   function resetAll(){
     clearTimeout(inviteT); commitInvite(); inviteChoice = null; inviteDone = false; renderInvite();
-    $("#ov1").classList.remove("gone");
+    $("#ov1").classList.remove("gone"); adI = 0; renderAd();
     saved1 = false; phone1.classList.remove("is-saved"); $("#next-tip").classList.remove("on");
     buildApps($("#apps1"), true); syncApps3();
     card.classList.remove("flipped");
