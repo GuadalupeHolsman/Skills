@@ -836,6 +836,19 @@ h2 .w{display:inline-block}
 .cz-key{width:300px;height:190px;border-radius:26px}
 .cz-waves{width:110px}
 .drag-card{width:360px;height:228px;border-radius:28px}
+
+/* Qué es: the tap waits for a touch on the key (or plays by itself after a few seconds) */
+.cause{cursor:pointer}
+.cause .cz-key,.cause .cz-phone,.cause .cz-phone::after,.cause .cz-waves i,.cause .cz-apps .pi,.cause .cz-apps .pi::after{animation:none!important}
+.cause.play .cz-key{animation:czKey 4.8s var(--e-std) 1!important}
+.cause.play .cz-phone{animation:czHit 4.8s ease-out 1!important}
+.cause.play .cz-phone::after{animation:czFlash 4.8s ease-out 1!important}
+.cause.play .cz-waves i{animation:czWave 4.8s ease-out 1!important}
+.cause.play .cz-waves i:nth-child(2){animation-delay:.12s!important}
+.cause.play .cz-waves i:nth-child(3){animation-delay:.24s!important}
+.cause.play .cz-apps .pi{animation:czTile 4.8s var(--e-std) 1!important}
+.cause.play .cz-apps .pi::after{animation:czLock 4.8s var(--e-spring) 1!important}
+.cause .cz-apps .pi::after{opacity:0}
 </style>
 </head>
 <body>
@@ -931,7 +944,7 @@ h2 .w{display:inline-block}
       <h2 class="focus" data-t="q1.title">Un tap con tu key. <em>Apps en pausa.</em></h2>
     </div>
     <div class="cause" aria-hidden="true">
-      <div class="cz-key"></div>
+      <div class="cz-key"><i class="tp" style="left:50%;top:50%"></i></div>
       <div class="cz-waves"><i></i><i></i><i></i></div>
       <div class="cz-phone"><span class="cz-notch"></span><span class="cz-apps"><span class="pi" style="--d:.2s;background:linear-gradient(45deg,#FEDA75 0%,#FA7E1E 25%,#D62976 50%,#962FBF 75%,#4F5BD5 100%)"><svg viewBox="0 0 24 24" style="color:#fff"><use href="#ico-instagram"/></svg></span><span class="pi" style="--d:.35s;background:#000"><svg viewBox="0 0 24 24" class="tt" style="color:#fff"><use href="#ico-tiktok"/></svg></span><span class="pi" style="--d:.5s;background:#fff"><svg viewBox="0 0 24 24" style="color:#FF0000"><use href="#ico-youtube"/></svg></span><span class="pi" style="--d:.65s;background:#000"><svg viewBox="0 0 24 24" style="color:#fff"><use href="#ico-x"/></svg></span></span></div>
     </div>
@@ -1803,6 +1816,17 @@ h2 .w{display:inline-block}
 
   /* Tu noche plays itself, moment by moment, until someone touches it */
   setInterval(() => { const sc = $("#s6"); if (sc.classList.contains("active") && !sc.classList.contains("touched")){ const i = (activeMoment() + 1) % 4; setMoment(i); placeWalker(i) } }, 2600);
+
+
+  /* Qué es: touch the key to make it tap the phone; untouched, it plays on its own after 4 s, then every 7 s */
+  const cause = $("#s1 .cause");
+  let czLast = Date.now();
+  function czPlay(byHand){ cause.classList.remove("play"); void cause.offsetWidth; cause.classList.add("play"); czLast = Date.now(); if (byHand) vib(15) }
+  cause.addEventListener("click", () => czPlay(true));
+  setInterval(() => {
+    if (!$("#s1").classList.contains("active")){ czLast = Date.now(); cause.classList.remove("play"); return }
+    if (Date.now() - czLast > (cause.classList.contains("play") ? 7000 : 4000)) czPlay(false);
+  }, 500);
 
   /* ---------- reset + idle ---------- */
   function resetAll(){
