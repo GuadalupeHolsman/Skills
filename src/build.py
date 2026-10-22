@@ -54,7 +54,8 @@ def app_img(n):
 
 
 def key_svg(n):
-    return "data:image/svg+xml;base64," + base64.b64encode((ROOT / f"src/keys/don-julio-{n}.svg").read_bytes()).decode()
+    # the key: Locky + NFC waves on black (Big_locky_200_B), same art on both sides
+    return "data:image/svg+xml;base64," + base64.b64encode((ROOT / "src/keys/locky-key.svg").read_bytes()).decode()
 
 
 page = (tpl.replace("{{KEY_FRONT}}", key_svg("front")).replace("{{KEY_BACK}}", key_svg("back")).replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky()))
