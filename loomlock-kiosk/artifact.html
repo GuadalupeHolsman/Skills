@@ -848,6 +848,9 @@ h2 .w{display:inline-block}
 @keyframes czTile2{0%,12%{filter:none}20%,88%{filter:grayscale(1) brightness(.55)}96%,100%{filter:none}}
 @keyframes czLock2{0%,12%{transform:scale(0);opacity:0}20%,88%{transform:scale(1);opacity:1}96%,100%{transform:scale(0);opacity:0}}
 .cause .cz-apps .pi::after{opacity:0}
+
+/* quiz stamp sits on the card's top corner so it never covers the answer */
+.qz-stamp{top:-44px;right:-14px;bottom:auto;font-size:50px;padding:6px 24px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1824,6 +1827,13 @@ h2 .w{display:inline-block}
     if (!$("#s1").classList.contains("active")){ czLast = Date.now(); cause.classList.remove("play"); return }
     if (Date.now() - czLast > (cause.classList.contains("play") ? 6000 : 4000)) czPlay(false);
   }, 500);
+
+
+  /* the kiosk canvas never scrolls (a focused button can't nudge it sideways) */
+  document.addEventListener("scroll", e => {
+    const el = e.target === document ? document.scrollingElement : e.target;
+    if (el && (el.scrollLeft || el.scrollTop)){ el.scrollLeft = 0; el.scrollTop = 0 }
+  }, true);
 
   /* ---------- reset + idle ---------- */
   function resetAll(){
