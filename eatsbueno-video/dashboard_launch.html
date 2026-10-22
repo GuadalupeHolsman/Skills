@@ -104,8 +104,13 @@
     </div>
     </div>
     <div class="cap" id="capbg"></div>
-    <div class="capt" id="capA">See your program<br><i>at work.</i><small>One clear score and real participation, every closed month.</small></div>
-    <div class="capt" id="capB">Know how your team<br><i>is really doing.</i><small>Self-reported energy and HR-reported absence, against your own baseline.</small></div>
+    <div class="capt" id="capA" style="display:none">See your program<br><i>at work.</i><small>One clear score and real participation, every closed month.</small></div>
+    <div class="capt" id="capB" style="display:none">Know how your team<br><i>is really doing.</i><small>Self-reported energy and HR-reported absence, against your own baseline.</small></div>
+    <div class="capt" id="tour" style="padding:30px 44px 34px;width:900px;max-width:900px;opacity:0">
+      <div id="tourN" style="height:22px;overflow:hidden;font:800 16px Manrope;letter-spacing:.24em;color:#F0A26A;margin-bottom:12px;position:relative"></div>
+      <div id="tourT" style="height:70px;overflow:hidden;position:relative"></div>
+      <div id="tourS" style="height:30px;overflow:hidden;position:relative;font:600 22px/1.4 Manrope;color:#C7DAD2;margin-top:10px"></div>
+    </div>
     <div class="capt" id="capC">Small groups are<br><i>never shown.</i><small>Below the minimum reporting size, a result is withheld, never shown as zero.</small></div>
     <div class="capt" id="capD">Built for busy<br><i>HR teams.</i><small>One monthly workbook of group totals. Upload, check, on file.</small></div>
   </section>
@@ -146,7 +151,7 @@
   CustomEase.create('ui', '0.2, 0, 0.2, 1');            // the dashboard's own motion curve (tokens: 200/280 ms)
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'ebOut' } });
   const $ = (s) => document.querySelector(s);
-  const DUR = 44.5;
+  let DUR = 44.5;
   const META = { duration: DUR, slams: [], taps: [], keys: [], whooshes: [], hits: [], titles: [], words: [], pops: [], ticks: [], success: [], scans: [], logo: [], risers: [] };
   const scene = (id, t0, t1) => { tl.set('#' + id, { visibility: 'visible' }, t0); tl.set('#' + id, { visibility: 'hidden' }, t1); };
   const words = (el) => {
@@ -349,12 +354,10 @@
   META.scans.push(15.45);
   // camera: settle, then lean in on the KPIs, then the trends
   const winTo = (props, t, d = 1.0) => tl.to(CAM, { ...props, duration: d, ease: 'ebSoft' }, t);
-  tl.fromTo('#drift', { scale: 1, x: 0, y: 0 }, { scale: 1.05, x: -18, y: -8, duration: 34.8 - 10.2, ease: 'none', immediateRender: true }, 10.2);
-  tl.fromTo('#drift', { rotation: -0.25 }, { rotation: 0.25, duration: 34.8 - 10.2, ease: 'sine.inOut', immediateRender: true }, 10.2);
+  tl.fromTo('#drift', { scale: 1, x: 0, y: 0 }, { scale: 1.05, x: -18, y: -8, duration: 34.8 + 8.3 - 10.2, ease: 'none', immediateRender: true }, 10.2);
+  tl.fromTo('#drift', { rotation: -0.25 }, { rotation: 0.25, duration: 34.8 + 8.3 - 10.2, ease: 'sine.inOut', immediateRender: true }, 10.2);
   // page coordinate (px, py) → stage point, for a given cam scale s, so the camera can aim at any part of the page
   const aim = (px, py, s, sx = 960, sy = 470) => { const X = 240 + px, Y = 72 + 46 + py; return { scale: s, x: sx - (960 + (X - 960) * s), y: sy - (540 + (Y - 540) * s) }; };
-  winTo(aim(850, 465, 1.62, 960, 360), 16.3, 1.1);
-  META.whooshes.push(16.35);
   const caption = (id, t0, t1) => {
     tl.to('#capbg', { opacity: 1, duration: 0.5, ease: 'ebSoft' }, t0 - 0.1);
     tl.fromTo($(id), { y: 60, opacity: 0, clipPath: 'inset(100% 0 0 0 round 30px)' }, { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0 round 30px)', duration: 0.55, ease: 'ebPush', immediateRender: true }, t0 - 0.12);
@@ -363,11 +366,6 @@
     tl.to($(id), { y: 40, opacity: 0, duration: 0.35, ease: 'ebIn' }, t1 + 0.15);
     META.titles.push(t0 + 0.05);
   };
-  caption('#capA', 16.75, 19.0);
-  winTo(aim(850, 765, 1.5, 960, 350), 19.1, 1.1);
-  META.whooshes.push(19.15);
-  caption('#capB', 19.5, 21.6);
-  tl.to('#capbg', { opacity: 0, duration: 0.4 }, 21.7);
 
   // ================= 5 · Privacy: subgroups (21.8 – 27.4) =================
   winTo({ scale: 1, x: 0, y: 0 }, 21.8, 0.9);
@@ -498,6 +496,55 @@
   META.titles.push(41.3);
   tl.set({}, {}, DUR);
 
+  // ---- guided tour of the overview: insert 8.3 s at 16.3 (the tour fills the old 5.5 s caption window + the insert) and spotlight every part of the dashboard in turn
+  { const AT = 16.3, GAP = 8.3;
+    tl.shiftChildren(GAP, false, AT);
+    Object.keys(META).forEach((k) => { if (Array.isArray(META[k])) META[k] = META[k].map((t) => (t >= AT ? t + GAP : t)); });
+    VIDS.forEach((c) => { if (c.t0 >= AT) c.t0 += GAP; });
+    DUR += GAP; META.duration = DUR;
+    const STOPS = [
+      [[293, 223, 1114, 66], 'Overview', 'Every month, <i>closed and clear.</i>', 'Reporting period, HR status and results at a glance.'],
+      [[293, 343, 359, 242], 'EatsBueno Score', 'One <i>transparent</i> score.', 'Wellness engagement out of 10. Not a diagnosis.'],
+      [[670, 343, 360, 242], 'Active users', 'Who is <i>using it.</i>', 'Distinct people using EatsBueno this month.'],
+      [[1048, 343, 359, 242], 'Participation', 'Real <i>participation.</i>', 'Share of covered people taking part.'],
+      [[293, 603, 642, 322], 'Energy', 'How your people <i>feel.</i>', 'Self-reported energy: low, medium and high.'],
+      [[953, 603, 454, 322], 'Absenteeism', 'Absence vs. <i>your baseline.</i>', 'HR-reported, compared with your own history.'],
+      [[293, 943, 359, 225], 'Lost days', 'Reported <i>lost days.</i>', 'From your HR workbook, as a group total.'],
+      [[670, 943, 360, 225], 'Privacy', 'Privacy <i>by design.</i>', 'Groups below the minimum size are never shown.'],
+      [[1048, 943, 359, 225], 'Access cost', 'Employee <i>access cost.</i>', 'Per employee and for the whole program.'],
+      [[293, 1425, 1114, 350], 'Program and reporting', 'Reporting, Sello <i>and support.</i>', 'Deadlines, Sello EatsBueno readiness and a named partner.'],
+    ];
+    const DT = 1.36, T0 = AT + 0.1;
+    // spotlight: lives in the page (scrolls with it), dims everything else, orange ring
+    const spot = document.createElement('div'); spot.className = 'abs';
+    spot.style.cssText = 'left:293px;top:223px;width:1114px;height:66px;border-radius:18px;z-index:8;box-shadow:0 0 0 3px #E26023,0 0 0 9px rgba(226,96,35,.22),0 0 0 4000px rgba(23,63,55,.55);opacity:0;pointer-events:none';
+    pgOv.appendChild(spot);
+    tl.to(spot, { opacity: 1, duration: 0.35, ease: 'ebSoft' }, T0);
+    tl.to(CUR, { opacity: 0, duration: 0.25 }, T0);
+    tl.fromTo('#tour', { y: 60, opacity: 0, clipPath: 'inset(100% 0 0 0 round 30px)' }, { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0 round 30px)', duration: 0.55, ease: 'ebPush', immediateRender: false }, T0);
+    const slot = (host, html, cls) => { const d = document.createElement('div'); d.innerHTML = html; d.style.cssText = 'position:absolute;left:0;right:0;top:0;white-space:nowrap'; host.appendChild(d); tl.set(d, { yPercent: 120 }, 0); return d; };
+    let prev = null, scroll = 0;
+    STOPS.forEach(([r, eyebrow, title, sub], i) => {
+      const t = T0 + i * DT, pad = 10;
+      const want = Math.max(0, Math.min(1816 - 900, r[1] + r[3] / 2 - 430));   // scroll so the part sits high in the viewport
+      if (want !== scroll) { tl.to(pgOv, { y: -want, duration: 0.7, ease: 'ebSoft' }, t - 0.1); scroll = want; }
+      tl.to(spot, { left: r[0] - pad, top: r[1] - pad, width: r[2] + pad * 2, height: r[3] + pad * 2, duration: 0.6, ease: 'ebPush' }, t);
+      const s = Math.min(1920 * 0.62 / r[2], 560 / r[3], 2.1);
+      winTo(aim(r[0] + r[2] / 2, r[1] + r[3] / 2 - want, s, 960, 380), t - 0.08, 0.75);
+      const n = slot($('#tourN'), `${String(i + 1).padStart(2, '0')} / ${STOPS.length} · ${eyebrow.toUpperCase()}`),
+            h = slot($('#tourT'), `<span style="font:700 50px/1.3 Cooper">${title}</span>`),
+            sb = slot($('#tourS'), sub);
+      [n, h, sb].forEach((el, k) => tl.to(el, { yPercent: 0, duration: 0.5, ease: 'ebPush' }, t + 0.12 + k * 0.05));
+      if (prev) prev.forEach((el, k) => tl.to(el, { yPercent: -120, duration: 0.45, ease: 'ebPush' }, t + 0.1 + k * 0.05));
+      prev = [n, h, sb];
+      META.ticks.push(t + 0.15); if (i % 2 === 0) META.whooshes.push(t);
+    });
+    const tEnd = T0 + STOPS.length * DT;
+    tl.to(spot, { opacity: 0, duration: 0.35, ease: 'ebSoft' }, tEnd - 0.05);
+    tl.to('#tour', { y: 40, opacity: 0, duration: 0.35, ease: 'ebIn' }, tEnd - 0.1);
+    tl.to(CUR, { opacity: 1, duration: 0.3 }, tEnd);
+    winTo({ scale: 1, x: 0, y: 0 }, tEnd - 0.05, 0.8);
+  }
   window.DURATION = DUR; window.META = META;
   window.__seek = (t) => {
     tl.seek(t, false);

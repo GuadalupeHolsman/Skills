@@ -23,7 +23,7 @@ CACHE = os.path.join(HERE, 'assets/eleven')
 KEY = os.environ.get('ELEVENLABS_API_KEY')
 SR = 44100
 DUR = float(META['duration'])
-CUES = [6.4, 9.8, 39.7]          # hook | brand | product | outro
+CUES = [6.4, 9.8, DUR - 4.8]     # hook | brand | product | outro (the outro is always the last 4.8 s)
 
 
 def post(path, body, dest):
@@ -65,7 +65,7 @@ PLAN = {
          'positive_local_styles': ['gentle uplifting resolve', 'full warm chord', 'soft ending'], 'negative_local_styles': ['abrupt stop']},
     ],
 }
-music = load(post('/v1/music', {'composition_plan': PLAN, 'model_id': 'music_v1'}, os.path.join(CACHE, 'music_dash_plan.mp3')))
+music = load(post('/v1/music', {'composition_plan': PLAN, 'model_id': 'music_v1'}, os.path.join(CACHE, f'music_dash_plan_{int(round(DUR * 10))}.mp3')))
 
 KIT = {k: load(os.path.join(CACHE, f'sfx_{k}.mp3')) for k in ['whoosh', 'tap', 'key', 'pop', 'tick', 'success', 'title', 'logo', 'scan', 'impact']}
 for k, (text, d) in {'click': ('soft trackpad click, quiet and precise, modern laptop', 0.5),
