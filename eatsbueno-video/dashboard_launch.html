@@ -45,16 +45,16 @@
   #cursor { position: absolute; left: 0; top: 0; width: 26px; height: 34px; z-index: 50; pointer-events: none; filter: drop-shadow(0 3px 4px rgba(0,0,0,.3)); }
   .clickring { position: absolute; left: 0; top: 0; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; border: 3px solid rgba(59,118,104,.8); opacity: 0; z-index: 49; }
   /* captions over the product */
-  .cap { position: absolute; left: 0; right: 0; bottom: 0; height: 400px; z-index: 30; background: linear-gradient(180deg, rgba(250,240,223,0) 0%, rgba(250,240,223,.9) 42%, rgba(250,240,223,.97) 100%); opacity: 0; }
-  .capt { position: absolute; left: 120px; bottom: 92px; font: 700 68px/1.08 Cooper; color: #2A5D51; z-index: 31; } .capt i { font-weight: 300; color: #E26023; }
-  .capt small { display: block; font: 600 24px/1.4 Manrope; letter-spacing: 0; color: #5B5651; margin-top: 14px; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; height: 400px; z-index: 30; background: none; opacity: 0; }
+  .capt { position: absolute; left: 96px; bottom: 84px; max-width: 860px; padding: 38px 48px 40px; border-radius: 30px; background: #173F37; box-shadow: 0 40px 90px -30px rgba(0,0,0,.55), 0 0 0 1px rgba(250,240,223,.08); font: 700 62px/1.08 Cooper; color: #FAF0DF; z-index: 31; } .capt i { font-weight: 300; color: #F0A26A; }
+  .capt small { display: block; font: 600 22px/1.45 Manrope; letter-spacing: 0; color: #C7DAD2; margin-top: 16px; }
   .chip { position: absolute; display: flex; align-items: center; gap: 12px; padding: 14px 20px 14px 14px; border-radius: 14px; background: #fff; box-shadow: 0 30px 60px -20px rgba(0,0,0,.45);
           font: 700 17px Manrope; color: var(--ink); z-index: 45; }
   .chip .xl { width: 40px; height: 48px; border-radius: 8px; background: #1D6F42; color: #fff; display: grid; place-items: center; font: 800 13px Manrope; }
   .chip small { display: block; font: 500 13px Manrope; color: var(--muted); }
   .card3 { position: absolute; transform-style: preserve-3d; }
   .card3 img { display: block; width: 100%; filter: drop-shadow(0 40px 60px rgba(0,0,0,.35)); }
-  .card3 .lab { margin-top: 18px; text-align: center; font: 800 16px Manrope; letter-spacing: .2em; text-transform: uppercase; color: var(--cream); }
+  .card3 .lab { display: table; margin: 20px auto 0; padding: 10px 20px; border-radius: 999px; background: #173F37; font: 800 17px Manrope; letter-spacing: .16em; text-transform: uppercase; color: var(--cream); }
 </style>
 </head>
 <body>
@@ -67,22 +67,22 @@
   <div class="abs" id="leak" style="left:-900px;top:-200px;width:900px;height:1500px;z-index:52;opacity:0;transform:rotate(14deg);filter:blur(40px);background:linear-gradient(90deg,transparent,rgba(255,214,170,.75),transparent)"></div>
 
   <!-- 1 · Hook: real teams, three lines -->
-  <section class="scene" id="s1" style="background:#E26023">
+  <section class="scene" id="s1" style="background:radial-gradient(120% 110% at 50% 40%,#D9581D 0%,#C9501A 60%,#B84816 100%)">
     <div class="abs" id="foot1" style="inset:0"></div>
-    <div class="abs" style="inset:0;background:radial-gradient(70% 70% at 50% 55%,rgba(120,40,10,.0) 0%,rgba(90,30,8,.45) 100%);z-index:2"></div>
+    <div class="abs" style="inset:0;background:radial-gradient(70% 70% at 50% 55%,rgba(70,20,4,.6) 0%,rgba(70,20,4,.42) 45%,rgba(60,18,4,.55) 100%);z-index:2"></div>
     <div class="abs h1" id="l1" style="left:0;right:0;top:476px;text-align:center;z-index:3;font-size:96px">Great work starts with <i>your people.</i></div>
     <div class="abs h1" id="l2" style="left:0;right:0;top:470px;text-align:center;z-index:3">When they feel good, <i>they perform.</i></div>
     <div class="abs h1" id="l3" style="left:0;right:0;top:410px;text-align:center;z-index:3;font-size:96px">So how is your team<br><i>really doing?</i></div>
   </section>
 
   <!-- 2 · Brand -->
-  <section class="scene" id="s2" style="background:#E26023">
-    <div class="blob" style="width:1500px;height:1100px;left:-200px;top:0;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:900px;top:300px;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
+  <section class="scene" id="s2" style="background:radial-gradient(120% 110% at 50% 40%,#D9581D 0%,#C9501A 60%,#B84816 100%)">
+    <div class="blob" style="width:1100px;height:800px;left:-520px;top:-380px;opacity:.55;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:1380px;top:640px;opacity:.45;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
     <div class="abs" id="seeds2" style="left:960px;top:360px;width:0;height:0"></div>
     <div class="abs flower" id="fl2" style="left:830px;top:230px;width:260px;height:260px;color:var(--cream)"></div>
     <div class="abs wordmark" id="wm2" style="left:560px;top:520px;width:800px"></div>
-    <div class="abs eyebrow" id="ins2" style="left:0;right:0;top:672px;text-align:center;color:var(--cream);font-size:22px;letter-spacing:.6em">Institutional</div>
-    <div class="abs" id="tag2" style="left:0;right:0;top:760px;text-align:center;font:italic 300 56px/1.15 Cooper;color:var(--cream)">Wellbeing your organization can see.</div>
+    <div class="abs eyebrow" id="ins2" style="left:0;right:0;top:672px;text-align:center;color:var(--cream);font-size:24px;font-weight:800;letter-spacing:.6em">Institutional</div>
+    <div class="abs" id="tag2" style="left:0;right:0;top:760px;text-align:center;font:italic 700 56px/1.15 Cooper;color:var(--cream)">Wellbeing your organization can see.</div>
   </section>
 
   <!-- 3–6 · The product, inside one browser window -->
@@ -109,22 +109,22 @@
   </section>
 
   <!-- 7 · The program at a glance -->
-  <section class="scene" id="s7" style="background:#E26023">
-    <div class="blob" style="width:1500px;height:1100px;left:-200px;top:0;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:900px;top:300px;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
+  <section class="scene" id="s7" style="background:radial-gradient(120% 110% at 50% 40%,#D9581D 0%,#C9501A 60%,#B84816 100%)">
+    <div class="blob" style="width:1100px;height:800px;left:-520px;top:-380px;opacity:.55;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:1380px;top:640px;opacity:.45;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
     <div class="abs h1" id="h7" style="left:0;right:0;top:86px;text-align:center;font-size:76px">A team that feels good<br><i>is a team that performs.</i></div>
     <div class="abs" id="cards7" style="inset:0;transform-style:preserve-3d"></div>
   </section>
 
   <!-- 8 · Outro -->
-  <section class="scene" id="s8" style="background:#E26023">
-    <div class="blob" style="width:1500px;height:1100px;left:-200px;top:0;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:900px;top:300px;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
+  <section class="scene" id="s8" style="background:radial-gradient(120% 110% at 50% 40%,#D9581D 0%,#C9501A 60%,#B84816 100%)">
+    <div class="blob" style="width:1100px;height:800px;left:-520px;top:-380px;opacity:.55;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:1380px;top:640px;opacity:.45;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
     <div class="abs" id="seeds8" style="left:960px;top:320px;width:0;height:0"></div>
     <div class="abs flower" id="fl8" style="left:840px;top:200px;width:240px;height:240px;color:var(--cream)"></div>
     <div class="abs wordmark" id="wm8" style="left:610px;top:470px;width:700px"></div>
-    <div class="abs eyebrow" id="ins8" style="left:0;right:0;top:604px;text-align:center;color:var(--cream);font-size:20px;letter-spacing:.6em">Institutional</div>
-    <div class="abs" id="tag8" style="left:0;right:0;top:680px;text-align:center;font:italic 300 54px/1.15 Cooper;color:var(--cream)">Healthy people. <span style="font-weight:700;font-style:normal">Stronger teams.</span></div>
-    <div class="abs" id="sub8" style="left:0;right:0;top:766px;text-align:center;font:700 24px Manrope;color:rgba(250,240,223,.85)">Aggregate wellbeing evidence for your organization. Group results only, never individuals.</div>
-    <div class="abs" id="sig8" style="left:0;right:0;bottom:56px;display:flex;align-items:center;justify-content:center;gap:22px;font:700 15px Manrope;letter-spacing:.24em;text-transform:uppercase;color:rgba(250,240,223,.65)"><i style="width:80px;height:1px;background:rgba(250,240,223,.45)"></i>EatsBueno Institutional · For teams that perform<i style="width:80px;height:1px;background:rgba(250,240,223,.45)"></i></div>
+    <div class="abs eyebrow" id="ins8" style="left:0;right:0;top:604px;text-align:center;color:var(--cream);font-size:24px;font-weight:800;letter-spacing:.6em">Institutional</div>
+    <div class="abs" id="tag8" style="left:0;right:0;top:680px;text-align:center;font:italic 700 56px/1.15 Cooper;color:var(--cream)">Healthy people. <span style="font-weight:700;font-style:normal">Stronger teams.</span></div>
+    <div class="abs" id="sub8" style="left:0;right:0;top:766px;text-align:center;font:800 24px Manrope;color:var(--cream)">Aggregate wellbeing evidence for your organization. Group results only, never individuals.</div>
+    <div class="abs" id="sig8" style="left:0;right:0;bottom:56px;display:flex;align-items:center;justify-content:center;gap:22px;font:800 19px Manrope;letter-spacing:.2em;text-transform:uppercase;color:var(--cream)"><i style="width:80px;height:1px;background:rgba(250,240,223,.45)"></i>EatsBueno Institutional · For teams that perform<i style="width:80px;height:1px;background:rgba(250,240,223,.45)"></i></div>
   </section>
 </div>
 
@@ -344,8 +344,10 @@
   META.whooshes.push(16.35);
   const caption = (id, t0, t1) => {
     tl.to('#capbg', { opacity: 1, duration: 0.5, ease: 'ebSoft' }, t0 - 0.1);
+    tl.fromTo($(id), { y: 60, opacity: 0, clipPath: 'inset(100% 0 0 0 round 30px)' }, { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0 round 30px)', duration: 0.55, ease: 'ebPush', immediateRender: true }, t0 - 0.12);
     reveal($(id), t0, 0.05); tl.fromTo($(id).querySelector('small'), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, immediateRender: true }, t0 + 0.35);
     hide($(id), t1); tl.to($(id).querySelector('small'), { opacity: 0, duration: 0.3 }, t1);
+    tl.to($(id), { y: 40, opacity: 0, duration: 0.35, ease: 'ebIn' }, t1 + 0.15);
     META.titles.push(t0 + 0.05);
   };
   caption('#capA', 16.75, 19.0);
@@ -447,8 +449,10 @@
 
   // ================= 7 · The program at a glance (34.9 – 39.7) =================
   scene('s7', 34.78, 39.95);
-  { const F7 = document.createElement('div'); F7.className = 'abs'; F7.style.cssText = 'inset:0;opacity:.5';
+  { const F7 = document.createElement('div'); F7.className = 'abs'; F7.style.cssText = 'inset:0;opacity:.42';
     $('#s7').insertBefore(F7, $('#h7'));
+    const sh7 = document.createElement('div'); sh7.className = 'abs'; sh7.style.cssText = 'inset:0;background:linear-gradient(180deg,rgba(110,32,6,.62) 0%,rgba(110,32,6,.2) 34%,rgba(110,32,6,0) 50%)';
+    $('#s7').insertBefore(sh7, $('#h7'));
     [['highfive', 34.78, 1.75, 0.6], ['d_coworkers', 36.5, 1.75, 1.6], ['d_handshake', 38.25, 1.7, 0.4]].forEach(([n, t0, d, inPt], i) => {
       const f = foot(F7, n, t0, d, { inPt, rate: 0.7, vcss: DUO, tint: GREEN });
       tl.set(f, { opacity: 1 }, t0); tl.set(f, { opacity: 0 }, t0 + d);
