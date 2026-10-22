@@ -2,6 +2,7 @@
 // Usage: node render.mjs [out.mp4] [fps] [--sub N] [--workers N] [--page file.html]   (full film)
 //          --sub N     render N sub-frames per output frame and blend them (motion blur, 180°-style shutter)
 //          --workers N render N chunks in parallel browser pages
+//          --from S    start at S seconds (for splicing a re-rendered tail onto an earlier render)
 //        node render.mjs --stills 1,5,12 outdir    (PNG stills at given seconds)
 //        node render.mjs --meta meta.json          (tap/key/cut times for music.py)
 import { chromium } from 'playwright';
@@ -18,6 +19,7 @@ const PAGE = opt('--page', 'index.html');
 const pageUrl = url.pathToFileURL(path.join(here, PAGE)).href + '?render=1';
 const SUB = Number(opt('--sub', 1));
 const WORKERS = Number(opt('--workers', 1));
+const FROM = Number(opt('--from', 0));            // start time in seconds (re-render just the tail of a film)
 const args = argv;
 
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
@@ -49,7 +51,7 @@ if (args[0] === '--meta') {
   const probe = await openPage();
   const dur = await probe.evaluate(() => window.DURATION);
   await probe.close();
-  const total = Math.round(dur * rate);
+  const first = Math.round(FROM * rate), total = Math.round(dur * rate) - first;
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ebrender-'));
   const chunk = Math.ceil(total / WORKERS);
 
@@ -61,7 +63,7 @@ if (args[0] === '--meta') {
     const ff = run('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(rate), '-c:v', 'mjpeg', '-i', '-',
       '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '10', '-pix_fmt', 'yuv444p', path.join(tmp, `seg${String(w).padStart(2, '0')}.mkv`)]);
     for (let f = a; f < b; f++) {
-      await page.evaluate((t) => window.__seek(t), f / rate);
+      await page.evaluate((t) => window.__seek(t), (first + f) / rate);
       const buf = await page.screenshot({ type: 'jpeg', quality: 95 });
       if (!ff.stdin.write(buf)) await new Promise((r) => ff.stdin.once('drain', r));
       if ((f - a) % 240 === 0) console.error(`worker ${w}: ${f - a}/${b - a}`);
