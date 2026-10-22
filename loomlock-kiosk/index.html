@@ -773,6 +773,12 @@ h2 .w{display:inline-block}
 .astep .as-d i.on{background:var(--yellow);width:40px;border-radius:99px}
 #s2:has(#ov1:not(.gone)) #instr1{display:none}
 #s2:has(#ov1.gone) #astep{display:none}
+
+/* focus pass: one idea per screen, the app is the protagonist */
+#s1 .split{display:none}
+#s1 .cause{flex:1;height:auto;transform:scale(1.7)}
+#s5 .mp-ask{display:none}
+#s6 .dial{display:none}
 </style>
 </head>
 <body>
@@ -1111,9 +1117,7 @@ h2 .w{display:inline-block}
       "s5.nextq":"Siguiente →","s5.see":"Ver resultado →","s5.again":"Jugar otra vez","s5.ready":"Ya estás listo para entrar.",
       "quiz":[{q:"Loomlock bloquea todo tu celular.",a:0,x:"Solo pausa las apps que eliges. Llamadas, cámara y mapas siguen funcionando."},
         {q:"Con las apps en pausa puedes recibir llamadas.",a:1,x:"Las llamadas nunca se pausan."},
-        {q:"La key necesita batería.",a:0,x:"Funciona por cercanía, como el pago sin contacto. Sin batería ni carga."},
-        {q:"Si no tienes key, igual puedes entrar.",a:1,x:"Acerca tu celular al tótem de Locky y listo."},
-        {q:"La key es tuya y es coleccionable.",a:1,x:"Te la llevas a casa. Cada edición abre una puerta nueva."}],
+        {q:"Si no tienes key, igual puedes entrar.",a:1,x:"Acerca tu celular al tótem de Locky y listo."}],
       "s5.q1":"¿Se bloquea todo mi celular?","s5.a1":"No. Solo las apps que eliges. Llamadas, cámara y mapas siguen funcionando.",
       "s5.q2":"¿Y si tengo una emergencia?","s5.a2":"Las llamadas nunca se pausan. Siempre puedes llamar y contestar.",
       "s5.q3":"¿Me quedo con la key?","s5.a3":"Sí, es tuya y es coleccionable. Úsala en casa o donde quieras.",
@@ -1182,9 +1186,7 @@ h2 .w{display:inline-block}
       "s5.nextq":"Next →","s5.see":"See result →","s5.again":"Play again","s5.ready":"You're ready to go in.",
       "quiz":[{q:"Loomlock locks your whole phone.",a:0,x:"It only pauses the apps you choose. Calls, camera and maps keep working."},
         {q:"With apps on pause you can still get calls.",a:1,x:"Calls are never paused."},
-        {q:"The key needs a battery.",a:0,x:"It works by proximity, like contactless payment. No battery, no charging."},
-        {q:"No key? You can still get in.",a:1,x:"Hold your phone to Locky's totem and you're set."},
-        {q:"The key is yours and it's collectible.",a:1,x:"You take it home. Every edition opens a new door."}],
+        {q:"No key? You can still get in.",a:1,x:"Hold your phone to Locky's totem and you're set."}],
       "s5.q1":"Does it lock my whole phone?","s5.a1":"No. Only the apps you choose. Calls, camera and maps keep working.",
       "s5.q2":"What if there's an emergency?","s5.a2":"Calls are never paused. You can always call and answer.",
       "s5.q3":"Do I keep the key?","s5.a3":"Yes, it's yours and it's collectible. Use it at home or anywhere.",

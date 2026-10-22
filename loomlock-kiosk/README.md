@@ -10,12 +10,12 @@ El orden sigue lo que vive el invitado: qué es → preparar la app antes de lle
 
 0. **Portada:** tele de tubo en el CH 02 (al tocarla cambia la frase), "Esta noche, con Tequila Don Julio" y aviso +18
 1. **01 · Quién te invitó:** PR, Equipo Loomlock, Equipo Don Julio, Equipo Bikini o "Quería conocer a Locky". Se envía al Sheet a los 3 s de elegir
-2. **02 · Qué es:** "Un tap con tu key. Apps en pausa." Loop: la key toca el celular y recién ahí se pausan las redes; llamadas, cámara y mapas siguen
+2. **02 · Qué es:** "Un tap con tu key. Apps en pausa." Solo la animación grande: la key toca el celular y aparece el candado
 3. **03 · Prepara tu app (pasos 1-4):** pantallas reales de la app, numeradas: 1 abre la app, 2 permite Screen Time, 3 llamadas y SMS siguen, 4 elige tus apps. Pasan solas o con un toque; después del paso 4 se abre el selector y se toca Guardar
 4. **04 · Tu key:** la key real de Don Julio; al tocarla se da vuelta
 5. **05 · El tap (paso 5):** el celular arranca con la pantalla real *You're Event Ready!*; al acercarlo al tótem de Locky (o con tu key) la pantalla se desliza y se bloquean las apps elegidas en el paso 03. Otro tap y vuelven
-6. **06 · Tu noche:** deslizas la hora y se encienden los 4 momentos
-7. **07 · Mito o verdad:** 5 preguntas rápidas y cierre "Ve al tótem"
+6. **06 · Tu noche:** 4 momentos (puerta, adentro, salida, galería); se tocan para encenderlos
+7. **07 · Mito o verdad:** 3 preguntas rápidas y cierre "Ve al tótem"
 
 ### Íconos y tótem
 - Las apps de la demo usan los íconos reales de Instagram, TikTok, YouTube, X y Facebook (glifos del paquete *simple-icons*, licencia CC0, con los colores de cada marca). Los nombres e íconos son marcas de sus dueños y se muestran solo para explicar qué apps se pausan. Juegos, llamadas, cámara y mapas usan íconos genéricos.
