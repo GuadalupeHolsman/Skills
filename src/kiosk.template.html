@@ -742,6 +742,8 @@ h2 .w{display:inline-block}
 #ov3{background:transparent}
 #ov3 img{transition:transform .5s var(--e-std)}
 #ov3.gone{opacity:1;transform:none}
+#ov3 .ov-n{transition:opacity .3s}
+#ov3.gone .ov-n{opacity:0}
 #ov3.gone img{transform:translateY(104%);transition:transform .9s cubic-bezier(.5,0,.2,1) .45s}
 .drag-zone.done:not(.back) #phone3 .app-tile.sel .ic{animation-delay:calc(var(--td,0ms) + 1.25s)}
 .drag-zone.done:not(.back) #phone3 .app-tile .badge{transition-delay:calc(var(--td,0ms) + 1.25s)!important}
@@ -880,23 +882,7 @@ h2 .w{display:inline-block}
     <div class="hint"><i></i><span data-t="q1.watch">Mira: la key pausa tus apps</span></div>
   </section>
 
-  <!-- 03 · Tu key -->
-  <section class="screen" id="s3" data-name="n3" aria-label="Tu key">
-    <div class="head">
-      <span class="kicker" data-t="k3">Tu key</span>
-      <h2 class="focus" data-t="t3">Esta es <em>tu key.</em></h2>
-    </div>
-    <div class="card-area" id="card-area"><i class="tp" style="left:84%;top:70%"></i>
-      <button class="nfc-card" id="card" aria-label="Dar vuelta la key">
-        <div class="face front"><div class="shine"></div></div>
-        <div class="face back"></div>
-      </button>
-    </div>
-    <div class="chips"><span data-t="c1">Chip NFC</span><span data-t="c2">Sin batería</span><span data-t="c3">Es tuya</span></div>
-    <div class="hint"><i></i><span data-t="s2.hint">Muévela · tócala · cambia la edición</span></div>
-  </section>
-
-  <!-- 02 · Pruébalo -->
+  <!-- 03 · Prepara tu app (pasos 1-4, pantallas reales) -->
   <section class="screen" id="s2" data-name="n2" aria-label="Elige tus apps">
     <div class="head">
       <span class="kicker" data-t="k2">En la app</span>
@@ -918,6 +904,22 @@ h2 .w{display:inline-block}
       <div class="next-tip" id="next-tip"><span class="nt-ico"><svg class="mp-locky" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg><svg><use href="#waves"/></svg></span><span data-t="s1.tip">La pausa empieza con un tap: tótem o key</span></div>
     </div>
     <button class="big-btn" id="try-lock"><span>Guardar</span></button>
+  </section>
+
+  <!-- 04 · Tu key -->
+  <section class="screen" id="s3" data-name="n3" aria-label="Tu key">
+    <div class="head">
+      <span class="kicker" data-t="k3">Tu key</span>
+      <h2 class="focus" data-t="t3">Esta es <em>tu key.</em></h2>
+    </div>
+    <div class="card-area" id="card-area"><i class="tp" style="left:84%;top:70%"></i>
+      <button class="nfc-card" id="card" aria-label="Dar vuelta la key">
+        <div class="face front"><div class="shine"></div></div>
+        <div class="face back"></div>
+      </button>
+    </div>
+    <div class="chips"><span data-t="c1">Chip NFC</span><span data-t="c2">Sin batería</span><span data-t="c3">Es tuya</span></div>
+    <div class="hint"><i></i><span data-t="s2.hint">Muévela · tócala · cambia la edición</span></div>
   </section>
 
   <!-- 05 · El tap -->
@@ -1054,7 +1056,7 @@ h2 .w{display:inline-block}
       "n1":"Qué es","n2":"En la app","n3":"Tu key","n4":"Antes de llegar","n5":"El tap","n6":"Tu noche","n7":"Mito o verdad",
       "q1.title":"Un tap con tu key. <em>Apps en pausa.</em>","q1.tapped":"Tap","q1.after":"después del tap","q1.always":"igual que siempre","q1.off":"En pausa","q1.on":"Siempre funcionan","q1.e1":"Llamadas","q1.e2":"Cámara","q1.e3":"Mapas","q1.tap":"Tu celular sigue contigo · o usa el tótem de Locky",
       "t2":"Prepara <em>tu app.</em>","f1":"App","f2":"Elige","f3":"Tap",
-      "i1":"Abre la app y toca las que te distraen","i2":"Ahora toca Guardar","i3":"Listo. La pausa empieza con el tap.","s1.btnN":"Guardar {n}",
+      "i1":"Toca las apps que te distraen","i2":"Ahora toca Guardar","i3":"Listo. La pausa empieza con el tap.","s1.btnN":"Guardar {n}",
       "t3":"Esta es <em>tu key.</em>","c1":"Chip NFC","c2":"Sin batería","c3":"Es tuya",
       "t4":"Dos pasos <em>antes.</em>","p1":"Descarga la app","p1s":"Busca Loomlock en tu tienda","p2":"Elige tus apps","p2s":"Las que quieres pausar esta noche","p3":"¡Listo para el tap!","p.hint":"Toca cada paso",
       "t5":"Un tap <em>y entras.</em>","tf1":"Tap: pausa","tf2":"Tap: vuelves",
@@ -1125,7 +1127,7 @@ h2 .w{display:inline-block}
       "n1":"What it is","n2":"In the app","n3":"Your key","n4":"Before you arrive","n5":"The tap","n6":"Your night","n7":"Myth or fact",
       "q1.title":"Tap your key. <em>Apps pause.</em>","q1.tapped":"Tap","q1.after":"after the tap","q1.always":"as always","q1.off":"Paused","q1.on":"Always on","q1.e1":"Calls","q1.e2":"Camera","q1.e3":"Maps","q1.tap":"Your phone stays with you · or use Locky’s totem",
       "t2":"Set up <em>your app.</em>","f1":"App","f2":"Pick","f3":"Tap",
-      "i1":"Open the app and tap the ones that distract you","i2":"Now tap Save","i3":"Done. The pause starts with the tap.","s1.btnN":"Save {n}",
+      "i1":"Tap the apps that distract you","i2":"Now tap Save","i3":"Done. The pause starts with the tap.","s1.btnN":"Save {n}",
       "t3":"This is <em>your key.</em>","c1":"NFC chip","c2":"No battery","c3":"It's yours",
       "t4":"Two steps <em>before.</em>","p1":"Get the app","p1s":"Search Loomlock in your store","p2":"Pick your apps","p2s":"The ones to pause tonight","p3":"Ready for the tap!","p.hint":"Tap each step",
       "t5":"One tap <em>and you're in.</em>","tf1":"Tap: pause","tf2":"Tap: back",
