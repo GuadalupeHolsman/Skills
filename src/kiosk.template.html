@@ -551,7 +551,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .fp.ok b{background:var(--ok);font-size:0}
 .fp.ok b::after{content:"✓";font-size:26px}
 .fa{width:34px;height:4px;background:rgba(237,234,227,.5);border-radius:2px}
-#phone1{width:412px;height:860px}
+#phone1{width:440px;height:920px}
 .instr{margin:0;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:38px;line-height:1.08;color:var(--yellow);text-shadow:4px 4px 0 var(--screen);min-height:2.1em;display:grid;place-items:center}
 .instr.in{animation:focusIn .5s cubic-bezier(.2,.8,.2,1) both}
 .big-btn[disabled]{opacity:.45;box-shadow:none}
@@ -774,6 +774,16 @@ h2 .w{display:inline-block}
 #s1 .cause{flex:1;height:auto;transform:scale(1.7)}
 #s5 .mp-ask{display:none}
 #s6 .dial{display:none}
+
+/* elevation: the app is the hero. A spotlight frames the one thing that matters on each real screen */
+.spot{position:absolute;border-radius:20px;border:4px solid var(--yellow);box-shadow:0 0 0 2000px rgba(11,11,16,.45),0 0 0 10px rgba(252,206,33,.25);transition:left .55s var(--e-std),top .55s var(--e-std),width .55s var(--e-std),height .55s var(--e-std);pointer-events:none;z-index:1;animation:spotGlow 1.8s ease-in-out infinite}
+@keyframes spotGlow{0%,100%{box-shadow:0 0 0 2000px rgba(11,11,16,.45),0 0 0 6px rgba(252,206,33,.2)}50%{box-shadow:0 0 0 2000px rgba(11,11,16,.45),0 0 0 16px rgba(252,206,33,.35)}}
+#tp1{transition:left .55s var(--e-std),top .55s var(--e-std)}
+#next-tip{display:none!important}
+
+#s2:has(#ov1:not(.gone)) #try-lock{visibility:hidden}
+#ov3 .spot{transition:opacity .25s}
+#ov3.gone .spot{opacity:0}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -899,7 +909,7 @@ h2 .w{display:inline-block}
     <div class="astep" id="astep" aria-live="polite"></div>
     <div class="stage-area">
       <div class="phone" id="phone1">
-        <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" style="left:50%;top:91%"></i></div>
+        <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""></div><span class="spot" id="spot"></span><b class="ov-n" id="ov-n">1</b><i class="tp" id="tp1" style="left:50%;top:91%"></i></div>
         <div class="screen-in">
           <div class="app-bar"><span class="ab-logo">loomlock</span><span class="ab-t" data-t="s1.appbar">Apps a pausar</span></div>
           <div class="status" id="status1"></div>
@@ -951,7 +961,7 @@ h2 .w{display:inline-block}
       <button class="drag-card" id="drag-card" aria-label="Key Loomlock: toca o arrastra hasta el celular"><i class="tp" style="left:50%;top:50%"></i></button>
       <svg class="down-arrow"><use href="#arrow-d"/></svg>
       <div class="phone" id="phone3">
-        <div class="app-ov" id="ov3"><img src="{{APP5}}" alt=""><b class="ov-n">5</b></div>
+        <div class="app-ov" id="ov3"><img src="{{APP5}}" alt=""><span class="spot" style="left:5%;top:86.5%;width:90%;height:7.5%"></span><b class="ov-n">5</b></div>
         <div class="screen-in">
           <div class="clock" data-clock>21:30</div>
           <div class="status" id="status3" data-t="s3.status">Esperando tu key…</div>
@@ -1703,10 +1713,15 @@ h2 .w{display:inline-block}
 
   /* ---------- the app, step by step ---------- */
   let adI = 0;
+  /* left, top, width, height (% of the screen) of what each real screen is about */
+  const SPOTS = [[5, 87.5, 90, 7.5], [5, 87.5, 90, 7.5], [3, 39, 94, 24], [3, 32, 94, 17]];
   const ov1 = $("#ov1");
   function renderAd(){
     $("#ov-track").style.transform = `translateX(${-adI * 25}%)`;
     $("#ov-n").textContent = adI + 1;
+    const [l, tp, w, h] = SPOTS[adI], sp = $("#spot").style;
+    sp.left = l + "%"; sp.top = tp + "%"; sp.width = w + "%"; sp.height = h + "%";
+    $("#tp1").style.left = (l + w / 2) + "%"; $("#tp1").style.top = (tp + h / 2) + "%";
     $("#astep").innerHTML = `<div class="as-row"><b>${adI + 1}</b><span class="as-t">${t("app.c" + (adI + 1))}</span></div><div class="as-d">${[0, 1, 2, 3].map(i => `<i class="${i === adI ? "on" : ""}"></i>`).join("")}</div>`;
   }
   const adNext = () => { if (adI < 3){ adI++; renderAd() } else ov1.classList.add("gone"); vib(10) };
