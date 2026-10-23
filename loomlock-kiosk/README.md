@@ -10,9 +10,11 @@ El orden sigue lo que vive el invitado: qué es → preparar la app antes de lle
 
 0. **Portada:** tele de tubo en el CH 02 (al tocarla cambia la frase), "Esta noche, con Tequila Don Julio" y aviso +18
 1. **01 · Quién te invitó:** PR, Equipo Loomlock, Equipo Don Julio, Equipo Bikini o "Quería conocer a Locky". Se envía al Sheet a los 3 s de elegir
-2. **02 · Qué es:** "Escanea tu key. Apps en pausa." Solo la animación grande: la key toca el celular y aparece el candado
-3. **03 · Prepara tu app (pasos 1-5):** pantallas reales de la guía *How Experience Mode Works* (iPhone): 1 “Join an experience”, 2 cómo funciona, 3 llamadas y SMS siguen, 4 elige el modo, 5 elige qué queda abierto. Pasan solas o con un toque; después del paso 4 se abre el selector y se toca Guardar
-4. **04 · La key:** la key de la experiencia (la del lugar); al tocarla se da vuelta
+2. **02 · Tu nombre:** "¿Cómo te llamas?" con teclado en pantalla (QWERTY con Ñ). Es opcional; el nombre viaja con la invitación al Sheet (columna E) y aparece en el cierre ("¿Todo listo, Lupe?"). La invitación se envía al salir de esta pantalla
+2b. **Qué es:** "Escanea tu key. Apps en pausa." Solo la animación grande: la key toca el celular y aparece el candado
+3. **Prepara tu app (pasos 1-5):** a la izquierda una barra de pasos numerada (hechos con ✓, el actual en amarillo); a la derecha las pantallas reales. pantallas reales de la guía *How Experience Mode Works* (iPhone): 1 “Join an experience”, 2 cómo funciona, 3 llamadas y SMS siguen, 4 elige el modo, 5 elige qué queda abierto. Pasan solas o con un toque; después del paso 4 se abre el selector y se toca Guardar
+4. **Las keys ("Dos keys, dos usos"):** las keys se mueven: arrastrarlas las inclina en 3D y tocarlas las da vuelta (dorso de la experiencia: "Escanéala en la entrada"; dorso del regalo: el de Don Julio).
+   Antes: la key de la experiencia (la del lugar); al tocarla se da vuelta
 5. **05 · La entrada (paso 5):** el celular arranca con la pantalla real *You're Event Ready!*; al acercarlo al tótem de Locky (o con tu key) la pantalla se desliza y se bloquean las apps elegidas en el paso 03. Otro tap y vuelven
 6. **06 · Tu noche:** 4 momentos (puerta, adentro, salida, galería); las fotos quedan en la web de Loomlock Experiences
 7. **07 · Mito o verdad:** 3 preguntas rápidas y cierre "Ve al tótem"
