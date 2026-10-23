@@ -873,6 +873,17 @@ h2 .w{display:inline-block}
 .kc-l.ok::before{content:"✓";color:#1f9d55}
 .kc-l.no::before{content:"✕";color:#d6336c}
 .kvs{align-self:center;margin:-52px 0;z-index:2;width:76px;height:76px;border-radius:50%;background:var(--yellow);border:5px solid var(--screen);display:grid;place-items:center;font:800 44px/1 var(--font-display);color:var(--ink);box-shadow:5px 5px 0 var(--screen)}
+
+/* the app, amplified: a magnifier beside the phone zooms into what matters on each real screen; a soft halo lifts the phone */
+#s2 .stage-area{position:relative}
+#s2 .stage-area::before{content:"";position:absolute;left:50%;top:44%;width:900px;height:900px;margin:-450px 0 0 -450px;border-radius:50%;background:radial-gradient(circle,rgba(252,206,33,.28) 0%,rgba(252,206,33,.08) 40%,transparent 68%);pointer-events:none;animation:halo 4s ease-in-out infinite}
+@keyframes halo{0%,100%{transform:scale(.94);opacity:.8}50%{transform:scale(1.04);opacity:1}}
+#s2:has(#ov1.gone) .stage-area::before{opacity:.25;animation:none}
+.lens{position:absolute;left:calc(100% + 34px);width:250px;height:250px;border-radius:50%;border:7px solid var(--yellow);background-color:#fff;background-repeat:no-repeat;box-shadow:0 0 0 6px var(--screen),12px 14px 0 rgba(11,11,16,.45),0 0 50px rgba(252,206,33,.45);z-index:12;pointer-events:none;transition:top .9s cubic-bezier(.2,.9,.25,1.04),opacity .4s;transform-origin:left center}
+.lens i{position:absolute;right:100%;top:50%;width:48px;height:0;border-top:5px dashed var(--yellow);margin-top:-2px}
+.lens.pop{animation:lensPop .7s var(--e-spring) .5s backwards}
+@keyframes lensPop{from{transform:scale(.2);opacity:0}to{transform:none;opacity:1}}
+#ov1.gone ~ .lens{opacity:0;transform:scale(.3)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -999,7 +1010,7 @@ h2 .w{display:inline-block}
     <div class="astep" id="astep" aria-live="polite"></div>
     <div class="stage-area">
       <div class="phone" id="phone1">
-        <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""><img src="{{APP5}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" id="tp1" style="left:50%;top:91%"></i><i class="tap-rip" id="rip"></i></div>
+        <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""><img src="{{APP5}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" id="tp1" style="left:50%;top:91%"></i><i class="tap-rip" id="rip"></i></div><span class="lens" id="lens"><i></i></span>
         <div class="screen-in">
           <div class="app-bar"><span class="ab-logo">loomlock</span><span class="ab-t" data-t="s1.appbar">Apps a pausar</span></div>
           <div class="status" id="status1"></div>
@@ -1808,6 +1819,8 @@ h2 .w{display:inline-block}
   /* ---------- the app, step by step ---------- */
   let adI = 0;
   /* left, top, width, height (% of the screen) of what each real screen is about */
+  /* what the magnifier reads on each screen: centre x, y (% of the screen) and zoom */
+  const LENS = [[30, 53.5, 1.8], [58, 93.5, 2.3], [50, 93, 2.3], [27, 37.8, 2.0], [22, 36.6, 1.8]];
   const SPOTS = [[2, 50, 96, 9], [26, 90.5, 70, 5.5], [5, 89.5, 90, 5.5], [2, 34, 96, 8], [2, 34.5, 96, 8.5]];
   const ov1 = $("#ov1");
   function renderAd(){
@@ -1815,6 +1828,14 @@ h2 .w{display:inline-block}
     clearTimeout(renderAd.t); renderAd.t = setTimeout(() => { $("#ov-n").textContent = adI + 1 }, 450);
     const [l, tp, w, h] = SPOTS[adI];
     $("#tp1").style.left = (l + w / 2) + "%"; $("#tp1").style.top = (tp + h / 2) + "%";
+    /* magnifier: zoom x2.3 on the spot's centre of the real screen */
+    const lens = $("#lens"), img = $$("#ov-track img")[adI], SW = 412, SH = 892, L = 250, Z = LENS[adI][2];
+    const cx = LENS[adI][0] / 100, cy = LENS[adI][1] / 100;
+    lens.style.backgroundImage = `url("${img.src}")`;
+    lens.style.backgroundSize = `${SW * Z}px ${SH * Z}px`;
+    lens.style.backgroundPosition = `${L / 2 - 7 - cx * SW * Z}px ${L / 2 - 7 - cy * SH * Z}px`;
+    lens.style.top = Math.max(0, Math.min(920 - L, 14 + cy * SH - L / 2)) + "px";
+    lens.classList.remove("pop"); void lens.offsetWidth; lens.classList.add("pop");
     const as = $("#astep"); as.classList.remove("in"); void as.offsetWidth; as.classList.add("in");
     as.innerHTML = `<div class="as-row"><b>${adI + 1}</b><span class="as-t">${t("app.c" + (adI + 1))}</span></div><div class="as-d">${[0, 1, 2, 3, 4].map(i => `<i class="${i === adI ? "on" : ""}"></i>`).join("")}</div>`;
   }
