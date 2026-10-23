@@ -52,6 +52,16 @@
           font: 700 17px Manrope; color: var(--ink); z-index: 45; }
   .chip .xl { width: 40px; height: 48px; border-radius: 8px; background: #1D6F42; color: #fff; display: grid; place-items: center; font: 800 13px Manrope; }
   .chip small { display: block; font: 500 13px Manrope; color: var(--muted); }
+  .phone { position: absolute; width: 458px; height: 958px; border-radius: 70px; background: #0d0d0d; padding: 14px; will-change: transform;
+           box-shadow: 0 80px 160px -50px rgba(0,0,0,.55), 0 30px 60px -30px rgba(0,0,0,.45), inset 0 0 0 2px #2b2b2b, inset 0 0 0 5px #161616; }
+  .screen { position: relative; width: 430px; height: 930px; border-radius: 57px; overflow: hidden; background: #eef3ef; }
+  .island { position: absolute; top: 12px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: #000; z-index: 90; }
+  .phone img.scr { position: absolute; left: 0; top: 0; width: 430px; }
+  .ben { position: absolute; width: 400px; height: 300px; padding: 34px 32px; border-radius: 30px; background: #FAF0DF; box-shadow: 0 40px 80px -30px rgba(60,20,4,.55); }
+  .ben .ic { width: 64px; height: 64px; border-radius: 18px; background: #2A5D51; display: grid; place-items: center; margin-bottom: 22px; }
+  .ben .n { position: absolute; right: 30px; top: 34px; font: 800 15px Manrope; letter-spacing: .2em; color: #B04512; }
+  .ben h3 { font: 700 36px/1.08 Cooper; color: #2A5D51; } .ben h3 i { font-weight: 300; color: #B04512; }
+  .ben p { font: 600 19px/1.45 Manrope; color: #5B5651; margin-top: 12px; }
   .card3 { position: absolute; transform-style: preserve-3d; }
   .card3 img { display: block; width: 100%; filter: drop-shadow(0 40px 60px rgba(0,0,0,.35)); }
   .card3 .lab { display: table; margin: 20px auto 0; padding: 10px 20px; border-radius: 999px; background: #173F37; font: 800 17px Manrope; letter-spacing: .16em; text-transform: uppercase; color: var(--cream); }
@@ -83,6 +93,15 @@
     <div class="abs wordmark" id="wm2" style="left:560px;top:520px;width:800px"></div>
     <div class="abs eyebrow" id="ins2" style="left:0;right:0;top:672px;text-align:center;color:var(--cream);font-size:24px;font-weight:800;letter-spacing:.6em">Institutional</div>
     <div class="abs" id="tag2" style="left:0;right:0;top:760px;text-align:center;font:italic 700 56px/1.15 Cooper;color:var(--cream)">Wellbeing your organization can see.</div>
+  </section>
+
+  <!-- 2b · The app your people use -->
+  <section class="scene" id="sA" style="background:radial-gradient(90% 90% at 50% 55%,#FBEBDD 0%,#F6E3D2 45%,#EFD3BE 100%)">
+    <div class="abs h1" id="hA1" style="left:0;right:0;top:70px;text-align:center;font-size:80px;color:#2A5D51">Your people get <i style="color:#B04512">the app.</i></div>
+    <div class="abs h1" id="hA2" style="left:0;right:0;top:70px;text-align:center;font-size:80px;color:#2A5D51">You get <i style="color:#B04512">the big picture.</i></div>
+    <div class="abs" id="subA" style="left:0;right:0;top:178px;text-align:center;font:700 24px Manrope;color:#5B5651">A personal nutrition coach for every employee. Group results for you.</div>
+    <div class="abs" id="phonesA" style="inset:0;perspective:2400px"></div>
+    <div class="abs" id="dotsA" style="inset:0"></div>
   </section>
 
   <!-- 3–6 · The product, inside one browser window -->
@@ -120,6 +139,13 @@
     <div class="blob" style="width:1100px;height:800px;left:-520px;top:-380px;opacity:.55;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:1380px;top:640px;opacity:.45;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
     <div class="abs h1" id="h7" style="left:0;right:0;top:86px;text-align:center;font-size:76px">A team that feels good<br><i>is a team that performs.</i></div>
     <div class="abs" id="cards7" style="inset:0;transform-style:preserve-3d"></div>
+  </section>
+
+  <!-- 7b · Benefits -->
+  <section class="scene" id="sB" style="background:radial-gradient(120% 110% at 50% 40%,#D9581D 0%,#C9501A 60%,#B84816 100%)">
+    <div class="blob" style="width:1100px;height:800px;left:-520px;top:-380px;opacity:.55;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:1380px;top:640px;opacity:.45;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
+    <div class="abs h1" id="hB" style="left:0;right:0;top:84px;text-align:center;font-size:76px">What your organization <i>gets.</i></div>
+    <div class="abs" id="bensB" style="inset:0;perspective:2400px"></div>
   </section>
 
   <!-- 8 · Outro -->
@@ -560,6 +586,79 @@
     tl.to('#tour', { y: 40, opacity: 0, duration: 0.35, ease: 'ebIn' }, tEnd - 0.1);
     tl.to(CUR, { opacity: 1, duration: 0.3 }, tEnd);
     winTo({ scale: 1, x: 0, y: 0 }, tEnd - 0.05, 0.8);
+  }
+  // ---- generic insert of time at `at` (everything later moves), used for the app and benefits beats
+  const insertAt = (at, gap) => {
+    tl.shiftChildren(gap, false, at);
+    Object.keys(META).forEach((k) => { if (Array.isArray(META[k])) META[k] = META[k].map((t) => (t >= at ? t + gap : t)); });
+    VIDS.forEach((c) => { if (c.t0 >= at) c.t0 += gap; else if (c.t0 + c.dur > at) c.dur += gap; });
+    DUR += gap; META.duration = DUR;
+  };
+  // ---- 2b · the app: three real app screens, their activity streams into one group view (5.5 s after the brand)
+  { const T = 9.95, G = 5.5; insertAt(T, G);
+    scene('sA', T, T + G + 0.8);
+    tl.fromTo('#sA', { clipPath: 'circle(0% at 50% 33%)' }, { clipPath: 'circle(130% at 50% 33%)', duration: 0.75, ease: 'ebIn', immediateRender: false }, T);
+    META.hits.push(T + 0.15);
+    const PH = [['Scanner_Barcode', 470, -12], ['Coach_Conversation', 960, 0], ['Hydration_InProgress', 1450, 12]];
+    const phones = PH.map(([f, cx, rot], i) => {
+      const ph = document.createElement('div'); ph.className = 'phone';
+      ph.style.left = (cx - 229) + 'px'; ph.style.top = (690 - 479) + 'px';
+      ph.innerHTML = `<div class="screen"><img class="scr" src="assets/screens/clean/${f}.jpg"><div class="island"></div></div>`;
+      $('#phonesA').appendChild(ph);
+      tl.fromTo(ph, { y: 900, rotation: rot * 2, rotationX: 24, scale: 0.62 }, { y: i === 1 ? 0 : 40, rotation: rot, rotationX: 0, scale: i === 1 ? 0.8 : 0.72, duration: 1.0, ease: 'ebOut', immediateRender: true }, T + 0.45 + i * 0.1);
+      tl.to(ph, { y: (i === 1 ? 0 : 40) - 14, duration: 2.6, ease: 'sine.inOut' }, T + 1.5);
+      META.pops.push(T + 0.6 + i * 0.1);
+      return ph;
+    });
+    reveal($('#hA1'), T + 0.4, 0.06); hide($('#hA1'), T + 2.55);
+    tl.fromTo('#subA', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, immediateRender: true }, T + 0.9);
+    reveal($('#hA2'), T + 2.85, 0.06);
+    META.titles.push(T + 0.45, T + 2.9);
+    // activity streams out of every phone and gathers into one point: the group view
+    const DOTS = $('#dotsA');
+    for (let k = 0; k < 30; k++) {
+      const d = document.createElement('div'), sz = 8 + (k % 4) * 4, src = PH[k % 3][1];
+      d.style.cssText = `position:absolute;left:${src - sz / 2}px;top:${560 - sz / 2}px;width:${sz}px;height:${sz}px;border-radius:50%;background:${['#E26023', '#3B7668', '#F0A26A'][k % 3]};opacity:0`;
+      DOTS.appendChild(d);
+      const t0 = T + 3.3 + (k % 10) * 0.07;
+      tl.fromTo(d, { x: ((k * 37) % 120) - 60, y: ((k * 53) % 200) - 100, opacity: 0 }, { x: 960 - src, y: 356 - 560, opacity: 1, duration: 1.1, ease: 'power2.inOut', immediateRender: false }, t0);
+      tl.to(d, { scale: 0, duration: 0.25, ease: 'ebIn' }, t0 + 1.05);
+    }
+    tl.to(phones, { y: 700, opacity: 0, duration: 0.7, ease: 'ebIn', stagger: 0.06 }, T + 4.2);
+    tl.to(['#hA2', '#subA'], { opacity: 0, y: -20, duration: 0.4, ease: 'ebIn' }, T + 4.7);
+    META.whooshes.push(T + 3.35);
+  }
+  // ---- 7b · benefits, right after the program beat; the tiles then collapse into the outro's seeds
+  { const X = 39.3 + 8.3 + 5.5, G = 5.0; insertAt(X, G);
+    scene('sB', X, X + G + 0.7);
+    tl.set('#s7', { visibility: 'hidden' }, X + 0.62);
+    tl.to('#s7', { x: -1920, filter: 'blur(18px)', duration: 0.6, ease: 'ebSoft' }, X);
+    tl.fromTo('#sB', { x: 1920, filter: 'blur(18px)' }, { x: 0, filter: 'blur(0px)', duration: 0.6, ease: 'ebSoft', immediateRender: false }, X);
+    META.whooshes.push(X + 0.05);
+    reveal($('#hB'), X + 0.4, 0.06); META.titles.push(X + 0.45);
+    const ICON = {
+      chart: '<svg width="34" height="34" viewBox="0 0 34 34"><path d="M6 28V18M14 28V10M22 28V15M30 28V6" stroke="#FAF0DF" stroke-width="4" stroke-linecap="round"/></svg>',
+      lock: '<svg width="34" height="34" viewBox="0 0 34 34"><rect x="7" y="15" width="20" height="14" rx="4" stroke="#FAF0DF" stroke-width="3.5" fill="none"/><path d="M11 15v-4a6 6 0 0 1 12 0v4" stroke="#FAF0DF" stroke-width="3.5" fill="none"/></svg>',
+      doc: '<svg width="34" height="34" viewBox="0 0 34 34"><path d="M9 4h11l7 7v19H9z" stroke="#FAF0DF" stroke-width="3.2" fill="none" stroke-linejoin="round"/><path d="M13 21l3.5 3.5L23 17" stroke="#FAF0DF" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      phone: '<svg width="34" height="34" viewBox="0 0 34 34"><rect x="10" y="3" width="15" height="28" rx="4" stroke="#FAF0DF" stroke-width="3.2" fill="none"/><circle cx="17.5" cy="25" r="1.8" fill="#FAF0DF"/></svg>' };
+    const BEN = [['chart', 'Real engagement, <i>every month.</i>', 'Score, active users and participation for each closed month.'],
+                 ['lock', 'Privacy <i>built in.</i>', 'Group results only. Small groups are never shown.'],
+                 ['doc', 'Light work <i>for HR.</i>', 'One monthly workbook, checked for you before it counts.'],
+                 ['phone', 'A coach in <i>every pocket.</i>', 'Your people get the EatsBueno app and its personal coach.']];
+    const tiles = BEN.map(([ic, h, p], i) => {
+      const b = document.createElement('div'); b.className = 'ben';
+      b.style.left = (100 + i * 440) + 'px'; b.style.top = '380px';
+      b.innerHTML = `<div class="ic">${ICON[ic]}</div><div class="n">0${i + 1}</div><h3>${h}</h3><p>${p}</p>`;
+      $('#bensB').appendChild(b);
+      tl.fromTo(b, { y: 420, rotationX: 40, rotationZ: (i - 1.5) * 4, opacity: 0 }, { y: 0, rotationX: 0, rotationZ: 0, opacity: 1, duration: 0.85, ease: 'ebOut', immediateRender: true }, X + 0.75 + i * 0.16);
+      tl.fromTo(b.querySelector('.ic'), { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.6, ease: 'ebOut', immediateRender: true }, X + 1.05 + i * 0.16);
+      tl.to(b, { y: -12, duration: 2.6, ease: 'sine.inOut' }, X + 1.7 + i * 0.16);
+      META.pops.push(X + 0.85 + i * 0.16);
+      return b;
+    });
+    hide($('#hB'), X + G - 0.6);
+    tiles.forEach((b, i) => tl.to(b, { x: 960 - (100 + i * 440 + 200), y: 320 - (380 + 150), scale: 0.05, rotation: (i - 1.5) * 60, opacity: 0, duration: 0.55, ease: 'ebIn' }, X + G - 0.55 + i * 0.04));
+    META.whooshes.push(X + G - 0.5);
   }
   window.DURATION = DUR; window.META = META;
   window.__seek = (t) => {
