@@ -860,7 +860,7 @@ h2 .w{display:inline-block}
 @keyframes kcBump{0%{transform:none}35%{transform:scale(.97)}100%{transform:none}}
 .kc-art{position:relative;width:400px;aspect-ratio:340/214;border-radius:24px;border:5px solid var(--screen);box-shadow:8px 8px 0 rgba(11,11,16,.35)}
 .kc.exp .kc-art{background:var(--key-front) center/cover no-repeat}
-.kc.gift .kc-art{background:url('{{KEY_GIFT}}') center/cover no-repeat;transform:rotate(-4deg);animation:giftFloat 4s ease-in-out infinite}
+.kc.gift .kc-art{transform:rotate(-4deg);animation:giftFloat 4s ease-in-out infinite}
 @keyframes giftFloat{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(-2deg) translateY(-10px)}}
 .kc-ring{position:absolute;left:50%;top:50%;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;border:7px solid var(--yellow);opacity:0;animation:keyRing 2.8s ease-out infinite;pointer-events:none}
 .kc-ring.r2{animation-delay:1.4s}
@@ -884,6 +884,57 @@ h2 .w{display:inline-block}
 .lens.pop{animation:lensPop .7s var(--e-spring) .5s backwards}
 @keyframes lensPop{from{transform:scale(.2);opacity:0}to{transform:none;opacity:1}}
 #ov1.gone ~ .lens{opacity:0;transform:scale(.3)}
+
+/* name: big field + an on-screen keyboard (kiosks have no keyboard) */
+.nm-field{position:relative;display:flex;align-items:center;justify-content:center;min-height:180px;margin-top:30px;padding:20px 34px;background:var(--paper);color:var(--ink);border:6px solid var(--screen);border-radius:40px;box-shadow:12px 12px 0 var(--screen);font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:76px;line-height:1;letter-spacing:1px;overflow:hidden}
+.nm-caret{width:7px;height:76px;margin-left:6px;background:var(--blue);animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.nm-ph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(11,11,16,.32);font-size:52px;pointer-events:none}
+.nm-field.has .nm-ph{display:none}
+.nm-field.pop{animation:kcBump .35s var(--e-spring)}
+.nm-hi{margin:0;min-height:1.2em;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:46px;color:var(--yellow);text-shadow:4px 4px 0 var(--screen)}
+.nm-hi.in{animation:focusIn .6s var(--e-std) both}
+.kb{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;min-height:0;padding-bottom:40px}
+.kb-row{display:flex;gap:10px;justify-content:center}
+.kb button{flex:1 1 0;max-width:88px;height:122px;border-radius:22px;border:4px solid var(--screen);background:var(--paper);color:var(--ink);font:800 40px/1 var(--font-display);box-shadow:6px 6px 0 var(--screen);transition:transform .08s}
+.kb button:active{transform:translate(5px,5px);box-shadow:1px 1px 0 var(--screen)}
+.kb .k-wide{max-width:none;flex:3;font-family:var(--font-mono);font-size:28px;text-transform:uppercase;letter-spacing:2px}
+.kb .k-del{max-width:none;flex:1.6;background:#d8d4cc}
+.kb .k-ok{max-width:none;flex:2.2;background:var(--yellow);font-style:italic;text-transform:uppercase;font-size:38px}
+
+/* app steps, refined: a numbered rail beside the real screens (replaces the magnifier and the caption) */
+#s2 .stage-area{flex-direction:row;align-items:center;justify-content:center;gap:40px}
+#s2 .stage-area::before{left:72%}
+#lens,#astep,#ov-n{display:none!important}
+.rail{list-style:none;margin:0;padding:0;width:420px;display:flex;flex-direction:column;gap:30px;position:relative}
+.rail::before{content:"";position:absolute;left:36px;top:30px;bottom:30px;width:6px;margin-left:-3px;border-radius:3px;background:rgba(237,234,227,.25)}
+.rail::after{content:"";position:absolute;left:36px;top:30px;width:6px;margin-left:-3px;border-radius:3px;background:var(--yellow);height:var(--rp,0%);max-height:calc(100% - 60px);transition:height .9s cubic-bezier(.2,.9,.25,1.04)}
+.rail li{position:relative;z-index:1;display:grid;grid-template-columns:72px 1fr;align-items:center;gap:20px;opacity:.42;transition:opacity .5s,transform .6s var(--e-spring)}
+.rail b{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font:800 italic 36px/1 var(--font-display);background:var(--blue);color:var(--text);border:5px solid rgba(237,234,227,.55);transition:all .5s var(--e-spring)}
+.rail span{font-weight:800;font-style:italic;text-transform:uppercase;font-size:30px;line-height:1.05;color:var(--text)}
+.rail li.done{opacity:.8}
+.rail li.done b{background:var(--paper);color:var(--blue);border-color:var(--screen);font-size:0}
+.rail li.done b::after{content:"✓";font-size:38px}
+.rail li.now{opacity:1;transform:translateX(10px)}
+.rail li.now b{background:var(--yellow);color:var(--ink);border-color:var(--screen);transform:scale(1.18);box-shadow:0 0 0 10px rgba(252,206,33,.25)}
+.rail li.now span{color:var(--yellow);font-size:36px;text-shadow:4px 4px 0 var(--screen)}
+
+/* the keys move again: drag to tilt them in 3D, touch to flip */
+.kc-art{background:none!important;border:0!important;box-shadow:none!important;perspective:1100px;touch-action:none;cursor:grab}
+.kc-in{position:absolute;inset:0;transform-style:preserve-3d;transform:translate(var(--kx,0px),var(--ky,0px)) rotateX(var(--rx,0deg)) rotateY(calc(var(--ry,0deg) + var(--fl,0deg)));transition:transform .8s cubic-bezier(.3,1.4,.4,1)}
+.kc-in.drag{transition:transform .06s linear}
+.kc-in.flip{--fl:180deg}
+.kf,.kb2{position:absolute;inset:0;border-radius:24px;border:5px solid var(--screen);box-shadow:8px 8px 0 rgba(11,11,16,.35);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.kb2{transform:rotateY(180deg)}
+.kc.exp .kf{background:var(--key-front) center/cover no-repeat}
+.kc.exp .kb2{background:#231f20;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.kc.exp .kb2 svg{width:70px;height:70px;color:var(--yellow)}
+.kc.exp .kb2 em{font:700 22px/1.2 var(--font-mono);letter-spacing:2px;text-transform:uppercase;text-align:center;padding:0 20px}
+.kc.gift .kf{background:url('{{KEY_GIFT}}') center/cover no-repeat}
+.kc.gift .kb2{background:url('{{KEY_GIFT_BACK}}') center/cover no-repeat}
+.kf::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.35) var(--sh,50%),transparent 65%);pointer-events:none;opacity:.8}
+.kc.gift .kc-art{background:none!important}
+.kh{margin:22px 0 0;text-align:center;font:700 26px/1 var(--font-mono);letter-spacing:2px;text-transform:uppercase;color:var(--yellow)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -971,6 +1022,17 @@ h2 .w{display:inline-block}
     <p class="inv-msg" id="inv-msg" aria-live="polite"></p>
   </section>
 
+  <!-- 02 · Tu nombre -->
+  <section class="screen" id="sName" data-name="nName" aria-label="Cómo te llamas">
+    <div class="head">
+      <span class="kicker" data-t="kName">Tu nombre</span>
+      <h2 class="focus" data-t="tName">¿Cómo <em>te llamas?</em></h2>
+    </div>
+    <div class="nm-field" id="nm-field"><span id="nm-val"></span><i class="nm-caret"></i><span class="nm-ph" id="nm-ph" data-t="nm.ph">Tu nombre</span></div>
+    <p class="nm-hi" id="nm-hi" aria-live="polite"></p>
+    <div class="kb" id="kb"></div>
+  </section>
+
   <!-- 01 · Qué es -->
   <section class="screen" id="s1" data-name="n1" aria-label="Qué es Loomlock">
     <div class="head">
@@ -1009,6 +1071,9 @@ h2 .w{display:inline-block}
     <p class="instr" id="instr1"></p>
     <div class="astep" id="astep" aria-live="polite"></div>
     <div class="stage-area">
+      <ol class="rail" id="rail">
+        <li><b>1</b><span data-t="app.c1"></span></li><li><b>2</b><span data-t="app.c2"></span></li><li><b>3</b><span data-t="app.c3"></span></li><li><b>4</b><span data-t="app.c4"></span></li><li><b>5</b><span data-t="app.c5"></span></li>
+      </ol>
       <div class="phone" id="phone1">
         <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""><img src="{{APP5}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" id="tp1" style="left:50%;top:91%"></i><i class="tap-rip" id="rip"></i></div><span class="lens" id="lens"><i></i></span>
         <div class="screen-in">
@@ -1030,9 +1095,10 @@ h2 .w{display:inline-block}
       <h2 class="focus" data-t="t3">Dos keys, <em>dos usos.</em></h2>
     </div>
     <div class="keys2" id="keys2">
-      <button class="kc exp"><span class="kc-art"><i class="kc-ring"></i><i class="kc-ring r2"></i></span><span class="kc-txt"><b class="kc-tag" data-t="kx.tag">Para entrar y salir</b><h3 data-t="kx.t">Key de la experiencia</h3><span class="kc-l ok" data-t="kx.l1">Está en el lugar</span><span class="kc-l ok" data-t="kx.l2">Escanéala al entrar y al salir</span><span class="kc-l no" data-t="kx.l3">No te la llevas</span></span></button>
+      <button class="kc exp"><span class="kc-art"><i class="kc-ring"></i><i class="kc-ring r2"></i><span class="kc-in"><i class="kf"></i><i class="kb2"><svg><use href="#waves"/></svg><em data-t="kx.back">Escanéala en la entrada</em></i></span></span><span class="kc-txt"><b class="kc-tag" data-t="kx.tag">Para entrar y salir</b><h3 data-t="kx.t">Key de la experiencia</h3><span class="kc-l ok" data-t="kx.l1">Está en el lugar</span><span class="kc-l ok" data-t="kx.l2">Escanéala al entrar y al salir</span><span class="kc-l no" data-t="kx.l3">No te la llevas</span></span></button>
       <span class="kvs">≠</span>
-      <button class="kc gift"><span class="kc-art"></span><span class="kc-txt"><b class="kc-tag" data-t="kg.tag">De regalo</b><h3 data-t="kg.t">Key de recuerdo</h3><span class="kc-l ok" data-t="kg.l1">Te la llevas a casa</span><span class="kc-l ok" data-t="kg.l2">Es coleccionable</span><span class="kc-l no" data-t="kg.l3">No empieza ni termina la experiencia</span></span></button>
+      <button class="kc gift"><span class="kc-art"><span class="kc-in"><i class="kf"></i><i class="kb2"></i></span></span><span class="kc-txt"><b class="kc-tag" data-t="kg.tag">De regalo</b><h3 data-t="kg.t">Key de recuerdo</h3><span class="kc-l ok" data-t="kg.l1">Te la llevas a casa</span><span class="kc-l ok" data-t="kg.l2">Es coleccionable</span><span class="kc-l no" data-t="kg.l3">No empieza ni termina la experiencia</span></span></button>
+      <p class="kh" data-t="k.hint">Muévelas · tócalas para darlas vuelta</p>
     </div>
     <div class="card-area" id="card-area"><i class="ring3"></i><i class="tp" style="left:84%;top:70%"></i>
       <button class="nfc-card" id="card" aria-label="Dar vuelta la key">
@@ -1167,7 +1233,7 @@ h2 .w{display:inline-block}
 
   const T = {
     es: {
-      "kInv":"Quién te invitó","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c1":"Elige “Unirme a una experiencia”","app.c2":"Mira cómo funciona","app.c3":"Llamadas y SMS siguen","app.c4":"Elige el modo","app.c5":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
+      "kInv":"Quién te invitó","kx.back":"Escanéala en la entrada","k.hint":"Muévelas · tócalas para darlas vuelta","kName":"Tu nombre","nName":"Tu nombre","tName":"¿Cómo <em>te llamas?</em>","nm.ph":"Escribe tu nombre","nm.hi":"¡Hola, {n}!","nm.skip":"Puedes saltarlo","nm.ok":"Listo","nm.space":"espacio","s5.titleN":"¿Todo listo, {n}? <em>Ve al tótem.</em>","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c1":"Elige “Unirme a una experiencia”","app.c2":"Mira cómo funciona","app.c3":"Llamadas y SMS siguen","app.c4":"Elige el modo","app.c5":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
       "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
       "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
       "inv.hint":"Toca una opción",
@@ -1236,7 +1302,7 @@ h2 .w{display:inline-block}
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",msg:"Mensajes",mp:"Mapas"}
     },
     en: {
-      "kInv":"Who invited you","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c1":"Choose “Join an experience”","app.c2":"See how it works","app.c3":"Calls & SMS stay on","app.c4":"Pick a mode","app.c5":"Pick what stays open","tInv":"Who <em>invited you?</em>",
+      "kInv":"Who invited you","kx.back":"Scan it at the door","k.hint":"Move them · touch to flip","kName":"Your name","nName":"Your name","tName":"What's <em>your name?</em>","nm.ph":"Type your name","nm.hi":"Hi, {n}!","nm.skip":"You can skip it","nm.ok":"Done","nm.space":"space","s5.titleN":"All set, {n}? <em>Head to the totem.</em>","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c1":"Choose “Join an experience”","app.c2":"See how it works","app.c3":"Calls & SMS stay on","app.c4":"Pick a mode","app.c5":"Pick what stays open","tInv":"Who <em>invited you?</em>",
       "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
       "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
       "inv.hint":"Choose an option",
@@ -1421,7 +1487,7 @@ h2 .w{display:inline-block}
     $$(".app-tile").forEach(b => { b.querySelector(".nm").textContent = T[lang].apps[b.dataset.id] });
     $("#host").textContent = t("s0.host", {h:CONFIG.anfitrion}); $("#host").hidden = !CONFIG.anfitrion;
     $("#totem-name").textContent = t("s3.totem");
-    refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz(); renderInvite(); renderAd();
+    refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz(); renderInvite(); buildKb(); renderName(); renderAd();
   }
 
   /* ---------- channel changes ---------- */
@@ -1435,6 +1501,7 @@ h2 .w{display:inline-block}
   function go(i){
     if (i === cur || i < 0 || i > N) return;
     const prev = screens[cur];
+    if (prev.id === "sName" && i > cur) commitInvite();
     screens.forEach(x => x.classList.remove("touched"));
     s9.classList.toggle("dir-back", i < cur);
     prev.classList.remove("active"); prev.classList.add("out");
@@ -1517,7 +1584,7 @@ h2 .w{display:inline-block}
   let saved1 = false;
   function save1(){
     const n = $$("#apps1 .app-tile.sel").length;
-    saved1 = true; phone1.classList.add("is-saved"); syncApps3(); refresh1();
+    saved1 = true; phone1.classList.add("is-saved"); syncApps3(); refresh1(); renderRail();
     $("#next-tip").classList.add("on"); markReady(); vib(15);
     const c = centerOf(phone1); burst(c.x, c.y + 200, 45, .9);
   }
@@ -1743,11 +1810,11 @@ h2 .w{display:inline-block}
     flushing = false;
   }
   setInterval(() => { if (readQ().length) flushQ() }, 30000);
-  let inviteDone = false, inviteT;
+  let inviteDone = false;
   function commitInvite(){
     if (!inviteChoice || inviteDone) return;
     const o = readTally(); o[inviteChoice] = (o[inviteChoice] || 0) + 1; writeTally(o);
-    const q = readQ(); q.push({k: Date.now().toString(36) + Math.random().toString(36).slice(2, 8), id: inviteChoice, ts: new Date().toISOString()}); writeQ(q);
+    const q = readQ(); q.push({k: Date.now().toString(36) + Math.random().toString(36).slice(2, 8), id: inviteChoice, ts: new Date().toISOString(), name: niceName(userName.trim())}); writeQ(q);
     inviteDone = true; flushQ();
   }
   function renderInvite(){
@@ -1759,7 +1826,6 @@ h2 .w{display:inline-block}
     const b = e.target.closest(".inv"); if (!b) return;
     inviteChoice = b.dataset.id; renderInvite();
     /* counted ~3 s after the last tap (so a change of mind still counts once), without waiting for the session to end */
-    clearTimeout(inviteT); inviteT = setTimeout(commitInvite, 3000);
     const m = $("#inv-msg"); m.classList.remove("in"); void m.offsetWidth; m.classList.add("in");
     const c = centerOf(b); burst(c.x, c.y, 40, .8); markReady(); vib(12);
   });
@@ -1836,10 +1902,16 @@ h2 .w{display:inline-block}
     lens.style.backgroundPosition = `${L / 2 - 7 - cx * SW * Z}px ${L / 2 - 7 - cy * SH * Z}px`;
     lens.style.top = Math.max(0, Math.min(920 - L, 14 + cy * SH - L / 2)) + "px";
     lens.classList.remove("pop"); void lens.offsetWidth; lens.classList.add("pop");
+    renderRail();
     const as = $("#astep"); as.classList.remove("in"); void as.offsetWidth; as.classList.add("in");
     as.innerHTML = `<div class="as-row"><b>${adI + 1}</b><span class="as-t">${t("app.c" + (adI + 1))}</span></div><div class="as-d">${[0, 1, 2, 3, 4].map(i => `<i class="${i === adI ? "on" : ""}"></i>`).join("")}</div>`;
   }
-  const adGo = () => { if (adI < 4){ adI++; renderAd() } else ov1.classList.add("gone") };
+  function renderRail(){
+    const st = ov1.classList.contains("gone") ? (saved1 ? 5 : 4) : adI;
+    $$("#rail li").forEach((li, i) => { li.classList.toggle("done", i < st); li.classList.toggle("now", i === st) });
+    $("#rail").style.setProperty("--rp", Math.min(st, 4) * 25 + "%");
+  }
+  const adGo = () => { if (adI < 4){ adI++; renderAd() } else { ov1.classList.add("gone"); renderRail() } };
   /* a tap lands on the button first, then the next screen pushes in */
   function adTap(){
     const r = $("#rip"), d = $("#tp1").style; r.style.left = d.left; r.style.top = d.top;
@@ -1887,10 +1959,59 @@ h2 .w{display:inline-block}
   /* the two keys: a touch just answers with a little bounce */
   $$("#keys2 .kc").forEach(k => k.addEventListener("click", () => { k.classList.remove("bump"); void k.offsetWidth; k.classList.add("bump"); markReady(); vib(10) }));
 
+
+  /* ---------- your name (on-screen keyboard) ---------- */
+  let userName = "";
+  const KB_ROWS = ["QWERTYUIOP", "ASDFGHJKLÑ", "ZXCVBNM"];
+  function buildKb(){
+    $("#kb").innerHTML = KB_ROWS.map((r, i) => `<div class="kb-row">${[...r].map(c => `<button data-k="${c}">${c}</button>`).join("")}${i === 2 ? `<button class="k-del" data-k="del" aria-label="Borrar">⌫</button>` : ""}</div>`).join("")
+      + `<div class="kb-row"><button class="k-wide" data-k=" ">${t("nm.space")}</button><button class="k-ok" data-k="ok">${t("nm.ok")}</button></div>`;
+  }
+  const niceName = v => v.toLowerCase().replace(/(^|\s)(\S)/g, (m, a, b) => a + b.toUpperCase());
+  function renderName(){
+    $("#nm-val").textContent = userName;
+    $("#nm-field").classList.toggle("has", !!userName);
+    const hi = $("#nm-hi"), txt = userName.trim() ? t("nm.hi", {n: niceName(userName.trim())}) : t("nm.skip");
+    if (hi.textContent !== txt){ hi.textContent = txt; hi.classList.remove("in"); void hi.offsetWidth; hi.classList.add("in") }
+    const cl = $(".close-line"); if (cl) cl.innerHTML = userName.trim() ? t("s5.titleN", {n: niceName(userName.trim()).split(" ")[0]}) : t("s5.title");
+  }
+  $("#kb").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    const k = b.dataset.k; vib(8);
+    if (k === "ok"){ go(cur + 1); return }
+    if (k === "del") userName = userName.slice(0, -1);
+    else if (userName.length < 18 && !(k === " " && (!userName || userName.endsWith(" ")))) userName += k;
+    const f = $("#nm-field"); f.classList.remove("pop"); void f.offsetWidth; f.classList.add("pop");
+    renderName();
+  });
+
+
+  /* keys: drag tilts and nudges the key, a touch without moving flips it */
+  $$("#keys2 .kc-art").forEach(art => {
+    const kin = art.querySelector(".kc-in"); let st = null, moved = false;
+    art.addEventListener("pointerdown", e => { e.stopPropagation(); art.setPointerCapture(e.pointerId); st = {x: e.clientX, y: e.clientY}; moved = false; kin.classList.add("drag") });
+    art.addEventListener("pointermove", e => {
+      if (!st) return;
+      const r = art.getBoundingClientRect(), dx = e.clientX - st.x, dy = e.clientY - st.y, k = 1 / (K || 1);
+      if (Math.abs(dx) + Math.abs(dy) > 8) moved = true;
+      const px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+      kin.style.setProperty("--ry", (px * 50) + "deg"); kin.style.setProperty("--rx", (-py * 40) + "deg");
+      kin.style.setProperty("--kx", Math.max(-60, Math.min(60, dx * k * .35)) + "px"); kin.style.setProperty("--ky", Math.max(-40, Math.min(40, dy * k * .35)) + "px");
+      kin.style.setProperty("--sh", (30 + (px + .5) * 40) + "%");
+    });
+    const end = () => {
+      if (!st) return; st = null; kin.classList.remove("drag");
+      ["--rx", "--ry"].forEach(v => kin.style.setProperty(v, "0deg")); ["--kx", "--ky"].forEach(v => kin.style.setProperty(v, "0px"));
+      if (!moved){ kin.classList.toggle("flip"); vib(12) }
+      markReady();
+    };
+    art.addEventListener("pointerup", end); art.addEventListener("pointercancel", end);
+  });
+
   /* ---------- reset + idle ---------- */
   function resetAll(){
-    clearTimeout(inviteT); commitInvite(); inviteChoice = null; inviteDone = false; renderInvite();
-    $("#ov1").classList.remove("gone"); adI = 0; renderAd();
+    commitInvite(); inviteChoice = null; inviteDone = false; renderInvite(); userName = ""; renderName();
+    $("#ov1").classList.remove("gone"); adI = 0; renderAd(); $$("#keys2 .kc-in").forEach(k => k.classList.remove("flip"));
     saved1 = false; phone1.classList.remove("is-saved"); $("#next-tip").classList.remove("on");
     buildApps($("#apps1"), true); syncApps3();
     card.classList.remove("flipped");

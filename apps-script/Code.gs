@@ -51,7 +51,8 @@ function doPost(e) {
     const d = JSON.parse(e.postData.contents);
     const h = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(HOJA);
     const claves = h.getLastRow() > 1 ? h.getRange(2, 4, h.getLastRow() - 1, 1).getValues().flat() : [];
-    if (claves.indexOf(d.k) === -1) h.appendRow([new Date(d.ts), d.label, d.id, d.k]);   // la clave evita filas duplicadas si el kiosco reintenta
+    if (h.getRange(1, 5).getValue() === "") h.getRange(1, 5).setValue("nombre");
+    if (claves.indexOf(d.k) === -1) h.appendRow([new Date(d.ts), d.label, d.id, d.k, d.name || ""]);   // la clave evita filas duplicadas si el kiosco reintenta
     return ContentService.createTextOutput("ok");
   } finally { lock.releaseLock(); }
 }

@@ -11,3 +11,6 @@ Si cambias el código del script, hay que volver a implementar (Nueva versión) 
 
 ## Reiniciar los datos (antes del evento)
 Con el código actualizado, la planilla muestra el menú **Loomlock > Reiniciar datos…** (recarga la página de la planilla si no aparece). Pregunta si quieres guardar una copia (pestaña "Copia fecha hora") y después borra las respuestas de la hoja `Respuestas`. Los totales y gráficos vuelven a cero. No hace falta volver a implementar.
+
+## Nombre del invitado
+Desde que el kiosco pide el nombre, `doPost` lo guarda en la columna E (`nombre`). Para que funcione hay que pegar el `Code.gs` nuevo y hacer **Implementar > Administrar implementaciones > editar > Versión: Nueva versión > Implementar** (la URL no cambia). Sin eso, todo sigue funcionando pero el nombre no se guarda.
