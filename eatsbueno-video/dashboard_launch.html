@@ -512,23 +512,39 @@
       [[293, 943, 359, 225], 'Lost days', 'Reported <i>lost days.</i>', 'From your HR workbook, as a group total.'],
       [[670, 943, 360, 225], 'Privacy', 'Privacy <i>by design.</i>', 'Groups below the minimum size are never shown.'],
       [[1048, 943, 359, 225], 'Access cost', 'Employee <i>access cost.</i>', 'Per employee and for the whole program.'],
-      [[293, 1425, 1114, 350], 'Program and reporting', 'Reporting, Sello <i>and support.</i>', 'Deadlines, Sello EatsBueno readiness and a named partner.'],
+      [[[293, 1425, 359, 350], [670, 1425, 360, 350], [1048, 1425, 359, 350]], 'Program and reporting', 'Reporting, Sello <i>and support.</i>', 'Deadlines, Sello EatsBueno readiness and a named partner.'],
     ];
     const DT = 1.36, T0 = AT + 0.1;
-    // spotlight: lives in the page (scrolls with it), dims everything else, orange ring
-    const spot = document.createElement('div'); spot.className = 'abs';
-    spot.style.cssText = 'left:293px;top:223px;width:1114px;height:66px;border-radius:18px;z-index:8;box-shadow:0 0 0 3px #E26023,0 0 0 9px rgba(226,96,35,.22),0 0 0 4000px rgba(23,63,55,.55);opacity:0;pointer-events:none';
-    pgOv.appendChild(spot);
-    tl.to(spot, { opacity: 1, duration: 0.35, ease: 'ebSoft' }, T0);
+    // focus pull: the rest of the page drops out of focus; the featured part lifts off the page toward camera
+    const base = Array.from(pgOv.children);
+    tl.to(base, { filter: 'blur(5px) saturate(.85) brightness(.97)', duration: 0.5, ease: 'ebSoft' }, T0);
+    tl.set(base, { filter: 'none' }, 0);
     tl.to(CUR, { opacity: 0, duration: 0.25 }, T0);
     tl.fromTo('#tour', { y: 60, opacity: 0, clipPath: 'inset(100% 0 0 0 round 30px)' }, { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0 round 30px)', duration: 0.55, ease: 'ebPush', immediateRender: false }, T0);
+    const lift = (r, t, out) => {               // a crisp copy of that part of the finished page, raised in 3D
+      const L = document.createElement('div'); L.className = 'abs';
+      L.style.cssText = `left:${r[0] - 1}px;top:${r[1] - 1}px;width:${r[2] + 2}px;height:${r[3] + 2}px;border-radius:16px;overflow:hidden;z-index:9;
+        background:url(assets/dash/overview_full.png) ${-(r[0] - 1)}px ${-(r[1] - 1)}px / 1440px auto no-repeat;opacity:0;transform-origin:50% 60%`;
+      const sh = document.createElement('div');
+      sh.style.cssText = 'position:absolute;inset:-20%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);transform:translateX(-120%)';
+      L.appendChild(sh); pgOv.appendChild(L);
+      tl.fromTo(L, { opacity: 0, scale: 1, y: 0, rotationX: 0, boxShadow: '0 0 0 rgba(23,63,55,0)' },
+        { opacity: 1, scale: 1.07, y: -10, rotationX: 4, boxShadow: '0 50px 80px -30px rgba(23,63,55,.45), 0 0 0 1px rgba(23,63,55,.06)', duration: 0.55, ease: 'ebPush', immediateRender: false }, t);
+      tl.to(sh, { x: '240%', duration: 0.9, ease: 'ebSoft' }, t + 0.3);
+      tl.to(L, { scale: 1, y: 0, rotationX: 0, boxShadow: '0 0 0 rgba(23,63,55,0)', duration: 0.4, ease: 'ebIn' }, out);
+      tl.to(L, { opacity: 0, duration: 0.2 }, out + 0.3);
+    };
     const slot = (host, html, cls) => { const d = document.createElement('div'); d.innerHTML = html; d.style.cssText = 'position:absolute;left:0;right:0;top:0;white-space:nowrap'; host.appendChild(d); tl.set(d, { yPercent: 120 }, 0); return d; };
     let prev = null, scroll = 0;
     STOPS.forEach(([r, eyebrow, title, sub], i) => {
+      const parts = Array.isArray(r[0]) ? r : [r];
       const t = T0 + i * DT, pad = 10;
+      const rs = Array.isArray(r[0]) ? r : [r];
+      const ux = Math.min(...rs.map((q) => q[0])), uy = Math.min(...rs.map((q) => q[1])), ur = Math.max(...rs.map((q) => q[0] + q[2])), ub = Math.max(...rs.map((q) => q[1] + q[3]));
+      r = [ux, uy, ur - ux, ub - uy];
       const want = Math.max(0, Math.min(1816 - 900, r[1] + r[3] / 2 - 430));   // scroll so the part sits high in the viewport
       if (want !== scroll) { tl.to(pgOv, { y: -want, duration: 0.7, ease: 'ebSoft' }, t - 0.1); scroll = want; }
-      tl.to(spot, { left: r[0] - pad, top: r[1] - pad, width: r[2] + pad * 2, height: r[3] + pad * 2, duration: 0.6, ease: 'ebPush' }, t);
+      parts.forEach((q, k) => lift(q, t + 0.1 + k * 0.06, T0 + (i + 1) * DT));
       const s = Math.min(1920 * 0.62 / r[2], 560 / r[3], 2.1);
       winTo(aim(r[0] + r[2] / 2, r[1] + r[3] / 2 - want, s, 960, 380), t - 0.08, 0.75);
       const n = slot($('#tourN'), `${String(i + 1).padStart(2, '0')} / ${STOPS.length} · ${eyebrow.toUpperCase()}`),
@@ -540,7 +556,7 @@
       META.ticks.push(t + 0.15); if (i % 2 === 0) META.whooshes.push(t);
     });
     const tEnd = T0 + STOPS.length * DT;
-    tl.to(spot, { opacity: 0, duration: 0.35, ease: 'ebSoft' }, tEnd - 0.05);
+    tl.to(base, { filter: 'blur(0px) saturate(1) brightness(1)', duration: 0.5, ease: 'ebSoft' }, tEnd - 0.05);
     tl.to('#tour', { y: 40, opacity: 0, duration: 0.35, ease: 'ebIn' }, tEnd - 0.1);
     tl.to(CUR, { opacity: 1, duration: 0.3 }, tEnd);
     winTo({ scale: 1, x: 0, y: 0 }, tEnd - 0.05, 0.8);
