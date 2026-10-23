@@ -45,9 +45,9 @@
   #cursor { position: absolute; left: 0; top: 0; width: 26px; height: 34px; z-index: 50; pointer-events: none; filter: drop-shadow(0 3px 4px rgba(0,0,0,.3)); }
   .clickring { position: absolute; left: 0; top: 0; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; border: 3px solid rgba(59,118,104,.8); opacity: 0; z-index: 49; }
   /* captions over the product */
-  .cap { position: absolute; left: 0; right: 0; bottom: 0; height: 400px; z-index: 30; background: none; opacity: 0; }
-  .capt { position: absolute; left: 96px; bottom: 84px; max-width: 860px; padding: 38px 48px 40px; border-radius: 30px; background: #173F37; box-shadow: 0 40px 90px -30px rgba(0,0,0,.55), 0 0 0 1px rgba(250,240,223,.08); font: 700 62px/1.08 Cooper; color: #FAF0DF; z-index: 31; } .capt i { font-weight: 300; color: #F0A26A; }
-  .capt small { display: block; font: 600 22px/1.45 Manrope; letter-spacing: 0; color: #C7DAD2; margin-top: 16px; }
+  .cap { position: absolute; inset: 0; z-index: 30; background: linear-gradient(90deg, rgba(14,36,31,.95) 0%, rgba(14,36,31,.9) 30%, rgba(14,36,31,.62) 44%, rgba(14,36,31,0) 60%); opacity: 0; }
+  .capt { position: absolute; left: 110px; top: 360px; width: 720px; font: 700 76px/1.06 Cooper; color: #FAF0DF; z-index: 31; } .capt i { font-weight: 300; color: #F0A26A; }
+  .capt small { display: block; font: 600 27px/1.45 Manrope; letter-spacing: 0; color: #DCE8E2; margin-top: 26px; max-width: 580px; }
   .chip { position: absolute; display: flex; align-items: center; gap: 12px; padding: 14px 20px 14px 14px; border-radius: 14px; background: #fff; box-shadow: 0 30px 60px -20px rgba(0,0,0,.45);
           font: 700 17px Manrope; color: var(--ink); z-index: 45; }
   .chip .xl { width: 40px; height: 48px; border-radius: 8px; background: #1D6F42; color: #fff; display: grid; place-items: center; font: 800 13px Manrope; }
@@ -57,17 +57,6 @@
   .screen { position: relative; width: 430px; height: 930px; border-radius: 57px; overflow: hidden; background: #eef3ef; }
   .island { position: absolute; top: 12px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: #000; z-index: 90; }
   .phone img.scr { position: absolute; left: 0; top: 0; width: 430px; }
-  .stB { position: absolute; top: 0; width: 1920px; height: 1080px; }
-  .stB .tx { position: absolute; left: 1010px; top: 300px; width: 820px; }
-  .stB .eb { font: 800 20px Manrope; letter-spacing: .24em; color: #F0A26A; }
-  .stB h2 { font: 700 92px/1.04 Cooper; color: var(--cream); margin-top: 18px; } .stB h2 i { font-weight: 300; color: #F0A26A; }
-  .stB p { font: 600 28px/1.45 Manrope; color: #C7DAD2; margin-top: 26px; max-width: 760px; }
-  .gfx { position: absolute; left: 150px; top: 230px; width: 760px; height: 620px; border-radius: 40px; background: #FAF0DF; box-shadow: 0 50px 100px -40px rgba(0,0,0,.6); overflow: hidden; }
-  .ben { position: absolute; width: 400px; height: 300px; padding: 34px 32px; border-radius: 30px; background: #FAF0DF; box-shadow: 0 40px 80px -30px rgba(60,20,4,.55); }
-  .ben .ic { width: 64px; height: 64px; border-radius: 18px; background: #2A5D51; display: grid; place-items: center; margin-bottom: 22px; }
-  .ben .n { position: absolute; right: 30px; top: 34px; font: 800 15px Manrope; letter-spacing: .2em; color: #B04512; }
-  .ben h3 { font: 700 36px/1.08 Cooper; color: #2A5D51; } .ben h3 i { font-weight: 300; color: #B04512; }
-  .ben p { font: 600 19px/1.45 Manrope; color: #5B5651; margin-top: 12px; }
   .card3 { position: absolute; transform-style: preserve-3d; }
   .card3 img { display: block; width: 100%; filter: drop-shadow(0 40px 60px rgba(0,0,0,.35)); }
   .card3 .lab { display: table; margin: 20px auto 0; padding: 10px 20px; border-radius: 999px; background: #173F37; font: 800 17px Manrope; letter-spacing: .16em; text-transform: uppercase; color: var(--cream); }
@@ -134,10 +123,10 @@
     <div class="cap" id="capbg"></div>
     <div class="capt" id="capA" style="display:none">See your program<br><i>at work.</i><small>One clear score and real participation, every closed month.</small></div>
     <div class="capt" id="capB" style="display:none">Know how your team<br><i>is really doing.</i><small>Self-reported energy and HR-reported absence, against your own baseline.</small></div>
-    <div class="capt" id="tour" style="padding:30px 44px 34px;width:900px;max-width:900px;opacity:0">
-      <div id="tourN" style="height:22px;overflow:hidden;font:800 16px Manrope;letter-spacing:.24em;color:#F0A26A;margin-bottom:12px;position:relative"></div>
-      <div id="tourT" style="height:70px;overflow:hidden;position:relative"></div>
-      <div id="tourS" style="height:30px;overflow:hidden;position:relative;font:600 22px/1.4 Manrope;color:#C7DAD2;margin-top:10px"></div>
+    <div class="capt" id="tour" style="width:760px;opacity:0">
+      <div id="tourN" style="height:28px;overflow:hidden;font:800 20px Manrope;letter-spacing:.24em;color:#F0A26A;margin-bottom:18px;position:relative"></div>
+      <div id="tourT" style="height:176px;overflow:hidden;position:relative"></div>
+      <div id="tourS" style="height:84px;overflow:hidden;position:relative;font:600 27px/1.45 Manrope;color:#DCE8E2;margin-top:18px"></div>
     </div>
     <div class="capt" id="capC">Small groups are<br><i>never shown.</i><small>Below the minimum reporting size, a result is withheld, never shown as zero.</small></div>
     <div class="capt" id="capD">Built for busy<br><i>HR teams.</i><small>One monthly workbook of group totals. Upload, check, on file.</small></div>
@@ -151,9 +140,9 @@
   </section>
 
   <!-- 7b · Benefits -->
-  <section class="scene" id="sB" style="background:radial-gradient(110% 100% at 50% 40%,#24574C 0%,#173F37 55%,#10302A 100%)">
-    <div class="blob" style="width:1100px;height:800px;left:-520px;top:-380px;opacity:.35;background:radial-gradient(circle,#3B7668 0%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:1380px;top:640px;opacity:.3;background:radial-gradient(circle,#E26023 0%,transparent 70%)"></div>
-    <div class="abs" id="worldB" style="left:0;top:0;width:9600px;height:1080px;transform-origin:0 50%"></div>
+  <section class="scene" id="sB" style="background:radial-gradient(120% 110% at 50% 40%,#D9581D 0%,#C9501A 60%,#B84816 100%)">
+    <div class="blob" style="width:1100px;height:800px;left:-520px;top:-380px;opacity:.55;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:1380px;top:640px;opacity:.45;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
+    <div class="abs" id="worldB" style="inset:0"></div>
   </section>
 
   <!-- 8 · Outro -->
@@ -224,8 +213,11 @@
     VIDS.push({ v: box.querySelector('video'), t0, dur, inPt, rate });
     return box;
   };
-  const DUO = 'filter:grayscale(1) contrast(1.15) brightness(1.15)';
-  const GREEN = 'background:#E26023;mix-blend-mode:multiply;opacity:.78';   // the app film's orange duotone
+  // the app film's orange duotone: grey footage multiplied by #E26023 at 78% = each channel scaled by 0.22 + 0.78 * colour.
+  // Done as one SVG colour matrix instead of a multiply-blended layer: Chromium drops blended layers inside clip-path circles
+  const DUO = 'filter:grayscale(1) contrast(1.15) brightness(1.15) url(#duo)', GREEN = '';
+  $('#stage').insertAdjacentHTML('afterbegin', '<svg width="0" height="0" style="position:absolute"><filter id="duo" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="' +
+    [226, 96, 35].map((c, i) => { const k = 0.22 + 0.78 * c / 255; return [0.2126 * k, 0.7152 * k, 0.0722 * k, 0, 0].join(' '); }).join(' ') + ' 0 0 0 1 0"/></filter></svg>');
 
   // 1 · Hook: built at the end (after the time inserts), see buildHook
   tl.set(['#flood', '#floodDisc'], { visibility: 'visible' }, 6.0);
@@ -274,7 +266,7 @@
 
   // ================= 3 · Sign in (9.8 – 13.8) =================
   scene('s3', 9.95, 34.8);
-  tl.fromTo('#s3', { clipPath: 'circle(0% at 71% 62%)' }, { clipPath: 'circle(150% at 71% 62%)', duration: 0.75, ease: 'ebIn', immediateRender: false }, 9.95);
+  tl.fromTo('#s3', { clipPath: 'circle(0% at 71% 62%)' }, { clipPath: 'circle(150% at 71% 62%)', duration: 0.75, ease: 'ebIn', immediateRender: true }, 9.95);
   META.hits.push(10.1);
   const CAM = $('#cam'), WIN = $('#win');
   tl.fromTo(WIN, { y: 260, rotationX: 22, scale: 0.7, opacity: 0 }, { y: 0, rotationX: 0, scale: 1, opacity: 1, duration: 1.1, ease: 'ebOut', immediateRender: true }, 9.95);
@@ -369,16 +361,16 @@
   META.scans.push(15.45);
   // camera: settle, then lean in on the KPIs, then the trends
   const winTo = (props, t, d = 1.0) => tl.to(CAM, { ...props, duration: d, ease: 'ebSoft' }, t);
-  tl.fromTo('#drift', { scale: 1, x: 0, y: 0 }, { scale: 1.05, x: -18, y: -8, duration: 34.8 + 8.3 - 10.2, ease: 'none', immediateRender: true }, 10.2);
-  tl.fromTo('#drift', { rotation: -0.25 }, { rotation: 0.25, duration: 34.8 + 8.3 - 10.2, ease: 'sine.inOut', immediateRender: true }, 10.2);
+  tl.fromTo('#drift', { scale: 1, x: 0, y: 0 }, { scale: 1.05, x: -18, y: -8, duration: 34.8 + 2.0 + 18.7 - 10.2, ease: 'none', immediateRender: true }, 10.2);
+  tl.fromTo('#drift', { rotation: -0.25 }, { rotation: 0.25, duration: 34.8 + 2.0 + 18.7 - 10.2, ease: 'sine.inOut', immediateRender: true }, 10.2);
   // page coordinate (px, py) → stage point, for a given cam scale s, so the camera can aim at any part of the page
   const aim = (px, py, s, sx = 960, sy = 470) => { const X = 240 + px, Y = 72 + 46 + py; return { scale: s, x: sx - (960 + (X - 960) * s), y: sy - (540 + (Y - 540) * s) }; };
   const caption = (id, t0, t1) => {
     tl.to('#capbg', { opacity: 1, duration: 0.5, ease: 'ebSoft' }, t0 - 0.1);
-    tl.fromTo($(id), { y: 60, opacity: 0, clipPath: 'inset(100% 0 0 0 round 30px)' }, { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0 round 30px)', duration: 0.55, ease: 'ebPush', immediateRender: true }, t0 - 0.12);
+    tl.set($(id), { opacity: 0 }, 0); tl.set($(id), { opacity: 1 }, t0 - 0.1);
     reveal($(id), t0, 0.05); tl.fromTo($(id).querySelector('small'), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, immediateRender: true }, t0 + 0.35);
     hide($(id), t1); tl.to($(id).querySelector('small'), { opacity: 0, duration: 0.3 }, t1);
-    tl.to($(id), { y: 40, opacity: 0, duration: 0.35, ease: 'ebIn' }, t1 + 0.15);
+    tl.to($(id), { x: -30, opacity: 0, duration: 0.35, ease: 'ebIn' }, t1 + 0.15);
     META.titles.push(t0 + 0.05);
   };
 
@@ -409,7 +401,7 @@
   const hl = document.createElement('div'); hl.className = 'abs';
   hl.style.cssText = `left:${VR[0] - 4}px;top:${VR[1] - 4}px;width:${VR[2] + 8}px;height:${VR[3] + 8}px;border-radius:12px;border:3px solid #E26023;box-shadow:0 0 0 6px rgba(226,96,35,.15);opacity:0;z-index:3`;
   pgSub.appendChild(hl);
-  winTo(aim(850, 857, 1.75, 960, 330), 24.15, 1.0);
+  winTo(aim(1000, 857, 1.15, 1220, 520), 24.15, 1.0);
   tl.fromTo(hl, { opacity: 0, scale: 1.03 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'ebOut', immediateRender: false }, 24.9);
   // the lock clicks shut
   const lk = document.createElement('div'); lk.className = 'abs';
@@ -463,7 +455,7 @@
   tl.set(upEmpty, { opacity: 0 }, 31.3);
   tl.fromTo(result, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.4, ease: 'ui', immediateRender: false }, 31.42);
   META.success.push(31.45);
-  winTo(aim(680, 390, 1.6, 960, 340), 31.0, 1.0);
+  winTo(aim(680, 400, 1.3, 1240, 520), 31.0, 1.0);
   tl.to(CUR, { opacity: 0, duration: 0.3 }, 31.6);
   caption('#capD', 31.7, 33.8);
   tl.to('#capbg', { opacity: 0, duration: 0.4 }, 33.9);
@@ -512,6 +504,12 @@
   META.titles.push(41.3);
   tl.set({}, {}, DUR);
 
+  const iris = (pns, cx, cy, t, d) => {
+    const R = Math.hypot(1920, 1080), o = { r: 1 };
+    const set = () => pns.forEach((pn) => { pn.style.clipPath = `circle(${o.r * R}px at ${cx - pn.offsetLeft}px ${cy}px)`; });
+    tl.fromTo(o, { r: 1 }, { r: 0, duration: d, ease: 'ebIn', immediateRender: false, onUpdate: set }, t);
+    tl.call(() => { o.r = 1; set(); }, null, t - 0.01);
+  };
   const insertAt = (at, gap) => {
     tl.shiftChildren(gap, false, at);
     Object.keys(META).forEach((k) => { if (Array.isArray(META[k])) META[k] = META[k].map((t) => (t >= at ? t + gap : t)); });
@@ -521,7 +519,7 @@
   insertAt(25.8, 1.0);      // privacy caption: one more second to read
   insertAt(32.8 + 1.0 - 0.5, 1.0);   // HR caption: one more second to read
   // ---- guided tour of the overview: insert at 16.3 (the tour fills the old 5.5 s caption window + the insert) and spotlight every part of the dashboard in turn
-  { const AT = 16.3, GAP = 8.3 + 10 * (1.75 - 1.36);
+  { const AT = 16.3, GAP = 8.3 + 10 * (2.4 - 1.36);
     insertAt(AT, GAP);
     const STOPS = [
       [[293, 223, 1114, 66], 'Overview', 'Every month, <i>closed and clear.</i>', 'Reporting period, HR status and results at a glance.'],
@@ -535,14 +533,14 @@
       [[1048, 943, 359, 225], 'Access cost', 'Employee <i>access cost.</i>', 'Per employee and for the whole program.'],
       [[[293, 1425, 359, 350], [670, 1425, 360, 350], [1048, 1425, 359, 350]], 'Program and reporting', 'Reporting, Sello <i>and support.</i>', 'Deadlines, Sello EatsBueno readiness and a named partner.'],
     ];
-    const DT = 1.75, T0 = AT + 0.1;
+    const DT = 2.4, T0 = AT + 0.1;
     META.chapters.push(T0 - 0.45);
     // focus pull: the rest of the page drops out of focus; the featured part lifts off the page toward camera
     const base = Array.from(pgOv.children);
     tl.to(base, { filter: 'blur(6px) saturate(.8) brightness(.8)', duration: 0.5, ease: 'ebSoft' }, T0);
     tl.set(base, { filter: 'none' }, 0);
     tl.to(CUR, { opacity: 0, duration: 0.25 }, T0);
-    tl.fromTo('#tour', { y: 60, opacity: 0, clipPath: 'inset(100% 0 0 0 round 30px)' }, { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0 round 30px)', duration: 0.55, ease: 'ebPush', immediateRender: false }, T0);
+    tl.set('#tour', { opacity: 1 }, T0); tl.to('#capbg', { opacity: 1, duration: 0.6, ease: 'ebSoft' }, T0 - 0.1);
     const lift = (r, t, out) => {               // a crisp copy of that part of the finished page, raised in 3D
       const L = document.createElement('div'); L.className = 'abs';
       L.style.cssText = `left:${r[0] - 1}px;top:${r[1] - 1}px;width:${r[2] + 2}px;height:${r[3] + 2}px;border-radius:16px;overflow:hidden;z-index:9;
@@ -556,7 +554,7 @@
       tl.to(L, { scale: 1, y: 0, rotationX: 0, boxShadow: '0 0 0 rgba(23,63,55,0)', duration: 0.4, ease: 'ebIn' }, out);
       tl.to(L, { opacity: 0, duration: 0.2 }, out + 0.3);
     };
-    const slot = (host, html, cls) => { const d = document.createElement('div'); d.innerHTML = html; d.style.cssText = 'position:absolute;left:0;right:0;top:0;white-space:nowrap'; host.appendChild(d); tl.set(d, { yPercent: 120 }, 0); return d; };
+    const slot = (host, html) => { const d = document.createElement('div'); d.innerHTML = html; d.style.cssText = 'position:absolute;left:0;right:0;top:0'; host.appendChild(d); d.hh = host.offsetHeight + 12; tl.set(d, { y: d.hh }, 0); return d; };
     let prev = null, scroll = 0;
     STOPS.forEach(([r, eyebrow, title, sub], i) => {
       const parts = Array.isArray(r[0]) ? r : [r];
@@ -567,19 +565,20 @@
       const want = Math.max(0, Math.min(1816 - 900, r[1] + r[3] / 2 - 430));   // scroll so the part sits high in the viewport
       if (want !== scroll) { tl.to(pgOv, { y: -want, duration: 0.7, ease: 'ebSoft' }, t - 0.1); scroll = want; }
       parts.forEach((q, k) => lift(q, t + 0.1 + k * 0.06, T0 + (i + 1) * DT));
-      const s = Math.min(1920 * 0.62 / r[2], 560 / r[3], 2.1);
-      winTo(aim(r[0] + r[2] / 2, r[1] + r[3] / 2 - want, s, 960, 380), t - 0.08, 0.75);
+      const s = Math.min(1920 * 0.48 / r[2], 700 / r[3], 1.9);
+      winTo(aim(r[0] + r[2] / 2, r[1] + r[3] / 2 - want, s, 1290, 520), t - 0.08, 0.85);
       const n = slot($('#tourN'), `${String(i + 1).padStart(2, '0')} / ${STOPS.length} · ${eyebrow.toUpperCase()}`),
-            h = slot($('#tourT'), `<span style="font:700 50px/1.3 Cooper">${title}</span>`),
+            h = slot($('#tourT'), `<span style="font:700 78px/1.08 Cooper;white-space:normal;display:block">${title.replace(' <i>', '<br><i>')}</span>`),
             sb = slot($('#tourS'), sub);
-      [n, h, sb].forEach((el, k) => tl.to(el, { yPercent: 0, duration: 0.5, ease: 'ebPush' }, t + 0.12 + k * 0.05));
-      if (prev) prev.forEach((el, k) => tl.to(el, { yPercent: -120, duration: 0.45, ease: 'ebPush' }, t + 0.1 + k * 0.05));
+      [n, h, sb].forEach((el, k) => tl.to(el, { y: 0, duration: 0.5, ease: 'ebPush' }, t + 0.12 + k * 0.05));
+      if (prev) prev.forEach((el, k) => tl.to(el, { y: -el.hh, duration: 0.45, ease: 'ebPush' }, t + 0.1 + k * 0.05));
       prev = [n, h, sb];
       META.ticks.push(t + 0.15); if (i % 2 === 0) META.whooshes.push(t);
     });
     const tEnd = T0 + STOPS.length * DT;
     tl.to(base, { filter: 'blur(0px) saturate(1) brightness(1)', duration: 0.5, ease: 'ebSoft' }, tEnd - 0.05);
-    tl.to('#tour', { y: 40, opacity: 0, duration: 0.35, ease: 'ebIn' }, tEnd - 0.1);
+    tl.to('#tour', { opacity: 0, x: -30, duration: 0.35, ease: 'ebIn' }, tEnd - 0.1);
+    tl.to('#capbg', { opacity: 0, duration: 0.5, ease: 'ebSoft' }, tEnd);
     tl.to(CUR, { opacity: 1, duration: 0.3 }, tEnd);
     winTo({ scale: 1, x: 0, y: 0 }, tEnd - 0.05, 0.8);
   }
@@ -588,7 +587,7 @@
   { const T = 9.95, G = 6.5; insertAt(T, G);
     META.app = [T, T + G];
     scene('sA', T, T + G + 0.8);
-    tl.fromTo('#sA', { clipPath: 'circle(0% at 50% 33%)' }, { clipPath: 'circle(130% at 50% 33%)', duration: 0.75, ease: 'ebIn', immediateRender: false }, T);
+    tl.fromTo('#sA', { clipPath: 'circle(0% at 50% 33%)' }, { clipPath: 'circle(130% at 50% 33%)', duration: 0.75, ease: 'ebIn', immediateRender: true }, T);
     META.hits.push(T + 0.15);
     const ph = document.createElement('div'); ph.className = 'phone';
     ph.style.left = (560 - 229) + 'px'; ph.style.top = (560 - 479) + 'px';
@@ -646,111 +645,61 @@
     tl.to('#cardA', { scale: 1.06, duration: 0.25, ease: 'ebOut' }, T + G - 0.5);
     tl.to(['#hA2', ph, sv], { opacity: 0, duration: 0.4, ease: 'ebIn' }, T + G - 0.45);
   }
-  // ---- 7b · benefits as stations on one wide canvas (hyperframes-animation: spatial-pan-stations).
-  //      title station, then four benefits, each with its own infographic; a held read on every stop; pull back to all four
-  { const X = 39.3 + 2.0 + 8.3 + 3.9 + 6.5, STEP = 2.6, G = 1.7 + 4 * STEP + 2.2; insertAt(X, G);
-    META.benefits = [X, X + G]; META.stamps = [];
-    scene('sB', X, X + G + 0.7);
-    tl.set('#s7', { visibility: 'hidden' }, X + 0.62);
-    tl.to('#s7', { x: -1920, filter: 'blur(18px)', duration: 0.6, ease: 'ebSoft' }, X);
-    tl.fromTo('#sB', { x: 1920, filter: 'blur(18px)' }, { x: 0, filter: 'blur(0px)', duration: 0.6, ease: 'ebSoft', immediateRender: false }, X);
+  // ---- 7b · benefits, in the hook's language: one title, then four tall footage panels land one by one (word + drawn icon + one line),
+  //      all four held long enough to read, then they close into a point that becomes the outro's flower
+  { const X = 39.3 + 2.0 + 8.3 + 10.4 + 6.5, IN = X + 2.5, STEP = 1.4, G = 11.2; insertAt(X, G);
+    META.benefits = [X, X + G]; META.stamps = []; META.locks = [];
+    // s7 clears itself on the same orange: headline lifts out, cards drop, footage fades
+    hide($('#h7'), X - 0.05);
+    Array.from($('#cards7').children).forEach((c, i) => tl.to(c, { y: 700, rotationX: -30, opacity: 0, duration: 0.55, ease: 'ebIn' }, X + i * 0.06));
+    tl.to($('#s7').querySelectorAll(':scope > .abs:not(#h7):not(#cards7)'), { opacity: 0, duration: 0.5, ease: 'ebSoft' }, X);
+    scene('sB', X + 0.55, X + G + 0.45);
+    tl.set('#s7', { visibility: 'hidden' }, X + 0.6);
     META.whooshes.push(X + 0.05);
-    const W = $('#worldB'), NS = 'http://www.w3.org/2000/svg';
-    const st = (k, html) => { const d = document.createElement('div'); d.className = 'stB'; d.style.left = (k * 1920) + 'px'; d.innerHTML = html; W.appendChild(d); return d; };
-    // station 0: the title
-    const s0 = st(0, `<div class="abs h1" style="left:0;right:0;top:380px;text-align:center;font-size:120px">What your organization<br><i style="color:#F0A26A">gets.</i></div>`);
-    reveal(s0.querySelector('.h1'), X + 0.35, 0.07); META.titles.push(X + 0.4);
-    const BEN = [
-      ['01 · Engagement', 'Real engagement, <i>every month.</i>', 'Score, active users and participation for each closed month.'],
-      ['02 · Privacy', 'Privacy <i>built in.</i>', 'Group results only. Small groups are never shown.'],
-      ['03 · HR', 'Light work <i>for HR.</i>', 'One monthly workbook, checked for you before it counts.'],
-      ['04 · The app', 'A coach in <i>every pocket.</i>', 'Your people get the EatsBueno app and its personal coach.']];
-    const stations = BEN.map(([eb, h, p], i) => st(i + 1, `<div class="gfx"></div><div class="tx"><div class="eb">${eb.toUpperCase()}</div><h2>${h}</h2><p>${p}</p></div>`));
-    const arrive = (i) => X + 1.7 + i * STEP + 0.9;                  // camera lands on station i+1
-    stations.forEach((S, i) => {
-      tl.to(W, { x: -(i + 1) * 1920, duration: 1.0, ease: 'power2.inOut' }, arrive(i) - 1.0);
-      const prevTx = i === 0 ? s0.querySelector('.h1') : stations[i - 1].querySelector('.tx');
-      tl.to(prevTx, { opacity: 0, duration: 0.2, ease: 'ebIn' }, arrive(i) - 1.15);
-      META.whooshes.push(arrive(i) - 0.8);
-      reveal(S.querySelector('h2'), arrive(i) - 0.15, 0.06); META.titles.push(arrive(i) - 0.1);
-      tl.fromTo(S.querySelector('.eb'), { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, immediateRender: true }, arrive(i) - 0.3);
-      tl.fromTo(S.querySelector('p'), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, immediateRender: true }, arrive(i) + 0.35);
-      tl.fromTo(S.querySelector('.gfx'), { y: 80, rotation: -3, scale: 0.92 }, { y: 0, rotation: 0, scale: 1, duration: 0.9, ease: 'ebOut', immediateRender: true }, arrive(i) - 0.55);
+    const W = $('#worldB');
+    const title = document.createElement('div'); title.className = 'abs h1';
+    title.style.cssText = 'left:0;right:0;top:370px;text-align:center;font-size:124px';
+    title.innerHTML = 'What your organization<br><i>gets.</i>';
+    $('#sB').appendChild(title);
+    reveal(title, X + 0.5, 0.07); META.titles.push(X + 0.55);
+    hide(title, IN - 0.45);
+    const ICB = {
+      up: '<path d="M8 52h48M14 44V30M26 44V22M38 44V26M50 44V12" /><path d="M42 12h8v8" />',
+      lock: '<rect x="14" y="28" width="36" height="26" rx="6" /><path d="M22 28v-7a10 10 0 0 1 20 0v7M32 38v6" />',
+      doc: '<path d="M16 8h22l10 10v38H16z" /><path d="M38 8v10h10M23 37l6 6 12-13" />',
+      chat: '<path d="M8 12h48v30H30l-12 10V42H8z" /><path d="M20 26h24" />' };
+    const BEN = [['b_highfive', 0.2, 'up', 'Engagement', 'Engaged.', 'Real participation, every closed month.'],
+                 ['b_handshake', 0.2, 'lock', 'Privacy', 'Protected.', 'Group results only. Never individuals.'],
+                 ['b_hrlead', 0.2, 'doc', 'For HR', 'Simple.', 'One monthly workbook, checked for you.'],
+                 ['b_salad', 0.2, 'chat', 'The app', 'Coached.', 'A personal coach in every pocket.']];
+    const panels = BEN.map(([clip, inPt, ic, eb, word, sub], i) => {
+      const pn = document.createElement('div'), t = IN + i * STEP;
+      pn.style.cssText = `position:absolute;top:0;bottom:0;left:${i * 480 + (i ? 3 : 0)}px;width:${480 - (i === 0 || i === 3 ? 3 : 6)}px;overflow:hidden;background:#B84816`;
+      W.appendChild(pn);
+      const f = foot(pn, clip, t, X + G + 0.5 - t, { inPt, rate: 1, vcss: DUO, tint: GREEN });
+      tl.set(f, { opacity: 1 }, t);
+      tl.fromTo(f.firstChild, { scale: 1.22 }, { scale: 1.04, duration: X + G - t, ease: 'ebSoft', immediateRender: false }, t);
+      const sh = document.createElement('div'); sh.style.cssText = 'position:absolute;inset:0;background:linear-gradient(180deg,rgba(60,18,4,0) 30%,rgba(60,18,4,.86) 100%)'; pn.appendChild(sh);
+      const tx = document.createElement('div'); tx.style.cssText = 'position:absolute;left:44px;right:30px;bottom:72px;z-index:3';
+      tx.innerHTML = `<svg width="72" height="72" viewBox="0 0 64 64" fill="none" stroke="#FAF0DF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" style="display:block;overflow:visible">${ICB[ic]}</svg>
+        <div class="eb" style="font:800 19px Manrope;letter-spacing:.26em;color:#FAF0DF;opacity:.92;margin-top:26px">${String(i + 1).padStart(2, '0')} · ${eb.toUpperCase()}</div>
+        <div style="overflow:hidden;padding-bottom:.08em;margin-top:6px"><div class="h1 wd" style="font-size:82px;line-height:1.02"><i>${word}</i></div></div>
+        <div class="sb" style="font:700 25px/1.4 Manrope;color:#FAF0DF;margin-top:14px;max-width:380px">${sub}</div>`;
+      pn.appendChild(tx);
+      tl.fromTo(pn, { yPercent: i % 2 ? 100 : -100 }, { yPercent: 0, duration: 0.7, ease: 'ebPush', immediateRender: true }, t);
+      tx.querySelectorAll('svg path, svg rect').forEach((el) => { const L = el.getTotalLength(); el.style.strokeDasharray = L;
+        tl.fromTo(el, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.8, ease: 'ebSoft', immediateRender: true }, t + 0.35); });
+      tl.fromTo(tx.querySelector('.eb'), { opacity: 0, x: -16 }, { opacity: 0.92, x: 0, duration: 0.5, immediateRender: true }, t + 0.4);
+      tl.fromTo(tx.querySelector('.wd'), { yPercent: 105 }, { yPercent: 0, duration: 0.65, ease: 'ebOut', immediateRender: true }, t + 0.45);
+      tl.fromTo(tx.querySelector('.sb'), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, immediateRender: true }, t + 0.75);
+      META.whooshes.push(t + 0.05); META.titles.push(t + 0.5);
+      if (ic === 'lock') META.locks.push(t + 1.0); else META.pops.push(t + 1.0);
+      return pn;
     });
-    const G1 = stations[0].querySelector('.gfx'), G2 = stations[1].querySelector('.gfx'), G3 = stations[2].querySelector('.gfx'), G4 = stations[3].querySelector('.gfx');
-    // 1 · engagement: six closed months of bars grow, the latest in orange, the participation number counts up
-    { const t = arrive(0) - 0.1, H = [0.42, 0.5, 0.47, 0.6, 0.66, 0.74];
-      G1.innerHTML = `<div class="abs" style="left:56px;top:48px;font:800 18px Manrope;letter-spacing:.2em;color:#3B7668">ACTIVE PARTICIPATION</div>
-        <div class="abs" id="b1n" style="left:52px;top:84px;font:800 104px/1 Manrope;letter-spacing:-.045em;color:#1E1E1E;font-variant-numeric:tabular-nums">0.0%</div>
-        <div class="abs" style="left:56px;right:56px;bottom:70px;height:300px;display:flex;align-items:flex-end;gap:22px">${H.map((h, k) => `<div class="b1" style="flex:1;height:${h * 100}%;border-radius:14px 14px 6px 6px;background:${k === 5 ? '#E26023' : '#3B7668'};transform-origin:50% 100%"></div>`).join('')}</div>
-        <div class="abs" style="left:56px;right:56px;bottom:30px;display:flex;justify-content:space-between;font:700 16px Manrope;color:#5B5651">${['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'].map((m) => `<span style="flex:1;text-align:center">${m}</span>`).join('')}</div>
-        <div class="abs" id="b1p" style="right:48px;top:56px;padding:10px 18px;border-radius:999px;background:#2A5D51;color:#FAF0DF;font:800 16px Manrope;letter-spacing:.1em">✓ JULY CLOSED</div>`;
-      tl.fromTo(G1.querySelectorAll('.b1'), { scaleY: 0 }, { scaleY: 1, duration: 0.7, stagger: 0.08, ease: 'ebOut', immediateRender: true }, t);
-      const o = { v: 0 }, n = G1.querySelector('#b1n');
-      tl.fromTo(o, { v: 0 }, { v: 73.8, duration: 1.1, ease: 'ebOut', immediateRender: false, onUpdate: () => { n.textContent = o.v.toFixed(1) + '%'; } }, t + 0.2);
-      tl.call(() => { n.textContent = '0.0%'; }, null, t + 0.19);
-      tl.fromTo(G1.querySelector('#b1p'), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(2)', immediateRender: true }, t + 1.0);
-      META.ticks.push(t + 0.2); META.pops.push(t + 1.0); }
-    // 2 · privacy: 30 people sort into groups; the small group locks instead of showing a number
-    { const t = arrive(1) - 0.1, groups = [[0, 12, 36, 'Warehouse', '81%'], [12, 24, 226, 'Office', '64%'], [24, 30, 416, 'Sales', '']];
-      let html = '';
-      for (let k = 0; k < 30; k++) {
-        const gx = 120 + (k % 6) * 100, gy = 110 + Math.floor(k / 6) * 80;
-        html += `<div class="dt" style="position:absolute;left:${gx}px;top:${gy}px;width:34px;height:34px;border-radius:50%;background:${['#3B7668', '#E26023', '#AFCFC4'][k % 3]}"></div>`;
-      }
-      html += groups.map(([a0, a1, y, lab, v], g) => `<div class="gb" style="position:absolute;left:40px;top:${y}px;width:680px;height:166px;border-radius:24px;border:3px dashed ${g === 2 ? '#B04512' : '#3B7668'};opacity:0">
-        <div style="position:absolute;right:28px;top:22px;text-align:right"><div style="font:800 18px Manrope;letter-spacing:.14em;color:#5B5651">${lab.toUpperCase()}</div>
-        <div style="font:800 54px/1.1 Manrope;letter-spacing:-.04em;color:${g === 2 ? '#B04512' : '#1E1E1E'}">${v || ''}</div></div></div>`).join('');
-      html += `<div id="lk2" style="position:absolute;left:520px;top:560px;width:84px;height:84px;border-radius:24px;background:#B04512;display:grid;place-items:center;opacity:0"><svg width="44" height="44" viewBox="0 0 34 34"><rect x="7" y="15" width="20" height="14" rx="4" stroke="#FAF0DF" stroke-width="3.5" fill="none"/><path d="M11 15v-4a6 6 0 0 1 12 0v4" stroke="#FAF0DF" stroke-width="3.5" fill="none"/></svg></div>`;
-      G2.innerHTML = html;
-      const dts = G2.querySelectorAll('.dt'), gbs = G2.querySelectorAll('.gb');
-      tl.fromTo(dts, { scale: 0 }, { scale: 1, duration: 0.4, stagger: 0.012, ease: 'back.out(2)', immediateRender: true }, t);
-      // dots travel into their group rows
-      dts.forEach((d, k) => { const g = groups.findIndex(([a0, a1]) => k >= a0 && k < a1), j = k - groups[g][0];
-        const tx = 76 + (j % 6) * 62 - (120 + (k % 6) * 100), ty = groups[g][2] + 34 + Math.floor(j / 6) * 62 - (110 + Math.floor(k / 6) * 80);
-        tl.to(d, { x: tx, y: ty, duration: 0.8, ease: 'power3.inOut' }, t + 0.55 + (k % 6) * 0.02); });
-      tl.fromTo(gbs, { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.1, immediateRender: true }, t + 1.2);
-      // the small group: its people blur away and the lock lands
-      tl.to(Array.from(dts).slice(24), { filter: 'blur(8px)', opacity: 0.35, duration: 0.4 }, t + 1.55);
-      tl.fromTo(G2.querySelector('#lk2'), { y: -120, opacity: 0, rotation: -20 }, { y: -70, opacity: 1, rotation: 0, duration: 0.55, ease: 'back.out(2.2)', immediateRender: true }, t + 1.6);
-      META.pops.push(t + 0.05, t + 1.2); META.locks = [t + 1.85]; }
-    // 3 · HR: the workbook drops in, three checks tick, an Accepted stamp lands
-    { const t = arrive(2) - 0.1, rows = ['Template EBI-HR-AGG-1', 'Checks passed', 'On file for July'];
-      G3.innerHTML = `<div id="wb3" style="position:absolute;left:60px;top:60px;width:300px;height:380px;border-radius:20px;background:#fff;box-shadow:0 20px 40px -20px rgba(0,0,0,.35);overflow:hidden">
-          <div style="height:58px;background:#1D6F42;color:#fff;font:800 20px Manrope;display:flex;align-items:center;padding:0 22px">julio.xlsx</div>
-          ${Array.from({ length: 7 }, (_, r) => `<div style="height:44px;border-bottom:1px solid #E6DFD8;display:flex">${Array.from({ length: 3 }, (_, c) => `<div style="flex:1;border-right:1px solid #E6DFD8;padding:12px"><div style="height:10px;border-radius:5px;background:${r === 0 ? '#AFCFC4' : '#EAECDE'};width:${60 + ((r * 3 + c) * 17) % 40}%"></div></div>`).join('')}</div>`).join('')}
-        </div>
-        <div style="position:absolute;left:400px;top:80px;width:320px">${rows.map((r) => `<div class="ck" style="display:flex;align-items:center;gap:16px;margin-bottom:34px;opacity:.25">
-          <svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" fill="none" stroke="#3B7668" stroke-width="4"/><path class="tk" d="M14 25l7 7 13-14" fill="none" stroke="#3B7668" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40"/></svg>
-          <span style="font:800 22px/1.25 Manrope;color:#1E1E1E">${r}</span></div>`).join('')}</div>
-        <div id="st3" style="position:absolute;left:250px;top:470px;padding:18px 34px;border-radius:18px;border:5px solid #2A5D51;font:800 40px Manrope;letter-spacing:.12em;color:#2A5D51;transform:rotate(-6deg);opacity:0">ACCEPTED</div>`;
-      tl.fromTo(G3.querySelector('#wb3'), { y: -500, rotation: -10 }, { y: 0, rotation: 0, duration: 0.7, ease: 'back.out(1.4)', immediateRender: true }, t);
-      G3.querySelectorAll('.ck').forEach((c, k) => {
-        tl.to(c, { opacity: 1, duration: 0.2 }, t + 0.6 + k * 0.32);
-        tl.to(c.querySelector('.tk'), { strokeDashoffset: 0, duration: 0.3, ease: 'ebOut' }, t + 0.62 + k * 0.32);
-        META.ticks.push(t + 0.62 + k * 0.32);
-      });
-      tl.fromTo(G3.querySelector('#st3'), { scale: 2.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'power4.in', immediateRender: true }, t + 1.65);
-      tl.to(G3, { x: 6, duration: 0.05, yoyo: true, repeat: 3, ease: 'none' }, t + 2.0);
-      META.stamps.push(t + 1.95); }
-    // 4 · the app: a phone with the real coach screen, chat bubbles pop in turn
-    { const t = arrive(3) - 0.1;
-      G4.style.background = '#E26023';
-      G4.innerHTML = `<div class="phone" style="left:${380 - 229}px;top:${520 - 479}px;transform:scale(.62);transform-origin:50% 50%"><div class="screen"><img class="scr" src="assets/screens/clean/Coach_Conversation.jpg"><div class="island"></div></div></div>` +
-        [['Lunch ideas for today?', 450, 110, '#FAF0DF', '#1E1E1E'], ['Grilled chicken bowl 🍗 rice + veggies', 400, 230, '#E26023', '#FFFFFF'], ['Nice pick! Add a glass of water 💧', 430, 370, '#FAF0DF', '#1E1E1E']]
-          .map(([tx, x, y, bg, fg], k) => `<div class="bb" style="position:absolute;left:${x}px;top:${y}px;max-width:300px;padding:16px 20px;border-radius:22px ${k === 0 ? '22px 22px 6px' : '22px 22px 22px 6px'};background:${bg};color:${fg};font:700 20px/1.35 Manrope;box-shadow:0 16px 30px -14px rgba(0,0,0,.5)">${tx}</div>`).join('');
-      tl.fromTo(G4.querySelector('.phone'), { y: 400, rotation: -8 }, { y: 0, rotation: 0, duration: 0.8, ease: 'ebOut', immediateRender: true }, t);
-      G4.querySelectorAll('.bb').forEach((b, k) => { tl.fromTo(b, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(2.2)', immediateRender: true }, t + 0.6 + k * 0.45); META.pops.push(t + 0.62 + k * 0.45); }); }
-    // pull back: all four stations at once, then they collapse into the outro's seeds
-    const tR = arrive(3) + STEP - 0.6;
-    tl.to(W, { x: -480, scale: 0.25, y: 0, duration: 1.0, ease: 'power3.inOut' }, tR);
-    tl.to(s0, { opacity: 0, duration: 0.4 }, tR);
-    tl.fromTo(stations.map((S) => S.querySelector('.tx')), { opacity: 0 }, { opacity: 1, duration: 0.4, immediateRender: false }, tR + 0.9);
-    META.whooshes.push(tR + 0.1);
-    tl.to(W, { scale: 0.02, x: 960 - 1920 * 0.02 * 2.5, opacity: 0, duration: 0.55, ease: 'ebIn' }, X + G - 0.55);
-    tl.set('#s8', { visibility: 'visible' }, X + G - 0.3);
-    tl.fromTo('#s8', { clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(150% at 50% 50%)', duration: 0.8, ease: 'ebIn', immediateRender: false }, X + G - 0.3);
-    META.whooshes.push(X + G - 0.5);
+    // all four on screen together, then they close into the point where the outro's flower blooms
+    iris(panels, 960, 324, X + G - 0.25, 0.65);
+    tl.set('#s8', { visibility: 'visible' }, X + G + 0.35);
+    META.whooshes.push(X + G - 0.2);
   }
   // ---- 1 · Hook (0 – 7.35): three panels of real teams, one word each, read as one line; they close into the question
   { insertAt(5.95, 1.4);
@@ -776,7 +725,7 @@
       return pn;
     });
     // all three held together long enough to read, then they close into one circle and the question takes over
-    tl.fromTo(P1, { clipPath: 'circle(120% at 50% 50%)' }, { clipPath: 'circle(0% at 50% 50%)', duration: 0.6, ease: 'ebIn', immediateRender: false }, 3.75);
+    iris(panels, 960, 540, 3.75, 0.6);
     META.hits.push(4.3);
     reveal($('#q1t'), 4.3, 0.07);
     const pl = $('#pulse1').querySelector('path'), L1 = pl.getTotalLength(); pl.style.strokeDasharray = L1;
