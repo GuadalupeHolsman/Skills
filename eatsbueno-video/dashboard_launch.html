@@ -80,6 +80,7 @@
   <div class="abs flower" id="flood" style="left:830px;top:410px;width:260px;height:260px;color:var(--cream);z-index:55;visibility:hidden"></div>
   <div class="abs" id="floodDisc" style="left:900px;top:480px;width:120px;height:120px;border-radius:50%;background:var(--cream);z-index:54;visibility:hidden"></div>
   <div class="abs" id="band" style="left:0;top:-300px;width:2600px;height:1680px;z-index:55;visibility:hidden;transform:skewX(-16deg);background:linear-gradient(90deg,#FAF0DF 0,#FAF0DF 26px,#F0A26A 26px,#F0A26A 60px,#E26023 60px)"></div>
+  <div class="abs" id="chap" style="inset:0;z-index:57;pointer-events:none;overflow:hidden"></div>
   <div class="abs" id="leak" style="left:-900px;top:-200px;width:900px;height:1500px;z-index:52;opacity:0;transform:rotate(14deg);filter:blur(40px);background:linear-gradient(90deg,transparent,rgba(255,214,170,.75),transparent)"></div>
 
   <!-- 1 · Hook: real teams, three lines -->
@@ -185,7 +186,7 @@
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'ebOut' } });
   const $ = (s) => document.querySelector(s);
   let DUR = 44.5;
-  const META = { duration: DUR, slams: [], taps: [], keys: [], whooshes: [], hits: [], titles: [], words: [], pops: [], ticks: [], success: [], scans: [], logo: [], risers: [] };
+  const META = { chapters: [], duration: DUR, slams: [], taps: [], keys: [], whooshes: [], hits: [], titles: [], words: [], pops: [], ticks: [], success: [], scans: [], logo: [], risers: [] };
   const scene = (id, t0, t1) => { tl.set('#' + id, { visibility: 'visible' }, t0); tl.set('#' + id, { visibility: 'hidden' }, t1); };
   const words = (el) => {
     const wrap = (node) => {
@@ -387,6 +388,7 @@
   moveTo(396, 640 + 0, 22.2, 0.6); click(396, 640, 22.9);
   const pgSub = $('#pgSub');
   const whip = (inPg, t) => {
+    META.chapters.push(t + 0.05);
     tl.to(WIN, { x: -90, filter: 'blur(7px)', duration: 0.16, ease: 'ebIn' }, t);
     tl.to(WIN, { x: 0, filter: 'blur(0px)', duration: 0.42, ease: 'ebOut' }, t + 0.16);
     tl.fromTo(inPg, { opacity: 0, x: 260 }, { opacity: 1, x: 0, duration: 0.5, ease: 'ebPush', immediateRender: false }, t + 0.1);
@@ -534,6 +536,7 @@
       [[[293, 1425, 359, 350], [670, 1425, 360, 350], [1048, 1425, 359, 350]], 'Program and reporting', 'Reporting, Sello <i>and support.</i>', 'Deadlines, Sello EatsBueno readiness and a named partner.'],
     ];
     const DT = 1.75, T0 = AT + 0.1;
+    META.chapters.push(T0 - 0.45);
     // focus pull: the rest of the page drops out of focus; the featured part lifts off the page toward camera
     const base = Array.from(pgOv.children);
     tl.to(base, { filter: 'blur(5px) saturate(.85) brightness(.97)', duration: 0.5, ease: 'ebSoft' }, T0);
@@ -775,6 +778,27 @@
     tl.fromTo(pl, { strokeDashoffset: L1 }, { strokeDashoffset: 0, duration: 1.3, ease: 'ebSoft', immediateRender: true }, 4.9);
     META.titles.push(4.35); META.scans.push(5.3);
     tl.to('#q1', { scale: 0.92, opacity: 0, filter: 'blur(8px)', duration: 0.4, ease: 'ebIn' }, 7.0);
+  }
+  // ---- chapter cards: three brand stripes sweep across, one word slams, the stripes sweep on and reveal the next act
+  { const LAB = [['01', 'See', 'it.'], ['02', 'Protect', 'it.'], ['03', 'Report', 'it.']];
+    META.chapters.sort((a, b) => a - b).forEach((c, i) => {
+      const host = document.createElement('div'); host.className = 'abs'; host.style.cssText = 'inset:0;visibility:hidden';
+      const cols = ['#FAF0DF', '#E26023', '#C9501A'];
+      host.innerHTML = cols.map((col, k) => `<div class="sp" style="position:absolute;top:-200px;left:0;width:2600px;height:1480px;background:${col};transform:skewX(-14deg)"></div>`).join('') +
+        `<div class="wd" style="position:absolute;left:0;right:0;top:360px;text-align:center"><div style="font:800 26px Manrope;letter-spacing:.4em;color:#FAF0DF;opacity:.9">${LAB[i][0]}</div>
+          <div class="h1" style="font-size:190px;line-height:1.05;margin-top:10px">${LAB[i][1]} <i>${LAB[i][2]}</i></div></div>`;
+      $('#chap').appendChild(host);
+      const sps = host.querySelectorAll('.sp'), wd = host.querySelector('.wd');
+      tl.set(host, { visibility: 'visible' }, c - 0.6);
+      sps.forEach((sp, k) => {
+        tl.fromTo(sp, { x: 2200 }, { x: -340, duration: 0.42, ease: 'power3.out', immediateRender: true }, c - 0.6 + k * 0.07);
+        tl.to(sp, { x: -3200, duration: 0.45, ease: 'power3.in' }, c + 0.55 + (2 - k) * 0.05);
+      });
+      tl.fromTo(wd, { scale: 1.3, opacity: 0, filter: 'blur(10px)' }, { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 0.35, ease: 'ebOut', immediateRender: true }, c - 0.25);
+      tl.to(wd, { x: -260, opacity: 0, filter: 'blur(8px)', duration: 0.35, ease: 'ebIn' }, c + 0.5);
+      tl.set(host, { visibility: 'hidden' }, c + 1.15);
+      META.slams.push(c - 0.2); META.whooshes.push(c - 0.6, c + 0.6);
+    });
   }
   window.DURATION = DUR; window.META = META;
   window.__seek = (t) => {
