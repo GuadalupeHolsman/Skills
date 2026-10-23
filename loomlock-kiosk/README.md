@@ -11,7 +11,7 @@ El orden sigue lo que vive el invitado: qué es → preparar la app antes de lle
 0. **Portada:** tele de tubo en el CH 02 (al tocarla cambia la frase), "Esta noche, con Tequila Don Julio" y aviso +18
 1. **01 · Quién te invitó:** PR, Equipo Loomlock, Equipo Don Julio, Equipo Bikini o "Quería conocer a Locky". Se envía al Sheet a los 3 s de elegir
 2. **02 · Qué es:** "Escanea tu key. Apps en pausa." Solo la animación grande: la key toca el celular y aparece el candado
-3. **03 · Prepara tu app (pasos 1-4):** pantallas reales de la app, numeradas: 1 abre la app, 2 permite Screen Time, 3 llamadas y SMS siguen, 4 elige tus apps. Pasan solas o con un toque; después del paso 4 se abre el selector y se toca Guardar
+3. **03 · Prepara tu app (pasos 1-5):** pantallas reales de la guía *How Experience Mode Works* (iPhone): 1 “Join an experience”, 2 cómo funciona, 3 llamadas y SMS siguen, 4 elige el modo, 5 elige qué queda abierto. Pasan solas o con un toque; después del paso 4 se abre el selector y se toca Guardar
 4. **04 · La key:** la key de la experiencia (la del lugar); al tocarla se da vuelta
 5. **05 · La entrada (paso 5):** el celular arranca con la pantalla real *You're Event Ready!*; al acercarlo al tótem de Locky (o con tu key) la pantalla se desliza y se bloquean las apps elegidas en el paso 03. Otro tap y vuelven
 6. **06 · Tu noche:** 4 momentos (puerta, adentro, salida, galería); las fotos quedan en la web de Loomlock Experiences
@@ -33,6 +33,8 @@ No es un paso aparte: la app real aparece dentro de los pasos que ya existían. 
 La key que se ve en todo el kiosco es el diseño *Big Locky* (Locky con ondas NFC sobre negro), de `src/keys/locky-key.svg`, convertido del PDF `Big_locky_200_B.pdf`. Se usa en "Qué es", en "Tu key" (mismo arte de los dos lados) y como la key que se arrastra en "Tengo mi key". Para cambiarla, reemplaza ese SVG y corre `python3 src/build.py`.
 
 ### Dos tipos de keys
+La pantalla 04 ("Dos keys, dos usos") compara la **key de la experiencia** (Big Locky, está en el lugar, se escanea al entrar y al salir, no te la llevas) con la **key de recuerdo** (la de Don Julio, `src/keys/gift-key-don-julio.svg`: te la llevas, es coleccionable, no empieza ni termina la experiencia).
+
 El kiosco habla siempre de **una key** / **la key de la experiencia** ("Scan a key", "Venue experience key"), nunca de "tu key": la key que empieza y termina la experiencia está en el lugar, y no se confunde con las keys de recompensa que la gente se lleva.
 
 ### Sin la palabra "tap"
