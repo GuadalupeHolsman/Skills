@@ -38,6 +38,11 @@ El kiosco habla siempre de **una key** / **la key de la experiencia** ("Scan a k
 ### Sin la palabra "tap"
 Ningún texto visible usa "tap" (ni en español ni en inglés): la acción con la key se dice *escanear* / *scan* (igual que el botón "Scan key and enter now" de la app), y en la pantalla *tocar* / *touch*.
 
+### Alineado con "How Experience Mode Works"
+- El selector funciona como la app real (lista de permitidas): se eligen las apps que **quedan abiertas** y todo lo demás se pausa al escanear la key.
+- Siempre funcionan llamadas, mensajes y mapas (la guía también menciona el SOS de emergencia).
+- El quiz son las "tres cosas que los invitados deben escuchar": nada que comprar (sin cuenta ni producto), nunca incomunicado (llamadas, mensajes y SOS), privado por diseño (solo ve qué app está abierta).
+
 ## Estética
 Usa la dirección de arte de **Prime Time · loomlock experiences**: cada pantalla es un canal de TV (CH 01 a CH 05), azul canal `#2F3AD0`, amarillo señal `#FCCE21`, negro pantalla y papel; Montserrat fina en mayúsculas con énfasis en itálica gruesa, rótulos en Space Mono; grano, líneas de TV, estática al cambiar de canal y respuestas "tachadas" que se destapan. Firma: *live now, post later.*
 
