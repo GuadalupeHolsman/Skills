@@ -733,7 +733,7 @@ h2 .w{display:inline-block}
 #ov3{pointer-events:none}
 
 /* the pause comes out of the real app screen: a ring from its button, then the screen slides away and the apps lock one by one */
-#ov3::after{content:"";position:absolute;left:50%;bottom:7%;width:60px;height:60px;margin-left:-30px;border-radius:50%;border:5px solid var(--yellow);opacity:0;pointer-events:none}
+#ov3::after{content:"";position:absolute;left:50%;bottom:15.5%;width:60px;height:60px;margin-left:-30px;border-radius:50%;border:5px solid var(--yellow);opacity:0;pointer-events:none}
 #ov3.gone::after{animation:btnRing .7s ease-out}
 @keyframes btnRing{0%{opacity:.95;transform:scale(.4)}100%{opacity:0;transform:scale(5.5)}}
 #ov3{background:transparent}
@@ -851,6 +851,28 @@ h2 .w{display:inline-block}
 
 /* quiz stamp sits on the card's top corner so it never covers the answer */
 .qz-stamp{top:-44px;right:-14px;bottom:auto;font-size:50px;padding:6px 24px}
+
+/* two keys, two jobs: the venue's experience key vs the keepsake you take home */
+#s3 .card-area{display:none}
+.keys2{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:30px;min-height:0}
+.kc{display:grid;grid-template-columns:400px 1fr;gap:36px;align-items:center;text-align:left;background:var(--paper);color:var(--ink);border:5px solid var(--screen);border-radius:40px;box-shadow:10px 10px 0 var(--screen);padding:44px 34px 44px 30px;transition:transform .4s var(--e-spring)}
+.kc.bump{animation:kcBump .45s var(--e-spring)}
+@keyframes kcBump{0%{transform:none}35%{transform:scale(.97)}100%{transform:none}}
+.kc-art{position:relative;width:400px;aspect-ratio:340/214;border-radius:24px;border:5px solid var(--screen);box-shadow:8px 8px 0 rgba(11,11,16,.35)}
+.kc.exp .kc-art{background:var(--key-front) center/cover no-repeat}
+.kc.gift .kc-art{background:url('{{KEY_GIFT}}') center/cover no-repeat;transform:rotate(-4deg);animation:giftFloat 4s ease-in-out infinite}
+@keyframes giftFloat{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(-2deg) translateY(-10px)}}
+.kc-ring{position:absolute;left:50%;top:50%;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;border:7px solid var(--yellow);opacity:0;animation:keyRing 2.8s ease-out infinite;pointer-events:none}
+.kc-ring.r2{animation-delay:1.4s}
+.kc-txt{display:flex;flex-direction:column;gap:10px;min-width:0}
+.kc-tag{align-self:flex-start;font:700 22px/1 var(--font-mono);letter-spacing:2px;text-transform:uppercase;padding:9px 16px;border-radius:99px;background:var(--blue);color:var(--yellow)}
+.kc.gift .kc-tag{background:var(--yellow);color:var(--ink);border:3px solid var(--screen)}
+.kc h3{margin:2px 0 4px;font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:40px;line-height:1}
+.kc-l{display:flex;gap:12px;align-items:baseline;font-size:27px;font-weight:600;line-height:1.2}
+.kc-l::before{flex:none;font-weight:800;font-size:26px}
+.kc-l.ok::before{content:"✓";color:#1f9d55}
+.kc-l.no::before{content:"✕";color:#d6336c}
+.kvs{align-self:center;margin:-52px 0;z-index:2;width:76px;height:76px;border-radius:50%;background:var(--yellow);border:5px solid var(--screen);display:grid;place-items:center;font:800 44px/1 var(--font-display);color:var(--ink);box-shadow:5px 5px 0 var(--screen)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -977,7 +999,7 @@ h2 .w{display:inline-block}
     <div class="astep" id="astep" aria-live="polite"></div>
     <div class="stage-area">
       <div class="phone" id="phone1">
-        <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" id="tp1" style="left:50%;top:91%"></i><i class="tap-rip" id="rip"></i></div>
+        <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""><img src="{{APP5}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" id="tp1" style="left:50%;top:91%"></i><i class="tap-rip" id="rip"></i></div>
         <div class="screen-in">
           <div class="app-bar"><span class="ab-logo">loomlock</span><span class="ab-t" data-t="s1.appbar">Apps a pausar</span></div>
           <div class="status" id="status1"></div>
@@ -993,8 +1015,13 @@ h2 .w{display:inline-block}
   <!-- 04 · Tu key -->
   <section class="screen" id="s3" data-name="n3" aria-label="La key de la experiencia">
     <div class="head">
-      <span class="kicker" data-t="k3">La key</span>
-      <h2 class="focus" data-t="t3">La key de <em>la experiencia.</em></h2>
+      <span class="kicker" data-t="k3">Las keys</span>
+      <h2 class="focus" data-t="t3">Dos keys, <em>dos usos.</em></h2>
+    </div>
+    <div class="keys2" id="keys2">
+      <button class="kc exp"><span class="kc-art"><i class="kc-ring"></i><i class="kc-ring r2"></i></span><span class="kc-txt"><b class="kc-tag" data-t="kx.tag">Para entrar y salir</b><h3 data-t="kx.t">Key de la experiencia</h3><span class="kc-l ok" data-t="kx.l1">Está en el lugar</span><span class="kc-l ok" data-t="kx.l2">Escanéala al entrar y al salir</span><span class="kc-l no" data-t="kx.l3">No te la llevas</span></span></button>
+      <span class="kvs">≠</span>
+      <button class="kc gift"><span class="kc-art"></span><span class="kc-txt"><b class="kc-tag" data-t="kg.tag">De regalo</b><h3 data-t="kg.t">Key de recuerdo</h3><span class="kc-l ok" data-t="kg.l1">Te la llevas a casa</span><span class="kc-l ok" data-t="kg.l2">Es coleccionable</span><span class="kc-l no" data-t="kg.l3">No empieza ni termina la experiencia</span></span></button>
     </div>
     <div class="card-area" id="card-area"><i class="ring3"></i><i class="tp" style="left:84%;top:70%"></i>
       <button class="nfc-card" id="card" aria-label="Dar vuelta la key">
@@ -1029,7 +1056,7 @@ h2 .w{display:inline-block}
       <button class="drag-card" id="drag-card" aria-label="Key Loomlock: toca o arrastra hasta el celular"><i class="tp" style="left:50%;top:50%"></i></button>
       <svg class="down-arrow"><use href="#arrow-d"/></svg>
       <div class="phone" id="phone3">
-        <div class="app-ov" id="ov3"><img src="{{APP5}}" alt=""><b class="ov-n">5</b></div>
+        <div class="app-ov" id="ov3"><img src="{{APP6}}" alt=""><b class="ov-n">6</b></div>
         <div class="screen-in">
           <div class="clock" data-clock>21:30</div>
           <div class="status" id="status3" data-t="s3.status">Esperando la key…</div>
@@ -1129,19 +1156,19 @@ h2 .w{display:inline-block}
 
   const T = {
     es: {
-      "kInv":"Quién te invitó","nInv":"Quién te invitó","app.c1":"Abre la app","app.c2":"Permite Screen Time","app.c3":"Llamadas y SMS siguen","app.c4":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
+      "kInv":"Quién te invitó","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c1":"Elige “Unirme a una experiencia”","app.c2":"Mira cómo funciona","app.c3":"Llamadas y SMS siguen","app.c4":"Elige el modo","app.c5":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
       "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
       "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
       "inv.hint":"Toca una opción",
       "tally.title":"Quién los invitó","tally.copy":"Copiar","tally.reset":"Reiniciar","tally.reset2":"¿Seguro?","tally.close":"Cerrar","tally.total":"Total","tally.copied":"Copiado","tally.csv":"Bajar CSV","tally.all":"Todas las pantallas","tally.local":"Solo esta pantalla (sin conexión)","tally.pending":"pendientes de subir","tally.reset":"Reiniciar esta pantalla",
       "s1.saved":"Guardado ✓","s1.savedN":"{n} abiertas, el resto en pausa","s1.status0":"Ninguna · el resto se pausa","s1.appbar":"Apps que quedan abiertas","s1.tip":"La pausa empieza al escanear una key o el tótem",
       "osd.off":"FUERA DEL AIRE","osd.on":"AL AIRE",
-      "k1":"Qué es","k2":"En la app","k3":"La key","k4":"Antes de llegar","k5":"La entrada","k6":"Tu noche","k7":"Mito o verdad",
-      "n1":"Qué es","n2":"En la app","n3":"La key","n4":"Antes de llegar","n5":"La entrada","n6":"Tu noche","n7":"Mito o verdad",
+      "k1":"Qué es","k2":"En la app","k3":"Las keys","k4":"Antes de llegar","k5":"La entrada","k6":"Tu noche","k7":"Mito o verdad",
+      "n1":"Qué es","n2":"En la app","n3":"Las keys","n4":"Antes de llegar","n5":"La entrada","n6":"Tu noche","n7":"Mito o verdad",
       "q1.title":"Escanea una key. <em>Apps en pausa.</em>","q1.tapped":"Key","q1.after":"después del escaneo","q1.always":"igual que siempre","q1.off":"En pausa","q1.on":"Siempre funcionan","q1.e1":"Llamadas","q1.e2":"Mensajes","q1.e3":"Mapas","q1.tap":"Tu celular sigue contigo · o usa el tótem de Locky",
       "t2":"Prepara <em>tu app.</em>","f1":"App","f2":"Elige","f3":"Key",
       "i1":"Toca las apps que quieres dejar abiertas","i2":"Ahora toca Guardar","i3":"Listo. La pausa empieza en la puerta.","s1.btnN":"Guardar",
-      "t3":"La key de <em>la experiencia.</em>","c1":"Chip NFC","c2":"Sin batería","c3":"Es tuya",
+      "t3":"Dos keys, <em>dos usos.</em>","c1":"Chip NFC","c2":"Sin batería","c3":"Es tuya",
       "t4":"Dos pasos <em>antes.</em>","p1":"Descarga la app","p1s":"Busca Loomlock en tu tienda","p2":"Elige tus apps","p2s":"Las que quieres pausar esta noche","p3":"¡Listo para entrar!","p.hint":"Toca cada paso",
       "t5":"Escanéala <em>y entras.</em>","tf1":"Escanea: pausa","tf2":"Otra vez: vuelves",
       "t7":"¿Mito <em>o verdad?</em>",
@@ -1198,19 +1225,19 @@ h2 .w{display:inline-block}
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",msg:"Mensajes",mp:"Mapas"}
     },
     en: {
-      "kInv":"Who invited you","nInv":"Who invited you","app.c1":"Open the app","app.c2":"Allow Screen Time","app.c3":"Calls & SMS stay on","app.c4":"Pick what stays open","tInv":"Who <em>invited you?</em>",
+      "kInv":"Who invited you","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c1":"Choose “Join an experience”","app.c2":"See how it works","app.c3":"Calls & SMS stay on","app.c4":"Pick a mode","app.c5":"Pick what stays open","tInv":"Who <em>invited you?</em>",
       "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
       "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
       "inv.hint":"Choose an option",
       "tally.title":"Who invited them","tally.copy":"Copy","tally.reset":"Reset","tally.reset2":"Sure?","tally.close":"Close","tally.total":"Total","tally.copied":"Copied","tally.csv":"Get CSV","tally.all":"All screens","tally.local":"This screen only (offline)","tally.pending":"waiting to sync","tally.reset":"Reset this screen",
       "s1.saved":"Saved ✓","s1.savedN":"{n} open, the rest paused","s1.status0":"None · the rest pauses","s1.appbar":"Apps that stay open","s1.tip":"The pause starts when you scan a key or the totem",
       "osd.off":"OFF AIR","osd.on":"ON AIR",
-      "k1":"What it is","k2":"In the app","k3":"The key","k4":"Before you arrive","k5":"The entrance","k6":"Your night","k7":"Myth or fact",
-      "n1":"What it is","n2":"In the app","n3":"The key","n4":"Before you arrive","n5":"The entrance","n6":"Your night","n7":"Myth or fact",
+      "k1":"What it is","k2":"In the app","k3":"The keys","k4":"Before you arrive","k5":"The entrance","k6":"Your night","k7":"Myth or fact",
+      "n1":"What it is","n2":"In the app","n3":"The keys","n4":"Before you arrive","n5":"The entrance","n6":"Your night","n7":"Myth or fact",
       "q1.title":"Scan a key. <em>Apps pause.</em>","q1.tapped":"Key","q1.after":"after the scan","q1.always":"as always","q1.off":"Paused","q1.on":"Always on","q1.e1":"Calls","q1.e2":"Messages","q1.e3":"Maps","q1.tap":"Your phone stays with you · or use Locky’s totem",
       "t2":"Set up <em>your app.</em>","f1":"App","f2":"Pick","f3":"Key",
       "i1":"Touch the apps you want to keep open","i2":"Now press Save","i3":"Done. The pause starts at the door.","s1.btnN":"Save",
-      "t3":"The experience <em>key.</em>","c1":"NFC chip","c2":"No battery","c3":"It's yours",
+      "t3":"Two keys, <em>two jobs.</em>","c1":"NFC chip","c2":"No battery","c3":"It's yours",
       "t4":"Two steps <em>before.</em>","p1":"Get the app","p1s":"Search Loomlock in your store","p2":"Pick your apps","p2s":"The ones to pause tonight","p3":"Ready to go in!","p.hint":"Touch each step",
       "t5":"Scan it <em>and you're in.</em>","tf1":"Scan: pause","tf2":"Scan again: back",
       "t7":"Myth <em>or fact?</em>",
@@ -1781,7 +1808,7 @@ h2 .w{display:inline-block}
   /* ---------- the app, step by step ---------- */
   let adI = 0;
   /* left, top, width, height (% of the screen) of what each real screen is about */
-  const SPOTS = [[5, 87.5, 90, 7.5], [5, 87.5, 90, 7.5], [3, 39, 94, 24], [3, 32, 94, 17]];
+  const SPOTS = [[2, 50, 96, 9], [26, 90.5, 70, 5.5], [5, 89.5, 90, 5.5], [2, 34, 96, 8], [2, 34.5, 96, 8.5]];
   const ov1 = $("#ov1");
   function renderAd(){
     $$("#ov-track img").forEach((im, i) => { im.classList.toggle("prev", i < adI); im.classList.toggle("cur", i === adI) });
@@ -1789,9 +1816,9 @@ h2 .w{display:inline-block}
     const [l, tp, w, h] = SPOTS[adI];
     $("#tp1").style.left = (l + w / 2) + "%"; $("#tp1").style.top = (tp + h / 2) + "%";
     const as = $("#astep"); as.classList.remove("in"); void as.offsetWidth; as.classList.add("in");
-    as.innerHTML = `<div class="as-row"><b>${adI + 1}</b><span class="as-t">${t("app.c" + (adI + 1))}</span></div><div class="as-d">${[0, 1, 2, 3].map(i => `<i class="${i === adI ? "on" : ""}"></i>`).join("")}</div>`;
+    as.innerHTML = `<div class="as-row"><b>${adI + 1}</b><span class="as-t">${t("app.c" + (adI + 1))}</span></div><div class="as-d">${[0, 1, 2, 3, 4].map(i => `<i class="${i === adI ? "on" : ""}"></i>`).join("")}</div>`;
   }
-  const adGo = () => { if (adI < 3){ adI++; renderAd() } else ov1.classList.add("gone") };
+  const adGo = () => { if (adI < 4){ adI++; renderAd() } else ov1.classList.add("gone") };
   /* a tap lands on the button first, then the next screen pushes in */
   function adTap(){
     const r = $("#rip"), d = $("#tp1").style; r.style.left = d.left; r.style.top = d.top;
@@ -1834,6 +1861,10 @@ h2 .w{display:inline-block}
     const el = e.target === document ? document.scrollingElement : e.target;
     if (el && (el.scrollLeft || el.scrollTop)){ el.scrollLeft = 0; el.scrollTop = 0 }
   }, true);
+
+
+  /* the two keys: a touch just answers with a little bounce */
+  $$("#keys2 .kc").forEach(k => k.addEventListener("click", () => { k.classList.remove("bump"); void k.offsetWidth; k.classList.add("bump"); markReady(); vib(10) }));
 
   /* ---------- reset + idle ---------- */
   function resetAll(){

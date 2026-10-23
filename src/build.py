@@ -58,8 +58,8 @@ def key_svg(n):
     return "data:image/svg+xml;base64," + base64.b64encode((ROOT / "src/keys/locky-key.svg").read_bytes()).decode()
 
 
-page = (tpl.replace("{{KEY_FRONT}}", key_svg("front")).replace("{{KEY_BACK}}", key_svg("back")).replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky()))
-for i in (1, 2, 3, 4, 5):
+page = (tpl.replace("{{KEY_GIFT}}", "data:image/svg+xml;base64," + base64.b64encode((ROOT / "src/keys/gift-key-don-julio.svg").read_bytes()).decode()).replace("{{KEY_FRONT}}", key_svg("front")).replace("{{KEY_BACK}}", key_svg("back")).replace("{{LOGO}}", logo()).replace("{{LOCKY}}", locky()).replace("{{LOCKY_LIVE}}", locky()))
+for i in (1, 2, 3, 4, 5, 6):
     page = page.replace("{{APP%d}}" % i, app_img(i))
 
 (ROOT / "artifact.html").write_text(page, encoding="utf-8")
