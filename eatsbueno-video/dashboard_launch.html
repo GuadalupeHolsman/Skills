@@ -57,6 +57,12 @@
   .screen { position: relative; width: 430px; height: 930px; border-radius: 57px; overflow: hidden; background: #eef3ef; }
   .island { position: absolute; top: 12px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: #000; z-index: 90; }
   .phone img.scr { position: absolute; left: 0; top: 0; width: 430px; }
+  .stB { position: absolute; top: 0; width: 1920px; height: 1080px; }
+  .stB .tx { position: absolute; left: 1010px; top: 300px; width: 820px; }
+  .stB .eb { font: 800 20px Manrope; letter-spacing: .24em; color: var(--cream); opacity: .9; }
+  .stB h2 { font: 700 92px/1.04 Cooper; color: var(--cream); margin-top: 18px; } .stB h2 i { font-weight: 300; }
+  .stB p { font: 700 28px/1.45 Manrope; color: var(--cream); margin-top: 26px; max-width: 760px; }
+  .gfx { position: absolute; left: 150px; top: 230px; width: 760px; height: 620px; border-radius: 40px; background: #FAF0DF; box-shadow: 0 50px 100px -40px rgba(60,20,4,.6); overflow: hidden; }
   .ben { position: absolute; width: 400px; height: 300px; padding: 34px 32px; border-radius: 30px; background: #FAF0DF; box-shadow: 0 40px 80px -30px rgba(60,20,4,.55); }
   .ben .ic { width: 64px; height: 64px; border-radius: 18px; background: #2A5D51; display: grid; place-items: center; margin-bottom: 22px; }
   .ben .n { position: absolute; right: 30px; top: 34px; font: 800 15px Manrope; letter-spacing: .2em; color: #B04512; }
@@ -146,8 +152,7 @@
   <!-- 7b · Benefits -->
   <section class="scene" id="sB" style="background:radial-gradient(120% 110% at 50% 40%,#D9581D 0%,#C9501A 60%,#B84816 100%)">
     <div class="blob" style="width:1100px;height:800px;left:-520px;top:-380px;opacity:.55;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:1380px;top:640px;opacity:.45;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
-    <div class="abs h1" id="hB" style="left:0;right:0;top:84px;text-align:center;font-size:76px">What your organization <i>gets.</i></div>
-    <div class="abs" id="bensB" style="inset:0;perspective:2400px"></div>
+    <div class="abs" id="worldB" style="left:0;top:0;width:9600px;height:1080px;transform-origin:0 50%"></div>
   </section>
 
   <!-- 8 · Outro -->
@@ -578,6 +583,7 @@
   // ---- 2b · the app: one big phone with the app's real coach screen, its features around it; then a line carries
   //      the activity to a real dashboard card ("the big picture"), and the dashboard opens out of that card
   { const T = 9.95, G = 6.5; insertAt(T, G);
+    META.app = [T, T + G];
     scene('sA', T, T + G + 0.8);
     tl.fromTo('#sA', { clipPath: 'circle(0% at 50% 33%)' }, { clipPath: 'circle(130% at 50% 33%)', duration: 0.75, ease: 'ebIn', immediateRender: false }, T);
     META.hits.push(T + 0.15);
@@ -637,40 +643,110 @@
     tl.to('#cardA', { scale: 1.06, duration: 0.25, ease: 'ebOut' }, T + G - 0.5);
     tl.to(['#hA2', ph, sv], { opacity: 0, duration: 0.4, ease: 'ebIn' }, T + G - 0.45);
   }
-  // ---- 7b · benefits, right after the program beat; the tiles then collapse into the outro's seeds
-  { const X = 39.3 + 2.0 + 8.3 + 3.9 + 6.5, G = 6.5; insertAt(X, G);
+  // ---- 7b · benefits as stations on one wide canvas (hyperframes-animation: spatial-pan-stations).
+  //      title station, then four benefits, each with its own infographic; a held read on every stop; pull back to all four
+  { const X = 39.3 + 2.0 + 8.3 + 3.9 + 6.5, STEP = 2.6, G = 1.7 + 4 * STEP + 2.2; insertAt(X, G);
+    META.benefits = [X, X + G]; META.stamps = [];
     scene('sB', X, X + G + 0.7);
     tl.set('#s7', { visibility: 'hidden' }, X + 0.62);
     tl.to('#s7', { x: -1920, filter: 'blur(18px)', duration: 0.6, ease: 'ebSoft' }, X);
     tl.fromTo('#sB', { x: 1920, filter: 'blur(18px)' }, { x: 0, filter: 'blur(0px)', duration: 0.6, ease: 'ebSoft', immediateRender: false }, X);
     META.whooshes.push(X + 0.05);
-    reveal($('#hB'), X + 0.4, 0.06); META.titles.push(X + 0.45);
-    const ICON = {
-      chart: '<svg width="34" height="34" viewBox="0 0 34 34"><path d="M6 28V18M14 28V10M22 28V15M30 28V6" stroke="#FAF0DF" stroke-width="4" stroke-linecap="round"/></svg>',
-      lock: '<svg width="34" height="34" viewBox="0 0 34 34"><rect x="7" y="15" width="20" height="14" rx="4" stroke="#FAF0DF" stroke-width="3.5" fill="none"/><path d="M11 15v-4a6 6 0 0 1 12 0v4" stroke="#FAF0DF" stroke-width="3.5" fill="none"/></svg>',
-      doc: '<svg width="34" height="34" viewBox="0 0 34 34"><path d="M9 4h11l7 7v19H9z" stroke="#FAF0DF" stroke-width="3.2" fill="none" stroke-linejoin="round"/><path d="M13 21l3.5 3.5L23 17" stroke="#FAF0DF" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-      phone: '<svg width="34" height="34" viewBox="0 0 34 34"><rect x="10" y="3" width="15" height="28" rx="4" stroke="#FAF0DF" stroke-width="3.2" fill="none"/><circle cx="17.5" cy="25" r="1.8" fill="#FAF0DF"/></svg>' };
-    const BEN = [['chart', 'Real engagement, <i>every month.</i>', 'Score, active users and participation for each closed month.'],
-                 ['lock', 'Privacy <i>built in.</i>', 'Group results only. Small groups are never shown.'],
-                 ['doc', 'Light work <i>for HR.</i>', 'One monthly workbook, checked for you before it counts.'],
-                 ['phone', 'A coach in <i>every pocket.</i>', 'Your people get the EatsBueno app and its personal coach.']];
-    const tiles = BEN.map(([ic, h, p], i) => {
-      const b = document.createElement('div'); b.className = 'ben';
-      b.style.left = (100 + i * 440) + 'px'; b.style.top = '380px';
-      b.innerHTML = `<div class="ic">${ICON[ic]}</div><div class="n">0${i + 1}</div><h3>${h}</h3><p>${p}</p>`;
-      $('#bensB').appendChild(b);
-      tl.fromTo(b, { y: 420, rotationX: 40, rotationZ: (i - 1.5) * 4, opacity: 0 }, { y: 0, rotationX: 0, rotationZ: 0, opacity: 1, duration: 0.85, ease: 'ebOut', immediateRender: true }, X + 0.75 + i * 0.16);
-      tl.fromTo(b.querySelector('.ic'), { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.6, ease: 'ebOut', immediateRender: true }, X + 1.05 + i * 0.16);
-      tl.to(b, { y: -12, duration: 2.6, ease: 'sine.inOut' }, X + 1.7 + i * 0.16);
-      META.pops.push(X + 0.85 + i * 0.16);
-      return b;
+    const W = $('#worldB'), NS = 'http://www.w3.org/2000/svg';
+    const st = (k, html) => { const d = document.createElement('div'); d.className = 'stB'; d.style.left = (k * 1920) + 'px'; d.innerHTML = html; W.appendChild(d); return d; };
+    // station 0: the title
+    const s0 = st(0, `<div class="abs h1" style="left:0;right:0;top:380px;text-align:center;font-size:120px">What your organization<br><i>gets.</i></div>`);
+    reveal(s0.querySelector('.h1'), X + 0.35, 0.07); META.titles.push(X + 0.4);
+    const BEN = [
+      ['01 · Engagement', 'Real engagement, <i>every month.</i>', 'Score, active users and participation for each closed month.'],
+      ['02 · Privacy', 'Privacy <i>built in.</i>', 'Group results only. Small groups are never shown.'],
+      ['03 · HR', 'Light work <i>for HR.</i>', 'One monthly workbook, checked for you before it counts.'],
+      ['04 · The app', 'A coach in <i>every pocket.</i>', 'Your people get the EatsBueno app and its personal coach.']];
+    const stations = BEN.map(([eb, h, p], i) => st(i + 1, `<div class="gfx"></div><div class="tx"><div class="eb">${eb.toUpperCase()}</div><h2>${h}</h2><p>${p}</p></div>`));
+    const arrive = (i) => X + 1.7 + i * STEP + 0.9;                  // camera lands on station i+1
+    stations.forEach((S, i) => {
+      tl.to(W, { x: -(i + 1) * 1920, duration: 0.9, ease: 'power2.inOut' }, arrive(i) - 0.9);
+      META.whooshes.push(arrive(i) - 0.8);
+      reveal(S.querySelector('h2'), arrive(i) - 0.15, 0.06); META.titles.push(arrive(i) - 0.1);
+      tl.fromTo(S.querySelector('.eb'), { opacity: 0, x: -20 }, { opacity: 0.9, x: 0, duration: 0.5, immediateRender: true }, arrive(i) - 0.3);
+      tl.fromTo(S.querySelector('p'), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, immediateRender: true }, arrive(i) + 0.35);
+      tl.fromTo(S.querySelector('.gfx'), { y: 80, rotation: -3, scale: 0.92 }, { y: 0, rotation: 0, scale: 1, duration: 0.9, ease: 'ebOut', immediateRender: true }, arrive(i) - 0.55);
     });
-    hide($('#hB'), X + G - 0.6);
-    tiles.forEach((b, i) => tl.to(b, { x: 960 - (100 + i * 440 + 200), y: 320 - (380 + 150), scale: 0.05, rotation: (i - 1.5) * 60, opacity: 0, duration: 0.55, ease: 'ebIn' }, X + G - 0.55 + i * 0.04));
+    const G1 = stations[0].querySelector('.gfx'), G2 = stations[1].querySelector('.gfx'), G3 = stations[2].querySelector('.gfx'), G4 = stations[3].querySelector('.gfx');
+    // 1 · engagement: six closed months of bars grow, the latest in orange, the participation number counts up
+    { const t = arrive(0) - 0.1, H = [0.42, 0.5, 0.47, 0.6, 0.66, 0.74];
+      G1.innerHTML = `<div class="abs" style="left:56px;top:48px;font:800 18px Manrope;letter-spacing:.2em;color:#3B7668">ACTIVE PARTICIPATION</div>
+        <div class="abs" id="b1n" style="left:52px;top:84px;font:800 104px/1 Manrope;letter-spacing:-.045em;color:#1E1E1E;font-variant-numeric:tabular-nums">0.0%</div>
+        <div class="abs" style="left:56px;right:56px;bottom:70px;height:300px;display:flex;align-items:flex-end;gap:22px">${H.map((h, k) => `<div class="b1" style="flex:1;height:${h * 100}%;border-radius:14px 14px 6px 6px;background:${k === 5 ? '#E26023' : '#3B7668'};transform-origin:50% 100%"></div>`).join('')}</div>
+        <div class="abs" style="left:56px;right:56px;bottom:30px;display:flex;justify-content:space-between;font:700 16px Manrope;color:#5B5651">${['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'].map((m) => `<span style="flex:1;text-align:center">${m}</span>`).join('')}</div>
+        <div class="abs" id="b1p" style="right:48px;top:56px;padding:10px 18px;border-radius:999px;background:#2A5D51;color:#FAF0DF;font:800 16px Manrope;letter-spacing:.1em">✓ JULY CLOSED</div>`;
+      tl.fromTo(G1.querySelectorAll('.b1'), { scaleY: 0 }, { scaleY: 1, duration: 0.7, stagger: 0.08, ease: 'ebOut', immediateRender: true }, t);
+      const o = { v: 0 }, n = G1.querySelector('#b1n');
+      tl.fromTo(o, { v: 0 }, { v: 73.8, duration: 1.1, ease: 'ebOut', immediateRender: false, onUpdate: () => { n.textContent = o.v.toFixed(1) + '%'; } }, t + 0.2);
+      tl.call(() => { n.textContent = '0.0%'; }, null, t + 0.19);
+      tl.fromTo(G1.querySelector('#b1p'), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(2)', immediateRender: true }, t + 1.0);
+      META.ticks.push(t + 0.2); META.pops.push(t + 1.0); }
+    // 2 · privacy: 30 people sort into groups; the small group locks instead of showing a number
+    { const t = arrive(1) - 0.1, groups = [[0, 12, 36, 'Warehouse', '81%'], [12, 24, 226, 'Office', '64%'], [24, 30, 416, 'Sales', '']];
+      let html = '';
+      for (let k = 0; k < 30; k++) {
+        const gx = 120 + (k % 6) * 100, gy = 110 + Math.floor(k / 6) * 80;
+        html += `<div class="dt" style="position:absolute;left:${gx}px;top:${gy}px;width:34px;height:34px;border-radius:50%;background:${['#3B7668', '#E26023', '#AFCFC4'][k % 3]}"></div>`;
+      }
+      html += groups.map(([a0, a1, y, lab, v], g) => `<div class="gb" style="position:absolute;left:40px;top:${y}px;width:680px;height:166px;border-radius:24px;border:3px dashed ${g === 2 ? '#B04512' : '#3B7668'};opacity:0">
+        <div style="position:absolute;right:28px;top:22px;text-align:right"><div style="font:800 18px Manrope;letter-spacing:.14em;color:#5B5651">${lab.toUpperCase()}</div>
+        <div style="font:800 54px/1.1 Manrope;letter-spacing:-.04em;color:${g === 2 ? '#B04512' : '#1E1E1E'}">${v || ''}</div></div></div>`).join('');
+      html += `<div id="lk2" style="position:absolute;left:520px;top:560px;width:84px;height:84px;border-radius:24px;background:#B04512;display:grid;place-items:center;opacity:0"><svg width="44" height="44" viewBox="0 0 34 34"><rect x="7" y="15" width="20" height="14" rx="4" stroke="#FAF0DF" stroke-width="3.5" fill="none"/><path d="M11 15v-4a6 6 0 0 1 12 0v4" stroke="#FAF0DF" stroke-width="3.5" fill="none"/></svg></div>`;
+      G2.innerHTML = html;
+      const dts = G2.querySelectorAll('.dt'), gbs = G2.querySelectorAll('.gb');
+      tl.fromTo(dts, { scale: 0 }, { scale: 1, duration: 0.4, stagger: 0.012, ease: 'back.out(2)', immediateRender: true }, t);
+      // dots travel into their group rows
+      dts.forEach((d, k) => { const g = groups.findIndex(([a0, a1]) => k >= a0 && k < a1), j = k - groups[g][0];
+        const tx = 76 + (j % 6) * 62 - (120 + (k % 6) * 100), ty = groups[g][2] + 34 + Math.floor(j / 6) * 62 - (110 + Math.floor(k / 6) * 80);
+        tl.to(d, { x: tx, y: ty, duration: 0.8, ease: 'power3.inOut' }, t + 0.55 + (k % 6) * 0.02); });
+      tl.fromTo(gbs, { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.1, immediateRender: true }, t + 1.2);
+      // the small group: its people blur away and the lock lands
+      tl.to(Array.from(dts).slice(24), { filter: 'blur(8px)', opacity: 0.35, duration: 0.4 }, t + 1.55);
+      tl.fromTo(G2.querySelector('#lk2'), { y: -120, opacity: 0, rotation: -20 }, { y: -70, opacity: 1, rotation: 0, duration: 0.55, ease: 'back.out(2.2)', immediateRender: true }, t + 1.6);
+      META.pops.push(t + 0.05, t + 1.2); META.locks = [t + 1.85]; }
+    // 3 · HR: the workbook drops in, three checks tick, an Accepted stamp lands
+    { const t = arrive(2) - 0.1, rows = ['Template EBI-HR-AGG-1', 'Checks passed', 'On file for July'];
+      G3.innerHTML = `<div id="wb3" style="position:absolute;left:60px;top:60px;width:300px;height:380px;border-radius:20px;background:#fff;box-shadow:0 20px 40px -20px rgba(0,0,0,.35);overflow:hidden">
+          <div style="height:58px;background:#1D6F42;color:#fff;font:800 20px Manrope;display:flex;align-items:center;padding:0 22px">julio.xlsx</div>
+          ${Array.from({ length: 7 }, (_, r) => `<div style="height:44px;border-bottom:1px solid #E6DFD8;display:flex">${Array.from({ length: 3 }, (_, c) => `<div style="flex:1;border-right:1px solid #E6DFD8;padding:12px"><div style="height:10px;border-radius:5px;background:${r === 0 ? '#AFCFC4' : '#EAECDE'};width:${60 + ((r * 3 + c) * 17) % 40}%"></div></div>`).join('')}</div>`).join('')}
+        </div>
+        <div style="position:absolute;left:400px;top:80px;width:320px">${rows.map((r) => `<div class="ck" style="display:flex;align-items:center;gap:16px;margin-bottom:34px;opacity:.25">
+          <svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" fill="none" stroke="#3B7668" stroke-width="4"/><path class="tk" d="M14 25l7 7 13-14" fill="none" stroke="#3B7668" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40"/></svg>
+          <span style="font:800 22px/1.25 Manrope;color:#1E1E1E">${r}</span></div>`).join('')}</div>
+        <div id="st3" style="position:absolute;left:250px;top:470px;padding:18px 34px;border-radius:18px;border:5px solid #2A5D51;font:800 40px Manrope;letter-spacing:.12em;color:#2A5D51;transform:rotate(-6deg);opacity:0">ACCEPTED</div>`;
+      tl.fromTo(G3.querySelector('#wb3'), { y: -500, rotation: -10 }, { y: 0, rotation: 0, duration: 0.7, ease: 'back.out(1.4)', immediateRender: true }, t);
+      G3.querySelectorAll('.ck').forEach((c, k) => {
+        tl.to(c, { opacity: 1, duration: 0.2 }, t + 0.6 + k * 0.32);
+        tl.to(c.querySelector('.tk'), { strokeDashoffset: 0, duration: 0.3, ease: 'ebOut' }, t + 0.62 + k * 0.32);
+        META.ticks.push(t + 0.62 + k * 0.32);
+      });
+      tl.fromTo(G3.querySelector('#st3'), { scale: 2.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'power4.in', immediateRender: true }, t + 1.65);
+      tl.to(G3, { x: 6, duration: 0.05, yoyo: true, repeat: 3, ease: 'none' }, t + 2.0);
+      META.stamps.push(t + 1.95); }
+    // 4 · the app: a phone with the real coach screen, chat bubbles pop in turn
+    { const t = arrive(3) - 0.1;
+      G4.style.background = '#2A5D51';
+      G4.innerHTML = `<div class="phone" style="left:${380 - 229}px;top:${520 - 479}px;transform:scale(.62);transform-origin:50% 50%"><div class="screen"><img class="scr" src="assets/screens/clean/Coach_Conversation.jpg"><div class="island"></div></div></div>` +
+        [['Lunch ideas for today?', 450, 110, '#FAF0DF', '#1E1E1E'], ['Grilled chicken bowl 🍗 rice + veggies', 400, 230, '#E26023', '#FFFFFF'], ['Nice pick! Add a glass of water 💧', 430, 370, '#FAF0DF', '#1E1E1E']]
+          .map(([tx, x, y, bg, fg], k) => `<div class="bb" style="position:absolute;left:${x}px;top:${y}px;max-width:300px;padding:16px 20px;border-radius:22px ${k === 0 ? '22px 22px 6px' : '22px 22px 22px 6px'};background:${bg};color:${fg};font:700 20px/1.35 Manrope;box-shadow:0 16px 30px -14px rgba(0,0,0,.5)">${tx}</div>`).join('');
+      tl.fromTo(G4.querySelector('.phone'), { y: 400, rotation: -8 }, { y: 0, rotation: 0, duration: 0.8, ease: 'ebOut', immediateRender: true }, t);
+      G4.querySelectorAll('.bb').forEach((b, k) => { tl.fromTo(b, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(2.2)', immediateRender: true }, t + 0.6 + k * 0.45); META.pops.push(t + 0.62 + k * 0.45); }); }
+    // pull back: all four stations at once, then they collapse into the outro's seeds
+    const tR = arrive(3) + STEP - 0.6;
+    tl.to(W, { x: -480, scale: 0.25, y: 0, duration: 1.0, ease: 'power3.inOut' }, tR);
+    tl.to(s0, { opacity: 0, duration: 0.4 }, tR);
+    META.whooshes.push(tR + 0.1);
+    tl.to(W, { scale: 0.02, x: 960 - 1920 * 0.02 * 2.5, opacity: 0, duration: 0.55, ease: 'ebIn' }, X + G - 0.55);
     META.whooshes.push(X + G - 0.5);
   }
   // ---- 1 · Hook (0 – 7.35): three panels of real teams, one word each, read as one line; they close into the question
   { insertAt(5.95, 1.4);
+    META.hook = [0, 7.35]; META.slams = [0.45, 1.2, 1.95];
     scene('s1', 0, 7.95);
     const P1 = $('#pan1'), WORDS = [['Feel', 'good.'], ['Work', 'well.'], ['Perform.', '']];
     const panels = [['d_meeting', 0.6], ['d_coworkers', 0.4], ['d_office', 0.1]].map(([n, inPt], i) => {
