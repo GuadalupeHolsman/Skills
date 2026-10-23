@@ -59,10 +59,10 @@
   .phone img.scr { position: absolute; left: 0; top: 0; width: 430px; }
   .stB { position: absolute; top: 0; width: 1920px; height: 1080px; }
   .stB .tx { position: absolute; left: 1010px; top: 300px; width: 820px; }
-  .stB .eb { font: 800 20px Manrope; letter-spacing: .24em; color: var(--cream); opacity: .9; }
-  .stB h2 { font: 700 92px/1.04 Cooper; color: var(--cream); margin-top: 18px; } .stB h2 i { font-weight: 300; }
-  .stB p { font: 700 28px/1.45 Manrope; color: var(--cream); margin-top: 26px; max-width: 760px; }
-  .gfx { position: absolute; left: 150px; top: 230px; width: 760px; height: 620px; border-radius: 40px; background: #FAF0DF; box-shadow: 0 50px 100px -40px rgba(60,20,4,.6); overflow: hidden; }
+  .stB .eb { font: 800 20px Manrope; letter-spacing: .24em; color: #F0A26A; }
+  .stB h2 { font: 700 92px/1.04 Cooper; color: var(--cream); margin-top: 18px; } .stB h2 i { font-weight: 300; color: #F0A26A; }
+  .stB p { font: 600 28px/1.45 Manrope; color: #C7DAD2; margin-top: 26px; max-width: 760px; }
+  .gfx { position: absolute; left: 150px; top: 230px; width: 760px; height: 620px; border-radius: 40px; background: #FAF0DF; box-shadow: 0 50px 100px -40px rgba(0,0,0,.6); overflow: hidden; }
   .ben { position: absolute; width: 400px; height: 300px; padding: 34px 32px; border-radius: 30px; background: #FAF0DF; box-shadow: 0 40px 80px -30px rgba(60,20,4,.55); }
   .ben .ic { width: 64px; height: 64px; border-radius: 18px; background: #2A5D51; display: grid; place-items: center; margin-bottom: 22px; }
   .ben .n { position: absolute; right: 30px; top: 34px; font: 800 15px Manrope; letter-spacing: .2em; color: #B04512; }
@@ -151,8 +151,8 @@
   </section>
 
   <!-- 7b · Benefits -->
-  <section class="scene" id="sB" style="background:radial-gradient(120% 110% at 50% 40%,#D9581D 0%,#C9501A 60%,#B84816 100%)">
-    <div class="blob" style="width:1100px;height:800px;left:-520px;top:-380px;opacity:.55;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:1380px;top:640px;opacity:.45;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
+  <section class="scene" id="sB" style="background:radial-gradient(110% 100% at 50% 40%,#24574C 0%,#173F37 55%,#10302A 100%)">
+    <div class="blob" style="width:1100px;height:800px;left:-520px;top:-380px;opacity:.35;background:radial-gradient(circle,#3B7668 0%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:1380px;top:640px;opacity:.3;background:radial-gradient(circle,#E26023 0%,transparent 70%)"></div>
     <div class="abs" id="worldB" style="left:0;top:0;width:9600px;height:1080px;transform-origin:0 50%"></div>
   </section>
 
@@ -539,7 +539,7 @@
     META.chapters.push(T0 - 0.45);
     // focus pull: the rest of the page drops out of focus; the featured part lifts off the page toward camera
     const base = Array.from(pgOv.children);
-    tl.to(base, { filter: 'blur(5px) saturate(.85) brightness(.97)', duration: 0.5, ease: 'ebSoft' }, T0);
+    tl.to(base, { filter: 'blur(6px) saturate(.8) brightness(.8)', duration: 0.5, ease: 'ebSoft' }, T0);
     tl.set(base, { filter: 'none' }, 0);
     tl.to(CUR, { opacity: 0, duration: 0.25 }, T0);
     tl.fromTo('#tour', { y: 60, opacity: 0, clipPath: 'inset(100% 0 0 0 round 30px)' }, { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0 round 30px)', duration: 0.55, ease: 'ebPush', immediateRender: false }, T0);
@@ -658,7 +658,7 @@
     const W = $('#worldB'), NS = 'http://www.w3.org/2000/svg';
     const st = (k, html) => { const d = document.createElement('div'); d.className = 'stB'; d.style.left = (k * 1920) + 'px'; d.innerHTML = html; W.appendChild(d); return d; };
     // station 0: the title
-    const s0 = st(0, `<div class="abs h1" style="left:0;right:0;top:380px;text-align:center;font-size:120px">What your organization<br><i>gets.</i></div>`);
+    const s0 = st(0, `<div class="abs h1" style="left:0;right:0;top:380px;text-align:center;font-size:120px">What your organization<br><i style="color:#F0A26A">gets.</i></div>`);
     reveal(s0.querySelector('.h1'), X + 0.35, 0.07); META.titles.push(X + 0.4);
     const BEN = [
       ['01 · Engagement', 'Real engagement, <i>every month.</i>', 'Score, active users and participation for each closed month.'],
@@ -668,10 +668,12 @@
     const stations = BEN.map(([eb, h, p], i) => st(i + 1, `<div class="gfx"></div><div class="tx"><div class="eb">${eb.toUpperCase()}</div><h2>${h}</h2><p>${p}</p></div>`));
     const arrive = (i) => X + 1.7 + i * STEP + 0.9;                  // camera lands on station i+1
     stations.forEach((S, i) => {
-      tl.to(W, { x: -(i + 1) * 1920, duration: 0.9, ease: 'power2.inOut' }, arrive(i) - 0.9);
+      tl.to(W, { x: -(i + 1) * 1920, duration: 1.0, ease: 'power2.inOut' }, arrive(i) - 1.0);
+      const prevTx = i === 0 ? s0.querySelector('.h1') : stations[i - 1].querySelector('.tx');
+      tl.to(prevTx, { opacity: 0, duration: 0.2, ease: 'ebIn' }, arrive(i) - 1.15);
       META.whooshes.push(arrive(i) - 0.8);
       reveal(S.querySelector('h2'), arrive(i) - 0.15, 0.06); META.titles.push(arrive(i) - 0.1);
-      tl.fromTo(S.querySelector('.eb'), { opacity: 0, x: -20 }, { opacity: 0.9, x: 0, duration: 0.5, immediateRender: true }, arrive(i) - 0.3);
+      tl.fromTo(S.querySelector('.eb'), { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, immediateRender: true }, arrive(i) - 0.3);
       tl.fromTo(S.querySelector('p'), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, immediateRender: true }, arrive(i) + 0.35);
       tl.fromTo(S.querySelector('.gfx'), { y: 80, rotation: -3, scale: 0.92 }, { y: 0, rotation: 0, scale: 1, duration: 0.9, ease: 'ebOut', immediateRender: true }, arrive(i) - 0.55);
     });
@@ -733,7 +735,7 @@
       META.stamps.push(t + 1.95); }
     // 4 · the app: a phone with the real coach screen, chat bubbles pop in turn
     { const t = arrive(3) - 0.1;
-      G4.style.background = '#2A5D51';
+      G4.style.background = '#E26023';
       G4.innerHTML = `<div class="phone" style="left:${380 - 229}px;top:${520 - 479}px;transform:scale(.62);transform-origin:50% 50%"><div class="screen"><img class="scr" src="assets/screens/clean/Coach_Conversation.jpg"><div class="island"></div></div></div>` +
         [['Lunch ideas for today?', 450, 110, '#FAF0DF', '#1E1E1E'], ['Grilled chicken bowl 🍗 rice + veggies', 400, 230, '#E26023', '#FFFFFF'], ['Nice pick! Add a glass of water 💧', 430, 370, '#FAF0DF', '#1E1E1E']]
           .map(([tx, x, y, bg, fg], k) => `<div class="bb" style="position:absolute;left:${x}px;top:${y}px;max-width:300px;padding:16px 20px;border-radius:22px ${k === 0 ? '22px 22px 6px' : '22px 22px 22px 6px'};background:${bg};color:${fg};font:700 20px/1.35 Manrope;box-shadow:0 16px 30px -14px rgba(0,0,0,.5)">${tx}</div>`).join('');
@@ -743,8 +745,11 @@
     const tR = arrive(3) + STEP - 0.6;
     tl.to(W, { x: -480, scale: 0.25, y: 0, duration: 1.0, ease: 'power3.inOut' }, tR);
     tl.to(s0, { opacity: 0, duration: 0.4 }, tR);
+    tl.fromTo(stations.map((S) => S.querySelector('.tx')), { opacity: 0 }, { opacity: 1, duration: 0.4, immediateRender: false }, tR + 0.9);
     META.whooshes.push(tR + 0.1);
     tl.to(W, { scale: 0.02, x: 960 - 1920 * 0.02 * 2.5, opacity: 0, duration: 0.55, ease: 'ebIn' }, X + G - 0.55);
+    tl.set('#s8', { visibility: 'visible' }, X + G - 0.3);
+    tl.fromTo('#s8', { clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(150% at 50% 50%)', duration: 0.8, ease: 'ebIn', immediateRender: false }, X + G - 0.3);
     META.whooshes.push(X + G - 0.5);
   }
   // ---- 1 · Hook (0 – 7.35): three panels of real teams, one word each, read as one line; they close into the question
