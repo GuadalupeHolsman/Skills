@@ -8,11 +8,12 @@ Todo pasa en el **CH 02 · Tequila Don Julio**. Locky no aparece dibujado (nivel
 
 El orden sigue lo que vive el invitado: qué es → preparar la app antes de llegar → recibir la key → tap en la puerta → la noche.
 
-0. **Portada:** tele de tubo en el CH 02 (al tocarla cambia la frase), "Esta noche, con Tequila Don Julio" y aviso +18
+0. **Portada:** con un QR chico arriba a la derecha ("Tus fotos de la noche") que abre `CONFIG.fotosUrl`.
+    tele de tubo en el CH 02 (al tocarla cambia la frase), "Esta noche, con Tequila Don Julio" y aviso +18
 1. **01 · Quién te invitó:** PR, Equipo Loomlock, Equipo Don Julio, Equipo Bikini o "Quería conocer a Locky". Se envía al Sheet a los 3 s de elegir
 2. **02 · Tu nombre:** "¿Cómo te llamas?" con teclado en pantalla (QWERTY con Ñ). Es opcional; el nombre viaja con la invitación al Sheet (columna E) y aparece en el cierre ("¿Todo listo, Lupe?"). La invitación se envía al salir de esta pantalla
 2b. **Qué es:** "Escanea tu key. Apps en pausa." Solo la animación grande: la key toca el celular y aparece el candado
-3. **Prepara tu app (pasos 1-5):** a la izquierda una barra de pasos numerada (hechos con ✓, el actual en amarillo); a la derecha las pantallas reales. pantallas reales de la guía *How Experience Mode Works* (iPhone): 1 “Join an experience”, 2 cómo funciona, 3 llamadas y SMS siguen, 4 elige el modo, 5 elige qué queda abierto. Pasan solas o con un toque; después del paso 4 se abre el selector y se toca Guardar
+3. **Prepara tu app (pasos 1-6):** el paso 1 es "Descarga la app" (App Store / Google Play); después los 5 de la guía. a la izquierda una barra de pasos numerada (hechos con ✓, el actual en amarillo); a la derecha las pantallas reales. pantallas reales de la guía *How Experience Mode Works* (iPhone): 1 “Join an experience”, 2 cómo funciona, 3 llamadas y SMS siguen, 4 elige el modo, 5 elige qué queda abierto. Pasan solas o con un toque; después del paso 4 se abre el selector y se toca Guardar
 4. **Las keys ("Dos keys, dos usos"):** una sola key grande sobre el azul, sin tarjetas: de un lado es la key de la experiencia (Locky, negra) y al darla vuelta es la key de recuerdo (Don Julio). Arrastrar la inclina en 3D, tocar la da vuelta, y arriba hay dos botones para elegir el lado. Debajo cambia el texto (para qué sirve cada una). Si nadie la toca, se da vuelta sola cada 5 s.
    Antes (versión con dos tarjetas): las keys se mueven: arrastrarlas las inclina en 3D y tocarlas las da vuelta (dorso de la experiencia: "Escanéala en la entrada"; dorso del regalo: el de Don Julio).
    Antes: la key de la experiencia (la del lugar); al tocarla se da vuelta

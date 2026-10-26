@@ -995,6 +995,30 @@ h2 .w{display:inline-block}
 @keyframes qrScan{0%,100%{transform:translateY(0)}50%{transform:translateY(540px)}}
 .qr-t{margin:0;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:42px;line-height:1.1;color:var(--yellow);text-shadow:4px 4px 0 var(--screen)}
 .qr-s{margin:0;text-align:center;font-size:30px;font-weight:600;color:var(--text);max-width:24ch}
+
+/* step 1 of the app: get it from the stores */
+.ov-track .dl-scr{position:absolute;inset:0;transform:translateX(104%);transition:transform .9s cubic-bezier(.2,.9,.25,1.04),filter .9s ease;background:linear-gradient(170deg,#2F3AD0,#1b2390);color:#fff;display:flex;flex-direction:column;align-items:center;padding:64px 34px 0;gap:14px;text-align:center}
+.ov-track .dl-scr.cur{transform:none}
+.ov-track .dl-scr.prev{transform:translateX(-30%) scale(.92);filter:brightness(.5)}
+.dl-logo{font:700 30px/1 var(--font-mono);letter-spacing:1px}
+.dl-lk{width:190px;height:240px;margin:6px 0 0}
+.dl-scr b{font:800 italic 44px/1 var(--font-display);text-transform:uppercase;color:var(--yellow)}
+.dl-s{font:600 22px/1 var(--font-display);opacity:.85;margin-bottom:14px}
+.dl-b{display:flex;align-items:center;gap:14px;width:300px;padding:12px 20px;border-radius:16px;background:#000;border:2px solid #a6a6a6;text-align:left;font:700 30px/1.05 var(--font-display)}
+.dl-b small{display:block;font-size:15px;font-weight:500;letter-spacing:.5px}
+.dl-b i{width:38px;height:38px;flex:none}
+.dl-ap{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%231E90FF'/%3E%3Cpath d='M8 16l4-8 4 8M9.3 13.5h5.4' stroke='%23fff' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.dl-gp{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 3l14 9-14 9z' fill='%2300C853'/%3E%3Cpath d='M5 3l9 9-9 9z' fill='%2300B0FF'/%3E%3Cpath d='M14 12l5 0-14 9z' fill='%23FF3D00'/%3E%3Cpath d='M14 12l5 0L5 3z' fill='%23FFD600'/%3E%3C/svg%3E") center/contain no-repeat}
+.rail{gap:22px}
+.rail span{font-size:28px}
+.rail li.now span{font-size:33px}
+/* corner QR on the attract screen */
+.qr-mini{position:absolute;right:56px;top:150px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:10px;width:190px}
+.qr-mini .qr{width:190px;height:190px;padding:16px;background:var(--paper);border:5px solid var(--screen);border-radius:24px;box-shadow:8px 8px 0 var(--screen)}
+.qr-mini span{font:700 18px/1.15 var(--font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--yellow);text-align:center}
+/* "Qué es": key + phone bigger, centred */
+#s1 .cause{flex:1;height:auto;transform:scale(1.62);transform-origin:center}
+#s1 .cz-cap{margin-bottom:60px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1058,6 +1082,7 @@ h2 .w{display:inline-block}
       <span class="tagline focus d2"><b>live now</b>, post later.</span>
       <span class="host focus d2" id="host"></span>
     </div>
+    <div class="qr-mini" id="qr-mini-wrap"><div class="qr" id="qr0"></div><span data-t="qr.mini">Tus fotos</span></div>
     <button class="start-btn" id="start"><span class="tap"></span><span data-t="s0.cta">Toca para empezar</span></button>
     <div class="meta-row">
       <span class="event" id="event-tag" hidden></span>
@@ -1134,10 +1159,10 @@ h2 .w{display:inline-block}
     <div class="astep" id="astep" aria-live="polite"></div>
     <div class="stage-area">
       <ol class="rail" id="rail">
-        <li><b>1</b><span data-t="app.c1"></span></li><li><b>2</b><span data-t="app.c2"></span></li><li><b>3</b><span data-t="app.c3"></span></li><li><b>4</b><span data-t="app.c4"></span></li><li><b>5</b><span data-t="app.c5"></span></li>
+        <li><b>1</b><span data-t="app.c1"></span></li><li><b>2</b><span data-t="app.c2"></span></li><li><b>3</b><span data-t="app.c3"></span></li><li><b>4</b><span data-t="app.c4"></span></li><li><b>5</b><span data-t="app.c5"></span></li><li><b>6</b><span data-t="app.c6"></span></li>
       </ol>
       <div class="phone" id="phone1">
-        <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""><img src="{{APP5}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" id="tp1" style="left:50%;top:91%"></i><span class="hl" id="hl1"><b data-t="hl.t">Toca aquí</b></span><i class="hand" id="hand1"></i><i class="tap-rip" id="rip"></i></div><span class="lens" id="lens"><i></i></span>
+        <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><div class="dl-scr"><span class="dl-logo">loomlock</span><svg class="dl-lk" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg><b data-t="dl.t">Descarga la app</b><span class="dl-s" data-t="dl.s">Gratis · sin cuenta</span><span class="dl-b"><i class="dl-ap"></i><span><small data-t="dl.ap1">Descárgala en el</small>App Store</span></span><span class="dl-b"><i class="dl-gp"></i><span><small data-t="dl.gp1">Disponible en</small>Google Play</span></span></div><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""><img src="{{APP5}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" id="tp1" style="left:50%;top:91%"></i><span class="hl" id="hl1"><b data-t="hl.t">Toca aquí</b></span><i class="hand" id="hand1"></i><i class="tap-rip" id="rip"></i></div><span class="lens" id="lens"><i></i></span>
         <div class="screen-in">
           <div class="app-bar"><span class="ab-logo">loomlock</span><span class="ab-t" data-t="s1.appbar">Apps a pausar</span></div>
           <div class="status" id="status1"></div>
@@ -1195,7 +1220,7 @@ h2 .w{display:inline-block}
       <button class="drag-card" id="drag-card" aria-label="Key Loomlock: toca o arrastra hasta el celular"><i class="tp" style="left:50%;top:50%"></i></button>
       <svg class="down-arrow"><use href="#arrow-d"/></svg>
       <div class="phone" id="phone3">
-        <div class="app-ov" id="ov3"><img src="{{APP6}}" alt=""><span class="hl" style="left:4%;top:79.5%;width:92%;height:6.5%"><b data-t="hl.scan">Escanea la key</b></span><i class="hand" style="left:62%;top:83%"></i><b class="ov-n">6</b></div>
+        <div class="app-ov" id="ov3"><img src="{{APP6}}" alt=""><span class="hl" style="left:4%;top:79.5%;width:92%;height:6.5%"><b data-t="hl.scan">Escanea la key</b></span><i class="hand" style="left:62%;top:83%"></i><b class="ov-n">7</b></div>
         <div class="screen-in">
           <div class="clock" data-clock>21:30</div>
           <div class="status" id="status3" data-t="s3.status">Esperando la key…</div>
@@ -1310,7 +1335,7 @@ h2 .w{display:inline-block}
 
   const T = {
     es: {
-      "kInv":"Quién te invitó","kFotos":"Tus fotos","nFotos":"Tus fotos","tFotos":"Tus fotos, <em>después.</em>","qr.t":"Escanéalo con la cámara de tu celular","qr.s":"Las fotos de la noche quedan en la web de Loomlock Experiences","hl.t":"Toca aquí","hl.scan":"Escanea la key","cz.c0":"Toca la key","cz.c1":"¡Listo! Apps en pausa","kx.back":"Escanéala en la entrada","k.hint":"Muévela · tócala para darla vuelta","kName":"Tu nombre","nName":"Tu nombre","tName":"¿Cómo <em>te llamas?</em>","nm.ph":"Escribe tu nombre","nm.hi":"¡Hola, {n}!","nm.skip":"Puedes saltarlo","nm.ok":"Listo","nm.space":"espacio","s5.titleN":"¿Todo listo, {n}? <em>Ve al tótem.</em>","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c1":"Elige “Unirme a una experiencia”","app.c2":"Mira cómo funciona","app.c3":"Llamadas y SMS siguen","app.c4":"Elige el modo","app.c5":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
+      "kInv":"Quién te invitó","qr.mini":"Tus fotos de la noche","app.c1":"Descarga la app","dl.t":"Descarga la app","dl.s":"Gratis · sin cuenta","dl.ap1":"Descárgala en el","dl.gp1":"Disponible en","kFotos":"Tus fotos","nFotos":"Tus fotos","tFotos":"Tus fotos, <em>después.</em>","qr.t":"Escanéalo con la cámara de tu celular","qr.s":"Las fotos de la noche quedan en la web de Loomlock Experiences","hl.t":"Toca aquí","hl.scan":"Escanea la key","cz.c0":"Toca la key","cz.c1":"¡Listo! Apps en pausa","kx.back":"Escanéala en la entrada","k.hint":"Muévela · tócala para darla vuelta","kName":"Tu nombre","nName":"Tu nombre","tName":"¿Cómo <em>te llamas?</em>","nm.ph":"Escribe tu nombre","nm.hi":"¡Hola, {n}!","nm.skip":"Puedes saltarlo","nm.ok":"Listo","nm.space":"espacio","s5.titleN":"¿Todo listo, {n}? <em>Ve al tótem.</em>","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c2":"Elige “Unirme a una experiencia”","app.c3":"Mira cómo funciona","app.c4":"Llamadas y SMS siguen","app.c5":"Elige el modo","app.c6":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
       "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
       "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
       "inv.hint":"Toca una opción",
@@ -1379,7 +1404,7 @@ h2 .w{display:inline-block}
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",msg:"Mensajes",mp:"Mapas"}
     },
     en: {
-      "kInv":"Who invited you","kFotos":"Your photos","nFotos":"Your photos","tFotos":"Your photos, <em>later.</em>","qr.t":"Scan it with your phone camera","qr.s":"The night's photos live on the Loomlock Experiences website","hl.t":"Touch here","hl.scan":"Scan the key","cz.c0":"Touch the key","cz.c1":"Done! Apps on pause","kx.back":"Scan it at the door","k.hint":"Move it · touch to flip it","kName":"Your name","nName":"Your name","tName":"What's <em>your name?</em>","nm.ph":"Type your name","nm.hi":"Hi, {n}!","nm.skip":"You can skip it","nm.ok":"Done","nm.space":"space","s5.titleN":"All set, {n}? <em>Head to the totem.</em>","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c1":"Choose “Join an experience”","app.c2":"See how it works","app.c3":"Calls & SMS stay on","app.c4":"Pick a mode","app.c5":"Pick what stays open","tInv":"Who <em>invited you?</em>",
+      "kInv":"Who invited you","qr.mini":"Your photos from tonight","app.c1":"Get the app","dl.t":"Get the app","dl.s":"Free · no account","dl.ap1":"Download on the","dl.gp1":"Get it on","kFotos":"Your photos","nFotos":"Your photos","tFotos":"Your photos, <em>later.</em>","qr.t":"Scan it with your phone camera","qr.s":"The night's photos live on the Loomlock Experiences website","hl.t":"Touch here","hl.scan":"Scan the key","cz.c0":"Touch the key","cz.c1":"Done! Apps on pause","kx.back":"Scan it at the door","k.hint":"Move it · touch to flip it","kName":"Your name","nName":"Your name","tName":"What's <em>your name?</em>","nm.ph":"Type your name","nm.hi":"Hi, {n}!","nm.skip":"You can skip it","nm.ok":"Done","nm.space":"space","s5.titleN":"All set, {n}? <em>Head to the totem.</em>","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c2":"Choose “Join an experience”","app.c3":"See how it works","app.c4":"Calls & SMS stay on","app.c5":"Pick a mode","app.c6":"Pick what stays open","tInv":"Who <em>invited you?</em>",
       "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
       "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
       "inv.hint":"Choose an option",
@@ -1965,21 +1990,21 @@ h2 .w{display:inline-block}
   let adI = 0;
   /* left, top, width, height (% of the screen) of what each real screen is about */
   /* what the magnifier reads on each screen: centre x, y (% of the screen) and zoom */
-  const LENS = [[30, 53.5, 1.8], [58, 93.5, 2.3], [50, 93, 2.3], [27, 37.8, 2.0], [22, 36.6, 1.8]];
-  const SPOTS = [[3, 49.5, 94, 9], [29, 90, 65, 6.5], [4, 89, 92, 6.3], [3, 33.8, 94, 7.6], [3, 31.3, 94, 10.5]];
+  const LENS = [[50, 60, 1.8], [30, 53.5, 1.8], [58, 93.5, 2.3], [50, 93, 2.3], [27, 37.8, 2.0], [22, 36.6, 1.8]];
+  const SPOTS = [[6, 47.5, 88, 23], [3, 49.5, 94, 9], [29, 90, 65, 6.5], [4, 89, 92, 6.3], [3, 33.8, 94, 7.6], [3, 31.3, 94, 10.5]];
   const ov1 = $("#ov1");
   function renderAd(){
-    $$("#ov-track img").forEach((im, i) => { im.classList.toggle("prev", i < adI); im.classList.toggle("cur", i === adI) });
+    $$("#ov-track > *").forEach((im, i) => { im.classList.toggle("prev", i < adI); im.classList.toggle("cur", i === adI) });
     clearTimeout(renderAd.t); renderAd.t = setTimeout(() => { $("#ov-n").textContent = adI + 1 }, 450);
     const [l, tp, w, h] = SPOTS[adI];
     $("#tp1").style.left = (l + w / 2) + "%"; $("#tp1").style.top = (tp + h / 2) + "%";
     /* outline what to touch on this real screen, with a label and a hand that touches it */
     const hl = $("#hl1").style; hl.left = l + "%"; hl.top = tp + "%"; hl.width = w + "%"; hl.height = h + "%";
-    $("#hl1").classList.toggle("below", tp < 20);
+    $("#hl1").classList.toggle("below", tp < 20 || adI === 0);
     const hd = $("#hand1").style; hd.left = (l + w * .62) + "%"; hd.top = (tp + h * .55) + "%";
     const hb = $("#hl1"); hb.classList.remove("go"); void hb.offsetWidth; hb.classList.add("go");
     /* magnifier: zoom x2.3 on the spot's centre of the real screen */
-    const lens = $("#lens"), img = $$("#ov-track img")[adI], SW = 412, SH = 892, L = 250, Z = LENS[adI][2];
+    const lens = $("#lens"), img = $$("#ov-track > *")[adI] || {}, SW = 412, SH = 892, L = 250, Z = LENS[adI][2];
     const cx = LENS[adI][0] / 100, cy = LENS[adI][1] / 100;
     lens.style.backgroundImage = `url("${img.src}")`;
     lens.style.backgroundSize = `${SW * Z}px ${SH * Z}px`;
@@ -1988,14 +2013,14 @@ h2 .w{display:inline-block}
     lens.classList.remove("pop"); void lens.offsetWidth; lens.classList.add("pop");
     renderRail();
     const as = $("#astep"); as.classList.remove("in"); void as.offsetWidth; as.classList.add("in");
-    as.innerHTML = `<div class="as-row"><b>${adI + 1}</b><span class="as-t">${t("app.c" + (adI + 1))}</span></div><div class="as-d">${[0, 1, 2, 3, 4].map(i => `<i class="${i === adI ? "on" : ""}"></i>`).join("")}</div>`;
+    as.innerHTML = `<div class="as-row"><b>${adI + 1}</b><span class="as-t">${t("app.c" + (adI + 1))}</span></div><div class="as-d">${[0, 1, 2, 3, 4, 5].map(i => `<i class="${i === adI ? "on" : ""}"></i>`).join("")}</div>`;
   }
   function renderRail(){
-    const st = ov1.classList.contains("gone") ? (saved1 ? 5 : 4) : adI;
+    const st = ov1.classList.contains("gone") ? (saved1 ? 6 : 5) : adI;
     $$("#rail li").forEach((li, i) => { li.classList.toggle("done", i < st); li.classList.toggle("now", i === st) });
-    $("#rail").style.setProperty("--rp", Math.min(st, 4) * 25 + "%");
+    $("#rail").style.setProperty("--rp", Math.min(st, 5) * 20 + "%");
   }
-  const adGo = () => { if (adI < 4){ adI++; renderAd() } else { ov1.classList.add("gone"); renderRail() } };
+  const adGo = () => { if (adI < 5){ adI++; renderAd() } else { ov1.classList.add("gone"); renderRail() } };
   /* a tap lands on the button first, then the next screen pushes in */
   function adTap(){
     const r = $("#rip"), d = $("#tp1").style; r.style.left = d.left; r.style.top = d.top;
@@ -2144,7 +2169,7 @@ h2 .w{display:inline-block}
 
   /* QR for the photos page (CONFIG.fotosUrl), drawn locally so it works offline */
   function renderQR(){
-    try { const q = qrcode(0, "M"); q.addData(CONFIG.fotosUrl); q.make(); $("#qr").innerHTML = q.createSvgTag({cellSize: 8, margin: 0, scalable: true}) } catch (e) {}
+    try { const q = qrcode(0, "M"); q.addData(CONFIG.fotosUrl); q.make(); const svg = q.createSvgTag({cellSize: 8, margin: 0, scalable: true}); $("#qr").innerHTML = svg; $("#qr0").innerHTML = svg } catch (e) {}
   }
   renderQR();
 
