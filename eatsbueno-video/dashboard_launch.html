@@ -45,8 +45,8 @@
   #cursor { position: absolute; left: 0; top: 0; width: 26px; height: 34px; z-index: 50; pointer-events: none; filter: drop-shadow(0 3px 4px rgba(0,0,0,.3)); }
   .clickring { position: absolute; left: 0; top: 0; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; border: 3px solid rgba(59,118,104,.8); opacity: 0; z-index: 49; }
   /* captions over the product */
-  .capt { position: absolute; left: 96px; top: 360px; width: 700px; font: 700 76px/1.06 Cooper; color: #173F37; z-index: 31; } .capt i { font-weight: 300; color: #B04512; }
-  .capt small { display: block; font: 600 27px/1.45 Manrope; letter-spacing: 0; color: #4A4540; margin-top: 26px; max-width: 600px; }
+  .capt { position: absolute; left: 96px; top: 360px; width: 700px; font: 700 76px/1.06 Cooper; color: #FFF6EC; z-index: 31; } .capt i { font-weight: 300; color: #FF8A4C; }
+  .capt small { display: block; font: 600 27px/1.45 Manrope; letter-spacing: 0; color: #AEB4C0; margin-top: 26px; max-width: 600px; }
   .chip { position: absolute; display: flex; align-items: center; gap: 12px; padding: 14px 20px 14px 14px; border-radius: 14px; background: #fff; box-shadow: 0 30px 60px -20px rgba(0,0,0,.45);
           font: 700 17px Manrope; color: var(--ink); z-index: 45; }
   .chip .xl { width: 40px; height: 48px; border-radius: 8px; background: #1D6F42; color: #fff; display: grid; place-items: center; font: 800 13px Manrope; }
@@ -102,8 +102,8 @@
   </section>
 
   <!-- 3–6 · The product, inside one browser window -->
-  <section class="scene" id="s3" style="background:radial-gradient(90% 90% at 50% 55%,#FBEBDD 0%,#F6E3D2 45%,#EFD3BE 100%)">
-    <div class="abs" id="frameSh" style="left:860px;top:44px;right:44px;bottom:44px;border-radius:28px;background:#EDD5C2;box-shadow:0 50px 100px -40px rgba(110,50,20,.45),0 0 0 1px rgba(110,50,20,.08);opacity:0"></div>
+  <section class="scene" id="s3" style="background:radial-gradient(70% 80% at 70% 50%,#232838 0%,#12151C 55%,#0A0C10 100%)">
+    <div class="blob" id="glowA" style="width:1100px;height:800px;left:860px;top:140px;opacity:.32;background:radial-gradient(circle,#FF6A2B 0%,transparent 68%)"></div><div class="blob" style="width:900px;height:700px;left:-300px;top:560px;opacity:.16;background:radial-gradient(circle,#2BB3A3 0%,transparent 70%)"></div>
     <div class="abs" id="frame" style="inset:0">
     <div class="abs" id="drift" style="inset:0;transform-origin:960px 540px">
     <div class="abs" id="cam" style="inset:0;transform-origin:960px 540px">
@@ -122,12 +122,13 @@
     </div>
     </div>
     </div>
+    <div class="abs" id="hero" style="inset:0;z-index:25;pointer-events:none"></div>
     <div class="capt" id="capA" style="display:none">See your program<br><i>at work.</i><small>One clear score and real participation, every closed month.</small></div>
     <div class="capt" id="capB" style="display:none">Know how your team<br><i>is really doing.</i><small>Self-reported energy and HR-reported absence, against your own baseline.</small></div>
     <div class="capt" id="tour" style="width:700px;opacity:0">
-      <div id="tourN" style="height:28px;overflow:hidden;font:800 20px Manrope;letter-spacing:.24em;color:#B04512;margin-bottom:18px;position:relative"></div>
+      <div id="tourN" style="height:28px;overflow:hidden;font:800 20px Manrope;letter-spacing:.24em;color:#FF8A4C;margin-bottom:18px;position:relative"></div>
       <div id="tourT" style="height:176px;overflow:hidden;position:relative"></div>
-      <div id="tourS" style="height:84px;overflow:hidden;position:relative;font:600 27px/1.45 Manrope;color:#4A4540;margin-top:18px"></div>
+      <div id="tourS" style="height:84px;overflow:hidden;position:relative;font:600 27px/1.45 Manrope;color:#AEB4C0;margin-top:18px"></div>
     </div>
     <div class="capt" id="capC">Small groups are<br><i>never shown.</i><small>Below the minimum reporting size, a result is withheld, never shown as zero.</small></div>
     <div class="capt" id="capD">Built for busy<br><i>HR teams.</i><small>One monthly workbook of group totals. Upload, check, on file.</small></div>
@@ -364,13 +365,25 @@
   const winTo = (props, t, d = 1.0) => tl.to(CAM, { ...props, duration: d, ease: 'ebSoft' }, t);
   tl.fromTo('#drift', { scale: 1, x: 0, y: 0 }, { scale: 1.05, x: -18, y: -8, duration: 34.8 + 2.0 + 18.7 - 10.2, ease: 'none', immediateRender: true }, 10.2);
   tl.fromTo('#drift', { rotation: -0.25 }, { rotation: 0.25, duration: 34.8 + 2.0 + 18.7 - 10.2, ease: 'sine.inOut', immediateRender: true }, 10.2);
-  // page coordinate (px, py) → stage point, for a given cam scale s, so the camera can aim at any part of the page
-  const aim = (px, py, s, sx = 960, sy = 470) => { const X = 240 + px, Y = 72 + 46 + py; return { scale: s, x: sx - (960 + (X - 960) * s), y: sy - (540 + (Y - 540) * s) }; };
-  // split screen for every caption: the product slides into a rounded frame on the right, the words sit on the peach ground
-  const FULL = 'inset(0px 0px 0px 0px round 0px)', SPLIT = 'inset(44px 44px 44px 860px round 28px)';
-  tl.set('#frame', { clipPath: FULL }, 0);
-  const split = (on, t) => { tl.to('#frame', { clipPath: on ? SPLIT : FULL, duration: 0.8, ease: 'ebSoft' }, t);
-    tl.to('#frameSh', { opacity: on ? 1 : 0, duration: on ? 0.5 : 0.3, ease: 'ebSoft' }, on ? t + 0.35 : t); };
+  // for every caption the window steps to the right of the dark stage and dims; the words sit on the left
+  const POSE = { scale: 0.68, x: 400, y: 10 };
+  const split = (on, t) => { if (on) winTo(POSE, t, 0.9);
+    tl.to('#frame', { filter: on ? 'brightness(.62) saturate(.85)' : 'brightness(1) saturate(1)', duration: 0.6, ease: 'ebSoft' }, on ? t + 0.3 : t); };
+  tl.set('#frame', { filter: 'brightness(1) saturate(1)' }, 0);
+  // the featured part as a crisp copy that flies out of the posed window toward camera, then goes back in
+  const hero = (bg, r, scroll, t, out, cx = 1360, cy = 560) => {
+    const sx = 960 + (240 + r[0] - 960) * POSE.scale + POSE.x, sy = 540 + (118 + r[1] - scroll - 540) * POSE.scale + POSE.y;
+    const k = Math.min(900 / r[2], 620 / r[3], 2.0);
+    const L = document.createElement('div'); L.className = 'abs';
+    L.style.cssText = `left:0;top:0;width:${r[2]}px;height:${r[3]}px;border-radius:14px;overflow:hidden;transform-origin:0 0;opacity:0;background:${bg}`;
+    const sh = document.createElement('div');
+    sh.style.cssText = 'position:absolute;inset:-20%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.5) 50%,transparent 60%);transform:translateX(-120%)';
+    L.appendChild(sh); $('#hero').appendChild(L);
+    tl.fromTo(L, { x: sx, y: sy, scale: POSE.scale, opacity: 0, boxShadow: '0 0 0 rgba(0,0,0,0)' },
+      { x: cx - r[2] * k / 2, y: cy - r[3] * k / 2, scale: k, opacity: 1, boxShadow: '0 70px 120px -40px rgba(0,0,0,.85), 0 0 90px rgba(255,120,60,.22)', duration: 0.75, ease: 'ebPush', immediateRender: false }, t);
+    tl.to(sh, { x: '240%', duration: 0.9, ease: 'ebSoft' }, t + 0.45);
+    tl.to(L, { x: sx, y: sy, scale: POSE.scale, opacity: 0, boxShadow: '0 0 0 rgba(0,0,0,0)', duration: 0.5, ease: 'ebIn' }, out);
+  };
   const caption = (id, t0, t1) => {
     split(true, t0 - 0.3);
     tl.set($(id), { opacity: 0 }, 0); tl.set($(id), { opacity: 1 }, t0 - 0.1);
@@ -407,7 +420,7 @@
   const hl = document.createElement('div'); hl.className = 'abs';
   hl.style.cssText = `left:${VR[0] - 4}px;top:${VR[1] - 4}px;width:${VR[2] + 8}px;height:${VR[3] + 8}px;border-radius:12px;border:3px solid #E26023;box-shadow:0 0 0 6px rgba(226,96,35,.15);opacity:0;z-index:3`;
   pgSub.appendChild(hl);
-  winTo(aim(1000, 580, 1.3, 1370, 540), 24.15, 1.0);
+  tl.to(CUR, { opacity: 0, duration: 0.25 }, 24.1); tl.to(CUR, { opacity: 1, duration: 0.25 }, 27.45);
   tl.fromTo(hl, { opacity: 0, scale: 1.03 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'ebOut', immediateRender: false }, 24.9);
   // the lock clicks shut
   const lk = document.createElement('div'); lk.className = 'abs';
@@ -416,6 +429,7 @@
   tl.fromTo(lk, { scale: 0.3, opacity: 1 }, { scale: 2.2, opacity: 0, duration: 0.7, ease: 'ebOut', immediateRender: false }, 25.05);
   META.success.push(25.05);
   caption('#capC', 25.1, 27.2);
+  hero(`url(assets/dash/subgroups.png) ${-(VR[0] - 6)}px ${-(VR[1] - 6)}px / 1440px auto no-repeat #fff`, [VR[0] - 6, VR[1] - 6, VR[2] + 12, VR[3] + 12], 0, 25.2, 27.1);
   split(false, 27.25);
 
   // ================= 6 · HR data (27.4 – 33.8) =================
@@ -461,9 +475,10 @@
   tl.set(upEmpty, { opacity: 0 }, 31.3);
   tl.fromTo(result, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.4, ease: 'ui', immediateRender: false }, 31.42);
   META.success.push(31.45);
-  winTo(aim(680, 400, 1.2, 1370, 540), 31.0, 1.0);
+
   tl.to(CUR, { opacity: 0, duration: 0.3 }, 31.6);
   caption('#capD', 31.7, 33.8);
+  { const r = H.accepted_result; hero(`url(assets/dash/hr_result.png) 0 0 / ${r[2] + 4}px auto no-repeat #fff`, [r[0] - 2, r[1] - 2, r[2] + 4, r[3] + 4], 0, 31.8, 33.7); }
   split(false, 33.85);
   // pull back: the window drops away into the program view
   winTo({ scale: 0.7, x: 0, y: 30 }, 33.9, 0.9);
@@ -547,19 +562,6 @@
     tl.set(base, { filter: 'none' }, 0);
     tl.to(CUR, { opacity: 0, duration: 0.25 }, T0);
     tl.set('#tour', { opacity: 1 }, T0); split(true, T0 - 0.3);
-    const lift = (r, t, out) => {               // a crisp copy of that part of the finished page, raised in 3D
-      const L = document.createElement('div'); L.className = 'abs';
-      L.style.cssText = `left:${r[0] - 1}px;top:${r[1] - 1}px;width:${r[2] + 2}px;height:${r[3] + 2}px;border-radius:16px;overflow:hidden;z-index:9;
-        background:url(assets/dash/overview_full.png) ${-(r[0] - 1)}px ${-(r[1] - 1)}px / 1440px auto no-repeat;opacity:0;transform-origin:50% 60%`;
-      const sh = document.createElement('div');
-      sh.style.cssText = 'position:absolute;inset:-20%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);transform:translateX(-120%)';
-      L.appendChild(sh); pgOv.appendChild(L);
-      tl.fromTo(L, { opacity: 0, scale: 1, y: 0, rotationX: 0, boxShadow: '0 0 0 rgba(23,63,55,0)' },
-        { opacity: 1, scale: 1.07, y: -10, rotationX: 4, boxShadow: '0 50px 80px -30px rgba(23,63,55,.45), 0 0 0 1px rgba(23,63,55,.06)', duration: 0.55, ease: 'ebPush', immediateRender: false }, t);
-      tl.to(sh, { x: '240%', duration: 0.9, ease: 'ebSoft' }, t + 0.3);
-      tl.to(L, { scale: 1, y: 0, rotationX: 0, boxShadow: '0 0 0 rgba(23,63,55,0)', duration: 0.4, ease: 'ebIn' }, out);
-      tl.to(L, { opacity: 0, duration: 0.2 }, out + 0.3);
-    };
     const slot = (host, html) => { const d = document.createElement('div'); d.innerHTML = html; d.style.cssText = 'position:absolute;left:0;right:0;top:0'; host.appendChild(d); d.hh = host.offsetHeight + 12; tl.set(d, { y: d.hh }, 0); return d; };
     let prev = null, scroll = 0;
     STOPS.forEach(([r, eyebrow, title, sub], i) => {
@@ -570,9 +572,7 @@
       r = [ux, uy, ur - ux, ub - uy];
       const want = Math.max(0, Math.min(1816 - 900, r[1] + r[3] / 2 - 430));   // scroll so the part sits high in the viewport
       if (want !== scroll) { tl.to(pgOv, { y: -want, duration: 0.7, ease: 'ebSoft' }, t - 0.1); scroll = want; }
-      parts.forEach((q, k) => lift(q, t + 0.1 + k * 0.06, T0 + (i + 1) * DT));
-      const s = Math.min(900 / r[2], 820 / r[3], 1.9);
-      winTo(aim(r[0] + r[2] / 2, r[1] + r[3] / 2 - want, s, 1370, 540), t - 0.08, 0.85);
+      hero(`url(assets/dash/overview_full.png) ${-(r[0] - 4)}px ${-(r[1] - 4)}px / 1440px auto no-repeat #F9F4F2`, [r[0] - 4, r[1] - 4, r[2] + 8, r[3] + 8], want, t + 0.15, T0 + (i + 1) * DT - 0.05);
       const n = slot($('#tourN'), `${String(i + 1).padStart(2, '0')} / ${STOPS.length} · ${eyebrow.toUpperCase()}`),
             h = slot($('#tourT'), `<span style="font:700 78px/1.08 Cooper;white-space:normal;display:block">${title.replace(' <i>', '<br><i>')}</span>`),
             sb = slot($('#tourS'), sub);
