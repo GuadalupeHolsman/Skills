@@ -354,19 +354,26 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .mp-ask{width:100%;text-align:center;font-family:var(--font-mono);font-size:24px;letter-spacing:3px;text-transform:uppercase;color:var(--yellow)}
 .mp{display:inline-flex;align-items:center;gap:14px;min-height:96px;padding:0 30px 0 20px;border-radius:99px;border:4px solid rgba(237,234,227,.5);background:rgba(11,11,16,.3);color:var(--text);font-weight:800;font-style:italic;text-transform:uppercase;font-size:30px;letter-spacing:.5px;transition:transform .2s, background .2s}
 .mp svg{width:52px;height:52px;flex:none}
+.lc{text-transform:none}
 .mp.on{background:var(--yellow);color:var(--ink);border-color:var(--screen);box-shadow:7px 7px 0 var(--screen);transform:translateY(-4px)}
-/* Locky himself is the totem: NFC waves over his head, a plinth with the channel */
-.totem{display:none;width:340px;flex:none;position:relative;flex-direction:column;align-items:center}
+/* the loomlock totem: neon "ll" on a black base; the NFC screen on the base is where you scan */
+.totem{display:none;width:380px;flex:none;position:relative;flex-direction:column;align-items:center}
 .mode-totem .totem{display:flex}
-.tt-waves{width:130px;height:130px;color:var(--yellow);rotate:-90deg;margin-bottom:-26px;animation:ttWaves 1.8s ease-in-out infinite;filter:drop-shadow(4px 4px 0 var(--screen));z-index:2}
+.tt-waves{position:absolute;left:50%;top:342px;width:84px;height:84px;margin-left:-42px;color:var(--yellow);rotate:-90deg;animation:ttWaves 1.8s ease-in-out infinite;filter:drop-shadow(4px 4px 0 var(--screen));z-index:2}
 @keyframes ttWaves{0%,100%{opacity:.45;transform:scale(.9)}50%{opacity:1;transform:scale(1.08)}}
-.tt-locky{width:300px;height:382px;overflow:visible;filter:drop-shadow(12px 12px 0 var(--screen));animation:ttBob 3.4s ease-in-out infinite;position:relative;z-index:1}
+.tt-ll{width:380px;height:595px;overflow:visible;position:relative;z-index:1;filter:drop-shadow(0 0 14px rgba(170,190,255,.85)) drop-shadow(10px 10px 0 rgba(11,11,16,.55))}
+.tt-ll .ll-neon{animation:llGlow 3s ease-in-out infinite}
+@keyframes llGlow{0%,100%{opacity:1}50%{opacity:.86}}
+.tt-ll .ll-scr{animation:llScr 1.8s ease-in-out infinite}
+@keyframes llScr{0%,100%{fill:#D9DCFF;stroke:#0B0B10}50%{fill:#fff;stroke:#FCCE21}}
 @keyframes ttBob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-14px) rotate(1.5deg)}}
-.tt-base{margin-top:6px;width:310px;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--screen);border-radius:26px;padding:12px 16px 14px;box-shadow:8px 8px 0 rgba(11,11,16,.45)}
+.tt-base{margin-top:14px;width:310px;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--screen);border-radius:26px;padding:12px 16px 14px;box-shadow:8px 8px 0 rgba(11,11,16,.45)}
 .totem-ch{font-family:var(--font-mono);font-weight:700;font-size:56px;line-height:1;color:var(--yellow);text-shadow:4px 4px 0 var(--blue)}
-.totem-name{font-family:var(--font-mono);font-weight:700;font-size:24px;letter-spacing:2px;text-transform:uppercase;color:var(--text);text-align:center}
-.totem .target-ring,.totem .shock{top:330px}
-.totem .target-ring{width:380px;height:380px;margin:-190px 0 0 -190px}
+.totem-name{font-family:var(--font-mono);font-weight:700;font-size:26px;letter-spacing:1px;color:var(--text);text-align:center}
+.totem .target-ring,.totem .shock{top:540px}
+.totem .target-ring{width:300px;height:300px;margin:-150px 0 0 -150px}
+.mp-tt{width:40px;height:62px;flex:none;overflow:visible}
+.nt-ico .mp-tt{width:32px;height:50px}
 .mp-locky{width:46px;height:58px;flex:none;overflow:visible;filter:drop-shadow(3px 3px 0 var(--screen))}
 .nt-ico .mp-locky{filter:none;width:38px;height:48px}
 .moment .ico.lk{background:var(--sky)!important}
@@ -464,6 +471,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 .sign b{font-weight:800}
 
 /* ---------- in-app picker ---------- */
+.ab-warn{color:#D7263D;font-weight:800;font-size:22px;line-height:1.2;text-align:center;max-width:92%;text-wrap:balance}
 .app-bar{display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px 0 6px;border-bottom:3px solid rgba(11,11,16,.12)}
 .ab-logo{font-family:var(--font-mono);font-weight:700;font-size:30px;color:var(--blue);letter-spacing:1px}
 .ab-t{font-weight:800;font-style:italic;text-transform:uppercase;font-size:26px;color:var(--ink)}
@@ -1054,6 +1062,17 @@ h2 .w{display:inline-block}
     <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h13m-5-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="arrow-l" viewBox="0 0 24 24"><path d="M19 12H6m5-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="arrow-d" viewBox="0 0 24 36"><path d="M12 3v28m-9-9 9 9 9-9" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="lltotem" viewBox="0 0 300 470">
+      <g stroke="#0B0B10" stroke-width="8" stroke-linecap="round"><path d="M178 286v104M232 250v140"/></g>
+      <g fill="#2F3AD0" stroke="#fff" stroke-width="9" stroke-linejoin="round" class="ll-neon">
+        <path d="M44 190 92 142h56v176l-48 48H44z"/><path d="M68 200l24-26h32v134l-24 26H68z" fill="#1E269C"/>
+        <path d="M156 92 204 44h56v196l-48 48h-56z"/><path d="M180 102l24-26h32v154l-24 26h-32z" fill="#1E269C"/>
+      </g>
+      <path d="M44 388h212l34 74H10z" fill="#16161C" stroke="#0B0B10" stroke-width="6" stroke-linejoin="round"/>
+      <rect x="112" y="402" width="76" height="48" rx="6" fill="#D9DCFF" stroke="#0B0B10" stroke-width="4" class="ll-scr"/>
+      <path d="M143 420a10 10 0 0 1 14 0M138 414a17 17 0 0 1 24 0" fill="none" stroke="#2F3AD0" stroke-width="3.4" stroke-linecap="round"/>
+      <rect x="145" y="425" width="10" height="12" rx="2.5" fill="#2F3AD0"/>
+    </symbol>
     <symbol id="totem" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5" fill="none" stroke="#FCCE21" stroke-width="2.2"/><path d="M10 9a2.6 2.6 0 0 1 4 0" fill="none" stroke="#FCCE21" stroke-width="2" stroke-linecap="round"/><path d="M9.5 13a4 4 0 0 1 5 0" fill="none" stroke="#FCCE21" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.4" fill="#FCCE21"/></symbol>
     <symbol id="glass" viewBox="0 0 24 24"><path d="M6 3h12l-1.5 8a4.5 4.5 0 0 1-9 0z" fill="none" stroke="#FCCE21" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 15.5V21m-3.5 0h7" stroke="#FCCE21" stroke-width="2.2" stroke-linecap="round"/><path d="M7 7h10" stroke="#FCCE21" stroke-width="2"/></symbol>
     <symbol id="unlock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="11" rx="3" fill="none" stroke="#FCCE21" stroke-width="2.2"/><path d="M8 10.5V8a4 4 0 0 1 7.6-1.8" fill="none" stroke="#FCCE21" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="15.8" r="1.6" fill="#FCCE21"/></symbol>
@@ -1125,7 +1144,7 @@ h2 .w{display:inline-block}
     </div>
     <div class="invite" id="invite" role="group">
       <button class="inv" data-id="pr"><span class="inv-ic">PR</span><span class="inv-t" data-t="inv.pr">PR</span><span class="inv-ck">✓</span></button>
-      <button class="inv" data-id="loomlock"><span class="inv-ic">LL</span><span class="inv-t" data-t="inv.loomlock">Loomlock team</span><span class="inv-ck">✓</span></button>
+      <button class="inv" data-id="loomlock"><span class="inv-ic">LL</span><span class="inv-t" data-t="inv.loomlock">loomlock team</span><span class="inv-ck">✓</span></button>
       <button class="inv" data-id="donjulio"><span class="inv-ic">DJ</span><span class="inv-t" data-t="inv.donjulio">Don Julio team</span><span class="inv-ck">✓</span></button>
       <button class="inv" data-id="bikini"><span class="inv-ic">B</span><span class="inv-t" data-t="inv.bikini">Bikini team</span><span class="inv-ck">✓</span></button>
       <button class="inv" data-id="locky"><span class="inv-ic"><svg class="mp-locky" style="filter:none;width:64px;height:80px" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg></span><span class="inv-t" data-t="inv.locky">I wanted to meet Locky</span><span class="inv-ck">✓</span></button>
@@ -1190,13 +1209,13 @@ h2 .w{display:inline-block}
         <div class="dl-stage" id="dl-stage"><b data-t="dl.t">Descarga la app</b><span class="dl-s" data-t="dl.s">Gratis · sin cuenta</span><span class="dl-b"><i class="dl-ap"></i><span><small data-t="dl.ap1">Descárgala en el</small>App Store</span></span><span class="dl-b"><i class="dl-gp"></i><span><small data-t="dl.gp1">Disponible en</small>Google Play</span></span><span class="dl-os" data-t="dl.os">iPhone · Android</span><i class="hand" style="left:72%;top:62%"></i></div>
         <div class="app-ov" id="ov1"><div class="ov-track" id="ov-track"><img src="{{APP1}}" alt=""><img src="{{APP2}}" alt=""><img src="{{APP3}}" alt=""><img src="{{APP4}}" alt=""><img src="{{APP5}}" alt=""></div><b class="ov-n" id="ov-n">1</b><i class="tp" id="tp1" style="left:50%;top:91%"></i><span class="hl" id="hl1"><b data-t="hl.t">Toca aquí</b></span><i class="hand" id="hand1"></i><i class="tap-rip" id="rip"></i></div><span class="lens" id="lens"><i></i></span>
         <div class="screen-in">
-          <div class="app-bar"><span class="ab-logo">loomlock</span><span class="ab-t" data-t="s1.appbar">Apps a pausar</span></div>
+          <div class="app-bar"><span class="ab-logo">loomlock</span><span class="ab-t" data-t="s1.appbar">Apps a pausar</span><span class="ab-warn" data-t="s1.warn"></span></div>
           <div class="status" id="status1"></div>
           <div class="apps" id="apps1"></div>
           <div class="saved-banner"><span>✓</span><span id="saved-txt"></span></div>
         </div>
       </div>
-      <div class="next-tip" id="next-tip"><span class="nt-ico"><svg class="mp-locky" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg><svg><use href="#waves"/></svg></span><span data-t="s1.tip">La pausa empieza al escanear una key o el tótem</span></div>
+      <div class="next-tip" id="next-tip"><span class="nt-ico"><svg class="mp-tt" viewBox="0 0 300 470" aria-hidden="true"><use href="#lltotem"/></svg><svg><use href="#waves"/></svg></span><span data-t="s1.tip">La pausa empieza al escanear una key o el tótem</span></div>
     </div>
     <div class="ad-ctl" id="ad-ctl"><button id="ad-prev"><svg><use href="#arrow-l"/></svg><span data-t="ad.prev">Paso anterior</span></button><button id="ad-next"><span data-t="ad.next">Paso siguiente</span><svg><use href="#arrow"/></svg></button></div>
     <button class="big-btn" id="try-lock"><span>Guardar</span></button>
@@ -1232,15 +1251,14 @@ h2 .w{display:inline-block}
     </div>
     <div class="mode-pick" id="mode-pick" role="group">
       <span class="mp-ask" data-t="s3.ask">¿Con qué entras?</span>
-      <button class="mp on" data-mode="totem"><svg class="mp-locky" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg><span data-t="s3.optTotem">Uso el tótem de Locky</span></button>
+      <button class="mp on" data-mode="totem"><svg class="mp-tt" viewBox="0 0 300 470" aria-hidden="true"><use href="#lltotem"/></svg><span data-t="s3.optTotem">Uso el tótem loomlock</span></button>
       <button class="mp" data-mode="card"><svg><use href="#waves"/></svg><span data-t="s3.optCard">Key de la experiencia</span></button>
     </div>
     <div class="flow" id="flow3"><span class="fp now"><b>1</b><span data-t="tf1">Escanea: pausa</span></span><i class="fa"></i><span class="fp"><b>2</b><span data-t="tf2">Otra vez: vuelves</span></span></div>
     <div class="drag-zone mode-totem" id="zone3">
-      <div class="totem" id="totem3" aria-label="Tótem de Locky"><i class="tp" style="left:50%;top:48%"></i>
-        <svg class="tt-waves" aria-hidden="true"><use href="#waves"/></svg>
-        <svg class="tt-locky" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg>
-        <div class="tt-base"><b class="totem-ch" data-ch>CH 02</b><span class="totem-name" id="totem-name">tótem de Locky</span></div>
+      <div class="totem" id="totem3" aria-label="Tótem loomlock"><i class="tp" style="left:50%;top:76%"></i>
+        <svg class="tt-ll" viewBox="0 0 300 470" aria-hidden="true"><use href="#lltotem"/></svg>
+        <div class="tt-base"><b class="totem-ch" data-ch>CH 02</b><span class="totem-name" id="totem-name">tótem loomlock</span></div>
         <div class="target-ring"></div>
         <div class="shock"></div><div class="shock s2"></div><div class="shock s3"></div>
       </div>
@@ -1274,7 +1292,7 @@ h2 .w{display:inline-block}
       <button class="moment on" data-i="0"><span class="ico lk"><svg viewBox="200 120 620 790"><use href="#locky"/></svg></span><span class="when" data-t="s4.w1">En la puerta</span><h3 data-t="s4.t1">Escaneo</h3><p data-t="s4.p1">Key o tótem</p></button>
       <button class="moment" data-i="1"><i class="tp" style="left:92%;top:50%"></i><span class="ico"><svg><use href="#glass"/></svg></span><span class="when" data-t="s4.w2">Adentro</span><h3 data-t="s4.t2">Fuera del aire</h3><p data-t="s4.p2">Brinda, baila, conversa</p></button>
       <button class="moment" data-i="2"><span class="ico"><svg><use href="#unlock"/></svg></span><span class="when" data-t="s4.w3">Al salir</span><h3 data-t="s4.t3">Otro escaneo</h3><p data-t="s4.p3">Tus apps vuelven</p></button>
-      <button class="moment" data-i="3"><span class="ico"><svg><use href="#photo"/></svg></span><span class="when" data-t="s4.w4">Después</span><h3 data-t="s4.t4">La galería</h3><p data-t="s4.p4">Tus fotos, en la web de Loomlock Experiences</p></button>
+      <button class="moment" data-i="3"><span class="ico"><svg><use href="#photo"/></svg></span><span class="when" data-t="s4.w4">Después</span><h3 data-t="s4.t4">La galería</h3><p data-t="s4.p4">Tus fotos, en la web de loomlock experiences</p></button>
     </div>
     <div class="dial">
       <div class="dial-times"><span>21:00</span><span>22:00</span><span>01:30</span><span data-t="s4.later">+2 días</span></div>
@@ -1349,20 +1367,20 @@ h2 .w{display:inline-block}
 
   const T = {
     es: {
-      "kInv":"Quién te invitó","dl.os":"iPhone · Android","ad.prev":"Paso anterior","ad.next":"Paso siguiente","qr.mini":"Tus fotos de la noche","app.c1":"Descarga la app","dl.t":"Descarga la app","dl.s":"Gratis · sin cuenta","dl.ap1":"Descárgala en el","dl.gp1":"Disponible en","kFotos":"Tus fotos","nFotos":"Tus fotos","tFotos":"Tus fotos, <em>después.</em>","qr.t":"Escanéalo con la cámara de tu celular","qr.s":"Las fotos de la noche quedan en la web de Loomlock Experiences","hl.t":"Toca aquí","hl.scan":"Escanea la key","cz.c0":"Toca la key","cz.c1":"¡Listo! Apps en pausa","kx.back":"Escanéala en la entrada","k.hint":"Muévela · tócala para darla vuelta","kName":"Tu nombre","nName":"Tu nombre","tName":"¿Cómo <em>te llamas?</em>","nm.ph":"Escribe tu nombre","nm.hi":"¡Hola, {n}!","nm.skip":"Puedes saltarlo","nm.ok":"Listo","nm.space":"espacio","s5.titleN":"¿Todo listo, {n}? <em>Ve al tótem.</em>","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c2":"Elige “Unirme a una experiencia”","app.c3":"Mira cómo funciona","app.c4":"Llamadas y SMS siguen","app.c5":"Elige el modo","app.c6":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
-      "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
-      "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
+      "kInv":"Quién te invitó","dl.os":"iPhone · Android","ad.prev":"Paso anterior","ad.next":"Paso siguiente","qr.mini":"Tus fotos de la noche","app.c1":"Descarga la app","dl.t":"Descarga la app","dl.s":"Gratis · sin cuenta","dl.ap1":"Descárgala en el","dl.gp1":"Disponible en","kFotos":"Tus fotos","nFotos":"Tus fotos","tFotos":"Tus fotos, <em>después.</em>","qr.t":"Escanéalo con la cámara de tu celular","qr.s":"Las fotos de la noche quedan en la web de loomlock experiences","hl.t":"Toca aquí","hl.scan":"Escanea la key","cz.c0":"Toca la key","cz.c1":"¡Listo! Apps en pausa","kx.back":"Escanéala en la entrada","k.hint":"Muévela · tócala para darla vuelta","kName":"Tu nombre","nName":"Tu nombre","tName":"¿Cómo <em>te llamas?</em>","nm.ph":"Escribe tu nombre","nm.hi":"¡Hola, {n}!","nm.skip":"Puedes saltarlo","nm.ok":"Listo","nm.space":"espacio","s5.titleN":"¿Todo listo, {n}? <em>Ve al tótem.</em>","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c2":"Elige “Unirme a una experiencia”","app.c3":"Mira cómo funciona","app.c4":"Llamadas y SMS siguen","app.c5":"Elige el modo","app.c6":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
+      "inv.pr":"PR","inv.loomlock":"Equipo loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
+      "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
       "inv.hint":"Toca una opción",
       "tally.title":"Quién los invitó","tally.copy":"Copiar","tally.reset":"Reiniciar","tally.reset2":"¿Seguro?","tally.close":"Cerrar","tally.total":"Total","tally.copied":"Copiado","tally.csv":"Bajar CSV","tally.all":"Todas las pantallas","tally.local":"Solo esta pantalla (sin conexión)","tally.pending":"pendientes de subir","tally.reset":"Reiniciar esta pantalla",
-      "s1.saved":"Guardado ✓","s1.savedN":"{n} abiertas, el resto en pausa","s1.status0":"Ninguna · el resto se pausa","s1.appbar":"Apps que quedan abiertas","s1.tip":"La pausa empieza al escanear una key o el tótem",
+      "s1.saved":"Guardado ✓","s1.savedN":"{n} abiertas, el resto en pausa","s1.status0":"Ninguna · el resto se pausa","s1.appbar":"Apps que quedan abiertas","s1.warn":"Solo las apps que elijas quedan abiertas. Todo lo demás se bloquea.","s1.tip":"La pausa empieza al escanear una key o el tótem",
       "osd.off":"FUERA DEL AIRE","osd.on":"AL AIRE",
       "k1":"Qué es","k2":"En la app","k3":"Las keys","k4":"Antes de llegar","k5":"La entrada","k6":"Tu noche","k7":"Mito o verdad",
       "n1":"Qué es","n2":"En la app","n3":"Las keys","n4":"Antes de llegar","n5":"La entrada","n6":"Tu noche","n7":"Mito o verdad",
-      "q1.title":"Escanea una key. <em>Apps en pausa.</em>","q1.tapped":"Key","q1.after":"después del escaneo","q1.always":"igual que siempre","q1.off":"En pausa","q1.on":"Siempre funcionan","q1.e1":"Llamadas","q1.e2":"Mensajes","q1.e3":"Mapas","q1.tap":"Tu celular sigue contigo · o usa el tótem de Locky",
+      "q1.title":"Escanea una key. <em>Apps en pausa.</em>","q1.tapped":"Key","q1.after":"después del escaneo","q1.always":"igual que siempre","q1.off":"En pausa","q1.on":"Siempre funcionan","q1.e1":"Llamadas","q1.e2":"Mensajes","q1.e3":"Mapas","q1.tap":"Tu celular sigue contigo · o usa el tótem",
       "t2":"Prepara <em>tu app.</em>","f1":"App","f2":"Elige","f3":"Key",
       "i1":"Toca las apps que quieres dejar abiertas","i2":"Ahora toca Guardar","i3":"Listo. La pausa empieza en la puerta.","s1.btnN":"Guardar",
       "t3":"Dos keys, <em>dos usos.</em>","c1":"Chip NFC","c2":"Sin batería","c3":"Es tuya",
-      "t4":"Dos pasos <em>antes.</em>","p1":"Descarga la app","p1s":"Busca Loomlock en tu tienda","p2":"Elige tus apps","p2s":"Las que quieres pausar esta noche","p3":"¡Listo para entrar!","p.hint":"Toca cada paso",
+      "t4":"Dos pasos <em>antes.</em>","p1":"Descarga la app","p1s":"Busca loomlock en tu tienda","p2":"Elige tus apps","p2s":"Las que quieres pausar esta noche","p3":"¡Listo para entrar!","p.hint":"Toca cada paso",
       "t5":"Escanéala <em>y entras.</em>","tf1":"Escanea: pausa","tf2":"Otra vez: vuelves",
       "t7":"¿Mito <em>o verdad?</em>",
             "s0.tape1":"el celular se queda contigo · apps en pausa · solo aquí","s0.tape2":"shots, not screenshots · live now, post later",
@@ -1373,7 +1391,7 @@ h2 .w{display:inline-block}
       "s0.cta":"Toca para empezar","s0.time":"≈ 1 minuto","s0.steps":"7 pasos",
       "s1.kicker":"01 · Qué es loomlock","s1.name":"Qué es",
       "s1.title":"El celular <em>se queda contigo.</em>",
-      "s1.lead":"Loomlock pausa solo las apps que tú eliges: escaneas una key y listo. <b>Llamadas, mensajes y mapas siguen funcionando.</b>",
+      "s1.lead":"loomlock pausa solo las apps que tú eliges: escaneas una key y listo. <b>Llamadas, mensajes y mapas siguen funcionando.</b>",
       "s1.btn":"Guardar","s1.btnOff":"Volver al aire","s1.stamp":"Fuera del aire",
       "s1.status":"Toca las apps para elegir","s1.statusN":"{n} abiertas · el resto se pausa","s1.statusL":"{n} en pausa · llamadas OK",
       "s1.ess":"Esta siempre funciona","s1.none":"Elige al menos una app",
@@ -1388,10 +1406,10 @@ h2 .w{display:inline-block}
       "s2.back":"Se acerca al celular. La app hace el resto.",
       "s2.hint":"Toca la key para darle la vuelta","q1.watch":"Mira: la key pausa tus apps","s2.pick":"Elige tu edición",
       "s3.kicker":"03 · Cómo activarla","s3.name":"La entrada","s3.title":"Escanea una key <em>y estás adentro.</em>",
-      "s3.st1":"Descarga la app Loomlock","s3.st2":"Elige qué apps pausar",
+      "s3.st1":"Descarga la app loomlock","s3.st2":"Elige qué apps pausar",
       "s3.st3":"Acerca la key al celular","s3.st4":"Para volver, escanéala otra vez",
-      "s3.hint":"Arrastra la key al celular","s3.hint2":"Ahora otra vez: vuelve al aire","s3.ask":"¿Con qué entras?","s3.optCard":"Key de la experiencia","s3.optTotem":"Uso el tótem de Locky",
-      "s3.st3t":"Acerca tu celular al tótem","s3.hintT":"Arrastra el celular hasta el tótem","s3.statusT":"Acércalo al tótem…","s3.totem":"tótem de Locky","s3.again":"Probar otra vez",
+      "s3.hint":"Arrastra la key al celular","s3.hint2":"Ahora otra vez: vuelve al aire","s3.ask":"¿Con qué entras?","s3.optCard":"Key de la experiencia","s3.optTotem":"Uso el tótem <span class=lc>loomlock</span>",
+      "s3.st3t":"Acerca tu celular al tótem","s3.hintT":"Arrastra el celular hasta el tótem","s3.statusT":"Acércalo al tótem…","s3.totem":"tótem loomlock","s3.again":"Probar otra vez",
       "s3.status":"Esperando la key…","s3.statusOk":"Key detectada ✓","s3.statusBack":"De vuelta al aire ✓","s3.banner":"Fuera del aire. Disfruta la noche.",
       "s4.kicker":"04 · Tu noche","s4.name":"Tu noche","s4.title":"Así se vive <em>la noche.</em>","s4.hint":"Toca un momento","s4.later":"+2 días",
       "s4.w1":"En la puerta","s4.t1":"Escaneo","s4.p1":"Key o tótem",
@@ -1400,7 +1418,7 @@ h2 .w{display:inline-block}
       "s4.m2":"Sin notificaciones que te saquen del momento.",
       "s4.w3":"Al salir","s4.t3":"Otro escaneo","s4.p3":"Tus apps vuelven",
       "s4.m3":"La key de la experiencia se queda en el lugar.",
-      "s4.w4":"Después","s4.t4":"La galería","s4.p4":"Tus fotos, en la web de Loomlock Experiences",
+      "s4.w4":"Después","s4.t4":"La galería","s4.p4":"Tus fotos, en la web de loomlock experiences",
       "s4.m4":"Las toma nuestro fotógrafo. Tú solo vives la noche.",
       "s5.kicker":"05 · Antes de entrar","s5.name":"Antes de entrar","s5.title":"¿Listo? <em>Ve al tótem.</em>",
       "s5.soon":"Próximamente",
@@ -1408,7 +1426,7 @@ h2 .w{display:inline-block}
       "s5.nextq":"Siguiente →","s5.see":"Ver resultado →","s5.again":"Jugar otra vez","s5.ready":"Ya estás listo para entrar.",
       "quiz":[{q:"Necesitas una cuenta o comprar algo.",a:0,x:"Solo la app y un escaneo. Sin cuenta y sin producto loomlock."},
         {q:"Con las apps en pausa igual recibes llamadas.",a:1,x:"Llamadas, mensajes y SOS de emergencia siempre funcionan."},
-        {q:"Loomlock puede ver tus mensajes.",a:0,x:"Solo ve qué app está abierta. Nunca mensajes, fotos ni lo que escribes."}],
+        {q:"loomlock puede ver tus mensajes.",a:0,x:"Solo ve qué app está abierta. Nunca mensajes, fotos ni lo que escribes."}],
       "s5.q1":"¿Se bloquea todo mi celular?","s5.a1":"No. Solo las apps que eliges. Llamadas, mensajes y mapas siguen funcionando.",
       "s5.q2":"¿Y si tengo una emergencia?","s5.a2":"Las llamadas nunca se pausan. Siempre puedes llamar y contestar.",
       "s5.q3":"¿Me llevo la key de la experiencia?","s5.a3":"No, esa se queda en el lugar. Sirve para empezar y terminar la experiencia.",
@@ -1418,20 +1436,20 @@ h2 .w{display:inline-block}
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",msg:"Mensajes",mp:"Mapas"}
     },
     en: {
-      "kInv":"Who invited you","dl.os":"iPhone · Android","ad.prev":"Previous step","ad.next":"Next step","qr.mini":"Your photos from tonight","app.c1":"Get the app","dl.t":"Get the app","dl.s":"Free · no account","dl.ap1":"Download on the","dl.gp1":"Get it on","kFotos":"Your photos","nFotos":"Your photos","tFotos":"Your photos, <em>later.</em>","qr.t":"Scan it with your phone camera","qr.s":"The night's photos live on the Loomlock Experiences website","hl.t":"Touch here","hl.scan":"Scan the key","cz.c0":"Touch the key","cz.c1":"Done! Apps on pause","kx.back":"Scan it at the door","k.hint":"Move it · touch to flip it","kName":"Your name","nName":"Your name","tName":"What's <em>your name?</em>","nm.ph":"Type your name","nm.hi":"Hi, {n}!","nm.skip":"You can skip it","nm.ok":"Done","nm.space":"space","s5.titleN":"All set, {n}? <em>Head to the totem.</em>","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c2":"Choose “Join an experience”","app.c3":"See how it works","app.c4":"Calls & SMS stay on","app.c5":"Pick a mode","app.c6":"Pick what stays open","tInv":"Who <em>invited you?</em>",
-      "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
-      "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
+      "kInv":"Who invited you","dl.os":"iPhone · Android","ad.prev":"Previous step","ad.next":"Next step","qr.mini":"Your photos from tonight","app.c1":"Get the app","dl.t":"Get the app","dl.s":"Free · no account","dl.ap1":"Download on the","dl.gp1":"Get it on","kFotos":"Your photos","nFotos":"Your photos","tFotos":"Your photos, <em>later.</em>","qr.t":"Scan it with your phone camera","qr.s":"The night's photos live on the loomlock experiences website","hl.t":"Touch here","hl.scan":"Scan the key","cz.c0":"Touch the key","cz.c1":"Done! Apps on pause","kx.back":"Scan it at the door","k.hint":"Move it · touch to flip it","kName":"Your name","nName":"Your name","tName":"What's <em>your name?</em>","nm.ph":"Type your name","nm.hi":"Hi, {n}!","nm.skip":"You can skip it","nm.ok":"Done","nm.space":"space","s5.titleN":"All set, {n}? <em>Head to the totem.</em>","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c2":"Choose “Join an experience”","app.c3":"See how it works","app.c4":"Calls & SMS stay on","app.c5":"Pick a mode","app.c6":"Pick what stays open","tInv":"Who <em>invited you?</em>",
+      "inv.pr":"PR","inv.loomlock":"loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
+      "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
       "inv.hint":"Choose an option",
       "tally.title":"Who invited them","tally.copy":"Copy","tally.reset":"Reset","tally.reset2":"Sure?","tally.close":"Close","tally.total":"Total","tally.copied":"Copied","tally.csv":"Get CSV","tally.all":"All screens","tally.local":"This screen only (offline)","tally.pending":"waiting to sync","tally.reset":"Reset this screen",
-      "s1.saved":"Saved ✓","s1.savedN":"{n} open, the rest paused","s1.status0":"None · the rest pauses","s1.appbar":"Apps that stay open","s1.tip":"The pause starts when you scan a key or the totem",
+      "s1.saved":"Saved ✓","s1.savedN":"{n} open, the rest paused","s1.status0":"None · the rest pauses","s1.appbar":"Apps that stay open","s1.warn":"Only the apps you pick stay open. Everything else gets blocked.","s1.tip":"The pause starts when you scan a key or the totem",
       "osd.off":"OFF AIR","osd.on":"ON AIR",
       "k1":"What it is","k2":"In the app","k3":"The keys","k4":"Before you arrive","k5":"The entrance","k6":"Your night","k7":"Myth or fact",
       "n1":"What it is","n2":"In the app","n3":"The keys","n4":"Before you arrive","n5":"The entrance","n6":"Your night","n7":"Myth or fact",
-      "q1.title":"Scan a key. <em>Apps pause.</em>","q1.tapped":"Key","q1.after":"after the scan","q1.always":"as always","q1.off":"Paused","q1.on":"Always on","q1.e1":"Calls","q1.e2":"Messages","q1.e3":"Maps","q1.tap":"Your phone stays with you · or use Locky’s totem",
+      "q1.title":"Scan a key. <em>Apps pause.</em>","q1.tapped":"Key","q1.after":"after the scan","q1.always":"as always","q1.off":"Paused","q1.on":"Always on","q1.e1":"Calls","q1.e2":"Messages","q1.e3":"Maps","q1.tap":"Your phone stays with you · or use the totem",
       "t2":"Set up <em>your app.</em>","f1":"App","f2":"Pick","f3":"Key",
       "i1":"Touch the apps you want to keep open","i2":"Now press Save","i3":"Done. The pause starts at the door.","s1.btnN":"Save",
       "t3":"Two keys, <em>two jobs.</em>","c1":"NFC chip","c2":"No battery","c3":"It's yours",
-      "t4":"Two steps <em>before.</em>","p1":"Get the app","p1s":"Search Loomlock in your store","p2":"Pick your apps","p2s":"The ones to pause tonight","p3":"Ready to go in!","p.hint":"Touch each step",
+      "t4":"Two steps <em>before.</em>","p1":"Get the app","p1s":"Search loomlock in your store","p2":"Pick your apps","p2s":"The ones to pause tonight","p3":"Ready to go in!","p.hint":"Touch each step",
       "t5":"Scan it <em>and you're in.</em>","tf1":"Scan: pause","tf2":"Scan again: back",
       "t7":"Myth <em>or fact?</em>",
             "s0.tape1":"phone in · apps off · just here","s0.tape2":"shots, not screenshots · live now, post later",
@@ -1442,7 +1460,7 @@ h2 .w{display:inline-block}
       "s0.cta":"Touch to start","s0.time":"≈ 1 minute","s0.steps":"7 steps",
       "s1.kicker":"01 · What is loomlock","s1.name":"What is it",
       "s1.title":"Your phone <em>stays with you.</em>",
-      "s1.lead":"Loomlock pauses only the apps you choose: scan a key and that's it. <b>Calls, messages and maps keep working.</b>",
+      "s1.lead":"loomlock pauses only the apps you choose: scan a key and that's it. <b>Calls, messages and maps keep working.</b>",
       "s1.btn":"Save","s1.btnOff":"Back on air","s1.stamp":"Off air",
       "s1.status":"Touch apps to choose","s1.statusN":"{n} open · the rest pauses","s1.statusL":"{n} paused · calls OK",
       "s1.ess":"This one always works","s1.none":"Choose at least one app",
@@ -1457,10 +1475,10 @@ h2 .w{display:inline-block}
       "s2.back":"Hold it to your phone. The app does the rest.",
       "s2.hint":"Touch the key to flip it","q1.watch":"Watch: the key pauses your apps","s2.pick":"Pick your edition",
       "s3.kicker":"03 · How to activate it","s3.name":"The entrance","s3.title":"Scan a key <em>and you're in.</em>",
-      "s3.st1":"Get the Loomlock app","s3.st2":"Choose apps to pause",
+      "s3.st1":"Get the loomlock app","s3.st2":"Choose apps to pause",
       "s3.st3":"Scan the key with your phone","s3.st4":"To come back, scan again",
-      "s3.hint":"Drag the key onto the phone","s3.hint2":"Again: go back on air","s3.ask":"How are you getting in?","s3.optCard":"Venue experience key","s3.optTotem":"Locky's totem",
-      "s3.st3t":"Hold your phone to the totem","s3.hintT":"Drag the phone onto the totem","s3.statusT":"Hold it to the totem…","s3.totem":"Locky's totem","s3.again":"Try again",
+      "s3.hint":"Drag the key onto the phone","s3.hint2":"Again: go back on air","s3.ask":"How are you getting in?","s3.optCard":"Venue experience key","s3.optTotem":"The <span class=lc>loomlock</span> totem",
+      "s3.st3t":"Hold your phone to the totem","s3.hintT":"Drag the phone onto the totem","s3.statusT":"Hold it to the totem…","s3.totem":"loomlock totem","s3.again":"Try again",
       "s3.status":"Waiting for the key…","s3.statusOk":"Key detected ✓","s3.statusBack":"Back on air ✓","s3.banner":"Off air. Enjoy the night.",
       "s4.kicker":"04 · Your night","s4.name":"Your night","s4.title":"This is <em>the night.</em>","s4.hint":"Touch a moment","s4.later":"+2 days",
       "s4.w1":"At the door","s4.t1":"Scan","s4.p1":"Key or totem",
@@ -1469,7 +1487,7 @@ h2 .w{display:inline-block}
       "s4.m2":"No notifications pulling you out.",
       "s4.w3":"On your way out","s4.t3":"Scan again","s4.p3":"Your apps return",
       "s4.m3":"The experience key stays at the venue.",
-      "s4.w4":"After","s4.t4":"The gallery","s4.p4":"Your photos, on the Loomlock Experiences site",
+      "s4.w4":"After","s4.t4":"The gallery","s4.p4":"Your photos, on the loomlock experiences site",
       "s4.m4":"Our photographer takes them. You just live the night.",
       "s5.kicker":"05 · Before you go in","s5.name":"Before you go in","s5.title":"Ready? <em>Head to the totem.</em>",
       "s5.soon":"Coming soon",
@@ -1477,7 +1495,7 @@ h2 .w{display:inline-block}
       "s5.nextq":"Next →","s5.see":"See result →","s5.again":"Play again","s5.ready":"You're ready to go in.",
       "quiz":[{q:"You need an account or to buy something.",a:0,x:"Just the app and a scan. No account and no loomlock product."},
         {q:"With apps on pause you still get calls.",a:1,x:"Calls, messages and emergency SOS always work."},
-        {q:"Loomlock can see your messages.",a:0,x:"It only sees which app is open. Never messages, photos or typing."}],
+        {q:"loomlock can see your messages.",a:0,x:"It only sees which app is open. Never messages, photos or typing."}],
       "s5.q1":"Does it lock my whole phone?","s5.a1":"No. Only the apps you choose. Calls, messages and maps keep working.",
       "s5.q2":"What if there's an emergency?","s5.a2":"Calls are never paused. You can always call and answer.",
       "s5.q3":"Do I take the experience key home?","s5.a3":"No, it stays at the venue. It starts and ends the experience.",
@@ -1912,7 +1930,8 @@ h2 .w{display:inline-block}
   const writeQ = a => { try { localStorage.setItem(Q_KEY, JSON.stringify(a)) } catch (e) {} };
   let dbRef = null, flushing = false;
   if (window.claude && claude.use) claude.use("db").then(d => { dbRef = d; flushQ() }).catch(() => {});
-  const labelOf = id => (T.es["inv." + id] || id);
+  // the sheet keeps its original labels (its origin filter matches them exactly)
+  const labelOf = id => (id === "loomlock" ? "Equipo Loomlock" : T.es["inv." + id] || id);
   async function flushQ(){
     if ((!dbRef && !CONFIG.sheetUrl) || flushing) return; flushing = true;
     try {
