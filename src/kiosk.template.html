@@ -984,6 +984,17 @@ h2 .w{display:inline-block}
 @keyframes handTap{0%,100%{transform:translate(16px,20px)}40%,55%{transform:translate(0,0) scale(.88)}}
 #ov3 .hl,#ov3 .hand{transition:opacity .25s}
 #ov3.gone .hl,#ov3.gone .hand{opacity:0}
+
+/* last screen: QR to the photos */
+#s0 .tv{top:400px}
+.qr-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;min-height:0}
+.qr-card{position:relative;width:600px;height:600px;padding:40px;background:var(--paper);border:6px solid var(--screen);border-radius:44px;box-shadow:14px 14px 0 var(--screen);overflow:hidden}
+.qr svg{display:block;width:100%;height:100%}
+.qr svg path,.qr svg rect[fill="black"]{fill:var(--screen)}
+.qr-scan{position:absolute;left:24px;right:24px;top:24px;height:10px;border-radius:5px;background:var(--yellow);box-shadow:0 0 30px 8px rgba(252,206,33,.7);animation:qrScan 2.6s ease-in-out infinite}
+@keyframes qrScan{0%,100%{transform:translateY(0)}50%{transform:translateY(540px)}}
+.qr-t{margin:0;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:42px;line-height:1.1;color:var(--yellow);text-shadow:4px 4px 0 var(--screen)}
+.qr-s{margin:0;text-align:center;font-size:30px;font-weight:600;color:var(--text);max-width:24ch}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1233,6 +1244,19 @@ h2 .w{display:inline-block}
       <div class="qz-res" id="qz-res" hidden><span class="qz-verdict" id="qz-verdict"></span><p class="qz-a" id="qz-a"></p><button class="qz-next" id="qz-next"></button></div>
       <div class="qz-stamp" id="qz-stamp"></div>
     </div>
+  </section>
+
+  <!-- 10 · Tus fotos (QR) + cierre -->
+  <section class="screen" id="sFotos" data-name="nFotos" aria-label="Tus fotos">
+    <div class="head">
+      <span class="kicker" data-t="kFotos">Tus fotos</span>
+      <h2 class="focus" data-t="tFotos">Tus fotos, <em>después.</em></h2>
+    </div>
+    <div class="qr-wrap">
+      <div class="qr-card"><div class="qr" id="qr"></div><i class="qr-scan"></i></div>
+      <p class="qr-t" data-t="qr.t">Escanéalo con la cámara de tu celular</p>
+      <p class="qr-s" data-t="qr.s">Las fotos de la noche quedan en la web de Loomlock Experiences</p>
+    </div>
     <div class="close-row">
       <span class="close-line" data-t="s5.title">¿Listo? <em>Ve al tótem.</em></span>
       <button class="big-btn" id="restart"><span data-t="s5.restart">¡Vamos!</span><svg><use href="#arrow"/></svg></button>
@@ -1269,6 +1293,7 @@ h2 .w{display:inline-block}
  </div>
 </div>
 
+<script>{{QRLIB}}</script>
 <script>
 (() => {
   /* ===== Ajustes del evento ===== */
@@ -1279,12 +1304,13 @@ h2 .w{display:inline-block}
     aviso18: true,                     // muestra "Evento para mayores de 18" en la portada (marcas de alcohol)
     idleSegundos: 60,    // sin toques por este tiempo → vuelve al inicio
     sheetUrl: "https://script.google.com/macros/s/AKfycbwJnmDaAGrB15b0eQSUI6rMRdkJgg3WBfs519WdnIbneo6NcVE85P7ezoNH9X3Lyk1F/exec",   // URL de la web app de Google Apps Script (ver apps-script/README.md); vacío = solo conteo local
-    idioma: "es"
+    fotosUrl: "https://loomlock.com",   // CAMBIAR: web de Loomlock Experiences donde quedan las fotos (es lo que abre el QR)
+    idioma: "en"
   };
 
   const T = {
     es: {
-      "kInv":"Quién te invitó","hl.t":"Toca aquí","hl.scan":"Escanea la key","cz.c0":"Toca la key","cz.c1":"¡Listo! Apps en pausa","kx.back":"Escanéala en la entrada","k.hint":"Muévela · tócala para darla vuelta","kName":"Tu nombre","nName":"Tu nombre","tName":"¿Cómo <em>te llamas?</em>","nm.ph":"Escribe tu nombre","nm.hi":"¡Hola, {n}!","nm.skip":"Puedes saltarlo","nm.ok":"Listo","nm.space":"espacio","s5.titleN":"¿Todo listo, {n}? <em>Ve al tótem.</em>","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c1":"Elige “Unirme a una experiencia”","app.c2":"Mira cómo funciona","app.c3":"Llamadas y SMS siguen","app.c4":"Elige el modo","app.c5":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
+      "kInv":"Quién te invitó","kFotos":"Tus fotos","nFotos":"Tus fotos","tFotos":"Tus fotos, <em>después.</em>","qr.t":"Escanéalo con la cámara de tu celular","qr.s":"Las fotos de la noche quedan en la web de Loomlock Experiences","hl.t":"Toca aquí","hl.scan":"Escanea la key","cz.c0":"Toca la key","cz.c1":"¡Listo! Apps en pausa","kx.back":"Escanéala en la entrada","k.hint":"Muévela · tócala para darla vuelta","kName":"Tu nombre","nName":"Tu nombre","tName":"¿Cómo <em>te llamas?</em>","nm.ph":"Escribe tu nombre","nm.hi":"¡Hola, {n}!","nm.skip":"Puedes saltarlo","nm.ok":"Listo","nm.space":"espacio","s5.titleN":"¿Todo listo, {n}? <em>Ve al tótem.</em>","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c1":"Elige “Unirme a una experiencia”","app.c2":"Mira cómo funciona","app.c3":"Llamadas y SMS siguen","app.c4":"Elige el modo","app.c5":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
       "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
       "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
       "inv.hint":"Toca una opción",
@@ -1353,7 +1379,7 @@ h2 .w{display:inline-block}
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",msg:"Mensajes",mp:"Mapas"}
     },
     en: {
-      "kInv":"Who invited you","hl.t":"Touch here","hl.scan":"Scan the key","cz.c0":"Touch the key","cz.c1":"Done! Apps on pause","kx.back":"Scan it at the door","k.hint":"Move it · touch to flip it","kName":"Your name","nName":"Your name","tName":"What's <em>your name?</em>","nm.ph":"Type your name","nm.hi":"Hi, {n}!","nm.skip":"You can skip it","nm.ok":"Done","nm.space":"space","s5.titleN":"All set, {n}? <em>Head to the totem.</em>","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c1":"Choose “Join an experience”","app.c2":"See how it works","app.c3":"Calls & SMS stay on","app.c4":"Pick a mode","app.c5":"Pick what stays open","tInv":"Who <em>invited you?</em>",
+      "kInv":"Who invited you","kFotos":"Your photos","nFotos":"Your photos","tFotos":"Your photos, <em>later.</em>","qr.t":"Scan it with your phone camera","qr.s":"The night's photos live on the Loomlock Experiences website","hl.t":"Touch here","hl.scan":"Scan the key","cz.c0":"Touch the key","cz.c1":"Done! Apps on pause","kx.back":"Scan it at the door","k.hint":"Move it · touch to flip it","kName":"Your name","nName":"Your name","tName":"What's <em>your name?</em>","nm.ph":"Type your name","nm.hi":"Hi, {n}!","nm.skip":"You can skip it","nm.ok":"Done","nm.space":"space","s5.titleN":"All set, {n}? <em>Head to the totem.</em>","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c1":"Choose “Join an experience”","app.c2":"See how it works","app.c3":"Calls & SMS stay on","app.c4":"Pick a mode","app.c5":"Pick what stays open","tInv":"Who <em>invited you?</em>",
       "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
       "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
       "inv.hint":"Choose an option",
@@ -2114,6 +2140,13 @@ h2 .w{display:inline-block}
   }
   /* untouched, it turns over by itself every 5 s so both keys get seen */
   setInterval(() => { if (!$("#s3").classList.contains("active")){ kTouched = Date.now(); return } if (Date.now() - kTouched > 5000){ kTouched = Date.now(); setSide(1 - kSide, true) } }, 500);
+
+
+  /* QR for the photos page (CONFIG.fotosUrl), drawn locally so it works offline */
+  function renderQR(){
+    try { const q = qrcode(0, "M"); q.addData(CONFIG.fotosUrl); q.make(); $("#qr").innerHTML = q.createSvgTag({cellSize: 8, margin: 0, scalable: true}) } catch (e) {}
+  }
+  renderQR();
 
   /* ---------- reset + idle ---------- */
   function resetAll(){

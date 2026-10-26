@@ -18,6 +18,7 @@ El orden sigue lo que vive el invitado: qué es → preparar la app antes de lle
    Antes: la key de la experiencia (la del lugar); al tocarla se da vuelta
 5. **05 · La entrada (paso 5):** el celular arranca con la pantalla real *You're Event Ready!*; al acercarlo al tótem de Locky (o con tu key) la pantalla se desliza y se bloquean las apps elegidas en el paso 03. Otro tap y vuelven
 6. **06 · Tu noche:** 4 momentos (puerta, adentro, salida, galería); las fotos quedan en la web de Loomlock Experiences
+8. **Tus fotos:** QR grande (con una línea de escaneo animada) que abre `CONFIG.fotosUrl`, la web de Loomlock Experiences donde quedan las fotos. El QR se dibuja en el kiosco (librería `src/vendor/qrcode-generator.js`, MIT), así funciona sin internet. Acá está el cierre "¿Listo? Ve al tótem".
 7. **07 · Mito o verdad:** 3 preguntas rápidas y cierre "Ve al tótem"
 
 ### Íconos y tótem
@@ -67,6 +68,7 @@ En `src/kiosk.template.html`, dentro de `CONFIG`:
 - `anfitrion`: marca anfitriona del canal (`"Tequila Don Julio"`)
 - `aviso18`: muestra el aviso de mayores de 18 en la portada
 - `idleSegundos`: segundos sin uso antes de volver al inicio
-- `idioma`: idioma inicial (`"es"` por defecto; el botón ES/EN cambia a inglés)
+- `idioma`: idioma inicial (`"en"` por defecto; el botón ES/EN cambia a español)
+- `fotosUrl`: la dirección que abre el QR de la última pantalla
 
 Después de editar textos o ajustes: `python3 src/build.py` (regenera `index.html` y `artifact.html`).
