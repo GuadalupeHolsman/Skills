@@ -940,6 +940,20 @@ h2 .w{display:inline-block}
 .kf::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.35) var(--sh,50%),transparent 65%);pointer-events:none;opacity:.8}
 .kc.gift .kc-art{background:none!important}
 .kh{margin:22px 0 0;text-align:center;font:700 26px/1 var(--font-mono);letter-spacing:2px;text-transform:uppercase;color:var(--yellow)}
+
+/* clarity pass: progress bar, live feedback captions, centred quiz */
+.prog{position:absolute;left:64px;right:64px;top:118px;height:8px;z-index:31;display:flex;gap:8px;transition:opacity .4s}
+.prog i{flex:1;border-radius:4px;background:rgba(237,234,227,.18);overflow:hidden;position:relative}
+.prog i::after{content:"";position:absolute;inset:0;background:var(--yellow);transform:scaleX(0);transform-origin:left;transition:transform .6s var(--e-std)}
+.prog i.on::after{transform:none}
+.prog i.cur::after{transform:none;animation:progGlow 1.6s ease-in-out infinite}
+@keyframes progGlow{50%{opacity:.55}}
+.prog.off{opacity:0}
+.cz-cap{margin:0;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:44px;color:var(--yellow);text-shadow:4px 4px 0 var(--screen);min-height:1.2em}
+.cz-cap.in{animation:focusIn .5s var(--e-std) both}
+#s1 .cause{flex:none;height:560px}
+#s7 .quiz{margin:auto 0}
+#s7 .qz-q{font-size:56px}
 </style>
 </head>
 <body>
@@ -974,6 +988,7 @@ h2 .w{display:inline-block}
 <div class="vp" id="vp">
  <div class="s9 flicker" id="s9">
 
+  <div class="prog" id="prog" aria-hidden="true"></div>
   <header class="top">
     <span>loomlock experiences</span>
     <span class="mid">prime time</span>
@@ -1051,6 +1066,7 @@ h2 .w{display:inline-block}
       <div class="cz-waves"><i></i><i></i><i></i></div>
       <div class="cz-phone"><span class="cz-notch"></span><span class="cz-apps"><span class="pi" style="--d:.2s;background:linear-gradient(45deg,#FEDA75 0%,#FA7E1E 25%,#D62976 50%,#962FBF 75%,#4F5BD5 100%)"><svg viewBox="0 0 24 24" style="color:#fff"><use href="#ico-instagram"/></svg></span><span class="pi" style="--d:.35s;background:#000"><svg viewBox="0 0 24 24" class="tt" style="color:#fff"><use href="#ico-tiktok"/></svg></span><span class="pi" style="--d:.5s;background:#fff"><svg viewBox="0 0 24 24" style="color:#FF0000"><use href="#ico-youtube"/></svg></span><span class="pi" style="--d:.65s;background:#000"><svg viewBox="0 0 24 24" style="color:#fff"><use href="#ico-x"/></svg></span></span></div>
     </div>
+    <p class="cz-cap" id="cz-cap" aria-live="polite"></p>
     <div class="split">
       <div class="pane off">
         <span class="pane-k"><svg><use href="#lock-y"/></svg><span data-t="q1.off">En pausa</span><span class="pk-when" data-t="q1.after">después del escaneo</span></span>
@@ -1240,7 +1256,7 @@ h2 .w{display:inline-block}
 
   const T = {
     es: {
-      "kInv":"Quién te invitó","kx.back":"Escanéala en la entrada","k.hint":"Muévelas · tócalas para darlas vuelta","kName":"Tu nombre","nName":"Tu nombre","tName":"¿Cómo <em>te llamas?</em>","nm.ph":"Escribe tu nombre","nm.hi":"¡Hola, {n}!","nm.skip":"Puedes saltarlo","nm.ok":"Listo","nm.space":"espacio","s5.titleN":"¿Todo listo, {n}? <em>Ve al tótem.</em>","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c1":"Elige “Unirme a una experiencia”","app.c2":"Mira cómo funciona","app.c3":"Llamadas y SMS siguen","app.c4":"Elige el modo","app.c5":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
+      "kInv":"Quién te invitó","cz.c0":"Toca la key","cz.c1":"¡Listo! Apps en pausa","kx.back":"Escanéala en la entrada","k.hint":"Muévelas · tócalas para darlas vuelta","kName":"Tu nombre","nName":"Tu nombre","tName":"¿Cómo <em>te llamas?</em>","nm.ph":"Escribe tu nombre","nm.hi":"¡Hola, {n}!","nm.skip":"Puedes saltarlo","nm.ok":"Listo","nm.space":"espacio","s5.titleN":"¿Todo listo, {n}? <em>Ve al tótem.</em>","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c1":"Elige “Unirme a una experiencia”","app.c2":"Mira cómo funciona","app.c3":"Llamadas y SMS siguen","app.c4":"Elige el modo","app.c5":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
       "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
       "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
       "inv.hint":"Toca una opción",
@@ -1309,7 +1325,7 @@ h2 .w{display:inline-block}
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",msg:"Mensajes",mp:"Mapas"}
     },
     en: {
-      "kInv":"Who invited you","kx.back":"Scan it at the door","k.hint":"Move them · touch to flip","kName":"Your name","nName":"Your name","tName":"What's <em>your name?</em>","nm.ph":"Type your name","nm.hi":"Hi, {n}!","nm.skip":"You can skip it","nm.ok":"Done","nm.space":"space","s5.titleN":"All set, {n}? <em>Head to the totem.</em>","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c1":"Choose “Join an experience”","app.c2":"See how it works","app.c3":"Calls & SMS stay on","app.c4":"Pick a mode","app.c5":"Pick what stays open","tInv":"Who <em>invited you?</em>",
+      "kInv":"Who invited you","cz.c0":"Touch the key","cz.c1":"Done! Apps on pause","kx.back":"Scan it at the door","k.hint":"Move them · touch to flip","kName":"Your name","nName":"Your name","tName":"What's <em>your name?</em>","nm.ph":"Type your name","nm.hi":"Hi, {n}!","nm.skip":"You can skip it","nm.ok":"Done","nm.space":"space","s5.titleN":"All set, {n}? <em>Head to the totem.</em>","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c1":"Choose “Join an experience”","app.c2":"See how it works","app.c3":"Calls & SMS stay on","app.c4":"Pick a mode","app.c5":"Pick what stays open","tInv":"Who <em>invited you?</em>",
       "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
       "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
       "inv.hint":"Choose an option",
@@ -1494,6 +1510,7 @@ h2 .w{display:inline-block}
     $$(".app-tile").forEach(b => { b.querySelector(".nm").textContent = T[lang].apps[b.dataset.id] });
     $("#host").textContent = t("s0.host", {h:CONFIG.anfitrion}); $("#host").hidden = !CONFIG.anfitrion;
     $("#totem-name").textContent = t("s3.totem");
+    const cc = $("#cz-cap"); if (cc){ cc.dataset.k = ""; czCap("cz.c0") }
     refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz(); renderInvite(); buildKb(); renderName(); renderAd();
   }
 
@@ -1531,6 +1548,7 @@ h2 .w{display:inline-block}
     $("#back").disabled = cur <= 1;
     $("#next").querySelector("span").textContent = cur === N ? t("nav.end") : t("nav.next");
     $("#ch-num").textContent = CONFIG.canal;
+    renderProg();
   }
   $("#s0").addEventListener("click", () => go(1));
   $("#back").onclick = () => go(cur - 1);
@@ -1948,7 +1966,8 @@ h2 .w{display:inline-block}
   /* Qué es: touch the key to make it tap the phone; untouched, it plays on its own after 4 s, then every 6 s */
   const cause = $("#s1 .cause");
   let czLast = Date.now();
-  function czPlay(byHand){ cause.classList.remove("play"); void cause.offsetWidth; cause.classList.add("play"); czLast = Date.now(); if (byHand) vib(15) }
+  function czPlay(byHand){ cause.classList.remove("play"); void cause.offsetWidth; cause.classList.add("play"); czLast = Date.now(); if (byHand){ vib(15); markReady() }
+    clearTimeout(czPlay.t); czPlay.t = setTimeout(() => czCap("cz.c1"), 450); clearTimeout(czPlay.u); czPlay.u = setTimeout(() => czCap("cz.c0"), 3300) }
   cause.addEventListener("pointerdown", () => czPlay(true));
   setInterval(() => {
     if (!$("#s1").classList.contains("active")){ czLast = Date.now(); cause.classList.remove("play"); return }
@@ -1988,6 +2007,7 @@ h2 .w{display:inline-block}
     if (k === "ok"){ go(cur + 1); return }
     if (k === "del") userName = userName.slice(0, -1);
     else if (userName.length < 18 && !(k === " " && (!userName || userName.endsWith(" ")))) userName += k;
+    if (userName.trim()) markReady();
     const f = $("#nm-field"); f.classList.remove("pop"); void f.offsetWidth; f.classList.add("pop");
     renderName();
   });
@@ -2014,6 +2034,17 @@ h2 .w{display:inline-block}
     };
     art.addEventListener("pointerup", end); art.addEventListener("pointercancel", end);
   });
+
+
+  /* progress bar: one segment per screen after the attract loop */
+  function renderProg(){
+    const pr = $("#prog");
+    if (!pr.children.length) pr.innerHTML = "<i></i>".repeat(N);
+    pr.classList.toggle("off", cur === 0);
+    [...pr.children].forEach((x, i) => { x.classList.toggle("on", i < cur - 1); x.classList.toggle("cur", i === cur - 1) });
+  }
+  /* "Qué es" says what just happened */
+  function czCap(k){ const c = $("#cz-cap"); if (c.dataset.k === k) return; c.dataset.k = k; c.textContent = t(k); c.classList.remove("in"); void c.offsetWidth; c.classList.add("in") }
 
   /* ---------- reset + idle ---------- */
   function resetAll(){
