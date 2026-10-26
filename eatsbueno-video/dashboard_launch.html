@@ -260,7 +260,7 @@
 
   // ================= 3 · Sign in (9.8 – 13.8) =================
   scene('s3', 9.95, 34.8);
-  tl.fromTo('#s3', { clipPath: 'circle(0% at 71% 62%)' }, { clipPath: 'circle(150% at 71% 62%)', duration: 0.75, ease: 'ebIn', immediateRender: true }, 9.95);
+  tl.fromTo('#s3', { clipPath: 'circle(0% at 71% 62%)' }, { clipPath: 'circle(150% at 71% 62%)', duration: 0.85, ease: 'power2.inOut', immediateRender: true }, 9.95);
   META.hits.push(10.1);
   const CAM = $('#cam'), WIN = $('#win');
   tl.fromTo(WIN, { y: 260, rotationX: 22, scale: 0.7, opacity: 0 }, { y: 0, rotationX: 0, scale: 1, opacity: 1, duration: 1.1, ease: 'ebOut', immediateRender: true }, 9.95);
@@ -388,8 +388,8 @@
     META.titles.push(t0 + 0.2);
   };
   // camera on the login form, then on the KPIs while they count, then the trends
-  winTo(aim(EM.x + 210, EM.y + 60, 1.75), 10.75, 1.1); winTo(aim(BTN.x + 210, BTN.y - 10, 1.6), 12.35, 1.0); winTo({ scale: 1.08, x: 0, y: 0, rotation: 0 }, 13.75, 0.9);
-  winTo(aim(850, 470, 1.4), 14.25, 0.9); winTo(aim(850, 760, 1.3), 15.3, 0.9);
+  winTo(aim(EM.x + 210, EM.y + 60, 1.75), 10.75, 1.1); winTo(aim(BTN.x + 210, BTN.y - 10, 1.6), 12.35, 1.0);
+  winTo(aim(850, 470, 1.4), 13.95, 1.2); winTo(aim(850, 760, 1.3), 15.25, 1.0);
   // ================= 5 · Privacy: subgroups (21.8 – 27.4) =================
   winTo({ scale: 1, x: 0, y: 0 }, 21.8, 0.9);
   tl.to(pgOv, { y: -(1343 - 640), duration: 0.9, ease: 'ebSoft' }, 21.95);      // scroll to "View subgroup breakdown"
@@ -413,7 +413,7 @@
     tl.fromTo(c, { opacity: 1 }, { opacity: 0, duration: 0.25, ease: 'ui', immediateRender: true }, 23.4 + i * 0.09);
     META.ticks.push(23.4 + i * 0.09);
   });
-  winTo(aim(850, 700, 1.45), 23.3, 1.3);
+  winTo(aim(850, 700, 1.45), 23.3, 1.0);
   const VR = SG[5];
   const hl = document.createElement('div'); hl.className = 'abs';
   hl.style.cssText = `left:${VR[0] - 4}px;top:${VR[1] - 4}px;width:${VR[2] + 8}px;height:${VR[3] + 8}px;border-radius:12px;border:3px solid #E26023;box-shadow:0 0 0 6px rgba(226,96,35,.15);opacity:0;z-index:3`;
@@ -427,7 +427,7 @@
   tl.fromTo(lk, { scale: 0.3, opacity: 1 }, { scale: 2.2, opacity: 0, duration: 0.7, ease: 'ebOut', immediateRender: false }, 25.05);
   META.success.push(25.05);
   winTo(aim(VR[0] + VR[2] / 2, VR[1] + VR[3] / 2, 1.55, 960, 430), 24.4, 1.1);
-  tl.to(CAM, { scale: '*=1.05', duration: 2.2, ease: 'sine.inOut' }, 25.5);
+  tl.to(CAM, { ...aim(VR[0] + VR[2] / 2, VR[1] + VR[3] / 2, 1.63, 960, 430), duration: 1.75, ease: 'sine.inOut' }, 25.5);
   callout('Small groups are <i>never shown.</i>', 25.0, 27.25, true);
 
   // ================= 6 · HR data (27.4 – 33.8) =================
@@ -496,11 +496,11 @@
       const f = foot(F7, n, t0 - 0.05, d + 0.65, { inPt, rate: 1, vcss: DUO, tint: GREEN });
       tl.set(f, { opacity: 1 }, t0 - 0.05); tl.set(f, { opacity: i === 2 ? 1 : 0 }, t0 + d + 0.55);
       tl.fromTo(f.firstChild, { scale: 1.16 }, { scale: 1.04, duration: d, ease: 'ebSoft', immediateRender: false }, t0);
-      if (i) tl.fromTo(f, { clipPath: 'inset(0 0 0 100%)' }, { clipPath: 'inset(0 0 0 0%)', duration: 0.5, ease: 'ebPush', immediateRender: false }, t0 - 0.05);
+      if (i) tl.fromTo(f, { clipPath: 'inset(0 0 0 100%)' }, { clipPath: 'inset(0 0 0 0%)', duration: 0.65, ease: 'power2.inOut', immediateRender: false }, t0 - 0.1);
     }); }
   reveal($('#h7'), 35.05, 0.06);
   META.titles.push(35.1);
-  const C7 = [['c_thriving', 'Wellbeing score', 90, -14], ['c_sello', 'Sello EatsBueno readiness', 660, 0], ['c_cost', 'Employee access cost', 1230, 14]];
+  const C7 = [['c_thriving', 'Wellbeing score', 90, -14], ['c_sello', 'Sello EatsBueno readiness', 660, 0], ['c_part', 'Active participation', 1230, 14]];
   C7.forEach(([n, lab, x, rot], i) => {
     const c = document.createElement('div'); c.className = 'card3';
     c.style.cssText = `left:${x}px;top:${n === 'c_sello' ? 280 : 340}px;width:600px`;
@@ -526,7 +526,7 @@
   const iris = (pns, cx, cy, t, d) => {
     const R = Math.hypot(1920, 1080), o = { r: 1 };
     const set = () => pns.forEach((pn) => { pn.style.clipPath = `circle(${o.r * R}px at ${cx - pn.offsetLeft}px ${cy}px)`; });
-    tl.fromTo(o, { r: 1 }, { r: 0, duration: d, ease: 'ebIn', immediateRender: false, onUpdate: set }, t);
+    tl.fromTo(o, { r: 1 }, { r: 0, duration: d + 0.1, ease: 'power2.inOut', immediateRender: false, onUpdate: set }, t);
     tl.call(() => { o.r = 1; set(); }, null, t - 0.01);
   };
   const insertAt = (at, gap) => {
@@ -549,7 +549,6 @@
       [card('energy'), 1.55, 'How your people <i>feel.</i>', (t) => { const c = card('energy'); regrow(pgOv, c[0] + 18, c[1] + 104, 610, 26, t, 1.1);
         [0, 1, 2].forEach((j) => regrow(pgOv, c[0] + 100, c[1] + 144 + j * 30.5, 380, 18, t + 0.15 + j * 0.12, 0.9)); }],
       [card('absent'), 1.75, 'Absence vs. <i>your own baseline.</i>', (t) => { const c = card('absent'); regrow(pgOv, c[0] + 150, c[1] + 142, 222, 14, t, 0.9); regrow(pgOv, c[0] + 150, c[1] + 186, 222, 14, t + 0.18, 0.9); }],
-      [[1048, 943, 359, 225], 1.9, 'Employees pay <i>nothing.</i>', null],
     ];
     const DT = 24 / STOPS.length, T0 = AT + 0.1;
     META.chapters.push(T0 - 0.45);
@@ -560,22 +559,20 @@
       const want = Math.max(0, Math.min(1816 - 900, r[1] + r[3] / 2 - 430));
       if (want !== scroll) { tl.to(pgOv, { y: -want, duration: 1.0, ease: 'ebSoft' }, t); scroll = want; }
       winTo(aim(r[0] + r[2] / 2, r[1] + r[3] / 2 - want, s, 1000, 420), t, 1.1);
-      tl.to(CAM, { scale: '*=1.06', duration: DT - 1.3, ease: 'sine.inOut' }, t + 1.1);
+      tl.to(CAM, { ...aim(r[0] + r[2] / 2, r[1] + r[3] / 2 - want, s * 1.06, 1000, 420), duration: DT - 1.3, ease: 'sine.inOut' }, t + 1.1);
       if (fx) fx(t + 0.85);
       callout(line, t + 0.6, t + DT - 0.35);
       META.whooshes.push(t);
     });
     const tEnd = T0 + STOPS.length * DT;
-    tl.to(pgOv, { y: 0, duration: 0.9, ease: 'ebSoft' }, tEnd - 0.05);
     tl.to(CUR, { opacity: 1, duration: 0.3 }, tEnd);
-    winTo({ scale: 1, x: 0, y: 0 }, tEnd - 0.05, 0.8);
   }
   // ---- 2b · the app: one big phone with the app's real coach screen, its features around it; then a line carries
   //      the activity to a real dashboard card ("the big picture"), and the dashboard opens out of that card
   { const T = 9.95, G = 6.5; insertAt(T, G);
     META.app = [T, T + G];
     scene('sA', T, T + G + 0.8);
-    tl.fromTo('#sA', { clipPath: 'circle(0% at 50% 33%)' }, { clipPath: 'circle(130% at 50% 33%)', duration: 0.75, ease: 'ebIn', immediateRender: true }, T);
+    tl.fromTo('#sA', { clipPath: 'circle(0% at 50% 33%)' }, { clipPath: 'circle(130% at 50% 33%)', duration: 0.85, ease: 'power2.inOut', immediateRender: true }, T);
     META.hits.push(T + 0.15);
     const ph = document.createElement('div'); ph.className = 'phone';
     ph.style.left = (560 - 229) + 'px'; ph.style.top = (560 - 479) + 'px';
@@ -733,16 +730,16 @@
       const sps = host.querySelectorAll('.sp'), wd = host.querySelector('.wd');
       tl.set(host, { visibility: 'visible' }, c - 0.6);
       sps.forEach((sp, k) => {
-        tl.fromTo(sp, { x: 2200 }, { x: -340, duration: 0.42, ease: 'power3.out', immediateRender: true }, c - 0.6 + k * 0.07);
-        tl.to(sp, { x: -3200, duration: 0.45, ease: 'power3.in' }, c + 0.55 + (2 - k) * 0.05);
+        tl.fromTo(sp, { x: 2200 }, { x: -340, duration: 0.55, ease: 'power3.inOut', immediateRender: true }, c - 0.68 + k * 0.07);
+        tl.to(sp, { x: -3200, duration: 0.6, ease: 'power3.inOut' }, c + 0.5 + (2 - k) * 0.05);
       });
       tl.fromTo(wd, { scale: 1.3, opacity: 0, filter: 'blur(10px)' }, { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 0.35, ease: 'ebOut', immediateRender: true }, c - 0.25);
       tl.to(wd, { x: -260, opacity: 0, filter: 'blur(8px)', duration: 0.35, ease: 'ebIn' }, c + 0.5);
-      tl.set(host, { visibility: 'hidden' }, c + 1.15);
+      tl.set(host, { visibility: 'hidden' }, c + 1.25);
       META.slams.push(c - 0.2); META.whooshes.push(c - 0.6, c + 0.6);
     });
   }
-  window.DURATION = DUR; window.META = META;
+  window.DURATION = DUR; window.META = META; window.__tl = tl;
   window.__seek = (t) => {
     tl.seek(t, false);
     return Promise.all(VIDS.filter((c) => t >= c.t0 - 0.05 && t <= c.t0 + c.dur + 0.05).map(({ v, t0, inPt, rate }) => new Promise((res) => {
