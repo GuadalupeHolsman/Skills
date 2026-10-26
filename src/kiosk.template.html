@@ -930,8 +930,6 @@ h2 .w{display:inline-block}
 .kc.exp .kb2{background:#231f20;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
 .kc.exp .kb2 svg{width:70px;height:70px;color:var(--yellow)}
 .kc.exp .kb2 em{font:700 22px/1.2 var(--font-mono);letter-spacing:2px;text-transform:uppercase;text-align:center;padding:0 20px}
-.kc.gift .kf{background:url('{{KEY_GIFT}}') center/cover no-repeat}
-.kc.gift .kb2{background:url('{{KEY_GIFT_BACK}}') center/cover no-repeat}
 .kf::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.35) var(--sh,50%),transparent 65%);pointer-events:none;opacity:.8}
 .kc.gift .kc-art{background:none!important}
 .kh{margin:22px 0 0;text-align:center;font:700 26px/1 var(--font-mono);letter-spacing:2px;text-transform:uppercase;color:var(--yellow)}
@@ -949,6 +947,30 @@ h2 .w{display:inline-block}
 #s1 .cause{flex:none;height:560px}
 #s7 .quiz{margin:auto 0}
 #s7 .qz-q{font-size:56px}
+
+/* one big key: one side is the venue's experience key, flip it and it's your keepsake. No cards, straight on blue */
+.k1-seg{align-self:center;display:flex;gap:8px;padding:8px;border-radius:99px;background:rgba(11,11,16,.35);border:3px solid rgba(237,234,227,.25)}
+.k1-seg button{border:0;border-radius:99px;padding:16px 28px;background:transparent;color:var(--text);font:800 italic 28px/1 var(--font-display);text-transform:uppercase;transition:background .35s,color .35s}
+.k1-seg button.on{background:var(--yellow);color:var(--ink);box-shadow:4px 4px 0 var(--screen)}
+.k1-art{position:relative;align-self:center;width:880px;aspect-ratio:340/214;perspective:1800px;touch-action:none;cursor:grab;margin:20px 0}
+.k1-in{position:absolute;inset:0;transform-style:preserve-3d;transform:translate(var(--kx,0px),var(--ky,0px)) rotateX(var(--rx,0deg)) rotateY(calc(var(--ry,0deg) + var(--fl,0deg)));transition:transform 1s cubic-bezier(.3,1.35,.4,1)}
+.k1-in.drag{transition:transform .06s linear}
+.k1-in.flip{--fl:180deg}
+.k1f,.k1b{position:absolute;inset:0;border-radius:44px;border:6px solid var(--screen);box-shadow:18px 18px 0 rgba(11,11,16,.55);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.k1f{background:var(--key-front) center/cover no-repeat}
+.k1b{background:url('{{KEY_GIFT}}') center/cover no-repeat;transform:rotateY(180deg)}
+.k1f::after,.k1b::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.3) var(--sh,50%),transparent 65%);pointer-events:none}
+.k1-art .kc-ring{width:520px;height:520px;margin:-260px 0 0 -260px;border-width:9px;transition:opacity .4s}
+.k1-art.gift .kc-ring{display:none}
+.k1-info{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;min-height:250px}
+.k1-info.in{animation:focusIn .55s var(--e-std) both}
+.k1-info .kc-tag{align-self:center;font-size:24px;background:var(--screen);color:var(--yellow)}
+.k1-info h3{margin:0;font-family:var(--font-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:58px;line-height:1;color:var(--yellow);text-shadow:5px 5px 0 var(--screen)}
+.k1-info .kl{display:flex;gap:14px;align-items:baseline;font-size:34px;font-weight:700;color:var(--text)}
+.k1-info .kl::before{font-weight:800}
+.k1-info .kl.ok::before{content:"✓";color:#7CF29A}
+.k1-info .kl.no::before{content:"✕";color:#FF8FB1}
+#s3 .kh{margin-top:10px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1111,10 +1133,10 @@ h2 .w{display:inline-block}
       <h2 class="focus" data-t="t3">Dos keys, <em>dos usos.</em></h2>
     </div>
     <div class="keys2" id="keys2">
-      <button class="kc exp"><span class="kc-art"><i class="kc-ring"></i><i class="kc-ring r2"></i><span class="kc-in"><i class="kf"></i><i class="kb2"><svg><use href="#waves"/></svg><em data-t="kx.back">Escanéala en la entrada</em></i></span></span><span class="kc-txt"><b class="kc-tag" data-t="kx.tag">Para entrar y salir</b><h3 data-t="kx.t">Key de la experiencia</h3><span class="kc-l ok" data-t="kx.l1">Está en el lugar</span><span class="kc-l ok" data-t="kx.l2">Escanéala al entrar y al salir</span><span class="kc-l no" data-t="kx.l3">No te la llevas</span></span></button>
-      <span class="kvs">≠</span>
-      <button class="kc gift"><span class="kc-art"><span class="kc-in"><i class="kf"></i><i class="kb2"></i></span></span><span class="kc-txt"><b class="kc-tag" data-t="kg.tag">De regalo</b><h3 data-t="kg.t">Key de recuerdo</h3><span class="kc-l ok" data-t="kg.l1">Te la llevas a casa</span><span class="kc-l ok" data-t="kg.l2">Es coleccionable</span><span class="kc-l no" data-t="kg.l3">No empieza ni termina la experiencia</span></span></button>
-      <p class="kh" data-t="k.hint">Muévelas · tócalas para darlas vuelta</p>
+      <div class="k1-seg" id="k1seg" role="group"><button data-side="0" data-t="kx.t">Key de la experiencia</button><button data-side="1" data-t="kg.t">Key de recuerdo</button></div>
+      <div class="k1-art" id="k1art"><i class="kc-ring"></i><i class="kc-ring r2"></i><span class="k1-in" id="k1in"><i class="k1f"></i><i class="k1b"></i></span><i class="tp" style="left:88%;top:80%"></i></div>
+      <div class="k1-info" id="k1info" aria-live="polite"></div>
+      <p class="kh" data-t="k.hint">Muévela · tócala para darla vuelta</p>
     </div>
     <div class="card-area" id="card-area"><i class="ring3"></i><i class="tp" style="left:84%;top:70%"></i>
       <button class="nfc-card" id="card" aria-label="Dar vuelta la key">
@@ -1249,7 +1271,7 @@ h2 .w{display:inline-block}
 
   const T = {
     es: {
-      "kInv":"Quién te invitó","cz.c0":"Toca la key","cz.c1":"¡Listo! Apps en pausa","kx.back":"Escanéala en la entrada","k.hint":"Muévelas · tócalas para darlas vuelta","kName":"Tu nombre","nName":"Tu nombre","tName":"¿Cómo <em>te llamas?</em>","nm.ph":"Escribe tu nombre","nm.hi":"¡Hola, {n}!","nm.skip":"Puedes saltarlo","nm.ok":"Listo","nm.space":"espacio","s5.titleN":"¿Todo listo, {n}? <em>Ve al tótem.</em>","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c1":"Elige “Unirme a una experiencia”","app.c2":"Mira cómo funciona","app.c3":"Llamadas y SMS siguen","app.c4":"Elige el modo","app.c5":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
+      "kInv":"Quién te invitó","cz.c0":"Toca la key","cz.c1":"¡Listo! Apps en pausa","kx.back":"Escanéala en la entrada","k.hint":"Muévela · tócala para darla vuelta","kName":"Tu nombre","nName":"Tu nombre","tName":"¿Cómo <em>te llamas?</em>","nm.ph":"Escribe tu nombre","nm.hi":"¡Hola, {n}!","nm.skip":"Puedes saltarlo","nm.ok":"Listo","nm.space":"espacio","s5.titleN":"¿Todo listo, {n}? <em>Ve al tótem.</em>","kx.tag":"Para entrar y salir","kx.t":"Key de la experiencia","kx.l1":"Está en el lugar","kx.l2":"Escanéala al entrar y al salir","kx.l3":"No te la llevas","kg.tag":"De regalo","kg.t":"Key de recuerdo","kg.l1":"Te la llevas a casa","kg.l2":"Es coleccionable","kg.l3":"No empieza ni termina la experiencia","nInv":"Quién te invitó","app.c1":"Elige “Unirme a una experiencia”","app.c2":"Mira cómo funciona","app.c3":"Llamadas y SMS siguen","app.c4":"Elige el modo","app.c5":"Elige qué queda abierto","tInv":"¿Quién <em>te invitó?</em>",
       "inv.pr":"PR","inv.loomlock":"Equipo Loomlock","inv.donjulio":"Equipo Don Julio","inv.bikini":"Equipo Bikini","inv.locky":"Quería conocer a Locky",
       "invm.pr":"PR te mandó. Estás en la lista.","invm.loomlock":"El equipo Loomlock te manda. Bienvenido a casa.","invm.donjulio":"El equipo Don Julio te manda. Salud.","invm.bikini":"El equipo Bikini te manda. Tu casa esta noche.","invm.locky":"Locky también te estaba esperando.",
       "inv.hint":"Toca una opción",
@@ -1318,7 +1340,7 @@ h2 .w{display:inline-block}
       "apps":{ig:"Instagram",tt:"TikTok",x:"X",yt:"YouTube",fb:"Facebook",gm:"Juegos",ph:"Llamadas",msg:"Mensajes",mp:"Mapas"}
     },
     en: {
-      "kInv":"Who invited you","cz.c0":"Touch the key","cz.c1":"Done! Apps on pause","kx.back":"Scan it at the door","k.hint":"Move them · touch to flip","kName":"Your name","nName":"Your name","tName":"What's <em>your name?</em>","nm.ph":"Type your name","nm.hi":"Hi, {n}!","nm.skip":"You can skip it","nm.ok":"Done","nm.space":"space","s5.titleN":"All set, {n}? <em>Head to the totem.</em>","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c1":"Choose “Join an experience”","app.c2":"See how it works","app.c3":"Calls & SMS stay on","app.c4":"Pick a mode","app.c5":"Pick what stays open","tInv":"Who <em>invited you?</em>",
+      "kInv":"Who invited you","cz.c0":"Touch the key","cz.c1":"Done! Apps on pause","kx.back":"Scan it at the door","k.hint":"Move it · touch to flip it","kName":"Your name","nName":"Your name","tName":"What's <em>your name?</em>","nm.ph":"Type your name","nm.hi":"Hi, {n}!","nm.skip":"You can skip it","nm.ok":"Done","nm.space":"space","s5.titleN":"All set, {n}? <em>Head to the totem.</em>","kx.tag":"To start and end","kx.t":"Experience key","kx.l1":"Lives at the venue","kx.l2":"Scan it on the way in and out","kx.l3":"Not yours to take home","kg.tag":"Your gift","kg.t":"Keepsake key","kg.l1":"Yours to take home","kg.l2":"A collectible","kg.l3":"Doesn't start or end the experience","nInv":"Who invited you","app.c1":"Choose “Join an experience”","app.c2":"See how it works","app.c3":"Calls & SMS stay on","app.c4":"Pick a mode","app.c5":"Pick what stays open","tInv":"Who <em>invited you?</em>",
       "inv.pr":"PR","inv.loomlock":"Loomlock team","inv.donjulio":"Don Julio team","inv.bikini":"Bikini team","inv.locky":"I wanted to meet Locky",
       "invm.pr":"PR sent you. You're on the list.","invm.loomlock":"Loomlock team sent you. Welcome home.","invm.donjulio":"Don Julio team sent you. Salud.","invm.bikini":"Bikini team sent you. Your house tonight.","invm.locky":"Locky was waiting for you too.",
       "inv.hint":"Choose an option",
@@ -1504,7 +1526,7 @@ h2 .w{display:inline-block}
     $("#host").textContent = t("s0.host", {h:CONFIG.anfitrion}); $("#host").hidden = !CONFIG.anfitrion;
     $("#totem-name").textContent = t("s3.totem");
     const cc = $("#cz-cap"); if (cc){ cc.dataset.k = ""; czCap("cz.c0") }
-    refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz(); renderInvite(); buildKb(); renderName(); renderAd();
+    setSide(kSide, true); refresh1(); refresh3(); updateNav(); renderTv(); renderQuiz(); renderInvite(); buildKb(); renderName(); renderAd();
   }
 
   /* ---------- channel changes ---------- */
@@ -2039,10 +2061,46 @@ h2 .w{display:inline-block}
   /* "Qué es" says what just happened */
   function czCap(k){ const c = $("#cz-cap"); if (c.dataset.k === k) return; c.dataset.k = k; c.textContent = t(k); c.classList.remove("in"); void c.offsetWidth; c.classList.add("in") }
 
+
+  /* the key: side 0 = experience key (venue), side 1 = keepsake (gift). Drag tilts, touch flips, pills switch */
+  let kSide = 0, kTouched = 0;
+  const k1art = $("#k1art"), k1in = $("#k1in");
+  function setSide(n, quiet){
+    kSide = n; k1in.classList.toggle("flip", n === 1); k1art.classList.toggle("gift", n === 1);
+    $$("#k1seg button").forEach(b => b.classList.toggle("on", +b.dataset.side === n));
+    const p = n ? "kg" : "kx", inf = $("#k1info");
+    inf.innerHTML = `<b class="kc-tag" style="${n ? "background:var(--yellow);color:var(--ink)" : ""}">${t(p + ".tag")}</b><h3>${t(p + ".t")}</h3><span class="kl ok">${t(p + ".l1")}</span><span class="kl ok">${t(p + ".l2")}</span><span class="kl no">${t(p + ".l3")}</span>`;
+    inf.classList.remove("in"); void inf.offsetWidth; inf.classList.add("in");
+    if (!quiet){ vib(12); markReady() }
+  }
+  $("#k1seg").addEventListener("click", e => { const b = e.target.closest("button"); if (b){ kTouched = Date.now(); setSide(+b.dataset.side) } });
+  {
+    let st = null, moved = false;
+    k1art.addEventListener("pointerdown", e => { k1art.setPointerCapture(e.pointerId); st = {x: e.clientX, y: e.clientY}; moved = false; k1in.classList.add("drag"); kTouched = Date.now() });
+    k1art.addEventListener("pointermove", e => {
+      if (!st) return;
+      const r = k1art.getBoundingClientRect(), dx = e.clientX - st.x, dy = e.clientY - st.y, k = 1 / (K || 1);
+      if (Math.abs(dx) + Math.abs(dy) > 8) moved = true;
+      const px = Math.max(-.6, Math.min(.6, (e.clientX - r.left) / r.width - .5)), py = Math.max(-.6, Math.min(.6, (e.clientY - r.top) / r.height - .5));
+      k1in.style.setProperty("--ry", (px * 46) + "deg"); k1in.style.setProperty("--rx", (-py * 36) + "deg");
+      k1in.style.setProperty("--kx", Math.max(-70, Math.min(70, dx * k * .3)) + "px"); k1in.style.setProperty("--ky", Math.max(-50, Math.min(50, dy * k * .3)) + "px");
+      k1in.style.setProperty("--sh", (30 + (px + .5) * 40) + "%");
+    });
+    const end = () => {
+      if (!st) return; st = null; k1in.classList.remove("drag");
+      ["--rx", "--ry"].forEach(v => k1in.style.setProperty(v, "0deg")); ["--kx", "--ky"].forEach(v => k1in.style.setProperty(v, "0px"));
+      if (!moved) setSide(1 - kSide); else markReady();
+      kTouched = Date.now();
+    };
+    k1art.addEventListener("pointerup", end); k1art.addEventListener("pointercancel", end);
+  }
+  /* untouched, it turns over by itself every 5 s so both keys get seen */
+  setInterval(() => { if (!$("#s3").classList.contains("active")){ kTouched = Date.now(); return } if (Date.now() - kTouched > 5000){ kTouched = Date.now(); setSide(1 - kSide, true) } }, 500);
+
   /* ---------- reset + idle ---------- */
   function resetAll(){
     commitInvite(); inviteChoice = null; inviteDone = false; renderInvite(); userName = ""; renderName();
-    $("#ov1").classList.remove("gone"); adI = 0; renderAd(); $$("#keys2 .kc-in").forEach(k => k.classList.remove("flip"));
+    $("#ov1").classList.remove("gone"); adI = 0; renderAd(); setSide(0, true);
     saved1 = false; phone1.classList.remove("is-saved"); $("#next-tip").classList.remove("on");
     buildApps($("#apps1"), true); syncApps3();
     card.classList.remove("flipped");
