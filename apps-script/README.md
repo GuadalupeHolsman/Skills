@@ -14,3 +14,6 @@ Con el código actualizado, la planilla muestra el menú **Loomlock > Reiniciar 
 
 ## Nombre del invitado
 Desde que el kiosco pide el nombre, `doPost` lo guarda en la columna E (`nombre`). Para que funcione hay que pegar el `Code.gs` nuevo y hacer **Implementar > Administrar implementaciones > editar > Versión: Nueva versión > Implementar** (la URL no cambia). Sin eso, todo sigue funcionando pero el nombre no se guarda.
+
+## URL en uso
+El kiosco envía a la implementación `AKfycbzWGRs-…/exec` (la que guarda el nombre en la columna E). La implementación anterior (`AKfycbwJnm…`) ya no se usa.
