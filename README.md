@@ -24,7 +24,7 @@ El orden sigue lo que vive el invitado: qué es → preparar la app antes de lle
 
 ### Íconos y tótem
 - Las apps de la demo usan los íconos reales de Instagram, TikTok, YouTube, X y Facebook (glifos del paquete *simple-icons*, licencia CC0, con los colores de cada marca). Los nombres e íconos son marcas de sus dueños y se muestran solo para explicar qué apps se pausan. Juegos, llamadas, cámara y mapas usan íconos genéricos.
-- El tótem es el nuevo tótem loomlock: el logo "ll" en neón sobre una base negra con una pantallita NFC (ahí se escanea). Está dibujado en SVG (símbolo `#lltotem` en la plantilla) y aparece en la pantalla de la entrada y en los botones que nombran al tótem.
+- El tótem es el nuevo tótem loomlock: el isotipo de loomlock (tomado de `logo.svg`) en neón sobre una base negra con una pantallita NFC (ahí se escanea). Está dibujado en SVG (símbolo `#lltotem` en la plantilla) y aparece en la pantalla de la entrada y en los botones que nombran al tótem.
 - "loomlock" va siempre en minúscula en los textos. La planilla sigue recibiendo la etiqueta "Equipo Loomlock" para no romper el filtro de "Por origen".
 - En el selector de apps hay un aviso en rojo: solo las apps elegidas quedan abiertas, todo lo demás se bloquea.
 
