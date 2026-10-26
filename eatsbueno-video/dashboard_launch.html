@@ -104,7 +104,8 @@
   <!-- 3–6 · The product, inside one browser window -->
   <section class="scene" id="s3" style="background:radial-gradient(70% 80% at 70% 50%,#232838 0%,#12151C 55%,#0A0C10 100%)">
     <div class="blob" id="glowA" style="width:1100px;height:800px;left:860px;top:140px;opacity:.32;background:radial-gradient(circle,#FF6A2B 0%,transparent 68%)"></div><div class="blob" style="width:900px;height:700px;left:-300px;top:560px;opacity:.16;background:radial-gradient(circle,#2BB3A3 0%,transparent 70%)"></div>
-    <div class="abs" id="frame" style="inset:0">
+    <div class="abs" id="ghost" style="inset:0;overflow:hidden"></div>
+    <div class="abs" id="frame" style="inset:0;transform-origin:1360px 540px">
     <div class="abs" id="drift" style="inset:0;transform-origin:960px 540px">
     <div class="abs" id="cam" style="inset:0;transform-origin:960px 540px">
       <div id="win">
@@ -122,10 +123,11 @@
     </div>
     </div>
     </div>
-    <div class="abs" id="hero" style="inset:0;z-index:25;pointer-events:none"></div>
+    <div class="abs" id="hero" style="inset:0;z-index:25;pointer-events:none;perspective:1800px"></div>
     <div class="capt" id="capA" style="display:none">See your program<br><i>at work.</i><small>One clear score and real participation, every closed month.</small></div>
     <div class="capt" id="capB" style="display:none">Know how your team<br><i>is really doing.</i><small>Self-reported energy and HR-reported absence, against your own baseline.</small></div>
     <div class="capt" id="tour" style="width:700px;opacity:0">
+      <div id="tourBar" style="width:520px;height:4px;border-radius:2px;background:rgba(255,255,255,.12);margin-bottom:26px;overflow:hidden"><div id="tourFill" style="width:100%;height:100%;background:#FF8A4C;transform-origin:0 50%;transform:scaleX(0)"></div></div>
       <div id="tourN" style="height:28px;overflow:hidden;font:800 20px Manrope;letter-spacing:.24em;color:#FF8A4C;margin-bottom:18px;position:relative"></div>
       <div id="tourT" style="height:176px;overflow:hidden;position:relative"></div>
       <div id="tourS" style="height:84px;overflow:hidden;position:relative;font:600 27px/1.45 Manrope;color:#AEB4C0;margin-top:18px"></div>
@@ -365,25 +367,54 @@
   const winTo = (props, t, d = 1.0) => tl.to(CAM, { ...props, duration: d, ease: 'ebSoft' }, t);
   tl.fromTo('#drift', { scale: 1, x: 0, y: 0 }, { scale: 1.05, x: -18, y: -8, duration: 34.8 + 2.0 + 18.7 - 10.2, ease: 'none', immediateRender: true }, 10.2);
   tl.fromTo('#drift', { rotation: -0.25 }, { rotation: 0.25, duration: 34.8 + 2.0 + 18.7 - 10.2, ease: 'sine.inOut', immediateRender: true }, 10.2);
-  // for every caption the window steps to the right of the dark stage and dims; the words sit on the left
+  // page coordinate (px, py) → cam transform that puts it at stage point (sx, sy) at scale s
+  const aim = (px, py, s, sx = 960, sy = 540) => { const X = 240 + px, Y = 72 + 46 + py; return { scale: s, x: sx - (960 + (X - 960) * s), y: sy - (540 + (Y - 540) * s) }; };
+  // for every caption the window steps to the right of the dark stage, turns in 3D and dims; the words sit on the left
   const POSE = { scale: 0.68, x: 400, y: 10 };
   const split = (on, t) => { if (on) winTo(POSE, t, 0.9);
+    tl.to('#frame', { rotationY: on ? -12 : 0, rotationX: on ? 3 : 0, duration: 1.0, ease: 'ebSoft' }, t);
     tl.to('#frame', { filter: on ? 'brightness(.62) saturate(.85)' : 'brightness(1) saturate(1)', duration: 0.6, ease: 'ebSoft' }, on ? t + 0.3 : t); };
   tl.set('#frame', { filter: 'brightness(1) saturate(1)' }, 0);
-  // the featured part as a crisp copy that flies out of the posed window toward camera, then goes back in
-  const hero = (bg, r, scroll, t, out, cx = 1360, cy = 560) => {
-    const sx = 960 + (240 + r[0] - 960) * POSE.scale + POSE.x, sy = 540 + (118 + r[1] - scroll - 540) * POSE.scale + POSE.y;
+  // the featured part as a crisp copy that flips out of the posed window toward camera, keeps pushing in while it is read,
+  // then leaves a different way each time (back into the window, off to the right, or dropping away); fx animates its content
+  const hero = (bg, r, scroll, t, out, v = 0, fx = null, cx = 1360, cy = 560) => {
+    const sx = 960 + (240 + r[0] - 960) * POSE.scale + POSE.x + r[2] * POSE.scale / 2, sy = 540 + (118 + r[1] - scroll - 540) * POSE.scale + POSE.y + r[3] * POSE.scale / 2;
     const k = Math.min(900 / r[2], 620 / r[3], 2.0);
     const L = document.createElement('div'); L.className = 'abs';
-    L.style.cssText = `left:0;top:0;width:${r[2]}px;height:${r[3]}px;border-radius:14px;overflow:hidden;transform-origin:0 0;opacity:0;background:${bg}`;
+    L.style.cssText = `left:${cx - r[2] / 2}px;top:${cy - r[3] / 2}px;width:${r[2]}px;height:${r[3]}px;border-radius:14px;overflow:hidden;opacity:0;background:${bg}`;
     const sh = document.createElement('div');
-    sh.style.cssText = 'position:absolute;inset:-20%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.5) 50%,transparent 60%);transform:translateX(-120%)';
+    sh.style.cssText = 'position:absolute;inset:-20%;z-index:5;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.5) 50%,transparent 60%);transform:translateX(-120%)';
     L.appendChild(sh); $('#hero').appendChild(L);
-    tl.fromTo(L, { x: sx, y: sy, scale: POSE.scale, opacity: 0, boxShadow: '0 0 0 rgba(0,0,0,0)' },
-      { x: cx - r[2] * k / 2, y: cy - r[3] * k / 2, scale: k, opacity: 1, boxShadow: '0 70px 120px -40px rgba(0,0,0,.85), 0 0 90px rgba(255,120,60,.22)', duration: 0.75, ease: 'ebPush', immediateRender: false }, t);
-    tl.to(sh, { x: '240%', duration: 0.9, ease: 'ebSoft' }, t + 0.45);
-    tl.to(L, { x: sx, y: sy, scale: POSE.scale, opacity: 0, boxShadow: '0 0 0 rgba(0,0,0,0)', duration: 0.5, ease: 'ebIn' }, out);
+    const ry = v % 2 ? 32 : -32;
+    tl.fromTo(L, { x: sx - cx, y: sy - cy, scale: POSE.scale, rotationY: ry, rotationX: 14, opacity: 0, boxShadow: '0 0 0 rgba(0,0,0,0)' },
+      { x: 0, y: 0, scale: k, rotationY: 0, rotationX: 0, opacity: 1, boxShadow: '0 70px 120px -40px rgba(0,0,0,.85), 0 0 90px rgba(255,120,60,.25)', duration: 0.8, ease: 'ebPush', immediateRender: false }, t);
+    tl.to(L, { scale: k * 1.07, rotationY: -ry * 0.12, y: -8, duration: out - t - 0.8, ease: 'sine.inOut' }, t + 0.8);
+    tl.to(sh, { x: '240%', duration: 0.9, ease: 'ebSoft' }, t + 0.5);
+    // the window recoils as the part leaves it
+    tl.to('#frame', { scale: 0.965, duration: 0.16, ease: 'ebOut' }, t + 0.05); tl.to('#frame', { scale: 1, duration: 0.6, ease: 'ebSoft' }, t + 0.21);
+    const X = [{ x: sx - cx, y: sy - cy, scale: POSE.scale, rotationY: ry * 0.5 }, { x: 900, y: -260, rotationY: -45, scale: k * 0.8, filter: 'blur(10px)' }, { y: 900, rotationX: -45, scale: k * 0.85, filter: 'blur(8px)' }][v % 3];
+    tl.to(L, { ...X, opacity: 0, boxShadow: '0 0 0 rgba(0,0,0,0)', duration: 0.5, ease: 'ebIn' }, out);
+    if (fx) fx(L, t);
+    return L;
   };
+  // inner animations on a hero card (card-relative css px): counters in the dashboard's KPI type, bars that grow
+  const count = (L, x, y, w, h, to, fmt, t, size = 48) => { const p = document.createElement('div'); p.className = 'abs';
+    p.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;background:#fff;display:flex;align-items:flex-end;font:800 ${size}px/1 Manrope;letter-spacing:-.045em;color:#1E1E1E;font-variant-numeric:tabular-nums`;
+    L.appendChild(p); const o = { v: 0 };
+    tl.fromTo(o, { v: 0 }, { v: to, duration: 1.1, ease: 'ebOut', immediateRender: false, onUpdate: () => { p.textContent = fmt(o.v); } }, t);
+    tl.call(() => { p.textContent = fmt(0); }, null, t - 0.01); p.textContent = fmt(0); META.ticks.push(t); };
+  const grow = (L, x, y, w, h, t, d = 0.9) => { const c = document.createElement('div'); c.className = 'abs';
+    c.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;background:#fff;transform-origin:100% 50%`; L.appendChild(c);
+    tl.fromTo(c, { scaleX: 1 }, { scaleX: 0, duration: d, ease: 'ebSoft', immediateRender: true }, t); };
+  // a huge outlined word drifts across the stage behind the window (parallax)
+  const ghost = (word, t, d) => { const g = document.createElement('div'); g.className = 'abs';
+    g.style.cssText = 'left:0;top:250px;white-space:nowrap;font:800 300px/1 Manrope;letter-spacing:-.02em;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.09);opacity:0';
+    g.textContent = word; $('#ghost').appendChild(g);
+    tl.fromTo(g, { x: 1700, opacity: 0 }, { x: -g.offsetWidth * 0.35, duration: d, ease: 'none', immediateRender: false }, t);
+    tl.to(g, { opacity: 1, duration: 0.5 }, t); tl.to(g, { opacity: 0, duration: 0.5 }, t + d - 0.5); };
+  // camera on the login form, then on the KPIs while they count, then the trends
+  winTo(aim(EM.x + 210, EM.y + 60, 1.75), 10.75, 1.1); winTo(aim(BTN.x + 210, BTN.y - 10, 1.6), 12.35, 1.0); winTo({ scale: 1.08, x: 0, y: 0, rotation: 0 }, 13.75, 0.9);
+  winTo(aim(850, 470, 1.4), 14.25, 0.9); winTo(aim(850, 760, 1.3), 15.3, 0.9);
   const caption = (id, t0, t1) => {
     split(true, t0 - 0.3);
     tl.set($(id), { opacity: 0 }, 0); tl.set($(id), { opacity: 1 }, t0 - 0.1);
@@ -416,6 +447,7 @@
     tl.fromTo(c, { opacity: 1 }, { opacity: 0, duration: 0.25, ease: 'ui', immediateRender: true }, 23.4 + i * 0.09);
     META.ticks.push(23.4 + i * 0.09);
   });
+  winTo(aim(850, 700, 1.45), 23.3, 1.3);
   const VR = SG[5];
   const hl = document.createElement('div'); hl.className = 'abs';
   hl.style.cssText = `left:${VR[0] - 4}px;top:${VR[1] - 4}px;width:${VR[2] + 8}px;height:${VR[3] + 8}px;border-radius:12px;border:3px solid #E26023;box-shadow:0 0 0 6px rgba(226,96,35,.15);opacity:0;z-index:3`;
@@ -429,7 +461,8 @@
   tl.fromTo(lk, { scale: 0.3, opacity: 1 }, { scale: 2.2, opacity: 0, duration: 0.7, ease: 'ebOut', immediateRender: false }, 25.05);
   META.success.push(25.05);
   caption('#capC', 25.1, 27.2);
-  hero(`url(assets/dash/subgroups.png) ${-(VR[0] - 6)}px ${-(VR[1] - 6)}px / 1440px auto no-repeat #fff`, [VR[0] - 6, VR[1] - 6, VR[2] + 12, VR[3] + 12], 0, 25.2, 27.1);
+  hero(`url(assets/dash/subgroups.png) ${-(VR[0] - 6)}px ${-(VR[1] - 6)}px / 1440px auto no-repeat #fff`, [VR[0] - 6, VR[1] - 6, VR[2] + 12, VR[3] + 12], 0, 25.2, 27.1, 1);
+  ghost('PRIVACY', 24.9, 3.0);
   split(false, 27.25);
 
   // ================= 6 · HR data (27.4 – 33.8) =================
@@ -457,6 +490,7 @@
   dropHL.style.cssText = `left:${H.upload[0] - 4}px;top:${H.upload[1] - 4}px;width:${H.upload[2] + 8}px;height:${H.upload[3] + 8}px;border-radius:16px;border:2px dashed #3B7668;background:rgba(238,244,242,.6);opacity:0;z-index:5`;
   pgHr.appendChild(dropHL);
   tl.to(dropHL, { opacity: 1, duration: 0.2 }, 29.3);
+  winTo(aim(H.upload[0] + H.upload[2] / 2, H.upload[1] + H.upload[3] / 2, 1.5), 28.9, 1.0); winTo(aim(H.strip[1][0] + 200, H.strip[1][1] + 40, 1.7), 30.35, 0.9);
   tl.to(chip, { scale: 0.6, opacity: 0, duration: 0.25, ease: 'ebIn' }, 29.7);
   tl.to(dropHL, { opacity: 0, duration: 0.2 }, 29.72);
   tl.to(upFile, { opacity: 1, duration: 0.25, ease: 'ui' }, 29.72);
@@ -478,7 +512,7 @@
 
   tl.to(CUR, { opacity: 0, duration: 0.3 }, 31.6);
   caption('#capD', 31.7, 33.8);
-  { const r = H.accepted_result; hero(`url(assets/dash/hr_result.png) 0 0 / ${r[2] + 4}px auto no-repeat #fff`, [r[0] - 2, r[1] - 2, r[2] + 4, r[3] + 4], 0, 31.8, 33.7); }
+  { const r = H.accepted_result; hero(`url(assets/dash/hr_result.png) 0 0 / ${r[2] + 4}px auto no-repeat #fff`, [r[0] - 2, r[1] - 2, r[2] + 4, r[3] + 4], 0, 31.8, 33.7, 2); ghost('HR DATA', 31.5, 3.0); }
   split(false, 33.85);
   // pull back: the window drops away into the program view
   winTo({ scale: 0.7, x: 0, y: 30 }, 33.9, 0.9);
@@ -564,6 +598,14 @@
     tl.set('#tour', { opacity: 1 }, T0); split(true, T0 - 0.3);
     const slot = (host, html) => { const d = document.createElement('div'); d.innerHTML = html; d.style.cssText = 'position:absolute;left:0;right:0;top:0'; host.appendChild(d); d.hh = host.offsetHeight + 12; tl.set(d, { y: d.hh }, 0); return d; };
     let prev = null, scroll = 0;
+    const FX = {    // offsets +4: the hero crop starts 4 px outside the card
+      1: (L, t) => count(L, 24, 58, 70, 54, 7.4, (v) => v.toFixed(1), t + 0.55),
+      2: (L, t) => count(L, 24, 58, 110, 54, 52, (v) => Math.round(v).toString(), t + 0.55),
+      3: (L, t) => count(L, 24, 58, 150, 54, 73.8, (v) => v.toFixed(1) + '%', t + 0.55),
+      4: (L, t) => { grow(L, 22, 108, 610, 26, t + 0.5, 1.0); [0, 1, 2].forEach((j) => grow(L, 104, 148 + j * 30.5, 380, 18, t + 0.65 + j * 0.12, 0.8)); },
+      5: (L, t) => { grow(L, 154, 146, 222, 14, t + 0.55, 0.8); grow(L, 154, 190, 222, 14, t + 0.7, 0.8); } };
+    tl.fromTo('#frame', { rotationY: -12 }, { rotationY: -4, duration: STOPS.length * DT / 2, ease: 'sine.inOut', immediateRender: false }, T0 + 0.7);
+    tl.to('#frame', { rotationY: -15, duration: STOPS.length * DT / 2 - 0.7, ease: 'sine.inOut' }, T0 + 0.7 + STOPS.length * DT / 2);
     STOPS.forEach(([r, eyebrow, title, sub], i) => {
       const parts = Array.isArray(r[0]) ? r : [r];
       const t = T0 + i * DT, pad = 10;
@@ -572,7 +614,9 @@
       r = [ux, uy, ur - ux, ub - uy];
       const want = Math.max(0, Math.min(1816 - 900, r[1] + r[3] / 2 - 430));   // scroll so the part sits high in the viewport
       if (want !== scroll) { tl.to(pgOv, { y: -want, duration: 0.7, ease: 'ebSoft' }, t - 0.1); scroll = want; }
-      hero(`url(assets/dash/overview_full.png) ${-(r[0] - 4)}px ${-(r[1] - 4)}px / 1440px auto no-repeat #F9F4F2`, [r[0] - 4, r[1] - 4, r[2] + 8, r[3] + 8], want, t + 0.15, T0 + (i + 1) * DT - 0.05);
+      hero(`url(assets/dash/overview_full.png) ${-(r[0] - 4)}px ${-(r[1] - 4)}px / 1440px auto no-repeat #F9F4F2`, [r[0] - 4, r[1] - 4, r[2] + 8, r[3] + 8], want, t + 0.15, T0 + (i + 1) * DT - 0.05, i, FX[i]);
+      ghost(eyebrow.toUpperCase(), t - 0.2, DT + 1.4);
+      tl.to('#tourFill', { scaleX: (i + 1) / STOPS.length, duration: 0.6, ease: 'ebPush' }, t + 0.1);
       const n = slot($('#tourN'), `${String(i + 1).padStart(2, '0')} / ${STOPS.length} · ${eyebrow.toUpperCase()}`),
             h = slot($('#tourT'), `<span style="font:700 78px/1.08 Cooper;white-space:normal;display:block">${title.replace(' <i>', '<br><i>')}</span>`),
             sb = slot($('#tourS'), sub);
