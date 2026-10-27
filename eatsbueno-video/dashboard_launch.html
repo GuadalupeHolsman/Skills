@@ -375,6 +375,11 @@
     c.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;background:#fff;z-index:4;transform-origin:100% 50%`; pg.appendChild(c);
     tl.set(c, { opacity: 0 }, 0); tl.set(c, { opacity: 1 }, t - 0.02);
     tl.fromTo(c, { scaleX: 1 }, { scaleX: 0, duration: d, ease: 'ebSoft', immediateRender: false }, t); };
+  // depth-of-field-blur: everything on a page but the focus elements goes soft for a while
+  const dof = (pg, keep, t0, t1) => { const soft = Array.from(pg.children).filter((el) => !keep.includes(el));
+    tl.set(soft, { filter: 'blur(0px) brightness(1)' }, 0);
+    tl.to(soft, { filter: 'blur(5px) brightness(.93)', duration: 0.7, ease: 'sine.inOut' }, t0);
+    tl.to(soft, { filter: 'blur(0px) brightness(1)', duration: 0.6, ease: 'sine.inOut' }, t1); };
   // one short line per idea, in a dark callout bottom-left over the moving product: wipes in, words rise, slides away
   const callout = (html, t0, t1, top = false) => {
     const d = document.createElement('div'); d.className = 'abs';
@@ -429,6 +434,10 @@
   winTo(aim(VR[0] + VR[2] / 2, VR[1] + VR[3] / 2, 1.55, 960, 430), 24.4, 1.1);
   tl.to(CAM, { ...aim(VR[0] + VR[2] / 2, VR[1] + VR[3] / 2, 1.63, 960, 430), duration: 1.75, ease: 'sine.inOut' }, 25.5);
   callout('Small groups are <i>never shown.</i>', 25.0, 27.25, true);
+  { const F = document.createElement('div'); F.className = 'abs';
+    F.style.cssText = `left:${VR[0] - 2}px;top:${VR[1] - 2}px;width:${VR[2] + 4}px;height:${VR[3] + 4}px;z-index:2;opacity:0;background:url(assets/dash/subgroups.png) ${-(VR[0] - 2)}px ${-(VR[1] - 2)}px / 1440px auto no-repeat`;
+    pgSub.appendChild(F); tl.to(F, { opacity: 1, duration: 0.3 }, 25.0); tl.to(F, { opacity: 0, duration: 0.3 }, 27.2);
+    dof(pgSub, [F, hl, lk], 25.1, 27.0); }
 
   // ================= 6 · HR data (27.4 – 33.8) =================
   winTo({ scale: 1, x: 0, y: 0 }, 27.35, 0.8);
@@ -478,6 +487,7 @@
   tl.to(CUR, { opacity: 0, duration: 0.3 }, 31.6);
   winTo(aim(H.accepted_result[0] + H.accepted_result[2] / 2, H.accepted_result[1] + H.accepted_result[3] / 2, 1.6, 960, 430), 31.25, 1.0);
   callout('One workbook a month. <i>Checked for you.</i>', 31.6, 33.85);
+  dof(pgHr, [result], 31.7, 33.6);
   // pull back: the window drops away into the program view
   winTo({ scale: 0.7, x: 0, y: 30 }, 33.9, 0.9);
   tl.set('#band', { visibility: 'visible' }, 34.35);
@@ -553,16 +563,50 @@
     const DT = 24 / STOPS.length, T0 = AT + 0.1;
     META.chapters.push(T0 - 0.45);
     tl.to(CUR, { opacity: 0, duration: 0.25 }, T0);
+    // every stop has three beats so a 6 s hold never sits still (hyperframes-animation rules):
+    //  1 · multi-phase-camera: glide in, push on the card, then pan slowly toward its detail
+    //  2 · the part completes in place (recount / regrow) while depth-of-field-blur drops the rest of the page out of focus
+    //  3 · a second accent: a drawn underline under the number, and the cursor drifts over the card like a live demo
     let scroll = 0;
+    const plan = [];
     STOPS.forEach(([r, s, line, fx], i) => {
       const t = T0 + i * DT;
       const want = Math.max(0, Math.min(1816 - 900, r[1] + r[3] / 2 - 430));
       if (want !== scroll) { tl.to(pgOv, { y: -want, duration: 1.0, ease: 'ebSoft' }, t); scroll = want; }
-      winTo(aim(r[0] + r[2] / 2, r[1] + r[3] / 2 - want, s, 1000, 420), t, 1.1);
-      tl.to(CAM, { ...aim(r[0] + r[2] / 2, r[1] + r[3] / 2 - want, s * 1.06, 1000, 420), duration: DT - 1.3, ease: 'sine.inOut' }, t + 1.1);
+      const cx = r[0] + r[2] / 2, cy = r[1] + r[3] / 2 - want;
+      winTo(aim(cx, cy, s, 1000, 420), t, 1.1);
+      tl.to(CAM, { ...aim(cx, cy, s * 1.05, 1000, 420), duration: 1.9, ease: 'sine.inOut' }, t + 1.1);
+      tl.to(CAM, { ...aim(cx + r[2] * 0.12, cy + r[3] * 0.14, s * 1.1, 1000, 420), duration: DT - 3.2, ease: 'sine.inOut' }, t + 3.0);
+      // a crisp copy of the card sits on the page; everything else goes soft
+      const F = document.createElement('div'); F.className = 'abs focus';
+      F.style.cssText = `left:${r[0] - 2}px;top:${r[1] - 2}px;width:${r[2] + 4}px;height:${r[3] + 4}px;border-radius:14px;z-index:3;opacity:0;
+        background:url(assets/dash/overview_full.png) ${-(r[0] - 2)}px ${-(r[1] - 2)}px / 1440px auto no-repeat;box-shadow:0 30px 60px -30px rgba(23,63,55,.35)`;
+      pgOv.appendChild(F);
+      tl.to(F, { opacity: 1, duration: 0.3 }, t + 1.0); tl.to(F, { opacity: 0, duration: 0.4 }, t + DT - 0.3);
+      const n0 = pgOv.children.length;
       if (fx) fx(t + 0.85);
+      Array.from(pgOv.children).slice(n0).forEach((el) => el.classList.add('focus'));
+      plan.push([t, F]);
+      // drawn underline under the headline number (score, participation)
+      if (i < 2) { const u = document.createElement('div'); u.className = 'abs focus';
+        u.style.cssText = `left:${r[0] + 20}px;top:${r[1] + 112}px;width:${i ? 150 : 72}px;height:5px;border-radius:3px;background:#FF8A4C;z-index:5;transform-origin:0 50%`;
+        pgOv.appendChild(u); tl.fromTo(u, { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: 'power2.inOut', immediateRender: true }, t + 2.3);
+        tl.to(u, { opacity: 0, duration: 0.3 }, t + DT - 0.3); }
+      // the cursor drifts in over the card and rests near its detail
+      const px = r[0] + r[2] * 0.7, py = r[1] - want + r[3] * 0.62;
+      tl.set(CUR, { x: px + 260, y: py + 160 }, t + 2.4);
+      tl.to(CUR, { opacity: 1, duration: 0.3 }, t + 2.45);
+      tl.to(CUR, { x: px, y: py, duration: 1.6, ease: 'power2.inOut' }, t + 2.5);
+      tl.to(CUR, { opacity: 0, duration: 0.3 }, t + DT - 0.6);
       callout(line, t + 0.6, t + DT - 0.35);
       META.whooshes.push(t);
+    });
+    // depth of field: built after all copies exist, so each stop blurs everything but its own focus elements
+    const soft = Array.from(pgOv.children).filter((el) => !el.classList.contains('focus'));
+    tl.set(soft, { filter: 'blur(0px) brightness(1)' }, 0);
+    plan.forEach(([t]) => {
+      tl.to(soft, { filter: 'blur(5px) brightness(.93)', duration: 0.7, ease: 'sine.inOut' }, t + 1.1);
+      tl.to(soft, { filter: 'blur(0px) brightness(1)', duration: 0.6, ease: 'sine.inOut' }, t + DT - 0.45);
     });
     const tEnd = T0 + STOPS.length * DT;
     tl.to(CUR, { opacity: 1, duration: 0.3 }, tEnd);
