@@ -39,6 +39,7 @@ Lee `references/marca-y-lenguaje.md` antes de escribir cualquier texto. Lo esenc
 | Rama publicada (Pages) | `loomlock-kiosk` (el kiosco está en la raíz) |
 | Planilla de invitados | https://docs.google.com/spreadsheets/d/1wNYN-rdJ9_JD7vly3rNqFsciNYK1NBezSXJCIq6huFQ/edit |
 | Apps Script (web app que usa el kiosco) | https://script.google.com/macros/s/AKfycbzWGRs-eSWw0QpNt0zEHXjzPvNFgdgbpKCBf_-5-RtOO_FuOs9PtuaD0-zPUBDXyJCE/exec |
+| Fotos de la noche (lo que abre el QR) | https://loomlock.estudioastora.com |
 | Guía de staff (PDF, 25 págs.) | `loomlock-kiosk/docs/loomlock_experiences_guia_de_staff.pdf` en la rama de trabajo |
 
 Detalle técnico del kiosco, la planilla y cómo publicar: `references/kiosco.md`.
@@ -58,8 +59,7 @@ Detalle técnico del kiosco, la planilla y cómo publicar: `references/kiosco.md
 
 ## Pendientes
 
-1. **Link real de las fotos** para el QR de la portada del kiosco (`CONFIG.fotosUrl`). Hoy apunta a `https://loomlock.com`.
-2. Loom va a mandar una pantalla nueva de **App Group Setup** (modo social, sin Instagram en apps permitidas): reemplazar `app5.webp` cuando llegue.
-3. **Antes del evento:** borrar las filas de prueba de la planilla con el menú *Loomlock > Reiniciar datos…*.
-4. El aviso rojo del selector de apps ("Only the apps you pick stay open. Everything else gets blocked.") fue una suposición: el mensaje de Loom estaba cortado. Confirmar el texto.
-5. En la guía de staff, `[coordinador/a]` y `[WhatsApp]` siguen como marcadores (págs. 23 y 25).
+1. Loom va a mandar una pantalla nueva de **App Group Setup** (modo social, sin Instagram en apps permitidas): reemplazar `app5.webp` cuando llegue.
+2. **Antes del evento:** borrar las filas de prueba de la planilla con el menú *Loomlock > Reiniciar datos…*.
+3. El aviso rojo del selector de apps ("Only the apps you pick stay open. Everything else gets blocked.") fue una suposición: el mensaje de Loom estaba cortado. Confirmar el texto.
+4. En la guía de staff, `[coordinador/a]` y `[WhatsApp]` siguen como marcadores (págs. 23 y 25).

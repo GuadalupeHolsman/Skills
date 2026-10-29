@@ -16,7 +16,7 @@ Pantalla táctil vertical 9:16 (lienzo 1080×1920) para la entrada del evento. U
 canal: "CH 02", anfitrion: "Tequila Don Julio", aviso18: true,
 idleSegundos: 60,          // sin toques vuelve al inicio
 sheetUrl: "",              // en la rama de trabajo va vacío; en la rama publicada va la URL del Apps Script
-fotosUrl: "https://loomlock.com",  // PENDIENTE: link real de las fotos (QR de la portada)
+fotosUrl: "https://loomlock.estudioastora.com",  // web de las fotos (QR de la portada)
 idioma: "en"               // inglés por defecto, botón ES/EN
 ```
 
