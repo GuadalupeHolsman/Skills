@@ -17,7 +17,7 @@ canal: "CH 02", anfitrion: "Tequila Don Julio", aviso18: true,
 idleSegundos: 60,          // sin toques vuelve al inicio
 sheetUrl: "",              // en la rama de trabajo va vacío; en la rama publicada va la URL del Apps Script
 fotosUrl: "https://loomlock.estudioastora.com",  // web de las fotos (QR de la portada)
-idioma: "en"               // inglés por defecto, botón ES/EN
+idioma: "es"               // español por defecto, botón ES/EN; traductor automático de Google bloqueado
 ```
 
 Textos: diccionario `T = {es:{...}, en:{...}}`, atributos `data-t`, función `applyLang()`.

@@ -1,9 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="es" translate="no" class="notranslate">
 <head>
 <meta charset="utf-8">
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<title>Loomlock Kiosk</title>
+<title>loomlock kiosk</title>
+<meta name="google" content="notranslate">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -3664,7 +3666,7 @@ var qrcode = function() {
     idleSegundos: 60,    // sin toques por este tiempo → vuelve al inicio
     sheetUrl: "",   // URL de la web app de Google Apps Script (ver apps-script/README.md); vacío = solo conteo local
     fotosUrl: "https://loomlock.estudioastora.com",   // web donde quedan las fotos de la noche (es lo que abre el QR)
-    idioma: "en"
+    idioma: "es"                       // idioma por defecto (botón ES/EN en pantalla)
   };
 
   const T = {
@@ -3915,6 +3917,8 @@ var qrcode = function() {
   /* ---------- i18n ---------- */
   function applyLang(){
     document.documentElement.lang = lang;
+    // keep browser auto-translate (Google Translate) off: the kiosk has its own ES/EN
+    [document.documentElement, document.body].forEach(el => { el.setAttribute("translate", "no"); el.classList.add("notranslate") });
     $$("[data-t]").forEach(el => { el.innerHTML = t(el.dataset.t) });
     $$("[data-tape]").forEach(el => { el.innerHTML = `<span>${t(el.dataset.tape)}</span>`.repeat(6) });
     screens.forEach((sc, i) => { const k = sc.querySelector(".kicker"); if (k && i > 0) k.textContent = `0${i} · ` + k.textContent.replace(/^\d+ · /, "") });

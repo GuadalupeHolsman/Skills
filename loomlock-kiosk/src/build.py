@@ -65,7 +65,7 @@ for i in (1, 2, 3, 4, 5, 6):
 (ROOT / "artifact.html").write_text(page, encoding="utf-8")
 head, body = page.split("</style>", 1)
 full = (
-    '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+    '<!doctype html>\n<html lang="es" translate="no" class="notranslate">\n<head>\n<meta charset="utf-8">\n<meta name="google" content="notranslate">\n'
     '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">\n'
     + head + "</style>\n</head>\n<body>" + body + "\n</body>\n</html>\n"
 )

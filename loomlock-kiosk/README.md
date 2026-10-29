@@ -71,7 +71,7 @@ En `src/kiosk.template.html`, dentro de `CONFIG`:
 - `anfitrion`: marca anfitriona del canal (`"Tequila Don Julio"`)
 - `aviso18`: muestra el aviso de mayores de 18 en la portada
 - `idleSegundos`: segundos sin uso antes de volver al inicio
-- `idioma`: idioma inicial (`"en"` por defecto; el botón ES/EN cambia a español)
+- `idioma`: idioma inicial (`"es"` por defecto; el botón ES/EN cambia a inglés). La página bloquea el traductor automático de Google (`translate="no"`, `notranslate`).
 - `fotosUrl`: la dirección que abre el QR de la portada (https://loomlock.estudioastora.com)
 
 Después de editar textos o ajustes: `python3 src/build.py` (regenera `index.html` y `artifact.html`).
