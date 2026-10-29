@@ -72,6 +72,6 @@ En `src/kiosk.template.html`, dentro de `CONFIG`:
 - `aviso18`: muestra el aviso de mayores de 18 en la portada
 - `idleSegundos`: segundos sin uso antes de volver al inicio
 - `idioma`: idioma inicial (`"en"` por defecto; el botón ES/EN cambia a español)
-- `fotosUrl`: la dirección que abre el QR de la última pantalla
+- `fotosUrl`: la dirección que abre el QR de la portada (https://loomlock.estudioastora.com)
 
 Después de editar textos o ajustes: `python3 src/build.py` (regenera `index.html` y `artifact.html`).
