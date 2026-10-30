@@ -108,12 +108,12 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .square .tv{left:50%;top:640px;width:500px;margin-left:-250px}
 .square .tv-screen{height:336px}
 .square .qr-card{width:270px;height:270px;padding:16px}
-.square .tagline{position:absolute;left:0;right:0;top:1200px;z-index:10;text-align:center;font-size:54px}
+.square .tagline{position:absolute;left:0;right:0;top:1250px;z-index:10;text-align:center;font-size:54px}
 .square .foot{position:absolute;left:54px;right:54px;bottom:38px;z-index:10;display:flex;align-items:center;justify-content:space-between}
 .square .pill{font-size:19px;padding:8px 20px}
-.square .callout{left:870px;top:680px;width:268px;font-size:36px}
+.square .callout{left:688px;top:1030px;width:300px;font-size:36px;transform:rotate(-5deg)}
 .square .callout small{font-size:18px}
-.square .carrow{left:760px;top:836px;width:150px;height:120px}
+
 
 /* ---------- horizontal banner (3:1): headline left, TV with QR right ---------- */
 .banner .rail{height:92px;padding:0 70px}
@@ -128,9 +128,9 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .banner .tv{left:1640px;top:262px;width:520px}
 .banner .tv-screen{height:320px}
 .banner .qr-card{width:262px;height:262px;padding:16px}
-.banner .callout{left:1300px;top:318px;width:320px;font-size:38px}
+.banner .callout{left:1392px;top:236px;width:320px;font-size:36px;transform:rotate(-5deg)}
 .banner .callout small{font-size:19px}
-.banner .carrow{left:1450px;top:454px;width:200px;height:110px}
+
 </style>
 </head>
 <body>
@@ -149,7 +149,6 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
     <div class="tv-body"><div class="tv-screen"><div class="qr-card" data-qr></div></div>
       <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
   <div class="callout"><small>CH 02 · Fotos</small>Escanea para ver tus fotos</div>
-  <svg class="carrow" viewBox="0 0 150 120"><path class="o" d="M138 8 C 128 70, 84 98, 22 96 M44 76 L20 96 L46 114"/><path class="i" d="M138 8 C 128 70, 84 98, 22 96 M44 76 L20 96 L46 114"/></svg>
   <span class="tagline"><b>live now</b>, post later.</span>
   <div class="foot"><img class="logo" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iNDUgMTc1IDY4MCAyNjIiPgogIDwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyOC42LjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiAxLjIuMCBCdWlsZCA3MDkpICAtLT4KICA8Zz4KICAgIDxnIGlkPSJMYXllcl8xIj4KICAgICAgPGc+CiAgICAgICAgPHBhdGggZD0iTTI4NC41LDMzNS4xOGMtMi41OSwwLTQuNjktMi4xLTQuNjktNC42OXYtNTYuNDZoLTEwLjM3djU4LjU5YzAsNi42Nyw1LjQsMTIuMDcsMTIuMDcsMTIuMDdoNi4xN3YtOS41aC0zLjE4WiIvPgogICAgICAgIDxwYXRoIGQ9Ik01MTQuODEsMzExLjI5djMyLjA2aC05Ljk4di0yOS41N2MwLTQuNDQtLjU2LTE1LjU0LTExLjk2LTE1LjkyLTExLjQuMzgtMTEuOTYsMTEuNDgtMTEuOTYsMTUuOTJ2MjkuNTdoLTEwLjAydi0yOS41N2MwLTQuNDMtLjU1LTE1LjQ2LTExLjg0LTE1LjkxLTExLjI5LjQ1LTExLjg0LDExLjQ5LTExLjg0LDE1LjkxdjI5LjU3aC05Ljk4di0zMi4wNmMwLTUuMTgsMS4wNi05LjUsMi45Ny0xMi45NiwzLjQ1LTUuOTYsOS44LTkuNjEsMTguNzItOS42MWguMjdjNy40MSwwLDEzLjA1LDIuNTIsMTYuNzIsNi44LDMuNjgtNC4yNyw5LjMxLTYuOCwxNi43Mi02LjhoLjVjOC45MiwwLDE1LjI3LDMuNjUsMTguNzIsOS42MSwxLjkyLDMuNDUsMi45Nyw3Ljc4LDIuOTcsMTIuOTZaIi8+CiAgICAgICAgPHBhdGggZD0iTTMyOC4zMywyODguNzJjLTE2LjUxLDAtMjguNywxMy4xNS0yOC43LDI3LjY1LDAsMTMuNDQsMTAuODUsMjguMzIsMjguNywyOC4zMnMyOC43LTE1LjE3LDI4LjctMjguMTNjMC0xNS4xNi0xMi41OC0yNy44NC0yOC43LTI3Ljg0Wk0zMjguMzMsMzM1LjU3Yy0xMS4xMywwLTE4LjcyLTkuMzEtMTguNzItMTguOTFzNy40OS0xOC44MSwxOC43Mi0xOC44MSwxOC43Miw5LjMxLDE4LjcyLDE4LjcxYzAsMTAuMDgtNy45NywxOS4wMS0xOC43MiwxOS4wMVoiLz4KICAgICAgICA8cGF0aCBkPSJNMzk1LjczLDI4OC43MmMtMTYuNTEsMC0yOC43LDEzLjE1LTI4LjcsMjcuNjUsMCwxMy40NCwxMC44NSwyOC4zMiwyOC43LDI4LjMyczI4LjctMTUuMTcsMjguNy0yOC4xM2MwLTE1LjE2LTEyLjU4LTI3Ljg0LTI4LjctMjcuODRaTTM5NS43MywzMzUuNTdjLTExLjEzLDAtMTguNzEtOS4zMS0xOC43MS0xOC45MXM3LjQ4LTE4LjgxLDE4LjcxLTE4LjgxLDE4LjcyLDkuMzEsMTguNzIsMTguNzFjMCwxMC4wOC03Ljk2LDE5LjAxLTE4LjcyLDE5LjAxWiIvPgogICAgICAgIDxwYXRoIGQ9Ik01ODkuNjQsMjg4LjcyYy0xNi41MSwwLTI4LjcsMTMuMTUtMjguNywyNy42NSwwLDEzLjQ0LDEwLjg1LDI4LjMyLDI4LjcsMjguMzJzMjguNy0xNS4xNywyOC43LTI4LjEzYzAtMTUuMTYtMTIuNTgtMjcuODQtMjguNy0yNy44NFpNNTg5LjY0LDMzNS41N2MtMTEuMTMsMC0xOC43Mi05LjMxLTE4LjcyLTE4LjkxczcuNDktMTguODEsMTguNzItMTguODEsMTguNzIsOS4zMSwxOC43MiwxOC43MWMwLDEwLjA4LTcuOTcsMTkuMDEtMTguNzIsMTkuMDFaIi8+CiAgICAgICAgPHBhdGggZD0iTTY1NS40MSwzMzUuNTdjLTExLjQyLDAtMTcuMjgtOS43LTE3LjI4LTE4LjkxLDAtOC4wNiw0LjYxLTE4LjgxLDE3LjQ3LTE4LjgxLDkuMzUsMCwxMy4yMiw2LjQyLDE0LjksOS44Mmw4LjgzLTUuMjhjLTMuOTItNi43Ny0xMi4wMi0xMy42Ny0yMy44My0xMy42Ny0xNi44LDAtMjcuMzYsMTMuNTQtMjcuMzYsMjcuOTNzOS43OSwyOC4wMywyNy4yNiwyOC4wM2M5Ljk0LDAsMTguODUtNS4wMywyMy44My0xMy42NmwtOC43Ny01LjI0Yy0yLjQ5LDUuNDYtNy41OCw5Ljc4LTE1LjA3LDkuNzhaIi8+CiAgICAgICAgPHBhdGggZD0iTTU0Ny4zNCwzMzUuMThjLTIuNTksMC00LjY5LTIuMS00LjY5LTQuNjl2LTU2LjQ2aC0xMC4zN3Y1OC41OWMwLDYuNjcsNS40LDEyLjA3LDEyLjA3LDEyLjA3aDYuMTd2LTkuNWgtMy4xOFoiLz4KICAgICAgICA8Zz4KICAgICAgICAgIDxwYXRoIGQ9Ik02OTIuNDEsMjc0LjAzdjcwLjY2aDkuOTh2LTcwLjY2aC05Ljk4WiIvPgogICAgICAgICAgPHBvbHlnb24gcG9pbnRzPSI3NDEgMzQ0LjY5IDcyNy41IDM0NC42OSA3MDIuMzggMzE3LjEgNzI5LjY1IDI5Mi4yNiA3MzYuMTUgMjk5LjQyIDcxNiAzMTcuNzYgNzQxIDM0NC42OSIvPgogICAgICAgIDwvZz4KICAgICAgICA8Zz4KICAgICAgICAgIDxwYXRoIGQ9Ik0xMjAuOTQsMzk0LjM5Yy40NS0uMDUuODktLjE3LDEuMzEtLjM1LS40Mi4xNy0uODYuMjktMS4zMS4zNVpNMTE5LjYxLDM5NC4zOWMuMjIuMDQuNDUuMDUuNjcuMDVzLjQ1LS4wMS42Ni0uMDVjLS40NC4wNi0uOS4wNi0xLjMzLDBaTTExOS42MSwzOTQuMzljLS40NS0uMDYtLjg5LS4xNy0xLjMxLS4zNS40Mi4xNy44Ni4zLDEuMzEuMzVaIi8+CiAgICAgICAgICA8cGF0aCBkPSJNNzMsMzE3LjM2Ii8+CiAgICAgICAgICA8cGF0aCBkPSJNMTU0LjkxLDM2Ni4yOGwtMjkuNDUtMTcuMDF2LTcxLjAxYzAtMS44Ni0xLTMuNTctMi41OS00LjQ5bC0zMi4wNS0xOC41Yy0xLjYtLjkyLTMuNTgtLjkyLTUuMTgsMGwtMzIuMDUsMTguNWMtMS42LjkyLTIuNTksMi42My0yLjU5LDQuNDl2MTExLjAyYzAsMS44NSwxLDMuNTYsMi41OSw0LjQ4bDY0LjA5LDM3LjAxYy44LjQ2LDEuNy43LDIuNTkuN3MxLjc4LS4yNCwyLjU4LS43bDMyLjA1LTE4LjUxYzEuNjEtLjkyLDIuNTktMi42MywyLjU5LTQuNDh2LTM3LjAxYzAtMS44NS0uOTktMy41Ni0yLjU5LTQuNDhaTTg4LjIzLDI2NS43MWwyNi44NywxNS41MnY3MS4wM2MwLDEuODUuOTksMy41NSwyLjU4LDQuNDhsMjQuMjksMTQuMDItMjEuNjksMTIuNTQtMjYuODctMTUuNTJ2LTcxLjAzYzAtMS44NS0xLTMuNTYtMi41OS00LjQ4bC0yNC4yNy0xNC4wMiwyMS42OS0xMi41NFpNMTQ3LjE1LDQwNC43OGwtMjYuODcsMTUuNS01OC45My0zNC4wMnYtOTkuMDdsMjEuNywxMi41NHY3MS4wMWMwLDEuODYuOTksMy41NywyLjU4LDQuNDlsMzIuMDUsMTguNWMuMi4xMS40MS4yMS42MS4zLjQyLjE3Ljg2LjI5LDEuMzEuMzUuNDQuMDYuOS4wNiwxLjMzLDAsLjQ1LS4wNi44OS0uMTcsMS4zMS0uMzUuMjEtLjA5LjQxLS4xOS42MS0uM2wyNC4yOS0xNC4wMnYyNS4wNloiLz4KICAgICAgICAgIDxwYXRoIGQ9Ik0yMTksMjE4LjI1bC02NC4wOS0zNy4wMWMtMS42LS45Mi0zLjU3LS45Mi01LjE4LDBsLTMyLjA1LDE4LjUxYy0xLjYuOTItMi41OCwyLjYzLTIuNTgsNC40OHYzNy4wMWMwLDEuODUuOTksMy41NSwyLjU4LDQuNDhsMjkuNDYsMTcuMDF2NzEuMDNjMCwxLjg1Ljk5LDMuNTYsMi41OCw0LjQ4bDMyLjA1LDE4LjVjLjguNDYsMS43LjcsMi41OS43czEuNzgtLjI0LDIuNTgtLjdsMzIuMDUtMTguNWMxLjYxLS45MiwyLjU5LTIuNjMsMi41OS00LjQ4di0xMTEuMDJjMC0xLjg2LS45OS0zLjU3LTIuNTktNC40OVpNMTU0LjkxLDI1NS4yNmwtMjkuNDUtMTcuMDF2LTI1LjA1bDUzLjc0LDMxLjAydjk5LjA3bC0yMS42OS0xMi41MnYtNzEuMDNjMC0xLjg1LS45OS0zLjU2LTIuNTktNC40OFpNMjExLjI0LDMzMC43NmwtMjEuNjksMTIuNTJ2LTEwMi4wNWMwLTEuODUtLjk5LTMuNTYtMi41OS00LjQ5bC01Ni4zMy0zMi41MiwyMS43LTEyLjUyLDU4LjkxLDM0LjAydjEwNS4wNFoiLz4KICAgICAgICA8L2c+CiAgICAgIDwvZz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPg==" alt="loomlock"><span class="pill">Esta noche, con Tequila Don Julio</span><span class="legal">+18 · Disfruta con responsabilidad</span></div>
   <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
@@ -170,7 +169,6 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
     <div class="tv-body"><div class="tv-screen"><div class="qr-card" data-qr></div></div>
       <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
   <div class="callout"><small>CH 02 · Fotos</small>Escanea para ver tus fotos</div>
-  <svg class="carrow" viewBox="0 0 230 120"><path class="o" d="M12 10 C 30 88, 110 108, 210 84 M184 64 L212 84 L186 106"/><path class="i" d="M12 10 C 30 88, 110 108, 210 84 M184 64 L212 84 L186 106"/></svg>
   <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
 </div>
 
