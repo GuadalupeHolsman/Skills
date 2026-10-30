@@ -84,7 +84,7 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .locky{position:absolute;z-index:6;overflow:visible;filter:drop-shadow(10px 10px 0 rgba(11,11,16,.6))}
 
 /* Locky lives inside the TV, next to the QR */
-.tv-screen{gap:26px}
+.tv-screen{gap:16px}
 .locky-in{position:relative;z-index:1;flex:none;align-self:flex-end;overflow:visible;margin-bottom:-34px;filter:drop-shadow(8px 8px 0 rgba(11,11,16,.6));transform:rotate(6deg)}
 
 /* ---------- 4:5 panel (Instagram portrait) ---------- */
@@ -92,15 +92,15 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .square .rail{height:96px;padding:0 54px}
 .square .tape.y{top:230px;transform:rotate(-9deg)}
 .square .tape.k{top:640px;transform:rotate(7deg)}
-.square .tv{left:50%;top:250px;width:720px;margin-left:-360px}
-.square .tv-screen{height:420px}
-.square .qr-card{width:290px;height:290px}
-.square .locky-in{width:170px;height:216px}
-.square .scan-cta{position:absolute;left:0;right:0;top:830px;z-index:10;justify-content:center}
+.square .tv{left:50%;top:252px;width:500px;margin-left:-250px}
+.square .tv-screen{height:336px}
+.square .qr-card{width:232px;height:232px;padding:14px;margin-top:20px}
+.square .locky-in{width:118px;height:150px;margin-bottom:-24px}
+.square .scan-cta{position:absolute;left:0;right:0;top:770px;z-index:10;justify-content:center}
 .square .scan-cta .arrow{width:84px;height:84px;font-size:46px}
 .square .scan-cta strong{font-size:38px}
 .square .scan-cta small{font-size:20px}
-.square .copy{position:absolute;left:0;right:0;top:1000px;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center}
+.square .copy{position:absolute;left:0;right:0;top:930px;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center}
 .square .kicker{margin-bottom:16px}
 .square h1{font-size:132px}
 .square .tagline{font-size:54px;margin-top:26px}
@@ -111,17 +111,17 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .banner .rail{height:92px;padding:0 70px}
 .banner .tape.y{top:96px;transform:rotate(-1.2deg)}
 .banner .tape.k{top:708px;transform:rotate(1deg)}
-.banner .tv{left:110px;top:296px;width:640px}
+.banner .tv{left:130px;top:296px;width:520px}
 .banner .tv-screen{height:320px}
-.banner .qr-card{width:236px;height:236px}
-.banner .locky-in{width:140px;height:178px}
-.banner .side{position:absolute;left:800px;top:300px;z-index:10;width:400px;display:flex;flex-direction:column;align-items:flex-start;gap:30px}
+.banner .qr-card{width:222px;height:222px;padding:14px;margin-top:20px}
+.banner .locky-in{width:114px;height:145px;margin-bottom:-22px}
+.banner .side{position:absolute;left:720px;top:330px;z-index:10;width:400px;display:flex;flex-direction:column;align-items:flex-start;gap:30px}
 .banner .scan-cta{flex-direction:column;align-items:flex-start}
 .banner .scan-cta .arrow{width:92px;height:92px;font-size:52px}
 .banner .scan-cta strong{font-size:42px}
 .banner .scan-cta small{font-size:21px}
 .banner .side .legal{margin-top:-14px}
-.banner .copy{position:absolute;left:1270px;top:232px;z-index:10;width:1060px}
+.banner .copy{position:absolute;left:1190px;top:232px;z-index:10;width:1060px}
 .banner .kicker{margin-bottom:16px;font-size:24px}
 .banner h1{font-size:122px}
 .banner .tagline{font-size:52px;margin-top:20px}
@@ -139,7 +139,7 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
   <div class="tv"><div class="ant short"><i></i><i></i></div>
     <div class="tv-body"><div class="tv-screen"><span class="osd">CH 02</span><span class="osd r">FOTOS</span><div class="qr-card" data-qr></div><svg class="locky-in" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg></div>
       <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
-  <div class="scan-cta"><span class="arrow">↑</span><span><strong>Escanea la tele y mira tus fotos</strong><small>loomlock.estudioastora.com</small></span></div>
+  <div class="scan-cta"><span class="arrow">↑</span><span><strong>Escanea la tele y mira tus fotos</strong></span></div>
   <div class="copy">
     <span class="kicker">End of transmission · <b>CH 02</b></span>
     <h1><b>Thanks for</b><br><em>tuning in.</em></h1>
@@ -158,7 +158,7 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
     <div class="tv-body"><div class="tv-screen"><span class="osd">CH 02</span><span class="osd r">FOTOS</span><div class="qr-card" data-qr></div><svg class="locky-in" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg></div>
       <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
   <div class="side">
-    <div class="scan-cta"><span class="arrow">←</span><span><strong>Escanea la tele y mira tus fotos</strong><small>loomlock.estudioastora.com</small></span></div>
+    <div class="scan-cta"><span class="arrow">←</span><span><strong>Escanea la tele y mira tus fotos</strong></span></div>
     <img class="logo" src="{{LOGO}}" alt="loomlock">
     <span class="legal">+18 · Disfruta con responsabilidad</span>
   </div>
