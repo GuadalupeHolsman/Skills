@@ -97,40 +97,46 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .carrow .o{stroke:var(--screen);stroke-width:20}
 .carrow .i{stroke:var(--yellow);stroke-width:10}
 
-/* ---------- 4:5 panel: headline on top, TV with QR in the middle ---------- */
+/* sponsor lockup: "presentado por" + Don Julio wordmark */
+.sponsor{display:flex;flex-direction:column;align-items:center;gap:14px}
+.sponsor small{font-family:var(--font-mono);font-size:20px;letter-spacing:5px;text-transform:uppercase;color:var(--soft)}
+.sponsor img{display:block;height:auto}
+
+/* ---------- 4:5 panel: one centre axis, three tiers (headline → TV/QR → sign-off) ---------- */
 .square{width:1200px;height:1500px}
-.square .rail{height:96px;padding:0 54px}
-.square .copy{position:absolute;left:0;right:0;top:150px;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center}
+.square .rail{height:96px;padding:0 56px}
+.square .copy{position:absolute;left:0;right:0;top:148px;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center}
 .square .kicker{margin-bottom:18px}
-.square h1{font-size:140px}
-.square .tape.y{top:740px;transform:rotate(-9deg)}
+.square h1{font-size:130px}
+.square .tape.y{top:730px;transform:rotate(-9deg)}
 .square .tape.k{top:930px;transform:rotate(7deg)}
 .square .tv{left:50%;top:640px;width:500px;margin-left:-250px}
 .square .tv-screen{height:336px}
 .square .qr-card{width:270px;height:270px;padding:16px}
-.square .tagline{position:absolute;left:0;right:0;top:1250px;z-index:10;text-align:center;font-size:54px}
-.square .foot{position:absolute;left:54px;right:54px;bottom:38px;z-index:10;display:flex;align-items:center;justify-content:space-between}
-.square .pill{font-size:19px;padding:8px 20px}
-.square .callout{left:688px;top:1030px;width:300px;font-size:36px;transform:rotate(-5deg)}
+.square .callout{left:690px;top:1020px;width:300px;font-size:36px;transform:rotate(-5deg)}
 .square .callout small{font-size:18px}
+.square .tagline{position:absolute;left:0;right:0;top:1204px;z-index:10;text-align:center;font-size:52px}
+.square .sponsor{position:absolute;left:0;right:0;top:1296px;z-index:10}
+.square .sponsor img{width:210px}
+.square .foot{position:absolute;left:56px;right:56px;bottom:40px;z-index:10;display:flex;align-items:center;justify-content:space-between}
 
-
-/* ---------- horizontal banner (3:1): headline left, TV with QR right ---------- */
+/* ---------- banner 3:1: headline | TV/QR | sponsor column ---------- */
 .banner .rail{height:92px;padding:0 70px}
 .banner .tape.y{top:96px;transform:rotate(-1.2deg)}
 .banner .tape.k{top:708px;transform:rotate(1deg)}
-.banner .copy{position:absolute;left:110px;top:206px;z-index:10;width:1400px}
+.banner .copy{position:absolute;left:110px;top:236px;z-index:10;width:1160px}
 .banner .kicker{margin-bottom:16px;font-size:24px}
-.banner h1{font-size:158px}
-.banner .tagline{font-size:54px;margin-top:20px;display:block}
-.banner .meta{margin-top:26px}
-.banner .pill{font-size:22px;padding:9px 24px}
-.banner .tv{left:1640px;top:262px;width:520px}
+.banner h1{font-size:146px}
+.banner .tagline{font-size:52px;margin-top:22px;display:block}
+.banner .tv{left:1300px;top:262px;width:520px}
 .banner .tv-screen{height:320px}
 .banner .qr-card{width:262px;height:262px;padding:16px}
-.banner .callout{left:1392px;top:236px;width:320px;font-size:36px;transform:rotate(-5deg)}
-.banner .callout small{font-size:19px}
-
+.banner .callout{left:1724px;top:300px;width:290px;font-size:34px;transform:rotate(-5deg)}
+.banner .callout small{font-size:17px}
+.banner .side{position:absolute;left:2076px;right:60px;top:250px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:30px;text-align:center}
+.banner .sponsor img{width:250px}
+.banner .side hr{width:100%;border:0;border-top:3px solid rgba(237,234,227,.25)}
+.banner .side .legal{font-size:16px}
 </style>
 </head>
 <body>
@@ -150,7 +156,8 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
       <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
   <div class="callout"><small>CH 02 · Fotos</small>Escanea para ver tus fotos</div>
   <span class="tagline"><b>live now</b>, post later.</span>
-  <div class="foot"><img class="logo" src="{{LOGO}}" alt="loomlock"><span class="pill">Esta noche, con Tequila Don Julio</span><span class="legal">+18 · Disfruta con responsabilidad</span></div>
+  <div class="sponsor"><small>Presentado por</small><img src="{{DONJULIO}}" alt="Don Julio"></div>
+  <div class="foot"><img class="logo" src="{{LOGO}}" alt="loomlock"><span class="legal">+18 · Disfruta con responsabilidad</span></div>
   <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
 </div>
 
@@ -161,14 +168,19 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
   <div class="rail"><span class="l"><span>loomlock experiences</span><span>prime time</span></span><span class="ch">CH 02</span></div>
   <div class="copy">
     <span class="kicker">End of transmission · <b>CH 02</b></span>
-    <h1><b>Thanks for</b> <em>tuning in.</em></h1>
+    <h1><b>Thanks for</b><br><em>tuning in.</em></h1>
     <span class="tagline"><b>live now</b>, post later.</span>
-    <div class="meta"><span class="pill">Esta noche, con Tequila Don Julio</span><img class="logo" src="{{LOGO}}" alt="loomlock"><span class="legal">+18 · Disfruta con responsabilidad</span></div>
   </div>
   <div class="tv"><div class="ant short"><i></i><i></i></div>
     <div class="tv-body"><div class="tv-screen"><div class="qr-card" data-qr></div></div>
       <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
   <div class="callout"><small>CH 02 · Fotos</small>Escanea para ver tus fotos</div>
+    <div class="side">
+    <div class="sponsor"><small>Presentado por</small><img src="{{DONJULIO}}" alt="Don Julio"></div>
+    <hr>
+    <img class="logo" src="{{LOGO}}" alt="loomlock">
+    <span class="legal">+18 · Disfruta con<br>responsabilidad</span>
+  </div>
   <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
 </div>
 
