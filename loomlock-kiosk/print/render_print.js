@@ -4,8 +4,8 @@ const path = require('path');
 const P = __dirname, OUT = path.join(P, 'out');
 require('fs').mkdirSync(OUT, {recursive: true});
 const pieces = [
-  {id: 'square', w: 1200, h: 1200, scale: 2.5, name: 'loomlock-gracias-panel-cuadrado'},
-  {id: 'banner', w: 2400, h: 800, scale: 2, name: 'loomlock-gracias-banner'},
+  {id: 'square', w: 1200, h: 1500, scale: 2.5, name: 'loomlock-thanks-panel-4x5'},
+  {id: 'banner', w: 2400, h: 800, scale: 2, name: 'loomlock-thanks-banner'},
 ];
 (async () => {
   const b = await chromium.launch();
