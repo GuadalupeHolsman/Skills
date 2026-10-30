@@ -98,9 +98,11 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .carrow .i{stroke:var(--yellow);stroke-width:10}
 
 /* sponsor lockup: "presentado por" + Don Julio wordmark */
-.sponsor{display:flex;flex-direction:column;align-items:center;gap:14px}
-.sponsor small{font-family:var(--font-mono);font-size:20px;letter-spacing:5px;text-transform:uppercase;color:var(--soft)}
-.sponsor img{display:block;height:auto}
+/* co-brand lockup: loomlock × Don Julio */
+.cobrand{display:flex;align-items:center;justify-content:center;gap:30px}
+.cobrand img{display:block}
+.cobrand .ll{filter:brightness(0) invert(1)}
+.cobrand .x{font-family:var(--font-mono);font-weight:400;color:var(--yellow);line-height:1}
 
 /* ---------- 4:5 panel: one centre axis, three tiers (headline → TV/QR → sign-off) ---------- */
 .square{width:1200px;height:1500px}
@@ -116,9 +118,11 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .square .callout{left:690px;top:1020px;width:300px;font-size:36px;transform:rotate(-5deg)}
 .square .callout small{font-size:18px}
 .square .tagline{position:absolute;left:0;right:0;top:1204px;z-index:10;text-align:center;font-size:52px}
-.square .sponsor{position:absolute;left:0;right:0;top:1296px;z-index:10}
-.square .sponsor img{width:210px}
-.square .foot{position:absolute;left:56px;right:56px;bottom:40px;z-index:10;display:flex;align-items:center;justify-content:space-between}
+.square .cobrand{position:absolute;left:0;right:0;top:1300px;z-index:10}
+.square .cobrand .ll{height:58px}
+.square .cobrand .dj{width:210px}
+.square .cobrand .x{font-size:44px}
+.square .foot{position:absolute;left:56px;right:56px;bottom:40px;z-index:10;display:flex;align-items:center;justify-content:center}
 
 /* ---------- banner 3:1: headline | TV/QR | sponsor column ---------- */
 .banner .rail{height:92px;padding:0 70px}
@@ -134,7 +138,10 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .banner .callout{left:1724px;top:300px;width:290px;font-size:34px;transform:rotate(-5deg)}
 .banner .callout small{font-size:17px}
 .banner .side{position:absolute;left:2076px;right:60px;top:250px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:30px;text-align:center}
-.banner .sponsor img{width:250px}
+.banner .cobrand{flex-direction:column;gap:16px}
+.banner .cobrand .ll{height:62px}
+.banner .cobrand .dj{width:240px}
+.banner .cobrand .x{font-size:44px}
 .banner .side hr{width:100%;border:0;border-top:3px solid rgba(237,234,227,.25)}
 .banner .side .legal{font-size:16px}
 </style>
@@ -156,8 +163,8 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
       <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
   <div class="callout"><small>CH 02 · Fotos</small>Escanea para ver tus fotos</div>
   <span class="tagline"><b>live now</b>, post later.</span>
-  <div class="sponsor"><small>Presentado por</small><img src="{{DONJULIO}}" alt="Don Julio"></div>
-  <div class="foot"><img class="logo" src="{{LOGO}}" alt="loomlock"><span class="legal">+18 · Disfruta con responsabilidad</span></div>
+  <div class="cobrand"><img class="ll" src="{{LOGO}}" alt="loomlock"><span class="x">×</span><img class="dj" src="{{DONJULIO}}" alt="Don Julio"></div>
+  <div class="foot"><span class="legal">+18 · Disfruta con responsabilidad</span></div>
   <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
 </div>
 
@@ -176,9 +183,8 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
       <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
   <div class="callout"><small>CH 02 · Fotos</small>Escanea para ver tus fotos</div>
     <div class="side">
-    <div class="sponsor"><small>Presentado por</small><img src="{{DONJULIO}}" alt="Don Julio"></div>
+    <div class="cobrand"><img class="ll" src="{{LOGO}}" alt="loomlock"><span class="x">×</span><img class="dj" src="{{DONJULIO}}" alt="Don Julio"></div>
     <hr>
-    <img class="logo" src="{{LOGO}}" alt="loomlock">
     <span class="legal">+18 · Disfruta con<br>responsabilidad</span>
   </div>
   <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
