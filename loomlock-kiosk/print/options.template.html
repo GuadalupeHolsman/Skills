@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="utf-8">
+<meta name="google" content="notranslate">
+<title>loomlock · thanks for tuning in</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,800;0,900;1,400;1,800;1,900&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --blue:#2F3AD0;--blue-deep:#1E269C;--yellow:#FCCE21;--screen:#0B0B10;--ink:#16161C;
+  --gray:#A3A1AD;--text:#EDEAE3;--soft:#D9D7E0;
+  --font-display:"Montserrat","Helvetica Neue",Arial,sans-serif;
+  --font-mono:"Space Mono","Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--screen)}
+.art{position:relative;overflow:hidden;color:var(--text);font-family:var(--font-display);
+  background:radial-gradient(120% 90% at 50% 30%, #3843dc, var(--blue) 55%, var(--blue-deep))}
+.square{width:1200px;height:1200px}
+.banner{width:2400px;height:800px;background:radial-gradient(70% 120% at 30% 40%, #3843dc, var(--blue) 55%, var(--blue-deep))}
+
+/* texture: grain + scanlines + vignette (printed as part of the art) */
+.grain{position:absolute;inset:0;z-index:20;pointer-events:none;opacity:.16;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -.2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.scan{position:absolute;inset:0;z-index:21;pointer-events:none;background:repeating-linear-gradient(0deg, rgba(11,11,16,.12) 0 2px, transparent 2px 6px)}
+.vignette{position:absolute;inset:0;z-index:22;pointer-events:none;background:radial-gradient(120% 95% at 50% 50%, transparent 58%, rgba(11,11,16,.5) 100%)}
+
+/* top rail */
+.rail{position:absolute;left:0;right:0;top:0;z-index:15;display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--font-mono);font-size:24px;letter-spacing:1px;color:var(--soft)}
+.rail .l{display:flex;gap:34px}
+.rail .ch{color:var(--yellow);font-weight:700;display:flex;align-items:center;gap:12px}
+.rail .ch::before{content:"";width:16px;height:16px;border-radius:50%;background:#ff3b3b;box-shadow:0 0 12px #ff3b3b}
+
+/* tapes */
+.tape{position:absolute;left:-300px;right:-300px;height:84px;display:flex;align-items:center;gap:40px;overflow:hidden;white-space:nowrap;z-index:1;
+  border-block:5px solid var(--screen);font-family:var(--font-mono);font-weight:700;font-size:34px;letter-spacing:3px;text-transform:uppercase}
+.tape span{display:inline-flex;align-items:center;gap:40px}
+.tape span::after{content:"";width:18px;height:18px;border-radius:50%;background:currentColor}
+.tape.y{background:var(--yellow);color:var(--ink)}
+.tape.k{background:var(--screen);color:var(--yellow)}
+
+/* the TV, its screen holds the QR */
+.tv{position:absolute;z-index:5}
+.tv .ant{position:absolute;left:50%;top:-104px;width:0;height:0}
+.tv .ant i{position:absolute;bottom:0;left:-4px;width:8px;height:140px;background:var(--screen);border-radius:4px;transform-origin:50% 100%}
+.tv .ant i:first-child{transform:rotate(-32deg)}
+.tv .ant.short{top:-78px}
+.tv .ant.short i{height:96px}
+.tv .ant i:last-child{transform:rotate(28deg)}
+.tv .ant i::after{content:"";position:absolute;top:-14px;left:-10px;width:28px;height:28px;border-radius:50%;background:var(--yellow);border:5px solid var(--screen)}
+.tv .ant::after{content:"";position:absolute;left:-46px;top:-6px;width:92px;height:46px;border-radius:46px 46px 0 0;background:var(--screen)}
+.tv-body{position:relative;background:var(--ink);border:6px solid var(--screen);border-radius:56px;padding:30px 30px 0;box-shadow:16px 16px 0 var(--screen)}
+.tv-screen{position:relative;border-radius:80px/62px;overflow:hidden;border:6px solid var(--screen);
+  background:radial-gradient(90% 90% at 50% 45%, #4a56ff, var(--blue) 60%, #111a7a);box-shadow:inset 0 0 70px rgba(0,0,0,.55);
+  display:flex;align-items:center;justify-content:center}
+.tv-screen::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg, rgba(0,0,0,.14) 0 2px, transparent 2px 6px), radial-gradient(60% 50% at 30% 22%, rgba(255,255,255,.16), transparent 70%)}
+.osd{position:absolute;left:34px;top:22px;z-index:2;font-family:var(--font-mono);font-size:24px;color:var(--yellow);letter-spacing:2px;text-shadow:3px 3px 0 var(--screen)}
+.osd.r{left:auto;right:34px}
+.qr-card{position:relative;z-index:1;background:#fff;border:6px solid var(--screen);border-radius:26px;padding:18px;box-shadow:10px 10px 0 var(--screen)}
+.qr-card svg{display:block;width:100%;height:100%}
+.tv-strip{display:flex;align-items:center;justify-content:space-between;height:84px;padding:0 18px;font-family:var(--font-mono);font-size:22px;letter-spacing:3px;color:var(--gray)}
+.knobs{display:flex;gap:16px}
+.knobs i{width:36px;height:36px;border-radius:50%;background:var(--gray);border:5px solid var(--screen);position:relative}
+.knobs i::after{content:"";position:absolute;left:50%;top:3px;width:5px;height:12px;margin-left:-2.5px;background:var(--screen);border-radius:3px}
+.knobs i:last-child{transform:rotate(40deg)}
+
+/* type */
+.kicker{font-family:var(--font-mono);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--soft)}
+.kicker b{color:var(--yellow);font-weight:700}
+h1{font-weight:400;text-transform:uppercase;letter-spacing:3px;line-height:.9;color:var(--text);text-shadow:8px 8px 0 var(--screen)}
+h1 b{font-weight:900}
+h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
+.tagline{font-style:italic;font-weight:400;color:var(--yellow);text-shadow:4px 4px 0 var(--screen)}
+.tagline b{font-weight:800}
+.pill{display:inline-block;font-family:var(--font-mono);letter-spacing:3px;text-transform:uppercase;color:var(--text);background:var(--screen);border-radius:99px}
+.scan-cta{display:flex;align-items:center;gap:18px}
+.scan-cta .arrow{flex:none;display:grid;place-items:center;border-radius:50%;background:var(--yellow);color:var(--ink);border:5px solid var(--screen);box-shadow:6px 6px 0 var(--screen);font-weight:900}
+.scan-cta strong{display:block;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.5px;color:var(--text);text-shadow:4px 4px 0 var(--screen);line-height:1.05}
+.scan-cta small{display:block;font-family:var(--font-mono);color:var(--yellow);letter-spacing:1px;margin-top:8px}
+.legal{font-family:var(--font-mono);font-size:17px;letter-spacing:1px;color:var(--soft)}
+.logo{height:46px;filter:brightness(0) invert(1)}
+.locky{position:absolute;z-index:6;overflow:visible;filter:drop-shadow(10px 10px 0 rgba(11,11,16,.6))}
+
+/* the scan cue lives on the TV itself, right under the QR */
+.tv-strip .cue{color:var(--yellow);font-weight:700;font-size:20px;letter-spacing:1px;white-space:nowrap;text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.tv-strip .cue::before{content:"";width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:16px solid var(--yellow)}
+.meta{display:flex;align-items:center;gap:26px}
+/* yellow sticker + arrow that points into the TV screen */
+.callout{position:absolute;z-index:12;background:var(--yellow);color:var(--ink);border:5px solid var(--screen);border-radius:22px;
+  box-shadow:8px 8px 0 var(--screen);padding:16px 22px 18px;transform:rotate(-5deg);
+  font-weight:900;font-style:italic;text-transform:uppercase;line-height:.98;letter-spacing:.3px}
+.callout small{display:block;font-family:var(--font-mono);font-style:normal;font-weight:700;letter-spacing:2px;margin-bottom:6px}
+.carrow{position:absolute;z-index:11;overflow:visible}
+.carrow path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.carrow .o{stroke:var(--screen);stroke-width:20}
+.carrow .i{stroke:var(--yellow);stroke-width:10}
+
+/* sponsor lockup: "presentado por" + Don Julio wordmark */
+/* co-brand lockup: loomlock × Don Julio */
+.cobrand{display:flex;align-items:center;justify-content:center;gap:30px}
+.cobrand img{display:block}
+.cobrand .ll{filter:brightness(0) invert(1)}
+.cobrand .x{font-family:var(--font-mono);font-weight:400;color:var(--yellow);line-height:1}
+
+/* ---------- 4:5 panel: one centre axis, three tiers (headline → TV/QR → sign-off) ---------- */
+.square{width:1200px;height:1500px}
+.square .rail{height:96px;padding:0 56px}
+.square .copy{position:absolute;left:0;right:0;top:148px;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center}
+.square .kicker{margin-bottom:18px}
+.square h1{font-size:130px}
+.square .tape.y{top:730px;transform:rotate(-9deg)}
+.square .tape.k{top:930px;transform:rotate(7deg)}
+.square .tv{left:50%;top:640px;width:500px;margin-left:-250px}
+.square .tv-screen{height:336px}
+.square .qr-card{width:270px;height:270px;padding:16px}
+.square .callout{left:690px;top:1020px;width:300px;font-size:36px;transform:rotate(-5deg)}
+.square .callout small{font-size:18px}
+.square .tagline{position:absolute;left:0;right:0;top:1204px;z-index:10;text-align:center;font-size:52px}
+.square .cobrand{position:absolute;left:0;right:0;top:1300px;z-index:10}
+.square .cobrand .ll{height:58px}
+.square .cobrand .dj{width:210px}
+.square .cobrand .x{font-size:44px}
+.square .foot{position:absolute;left:56px;right:56px;bottom:40px;z-index:10;display:flex;align-items:center;justify-content:center}
+
+/* ---------- banner 3:1: headline | TV/QR | sponsor column ---------- */
+.banner .rail{height:92px;padding:0 70px}
+.banner .tape.y{top:96px;transform:rotate(-1.2deg)}
+.banner .tape.k{top:708px;transform:rotate(1deg)}
+.banner .copy{position:absolute;left:110px;top:236px;z-index:10;width:1160px}
+.banner .kicker{margin-bottom:16px;font-size:24px}
+.banner h1{font-size:146px}
+.banner .tagline{font-size:52px;margin-top:22px;display:block}
+.banner .tv{left:1300px;top:262px;width:520px}
+.banner .tv-screen{height:320px}
+.banner .qr-card{width:262px;height:262px;padding:16px}
+.banner .callout{left:1724px;top:300px;width:290px;font-size:34px;transform:rotate(-5deg)}
+.banner .callout small{font-size:17px}
+.banner .side{position:absolute;left:2076px;right:60px;top:250px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:30px;text-align:center}
+.banner .cobrand{flex-direction:column;gap:16px}
+.banner .cobrand .ll{height:62px}
+.banner .cobrand .dj{width:240px}
+.banner .cobrand .x{font-size:44px}
+.banner .side hr{width:100%;border:0;border-top:3px solid rgba(237,234,227,.25)}
+.banner .side .legal{font-size:16px}
+
+/* ===================== OPTIONS (4:5) ===================== */
+.opt{width:1200px;height:1500px}
+.cob{display:flex;align-items:center;justify-content:center;gap:28px}
+.cob .ll{height:56px;filter:brightness(0) invert(1)}
+.cob .dj{width:200px}
+.cob .x{font-family:var(--font-mono);font-size:42px;color:var(--yellow);line-height:1}
+.sticker{position:absolute;z-index:12;background:var(--yellow);color:var(--ink);border:5px solid var(--screen);border-radius:22px;box-shadow:8px 8px 0 var(--screen);
+  padding:14px 22px 16px;transform:rotate(-5deg);font-weight:900;font-style:italic;text-transform:uppercase;line-height:.98;font-size:34px}
+.sticker small{display:block;font-family:var(--font-mono);font-style:normal;font-weight:700;letter-spacing:2px;margin-bottom:6px;font-size:17px}
+.qrbox{background:#fff;border:6px solid var(--screen);border-radius:26px;padding:20px;box-shadow:12px 12px 0 var(--screen)}
+.qrbox svg{display:block;width:100%;height:100%}
+
+/* ---- A · test card ---- */
+#optA{background:radial-gradient(120% 90% at 50% 40%, #3843dc, var(--blue) 55%, var(--blue-deep))}
+#optA .bars{position:absolute;left:0;right:0;top:96px;height:150px;display:grid;grid-template-columns:repeat(7,1fr);z-index:3;border-block:6px solid var(--screen)}
+#optA .bars i:nth-child(1){background:#EDEAE3}#optA .bars i:nth-child(2){background:#FCCE21}#optA .bars i:nth-child(3){background:#9fd8ff}
+#optA .bars i:nth-child(4){background:#3fcf8e}#optA .bars i:nth-child(5){background:#d46ad8}#optA .bars i:nth-child(6){background:#ff5a4e}#optA .bars i:nth-child(7){background:#1E269C}
+#optA .bars2{position:absolute;left:0;right:0;top:252px;height:40px;display:grid;grid-template-columns:repeat(7,1fr);z-index:3;border-bottom:6px solid var(--screen)}
+#optA .bars2 i:nth-child(odd){background:var(--screen)}#optA .bars2 i:nth-child(even){background:#2a2a34}
+#optA .ring{position:absolute;left:50%;top:350px;width:560px;height:560px;margin-left:-280px;border-radius:50%;z-index:2;
+  border:8px solid var(--text);background:repeating-linear-gradient(90deg, transparent 0 76px, rgba(237,234,227,.18) 76px 80px), repeating-linear-gradient(0deg, transparent 0 76px, rgba(237,234,227,.18) 76px 80px), radial-gradient(circle, #2a35c4 0 60%, #1E269C 100%);
+  box-shadow:0 0 0 14px var(--screen), 16px 16px 0 14px rgba(11,11,16,.5)}
+#optA .ring::before,#optA .ring::after{content:"";position:absolute;background:var(--text);opacity:.85}
+#optA .ring::before{left:50%;top:-40px;bottom:-40px;width:6px;margin-left:-3px}
+#optA .ring::after{top:50%;left:-40px;right:-40px;height:6px;margin-top:-3px}
+#optA .qrbox{position:absolute;left:50%;top:480px;width:300px;height:300px;margin-left:-150px;z-index:5}
+#optA .sticker{left:770px;top:800px}
+#optA .copy{position:absolute;left:0;right:0;top:965px;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center}
+#optA h1{font-size:118px}
+#optA .tagline{font-size:46px;margin-top:18px}
+#optA .cob{position:absolute;left:0;right:0;top:1330px;z-index:10}
+#optA .legal{position:absolute;left:0;right:0;bottom:30px;text-align:center;z-index:10}
+
+/* ---- B · full-screen broadcast ---- */
+#optB{background:var(--screen)}
+#optB .bezel{position:absolute;inset:40px 40px 230px;border-radius:70px/56px;overflow:hidden;border:8px solid #000;
+  background:radial-gradient(90% 80% at 50% 40%, #4a56ff, var(--blue) 60%, #111a7a);box-shadow:inset 0 0 120px rgba(0,0,0,.6)}
+#optB .bezel::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 2px, transparent 2px 6px), radial-gradient(60% 40% at 30% 20%, rgba(255,255,255,.14), transparent 70%)}
+#optB .osd{position:absolute;z-index:3;font-family:var(--font-mono);font-size:34px;color:var(--text);letter-spacing:3px;text-shadow:3px 3px 0 var(--screen)}
+#optB .osd.tl{left:60px;top:46px;color:var(--yellow)}
+#optB .osd.tr{left:auto;right:60px;top:46px;display:flex;align-items:center;gap:14px}
+#optB .osd.tr::before{content:"";width:22px;height:22px;border-radius:50%;background:#ff3b3b;box-shadow:0 0 14px #ff3b3b}
+#optB .osd.bl{left:60px;top:110px;font-size:22px;color:var(--soft)}
+#optB .vf{position:absolute;left:50%;top:190px;width:470px;height:470px;margin-left:-235px;z-index:3}
+#optB .vf i{position:absolute;width:80px;height:80px;border:10px solid var(--yellow)}
+#optB .vf i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0}#optB .vf i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0}
+#optB .vf i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0}#optB .vf i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0}
+#optB .qrbox{position:absolute;left:50%;top:245px;width:360px;height:360px;margin-left:-180px;z-index:4}
+#optB .sticker{left:740px;top:600px;z-index:6}
+#optB .lower{position:absolute;left:0;right:0;top:760px;z-index:5}
+#optB .lower .k{display:inline-block;margin-left:60px;background:var(--screen);color:var(--yellow);font-family:var(--font-mono);font-weight:700;font-size:26px;letter-spacing:4px;padding:10px 22px;text-transform:uppercase}
+#optB .lower .bar{background:var(--yellow);color:var(--ink);padding:18px 60px 22px;border-block:6px solid var(--screen)}
+#optB .lower h1{color:var(--ink);text-shadow:none;font-size:128px;line-height:.92}
+#optB .lower h1 em{color:var(--blue)}
+#optB .lower .tick{background:var(--screen);color:var(--text);font-family:var(--font-mono);font-size:26px;letter-spacing:3px;text-transform:uppercase;padding:14px 60px;white-space:nowrap;overflow:hidden}
+#optB .lower .tick b{color:var(--yellow)}
+#optB .cob{position:absolute;left:0;right:0;bottom:120px;z-index:10}
+#optB .legal{position:absolute;left:0;right:0;bottom:46px;text-align:center;z-index:10}
+
+/* ---- C · yellow inverse ---- */
+#optC{background:radial-gradient(120% 90% at 50% 30%, #ffe066, var(--yellow) 60%, #e8b800);color:var(--ink)}
+#optC .rail{color:var(--ink)}
+#optC .rail .ch{color:var(--blue)}
+#optC .kicker{color:var(--ink)}#optC .kicker b{color:var(--blue)}
+#optC h1{color:var(--ink);text-shadow:8px 8px 0 rgba(11,11,16,.18)}
+#optC h1 em{color:var(--blue);text-shadow:8px 8px 0 var(--screen)}
+#optC .tape.y{background:var(--blue);color:var(--text)}
+#optC .tape.k{background:var(--screen);color:var(--yellow)}
+#optC .tagline{color:var(--blue);text-shadow:none}
+#optC .sticker{background:var(--blue);color:var(--text)}
+#optC .cob .ll{filter:brightness(0)}
+#optC .cob .x{color:var(--blue)}
+#optC .cob .dj{filter:brightness(0)}
+#optC .legal{color:var(--ink)}
+#optC .grain{mix-blend-mode:multiply;opacity:.12}
+#optC .rail{height:96px;padding:0 56px}
+#optC .copy{position:absolute;left:0;right:0;top:148px;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center}
+#optC .kicker{margin-bottom:18px}
+#optC h1{font-size:130px}
+#optC .tape.y{top:730px;transform:rotate(-9deg)}
+#optC .tape.k{top:930px;transform:rotate(7deg)}
+#optC .tv{left:50%;top:640px;width:500px;margin-left:-250px}
+#optC .tv-screen{height:336px}
+#optC .qr-card{width:270px;height:270px;padding:16px}
+#optC .sticker{left:690px;top:1020px}
+#optC .tagline{position:absolute;left:0;right:0;top:1204px;z-index:10;text-align:center;font-size:52px}
+#optC .cob{position:absolute;left:0;right:0;top:1300px;z-index:10}
+#optC .legal{position:absolute;left:0;right:0;bottom:40px;text-align:center;z-index:10}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">{{LOCKY_SYMBOL}}</svg>
+<div class="art opt" id="optA">
+  <div class="rail" style="height:96px;padding:0 56px"><span class="l"><span>loomlock experiences</span><span>prime time</span></span><span class="ch">CH 02</span></div>
+  <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="bars2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ring"></div>
+  <div class="qrbox" data-qr></div>
+  <div class="sticker"><small>CH 02 · Fotos</small>Escanea para<br>ver tus fotos</div>
+  <div class="copy"><span class="kicker">End of transmission · <b>CH 02</b></span><h1><b>Thanks for</b><br><em>tuning in.</em></h1><span class="tagline"><b>live now</b>, post later.</span></div>
+  <div class="cob"><img class="ll" src="{{LOGO}}" alt="loomlock"><span class="x">×</span><img class="dj" src="{{DONJULIO}}" alt="Don Julio"></div><span class="legal">+18 · Disfruta con responsabilidad</span><div class="grain"></div><div class="scan"></div><div class="vignette"></div>
+</div>
+
+<div class="art opt" id="optB">
+  <div class="bezel">
+    <span class="osd tl">CH 02</span><span class="osd tr">REC</span><span class="osd bl">loomlock experiences · prime time</span>
+    <div class="vf"><i></i><i></i><i></i><i></i></div>
+    <div class="qrbox" data-qr></div>
+    <div class="sticker"><small>CH 02 · Fotos</small>Escanea para<br>ver tus fotos</div>
+    <div class="lower"><span class="k">End of transmission</span>
+      <div class="bar"><h1><b>Thanks for</b><br><em>tuning in.</em></h1></div>
+      <div class="tick"><b>●</b> Escanea para ver tus fotos &nbsp;<b>●</b>&nbsp; live now, post later &nbsp;<b>●</b>&nbsp; Prime time &nbsp;<b>●</b>&nbsp; CH 02</div>
+    </div>
+  </div>
+  <div class="cob"><img class="ll" src="{{LOGO}}" alt="loomlock"><span class="x">×</span><img class="dj" src="{{DONJULIO}}" alt="Don Julio"></div><span class="legal">+18 · Disfruta con responsabilidad</span><div class="grain"></div><div class="scan"></div><div class="vignette"></div>
+</div>
+
+<div class="art opt" id="optC">
+  <div class="tape y"><span>Live now, post later</span><span>Thanks for tuning in</span><span>Prime time</span><span>Live now, post later</span><span>Thanks for tuning in</span><span>Prime time</span><span>Live now, post later</span><span>Thanks for tuning in</span><span>Prime time</span></div><div class="tape k"><span>End of transmission</span><span>CH 02</span><span>Your photos are on air</span><span>End of transmission</span><span>CH 02</span><span>Your photos are on air</span><span>End of transmission</span><span>CH 02</span><span>Your photos are on air</span></div>
+  <div class="rail"><span class="l"><span>loomlock experiences</span><span>prime time</span></span><span class="ch">CH 02</span></div>
+  <div class="copy"><span class="kicker">End of transmission · <b>CH 02</b></span><h1><b>Thanks for</b><br><em>tuning in.</em></h1></div>
+  <div class="tv"><div class="ant short"><i></i><i></i></div><div class="tv-body"><div class="tv-screen"><div class="qr-card" data-qr></div></div><div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
+  <div class="sticker"><small>CH 02 · Fotos</small>Escanea para<br>ver tus fotos</div>
+  <span class="tagline"><b>live now</b>, post later.</span>
+  <div class="cob"><img class="ll" src="{{LOGO}}" alt="loomlock"><span class="x">×</span><img class="dj" src="{{DONJULIO}}" alt="Don Julio"></div><span class="legal">+18 · Disfruta con responsabilidad</span><div class="grain"></div><div class="scan"></div><div class="vignette"></div>
+</div>
+<script>{{QRLIB}}</script>
+<script>
+  const URL_FOTOS = "https://loomlock.estudioastora.com";
+  const q = qrcode(0, "M"); q.addData(URL_FOTOS); q.make();
+  const svg = q.createSvgTag({cellSize: 8, margin: 0, scalable: true});
+  document.querySelectorAll("[data-qr]").forEach(el => { el.innerHTML = svg });
+</script>
+</body>
+</html>

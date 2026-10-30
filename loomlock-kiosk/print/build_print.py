@@ -15,3 +15,11 @@ page = (tpl.replace("{{LOCKY_SYMBOL}}", locky)
            .replace("{{QRLIB}}", (ROOT / "src/vendor/qrcode-generator.js").read_text(encoding="utf-8")))
 (P / "gracias.html").write_text(page, encoding="utf-8")
 print("ok", len(page))
+
+# alternative directions for review
+opt = (P / "options.template.html").read_text(encoding="utf-8")
+for k, v in {"{{LOCKY_SYMBOL}}": locky, "{{LOGO}}": "data:image/svg+xml;base64," + base64.b64encode(logo.encode()).decode(),
+             "{{DONJULIO}}": "data:image/svg+xml;base64," + base64.b64encode((P / "don-julio-logo.svg").read_bytes()).decode(),
+             "{{QRLIB}}": (ROOT / "src/vendor/qrcode-generator.js").read_text(encoding="utf-8")}.items():
+    opt = opt.replace(k, v)
+(P / "opciones.html").write_text(opt, encoding="utf-8")
