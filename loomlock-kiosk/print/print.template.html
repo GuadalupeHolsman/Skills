@@ -87,6 +87,15 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .tv-strip .cue{color:var(--yellow);font-weight:700;font-size:20px;letter-spacing:1px;white-space:nowrap;text-transform:uppercase;display:flex;align-items:center;gap:12px}
 .tv-strip .cue::before{content:"";width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:16px solid var(--yellow)}
 .meta{display:flex;align-items:center;gap:26px}
+/* yellow sticker + arrow that points into the TV screen */
+.callout{position:absolute;z-index:12;background:var(--yellow);color:var(--ink);border:5px solid var(--screen);border-radius:22px;
+  box-shadow:8px 8px 0 var(--screen);padding:16px 22px 18px;transform:rotate(-5deg);
+  font-weight:900;font-style:italic;text-transform:uppercase;line-height:.98;letter-spacing:.3px}
+.callout small{display:block;font-family:var(--font-mono);font-style:normal;font-weight:700;letter-spacing:2px;margin-bottom:6px}
+.carrow{position:absolute;z-index:11;overflow:visible}
+.carrow path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.carrow .o{stroke:var(--screen);stroke-width:20}
+.carrow .i{stroke:var(--yellow);stroke-width:10}
 
 /* ---------- 4:5 panel: headline on top, TV with QR in the middle ---------- */
 .square{width:1200px;height:1500px}
@@ -102,6 +111,9 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .square .tagline{position:absolute;left:0;right:0;top:1200px;z-index:10;text-align:center;font-size:54px}
 .square .foot{position:absolute;left:54px;right:54px;bottom:38px;z-index:10;display:flex;align-items:center;justify-content:space-between}
 .square .pill{font-size:19px;padding:8px 20px}
+.square .callout{left:870px;top:680px;width:268px;font-size:36px}
+.square .callout small{font-size:18px}
+.square .carrow{left:760px;top:836px;width:150px;height:120px}
 
 /* ---------- horizontal banner (3:1): headline left, TV with QR right ---------- */
 .banner .rail{height:92px;padding:0 70px}
@@ -116,6 +128,9 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .banner .tv{left:1640px;top:262px;width:520px}
 .banner .tv-screen{height:320px}
 .banner .qr-card{width:262px;height:262px;padding:16px}
+.banner .callout{left:1300px;top:318px;width:320px;font-size:38px}
+.banner .callout small{font-size:19px}
+.banner .carrow{left:1450px;top:454px;width:200px;height:110px}
 </style>
 </head>
 <body>
@@ -132,7 +147,9 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
   </div>
   <div class="tv"><div class="ant short"><i></i><i></i></div>
     <div class="tv-body"><div class="tv-screen"><div class="qr-card" data-qr></div></div>
-      <div class="tv-strip"><span class="cue">Escanea · tus fotos</span><span class="knobs"><i></i><i></i></span></div></div></div>
+      <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
+  <div class="callout"><small>CH 02 · Fotos</small>Escanea para ver tus fotos</div>
+  <svg class="carrow" viewBox="0 0 150 120"><path class="o" d="M138 8 C 128 70, 84 98, 22 96 M44 76 L20 96 L46 114"/><path class="i" d="M138 8 C 128 70, 84 98, 22 96 M44 76 L20 96 L46 114"/></svg>
   <span class="tagline"><b>live now</b>, post later.</span>
   <div class="foot"><img class="logo" src="{{LOGO}}" alt="loomlock"><span class="pill">Esta noche, con Tequila Don Julio</span><span class="legal">+18 · Disfruta con responsabilidad</span></div>
   <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
@@ -151,7 +168,9 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
   </div>
   <div class="tv"><div class="ant short"><i></i><i></i></div>
     <div class="tv-body"><div class="tv-screen"><div class="qr-card" data-qr></div></div>
-      <div class="tv-strip"><span class="cue">Escanea · tus fotos</span><span class="knobs"><i></i><i></i></span></div></div></div>
+      <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
+  <div class="callout"><small>CH 02 · Fotos</small>Escanea para ver tus fotos</div>
+  <svg class="carrow" viewBox="0 0 230 120"><path class="o" d="M12 10 C 30 88, 110 108, 210 84 M184 64 L212 84 L186 106"/><path class="i" d="M12 10 C 30 88, 110 108, 210 84 M184 64 L212 84 L186 106"/></svg>
   <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
 </div>
 
