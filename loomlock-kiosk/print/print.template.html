@@ -83,49 +83,39 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 .logo{height:46px;filter:brightness(0) invert(1)}
 .locky{position:absolute;z-index:6;overflow:visible;filter:drop-shadow(10px 10px 0 rgba(11,11,16,.6))}
 
-/* Locky lives inside the TV, next to the QR */
-.tv-screen{gap:16px}
-.locky-in{position:relative;z-index:1;flex:none;align-self:flex-end;overflow:visible;margin-bottom:-34px;filter:drop-shadow(8px 8px 0 rgba(11,11,16,.6));transform:rotate(6deg)}
+/* the scan cue lives on the TV itself, right under the QR */
+.tv-strip .cue{color:var(--yellow);font-weight:700;font-size:20px;letter-spacing:1px;white-space:nowrap;text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.tv-strip .cue::before{content:"";width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:16px solid var(--yellow)}
+.meta{display:flex;align-items:center;gap:26px}
 
-/* ---------- 4:5 panel (Instagram portrait) ---------- */
+/* ---------- 4:5 panel: headline on top, TV with QR in the middle ---------- */
 .square{width:1200px;height:1500px}
 .square .rail{height:96px;padding:0 54px}
-.square .tape.y{top:230px;transform:rotate(-9deg)}
-.square .tape.k{top:640px;transform:rotate(7deg)}
-.square .tv{left:50%;top:252px;width:500px;margin-left:-250px}
+.square .copy{position:absolute;left:0;right:0;top:150px;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center}
+.square .kicker{margin-bottom:18px}
+.square h1{font-size:140px}
+.square .tape.y{top:740px;transform:rotate(-9deg)}
+.square .tape.k{top:930px;transform:rotate(7deg)}
+.square .tv{left:50%;top:640px;width:500px;margin-left:-250px}
 .square .tv-screen{height:336px}
-.square .qr-card{width:232px;height:232px;padding:14px;margin-top:20px}
-.square .locky-in{width:118px;height:150px;margin-bottom:-24px}
-.square .scan-cta{position:absolute;left:0;right:0;top:770px;z-index:10;justify-content:center}
-.square .scan-cta .arrow{width:84px;height:84px;font-size:46px}
-.square .scan-cta strong{font-size:38px}
-.square .scan-cta small{font-size:20px}
-.square .copy{position:absolute;left:0;right:0;top:930px;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center}
-.square .kicker{margin-bottom:16px}
-.square h1{font-size:132px}
-.square .tagline{font-size:54px;margin-top:26px}
-.square .pill{font-size:19px;padding:8px 20px}
+.square .qr-card{width:270px;height:270px;padding:16px}
+.square .tagline{position:absolute;left:0;right:0;top:1200px;z-index:10;text-align:center;font-size:54px}
 .square .foot{position:absolute;left:54px;right:54px;bottom:38px;z-index:10;display:flex;align-items:center;justify-content:space-between}
+.square .pill{font-size:19px;padding:8px 20px}
 
-/* ---------- horizontal banner (3:1) ---------- */
+/* ---------- horizontal banner (3:1): headline left, TV with QR right ---------- */
 .banner .rail{height:92px;padding:0 70px}
 .banner .tape.y{top:96px;transform:rotate(-1.2deg)}
 .banner .tape.k{top:708px;transform:rotate(1deg)}
-.banner .tv{left:130px;top:296px;width:520px}
-.banner .tv-screen{height:320px}
-.banner .qr-card{width:222px;height:222px;padding:14px;margin-top:20px}
-.banner .locky-in{width:114px;height:145px;margin-bottom:-22px}
-.banner .side{position:absolute;left:720px;top:330px;z-index:10;width:400px;display:flex;flex-direction:column;align-items:flex-start;gap:30px}
-.banner .scan-cta{flex-direction:column;align-items:flex-start}
-.banner .scan-cta .arrow{width:92px;height:92px;font-size:52px}
-.banner .scan-cta strong{font-size:42px}
-.banner .scan-cta small{font-size:21px}
-.banner .side .legal{margin-top:-14px}
-.banner .copy{position:absolute;left:1190px;top:232px;z-index:10;width:1060px}
+.banner .copy{position:absolute;left:110px;top:206px;z-index:10;width:1400px}
 .banner .kicker{margin-bottom:16px;font-size:24px}
-.banner h1{font-size:122px}
-.banner .tagline{font-size:52px;margin-top:20px}
-.banner .pill{font-size:22px;padding:9px 24px;margin-top:22px}
+.banner h1{font-size:158px}
+.banner .tagline{font-size:54px;margin-top:20px;display:block}
+.banner .meta{margin-top:26px}
+.banner .pill{font-size:22px;padding:9px 24px}
+.banner .tv{left:1640px;top:262px;width:520px}
+.banner .tv-screen{height:320px}
+.banner .qr-card{width:262px;height:262px;padding:16px}
 </style>
 </head>
 <body>
@@ -136,15 +126,14 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
   <div class="tape y"><span>Live now, post later</span><span>Thanks for tuning in</span><span>Prime time</span><span>Live now, post later</span><span>Thanks for tuning in</span><span>Prime time</span><span>Live now, post later</span><span>Thanks for tuning in</span><span>Prime time</span></div>
   <div class="tape k"><span>End of transmission</span><span>CH 02</span><span>Your photos are on air</span><span>End of transmission</span><span>CH 02</span><span>Your photos are on air</span><span>End of transmission</span><span>CH 02</span><span>Your photos are on air</span></div>
   <div class="rail"><span class="l"><span>loomlock experiences</span><span>prime time</span></span><span class="ch">CH 02</span></div>
-  <div class="tv"><div class="ant short"><i></i><i></i></div>
-    <div class="tv-body"><div class="tv-screen"><span class="osd">CH 02</span><span class="osd r">FOTOS</span><div class="qr-card" data-qr></div><svg class="locky-in" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg></div>
-      <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
-  <div class="scan-cta"><span class="arrow">↑</span><span><strong>Escanea la tele y mira tus fotos</strong></span></div>
   <div class="copy">
     <span class="kicker">End of transmission · <b>CH 02</b></span>
     <h1><b>Thanks for</b><br><em>tuning in.</em></h1>
-    <span class="tagline"><b>live now</b>, post later.</span>
   </div>
+  <div class="tv"><div class="ant short"><i></i><i></i></div>
+    <div class="tv-body"><div class="tv-screen"><div class="qr-card" data-qr></div></div>
+      <div class="tv-strip"><span class="cue">Escanea · tus fotos</span><span class="knobs"><i></i><i></i></span></div></div></div>
+  <span class="tagline"><b>live now</b>, post later.</span>
   <div class="foot"><img class="logo" src="{{LOGO}}" alt="loomlock"><span class="pill">Esta noche, con Tequila Don Julio</span><span class="legal">+18 · Disfruta con responsabilidad</span></div>
   <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
 </div>
@@ -154,20 +143,15 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
   <div class="tape y"><span>Live now, post later</span><span>Thanks for tuning in</span><span>Prime time</span><span>Live now, post later</span><span>Thanks for tuning in</span><span>Prime time</span><span>Live now, post later</span><span>Thanks for tuning in</span><span>Prime time</span><span>Live now, post later</span><span>Thanks for tuning in</span><span>Prime time</span></div>
   <div class="tape k"><span>End of transmission</span><span>CH 02</span><span>Your photos are on air</span><span>End of transmission</span><span>CH 02</span><span>Your photos are on air</span><span>End of transmission</span><span>CH 02</span><span>Your photos are on air</span><span>End of transmission</span><span>CH 02</span><span>Your photos are on air</span></div>
   <div class="rail"><span class="l"><span>loomlock experiences</span><span>prime time</span></span><span class="ch">CH 02</span></div>
-  <div class="tv"><div class="ant short"><i></i><i></i></div>
-    <div class="tv-body"><div class="tv-screen"><span class="osd">CH 02</span><span class="osd r">FOTOS</span><div class="qr-card" data-qr></div><svg class="locky-in" viewBox="200 120 620 790" aria-hidden="true"><use href="#locky"/></svg></div>
-      <div class="tv-strip"><span>loomlock</span><span class="knobs"><i></i><i></i></span></div></div></div>
-  <div class="side">
-    <div class="scan-cta"><span class="arrow">←</span><span><strong>Escanea la tele y mira tus fotos</strong></span></div>
-    <img class="logo" src="{{LOGO}}" alt="loomlock">
-    <span class="legal">+18 · Disfruta con responsabilidad</span>
-  </div>
   <div class="copy">
     <span class="kicker">End of transmission · <b>CH 02</b></span>
-    <h1><b>Thanks for</b><br><em>tuning in.</em></h1>
-    <span class="tagline"><b>live now</b>, post later.</span><br>
-    <span class="pill">Esta noche, con Tequila Don Julio</span>
+    <h1><b>Thanks for</b> <em>tuning in.</em></h1>
+    <span class="tagline"><b>live now</b>, post later.</span>
+    <div class="meta"><span class="pill">Esta noche, con Tequila Don Julio</span><img class="logo" src="{{LOGO}}" alt="loomlock"><span class="legal">+18 · Disfruta con responsabilidad</span></div>
   </div>
+  <div class="tv"><div class="ant short"><i></i><i></i></div>
+    <div class="tv-body"><div class="tv-screen"><div class="qr-card" data-qr></div></div>
+      <div class="tv-strip"><span class="cue">Escanea · tus fotos</span><span class="knobs"><i></i><i></i></span></div></div></div>
   <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
 </div>
 
