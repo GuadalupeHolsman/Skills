@@ -148,34 +148,35 @@ h1 em{font-style:italic;font-weight:900;color:var(--yellow)}
 /* ===================== INSTAGRAM STORY 9:16 (1080×1920) =====================
    Instagram covers ~250px at the top and bottom: everything important lives between 260 and 1660. */
 .story{width:1080px;height:1920px}
-.story .rail{position:absolute;left:0;right:0;top:250px;height:60px;padding:0 60px;display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:24px;color:var(--soft);z-index:15}
+.story .rail{position:absolute;left:0;right:0;top:262px;height:60px;padding:0 64px;display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:24px;color:var(--soft);z-index:15}
 .story .rail .ch{color:var(--yellow);font-weight:700;display:flex;align-items:center;gap:12px}
 .story .rail .ch::before{content:"";width:16px;height:16px;border-radius:50%;background:#ff3b3b;box-shadow:0 0 12px #ff3b3b}
-.story .copy{position:absolute;left:0;right:0;top:340px;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center}
-.story .kicker{margin-bottom:18px}
-.story h1{font-size:122px}
-.story .tape.y{top:900px;transform:rotate(-10deg)}
-.story .tape.k{top:1110px;transform:rotate(8deg)}
-.story .tv{left:50%;top:820px;width:500px;margin-left:-250px}
+/* tickers frame the story inside the zones Instagram covers */
+.story .tape.y{top:110px;transform:rotate(-3deg)}
+.story .tape.k{top:1720px;transform:rotate(3deg)}
+.story .copy{position:absolute;left:0;right:0;top:344px;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center}
+.story .kicker{margin-bottom:20px}
+.story h1{font-size:132px}
+.story .tv{left:50%;top:868px;width:500px;margin-left:-250px}
 .story .tv-screen{height:336px}
 .story .qr-card{width:270px;height:270px;padding:16px}
 .story .onair{position:relative;z-index:1;text-align:center;font-family:var(--font-mono);font-weight:700;color:var(--yellow);font-size:40px;letter-spacing:3px;line-height:1.15;text-transform:uppercase;text-shadow:4px 4px 0 var(--screen)}
 .story .onair small{display:block;color:var(--text);font-size:22px;letter-spacing:4px;margin-bottom:14px}
 .story .callout{position:absolute;z-index:12;background:var(--yellow);color:var(--ink);border:5px solid var(--screen);border-radius:22px;box-shadow:8px 8px 0 var(--screen);
-  padding:14px 22px 16px;transform:rotate(-5deg);font-weight:900;font-style:italic;text-transform:uppercase;line-height:.98;font-size:34px;left:590px;top:1200px;width:360px}
+  padding:14px 22px 16px;transform:rotate(-5deg);font-weight:900;font-style:italic;text-transform:uppercase;line-height:.98;font-size:34px;left:590px;top:1248px;width:360px}
 .story .callout small{display:block;font-family:var(--font-mono);font-style:normal;font-weight:700;letter-spacing:2px;margin-bottom:6px;font-size:17px}
-.story .linkzone{position:absolute;left:0;right:0;top:1330px;z-index:10;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:38px;color:var(--text);text-shadow:4px 4px 0 var(--screen)}
+.story .linkzone{position:absolute;left:0;right:0;top:1376px;z-index:10;text-align:center;font-weight:800;font-style:italic;text-transform:uppercase;font-size:38px;color:var(--text);text-shadow:4px 4px 0 var(--screen)}
 .story .linkzone b{color:var(--yellow)}
-.story .tagline{position:absolute;left:0;right:0;z-index:10;text-align:center;font-size:50px}
+.story .tagline{position:absolute;left:0;right:0;z-index:10;text-align:center;font-size:52px}
 .story .cob{position:absolute;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:center;gap:28px}
 .story .cob .ll{height:54px;filter:brightness(0) invert(1)}
 .story .cob .dj{width:196px}
 .story .cob .x{font-family:var(--font-mono);font-size:40px;color:var(--yellow);line-height:1}
-.story .legal{position:absolute;left:0;right:0;top:1648px;text-align:center;z-index:10}
-#storyLink .tagline{top:1496px}
-#storyLink .cob{top:1570px}
-#storyQR .tagline{top:1420px}
-#storyQR .cob{top:1530px}
+.story .legal{position:absolute;left:0;right:0;top:1668px;text-align:center;z-index:10}
+#storyLink .tagline{top:1528px}
+#storyLink .cob{top:1600px}
+#storyQR .tagline{top:1452px}
+#storyQR .cob{top:1548px}
 </style>
 </head>
 <body>
