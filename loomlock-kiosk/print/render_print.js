@@ -7,6 +7,7 @@ const pieces = [
   {id: 'square', w: 1200, h: 1500, scale: 2.5, name: 'loomlock-thanks-panel-4x5'},
   {id: 'banner', w: 2400, h: 800, scale: 2, name: 'loomlock-thanks-banner'},
   {id: 'storyLink', w: 1080, h: 1920, scale: 2, name: 'loomlock-thanks-historia-link', file: 'historia.html'},
+  {id: 'storyBoth', w: 1080, h: 1920, scale: 2, name: 'loomlock-thanks-historia-qr-y-link', file: 'historia.html'},
   {id: 'storyQR', w: 1080, h: 1920, scale: 2, name: 'loomlock-thanks-historia-qr', file: 'historia.html'},
 ];
 (async () => {
