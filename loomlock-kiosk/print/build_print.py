@@ -23,3 +23,11 @@ for k, v in {"{{LOCKY_SYMBOL}}": locky, "{{LOGO}}": "data:image/svg+xml;base64,"
              "{{QRLIB}}": (ROOT / "src/vendor/qrcode-generator.js").read_text(encoding="utf-8")}.items():
     opt = opt.replace(k, v)
 (P / "opciones.html").write_text(opt, encoding="utf-8")
+
+# Instagram story (9:16)
+st = (P / "story.template.html").read_text(encoding="utf-8")
+for k, v in {"{{LOCKY_SYMBOL}}": locky, "{{LOGO}}": "data:image/svg+xml;base64," + base64.b64encode(logo.encode()).decode(),
+             "{{DONJULIO}}": "data:image/svg+xml;base64," + base64.b64encode((P / "don-julio-logo.svg").read_bytes()).decode(),
+             "{{QRLIB}}": (ROOT / "src/vendor/qrcode-generator.js").read_text(encoding="utf-8")}.items():
+    st = st.replace(k, v)
+(P / "historia.html").write_text(st, encoding="utf-8")
