@@ -8,6 +8,7 @@ mkdir -p assets/footage
 tmp=$(mktemp -d)
 # slow = slow-motion factor (the benefit panels hold for ~9 s, so their clips are slowed and re-interpolated to 60 fps)
 while read -r id ss dur name slow; do
+  [ -s "assets/footage/$name.webm" ] && { echo "have $name"; continue; }
   [ -f "$tmp/$id.mp4" ] || curl -sSL -A "Mozilla/5.0" -o "$tmp/$id.mp4" "https://assets.mixkit.co/videos/$id/$id-720.mp4"
   ffmpeg -nostdin -v error -y -ss "$ss" -t "$dur" -i "$tmp/$id.mp4" -an \
     -vf "setpts=${slow:-1}*PTS,scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,minterpolate=fps=60:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1" \
