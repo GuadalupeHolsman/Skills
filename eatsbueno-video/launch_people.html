@@ -1185,6 +1185,24 @@
     VIDS.forEach((c) => { if (c.t0 >= CF) c.t0 += CD; else if (c.t0 + c.dur > CF) c.dur += CD; });
     DUR += CD; META.duration = DUR; META.repeatAt += CD; META.repeatLen = 8 + CD;
     buildCulture(CF, CD); }
+  // ---- slow down the beats that read too fast: every tween inside [a, b] is stretched by k (motion stays
+  //      continuous, just slower), tweens crossing a seam are extended, everything after b moves later
+  const stretch = (a, b, k) => {
+    const dl = (b - a) * (k - 1), map = (t) => (t <= a ? t : t < b ? a + (t - a) * k : t + dl);
+    tl.getChildren(false, true, true).forEach((c) => {
+      const s0 = c.startTime(), e0 = s0 + c.duration();
+      if (s0 >= b) { c.startTime(s0 + dl); return; }
+      const s1 = map(s0), e1 = map(e0);
+      c.startTime(s1);
+      if (c.duration() > 0) c.duration(e1 - s1);
+    });
+    Object.keys(META).forEach((k2) => { if (Array.isArray(META[k2]) && k2 !== 'silence') META[k2] = META[k2].map(map); });
+    VIDS.forEach((c) => { const t1 = map(c.t0), t2 = map(c.t0 + c.dur); c.rate = (c.rate || 1) * c.dur / (t2 - t1); c.t0 = t1; c.dur = t2 - t1; });
+    DUR += dl; META.duration = DUR;
+  };
+  stretch(46.2, 52.2, 1.45);     // small victories: each win gets time to land
+  stretch(25.2, 30.85, 1.35);    // your food, your culture: one dish at a time
+  stretch(15.6, 17.5, 1.5);      // meet EatsBueno
   tl.set({}, {}, DUR);
   window.DURATION = DUR;
   window.META = META;

@@ -250,7 +250,12 @@ a0, a1 = int((G1 + 1.6) * SR), int((G1 + 2.4) * SR)
 fin[a0:a1] = np.linspace(1, 1.45, a1 - a0); fin[a1:] = 1.45
 mix = mus * 0.8 * (duck * fin)[:, None] + sfx
 a, b = int(SIL0 * SR), int((SIL1 - 0.95) * SR)
-mix[a:b] = 0                                   # the silence beat ...
+if V2:                                         # v2 score is continuous: dip it under the line instead of cutting it
+    r = int(0.4 * SR); env = np.ones(N, dtype=np.float32)
+    env[a:b] = 0.35; env[a - r:a] = np.linspace(1, 0.35, r); env[b:b + r] = np.linspace(0.35, 1, r)
+    mix *= env[:, None]
+else:
+    mix[a:b] = 0                               # the silence beat ...
 for t in M('keys'):
     i = int(t * SR); k = kit['key'][: N - i] * (0.3 if SIL0 <= t < SIL1 else 0.18)
     mix[i:i + len(k)] += k                     # ... where only the typing is heard
