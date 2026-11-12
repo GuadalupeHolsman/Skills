@@ -56,9 +56,6 @@
   .screen { position: relative; width: 430px; height: 930px; border-radius: 57px; overflow: hidden; background: #eef3ef; }
   .island { position: absolute; top: 12px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: #000; z-index: 90; }
   .phone img.scr { position: absolute; left: 0; top: 0; width: 430px; }
-  .card3 { position: absolute; transform-style: preserve-3d; }
-  .card3 img { display: block; width: 100%; filter: drop-shadow(0 40px 60px rgba(0,0,0,.35)); }
-  .card3 .lab { display: table; margin: 20px auto 0; padding: 10px 20px; border-radius: 999px; background: #173F37; font: 800 17px Manrope; letter-spacing: .16em; text-transform: uppercase; color: var(--cream); }
 </style>
 </head>
 <body>
@@ -67,8 +64,6 @@
 
   <div class="abs flower" id="flood" style="left:830px;top:410px;width:260px;height:260px;color:var(--cream);z-index:55;visibility:hidden"></div>
   <div class="abs" id="floodDisc" style="left:900px;top:480px;width:120px;height:120px;border-radius:50%;background:var(--cream);z-index:54;visibility:hidden"></div>
-  <div class="abs" id="band" style="left:0;top:-300px;width:2600px;height:1680px;z-index:55;visibility:hidden;transform:skewX(-16deg);background:linear-gradient(90deg,#FAF0DF 0,#FAF0DF 26px,#F0A26A 26px,#F0A26A 60px,#E26023 60px)"></div>
-  <div class="abs" id="chap" style="inset:0;z-index:57;pointer-events:none;overflow:hidden"></div>
   <div class="abs" id="leak" style="left:-900px;top:-200px;width:900px;height:1500px;z-index:52;opacity:0;transform:rotate(14deg);filter:blur(40px);background:linear-gradient(90deg,transparent,rgba(255,214,170,.75),transparent)"></div>
 
   <!-- 1 · Hook: real teams, three lines -->
@@ -124,13 +119,6 @@
     </div>
     <div class="capt" id="capA" style="display:none">See your program<br><i>at work.</i><small>One clear score and real participation, every closed month.</small></div>
     <div class="capt" id="capB" style="display:none">Know how your team<br><i>is really doing.</i><small>Self-reported energy and HR-reported absence, against your own baseline.</small></div>
-  </section>
-
-  <!-- 7 · The program at a glance -->
-  <section class="scene" id="s7" style="background:radial-gradient(120% 110% at 50% 40%,#D9581D 0%,#C9501A 60%,#B84816 100%)">
-    <div class="blob" style="width:1100px;height:800px;left:-520px;top:-380px;opacity:.55;background:radial-gradient(circle,#F0A26A 0%,#E9876A 45%,transparent 70%)"></div><div class="blob" style="width:900px;height:700px;left:1380px;top:640px;opacity:.45;background:radial-gradient(circle,#EE9A4E 0%,transparent 70%)"></div>
-    <div class="abs h1" id="h7" style="left:0;right:0;top:86px;text-align:center;font-size:76px">A team that feels good<br><i>is a team that performs.</i></div>
-    <div class="abs" id="cards7" style="inset:0;transform-style:preserve-3d"></div>
   </section>
 
   <!-- 7b · Benefits -->
@@ -259,7 +247,7 @@
   META.whooshes.push(9.55);
 
   // ================= 3 · Sign in (9.8 – 13.8) =================
-  scene('s3', 9.95, 34.8);
+  scene('s3', 9.95, 39.95);
   tl.fromTo('#s3', { clipPath: 'circle(0% at 71% 62%)' }, { clipPath: 'circle(150% at 71% 62%)', duration: 0.85, ease: 'power2.inOut', immediateRender: true }, 9.95);
   META.hits.push(10.1);
   const CAM = $('#cam'), WIN = $('#win');
@@ -402,9 +390,9 @@
   const pgSub = $('#pgSub');
   const whip = (inPg, t) => {
     META.chapters.push(t + 0.05);
-    tl.to(WIN, { x: -90, filter: 'blur(7px)', duration: 0.16, ease: 'ebIn' }, t);
-    tl.to(WIN, { x: 0, filter: 'blur(0px)', duration: 0.42, ease: 'ebOut' }, t + 0.16);
-    tl.fromTo(inPg, { opacity: 0, x: 260 }, { opacity: 1, x: 0, duration: 0.5, ease: 'ebPush', immediateRender: false }, t + 0.1);
+    tl.to(WIN, { x: -60, filter: 'blur(5px)', duration: 0.22, ease: 'power2.in' }, t);
+    tl.to(WIN, { x: 0, filter: 'blur(0px)', duration: 0.5, ease: 'power2.out' }, t + 0.22);
+    tl.fromTo(inPg, { opacity: 0, x: 180 }, { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out', immediateRender: false }, t + 0.12);
     META.whooshes.push(t);
   };
   whip(pgSub, 22.98);
@@ -488,41 +476,16 @@
   winTo(aim(H.accepted_result[0] + H.accepted_result[2] / 2, H.accepted_result[1] + H.accepted_result[3] / 2, 1.6, 960, 430), 31.25, 1.0);
   callout('One workbook a month. <i>Checked for you.</i>', 31.6, 33.85);
   dof(pgHr, [result], 31.7, 33.6);
-  // pull back: the window drops away into the program view
-  winTo({ scale: 0.7, x: 0, y: 30 }, 33.9, 0.9);
-  tl.set('#band', { visibility: 'visible' }, 34.35);
-  tl.fromTo('#band', { x: -2900 }, { x: 2300, duration: 0.95, ease: 'ebSoft', immediateRender: true }, 34.35);
-  tl.set('#band', { visibility: 'hidden' }, 35.32);
-  META.whooshes.push(34.45);
-
-  // ================= 7 · The program at a glance (34.9 – 39.7) =================
-  scene('s7', 34.78, 39.95);
-  { const F7 = document.createElement('div'); F7.className = 'abs'; F7.style.cssText = 'inset:0;opacity:.42';
-    $('#s7').insertBefore(F7, $('#h7'));
-    const sh7 = document.createElement('div'); sh7.className = 'abs'; sh7.style.cssText = 'inset:0;background:linear-gradient(180deg,rgba(110,32,6,.62) 0%,rgba(110,32,6,.2) 34%,rgba(110,32,6,0) 50%)';
-    $('#s7').insertBefore(sh7, $('#h7'));
-    tl.to([F7, sh7], { opacity: 0, duration: 0.55, ease: 'ebSoft' }, 39.3);
-    [['d_highfive', 34.78, 1.75, 0.6], ['d_coworkers', 36.5, 1.75, 1.6], ['d_handshake', 38.25, 1.7, 0.4]].forEach(([n, t0, d, inPt], i) => {
-      const f = foot(F7, n, t0 - 0.05, d + 0.65, { inPt, rate: 1, vcss: DUO, tint: GREEN });
-      tl.set(f, { opacity: 1 }, t0 - 0.05); tl.set(f, { opacity: i === 2 ? 1 : 0 }, t0 + d + 0.55);
-      tl.fromTo(f.firstChild, { scale: 1.16 }, { scale: 1.04, duration: d, ease: 'ebSoft', immediateRender: false }, t0);
-      if (i) tl.fromTo(f, { clipPath: 'inset(0 0 0 100%)' }, { clipPath: 'inset(0 0 0 0%)', duration: 0.65, ease: 'power2.inOut', immediateRender: false }, t0 - 0.1);
-    }); }
-  reveal($('#h7'), 35.05, 0.06);
-  META.titles.push(35.1);
-  const C7 = [['c_thriving', 'Wellbeing score', 90, -14], ['c_sello', 'Sello EatsBueno readiness', 660, 0], ['c_part', 'Active participation', 1230, 14]];
-  C7.forEach(([n, lab, x, rot], i) => {
-    const c = document.createElement('div'); c.className = 'card3';
-    c.style.cssText = `left:${x}px;top:${n === 'c_sello' ? 280 : 340}px;width:600px`;
-    c.innerHTML = `<img src="assets/dash/${n}.png"><div class="lab">${lab}</div>`;
-    $('#cards7').appendChild(c);
-    tl.fromTo(c, { y: 500, rotationY: rot * 2, rotationX: 30, opacity: 0 }, { y: 0, rotationY: rot, rotationX: 6, opacity: 1, duration: 0.9, ease: 'ebOut', immediateRender: true }, 35.5 + i * 0.12);
-    tl.to(c, { rotationY: rot * 0.4, rotationX: 0, y: -10, duration: 3.4, ease: 'sine.inOut' }, 36.4);
-    META.pops.push(35.6 + i * 0.12);
-  });
-  hide($('#h7'), 39.3);
-  Array.from($('#cards7').children).forEach((c, i) => tl.to(c, { x: 960 - (c.offsetLeft + 300), y: 320 - (c.offsetTop + 200), scale: 0.06, rotation: (i - 1) * 90, opacity: 0, duration: 0.55, ease: 'ebIn' }, 39.35 + i * 0.05));
-  META.whooshes.push(39.4);
+  // pull back: the window glides back on the dark stage and the line lands above it (no wipe, no card scene)
+  winTo({ scale: 0.5, x: 0, y: 170 }, 33.85, 1.5);
+  tl.to(CAM, { scale: 0.54, y: 160, duration: 3.6, ease: 'sine.inOut' }, 35.35);
+  { const h = document.createElement('div'); h.className = 'abs h1';
+    h.style.cssText = 'left:0;right:0;top:120px;text-align:center;font-size:84px;line-height:1.08;z-index:32';
+    h.innerHTML = 'A team that feels good<br><i style="color:#FF8A4C">is a team that performs.</i>';
+    $('#s3').appendChild(h);
+    reveal(h, 34.55, 0.07); META.titles.push(34.6);
+    hide(h, 39.15); }
+  META.whooshes.push(33.9);
 
   // ================= 8 · Outro (39.7 – 44.5) =================
   scene('s8', 39.9, DUR + 0.1);
@@ -678,12 +641,10 @@
   //      all four held long enough to read, then they close into a point that becomes the outro's flower
   { const X = 39.3 + 2.0 + 8.3 + 10.4 + 6.5, IN = X + 2.5, STEP = 1.4, G = 11.2; insertAt(X, G);
     META.benefits = [X, X + G]; META.stamps = []; META.locks = [];
-    // s7 clears itself on the same orange: headline lifts out, cards drop, footage fades
-    hide($('#h7'), X - 0.05);
-    Array.from($('#cards7').children).forEach((c, i) => tl.to(c, { y: 700, rotationX: -30, opacity: 0, duration: 0.55, ease: 'ebIn' }, X + i * 0.06));
-    tl.to($('#s7').querySelectorAll(':scope > .abs:not(#h7):not(#cards7)'), { opacity: 0, duration: 0.5, ease: 'ebSoft' }, X);
-    scene('sB', X + 0.55, X + G + 0.45);
-    tl.set('#s7', { visibility: 'hidden' }, X + 0.6);
+    scene('sB', X, X + G + 0.45);
+    tl.fromTo('#sB', { clipPath: 'circle(0% at 50% 52%)' }, { clipPath: 'circle(80% at 50% 52%)', duration: 0.95, ease: 'power2.inOut', immediateRender: true }, X);
+    tl.set('#sB', { clipPath: 'none' }, X + 1.0);
+    tl.set('#s3', { visibility: 'hidden' }, X + 1.0);
     META.whooshes.push(X + 0.05);
     const W = $('#worldB');
     const title = document.createElement('div'); title.className = 'abs h1';
@@ -761,27 +722,6 @@
     tl.fromTo(pl, { strokeDashoffset: L1 }, { strokeDashoffset: 0, duration: 1.3, ease: 'ebSoft', immediateRender: true }, 4.9);
     META.titles.push(4.35); META.scans.push(5.3);
     tl.to('#q1', { scale: 0.92, opacity: 0, filter: 'blur(8px)', duration: 0.4, ease: 'ebIn' }, 7.0);
-  }
-  // ---- chapter cards: three brand stripes sweep across, one word slams, the stripes sweep on and reveal the next act
-  { const LAB = [['01', 'See', 'it.'], ['02', 'Protect', 'it.'], ['03', 'Report', 'it.']];
-    META.chapters.sort((a, b) => a - b).forEach((c, i) => {
-      const host = document.createElement('div'); host.className = 'abs'; host.style.cssText = 'inset:0;visibility:hidden';
-      const cols = ['#FAF0DF', '#E26023', '#C9501A'];
-      host.innerHTML = cols.map((col, k) => `<div class="sp" style="position:absolute;top:-200px;left:0;width:2600px;height:1480px;background:${col};transform:skewX(-14deg)"></div>`).join('') +
-        `<div class="wd" style="position:absolute;left:0;right:0;top:360px;text-align:center"><div style="font:800 26px Manrope;letter-spacing:.4em;color:#FAF0DF;opacity:.9">${LAB[i][0]}</div>
-          <div class="h1" style="font-size:190px;line-height:1.05;margin-top:10px">${LAB[i][1]} <i>${LAB[i][2]}</i></div></div>`;
-      $('#chap').appendChild(host);
-      const sps = host.querySelectorAll('.sp'), wd = host.querySelector('.wd');
-      tl.set(host, { visibility: 'visible' }, c - 0.6);
-      sps.forEach((sp, k) => {
-        tl.fromTo(sp, { x: 2200 }, { x: -340, duration: 0.62, ease: 'power2.inOut', immediateRender: true }, c - 0.72 + k * 0.07);
-        tl.to(sp, { x: -3200, duration: 0.7, ease: 'power2.inOut' }, c + 0.48 + (2 - k) * 0.05);
-      });
-      tl.fromTo(wd, { scale: 1.3, opacity: 0, filter: 'blur(10px)' }, { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 0.35, ease: 'ebOut', immediateRender: true }, c - 0.25);
-      tl.to(wd, { x: -260, opacity: 0, filter: 'blur(8px)', duration: 0.35, ease: 'ebIn' }, c + 0.5);
-      tl.set(host, { visibility: 'hidden' }, c + 1.3);
-      META.slams.push(c - 0.2); META.whooshes.push(c - 0.6, c + 0.6);
-    });
   }
   window.DURATION = DUR; window.META = META; window.__tl = tl;
   window.__seek = (t) => {

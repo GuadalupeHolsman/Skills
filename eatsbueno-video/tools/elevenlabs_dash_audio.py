@@ -53,27 +53,33 @@ ms = lambda a, b: int(round((b - a) * 1000))
 HK, AP, BN = META['hook'], META['app'], META['benefits']
 CUES = [HK[1], AP[0], AP[1], BN[0], BN[1]]
 PLAN = {
-    'positive_global_styles': ['premium brand film score', 'warm modern Latin-tinged pop groove', 'marimba and plucked nylon guitar', 'tight claps and shakers',
-                               'warm round bass', 'uplifting and confident', '118 BPM', 'instrumental', 'polished wide mix'],
-    'negative_global_styles': ['vocals', 'lyrics', 'corporate stock music cliches', 'cheesy ukulele', 'aggressive EDM drops', 'distortion', 'lo-fi'],
+    # v3: the rethought score shares one sonic family with the people film (felt piano motif, synth plucks, modern drums)
+    'positive_global_styles': ['modern cinematic brand film score', 'warm felt piano motif', 'soft analog synth pulses and plucks',
+                               'tight modern drums with claps and shakers', 'deep warm sub bass', 'confident, emotional, premium',
+                               '112 BPM', 'instrumental', 'polished wide mix'],
+    'negative_global_styles': ['vocals', 'lyrics', 'marimba', 'latin percussion', 'ukulele', 'corporate stock music cliches',
+                               'aggressive EDM drop', 'distortion', 'lo-fi'],
     'sections': [
         {'section_name': 'Hook', 'duration_ms': ms(0, CUES[0]), 'lines': [],
-         'positive_local_styles': ['three punchy percussive stabs with claps', 'tension building', 'then a sudden hush with a single held synth note and a soft heartbeat kick'],
+         'positive_local_styles': ['three huge cinematic hits with short risers between them', 'tension',
+                                   'then a sudden hush with one sustained piano note and a soft heartbeat kick'],
          'negative_local_styles': ['full groove']},
         {'section_name': 'Bloom', 'duration_ms': ms(CUES[0], CUES[1]), 'lines': [],
-         'positive_local_styles': ['big warm bloom', 'bright marimba motif enters', 'airy pads open up', 'hopeful major key'], 'negative_local_styles': ['silence']},
+         'positive_local_styles': ['the felt piano motif blooms', 'airy pads open up', 'hopeful'], 'negative_local_styles': ['silence', 'drums']},
         {'section_name': 'Your people', 'duration_ms': ms(CUES[1], CUES[2]), 'lines': [],
-         'positive_local_styles': ['light playful groove starts', 'shakers and plucked guitar', 'warm bass enters'], 'negative_local_styles': ['heavy drums']},
+         'positive_local_styles': ['light pulsing synth arpeggio', 'soft kick enters', 'warm and human'], 'negative_local_styles': ['heavy drums']},
         {'section_name': 'Walkthrough', 'duration_ms': ms(CUES[2], CUES[3]), 'lines': [],
-         'positive_local_styles': ['steady confident groove', 'claps on two and four', 'marimba arpeggios', 'subtle builds every eight bars', 'focused, modern, premium'],
-         'negative_local_styles': ['breakdown', 'silence', 'big drops']},
+         'positive_local_styles': ['steady focused modern groove', 'minimal and spacious so the picture can be read',
+                                   'piano motif over warm bass', 'subtle build every eight bars'],
+         'negative_local_styles': ['breakdown', 'silence', 'big drops', 'busy melodies']},
         {'section_name': 'Benefits', 'duration_ms': ms(CUES[3], CUES[4]), 'lines': [],
-         'positive_local_styles': ['lift: fuller, brighter arrangement', 'added strings and handclaps', 'rising energy toward the end'], 'negative_local_styles': ['silence']},
+         'positive_local_styles': ['big emotional lift', 'full drums', 'layered synths and strings', 'rising toward the end'],
+         'negative_local_styles': ['silence']},
         {'section_name': 'Finale', 'duration_ms': ms(CUES[4], DUR), 'lines': [],
-         'positive_local_styles': ['one big warm final hit', 'marimba motif resolves', 'gentle ending'], 'negative_local_styles': ['abrupt stop']},
+         'positive_local_styles': ['one big warm final hit', 'piano motif resolves', 'gentle ending'], 'negative_local_styles': ['abrupt stop']},
     ],
 }
-music = load(post('/v1/music', {'composition_plan': PLAN, 'model_id': 'music_v1'}, os.path.join(CACHE, f'music_dash_v2_{int(round(DUR * 10))}.mp3')))
+music = load(post('/v1/music', {'composition_plan': PLAN, 'model_id': 'music_v1'}, os.path.join(CACHE, f"music_dash_{os.environ.get('MUSIC_VER', 'v3')}_{int(round(DUR * 10))}.mp3")))
 
 KIT = {k: load(os.path.join(CACHE, f'sfx_{k}.mp3')) for k in ['whoosh', 'tap', 'key', 'pop', 'tick', 'success', 'title', 'logo', 'scan', 'impact']}
 for k, (text, d) in {'click': ('soft trackpad click, quiet and precise, modern laptop', 0.5),

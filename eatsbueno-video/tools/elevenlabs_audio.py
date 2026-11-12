@@ -20,6 +20,10 @@ import urllib.request
 
 import numpy as np
 
+# --v2: the people film's rethought score — one track composed to the film's own length and cue points (no re-cut)
+V2 = '--v2' in sys.argv
+if V2:
+    sys.argv.remove('--v2')
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 META = json.load(open(sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, 'assets/meta_launch.json')))
 OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, 'assets/music_launch_eleven.wav')
@@ -81,7 +85,29 @@ PLAN = {
          'positive_local_styles': ['big uplifting final hit', 'full warm chords', 'gentle resolved ending'], 'negative_local_styles': ['abrupt stop']},
     ],
 }
-music = load(post('/v1/music', {'composition_plan': PLAN, 'model_id': 'music_v1'}, os.path.join(CACHE, 'music_plan.mp3')))
+if V2:
+    PLAN = {
+        'positive_global_styles': ['modern cinematic brand film score', 'warm felt piano motif', 'bright synth plucks and soft analog pulses',
+                                   'tight modern drums with claps and shakers', 'deep warm sub bass', 'optimistic, emotional, feel-good',
+                                   '120 BPM', 'instrumental', 'polished wide mix'],
+        'negative_global_styles': ['vocals', 'lyrics', 'marimba', 'ukulele', 'whistling', 'corporate stock music cliches',
+                                   'aggressive EDM drop', 'lo-fi', 'distortion'],
+        'sections': [
+            {'section_name': 'Noise', 'duration_ms': ms(0, SIL0), 'lines': [],
+             'positive_local_styles': ['anxious ticking pulse', 'filtered drums rising', 'tension building fast'], 'negative_local_styles': ['melody']},
+            {'section_name': 'Breath', 'duration_ms': ms(SIL0, SIL1), 'lines': [],
+             'positive_local_styles': ['near silence', 'one soft sustained piano note'], 'negative_local_styles': ['drums', 'bass']},
+            {'section_name': 'Bloom', 'duration_ms': ms(SIL1, G0), 'lines': [],
+             'positive_local_styles': ['warm felt piano motif blooms', 'airy pads open up', 'hopeful sunrise', 'gentle swell into the beat'], 'negative_local_styles': ['drums']},
+            {'section_name': 'Groove', 'duration_ms': ms(G0, G1), 'lines': [],
+             'positive_local_styles': ['confident modern groove', 'kick and claps', 'piano motif returns over bright plucks',
+                                       'builds every eight bars', 'playful and premium'], 'negative_local_styles': ['breakdown', 'silence']},
+            {'section_name': 'Finale', 'duration_ms': ms(G1, DUR), 'lines': [],
+             'positive_local_styles': ['three huge hits', 'then a big warm final chord', 'piano motif resolves'], 'negative_local_styles': ['abrupt stop']},
+        ],
+    }
+music = load(post('/v1/music', {'composition_plan': PLAN, 'model_id': 'music_v1'},
+                  os.path.join(CACHE, f'music_people_v2_{int(round(DUR * 10))}.mp3' if V2 else 'music_plan.mp3')))
 
 # ---------------- sound effects kit ----------------
 SFX = {
@@ -121,6 +147,8 @@ SEGS = [(0.0, SIL0, 0.0),
         (RA, RA + 8.0, GROOVE_SRC + (RA - G0) - RL),
         (RA + 8.0, DUR, GROOVE_SRC + (RA + 8.0 - G0) - RL)]
 XF = int(0.02 * SR)
+if V2:                                          # composed to length: the track already turns on the picture's cues
+    SEGS = [(0.0, DUR, 0.0)]
 for p0, p1, src in SEGS:
     a, b, s0 = int(p0 * SR), int(p1 * SR), int(src * SR)
     seg = music[s0:s0 + (b - a)].copy()
