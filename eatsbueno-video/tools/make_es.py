@@ -44,6 +44,23 @@ DASH = [
     ('Aggregate wellbeing evidence for your organization. Group results only, never individuals.',
      'Evidencia agregada de bienestar para tu organización. Solo resultados grupales, nunca individuales.'),
     ('EatsBueno Institutional · For teams that perform', 'EatsBueno Institutional · Para equipos que rinden'),
+    # the product itself in Spanish: the dev team's v1.2.0 ES screenshots (tools/make_dash_es_assets.py)
+    ('assets/dash/', 'assets/dash_es/'),
+    ("mark($('#pgLogin'), 54, 62, 24);\n  [pgOv, $('#pgSub'), $('#pgHr')].forEach((pg) => mark(pg, 15, 32, 17));",
+     '// v1.2.0 screens already carry the new logo'),
+    ("(v) => v.toFixed(1) + '%'", "(v) => v.toFixed(1).replace('.', ',') + ' %'"),
+    ('(v) => v.toFixed(1),', "(v) => v.toFixed(1).replace('.', ','),"),
+    ("cover('absent', 150, 142, 222, 14, 15.7, 0.7); cover('absent', 150, 186, 222, 14, 15.85, 0.7);",
+     "cover('absent', 150, 148, 222, 14, 15.7, 0.7); cover('absent', 150, 199, 222, 14, 15.85, 0.7);"),
+    ('regrow(pgOv, r[0] + 150, r[1] + 142, 222, 14, t + 2.4, 1.0); regrow(pgOv, r[0] + 150, r[1] + 186, 222, 14, t + 2.6, 1.0);',
+     'regrow(pgOv, r[0] + 150, r[1] + 148, 222, 14, t + 2.4, 1.0); regrow(pgOv, r[0] + 150, r[1] + 199, 222, 14, t + 2.6, 1.0);'),
+    ('y: -(1343 - 640)', 'y: -(1358 - 640)'),                       # "Ver desglose por subgrupo" sits 15 px lower
+    ('moveTo(70, 296, 27.6, 0.55); click(70, 296, 28.2);', 'moveTo(70, 325, 27.6, 0.55); click(70, 325, 28.2);'),   # "Datos de RR. HH."
+    ('Math.min(1816 - 900,', 'Math.min(1951 - 900,'),               # taller page
+    ("const EMAIL = 'hr@sintetica.example';", "const EMAIL = 'rrhh@horizonte.example';"),
+    ("julio.xlsx<small>HR aggregate workbook</small>", "julio-2026.xlsx<small>Libro agregado de RR. HH.</small>"),
+    ("tl.to(upFile, { opacity: 1, duration: 0.25, ease: 'ui' }, 29.72);",          # the ES empty card is taller: hide it under the file
+     "tl.to(upFile, { opacity: 1, duration: 0.25, ease: 'ui' }, 29.72); tl.to(upEmpty, { opacity: 0, duration: 0.25, ease: 'ui' }, 29.72);"),
 ]
 
 PEOPLE = [

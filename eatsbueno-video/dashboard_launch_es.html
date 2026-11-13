@@ -93,7 +93,7 @@
     <div class="abs h1" id="hA1" style="left:1010px;top:300px;font-size:100px;line-height:1.05">Tu gente<br>tiene <i style="color:#F0A26A">la app.</i></div>
     <div class="abs h1" id="hA2" style="left:1010px;top:230px;font-size:100px;line-height:1.05">Tú ves<br><i style="color:#F0A26A">el panorama.</i></div>
     <div class="abs" id="subA" style="left:1014px;top:560px;width:760px;font:700 26px/1.45 Manrope;color:#C7DAD2">Un coach de nutrición personal para cada colaborador.</div>
-    <div class="abs" id="cardA" style="left:1150px;top:500px;width:430px"><img src="assets/dash/score.png" style="display:block;width:100%;filter:drop-shadow(0 40px 60px rgba(0,0,0,.45))"></div>
+    <div class="abs" id="cardA" style="left:1150px;top:500px;width:430px"><img src="assets/dash_es/score.png" style="display:block;width:100%;filter:drop-shadow(0 40px 60px rgba(0,0,0,.45))"></div>
   </section>
 
   <!-- 3–6 · The product, inside one browser window -->
@@ -106,10 +106,10 @@
         <div id="chrome"><i style="background:#E46B5F"></i><i style="background:#E8B64C"></i><i style="background:#5EBD6B"></i>
           <div id="url"><svg width="12" height="13" viewBox="0 0 12 13"><rect x="1" y="5.5" width="10" height="7" rx="2" fill="#8D8072"/><path d="M3.5 5.5V4a2.5 2.5 0 0 1 5 0v1.5" stroke="#8D8072" stroke-width="1.6" fill="none"/></svg>EatsBueno Institutional</div></div>
         <div id="vp">
-          <div class="pg" id="pgOv"><img class="base" src="assets/dash/overview_clean.png"></div>
-          <div class="pg" id="pgSub" style="opacity:0"><img class="base" src="assets/dash/subgroups.png"></div>
-          <div class="pg" id="pgHr" style="opacity:0"><img class="base" src="assets/dash/hr_clean.png"></div>
-          <div class="pg" id="pgLogin" style="z-index:5"><img class="base" src="assets/dash/login.png"></div>
+          <div class="pg" id="pgOv"><img class="base" src="assets/dash_es/overview_clean.png"></div>
+          <div class="pg" id="pgSub" style="opacity:0"><img class="base" src="assets/dash_es/subgroups.png"></div>
+          <div class="pg" id="pgHr" style="opacity:0"><img class="base" src="assets/dash_es/hr_clean.png"></div>
+          <div class="pg" id="pgLogin" style="z-index:5"><img class="base" src="assets/dash_es/login.png"></div>
           <svg id="cursor" viewBox="0 0 26 34"><path d="M2 2 L2 27 L8.5 21 L13 31.5 L17.5 29.5 L13 19.5 L22 19.5 Z" fill="#111" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
           <div class="clickring" id="ring"></div>
         </div>
@@ -142,7 +142,7 @@
 
 <script src="vendor/gsap.min.js"></script>
 <script src="vendor/CustomEase.min.js"></script>
-<script src="assets/dash/layout.js"></script>
+<script src="assets/dash_es/layout.js"></script>
 <script src="assets/flower.js"></script>
 <script src="assets/wordmark.js"></script>
 <script>
@@ -274,7 +274,7 @@
   focus.style.cssText = `left:${EM.x - 3}px;top:${EM.y - 3}px;width:${EM.w + 6}px;height:${EM.h + 6}px;border-radius:14px;border:2px solid #15589F;opacity:0`;
   pgLogin.appendChild(focus);
   tl.set(focus, { opacity: 1 }, 11.0);
-  const EMAIL = 'hr@sintetica.example';
+  const EMAIL = 'rrhh@horizonte.example';
   const typeAt = (el, text, t0, cps, mask = false) => {
     const times = Array.from(text, (_, i) => t0 + i / cps + ((i * 7919) % 5) * 0.006);
     const o = { n: 0 };
@@ -307,10 +307,9 @@
       `<div><div class="wordmark" style="width:${h * 1174 / 194}px"></div><div style="font:800 ${Math.max(6, h * 0.36)}px Manrope;letter-spacing:.42em;color:#C7DAD2;margin-top:${h * 0.18}px">INSTITUCIONAL</div></div>`;
     pg.appendChild(m);
   };
-  mark($('#pgLogin'), 54, 62, 24);
-  [pgOv, $('#pgSub'), $('#pgHr')].forEach((pg) => mark(pg, 15, 32, 17));
+  // v1.2.0 screens already carry the new logo
   const comp = (pg, name, info, z = 2) => { const c = document.createElement('div'); c.className = 'comp';
-    c.style.cssText = `left:${info.x}px;top:${info.y}px;width:${info.w}px;z-index:${z}`; c.innerHTML = `<img src="assets/dash/${name}.png">`; pg.appendChild(c); return c; };
+    c.style.cssText = `left:${info.x}px;top:${info.y}px;width:${info.w}px;z-index:${z}`; c.innerHTML = `<img src="assets/dash_es/${name}.png">`; pg.appendChild(c); return c; };
   const cards = ['score', 'users', 'part', 'energy', 'absent'].map((n) => comp(pgOv, n, O[n]));
   const tC = [14.35, 14.47, 14.59, 14.85, 14.97];
   cards.forEach((c, i) => {
@@ -329,9 +328,9 @@
     META.ticks.push(t);
     return p;
   };
-  kpi('score', 20, 54, 70, 54, (v) => v.toFixed(1), 7.4, 14.75);
+  kpi('score', 20, 54, 70, 54, (v) => v.toFixed(1).replace('.', ','), 7.4, 14.75);
   kpi('users', 20, 54, 110, 54, (v) => Math.round(v).toString(), 52, 14.85);
-  kpi('part', 20, 54, 150, 54, (v) => v.toFixed(1) + '%', 73.8, 14.95);
+  kpi('part', 20, 54, 150, 54, (v) => v.toFixed(1).replace('.', ',') + ' %', 73.8, 14.95);
   // energy + absence bars grow (a white cover retracts across each bar region)
   const cover = (name, rx, ry, w, h, t, d = 0.8) => { const card = O[name].card, c = document.createElement('div'); c.className = 'abs';
     c.style.cssText = `left:${card[0] + rx}px;top:${card[1] + ry}px;width:${w}px;height:${h}px;background:#fff;z-index:3;transform-origin:100% 50%`;
@@ -339,7 +338,7 @@
     tl.fromTo(c, { scaleX: 1 }, { scaleX: 0, duration: d, ease: 'ebSoft', immediateRender: false }, t); return c; };
   cover('energy', 18, 104, 610, 26, 15.45, 0.9);              // stacked bar
   [0, 1, 2].forEach((i) => cover('energy', 100, 144 + i * 30.5, 380, 18, 15.6 + i * 0.1, 0.7));   // level bars
-  cover('absent', 150, 142, 222, 14, 15.7, 0.7); cover('absent', 150, 186, 222, 14, 15.85, 0.7);
+  cover('absent', 150, 148, 222, 14, 15.7, 0.7); cover('absent', 150, 199, 222, 14, 15.85, 0.7);
   META.scans.push(15.45);
   // camera: settle, then lean in on the KPIs, then the trends
   const winTo = (props, t, d = 1.0) => tl.to(CAM, { ...props, duration: d, ease: 'ebSoft' }, t);
@@ -387,7 +386,7 @@
   winTo(aim(850, 470, 1.4), 13.95, 1.2); winTo(aim(850, 760, 1.3), 15.25, 1.0);
   // ================= 5 · Privacy: subgroups (21.8 – 27.4) =================
   winTo({ scale: 1, x: 0, y: 0 }, 21.8, 0.9);
-  tl.to(pgOv, { y: -(1343 - 640), duration: 0.9, ease: 'ebSoft' }, 21.95);      // scroll to "View subgroup breakdown"
+  tl.to(pgOv, { y: -(1358 - 640), duration: 0.9, ease: 'ebSoft' }, 21.95);      // scroll to "View subgroup breakdown"
   moveTo(396, 640 + 0, 22.2, 0.6); click(396, 640, 22.9);
   const pgSub = $('#pgSub');
   const whip = (inPg, t) => {
@@ -425,18 +424,18 @@
   tl.to(CAM, { ...aim(VR[0] + VR[2] / 2, VR[1] + VR[3] / 2, 1.63, 960, 430), duration: 1.75, ease: 'sine.inOut' }, 25.5);
   callout('Los grupos pequeños <i>nunca se muestran.</i>', 25.0, 27.25, true);
   { const F = document.createElement('div'); F.className = 'abs';
-    F.style.cssText = `left:${VR[0] - 2}px;top:${VR[1] - 2}px;width:${VR[2] + 4}px;height:${VR[3] + 4}px;z-index:2;opacity:0;background:url(assets/dash/subgroups.png) ${-(VR[0] - 2)}px ${-(VR[1] - 2)}px / 1440px auto no-repeat`;
+    F.style.cssText = `left:${VR[0] - 2}px;top:${VR[1] - 2}px;width:${VR[2] + 4}px;height:${VR[3] + 4}px;z-index:2;opacity:0;background:url(assets/dash_es/subgroups.png) ${-(VR[0] - 2)}px ${-(VR[1] - 2)}px / 1440px auto no-repeat`;
     pgSub.appendChild(F); tl.to(F, { opacity: 1, duration: 0.3 }, 25.0); tl.to(F, { opacity: 0, duration: 0.3 }, 27.2);
     dof(pgSub, [F, hl, lk], 25.1, 27.0); }
 
   // ================= 6 · HR data (27.4 – 33.8) =================
   winTo({ scale: 1, x: 0, y: 0 }, 27.35, 0.8);
-  moveTo(70, 296, 27.6, 0.55); click(70, 296, 28.2);
+  moveTo(70, 325, 27.6, 0.55); click(70, 325, 28.2);
   const pgHr = $('#pgHr'), H = D.hr;
   whip(pgHr, 28.28);
   tl.set(pgSub, { opacity: 0 }, 28.7);
   const crop = (pg, name, r, z = 2) => { const c = document.createElement('div'); c.className = 'abs';
-    c.style.cssText = `left:${r[0] - 2}px;top:${r[1] - 2}px;width:${r[2] + 4}px;z-index:${z}`; c.innerHTML = `<img src="assets/dash/${name}.png" style="display:block;width:100%">`; pg.appendChild(c); return c; };
+    c.style.cssText = `left:${r[0] - 2}px;top:${r[1] - 2}px;width:${r[2] + 4}px;z-index:${z}`; c.innerHTML = `<img src="assets/dash_es/${name}.png" style="display:block;width:100%">`; pg.appendChild(c); return c; };
   const upEmpty = crop(pgHr, 'hr_empty', H.upload);
   const upFile = crop(pgHr, 'hr_file', H.upload, 3);
   const result = crop(pgHr, 'hr_result', H.accepted_result, 4);
@@ -444,7 +443,7 @@
   tl.set([upFile, result, ...sAcc], { opacity: 0 }, 0);
   // the workbook is dragged in from the desktop
   const chip = document.createElement('div'); chip.className = 'chip';
-  chip.innerHTML = '<div class="xl">XLSX</div><div>julio.xlsx<small>HR aggregate workbook</small></div>';
+  chip.innerHTML = '<div class="xl">XLSX</div><div>julio-2026.xlsx<small>Libro agregado de RR. HH.</small></div>';
   $('#vp').appendChild(chip);
   tl.set(chip, { x: 1500, y: 760, opacity: 0, rotation: 6 }, 0);
   tl.to(chip, { opacity: 1, duration: 0.2 }, 28.75);
@@ -457,7 +456,7 @@
   winTo(aim(H.upload[0] + H.upload[2] / 2, H.upload[1] + H.upload[3] / 2, 1.5), 28.9, 1.0); winTo(aim(H.strip[1][0] + 200, H.strip[1][1] + 40, 1.7), 30.35, 0.9);
   tl.to(chip, { scale: 0.6, opacity: 0, duration: 0.25, ease: 'ebIn' }, 29.7);
   tl.to(dropHL, { opacity: 0, duration: 0.2 }, 29.72);
-  tl.to(upFile, { opacity: 1, duration: 0.25, ease: 'ui' }, 29.72);
+  tl.to(upFile, { opacity: 1, duration: 0.25, ease: 'ui' }, 29.72); tl.to(upEmpty, { opacity: 0, duration: 0.25, ease: 'ui' }, 29.72);
   tl.to(sAcc[0], { opacity: 1, duration: 0.25, ease: 'ui' }, 29.8);
   META.pops.push(29.72);
   // Upload and check
@@ -519,8 +518,8 @@
     // bars regrow), the camera keeps easing in while one short line is read
     const card = (n) => O[n].card;
     const STOPS = [
-      [card('score'), 2.0, 'Un puntaje <i>transparente.</i>', (t) => recount(pgOv, card('score')[0] + 20, card('score')[1] + 54, 70, 54, 7.4, (v) => v.toFixed(1), t)],
-      [card('part'), 2.0, 'Participación real, <i>cada mes.</i>', (t) => recount(pgOv, card('part')[0] + 20, card('part')[1] + 54, 150, 54, 73.8, (v) => v.toFixed(1) + '%', t)],
+      [card('score'), 2.0, 'Un puntaje <i>transparente.</i>', (t) => recount(pgOv, card('score')[0] + 20, card('score')[1] + 54, 70, 54, 7.4, (v) => v.toFixed(1).replace('.', ','), t)],
+      [card('part'), 2.0, 'Participación real, <i>cada mes.</i>', (t) => recount(pgOv, card('part')[0] + 20, card('part')[1] + 54, 150, 54, 73.8, (v) => v.toFixed(1).replace('.', ',') + ' %', t)],
       [card('energy'), 1.55, 'Cómo se siente <i>tu gente.</i>', (t) => { const c = card('energy'); regrow(pgOv, c[0] + 18, c[1] + 104, 610, 26, t, 1.1);
         [0, 1, 2].forEach((j) => regrow(pgOv, c[0] + 100, c[1] + 144 + j * 30.5, 380, 18, t + 0.15 + j * 0.12, 0.9)); }],
       [card('absent'), 1.75, 'Ausentismo vs. <i>tu propia línea base.</i>', (t) => { const c = card('absent'); regrow(pgOv, c[0] + 150, c[1] + 142, 222, 14, t, 0.9); regrow(pgOv, c[0] + 150, c[1] + 186, 222, 14, t + 0.18, 0.9); }],
@@ -541,14 +540,14 @@
     const plan = [];
     const focusCopy = (r, t, dt) => { const F = document.createElement('div'); F.className = 'abs focus';
       F.style.cssText = `left:${r[0] - 2}px;top:${r[1] - 2}px;width:${r[2] + 4}px;height:${r[3] + 4}px;border-radius:14px;z-index:3;opacity:0;
-        background:url(assets/dash/overview_full.png) ${-(r[0] - 2)}px ${-(r[1] - 2)}px / 1440px auto no-repeat;box-shadow:0 30px 60px -30px rgba(23,63,55,.35)`;
+        background:url(assets/dash_es/overview_full.png) ${-(r[0] - 2)}px ${-(r[1] - 2)}px / 1440px auto no-repeat;box-shadow:0 30px 60px -30px rgba(23,63,55,.35)`;
       pgOv.appendChild(F); tl.to(F, { opacity: 1, duration: 0.3 }, t); tl.to(F, { opacity: 0, duration: 0.4 }, t + dt); return F; };
     const mark = (n0) => Array.from(pgOv.children).slice(n0).forEach((el) => el.classList.add('focus'));
     const under = (r, w, t, t1) => { const u = document.createElement('div'); u.className = 'abs focus';
       u.style.cssText = `left:${r[0] + 20}px;top:${r[1] + 112}px;width:${w}px;height:5px;border-radius:3px;background:#FF8A4C;z-index:5;transform-origin:0 50%`;
       pgOv.appendChild(u); tl.fromTo(u, { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: 'power2.inOut', immediateRender: true }, t); tl.to(u, { opacity: 0, duration: 0.3 }, t1); };
     const at = (r, want, fx = 0.5, fy = 0.5) => [r[0] + r[2] * fx, r[1] + r[3] * fy - want];
-    const go = (r) => { const want = Math.max(0, Math.min(1816 - 900, r[1] + r[3] / 2 - 430));
+    const go = (r) => { const want = Math.max(0, Math.min(1951 - 900, r[1] + r[3] / 2 - 430));
       return want; };
     { // 0 · punch-in on the score
       const t = START[0], dt = LEN[0], r = card('score'), want = go(r);
@@ -556,7 +555,7 @@
       tl.to(CAM, { ...aim(...at(r, want, 0.25, 0.42), 2.6, 1000, 470), duration: 1.1, ease: 'power3.inOut' }, t - 0.15);
       tl.to(CAM, { ...aim(...at(r, want), 1.95, 1000, 420), duration: dt - 1.6, ease: 'sine.inOut' }, t + 1.3);
       focusCopy(r, t + 0.5, dt - 0.8); const n0 = pgOv.children.length;
-      recount(pgOv, r[0] + 20, r[1] + 54, 70, 54, 7.4, (v) => v.toFixed(1), t + 0.55); mark(n0);
+      recount(pgOv, r[0] + 20, r[1] + 54, 70, 54, 7.4, (v) => v.toFixed(1).replace('.', ','), t + 0.55); mark(n0);
       under(r, 72, t + 1.9, t + dt - 0.3);
       callout('Un puntaje <i>transparente.</i>', t + 0.9, t + dt - 0.35);
       plan.push([t + 0.6, t + dt - 0.45]); META.whooshes.push(t); META.hits.push(t + 0.55); }
@@ -566,7 +565,7 @@
       tl.to(CAM, { ...aim(...at(r, want), 1.85, 1000, 430), duration: 2.2, ease: 'power2.inOut' }, t + 1.0);
       tl.to(CAM, { ...aim(...at(r, want, 0.55, 0.6), 1.98, 1000, 430), duration: dt - 3.4, ease: 'sine.inOut' }, t + 3.2);
       recount(pgOv, u[0] + 20, u[1] + 54, 110, 54, 52, (v) => Math.round(v).toString(), t + 0.6);   // goes soft with its card
-      focusCopy(r, t + 2.6, dt - 2.9); const n0 = pgOv.children.length; recount(pgOv, r[0] + 20, r[1] + 54, 150, 54, 73.8, (v) => v.toFixed(1) + '%', t + 2.75); mark(n0);
+      focusCopy(r, t + 2.6, dt - 2.9); const n0 = pgOv.children.length; recount(pgOv, r[0] + 20, r[1] + 54, 150, 54, 73.8, (v) => v.toFixed(1).replace('.', ',') + ' %', t + 2.75); mark(n0);
       under(r, 150, t + 3.6, t + dt - 0.3);
       callout('Participación real, <i>cada mes.</i>', t + 1.2, t + dt - 0.35, true);
       plan.push([t + 2.7, t + dt - 0.45]); META.whooshes.push(t, t + 1.1); }
@@ -591,7 +590,7 @@
       tl.to(CAM, { ...aim(...at(r, want), 1.65, 960, 430), duration: 2.4, ease: 'power2.inOut' }, t + 1.9);
       tl.to(CAM, { ...aim(...at(r, want, 0.5, 0.55), 1.72, 960, 430), rotation: 0, duration: dt - 4.5, ease: 'sine.inOut' }, t + 4.3);
       focusCopy(r, t + 0.8, dt - 1.1); const n0 = pgOv.children.length;
-      regrow(pgOv, r[0] + 150, r[1] + 142, 222, 14, t + 2.4, 1.0); regrow(pgOv, r[0] + 150, r[1] + 186, 222, 14, t + 2.6, 1.0); mark(n0);
+      regrow(pgOv, r[0] + 150, r[1] + 148, 222, 14, t + 2.4, 1.0); regrow(pgOv, r[0] + 150, r[1] + 199, 222, 14, t + 2.6, 1.0); mark(n0);
       callout('Ausentismo vs. <i>tu propia línea base.</i>', t + 0.9, t + dt - 0.35, true, true);
       plan.push([t + 0.9, t + dt - 0.45]); META.whooshes.push(t, t + 1.9); }
     // depth of field: built after all copies exist, so each stop blurs everything but its own focus elements
