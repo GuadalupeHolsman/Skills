@@ -13,7 +13,7 @@ import shutil
 import sys
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 
 SRC, LANG = sys.argv[1], sys.argv[2]
 ES = LANG == 'es'
@@ -44,8 +44,12 @@ full.save(os.path.join(OUT, 'overview_full.png'))
 plate = np.asarray(full).copy()
 for k in ('score', 'users', 'part', 'energy', 'absent'):
     o = L['overview'][k]
-    crop(full, o['x'], o['y'], o['w'], o['h']).save(os.path.join(OUT, f'{k}.png'))
     x, y, w, h = o['card']
+    piece = crop(full, o['x'], o['y'], o['w'], o['h']).convert('RGBA')   # only the card itself: rounded corners, clear around
+    m = Image.new('L', piece.size, 0)
+    ImageDraw.Draw(m).rounded_rectangle([(x - o['x']) * 2, (y - o['y']) * 2, (x - o['x'] + w) * 2 - 1, (y - o['y'] + h) * 2 - 1], radius=28, fill=255)
+    piece.putalpha(m)
+    piece.save(os.path.join(OUT, f'{k}.png'))
     gutter = plate[int(y * 2):int((y + h) * 2), int(x * 2) - 32:int(x * 2) - 26].reshape(-1, 3)   # page colour beside the card
     plate[int(y * 2) - 20:int((y + h) * 2) + 30, int(x * 2) - 20:int((x + w) * 2) + 20] = np.median(gutter, 0)
 Image.fromarray(plate).save(os.path.join(OUT, 'overview_clean.png'))

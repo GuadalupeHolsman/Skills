@@ -32,6 +32,7 @@ MAP = {
     'Hydration_FirstUse': 'HYD_02_Default',
     'SleepRecovery_NoToast': 'SLP_02_Summary',
     'Statistics_Month': 'STA_01_Top',
+    'Scanner_MealSheet': 'BAR_06_MealChooser',
 }
 
 
@@ -68,4 +69,12 @@ save(a, 'Onboarding_Step7_Empty')
 a = load(MAP['Scanner_Barcode'])
 vfill(a, 0.0, 1.0, 0.232, 0.442)
 save(a, 'Scanner_Barcode_Empty')
+# the month before it fills in: the orange (goal met) days of the calendar turn back into plain days
+a = load(MAP['Statistics_Month'])
+y0, y1 = int(0.52 * H), int(0.77 * H)
+cal = a[y0:y1]
+orange = (cal[..., 0] > 170) & (cal[..., 1] > 70) & (cal[..., 1] < 190) & (cal[..., 2] < 140) & (cal[..., 0] - cal[..., 2] > 70)
+cal[orange] = (cal[orange] * 0 + np.array([246, 243, 238]))
+light = (cal.min(-1) > 225) & np.repeat(orange[..., None], 3, -1).any(-1)
+save(a, 'Statistics_Month_Empty')
 print('wrote', OUT)

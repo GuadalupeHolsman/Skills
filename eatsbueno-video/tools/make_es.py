@@ -109,6 +109,7 @@ PEOPLE = [
     ("'✓&nbsp; Logged'", "'✓&nbsp; Registrado'"),
     ('"Nice to meet you, Camila", from the screen itself', '"Mucho gusto, Camila", from the screen itself'),
     ('assets/screens/v12_en/', 'assets/screens/v12_es/'),
+    ("const SCAN_HINT = 'Point the camera at a barcode';", "const SCAN_HINT = 'Apunta la cámara al código de barras';"),
 ]
 
 
