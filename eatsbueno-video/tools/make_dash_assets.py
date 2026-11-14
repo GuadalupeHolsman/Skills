@@ -1,11 +1,11 @@
-"""Builds assets/dash_es/ (the Spanish dashboard UI used by dashboard_launch_es.html) from the dev team's
-v1.2.0 ES screenshots.
+"""Builds assets/dash_<lang>/ (the dashboard UI the films show) from the dev team's v1.2.0 screenshots.
 
-Usage: python3 tools/make_dash_es_assets.py <.../HR_Dashboard/ES>
+Usage: python3 tools/make_dash_assets.py <.../HR_Dashboard/EN> en      -> assets/dash_en (dashboard_launch.html)
+       python3 tools/make_dash_assets.py <.../HR_Dashboard/ES> es      -> assets/dash_es (dashboard_launch_es.html)
 
-The v1.2.0 Spanish dashboard keeps the layout of the screens the film was built on (same card grid, same HR import
-steps), with two differences: the energy / absenteeism row is 14 px taller (everything below moves down 14 px) and
-the empty upload card is 9 px taller. Coordinates are css px of the 1440 px wide page; images are @2x.
+v1.2.0 keeps the layout the film was built on (same card grid, same HR import steps). The Spanish copy runs longer:
+its energy / absenteeism row is 14 px taller (everything below moves down 14 px) and its empty upload card is 9 px
+taller. Coordinates are css px of the 1440 px wide page; images are @2x.
 """
 import json
 import os
@@ -15,9 +15,11 @@ import sys
 import numpy as np
 from PIL import Image
 
-SRC = sys.argv[1]
+SRC, LANG = sys.argv[1], sys.argv[2]
+ES = LANG == 'es'
+EMPTY_H = 105 if ES else 96          # height of the empty upload card
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(HERE, 'assets/dash_es')
+OUT = os.path.join(HERE, f'assets/dash_{LANG}')
 os.makedirs(OUT, exist_ok=True)
 
 
@@ -29,9 +31,9 @@ def crop(im, x, y, w, h):
     return im.crop((int(x * 2), int(y * 2), int((x + w) * 2), int((y + h) * 2)))
 
 
-# ---- layout: the English layout with the taller trends row
+# ---- layout: the film's original layout (Spanish: taller trends row)
 L = json.loads(open(os.path.join(HERE, 'assets/dash/layout.js')).read().split('=', 1)[1].strip().rstrip(';'))
-for k in ('energy', 'absent'):
+for k in ('energy', 'absent') if ES else ():
     L['overview'][k]['h'] += 14
     L['overview'][k]['card'][3] += 14
 open(os.path.join(OUT, 'layout.js'), 'w').write('window.DASH = ' + json.dumps(L, indent=1) + ';\n')
@@ -57,11 +59,11 @@ H = L['hr']
 empty, chosen, ready = shot('06_HR_Import_Upload'), shot('29_HR_Import_FileChosen'), shot('26_HR_Import_ReadyToAccept')
 hr = np.asarray(empty).copy()            # the plate has no upload card: the film lays each state on top of it
 x, y, w, _ = H['upload']
-gutter = hr[int(y * 2):int((y + 105) * 2), int(x * 2) - 32:int(x * 2) - 26].reshape(-1, 3)
-hr[int(y * 2) - 20:int((y + 105) * 2) + 24, int(x * 2) - 20:int((x + w) * 2) + 20] = np.median(gutter, 0)
+gutter = hr[int(y * 2):int((y + EMPTY_H) * 2), int(x * 2) - 32:int(x * 2) - 26].reshape(-1, 3)
+hr[int(y * 2) - 20:int((y + EMPTY_H) * 2) + 24, int(x * 2) - 20:int((x + w) * 2) + 20] = np.median(gutter, 0)
 Image.fromarray(hr).save(os.path.join(OUT, 'hr_clean.png'))
 x, y, w, _ = H['upload']
-crop(empty, x - 2, y - 2, w + 4, 105 + 4).save(os.path.join(OUT, 'hr_empty.png'))
+crop(empty, x - 2, y - 2, w + 4, EMPTY_H + 4).save(os.path.join(OUT, 'hr_empty.png'))
 crop(chosen, x - 2, y - 2, w + 4, 96 + 4).save(os.path.join(OUT, 'hr_file.png'))
 x, y, w, h = H['accepted_result']
 crop(ready, x - 2, y - 2, w + 4, h + 4).save(os.path.join(OUT, 'hr_result.png'))

@@ -1,7 +1,8 @@
-"""Builds assets/screens/es/ (the phone screens used by launch_people_es.html) from the dev team's v1.2.0 ES
-iPhone 6.3" screenshots.
+"""Builds assets/screens/v12_<lang>/ (the phone screens the people films show) from the dev team's v1.2.0
+iPhone 6.3" screenshots. EN and ES share one layout, so the same cut-outs serve both languages.
 
-Usage: python3 tools/make_app_es_assets.py <.../App_dev/ES/iPhone_6.3>
+Usage: python3 tools/make_app_assets.py <.../App_dev/EN/iPhone_6.3> en   -> launch_people.html
+       python3 tools/make_app_assets.py <.../App_dev/ES/iPhone_6.3> es   -> launch_people_es.html
 
 Each screen is saved under the name the film already uses for its English counterpart, resized to the film's
 1170 x 2532 phone grid. Three "before" plates are cut out of the finished screens so the film can build them up:
@@ -13,9 +14,9 @@ import sys
 import numpy as np
 from PIL import Image
 
-SRC = sys.argv[1]
+SRC, LANG = sys.argv[1], sys.argv[2]
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(HERE, 'assets/screens/es')
+OUT = os.path.join(HERE, f'assets/screens/v12_{LANG}')
 os.makedirs(OUT, exist_ok=True)
 W, H = 1170, 2532
 
@@ -53,7 +54,7 @@ def vfill(a, x0, x1, y0, y1):
 for key, name in MAP.items():
     save(load(name), key)
 
-# name step before typing: no letter in the avatar, no "Hola," / name / "Mucho gusto, …" (the underline stays)
+# name step before typing: no letter in the avatar, no greeting / name / "nice to meet you" line (the underline stays)
 a = load(MAP['Onboarding_Step7'])
 yy, xx = np.mgrid[0:H, 0:W]
 r = np.hypot(xx - 0.5 * W, yy - 0.464 * H)

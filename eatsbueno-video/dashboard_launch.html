@@ -93,7 +93,7 @@
     <div class="abs h1" id="hA1" style="left:1010px;top:300px;font-size:100px;line-height:1.05">Your people<br>get <i style="color:#F0A26A">the app.</i></div>
     <div class="abs h1" id="hA2" style="left:1010px;top:230px;font-size:100px;line-height:1.05">You get<br><i style="color:#F0A26A">the big picture.</i></div>
     <div class="abs" id="subA" style="left:1014px;top:560px;width:760px;font:700 26px/1.45 Manrope;color:#C7DAD2">A personal nutrition coach for every employee.</div>
-    <div class="abs" id="cardA" style="left:1150px;top:500px;width:430px"><img src="assets/dash/score.png" style="display:block;width:100%;filter:drop-shadow(0 40px 60px rgba(0,0,0,.45))"></div>
+    <div class="abs" id="cardA" style="left:1150px;top:500px;width:430px"><img src="assets/dash_en/score.png" style="display:block;width:100%;filter:drop-shadow(0 40px 60px rgba(0,0,0,.45))"></div>
   </section>
 
   <!-- 3–6 · The product, inside one browser window -->
@@ -106,10 +106,10 @@
         <div id="chrome"><i style="background:#E46B5F"></i><i style="background:#E8B64C"></i><i style="background:#5EBD6B"></i>
           <div id="url"><svg width="12" height="13" viewBox="0 0 12 13"><rect x="1" y="5.5" width="10" height="7" rx="2" fill="#8D8072"/><path d="M3.5 5.5V4a2.5 2.5 0 0 1 5 0v1.5" stroke="#8D8072" stroke-width="1.6" fill="none"/></svg>EatsBueno Institutional</div></div>
         <div id="vp">
-          <div class="pg" id="pgOv"><img class="base" src="assets/dash/overview_clean.png"></div>
-          <div class="pg" id="pgSub" style="opacity:0"><img class="base" src="assets/dash/subgroups.png"></div>
-          <div class="pg" id="pgHr" style="opacity:0"><img class="base" src="assets/dash/hr_clean.png"></div>
-          <div class="pg" id="pgLogin" style="z-index:5"><img class="base" src="assets/dash/login.png"></div>
+          <div class="pg" id="pgOv"><img class="base" src="assets/dash_en/overview_clean.png"></div>
+          <div class="pg" id="pgSub" style="opacity:0"><img class="base" src="assets/dash_en/subgroups.png"></div>
+          <div class="pg" id="pgHr" style="opacity:0"><img class="base" src="assets/dash_en/hr_clean.png"></div>
+          <div class="pg" id="pgLogin" style="z-index:5"><img class="base" src="assets/dash_en/login.png"></div>
           <svg id="cursor" viewBox="0 0 26 34"><path d="M2 2 L2 27 L8.5 21 L13 31.5 L17.5 29.5 L13 19.5 L22 19.5 Z" fill="#111" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
           <div class="clickring" id="ring"></div>
         </div>
@@ -142,7 +142,7 @@
 
 <script src="vendor/gsap.min.js"></script>
 <script src="vendor/CustomEase.min.js"></script>
-<script src="assets/dash/layout.js"></script>
+<script src="assets/dash_en/layout.js"></script>
 <script src="assets/flower.js"></script>
 <script src="assets/wordmark.js"></script>
 <script>
@@ -274,7 +274,7 @@
   focus.style.cssText = `left:${EM.x - 3}px;top:${EM.y - 3}px;width:${EM.w + 6}px;height:${EM.h + 6}px;border-radius:14px;border:2px solid #15589F;opacity:0`;
   pgLogin.appendChild(focus);
   tl.set(focus, { opacity: 1 }, 11.0);
-  const EMAIL = 'hr@sintetica.example';
+  const EMAIL = 'hr@horizonte.example';
   const typeAt = (el, text, t0, cps, mask = false) => {
     const times = Array.from(text, (_, i) => t0 + i / cps + ((i * 7919) % 5) * 0.006);
     const o = { n: 0 };
@@ -307,10 +307,9 @@
       `<div><div class="wordmark" style="width:${h * 1174 / 194}px"></div><div style="font:800 ${Math.max(6, h * 0.36)}px Manrope;letter-spacing:.42em;color:#C7DAD2;margin-top:${h * 0.18}px">INSTITUTIONAL</div></div>`;
     pg.appendChild(m);
   };
-  mark($('#pgLogin'), 54, 62, 24);
-  [pgOv, $('#pgSub'), $('#pgHr')].forEach((pg) => mark(pg, 15, 32, 17));
+  // v1.2.0 screens already carry the new logo
   const comp = (pg, name, info, z = 2) => { const c = document.createElement('div'); c.className = 'comp';
-    c.style.cssText = `left:${info.x}px;top:${info.y}px;width:${info.w}px;z-index:${z}`; c.innerHTML = `<img src="assets/dash/${name}.png">`; pg.appendChild(c); return c; };
+    c.style.cssText = `left:${info.x}px;top:${info.y}px;width:${info.w}px;z-index:${z}`; c.innerHTML = `<img src="assets/dash_en/${name}.png">`; pg.appendChild(c); return c; };
   const cards = ['score', 'users', 'part', 'energy', 'absent'].map((n) => comp(pgOv, n, O[n]));
   const tC = [14.35, 14.47, 14.59, 14.85, 14.97];
   cards.forEach((c, i) => {
@@ -425,18 +424,18 @@
   tl.to(CAM, { ...aim(VR[0] + VR[2] / 2, VR[1] + VR[3] / 2, 1.63, 960, 430), duration: 1.75, ease: 'sine.inOut' }, 25.5);
   callout('Small groups are <i>never shown.</i>', 25.0, 27.25, true);
   { const F = document.createElement('div'); F.className = 'abs';
-    F.style.cssText = `left:${VR[0] - 2}px;top:${VR[1] - 2}px;width:${VR[2] + 4}px;height:${VR[3] + 4}px;z-index:2;opacity:0;background:url(assets/dash/subgroups.png) ${-(VR[0] - 2)}px ${-(VR[1] - 2)}px / 1440px auto no-repeat`;
+    F.style.cssText = `left:${VR[0] - 2}px;top:${VR[1] - 2}px;width:${VR[2] + 4}px;height:${VR[3] + 4}px;z-index:2;opacity:0;background:url(assets/dash_en/subgroups.png) ${-(VR[0] - 2)}px ${-(VR[1] - 2)}px / 1440px auto no-repeat`;
     pgSub.appendChild(F); tl.to(F, { opacity: 1, duration: 0.3 }, 25.0); tl.to(F, { opacity: 0, duration: 0.3 }, 27.2);
     dof(pgSub, [F, hl, lk], 25.1, 27.0); }
 
   // ================= 6 · HR data (27.4 – 33.8) =================
   winTo({ scale: 1, x: 0, y: 0 }, 27.35, 0.8);
-  moveTo(70, 296, 27.6, 0.55); click(70, 296, 28.2);
+  moveTo(70, 325, 27.6, 0.55); click(70, 325, 28.2);
   const pgHr = $('#pgHr'), H = D.hr;
   whip(pgHr, 28.28);
   tl.set(pgSub, { opacity: 0 }, 28.7);
   const crop = (pg, name, r, z = 2) => { const c = document.createElement('div'); c.className = 'abs';
-    c.style.cssText = `left:${r[0] - 2}px;top:${r[1] - 2}px;width:${r[2] + 4}px;z-index:${z}`; c.innerHTML = `<img src="assets/dash/${name}.png" style="display:block;width:100%">`; pg.appendChild(c); return c; };
+    c.style.cssText = `left:${r[0] - 2}px;top:${r[1] - 2}px;width:${r[2] + 4}px;z-index:${z}`; c.innerHTML = `<img src="assets/dash_en/${name}.png" style="display:block;width:100%">`; pg.appendChild(c); return c; };
   const upEmpty = crop(pgHr, 'hr_empty', H.upload);
   const upFile = crop(pgHr, 'hr_file', H.upload, 3);
   const result = crop(pgHr, 'hr_result', H.accepted_result, 4);
@@ -444,7 +443,7 @@
   tl.set([upFile, result, ...sAcc], { opacity: 0 }, 0);
   // the workbook is dragged in from the desktop
   const chip = document.createElement('div'); chip.className = 'chip';
-  chip.innerHTML = '<div class="xl">XLSX</div><div>julio.xlsx<small>HR aggregate workbook</small></div>';
+  chip.innerHTML = '<div class="xl">XLSX</div><div>julio-2026.xlsx<small>HR aggregate workbook</small></div>';
   $('#vp').appendChild(chip);
   tl.set(chip, { x: 1500, y: 760, opacity: 0, rotation: 6 }, 0);
   tl.to(chip, { opacity: 1, duration: 0.2 }, 28.75);
@@ -541,14 +540,14 @@
     const plan = [];
     const focusCopy = (r, t, dt) => { const F = document.createElement('div'); F.className = 'abs focus';
       F.style.cssText = `left:${r[0] - 2}px;top:${r[1] - 2}px;width:${r[2] + 4}px;height:${r[3] + 4}px;border-radius:14px;z-index:3;opacity:0;
-        background:url(assets/dash/overview_full.png) ${-(r[0] - 2)}px ${-(r[1] - 2)}px / 1440px auto no-repeat;box-shadow:0 30px 60px -30px rgba(23,63,55,.35)`;
+        background:url(assets/dash_en/overview_full.png) ${-(r[0] - 2)}px ${-(r[1] - 2)}px / 1440px auto no-repeat;box-shadow:0 30px 60px -30px rgba(23,63,55,.35)`;
       pgOv.appendChild(F); tl.to(F, { opacity: 1, duration: 0.3 }, t); tl.to(F, { opacity: 0, duration: 0.4 }, t + dt); return F; };
     const mark = (n0) => Array.from(pgOv.children).slice(n0).forEach((el) => el.classList.add('focus'));
     const under = (r, w, t, t1) => { const u = document.createElement('div'); u.className = 'abs focus';
       u.style.cssText = `left:${r[0] + 20}px;top:${r[1] + 112}px;width:${w}px;height:5px;border-radius:3px;background:#FF8A4C;z-index:5;transform-origin:0 50%`;
       pgOv.appendChild(u); tl.fromTo(u, { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: 'power2.inOut', immediateRender: true }, t); tl.to(u, { opacity: 0, duration: 0.3 }, t1); };
     const at = (r, want, fx = 0.5, fy = 0.5) => [r[0] + r[2] * fx, r[1] + r[3] * fy - want];
-    const go = (r) => { const want = Math.max(0, Math.min(1816 - 900, r[1] + r[3] / 2 - 430));
+    const go = (r) => { const want = Math.max(0, Math.min(1873 - 900, r[1] + r[3] / 2 - 430));
       return want; };
     { // 0 · punch-in on the score
       const t = START[0], dt = LEN[0], r = card('score'), want = go(r);

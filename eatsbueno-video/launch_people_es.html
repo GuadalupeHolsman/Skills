@@ -223,7 +223,7 @@
   const box = (x0, y0, x1, y1) => `left:${x0 * SW}px;top:${y0 * IH}px;width:${(x1 - x0) * SW}px;height:${(y1 - y0) * IH}px;`;
   // plates come from tools/clean_plates.py: uniform 9:41, no TestFlight link, no debug pill.
   // `base` is an optional "before" plate; P.src is always the finished screen that pieces are cut from.
-  const plate = (f) => `assets/screens/es/${f}.jpg`;   // v1.2.0 ES screens (tools/make_app_es_assets.py)
+  const plate = (f) => `assets/screens/v12_es/${f}.jpg`;   // v1.2.0 screens (tools/make_app_assets.py)
   const makePhone = (parent, file, cx, cy, base = file) => {
     const ph = document.createElement('div');
     ph.className = 'phone';
@@ -478,7 +478,7 @@
   };
   travel(15.9, -600, P4b, P4a);
   travel(17.15, -1200, P4c, P4b);
-  // name: field → keyboard → "Angie" (drawn live in the app's type, so any name works)
+  // name: field → keyboard → "Camila" (drawn live in the app's type, so any name works)
   const NAME = 'Camila';
   const hello = patch(P4c, 0.08, 0.553, 0.92, 0.594);
   const welcome = patch(P4c, 0.06, 0.698, 0.94, 0.74);   // "Mucho gusto, Camila", from the screen itself
@@ -858,7 +858,7 @@
 
   // 4b · Your food, your culture (final times; its own 6 s beat between onboarding and the coach).
   // A dot-matrix world. The camera flies country to country; at each stop a pin drops, the country lights up in
-  // brand orange, "enjoy your meal" appears in its own words and Angie's lunch card re-cooks itself for that
+  // brand orange, "enjoy your meal" appears in its own words and Camila's lunch card re-cooks itself for that
   // kitchen. At the end the camera pulls back to the whole planet: five kitchens lit, joined by arcs.
   const buildCulture = (T, D) => {
     scene('scC', T, T + D + 0.65);
@@ -963,7 +963,7 @@
     tl.to(pin, { y: -40, opacity: 0, duration: 0.25, ease: 'ebIn' }, tF);
     tl.to(grs[4], { yPercent: -140, duration: 0.4, ease: 'ebPush' }, tF);
     META.whooshes.push(tF + 0.1);
-    const ORDER = [4, 0, 3, 1, 2];                  // Angie's Argentina → Mexico → Italy → India → Japan
+    const ORDER = [4, 0, 3, 1, 2];                  // Camila's Argentina → Mexico → Italy → India → Japan
     ORDER.slice(1).forEach((k, j) => {
       const [x0, y0] = C[ORDER[j]], [x1, y1] = C[k];
       const mx = (x0 + x1) / 2, my = Math.min(y0, y1) - Math.hypot(x1 - x0, y1 - y0) * 0.28;
