@@ -1021,27 +1021,22 @@
     META.whooshes.push(33.2);
 
     // handheld camera feed, steadies on the lock
-    // the camera view: a carrot pack with its barcode label, framed, then the scanned product screen takes over
-    const BARS = Array.from({ length: 46 }, (_, i) => 1 + ((i * 7 + 3) % 4)), BW = BARS.reduce((a, b) => a + b + 1.4, 0);
-    let bx = 0; const bars = BARS.map((w, i) => { const r = i % 2 ? '' : `<rect x="${bx.toFixed(1)}" y="0" width="${w}" height="60" fill="#111"/>`; bx += w + 1.4; return r; }).join('');
+    // the camera view: a real bag of baby carrots with its barcode label (assets/screens/scan_camera.jpg, generated
+    // with ElevenLabs Image to match the product the app scans), framed, then the scanned product screen takes over
     const SCAN_HINT = 'Apunta la cámara al código de barras';
     const camv = add(P6, 'inset:0;z-index:2;overflow:hidden;background:#0d0b09', `<div class="cv" style="position:absolute;inset:-4%">
-      <div style="position:absolute;inset:0;background:radial-gradient(70% 55% at 50% 45%,#6a5644 0%,#2c241d 62%,#0d0b09 100%)"></div>
-      <div style="position:absolute;left:14%;top:21%;width:72%;height:46%;border-radius:30px;background:linear-gradient(160deg,#F49A4E,#DD6A22 58%,#B8521B);box-shadow:0 30px 60px rgba(0,0,0,.55)"></div>
-      <div style="position:absolute;left:20%;top:25%;font:800 19px Manrope;letter-spacing:.06em;color:#fff;opacity:.92">Campo Claro</div>
-      <div style="position:absolute;left:26%;top:33%;width:48%;height:20%;border-radius:10px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">
-        <svg viewBox="0 0 ${BW.toFixed(0)} 60" width="80%" height="60%" preserveAspectRatio="none">${bars}</svg>
-        <div style="font:600 11px Manrope;letter-spacing:.18em;color:#222">7 601234 567890</div></div></div>
+      <img src="assets/screens/scan_camera.jpg" style="display:block;width:100%;height:100%;object-fit:cover"></div>
+      <div style="position:absolute;left:0;right:0;top:0;height:${0.16 * IH}px;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,0))"></div>
       <div style="position:absolute;left:0;right:0;top:${0.08 * IH}px;text-align:center;font:700 15px Manrope;color:#fff">${SCAN_HINT}</div>`);   // under the lock, scan line and flash
     const cam = { firstChild: camv.querySelector('.cv') };
     tl.fromTo(cam.firstChild, { x: 7, y: -5, scale: 1.035 }, { x: -6, y: 4, scale: 1.035, duration: 0.9, ease: 'sine.inOut', immediateRender: true }, 33.2);
     tl.to(cam.firstChild, { x: 0, y: 0, scale: 1.0, duration: 0.55, ease: 'ebSoft' }, 34.05);
     const box6 = (x0, y0, x1, y1) => ({ left: x0 * SW, top: y0 * IH, width: (x1 - x0) * SW, height: (y1 - y0) * IH });
     const lock = add(P6, 'border:3px solid #E26023;border-radius:14px;opacity:0;z-index:3');
-    tl.fromTo(lock, { ...box6(0.08, 0.16, 0.92, 0.74), opacity: 0, boxShadow: '0 0 0 2000px rgba(0,0,0,0)' }, { ...box6(0.24, 0.31, 0.76, 0.54), opacity: 1, boxShadow: '0 0 0 2000px rgba(0,0,0,.3)', duration: 0.6, ease: 'ebPush', immediateRender: false }, 33.95);
-    const scanline = add(P6, `left:${0.26 * SW}px;width:${0.48 * SW}px;height:3px;border-radius:3px;background:#E26023;box-shadow:0 0 14px 3px rgba(226,96,35,.75);opacity:0;z-index:4`);
+    tl.fromTo(lock, { ...box6(0.06, 0.2, 0.94, 0.78), opacity: 0, boxShadow: '0 0 0 2000px rgba(0,0,0,0)' }, { ...box6(0.39, 0.5, 0.83, 0.64), opacity: 1, boxShadow: '0 0 0 2000px rgba(0,0,0,.3)', duration: 0.6, ease: 'ebPush', immediateRender: false }, 33.95);
+    const scanline = add(P6, `left:${0.41 * SW}px;width:${0.4 * SW}px;height:3px;border-radius:3px;background:#E26023;box-shadow:0 0 14px 3px rgba(226,96,35,.75);opacity:0;z-index:4`);
     tl.set(scanline, { opacity: 1 }, 34.4);
-    tl.fromTo(scanline, { top: 0.335 * IH }, { top: 0.515 * IH, duration: 0.2, ease: 'sine.inOut', yoyo: true, repeat: 1, immediateRender: false }, 34.4);
+    tl.fromTo(scanline, { top: 0.515 * IH }, { top: 0.625 * IH, duration: 0.2, ease: 'sine.inOut', yoyo: true, repeat: 1, immediateRender: false }, 34.4);
     tl.set(scanline, { opacity: 0 }, 34.8);
     META.scans.push(34.4);
     const flash = add(P6, 'left:0;right:0;top:0;height:100%;background:#fff;opacity:0;z-index:5');
