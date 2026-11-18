@@ -49,7 +49,7 @@ DASH = [
     ('y: -(1343 - 640)', 'y: -(1358 - 640)'),
     ('assets/dash_en/', 'assets/dash_es/'),
     ('Math.min(1873 - 900,', 'Math.min(1951 - 900,'),
-    ("const EMAIL = 'hr@horizonte.example';", "const EMAIL = 'rrhh@horizonte.example';"),
+    ("const EMAIL = 'hr@blackvitriol.example';", "const EMAIL = 'rrhh@blackvitriol.example';"),
     ('julio-2026.xlsx<small>HR aggregate workbook</small>', 'julio-2026.xlsx<small>Libro agregado de RR. HH.</small>'),
     ("tl.to(upFile, { opacity: 1, duration: 0.25, ease: 'ui' }, 29.72);", "tl.to(upFile, { opacity: 1, duration: 0.25, ease: 'ui' }, 29.72); tl.to(upEmpty, { opacity: 0, duration: 0.25, ease: 'ui' }, 29.72);"),
 ]
