@@ -77,7 +77,10 @@ def standalone(page):
 
 def with_event(page, ev):
     """Overrides CONFIG keys with the values in src/events/<ev>.json."""
-    for k, v in json.loads((ROOT / "src/events" / (ev + ".json")).read_text(encoding="utf-8")).items():
+    cfg = json.loads((ROOT / "src/events" / (ev + ".json")).read_text(encoding="utf-8"))
+    if "titulo" in cfg:  # page title, not a CONFIG key
+        page = page.replace("<title>loomlock kiosk</title>", "<title>%s</title>" % cfg.pop("titulo"), 1)
+    for k, v in cfg.items():
         page, n = re.subn(r"(\n    %s: )[^\n]*?(,?)([ \t]*//[^\n]*)?\n" % k,
                           lambda m: m.group(1) + json.dumps(v, ensure_ascii=False) + m.group(2) + (m.group(3) or "") + "\n", page, count=1)
         assert n == 1, "CONFIG key not found: " + k
@@ -92,5 +95,7 @@ print("ok", len(page), "bytes")
 for ev in sys.argv[1:]:
     out = ROOT / ev
     out.mkdir(exist_ok=True)
-    (out / "index.html").write_text(standalone(with_event(page, ev)), encoding="utf-8")
+    ev_page = with_event(page, ev)
+    (out / "index.html").write_text(standalone(ev_page), encoding="utf-8")
+    (out / "artifact.html").write_text(ev_page, encoding="utf-8")
     print("ok", ev)
