@@ -1,12 +1,16 @@
 """Builds the kiosk page from the template, inlining the Loomlock logo and Locky.
 
-    python3 src/build.py
+    python3 src/build.py            # CH 02 (CONFIG as written in the template)
+    python3 src/build.py ch03       # also <event>/index.html with src/events/<event>.json applied
 
 Outputs:
-  index.html     full standalone page (open it in the kiosk browser)
-  artifact.html  same page without the document skeleton (for the claude.ai preview)
+  index.html       full standalone page (open it in the kiosk browser)
+  artifact.html    same page without the document skeleton (for the claude.ai preview)
+  <event>/index.html  one standalone page per event passed on the command line
 """
+import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -62,12 +66,31 @@ page = (tpl.replace("{{QRLIB}}", (ROOT / "src/vendor/qrcode-generator.js").read_
 for i in (1, 2, 3, 4, 5, 6):
     page = page.replace("{{APP%d}}" % i, app_img(i))
 
+def standalone(page):
+    head, body = page.split("</style>", 1)
+    return (
+        '<!doctype html>\n<html lang="es" translate="no" class="notranslate">\n<head>\n<meta charset="utf-8">\n<meta name="google" content="notranslate">\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">\n'
+        + head + "</style>\n</head>\n<body>" + body + "\n</body>\n</html>\n"
+    )
+
+
+def with_event(page, ev):
+    """Overrides CONFIG keys with the values in src/events/<ev>.json."""
+    for k, v in json.loads((ROOT / "src/events" / (ev + ".json")).read_text(encoding="utf-8")).items():
+        page, n = re.subn(r"(\n    %s: )[^\n]*?(,?)([ \t]*//[^\n]*)?\n" % k,
+                          lambda m: m.group(1) + json.dumps(v, ensure_ascii=False) + m.group(2) + (m.group(3) or "") + "\n", page, count=1)
+        assert n == 1, "CONFIG key not found: " + k
+    return page
+
+
 (ROOT / "artifact.html").write_text(page, encoding="utf-8")
-head, body = page.split("</style>", 1)
-full = (
-    '<!doctype html>\n<html lang="es" translate="no" class="notranslate">\n<head>\n<meta charset="utf-8">\n<meta name="google" content="notranslate">\n'
-    '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">\n'
-    + head + "</style>\n</head>\n<body>" + body + "\n</body>\n</html>\n"
-)
-(ROOT / "index.html").write_text(full, encoding="utf-8")
+(ROOT / "index.html").write_text(standalone(page), encoding="utf-8")
 print("ok", len(page), "bytes")
+
+# one kiosk per event: python3 src/build.py ch03 -> ch03/index.html
+for ev in sys.argv[1:]:
+    out = ROOT / ev
+    out.mkdir(exist_ok=True)
+    (out / "index.html").write_text(standalone(with_event(page, ev)), encoding="utf-8")
+    print("ok", ev)

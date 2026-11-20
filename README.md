@@ -75,3 +75,17 @@ En `src/kiosk.template.html`, dentro de `CONFIG`:
 - `fotosUrl`: la dirección que abre el QR de la portada (https://loomlock.estudioastora.com)
 
 Después de editar textos o ajustes: `python3 src/build.py` (regenera `index.html` y `artifact.html`).
+
+## Un kiosco por evento
+
+El mismo programa sirve para cada canal. Los datos del evento van en `src/events/<evento>.json` y pisan los de `CONFIG`:
+
+```
+python3 src/build.py ch03      # arma ch03/index.html
+```
+
+- `preguntas: false` saca "¿Quién te invitó?" y "¿Cómo te llamas?": queda como instructivo directo (sin datos a la planilla).
+- `llaveRegalo: false` saca la pantalla de las dos keys (para eventos sin key de regalo).
+- `aviso18`, `canal`, `anfitrion`, `fotosUrl`, `sheetUrl` se cambian igual.
+
+**CH 03 · Cuoca** (`src/events/ch03.json`): sin preguntas, sin key de regalo, sin aviso +18. Publicado en https://guadalupeholsman.github.io/Skills/ch03/

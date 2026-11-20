@@ -41,6 +41,7 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
+.screen.off{display:none!important}
 html,body{height:100%}
 body{
   margin:0;overflow:hidden;background:var(--screen);color:var(--text);font-family:var(--font-display);line-height:1.35;
@@ -602,6 +603,7 @@ h1 em,h2 em{font-style:italic;font-weight:800;color:var(--yellow)}
 
 .idle{position:absolute;left:50%;bottom:250px;z-index:50;transform:translate(-50%,200%);opacity:0;background:var(--screen);color:var(--yellow);border-radius:99px;padding:20px 38px;font-family:var(--font-mono);font-size:26px;letter-spacing:1px;transition:transform .4s, opacity .4s;white-space:nowrap}
 .idle.show{transform:translate(-50%,0);opacity:1}
+.idle{pointer-events:none}  /* the hidden toast must never swallow a touch on what sits under it */
 
 @keyframes ping{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.8);opacity:0}}
 @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
@@ -3666,7 +3668,9 @@ var qrcode = function() {
     idleSegundos: 60,    // sin toques por este tiempo → vuelve al inicio
     sheetUrl: "https://script.google.com/macros/s/AKfycbzWGRs-eSWw0QpNt0zEHXjzPvNFgdgbpKCBf_-5-RtOO_FuOs9PtuaD0-zPUBDXyJCE/exec",   // URL de la web app de Google Apps Script (ver apps-script/README.md); vacío = solo conteo local
     fotosUrl: "https://loomlock.estudioastora.com",   // web donde quedan las fotos de la noche (es lo que abre el QR)
-    idioma: "es"                       // idioma por defecto (botón ES/EN en pantalla)
+    idioma: "es",                      // idioma por defecto (botón ES/EN en pantalla)
+    preguntas: true,                   // pantallas "¿Quién te invitó?" y "¿Cómo te llamas?" (false = instructivo directo)
+    llaveRegalo: true                  // pantalla "Dos keys": la de la experiencia y la de regalo (false si el evento no tiene key de regalo)
   };
 
   const T = {
@@ -3692,7 +3696,7 @@ var qrcode = function() {
       "s0.z1":"Lo que no se postea, se cuenta.","s0.z2":"Shots, not screenshots.","s0.z3":"Un trago que se toma mirando a alguien.",
       "s0.legal":"Evento para mayores de 18 · Disfruta con responsabilidad.","s0.host":"Esta noche, con {h}",
       "s0.kicker":"Una serie que solo se ve en persona",
-      "s0.cta":"Toca para empezar","s0.time":"≈ 1 minuto","s0.steps":"7 pasos",
+      "s0.cta":"Toca para empezar","s0.time":"≈ 1 minuto","s0.steps":"{n} pasos",
       "s1.kicker":"01 · Qué es loomlock","s1.name":"Qué es",
       "s1.title":"El celular <em>se queda contigo.</em>",
       "s1.lead":"loomlock pausa solo las apps que tú eliges: escaneas una key y listo. <b>Llamadas, mensajes y mapas siguen funcionando.</b>",
@@ -3761,7 +3765,7 @@ var qrcode = function() {
       "s0.z1":"What isn't posted gets told.","s0.z2":"Shots, not screenshots.","s0.z3":"A drink you share looking at someone.",
       "s0.legal":"18+ event · Enjoy responsibly.","s0.host":"Tonight, with {h}",
       "s0.kicker":"A series you can only watch in person",
-      "s0.cta":"Touch to start","s0.time":"≈ 1 minute","s0.steps":"7 steps",
+      "s0.cta":"Touch to start","s0.time":"≈ 1 minute","s0.steps":"{n} steps",
       "s1.kicker":"01 · What is loomlock","s1.name":"What is it",
       "s1.title":"Your phone <em>stays with you.</em>",
       "s1.lead":"loomlock pauses only the apps you choose: scan a key and that's it. <b>Calls, messages and maps keep working.</b>",
@@ -3827,7 +3831,10 @@ var qrcode = function() {
   const $$ = s => [...document.querySelectorAll(s)];
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let lang = CONFIG.idioma, cur = 0;
-  const screens = $$(".screen"), N = screens.length - 1;
+  // per-event screens: switched-off sections stay in the page but leave the flow
+  if (!CONFIG.preguntas) ["#sInv", "#sName"].forEach(id => $(id).classList.add("off"));
+  if (!CONFIG.llaveRegalo) $("#s3").classList.add("off");
+  const screens = $$(".screen:not(.off)"), N = screens.length - 1;
   const s9 = $("#s9");
   const t = (k, v={}) => (T[lang][k] ?? T.es[k] ?? k).replace(/\{(\w+)\}/g, (_, x) => v[x]);
   if (!CONFIG.locky) s9.classList.add("no-locky");
@@ -3919,7 +3926,7 @@ var qrcode = function() {
     document.documentElement.lang = lang;
     // keep browser auto-translate (Google Translate) off: the kiosk has its own ES/EN
     [document.documentElement, document.body].forEach(el => { el.setAttribute("translate", "no"); el.classList.add("notranslate") });
-    $$("[data-t]").forEach(el => { el.innerHTML = t(el.dataset.t) });
+    $$("[data-t]").forEach(el => { el.innerHTML = t(el.dataset.t, {n: N}) });
     $$("[data-tape]").forEach(el => { el.innerHTML = `<span>${t(el.dataset.tape)}</span>`.repeat(6) });
     screens.forEach((sc, i) => { const k = sc.querySelector(".kicker"); if (k && i > 0) k.textContent = `0${i} · ` + k.textContent.replace(/^\d+ · /, "") });
     $$(".screen h2").forEach(splitWords);
