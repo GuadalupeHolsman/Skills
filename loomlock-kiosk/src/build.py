@@ -1,7 +1,7 @@
 """Builds the kiosk page from the template, inlining the Loomlock logo and Locky.
 
     python3 src/build.py            # CH 02 (CONFIG as written in the template)
-    python3 src/build.py ch03       # also <event>/index.html with src/events/<event>.json applied
+    python3 src/build.py experiences  # also <event>/index.html with src/events/<event>.json applied
 
 Outputs:
   index.html       full standalone page (open it in the kiosk browser)
@@ -88,7 +88,7 @@ def with_event(page, ev):
 (ROOT / "index.html").write_text(standalone(page), encoding="utf-8")
 print("ok", len(page), "bytes")
 
-# one kiosk per event: python3 src/build.py ch03 -> ch03/index.html
+# one kiosk per event: python3 src/build.py experiences -> experiences/index.html
 for ev in sys.argv[1:]:
     out = ROOT / ev
     out.mkdir(exist_ok=True)
